@@ -1,0 +1,2 @@
+hell: #c5e8f9
+dunkel: #aec9d7

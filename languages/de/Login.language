@@ -1,0 +1,8 @@
+Logindata = "Logindaten"
+Hide_from_who_is_online = "Nicht in die &quot;Wer ist online?&quot;-Liste aufnehmen"
+Stay_logged_in = "In Zukunft automatisch einloggen (Cookies m&uuml;ssen aktiviert sein)"
+locked_forever = "(f&uuml;r immer gesperrt)"
+error_locked_account = "Diese Account wurde gesperrt. Die verbleibende Sperrzeit betr&auml;gt: %s"
+error_unknown_user = "Unbekannter User!"
+error_wrong_password = "Falsches Passwort!"
+error_inactive_account = "Dieser Account ist inaktiv! (<a href="index.php?faction=activateaccount&amp;account_id=%s&amp;".$MYSID."">Account nicht aktiviert?</a>)"

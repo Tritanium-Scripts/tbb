@@ -1,0 +1,22 @@
+Hallo {$UserNick},
+
+um den Missbrauch des Systems durch gefälschte Benutzerkonten zu verhindern, bitten wir Sie, Ihren Account und damit auch Ihre Emailadresse zu verifizieren. Dazu stehen Ihnen zwei Möglichkeiten zur Verfügung:
+
+1) Klicken Sie einfach auf unten stehenden Link und Ihr Account sollte binnen weniger Sekunden verifiziert und damit auch freigeschaltet sein:
+
+{$IndexFile}
+
+
+2) Falls obige Methode nicht funktionieren sollte, versuchen Sie sich einfach in der Community einzuloggen. Sie werden dann automatisch aufgefordert Ihren Benutzernamen und einen Aktivierungscode einzugeben. Die entsprechenden Daten lauten:
+
+Benutzername: {$UserNick}
+Aktivierungscode: {$ActivationCode}
+
+
+Sollten sie dennoch Probleme haben, stehen wir Ihnen jederzeit gerne bei Fragen zur Verfügung.
+
+Abschließend möchten wir uns noch bei Ihnen für diese zusätzlichen Mühen bedanken, da Sie uns damit aktiv z.B. gegen die massenhafte Verbreitung unerwünschter Werbung unterstützen.
+
+Nach erfolgreicher Aktivierung Ihres Benutzerkontos, können Sie diese Email bedenkenlos löschen.
+
+{$Modules.Config->getValue('email_signature')}
