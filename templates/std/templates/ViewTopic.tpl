@@ -59,11 +59,11 @@
     <td align="right">
      <table border="0" cellpadding="0" cellspacing="0">
       <tr>
-       {if $curPost.Show.DeleteButton}<td><a href="{$IndexFile}?Action=DeletePost&amp;PostID={$curPost.PostID}&amp;{$MySID}"><img src="delete.png" class="ImageButton" alt="" border="0"/></a></td>{/if}
-       {if $curPost.Show.EditButton}<td><a href="javascript:toggleFastEdit('{$curPost.PostID}');"><img src="test.png" alt="" class="ImageButton" border="0"/></a></td>{/if}
-       {if $curPost.Show.EditButton}<td><a href="{$IndexFile}?Action=Posting&amp;Mode=Edit&amp;PostID={$curPost.PostID}&amp;{$MySID}"><img src="test.png" class="ImageButton" alt="" border="0"/></a></td>{/if}
-       {if $curPost.PostPosterHideEmail != 1 && $curPost.PostPosterEmail != ''}<td><a href="mailto:{$curPost.PostPosterEmail}"><img src="email.png" class="ImageButton" alt="{$curPost.PostPosterEmail}" border="0"/></a>{else}<td>{if $curPost.PostPosterReceiveEmails == 1}<a href="{$IndexFile}?Action=ViewProfile&amp;ProfileID={$curPost.UserID}&amp;mode=SendMail&amp;{$MySID}"><img src="{$Modules.Template->getTemplateDir()}/images/button_user_email.gif" alt="{$Modules.Language->getString('Send_email')}" border="0"/></a></td>{/if}{/if}
-       <td><a href="{$IndexFile}?Action=Posting&amp;Mode=Reply&amp;TopicID={$TopicID}&amp;Quote={$curPost.PostID}&amp;{$MySID}"><img src="quote.png" class="ImageButton" alt="" border="0"/></a></td>
+       {if $curPost.Show.DeleteButton}<td><a href="{$IndexFile}?Action=DeletePost&amp;PostID={$curPost.PostID}&amp;{$MySID}"><img src="templates/std/templates/images/buttons/de/delete.png" class="ImageButton" alt="" border="0"/></a></td>{/if}
+       {if $curPost.Show.EditButton}<td><a href="javascript:toggleFastEdit('{$curPost.PostID}');"><img src="templates/std/templates/images/buttons/de/test.png" alt="" class="ImageButton" border="0"/></a></td>{/if}
+       {if $curPost.Show.EditButton}<td><a href="{$IndexFile}?Action=Posting&amp;Mode=Edit&amp;PostID={$curPost.PostID}&amp;{$MySID}"><img src="templates/std/templates/images/buttons/de/test.png" class="ImageButton" alt="" border="0"/></a></td>{/if}
+       {if $curPost.PostPosterHideEmail != 1 && $curPost.PostPosterEmail != ''}<td><a href="mailto:{$curPost.PostPosterEmail}"><img src="templates/std/templates/images/buttons/de/email.png" class="ImageButton" alt="{$curPost.PostPosterEmail}" border="0"/></a>{else}<td>{if $curPost.PostPosterReceiveEmails == 1}<a href="{$IndexFile}?Action=ViewProfile&amp;ProfileID={$curPost.UserID}&amp;mode=SendMail&amp;{$MySID}"><img src="{$Modules.Template->getTemplateDir()}/images/button_user_email.gif" alt="{$Modules.Language->getString('Send_email')}" border="0"/></a></td>{/if}{/if}
+       <td><a href="{$IndexFile}?Action=Posting&amp;Mode=Reply&amp;TopicID={$TopicID}&amp;Quote={$curPost.PostID}&amp;{$MySID}"><img src="templates/std/templates/images/buttons/de/quote.png" class="ImageButton" alt="" border="0"/></a></td>
       </tr>
      </table>
     </td>

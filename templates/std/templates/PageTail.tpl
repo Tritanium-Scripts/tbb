@@ -1,6 +1,6 @@
-<table border="0" cellpadding="0" cellspacing="0" width="100%">
+<!--<table border="0" cellpadding="0" cellspacing="0" width="100%">
 <tr><td align="center"><span class="FontNorm">{$admin_link}</span></td></tr>
-</table>
+</table>-->
 <br/>
 <div align="center">
 <table class="TableCopyright">

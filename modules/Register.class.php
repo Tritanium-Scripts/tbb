@@ -1,5 +1,7 @@
 <?php
 
+echo Functions::getSaltedHash('test','j5%qaeVLnV');
+
 class Register extends ModuleTemplate {
 	protected $RequiredModules = array(
 		'Auth',

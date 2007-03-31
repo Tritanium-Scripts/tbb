@@ -56,7 +56,7 @@ class Functions {
 	}
 
 	public static function getSaltedHash($Value,$Salt) {
-		return sha1(sha1($Value).$Salt);
+		return hash('sha512',hash('sha512',$Value).$Salt);
 	}
 
 	public static function getSGValues(&$SGVar,array $KeysArray,$stdValue = '',array $stdValues = array()) {

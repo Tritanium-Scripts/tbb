@@ -19,7 +19,7 @@ class Template extends Smarty {
 	}
 
 	public function initializeMe() {
-
+		$this->error_reporting = E_ALL;
 	}
 }
 

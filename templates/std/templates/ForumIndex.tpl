@@ -67,7 +67,7 @@ initializeClosedCatIDs();
  {foreach from=$ForumsData item=curForum}
   {if $curForum.CatID == $curCat.CatID}
   <tr>
-   <td class="CellAlt" align="center">{$akt_new_post_status}</td>
+   <td class="CellAlt" align="center"></td>
    <td class="CellStd" width="50%">
     <table border="0" cellspacing="0" cellpadding="0">
      <tr><td><span class="ForumLink"><a class="ForumLink" href="{$IndexFile}?Action=ViewForum&amp;ForumID={$curForum.ForumID}&amp;{$MySID}">{$curForum.ForumName}</a></span></td></tr>
