@@ -19,16 +19,16 @@ class PageParts extends ModuleTemplate {
 		$this->modules['Language']->addFile('PageParts');
 	}
 
-	public function setInEditProfile($Value) {
-		$this->flags['inEditProfile'] = $Value;
+	public function setInEditProfile($value) {
+		$this->flags['inEditProfile'] = $value;
 	}
 
-	public function setInAdministration($Value) {
-		$this->flags['inAdministration'] = $Value;
+	public function setInAdministration($value) {
+		$this->flags['inAdministration'] = $value;
 	}
 
-	public function setInPrivateMessages($Value) {
-		$this->flags['inPrivateMessages'] = $Value;
+	public function setInPrivateMessages($value) {
+		$this->flags['inPrivateMessages'] = $value;
 	}
 
 	public function setFlag($flagName,$value) {
@@ -36,15 +36,15 @@ class PageParts extends ModuleTemplate {
 	}
 
 	public function printHeader() {
-		if($this->modules['Config']->getValue('board_logo') != '') $BoardBanner = '<img src="'.$this->modules['Config']->getValue('board_logo').'" alt="'.$this->modules['Config']->getValue('board_name').'" />';
-		else $BoardBanner = $this->modules['Config']->getValue('board_name');
+		if($this->modules['Config']->getValue('board_logo') != '') $boardBanner = '<img src="'.$this->modules['Config']->getValue('board_logo').'" alt="'.$this->modules['Config']->getValue('board_name').'" />';
+		else $boardBanner = $this->modules['Config']->getValue('board_name');
 
-		if($this->modules['Auth']->isLoggedIn() == 1) $WelcomeText = sprintf($this->modules['Language']->getString('welcome_logged_in'),$this->modules['Auth']->getValue('UserNick'),Functions::toTime(time()),INDEXFILE,MYSID);
-		else $WelcomeText = sprintf($this->modules['Language']->getString('welcome_not_logged_in'),$this->modules['Config']->getValue('board_name'),INDEXFILE,MYSID);
+		if($this->modules['Auth']->isLoggedIn() == 1) $welcomeText = sprintf($this->modules['Language']->getString('welcome_logged_in'),$this->modules['Auth']->getValue('UserNick'),Functions::toTime(time()),INDEXFILE,MYSID);
+		else $welcomeText = sprintf($this->modules['Language']->getString('welcome_not_logged_in'),$this->modules['Config']->getValue('board_name'),INDEXFILE,MYSID);
 
 		$this->modules['Template']->assign(array(
-			'BoardBanner'=>$BoardBanner,
-			'WelcomeText'=>$WelcomeText
+			'BoardBanner'=>$boardBanner,
+			'WelcomeText'=>$welcomeText
 		));
 
 		$this->modules['Template']->display('PageHeader.tpl');
@@ -53,35 +53,35 @@ class PageParts extends ModuleTemplate {
 			$this->modules['Template']->display('EditProfileHeader.tpl');
 		elseif($this->flags['inPrivateMessages']) {
 			$this->modules['DB']->query("SELECT FolderName,FolderID FROM ".TBLPFX."pms_folders WHERE UserID='".USERID."' ORDER BY FolderName");
-			$HeaderFoldersData = $this->modules['DB']->Raw2Array();
+			$headerFoldersData = $this->modules['DB']->raw2Array();
 
-			array_unshift($HeaderFoldersData, // Fuegt an den Anfang die Standardordner hinzu...
+			array_unshift($headerFoldersData, // Fuegt an den Anfang die Standardordner hinzu...
 				array('FolderID'=>0,'FolderName'=>$this->modules['Language']->getString('Inbox')),
 				array('FolderID'=>1,'FolderName'=>$this->modules['Language']->getString('Outbox'))
 			);
-			reset($HeaderFoldersData);
+			reset($headerFoldersData);
 
-			$this->modules['Template']->assign('HeaderFoldersData',$HeaderFoldersData);
+			$this->modules['Template']->assign('HeaderFoldersData',$headerFoldersData);
 
 			$this->modules['Template']->display('PrivateMessagesHeader.tpl');
 		}
 	}
 
-	public function printPage($TemplateName) {
+	public function printPage($templateName) {
 		$this->printHeader();
-		$this->modules['Template']->display($TemplateName);
+		$this->modules['Template']->display($templateName);
 		$this->printTail();
 	}
 
-	public function printMessage($MessageCode,$AdditionalLinks = array()) {
+	public function printMessage($messageCode,$additionalLinks = array()) {
 		$this->modules['Language']->addFile('Messages');
 
 		$this->printHeader();
 		$this->modules['Template']->assign(array(
 			'Flags'=>$this->flags,
-			'MessageTitle'=>$this->modules['Language']->getString('message_title_'.$MessageCode),
-			'MessageText'=>$this->modules['Language']->getString('message_text_'.$MessageCode),
-			'AdditionalLinks'=>$AdditionalLinks
+			'MessageTitle'=>$this->modules['Language']->getString('message_title_'.$messageCode),
+			'MessageText'=>$this->modules['Language']->getString('message_text_'.$messageCode),
+			'AdditionalLinks'=>$additionalLinks
 		));
 		$this->modules['Template']->display('Message.tpl');
 		$this->printTail();
@@ -104,9 +104,9 @@ class PageParts extends ModuleTemplate {
 		$this->modules['Template']->display('PopupTail.tpl');
 	}
 
-	public function printPopupPage($TemplateName) {
+	public function printPopupPage($templateName) {
 		$this->printPopupHeader();
-		$this->modules['Template']->display($TemplateName);
+		$this->modules['Template']->display($templateName);
 		$this->printPopupTail();
 	}
 

@@ -2,8 +2,8 @@
 <tr><td class="CellNavbarBig">
  <table border="0" cellpadding="0" cellspacing="0" width="100%">
  <tr>
-  <td><span class="FontNavbar">{$PageListing}</span></td>
-  <td align="right"><span class="FontNavbar"><a href="{$IndexFile}?Action=Posting&amp;Mode=Topic&amp;ForumID={$ForumID}&amp;{$MySID}"><img src="{$Modules.Template->getTD()}/images/buttons/{$Modules.Language->getLC()}/AddTopic.png" border="0" alt="{$Modules.Language->getString('Post_new_topic')}"/></a></span></td>
+  <td><span class="FontNavbar">{$pageListing}</span></td>
+  <td align="right"><span class="FontNavbar"><a href="{$indexFile}?action=Posting&amp;mode=Topic&amp;forumID={$forumID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLC()}/AddTopic.png" border="0" alt="{$modules.Language->getString('Post_new_topic')}"/></a></span></td>
  </tr>
  </table>
 </td></tr>
@@ -11,24 +11,24 @@
 <br />
 <table class="TableStd" border="0" cellpadding="3" cellspacing="0" width="100%">
 <tr>
- <td class="CellTitle" colspan="3" align="center"><span class="FontTitleSmall">{$Modules.Language->getString('Topic')}</span></td>
- <td class="CellTitle" align="center"><span class="FontTitleSmall">{$Modules.Language->getString('Author')}</span></td>
- <td class="CellTitle" align="center"><span class="FontTitleSmall">{$Modules.Language->getString('Replies')}</span></td>
- <td class="CellTitle" align="center"><span class="FontTitleSmall">{$Modules.Language->getString('Views')}</span></td>
- <td class="CellTitle" align="center"><span class="FontTitleSmall">{$Modules.Language->getString('Last_post')}</span></td>
+ <td class="CellTitle" colspan="3" align="center"><span class="FontTitleSmall">{$modules.Language->getString('Topic')}</span></td>
+ <td class="CellTitle" align="center"><span class="FontTitleSmall">{$modules.Language->getString('Author')}</span></td>
+ <td class="CellTitle" align="center"><span class="FontTitleSmall">{$modules.Language->getString('Replies')}</span></td>
+ <td class="CellTitle" align="center"><span class="FontTitleSmall">{$modules.Language->getString('Views')}</span></td>
+ <td class="CellTitle" align="center"><span class="FontTitleSmall">{$modules.Language->getString('Last_post')}</span></td>
 </tr>
-{foreach from=$TopicsData item=curTopic}
+{foreach from=$topicsData item=curTopic}
  <tr>
   <td class="CellAlt" width="20" align="center"><img src="{$akt_topic_status}" alt="" /></td>
-  <td class="CellAlt" width="20" align="center">{$curTopic._TopicPic}</td>
-  <td class="CellStd"><span class="FontNorm">{$curTopic._TopicPrefix}</span><span class="topiclink"><a class="topiclink" href="{$IndexFile}?Action=ViewTopic&amp;TopicID={$curTopic.TopicID}&amp;{$MySID}">{$curTopic.TopicTitle}</a></span></td>
-  <td class="CellAlt"><span class="FontNorm">{$curTopic._TopicPosterNick}</span></td>
-  <td class="CellStd" align="center"><span class="FontSmall">{$curTopic.TopicRepliesCounter}</span></td>
-  <td class="CellStd" align="center"><span class="FontSmall">{$curTopic.TopicViewsCounter}</span></td>
-  <td class="CellAlt" align="right"><span class="FontSmall">{$curTopic._TopicLastPost}</span></td>
+  <td class="CellAlt" width="20" align="center">{$curTopic._topicPic}</td>
+  <td class="CellStd"><span class="FontNorm">{$curTopic._topicPrefix}</span><span class="topiclink"><a class="topiclink" href="{$indexFile}?action=ViewTopic&amp;topicID={$curTopic.topicID}&amp;{$mySID}">{$curTopic.topicTitle}</a></span></td>
+  <td class="CellAlt"><span class="FontNorm">{$curTopic._topicPosterNick}</span></td>
+  <td class="CellStd" align="center"><span class="FontSmall">{$curTopic.topicRepliesCounter}</span></td>
+  <td class="CellStd" align="center"><span class="FontSmall">{$curTopic.topicViewsCounter}</span></td>
+  <td class="CellAlt" align="right"><span class="FontSmall">{$curTopic._topicLastPost}</span></td>
  </tr>
 {foreachelse}
- <tr><td class="CellStd" align="center" colspan="7"><span class="FontNorm">{$Modules.Language->getString('No_topics')}</span></td></tr>
+ <tr><td class="CellStd" align="center" colspan="7"><span class="FontNorm">{$modules.Language->getString('No_topics')}</span></td></tr>
 {/foreach}
 </table>
 <br/>
@@ -36,8 +36,8 @@
 <tr><td class="CellNavbarBig">
  <table border="0" cellpadding="0" cellspacing="0" width="100%">
  <tr>
-  <td><span class="FontNavbar">{$PageListing}</span></td>
-  <td align="right"><span class="FontNavbar"><a href="{$IndexFile}?Action=Posting&amp;Mode=Topic&amp;ForumID={$ForumID}&amp;{$MySID}"><img src="{$Modules.Template->getTD()}/images/buttons/{$Modules.Language->getLC()}/AddTopic.png" border="0" alt="{$Modules.Language->getString('Post_new_topic')}"/></a></span></td>
+  <td><span class="FontNavbar">{$pageListing}</span></td>
+  <td align="right"><span class="FontNavbar"><a href="{$indexFile}?action=Posting&amp;mode=Topic&amp;forumID={$forumID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLC()}/AddTopic.png" border="0" alt="{$modules.Language->getString('Post_new_topic')}"/></a></span></td>
  </tr>
  </table>
 </td></tr>

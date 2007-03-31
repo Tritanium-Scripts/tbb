@@ -1,9 +1,9 @@
-<form method="post" action="{$IndexFile}?Action=EditProfile&amp;Mode=ExtendedProfile&amp;Doit=1&amp;{$MySID}">
+<form method="post" action="{$indexFile}?action=EditProfile&amp;mode=ExtendedProfile&amp;Doit=1&amp;{$mySID}">
 <table class="TableStd" border="0" cellpadding="3" cellspacing="0" width="100%">
-<tr><td class="CellCat"><span class="FontCat">{$Modules.Language->getString('Extended_profile')}</span></td></tr>
-{if $Error != ''}<tr><td class="CellError"><span class="FontError">{$Error}</span></td></tr>{/if}
+<tr><td class="CellCat"><span class="FontCat">{$modules.Language->getString('Extended_profile')}</span></td></tr>
+{if $error != ''}<tr><td class="CellError"><span class="FontError">{$error}</span></td></tr>{/if}
 <tr><td class="CellStd">
-{foreach from=$GroupsData item=curGroup}
+{foreach from=$groupsData item=curGroup}
  {if count($curGroup.GroupFields) > 0}
  <fieldset>
  <legend><span class="FontSmall"><b>{$curGroup.GroupName}</b></span></legend>
@@ -44,6 +44,6 @@
  {/if}
 {/foreach}
 </td></tr>
-<tr><td class="CellButtons" align="center"><input class="FormBButton" type="submit" value="{$Modules.Language->getString('Save_changes')}"/>&nbsp;&nbsp;&nbsp;<input class="FormButton" type="reset" value="{$Modules.Language->getString('Reset')}"/></td></tr>
+<tr><td class="CellButtons" align="center"><input class="FormBButton" type="submit" value="{$modules.Language->getString('Save_changes')}"/>&nbsp;&nbsp;&nbsp;<input class="FormButton" type="reset" value="{$modules.Language->getString('Reset')}"/></td></tr>
 </table>
 </form>

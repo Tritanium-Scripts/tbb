@@ -1,62 +1,62 @@
 <?php
 
 class Navbar extends ModuleTemplate {
-	protected $Elements = array();
-	protected $Seperator = '&nbsp;&#187;&nbsp;';
-	protected $RightArea = '';
+	protected $elements = array();
+	protected $seperator = '&nbsp;&#187;&nbsp;';
+	protected $rightArea = '';
 
-	public function addElement($ElementName, $ElementLink = '') {
-		$this->Elements[] = array($ElementName,$ElementLink);
+	public function addElement($elementName, $elementLink = '') {
+		$this->elements[] = array($elementName,$elementLink);
 	}
 
 	public function addElements() {
-		$NewElementsCounter = func_num_args();
+		$newElementsCounter = func_num_args();
 
-		for($i = 0; $i < $NewElementsCounter; $i++) {
+		for($i = 0; $i < $newElementsCounter; $i++) {
 			$curArg = func_get_arg($i);
 			$this->addElement($curArg[0],$curArg[1]);
 		}
 	}
 
 	public function setRightArea($newRightArea) {
-		$this->RightArea = $newRightArea;
+		$this->rightArea = $newRightArea;
 	}
 
 	public function getRightArea() {
-		return $this->RightArea;
+		return $this->rightArea;
 	}
 
-	public function addCategories($CatID,$IncludeSelf = TRUE) {
-		$CatsData = Functions::catsGetParentCatsData($CatID,$IncludeSelf);
+	public function addCategories($catID,$includeSelf = TRUE) {
+		$catsData = Functions::catsGetParentCatsData($catID,$includeSelf);
 
-		foreach($CatsData AS $curCat)
+		foreach($catsData AS $curCat)
 			$this->addElement(Functions::HTMLSpecialChars($curCat['CatName']),INDEXFILE.'?CatID='.$curCat['CatID'].'&amp;'.MYSID);
 	}
 
-	public function parseElements($IntegrateLinks = TRUE) {
-		$ElementsCounter = count($this->Elements);
+	public function parseElements($integrateLinks = TRUE) {
+		$elementsCounter = count($this->elements);
 
-		if($ElementsCounter == 0) return '';
+		if($elementsCounter == 0) return '';
 
-		$Result = '';
+		$result = '';
 
-		if($IntegrateLinks == TRUE) {
-			for($i = 0; $i < $ElementsCounter-1; $i++)
-				$Result .= '<a href="'.$this->Elements[$i][1].'">'.$this->Elements[$i][0].'</a>'.$this->Seperator;
+		if($integrateLinks == TRUE) {
+			for($i = 0; $i < $elementsCounter-1; $i++)
+				$result .= '<a href="'.$this->elements[$i][1].'">'.$this->elements[$i][0].'</a>'.$this->seperator;
 
-			$Result .= $this->Elements[$ElementsCounter-1][0];
+			$result .= $this->elements[$elementsCounter-1][0];
 		}
 		else {
-			for($i = 0; $i < $ElementsCounter-1; $i++)
-				$Result .= $this->Elements[$i][0].$this->Seperator;
-			$Result .= $this->Elements[$ElementsCounter-1][0];
+			for($i = 0; $i < $elementsCounter-1; $i++)
+				$result .= $this->elements[$i][0].$this->seperator;
+			$result .= $this->elements[$elementsCounter-1][0];
 		}
 
-		return $Result;
+		return $result;
 	}
 
-	public function setSeperator($NewSeperator) {
-		$this->Seperator = $NewSeperator;
+	public function setSeperator($newSeperator) {
+		$this->seperator = $newSeperator;
 	}
 }
 

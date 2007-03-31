@@ -19,56 +19,56 @@ class Cache extends ModuleTemplate {
 			$toWrite2[] = '\''.$curSmiley['SmileySynonym'].'\'=>\'<img src="'.$curSmiley['SmileyFileName'].'" border="0" alt="'.$curSmiley['SmileySynonym'].'"/>\'';
 		}
 
-		$toWrite1 = '<?php $SmiliesDataRead = array('.implode(',',$toWrite1).'); ?>';
-		$toWrite2 = '<?php $SmiliesDataWrite = array('.implode(',',$toWrite2).'); ?>';
+		$toWrite1 = '<?php $smiliesDataRead = array('.implode(',',$toWrite1).'); ?>';
+		$toWrite2 = '<?php $smiliesDataWrite = array('.implode(',',$toWrite2).'); ?>';
 
 		Functions::FileWrite('cache/cache_smilies_read.php',$toWrite1,'w');
 		Functions::FileWrite('cache/cache_smilies_write.php',$toWrite2,'w');
 	}
 
-	public function getSmiliesData($Mode = 'read') {
-		if($Mode == 'read'){
-			$SmiliesDataRead = array();
+	public function getSmiliesData($mode = 'read') {
+		if($mode == 'read'){
+			$smiliesDataRead = array();
 
 			if(file_exists('cache/SmiliesRead.cache.php') == TRUE)
 				include('cache/SmiliesRead.cache.php');
 			else {
 				$this->modules['DB']->query("SELECT SmileyID,SmileyFileName,SmileySynonym,SmileyStatus FROM ".TBLPFX."smilies WHERE SmileyType='".SMILEY_TYPE_SMILEY."'");
-				$SmiliesDataRead = $this->modules['DB']->Raw2Array();
+				$smiliesDataRead = $this->modules['DB']->raw2Array();
 			}
 
-			return $SmiliesDataRead;
+			return $smiliesDataRead;
 		}
 		else {
-			$SmiliesDataWrite = array();
+			$smiliesDataWrite = array();
 
 			if(file_exists('cache/SmiliesWrite.cache.php') == TRUE)
 				include('cache/SmiliesWrite.cache.php');
 			else {
 				$this->modules['DB']->query("SELECT SmileyFileName,SmileySynonym FROM ".TBLPFX."smilies WHERE SmileyType='".SMILEY_TYPE_SMILEY."' OR SmileyType='".SMILEY_TYPE_ADMINSMILEY."'");
 				while($curSmiley = $this->modules['DB']->fetchArray())
-					$SmiliesDataWrite[$curSmiley['SmileySynonym']] = '<img src="'.$curSmiley['SmileyFileName'].'" border="0" alt="'.$curSmiley['SmileySynonym'].'"/>';
+					$smiliesDataWrite[$curSmiley['SmileySynonym']] = '<img src="'.$curSmiley['SmileyFileName'].'" border="0" alt="'.$curSmiley['SmileySynonym'].'"/>';
 			}
 
-			return $SmiliesDataWrite;
+			return $smiliesDataWrite;
 		}
 	}
 
 	public function getAdminSmiliesData() {
-		$AdminSmiliesData = array();
+		$adminSmiliesData = array();
 
 		if(file_exists('cache/AdminSmilies.cache.php') == TRUE) include('cache/AdminSmilies.cache.php');
 		else return $this->setAdminSmiliesData();
 
-		return $AdminSmiliesData;
+		return $adminSmiliesData;
 	}
 
 	public function setAdminSmiliesData() {
-		$AdminSmiliesData = $toWrite = array();
+		$adminSmiliesData = $toWrite = array();
 
 		$this->modules['DB']->query("SELECT SmileyID,SmileyType,SmileyFileName,SmileySynonym,SmileyStatus FROM ".TBLPFX."smilies WHERE SmileyType='".SMILEY_TYPE_ADMINSMILEY."'");
 		while($curSmiley = $this->modules['DB']->fetchArray()) {
-			$AdminSmiliesData[] = array(
+			$adminSmiliesData[] = array(
 				'SmileyID'=>$curSmiley['SmileyID'],
 				'SmileyFileName'=>$curSmiley['SmileyFileName'],
 				'SmileySynonym'=>$curSmiley['SmileySynonym'],
@@ -77,93 +77,93 @@ class Cache extends ModuleTemplate {
 			$toWrite[] = 'array(\'SmileyID\'=>\''.$curSmiley['SmileyID'].'\',\'SmileyFileName\'=>\''.$curSmiley['SmileyFileName'].'\',\'SmileySynonym\'=>\''.$curSmiley['SmileySynonym'].'\',\'SmileyStatus\'=>\''.$curSmiley['SmileyStatus'].'\')';
 		}
 
-		Functions::FileWrite('cache/AdminSmilies.cache.php','<?php $AdminSmiliesData = array('.implode(',',$toWrite).'); ?>','w');
+		Functions::FileWrite('cache/AdminSmilies.cache.php','<?php $adminSmiliesData = array('.implode(',',$toWrite).'); ?>','w');
 
-		return $AdminSmiliesData;
+		return $adminSmiliesData;
 	}
 
 	public function setPPicsData() {
-		$toWrite = $PPicsData = array();
+		$toWrite = $pPicsData = array();
 
 		$this->modules['DB']->query("SELECT SmileyID,SmileyFileName FROM ".TBLPFX."smilies WHERE SmileyType='1'");
 		while($curSmiley = $this->modules['DB']->fetchArray()) {
 			$toWrite[] = 'array(\'SmileyID\'=>\''.$curSmiley['SmileyID'].'\',\'SmileyFileName\'=>\''.$curSmiley['SmileyFileName'].'\')';
-			$PPicsData[] = $curSmiley;
+			$pPicsData[] = $curSmiley;
 		}
 
-		$toWrite = '<?php $PPicsData = array('.implode(',',$toWrite).'); ?>';
+		$toWrite = '<?php $pPicsData = array('.implode(',',$toWrite).'); ?>';
 
 		Functions::FileWrite('cache/PPics.cache.php',$toWrite,'w');
 
-		return $PPicsData;
+		return $pPicsData;
 	}
 
 	public function getPPicsData() {
-		$PPicsData = array();
+		$pPicsData = array();
 
 		if(file_exists('cache/PPics.cache.php') == TRUE)
 			include('cache/PPics.cache.php');
 		else return $$this->setPPicsData();
 
-		return $PPicsData;
+		return $pPicsData;
 	}
 
 	public function setRanksData() {
-		$RanksData1 = $RanksData2 = array();
+		$ranksData1 = $ranksData2 = array();
 
-		$this->modules['DB']->query("SELECT * FROM ".TBLPFX."ranks ORDER BY RankPosts");
+		$this->modules['DB']->query("SELECT * FROM ".TBLPFX."ranks ORDER BY rankPosts");
 		while($curRank = $this->modules['DB']->fetchArray()) {
 			$curRankGfx = '';
 
-			if($curRank['RankGfx'] != '') {
-				$curRankGfx = explode(';',$curRank['RankGfx']);
+			if($curRank['rankGfx'] != '') {
+				$curRankGfx = explode(';',$curRank['rankGfx']);
 				while(list($curKey) = each($curRankGfx))
 					$curRankGfx[$curKey] = '<img src="'.$curRankGfx[$curKey].'" border="0" alt=""/>';
 				$curRankGfx = implode('',$curRankGfx);
 			}
 
-			if($curRank['RankType'] == 0)
-				$RanksData1[] = "array('RankName'=>'".$curRank['RankName']."','RankPosts'=>'".$curRank['RankPosts']."','RankGfx'=>'".$curRankGfx."')";
+			if($curRank['rankType'] == 0)
+				$ranksData1[] = "array('rankName'=>'".$curRank['rankName']."','rankPosts'=>'".$curRank['rankPosts']."','rankGfx'=>'".$curRankGfx."')";
 			else
-				$RanksData2[] = "'".$curRank['RankID']."'=>array('RankName'=>'".$curRank['RankName']."','RankGfx'=>'".$curRankGfx."')";
+				$ranksData2[] = "'".$curRank['rankID']."'=>array('rankName'=>'".$curRank['rankName']."','rankGfx'=>'".$curRankGfx."')";
 		}
 
-		$toWrite = '<?php $RanksData = array(array('.implode(",",$RanksData1).'),array('.implode(",",$RanksData2).')); ?>';
+		$toWrite = '<?php $ranksData = array(array('.implode(",",$ranksData1).'),array('.implode(",",$ranksData2).')); ?>';
 
 		Functions::FileWrite('cache/Ranks.cache.php',$toWrite,'w');
 
-		return array($RanksData1,$RanksData2);
+		return array($ranksData1,$ranksData2);
 	}
 
 	public function getRanksData() {
-		$RanksData = array(array(),array());
+		$ranksData = array(array(),array());
 
 		if(file_exists('cache/Ranks.cache.php') == TRUE)
 			include('cache/Ranks.cache.php');
 		else return $this->setRanksData();
 
-		return $RanksData;
+		return $ranksData;
 	}
 
 	public function setLanguages() {
-		$Languages = $LanguageIDs = array();
+		$languages = $languageIDs = array();
 
 		$toWrite1 = array();
 		$toWrite2 = array();
 
-		$DP = opendir('languages');
-		while($curObj = readdir($DP)) {
-			if($DP == '..' || $DP == '.' || file_exists('languages/'.$curObj.'/Language.config') == FALSE) continue;
+		$dP = opendir('languages');
+		while($curObj = readdir($dP)) {
+			if($dP == '..' || $dP == '.' || file_exists('languages/'.$curObj.'/Language.config') == FALSE) continue;
 
 			$curLanguageConfig = parse_ini_file('languages/'.$curObj.'/Language.config');
 			$curSupportedLanguages = explode(',',$curLanguageConfig['supported_languages']);
 
 			foreach($curSupportedLanguages AS $curLanguage) {
 				$toWrite1[] = "'$curLanguage'=>'$curObj'";
-				$LanguageIDs[$curLanguage] = $curObj;
+				$languageIDs[$curLanguage] = $curObj;
 			}
 
-			$Languages[] = array(
+			$languages[] = array(
 				'Name'=>$curLanguageConfig['language_name'],
 				'NativeName'=>$curLanguageConfig['language_name_native'],
 				'Dir'=>$curObj,
@@ -172,46 +172,46 @@ class Cache extends ModuleTemplate {
 
 			$toWrite2[] = "array('Name'=>'".$curLanguageConfig['language_name']."','NativeName'=>'".$curLanguageConfig['language_name_native']."','Dir'=>'".$curObj."','SupportedLanguages'=>'".$curLanguageConfig['supported_languages']."')";
 		}
-		closedir($DP);
+		closedir($dP);
 
-		$toWrite = '<?php $LanguageIDs = array('.implode(',',$toWrite1).'); $Languages = array('.implode(',',$toWrite2).'); ?>';
+		$toWrite = '<?php $languageIDs = array('.implode(',',$toWrite1).'); $languages = array('.implode(',',$toWrite2).'); ?>';
 
 		Functions::FileWrite('cache/Languages.cache.php',$toWrite,'w');
 
-		return array($LanguageIDs,$Languages);
+		return array($languageIDs,$languages);
 	}
 
 	public function getLanguages() {
-		$LanguageIDs = array();
-		$Languages = array();
+		$languageIDs = array();
+		$languages = array();
 
 		if(file_exists('cache/Languages.cache.php') == TRUE) {
 			include('cache/Languages.cache.php');
-			return array($LanguageIDs,$Languages);
+			return array($languageIDs,$languages);
 		}
 		else return $this->setLanguages();
 	}
 
 	public function setConfig() {
-		$Config = $toWrite = array();
+		$config = $toWrite = array();
 		$this->modules['DB']->query("SELECT * FROM ".TBLPFX."config");
 		while($curRow = $this->modules['DB']->fetchArray()) {
-			$Config[$curRow['ConfigName']] = $curRow['ConfigValue'];
+			$config[$curRow['ConfigName']] = $curRow['ConfigValue'];
 			$toWrite[] = '\''.$curRow['ConfigName'].'\'=>\''.addslashes($curRow['ConfigValue']).'\'';
 		}
 
-		$toWrite = '<?php $Config = array('.implode(',',$toWrite).'); ?>';
+		$toWrite = '<?php $config = array('.implode(',',$toWrite).'); ?>';
 
 		Functions::FileWrite('cache/Config.cache.php',$toWrite,'w');
 
-		return $Config;
+		return $config;
 	}
 
 	public function getConfig() {
-		$Config = array();
+		$config = array();
 		if(file_exists('cache/Config.cache.php') == TRUE) include('cache/Config.cache.php');
-		else $Config = $this->setConfig();
-		return $Config;
+		else $config = $this->setConfig();
+		return $config;
 	}
 
 }

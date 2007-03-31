@@ -1,7 +1,7 @@
 <?php
 
 class PrivateMessages extends ModuleTemplate {
-	protected $RequiredModules = array(
+	protected $requiredModules = array(
 		'Auth',
 		'Cache',
 		'Config',
@@ -13,50 +13,50 @@ class PrivateMessages extends ModuleTemplate {
 	);
 
 	function executeMe() {
-		if($this->Modules['Auth']->isLoggedIn() != 1) die('Kein Zugriff: Nicht eingeloggt');
-		elseif($this->Modules['Config']->getValue('enable_pms') != 1) {
-			add_navbar_items(array($LNG['Function_deactivated'],''));
+		if($this->modules['Auth']->isLoggedIn() != 1) die('Kein Zugriff: Nicht eingeloggt');
+		elseif($this->modules['Config']->getValue('enable_pms') != 1) {
+			add_navbar_items(array($lNG['Function_deactivated'],''));
 
 			include_once('pheader.php');
-			show_message($LNG['Function_deactivated'],$LNG['message_function_deactivated']);
+			show_message($lNG['Function_deactivated'],$lNG['message_function_deactivated']);
 			include_once('ptail.php'); exit;
 		}
 
-		$this->Modules['PageParts']->setInPrivateMessages(TRUE);
-		$this->Modules['Language']->addFile('PrivateMessages');
-		$this->Modules['Navbar']->addElement($this->Modules['Language']->getString('Private_messages'),INDEXFILE.'?Action=PrivateMessages&amp;'.MYSID);
+		$this->modules['PageParts']->setInPrivateMessages(TRUE);
+		$this->modules['Language']->addFile('PrivateMessages');
+		$this->modules['Navbar']->addElement($this->modules['Language']->getString('Private_messages'),INDEXFILE.'?Action=PrivateMessages&amp;'.MYSID);
 
-		$InboxFolderData = array('FolderID'=>0,'FolderName'=>$this->Modules['Language']->getString('Inbox'));
-		$OutboxFolderData = array('FolderID'=>1,'FolderName'=>$this->Modules['Language']->getString('Outbox'));
+		$inboxFolderData = array('FolderID'=>0,'FolderName'=>$this->modules['Language']->getString('Inbox'));
+		$outboxFolderData = array('FolderID'=>1,'FolderName'=>$this->modules['Language']->getString('Outbox'));
 
 		switch(@$_GET['Mode']) {
 			default:
-				$FolderID = isset($_GET['FolderID']) ? intval($_GET['FolderID']) : 0;
-				$Page = isset($_GET['Page']) ? intval($_GET['Page']) : 1;
+				$folderID = isset($_GET['FolderID']) ? intval($_GET['FolderID']) : 0;
+				$page = isset($_GET['Page']) ? intval($_GET['Page']) : 1;
 
-				if($FolderID == 0) $FolderData = $InboxFolderData;
-				elseif($FolderID == 1) $FolderData = $OutboxFolderData;
+				if($folderID == 0) $folderData = $inboxFolderData;
+				elseif($folderID == 1) $folderData = $outboxFolderData;
 				else {
-					$this->Modules['DB']->query("SELECT FolderID, FolderName FROM ".TBLPFX."pms_folders WHERE UserID='".USERID."' AND FolderID='$FolderID'");
-					if($this->Modules['DB']->getAffectedRows() == 0) {
-						$FolderData = $InboxFolderData;
-						$FolderID = 0;
+					$this->modules['DB']->query("SELECT FolderID, FolderName FROM ".TBLPFX."pms_folders WHERE UserID='".USERID."' AND FolderID='$folderID'");
+					if($this->modules['DB']->getAffectedRows() == 0) {
+						$folderData = $inboxFolderData;
+						$folderID = 0;
 					}
-					else $FolderData = $this->Modules['DB']->fetchArray();
+					else $folderData = $this->modules['DB']->fetchArray();
 				}
 
-				$this->Modules['DB']->query("SELECT COUNT(*) FROM ".TBLPFX."pms WHERE PMToID='".USERID."' AND FolderID='$FolderID'");
-				list($PMsCounter) = $this->Modules['DB']->fetchArray();
+				$this->modules['DB']->query("SELECT COUNT(*) FROM ".TBLPFX."pms WHERE PMToID='".USERID."' AND FolderID='$folderID'");
+				list($pMsCounter) = $this->modules['DB']->fetchArray();
 
-				$PMsPerPage = 20;
-				//$this->Modules['Config']->getValue('pms_per_page') = 10;
+				$pMsPerPage = 20;
+				//$this->modules['Config']->getValue('pms_per_page') = 10;
 
-				$PageListing = Functions::createPageListing($PMsCounter,$PMsPerPage,$Page,"<a href=\"".INDEXFILE."?Action=PrivateMessages&amp;Mode=ViewFolder&amp;FolderID=$FolderID&amp;Page=%1\$s&amp;".MYSID."\">%2\$s</a>");
-				$Start = $Page*$this->Modules['Config']->getValue('pms_per_page')-$this->Modules['Config']->getValue('pms_per_page');
+				$pageListing = Functions::createPageListing($pMsCounter,$pMsPerPage,$page,"<a href=\"".INDEXFILE."?Action=PrivateMessages&amp;Mode=ViewFolder&amp;FolderID=$folderID&amp;Page=%1\$s&amp;".MYSID."\">%2\$s</a>");
+				$start = $page*$this->modules['Config']->getValue('pms_per_page')-$this->modules['Config']->getValue('pms_per_page');
 
 
 				// PM-Daten laden
-				$this->Modules['DB']->query("
+				$this->modules['DB']->query("
 					SELECT
 						t1.PMID,
 						t1.PMSubject,
@@ -72,32 +72,32 @@ class PrivateMessages extends ModuleTemplate {
 					LEFT JOIN ".TBLPFX."users AS t2 ON t1.PMFromID=t2.UserID
 					WHERE
 						PMToID='".USERID."'
-						AND FolderID='$FolderID'
+						AND FolderID='$folderID'
 					ORDER BY
 						PMSendTimestamp DESC
-					LIMIT $Start,$PMsPerPage
+					LIMIT $start,$pMsPerPage
 				");
 
-				$PMsData = array();
-				while($curPM = $this->Modules['DB']->fetchArray()) {
+				$pMsData = array();
+				while($curPM = $this->modules['DB']->fetchArray()) {
 					$curSenderNick = ($curPM['PMFromID'] == 0) ? $curPM['PMGuestNick'] : $curPM['PMFromNick'];
-					$curPM['_PMSender'] = ($curPM['PMType'] == 0) ? sprintf($this->Modules['Language']->getString('from_x'),$curSenderNick) : sprintf($this->Modules['Language']->getString('to_x'),$curSenderNick);
+					$curPM['_PMSender'] = ($curPM['PMType'] == 0) ? sprintf($this->modules['Language']->getString('from_x'),$curSenderNick) : sprintf($this->modules['Language']->getString('to_x'),$curSenderNick);
 					$curPM['_PMSendDateTime'] = Functions::toDateTime($curPM['PMSendTimestamp']);
-					$PMsData[] = $curPM;
+					$pMsData[] = $curPM;
 				}
 
-				$this->Modules['Navbar']->addElement(Functions::HTMLSpecialChars($FolderData['FolderName']),INDEXFILE.'?Action=PrivateMessages&amp;FolderID='.$FolderID.'&amp;'.MYSID);
+				$this->modules['Navbar']->addElement(Functions::HTMLSpecialChars($folderData['FolderName']),INDEXFILE.'?Action=PrivateMessages&amp;FolderID='.$folderID.'&amp;'.MYSID);
 
-				$this->Modules['Template']->assign(array(
-					'PageListing'=>$PageListing,
-					'PMsData'=>$PMsData
+				$this->modules['Template']->assign(array(
+					'PageListing'=>$pageListing,
+					'PMsData'=>$pMsData
 				));
 
-				$this->Modules['PageParts']->printPage('PrivateMessagesDefault.tpl');
+				$this->modules['PageParts']->printPage('PrivateMessagesDefault.tpl');
 			break;
 
 			case 'NewPM':
-				$this->Modules['Navbar']->addElement($this->Modules['Language']->getString('New_private_message'),INDEXFILE.'?Action=PrivateMessages&amp;Mode=NewPM&amp;'.MYSID);
+				$this->modules['Navbar']->addElement($this->modules['Language']->getString('New_private_message'),INDEXFILE.'?Action=PrivateMessages&amp;Mode=NewPM&amp;'.MYSID);
 
 				$p = Functions::getSGValues($_POST['p'],array('Recipients','PMSubject','PMMessageText'),'');
 
@@ -105,28 +105,28 @@ class PrivateMessages extends ModuleTemplate {
 				$c['EnableSmilies'] = $c['EnableBBCode'] = $c['ShowSignature'] = $c['SaveOutbox'] = 1;
 				$c['EnableHtmlCode'] = $c['RequestReadReceipt'] = 0;
 
-				$Error = '';
+				$error = '';
 
 				if(isset($_GET['Doit'])) {
-					$c['EnableSmilies'] = (isset($_POST['c']['EnableSmilies']) && $this->Modules['Config']->getValue('allow_pms_smilies') == 1) ? 1 : 0;
-					$c['ShowSignature'] = (isset($_POST['c']['ShowSignature']) && $this->Modules['Config']->getValue('enable_sig') == 1) ? 1 : 0;
-					$c['EnableBBCode'] = (isset($_POST['c']['EnableBBCode']) && $this->Modules['Config']->getValue('allow_pms_bbcode') == 1) ? 1 : 0;
-					$c['SaveOutbox'] = (isset($_POST['c']['SaveOutbox']) && $this->Modules['Config']->getValue('enable_outbox') == 1) ? 1 : 0;
-					$c['RequestReadReceipt'] = (isset($_POST['c']['RequestReadReceipt']) && $this->Modules['Config']->getValue('allow_pms_rconfirmation') == 1) ? 1 : 0;
+					$c['EnableSmilies'] = (isset($_POST['c']['EnableSmilies']) && $this->modules['Config']->getValue('allow_pms_smilies') == 1) ? 1 : 0;
+					$c['ShowSignature'] = (isset($_POST['c']['ShowSignature']) && $this->modules['Config']->getValue('enable_sig') == 1) ? 1 : 0;
+					$c['EnableBBCode'] = (isset($_POST['c']['EnableBBCode']) && $this->modules['Config']->getValue('allow_pms_bbcode') == 1) ? 1 : 0;
+					$c['SaveOutbox'] = (isset($_POST['c']['SaveOutbox']) && $this->modules['Config']->getValue('enable_outbox') == 1) ? 1 : 0;
+					$c['RequestReadReceipt'] = (isset($_POST['c']['RequestReadReceipt']) && $this->modules['Config']->getValue('allow_pms_rconfirmation') == 1) ? 1 : 0;
 
-					$Recipients = explode(',',$p['Recipients']);
-					while(list($curKey) = each($Recipients)) {
-						$Recipients[$curKey] = trim($Recipients[$curKey]);
-						if(!$Recipients[$curKey] = Functions::getUserID($Recipients[$curKey])) unset($Recipients[$curKey]);
+					$recipients = explode(',',$p['Recipients']);
+					while(list($curKey) = each($recipients)) {
+						$recipients[$curKey] = trim($recipients[$curKey]);
+						if(!$recipients[$curKey] = Functions::getUserID($recipients[$curKey])) unset($recipients[$curKey]);
 					}
-					reset($Recipients);
+					reset($recipients);
 
-					if(count($Recipients) == 0) $Error = $this->Modules['Language']->getString('error_no_recipient');
-					elseif(trim($p['PMSubject']) == '') $Error = $this->Modules['Language']->getString('error_no_subject');
-					elseif(trim($p['PMMessageText']) == '') $Error = $this->Modules['Language']->getString('error_no_message');
+					if(count($recipients) == 0) $error = $this->modules['Language']->getString('error_no_recipient');
+					elseif(trim($p['PMSubject']) == '') $error = $this->modules['Language']->getString('error_no_subject');
+					elseif(trim($p['PMMessageText']) == '') $error = $this->modules['Language']->getString('error_no_message');
 					else {
-						foreach($Recipients AS $curRecipient) {
-							$this->Modules['DB']->query("INSERT INTO ".TBLPFX."pms SET
+						foreach($recipients AS $curRecipient) {
+							$this->modules['DB']->query("INSERT INTO ".TBLPFX."pms SET
 								FolderID='0',
 								PMFromID='".USERID."',
 								PMToID='".$curRecipient."',
@@ -143,7 +143,7 @@ class PrivateMessages extends ModuleTemplate {
 							");
 
 							if($c['SaveOutbox'] == 1) {
-								$this->Modules['DB']->query("INSERT INTO ".TBLPFX."pms SET
+								$this->modules['DB']->query("INSERT INTO ".TBLPFX."pms SET
 									FolderID='1',
 									PMFromID='".$curRecipient."',
 									PMToID='".USERID."',
@@ -164,34 +164,34 @@ class PrivateMessages extends ModuleTemplate {
 					}
 				}
 
-				$Show = array();
-				$Show['EnableSmilies'] = $this->Modules['Config']->getValue('allow_pms_smilies') == 1;
-				$Show['ShowSignature'] = $this->Modules['Config']->getValue('enable_sig') == 1 && $this->Modules['Config']->getValue('allow_pms_signature') == 1;
-				$Show['EnableBBCode'] = $this->Modules['Config']->getValue('allow_pms_bbcode') == 1;
-				$Show['EnableHtmlCode'] = $this->Modules['Config']->getValue('allow_pms_htmlcode') == 1;
-				$Show['SaveOutbox'] = $this->Modules['Config']->getValue('enable_outbox') == 1;
-				$Show['RequestReadReceipt'] = $this->Modules['Config']->getValue('allow_pms_rconfirmation') == 1;
+				$show = array();
+				$show['EnableSmilies'] = $this->modules['Config']->getValue('allow_pms_smilies') == 1;
+				$show['ShowSignature'] = $this->modules['Config']->getValue('enable_sig') == 1 && $this->modules['Config']->getValue('allow_pms_signature') == 1;
+				$show['EnableBBCode'] = $this->modules['Config']->getValue('allow_pms_bbcode') == 1;
+				$show['EnableHtmlCode'] = $this->modules['Config']->getValue('allow_pms_htmlcode') == 1;
+				$show['SaveOutbox'] = $this->modules['Config']->getValue('enable_outbox') == 1;
+				$show['RequestReadReceipt'] = $this->modules['Config']->getValue('allow_pms_rconfirmation') == 1;
 
-				$Smilies = array(); $SmiliesBox = '';
-				if($Show['EnableSmilies']) {
-					$Smilies = $this->Modules['Cache']->getSmiliesData('write');
-					$SmiliesBox = Functions::getSmiliesBox();
+				$smilies = array(); $smiliesBox = '';
+				if($show['EnableSmilies']) {
+					$smilies = $this->modules['Cache']->getSmiliesData('write');
+					$smiliesBox = Functions::getSmiliesBox();
 				}
-				$PPicsBox = Functions :: getPPicsBox();
+				$pPicsBox = Functions :: getPPicsBox();
 
-				$this->Modules['Template']->assign(array(
-					'Show'=>$Show,
-					'Error'=>$Error,
-					'SmiliesBox'=>$SmiliesBox,
+				$this->modules['Template']->assign(array(
+					'Show'=>$show,
+					'Error'=>$error,
+					'SmiliesBox'=>$smiliesBox,
 					'p'=>$p,
 					'c'=>$c
 				));
 
-				$this->Modules['PageParts']->printPage('PrivateMessagesNewPM.tpl');
+				$this->modules['PageParts']->printPage('PrivateMessagesNewPM.tpl');
 			break;
 
 			case 'newpmreceived':
-				$pms_tpl = new Template($TEMPLATE_PATH.'/'.$TCONFIG['templates']['pms_newpmreceived']);
+				$pms_tpl = new Template($tEMPLATE_PATH.'/'.$tCONFIG['templates']['pms_newpmreceived']);
 
 				include_once('pop_pheader.php');
 				$pms_tpl->parseCode(TRUE);
@@ -206,10 +206,10 @@ class PrivateMessages extends ModuleTemplate {
 
 				if(count($pm_ids) != 0) {
 					$pm_ids = implode("','",$pm_ids);
-					$this->Modules['DB']->query("UPDATE ".TBLPFX."pms SET pm_read_status='1' WHERE pm_id IN ('$pm_ids') AND pm_to_id='$USER_ID' AND pm_request_rconfirmation<>'1'");
+					$this->modules['DB']->query("UPDATE ".TBLPFX."pms SET pm_read_status='1' WHERE pm_id IN ('$pm_ids') AND pm_to_id='$uSER_ID' AND pm_request_rconfirmation<>'1'");
 				}
 
-				header("Location: index.php?action=pms&mode=viewfolder&folder_id=$return_f&z=$return_z&$MYSID"); exit;
+				header("Location: index.php?action=pms&mode=viewfolder&folder_id=$return_f&z=$return_z&$mYSID"); exit;
 			break;
 
 			case 'deletepms':
@@ -220,29 +220,29 @@ class PrivateMessages extends ModuleTemplate {
 				$return_f = isset($_GET['return_f']) ? $_GET['return_f'] : 0; // Der Ordner, in den zurueckgekehrt werden soll
 
 				if($pm_id != 0)
-					$this->Modules['DB']->query("DELETE FROM ".TBLPFX."pms WHERE pm_id='$pm_id' AND pm_to_id='$USER_ID'");
+					$this->modules['DB']->query("DELETE FROM ".TBLPFX."pms WHERE pm_id='$pm_id' AND pm_to_id='$uSER_ID'");
 
 				if(count($pm_ids) != 0) {
 					$pm_ids = implode("','",$pm_ids);
-					$this->Modules['DB']->query("SELECT pm_id FROM ".TBLPFX."pms WHERE pm_id IN ('$pm_ids') AND pm_to_id='$USER_ID'");
+					$this->modules['DB']->query("SELECT pm_id FROM ".TBLPFX."pms WHERE pm_id IN ('$pm_ids') AND pm_to_id='$uSER_ID'");
 
 					$pm_ids = array();
-					while(list($akt_pm_id) = $this->Modules['DB']->fetch_array())
+					while(list($akt_pm_id) = $this->modules['DB']->fetch_array())
 						$pm_ids[] = $akt_pm_id;
 
 					$pm_ids = implode("','",$pm_ids);
-					$this->Modules['DB']->query("DELETE FROM ".TBLPFX."pms WHERE pm_id IN ('$pm_ids')");
+					$this->modules['DB']->query("DELETE FROM ".TBLPFX."pms WHERE pm_id IN ('$pm_ids')");
 				}
 
-				header("Location: index.php?action=pms&mode=viewfolder&folder_id=$return_f&z=$return_z&$MYSID"); exit;
+				header("Location: index.php?action=pms&mode=viewfolder&folder_id=$return_f&z=$return_z&$mYSID"); exit;
 			break;
 
 			case 'ViewPM':
-				$PMID = isset($_GET['PMID']) ? intval($_GET['PMID']) : 0;
-				$ReturnPage = isset($_GET['ReturnPage']) ? intval($_GET['ReturnPage']) : 1;
+				$pMID = isset($_GET['PMID']) ? intval($_GET['PMID']) : 0;
+				$returnPage = isset($_GET['ReturnPage']) ? intval($_GET['ReturnPage']) : 1;
 
 				// PM-Daten laden
-				$this->Modules['DB']->query("
+				$this->modules['DB']->query("
 					SELECT
 						t1.PMSubject,
 						t1.PMRequestReadReceipt,
@@ -259,24 +259,24 @@ class PrivateMessages extends ModuleTemplate {
 					FROM ".TBLPFX."pms AS t1
 					LEFT JOIN ".TBLPFX."users AS t2 ON t1.PMFromID=t2.UserID
 					LEFT JOIN ".TBLPFX."pms_folders AS t4 ON (t4.FolderID=t1.FolderID AND t4.UserID='".USERID."')
-					WHERE t1.PMID='$PMID'
+					WHERE t1.PMID='$pMID'
 				");
-				if($this->Modules['DB']->getAffectedRows() == 0) die('Kann PM-Daten nicht laden!');
-				$PMData = $this->Modules['DB']->fetchArray();
+				if($this->modules['DB']->getAffectedRows() == 0) die('Kann PM-Daten nicht laden!');
+				$pMData = $this->modules['DB']->fetchArray();
 
 				// Ueberpruefen ob...
-				if($PMData['PMToID'] != USERID) die('Kein Zugriff auf diese Nachricht!'); // ...User Zugriff auf PM hat...
-				if($PMData['PMIsRead'] != 1) {  // ...die PM schon gelesen ist...
-					$this->Modules['DB']->query("UPDATE ".TBLPFX."pms SET PMIsRead='1' WHERE PMID='$PMID'");
-					if($PMData['PMRequestReadReceipt'] == 1 && $this->Modules['Config']->getValue('allow_pms_rconfirmation') == 1 && $PMData['PMFromID'] != 0) // ...und eine Lesebestaetigung angefordert wurde
-						$this->Modules['DB']->query("
+				if($pMData['PMToID'] != USERID) die('Kein Zugriff auf diese Nachricht!'); // ...User Zugriff auf PM hat...
+				if($pMData['PMIsRead'] != 1) {  // ...die PM schon gelesen ist...
+					$this->modules['DB']->query("UPDATE ".TBLPFX."pms SET PMIsRead='1' WHERE PMID='$pMID'");
+					if($pMData['PMRequestReadReceipt'] == 1 && $this->modules['Config']->getValue('allow_pms_rconfirmation') == 1 && $pMData['PMFromID'] != 0) // ...und eine Lesebestaetigung angefordert wurde
+						$this->modules['DB']->query("
 							INSERT INTO ".TBLPFX."pms SET
-								(folder_id,pm_from_id,pm_to_id,pm_read_status,pm_type,pm_subject,pm_send_time,pm_enable_bbcode,pm_enable_smilies,pm_enable_htmlcode,pm_show_sig,pm_request_rconfirmation,pm_text) VALUES ('0','$USER_ID','".$pm_data['pm_from_id']."','0','0','".$LNG['read_confirmation_subject']."','".time()."','0','0','0','0','0','".mysql_escape_string(sprintf($LNG['read_confirmation_message'],$pm_data['pm_from_nick'],$pm_data['pm_subject']))."')
+								(folder_id,pm_from_id,pm_to_id,pm_read_status,pm_type,pm_subject,pm_send_time,pm_enable_bbcode,pm_enable_smilies,pm_enable_htmlcode,pm_show_sig,pm_request_rconfirmation,pm_text) VALUES ('0','$uSER_ID','".$pm_data['pm_from_id']."','0','0','".$lNG['read_confirmation_subject']."','".time()."','0','0','0','0','0','".mysql_escape_string(sprintf($lNG['read_confirmation_message'],$pm_data['pm_from_nick'],$pm_data['pm_subject']))."')
 						");
 				}
 
 				$p = array();
-				$p['PMSubject'] = isset($_POST['p']['PMSubject']) ? $_POST['p']['PMSubject'] : $PMData['PMSubject'];
+				$p['PMSubject'] = isset($_POST['p']['PMSubject']) ? $_POST['p']['PMSubject'] : $pMData['PMSubject'];
 				$p['PMMessageText'] = isset($_POST['p']['PMMessageText']) ? $_POST['p']['PMMessageText'] : '';
 
 				if(!isset($_GET['Doit']) && strtolower(substr($p['PMSubject'],0,3)) != 're:') $p['PMSubject'] = 'Re: '.$p['PMSubject']; // Falls noch kein Re: da ist, anfuegen
@@ -285,30 +285,30 @@ class PrivateMessages extends ModuleTemplate {
 				$c['EnableSmilies'] = $c['EnableBBCode'] = $c['ShowSignature'] = $c['SaveOutbox'] = 1;
 				$c['EnableHtmlCode'] = $c['RequestReadReceipt'] = 0;
 
-				$Error = '';
+				$error = '';
 
-				if(isset($_GET['Doit']) && $PMData['PMType'] == 0 && $PMData['PMFromID'] != 0) {
-					$c['EnableSmilies'] = (isset($_POST['c']['EnableSmilies']) && $this->Modules['Config']->getValue('allow_pms_smilies') == 1) ? 1 : 0;
-					$c['ShowSignature'] = (isset($_POST['c']['ShowSignature']) && $this->Modules['Config']->getValue('enable_sig') == 1) ? 1 : 0;
-					$c['EnableBBCode'] = (isset($_POST['c']['EnableBBCode']) && $this->Modules['Config']->getValue('allow_pms_bbcode') == 1) ? 1 : 0;
-					$c['SaveOutbox'] = (isset($_POST['c']['SaveOutbox']) && $this->Modules['Config']->getValue('enable_outbox') == 1) ? 1 : 0;
-					$c['RequestReadReceipt'] = (isset($_POST['c']['RequestReadReceipt']) && $this->Modules['Config']->getValue('allow_pms_rconfirmation') == 1) ? 1 : 0;
+				if(isset($_GET['Doit']) && $pMData['PMType'] == 0 && $pMData['PMFromID'] != 0) {
+					$c['EnableSmilies'] = (isset($_POST['c']['EnableSmilies']) && $this->modules['Config']->getValue('allow_pms_smilies') == 1) ? 1 : 0;
+					$c['ShowSignature'] = (isset($_POST['c']['ShowSignature']) && $this->modules['Config']->getValue('enable_sig') == 1) ? 1 : 0;
+					$c['EnableBBCode'] = (isset($_POST['c']['EnableBBCode']) && $this->modules['Config']->getValue('allow_pms_bbcode') == 1) ? 1 : 0;
+					$c['SaveOutbox'] = (isset($_POST['c']['SaveOutbox']) && $this->modules['Config']->getValue('enable_outbox') == 1) ? 1 : 0;
+					$c['RequestReadReceipt'] = (isset($_POST['c']['RequestReadReceipt']) && $this->modules['Config']->getValue('allow_pms_rconfirmation') == 1) ? 1 : 0;
 
-					/*$Recipients = explode(',',$p['Recipients']);
-					while(list($curKey) = each($Recipients)) {
-						$Recipients[$curKey] = trim($Recipients[$curKey]);
-						if(!$Recipients[$curKey] = Functions::getUserID($Recipients[$curKey])) unset($Recipients[$curKey]);
+					/*$recipients = explode(',',$p['Recipients']);
+					while(list($curKey) = each($recipients)) {
+						$recipients[$curKey] = trim($recipients[$curKey]);
+						if(!$recipients[$curKey] = Functions::getUserID($recipients[$curKey])) unset($recipients[$curKey]);
 					}
-					reset($Recipients);*/
+					reset($recipients);*/
 
-					//if(count($Recipients) == 0) $Error = $this->Modules['Language']->getString('error_no_recipient');
-					if(trim($p['PMSubject']) == '') $Error = $this->Modules['Language']->getString('error_no_subject');
-					elseif(trim($p['PMMessageText']) == '') $Error = $this->Modules['Language']->getString('error_no_message');
+					//if(count($recipients) == 0) $error = $this->modules['Language']->getString('error_no_recipient');
+					if(trim($p['PMSubject']) == '') $error = $this->modules['Language']->getString('error_no_subject');
+					elseif(trim($p['PMMessageText']) == '') $error = $this->modules['Language']->getString('error_no_message');
 					else {
-						$this->Modules['DB']->query("INSERT INTO ".TBLPFX."pms SET
+						$this->modules['DB']->query("INSERT INTO ".TBLPFX."pms SET
 							FolderID='0',
 							PMFromID='".USERID."',
-							PMToID='".$PMData['PMFromID']."',
+							PMToID='".$pMData['PMFromID']."',
 							PMIsRead='0',
 							PMType='0',
 							PMSubject='".$p['PMSubject']."',
@@ -322,9 +322,9 @@ class PrivateMessages extends ModuleTemplate {
 						");
 
 						if($c['SaveOutbox'] == 1) {
-							$this->Modules['DB']->query("INSERT INTO ".TBLPFX."pms SET
+							$this->modules['DB']->query("INSERT INTO ".TBLPFX."pms SET
 								FolderID='1',
-								PMFromID='".$PMData['PMFromID']."',
+								PMFromID='".$pMData['PMFromID']."',
 								PMToID='".USERID."',
 								PMIsRead='1',
 								PMType='1',
@@ -339,90 +339,90 @@ class PrivateMessages extends ModuleTemplate {
 							");
 						}
 
-						if($PMData['PMIsReplied'] != 1)
-							$this->Modules['DB']->query("UPDATE ".TBLPFX."pms SET PMIsReplied='1' WHERE PMID='$PMID'");
+						if($pMData['PMIsReplied'] != 1)
+							$this->modules['DB']->query("UPDATE ".TBLPFX."pms SET PMIsReplied='1' WHERE PMID='$pMID'");
 
 						Functions::myHeader(INDEXFILE."?Action=PrivateMessages&".MYSID);
 					}
 				}
 
 
-				if($PMData['PMType'] == 0) {
-					$Show = array();
-					$Show['EnableSmilies'] = $this->Modules['Config']->getValue('allow_pms_smilies') == 1;
-					$Show['ShowSignature'] = $this->Modules['Config']->getValue('enable_sig') == 1 && $this->Modules['Config']->getValue('allow_pms_signature') == 1;
-					$Show['EnableBBCode'] = $this->Modules['Config']->getValue('allow_pms_bbcode') == 1;
-					$Show['EnableHtmlCode'] = $this->Modules['Config']->getValue('allow_pms_htmlcode') == 1;
-					$Show['SaveOutbox'] = $this->Modules['Config']->getValue('enable_outbox') == 1;
-					$Show['RequestReadReceipt'] = $this->Modules['Config']->getValue('allow_pms_rconfirmation') == 1;
+				if($pMData['PMType'] == 0) {
+					$show = array();
+					$show['EnableSmilies'] = $this->modules['Config']->getValue('allow_pms_smilies') == 1;
+					$show['ShowSignature'] = $this->modules['Config']->getValue('enable_sig') == 1 && $this->modules['Config']->getValue('allow_pms_signature') == 1;
+					$show['EnableBBCode'] = $this->modules['Config']->getValue('allow_pms_bbcode') == 1;
+					$show['EnableHtmlCode'] = $this->modules['Config']->getValue('allow_pms_htmlcode') == 1;
+					$show['SaveOutbox'] = $this->modules['Config']->getValue('enable_outbox') == 1;
+					$show['RequestReadReceipt'] = $this->modules['Config']->getValue('allow_pms_rconfirmation') == 1;
 
-					$Smilies = array(); $SmiliesBox = '';
-					if($Show['EnableSmilies']) {
-						$Smilies = $this->Modules['Cache']->getSmiliesData('write');
-						$SmiliesBox = Functions::getSmiliesBox();
+					$smilies = array(); $smiliesBox = '';
+					if($show['EnableSmilies']) {
+						$smilies = $this->modules['Cache']->getSmiliesData('write');
+						$smiliesBox = Functions::getSmiliesBox();
 					}
-					$PPicsBox = Functions :: getPPicsBox();
+					$pPicsBox = Functions :: getPPicsBox();
 
-					$this->Modules['Template']->assign(array(
-						'Show'=>$Show,
-						'Error'=>$Error,
-						'SmiliesBox'=>$SmiliesBox,
+					$this->modules['Template']->assign(array(
+						'Show'=>$show,
+						'Error'=>$error,
+						'SmiliesBox'=>$smiliesBox,
 						'p'=>$p,
 						'c'=>$c
 					));
 				}
 
-				$PMData['_PMSendDateTime'] = Functions::toDateTime($PMData['PMSendTimestamp']);
-				$PMData['_PMSender'] = ($PMData['PMType'] == 0) ? sprintf($this->Modules['Language']->getString('from_x'),$PMData['PMFromNick']) : sprintf($this->Modules['Language']->getString('to_x'),$PMData['PMFromNick']);
+				$pMData['_PMSendDateTime'] = Functions::toDateTime($pMData['PMSendTimestamp']);
+				$pMData['_PMSender'] = ($pMData['PMType'] == 0) ? sprintf($this->modules['Language']->getString('from_x'),$pMData['PMFromNick']) : sprintf($this->modules['Language']->getString('to_x'),$pMData['PMFromNick']);
 
-				if($PMData['FolderID'] == 0) $PMData['PMFolderName'] = $this->Modules['Language']->getString('Inbox');
-				elseif($PMData['FolderID'] == 1) $PMData['PMFolderName'] = $this->Modules['Language']->getString('Outbox');
+				if($pMData['FolderID'] == 0) $pMData['PMFolderName'] = $this->modules['Language']->getString('Inbox');
+				elseif($pMData['FolderID'] == 1) $pMData['PMFolderName'] = $this->modules['Language']->getString('Outbox');
 
-				$PMData['_PMSubject'] = Functions::HTMLSpecialChars($PMData['PMSubject']);
-				$PMData['_PMMessageText'] = nl2br(Functions::HTMLSpecialChars($PMData['PMMessageText']));
+				$pMData['_PMSubject'] = Functions::HTMLSpecialChars($pMData['PMSubject']);
+				$pMData['_PMMessageText'] = nl2br(Functions::HTMLSpecialChars($pMData['PMMessageText']));
 
-				$this->Modules['Template']->assign(array(
-					'PMID'=>$PMID,
-					'PMData'=>$PMData
+				$this->modules['Template']->assign(array(
+					'PMID'=>$pMID,
+					'PMData'=>$pMData
 				));
 
-				$this->Modules['Navbar']->addElements(
-					array(Functions::HTMLSpecialChars($PMData['PMFolderName']),INDEXFILE.'?Action=PrivateMessages&amp;FolderID='.$PMData['FolderID'].'&amp;'.MYSID),
-					array($this->Modules['Language']->getString('View_private_message'),INDEXFILE.'?Action=PrivateMessages&amp;PMID='.$PMID.'&amp;'.MYSID)
+				$this->modules['Navbar']->addElements(
+					array(Functions::HTMLSpecialChars($pMData['PMFolderName']),INDEXFILE.'?Action=PrivateMessages&amp;FolderID='.$pMData['FolderID'].'&amp;'.MYSID),
+					array($this->modules['Language']->getString('View_private_message'),INDEXFILE.'?Action=PrivateMessages&amp;PMID='.$pMID.'&amp;'.MYSID)
 				);
 
-				$this->Modules['PageParts']->printPage('PrivateMessagesViewPM.tpl');
+				$this->modules['PageParts']->printPage('PrivateMessagesViewPM.tpl');
 				break;
 
 			case 'ManageFolders':
-				$this->Modules['DB']->query("SELECT * FROM ".TBLPFX."pms_folders WHERE UserID='".USERID."' ORDER BY FolderName ASC");
-				$FoldersData = $this->Modules['DB']->Raw2Array();
+				$this->modules['DB']->query("SELECT * FROM ".TBLPFX."pms_folders WHERE UserID='".USERID."' ORDER BY FolderName ASC");
+				$foldersData = $this->modules['DB']->raw2Array();
 
-				$this->Modules['Template']->assign(array(
-					'FoldersData'=>$FoldersData
+				$this->modules['Template']->assign(array(
+					'FoldersData'=>$foldersData
 				));
 
-				$this->Modules['PageParts']->printPage('PrivateMessagesManageFolders.tpl');
+				$this->modules['PageParts']->printPage('PrivateMessagesManageFolders.tpl');
 				break;
 
 			case 'AddFolder':
 				$p = Functions::getSGValues($_POST['p'],array('FolderName'),'');
 
-				$Error = '';
+				$error = '';
 
 				if(isset($_GET['Doit'])) {
-					if($p['FolderName'] == '') $Error = $this->Modules['Language']->getString('error_invalid_folder_name');
+					if($p['FolderName'] == '') $error = $this->modules['Language']->getString('error_invalid_folder_name');
 					else {
-						$this->Modules['DB']->query("SELECT MAX(FolderID) AS MaxFolderID FROM ".TBLPFX."pms_folders WHERE UserID='".USERID."'");
-						list($MaxFolderID) = $this->Modules['DB']->fetchArray();
+						$this->modules['DB']->query("SELECT MAX(FolderID) AS MaxFolderID FROM ".TBLPFX."pms_folders WHERE UserID='".USERID."'");
+						list($maxFolderID) = $this->modules['DB']->fetchArray();
 
-						if($MaxFolderID < 1) $MaxFolderID = 1;
+						if($maxFolderID < 1) $maxFolderID = 1;
 
-						$this->Modules['DB']->query("
+						$this->modules['DB']->query("
 							INSERT INTO
 								".TBLPFX."pms_folders
 							SET
-								FolderID='".($MaxFolderID+1)."',
+								FolderID='".($maxFolderID+1)."',
 								UserID='".USERID."',
 								FolderName='".$p['FolderName']."'
 						");
@@ -431,101 +431,101 @@ class PrivateMessages extends ModuleTemplate {
 					}
 				}
 
-				$this->Modules['Template']->assign(array(
+				$this->modules['Template']->assign(array(
 					'p'=>$p,
-					'Error'=>$Error
+					'Error'=>$error
 				));
 
-				$this->Modules['PageParts']->printPage('PrivateMessagesAddFolder.tpl');
+				$this->modules['PageParts']->printPage('PrivateMessagesAddFolder.tpl');
 				break;
 
 			case 'EditFolder':
-				$FolderID = isset($_GET['FolderID']) ? intval($_GET['FolderID']) : 0;
+				$folderID = isset($_GET['FolderID']) ? intval($_GET['FolderID']) : 0;
 
-				$this->Modules['DB']->query("SELECT * FROM ".TBLPFX."pms_folders WHERE UserID='".USERID."' AND FolderID='".$FolderID."'");
-				($this->Modules['DB']->getAffectedRows() != 1) ? die('Kann Daten nich laden: PM-Ordner') : $FolderData = $this->Modules['DB']->fetchArray();
+				$this->modules['DB']->query("SELECT * FROM ".TBLPFX."pms_folders WHERE UserID='".USERID."' AND FolderID='".$folderID."'");
+				($this->modules['DB']->getAffectedRows() != 1) ? die('Kann Daten nich laden: PM-Ordner') : $folderData = $this->modules['DB']->fetchArray();
 
-				$p = Functions::getSGValues($_POST['p'],array('FolderName'),'',$FolderData);
+				$p = Functions::getSGValues($_POST['p'],array('FolderName'),'',$folderData);
 
-				$Error = '';
+				$error = '';
 
 				if(isset($_GET['Doit'])) {
-					if($p['FolderName'] == '') $Error = $this->Modules['Language']->getString('error_invalid_folder_name');
+					if($p['FolderName'] == '') $error = $this->modules['Language']->getString('error_invalid_folder_name');
 					else {
-						$this->Modules['DB']->query("SELECT MAX(FolderID) AS MaxFolderID FROM ".TBLPFX."pms_folders WHERE UserID='".USERID."'");
-						list($MaxFolderID) = $this->Modules['DB']->fetchArray();
+						$this->modules['DB']->query("SELECT MAX(FolderID) AS MaxFolderID FROM ".TBLPFX."pms_folders WHERE UserID='".USERID."'");
+						list($maxFolderID) = $this->modules['DB']->fetchArray();
 
-						if($MaxFolderID < 1) $MaxFolderID = 1;
+						if($maxFolderID < 1) $maxFolderID = 1;
 
-						$this->Modules['DB']->query("
+						$this->modules['DB']->query("
 							UPDATE
 								".TBLPFX."pms_folders
 							SET
 								FolderName='".$p['FolderName']."'
 							WHERE
 								UserID='".USERID."'
-								AND FolderID='".$FolderID."'
+								AND FolderID='".$folderID."'
 						");
 
 						Functions::myHeader(INDEXFILE."?Action=PrivateMessages&Mode=ManageFolders&".MYSID);
 					}
 				}
 
-				$this->Modules['Template']->assign(array(
-					'FolderID'=>$FolderID,
+				$this->modules['Template']->assign(array(
+					'FolderID'=>$folderID,
 					'p'=>$p,
-					'Error'=>$Error
+					'Error'=>$error
 				));
 
-				$this->Modules['PageParts']->printPage('PrivateMessagesEditFolder.tpl');
+				$this->modules['PageParts']->printPage('PrivateMessagesEditFolder.tpl');
 				break;
 
 			case 'DeleteFolder':
-				$FolderID = isset($_GET['FolderID']) ? intval($_GET['FolderID']) : 0;
-				$MoveFolderID = isset($_POST['MoveFolderID']) ? intval($_POST['MoveFolderID']) : -1;
+				$folderID = isset($_GET['FolderID']) ? intval($_GET['FolderID']) : 0;
+				$moveFolderID = isset($_POST['MoveFolderID']) ? intval($_POST['MoveFolderID']) : -1;
 
-				$this->Modules['DB']->query("SELECT * FROM ".TBLPFX."pms_folders WHERE UserID='".USERID."' AND FolderID='".$FolderID."'");
-				($this->Modules['DB']->getAffectedRows() != 1) ? die('Kann Daten nich laden: PM-Ordner') : $FolderData = $this->Modules['DB']->fetchArray();
+				$this->modules['DB']->query("SELECT * FROM ".TBLPFX."pms_folders WHERE UserID='".USERID."' AND FolderID='".$folderID."'");
+				($this->modules['DB']->getAffectedRows() != 1) ? die('Kann Daten nich laden: PM-Ordner') : $folderData = $this->modules['DB']->fetchArray();
 
-				$this->Modules['DB']->query("SELECT COUNT(*) AS FolderPMsCounter FROM ".TBLPFX."pms WHERE PMToID='".USERID."' AND FolderID='$FolderID'");
-				list($FolderPMsCounter) = $this->Modules['DB']->fetchArray();
+				$this->modules['DB']->query("SELECT COUNT(*) AS FolderPMsCounter FROM ".TBLPFX."pms WHERE PMToID='".USERID."' AND FolderID='$folderID'");
+				list($folderPMsCounter) = $this->modules['DB']->fetchArray();
 
-				$FoldersData = array($InboxFolderData,$OutboxFolderData);
-				$this->Modules['DB']->query("SELECT * FROM ".TBLPFX."pms_folders WHERE UserID='".USERID."' AND FolderID<>'".$FolderID."' ORDER BY FolderName ASC");
-				$FoldersData = array_merge($FoldersData,$this->Modules['DB']->Raw2Array());
+				$foldersData = array($inboxFolderData,$outboxFolderData);
+				$this->modules['DB']->query("SELECT * FROM ".TBLPFX."pms_folders WHERE UserID='".USERID."' AND FolderID<>'".$folderID."' ORDER BY FolderName ASC");
+				$foldersData = array_merge($foldersData,$this->modules['DB']->raw2Array());
 
-				$Error = '';
+				$error = '';
 
-				if(isset($_GET['Doit']) || $FolderPMsCounter == 0) {
-					$ValidFolder = FALSE;
-					foreach($FoldersData AS $curFolder) {
-						if($curFolder['FolderID'] == $MoveFolderID) {
-							$ValidFolder = TRUE;
+				if(isset($_GET['Doit']) || $folderPMsCounter == 0) {
+					$validFolder = FALSE;
+					foreach($foldersData AS $curFolder) {
+						if($curFolder['FolderID'] == $moveFolderID) {
+							$validFolder = TRUE;
 							break;
 						}
 					}
 
-					if($MoveFolderID != -1 && !$ValidFolder) $Error = $this->Modules['Language']->getString('Invalid_selection');
+					if($moveFolderID != -1 && !$validFolder) $error = $this->modules['Language']->getString('Invalid_selection');
 					else {
-						if($MoveFolderID == -1) $this->Modules['DB']->query("DELETE FROM ".TBLPFX."pms WHERE PMToID='".USERID."' AND FolderID='".$FolderID."'");
-						else $this->Modules['DB']->query("UPDATE ".TBLPFX."pms SET FolderID='".$MoveFolderID."' WHERE PMToID='".USERID."' AND FolderID='".$FolderID."'");
+						if($moveFolderID == -1) $this->modules['DB']->query("DELETE FROM ".TBLPFX."pms WHERE PMToID='".USERID."' AND FolderID='".$folderID."'");
+						else $this->modules['DB']->query("UPDATE ".TBLPFX."pms SET FolderID='".$moveFolderID."' WHERE PMToID='".USERID."' AND FolderID='".$folderID."'");
 
-						$this->Modules['DB']->query("DELETE FROM ".TBLPFX."pms_folders WHERE UserID='".USERID."' AND FolderID='".$FolderID."'");
+						$this->modules['DB']->query("DELETE FROM ".TBLPFX."pms_folders WHERE UserID='".USERID."' AND FolderID='".$folderID."'");
 
 						// TODO: Richtige Meldung ausgeben
 						Functions::myHeader(INDEXFILE."?Action=PrivateMessages&Mode=ManageFolders&".MYSID);
 					}
 				}
 
-				while(list($curKey) = each($FoldersData))
-					$FoldersData[$curKey]['_MoveText'] = sprintf($this->Modules['Language']->getString('Move_messages_to'),$FoldersData[$curKey]['FolderName']);
+				while(list($curKey) = each($foldersData))
+					$foldersData[$curKey]['_MoveText'] = sprintf($this->modules['Language']->getString('Move_messages_to'),$foldersData[$curKey]['FolderName']);
 
-				$this->Modules['Template']->assign(array(
-					'FoldersData'=>$FoldersData,
-					'FolderID'=>$FolderID
+				$this->modules['Template']->assign(array(
+					'FoldersData'=>$foldersData,
+					'FolderID'=>$folderID
 				));
 
-				$this->Modules['PageParts']->printPage('PrivateMessagesDeleteFolder.tpl');
+				$this->modules['PageParts']->printPage('PrivateMessagesDeleteFolder.tpl');
 				break;
 		}
 	}

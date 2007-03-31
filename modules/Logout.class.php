@@ -1,12 +1,12 @@
 <?php
 
 class Logout extends ModuleTemplate {
-	protected $RequiredModules = array(
+	protected $requiredModules = array(
 		'Auth'
 	);
 
 	public function executeMe() {
-		$this->Modules['Auth']->destroySessionData();
+		$this->modules['Auth']->destroySessionData();
 		Functions::myHeader(INDEXFILE);
 	}
 }

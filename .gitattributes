@@ -188,6 +188,7 @@ modules/Ajax.class.php -text
 modules/Auth.class.php -text
 modules/Cache.class.php -text
 modules/Config.class.php -text
+modules/Constants.class.php -text
 modules/DB.class.php -text
 modules/EditProfile.class.php -text
 modules/ForumIndex.class.php -text

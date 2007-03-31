@@ -1,7 +1,7 @@
 <?php
 
 class Ajax extends ModuleTemplate {
-	protected $RequiredModules = array(
+	protected $requiredModules = array(
 		'Auth',
 		'Cache',
 		'Config',
@@ -12,48 +12,48 @@ class Ajax extends ModuleTemplate {
 	public function executeMe() {
 		header('Content-type: text/xml; charset=UTF-8');
 
-		$Values = array();
-		$Status = 'FAIL';
-		$Mode = '';
-		$Error = '';
+		$values = array();
+		$status = 'FAIL';
+		$mode = '';
+		$error = '';
 
 		switch(@$_GET['Mode']) {
 			case 'EditPost':
-				$PostID = isset($_GET['PostID']) ? intval($_GET['PostID']) : 0;
-				$PostText = isset($_GET['PostText']) ? $_GET['PostText'] : '';
-				$Mode = 'EditPost';
+				$postID = isset($_GET['PostID']) ? intval($_GET['PostID']) : 0;
+				$postText = isset($_GET['PostText']) ? $_GET['PostText'] : '';
+				$mode = 'EditPost';
 
-				if($this->Modules['Auth']->isLoggedIn() != 1) $Error = 'Kann Beitrag nicht laden: Nicht eingeloggt';
-				elseif(!$PostData = Functions::getPostData($PostID)) $Error = 'Kann Daten nicht laden: Beitrag';
-				elseif(!$ForumData = Functions::getForumData($PostData['ForumID'])) $Error = 'Kann Daten nicht laden: Forum';
+				if($this->modules['Auth']->isLoggedIn() != 1) $error = 'Kann Beitrag nicht laden: Nicht eingeloggt';
+				elseif(!$postData = Functions::getPostData($postID)) $error = 'Kann Daten nicht laden: Beitrag';
+				elseif(!$forumData = Functions::getForumData($postData['ForumID'])) $error = 'Kann Daten nicht laden: Forum';
 				else {
-					$AuthData = Functions::getAuthData($ForumData,array('AuthIsMod','AuthEditPosts'));
-					if($AuthData['AuthEditPosts'] != 1) $Error = 'Kann Beitrag nicht bearbeiten: Kein Zugriff';
+					$authData = Functions::getAuthData($forumData,array('AuthIsMod','AuthEditPosts'));
+					if($authData['AuthEditPosts'] != 1) $error = 'Kann Beitrag nicht bearbeiten: Kein Zugriff';
 					else {
-						$this->Modules['DB']->query("
+						$this->modules['DB']->query("
 							UPDATE ".TBLPFX."posts
 							SET
-								PostText='$PostText',
+								PostText='$postText',
 								PostEditedCounter=PostEditedCounter+1,
-								PostLastEditorNick='".addslashes($this->Modules['Auth']->getValue('UserNick'))."'
+								PostLastEditorNick='".addslashes($this->modules['Auth']->getValue('UserNick'))."'
 							WHERE
-								PostID='$PostID'
+								PostID='$postID'
 						");
 
-						$PostText = Functions::stripSlashes($PostText);
-						$PostTextHTMLReady = $PostText;
-						if($PostData['PostEnableHtmlCode'] != 1 || $ForumData['ForumEnableHtmlCode'] == FALSE) $PostTextHTMLReady = Functions::HTMLSpecialChars($PostTextHTMLReady);
-						if($PostData['PostEnableSmilies'] == 1 && $ForumData['ForumEnableSmilies'] == TRUE) $PostTextHTMLReady = strtr($PostTextHTMLReady,$this->Modules['Cache']->getSmiliesData('write'));
-						$PostTextHTMLReady = nl2br($PostTextHTMLReady);
-						//if($PostData['PostEnableBBCode'] == 1 && $ForumData['ForumEnableBBCode'] == TRUE) $PostTextHTMLReady = Functions::BBCode($PostTextHTMLReady);
+						$postText = Functions::stripSlashes($postText);
+						$postTextHTMLReady = $postText;
+						if($postData['PostEnableHtmlCode'] != 1 || $forumData['ForumEnableHtmlCode'] == FALSE) $postTextHTMLReady = Functions::HTMLSpecialChars($postTextHTMLReady);
+						if($postData['PostEnableSmilies'] == 1 && $forumData['ForumEnableSmilies'] == TRUE) $postTextHTMLReady = strtr($postTextHTMLReady,$this->modules['Cache']->getSmiliesData('write'));
+						$postTextHTMLReady = nl2br($postTextHTMLReady);
+						//if($postData['PostEnableBBCode'] == 1 && $forumData['ForumEnableBBCode'] == TRUE) $postTextHTMLReady = Functions::BBCode($postTextHTMLReady);
 
-						$Values = array(
-							array('Name'=>'PostID','Value'=>$PostID),
-							array('Name'=>'PostTextRaw','Value'=>Functions::XMLEscapeString($PostText)),
-							array('Name'=>'PostTextHTMLReady','Value'=>Functions::XMLEscapeString($PostTextHTMLReady))
+						$values = array(
+							array('Name'=>'PostID','Value'=>$postID),
+							array('Name'=>'PostTextRaw','Value'=>Functions::XMLEscapeString($postText)),
+							array('Name'=>'PostTextHTMLReady','Value'=>Functions::XMLEscapeString($postTextHTMLReady))
 						);
 
-						$Status = 'SUCC';
+						$status = 'SUCC';
 					}
 				}
 
@@ -63,14 +63,14 @@ class Ajax extends ModuleTemplate {
 				break;
 		}
 
-		$Values[] = array('Name'=>'Error','Value'=>$Error);
+		$values[] = array('Name'=>'Error','Value'=>$error);
 
-		$this->Modules['Template']->assign(array(
-			'Status'=>$Status,
-			'Mode'=>$Mode,
-			'Values'=>$Values
+		$this->modules['Template']->assign(array(
+			'Status'=>$status,
+			'Mode'=>$mode,
+			'Values'=>$values
 		));
-		$this->Modules['Template']->display('AjaxResult.xml');
+		$this->modules['Template']->display('AjaxResult.xml');
 	}
 }
 

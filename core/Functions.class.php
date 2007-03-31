@@ -258,37 +258,37 @@ class Functions {
 		return $Template->fetch('SmiliesBox.tpl');
 	}
 
-	public static function getAuthData(&$ForumData,$AuthNames) {
-		$AuthData = array();
-		$Auth = Factory::singleton('Auth');
+	public static function getAuthData(&$forumData,$authNames) {
+		$authData = array();
+		$auth = Factory::singleton('Auth');
 
-		if($Auth->isLoggedIn() == 0) {
-			foreach($AuthNames AS $curAuth)
-				$AuthData[$curAuth] = isset($ForumData['Guests'.$curAuth]) ? $ForumData['Guests'.$curAuth] : 0;
+		if($auth->isLoggedIn() == 0) {
+			foreach($authNames AS $curAuth)
+				$authData[$curAuth] = isset($forumData[$curAuth.'Guests']) ? $forumData[$curAuth.'Guests'] : 0;
 
-			return $AuthData;
+			return $authData;
 		}
-		elseif($Auth->getValue('UserIsAdmin') == 1 || $Auth->getValue('UserIsSupermod') == 1) {
+		elseif($Auth->getValue('userIsAdmin') == 1 || $Auth->getValue('userIsSupermod') == 1) {
 			foreach($AuthNames AS $curAuth)
-				$AuthData[$curAuth] = 1;
+				$authData[$curAuth] = 1;
 
-			return $AuthData;
+			return $authData;
 		}
 
-		$AuthNamesI = implode(', ',$AuthNames);
+		$authNamesI = implode(', ',$authNames);
 
-		$DB = Factory::singleton('DB');
+		$db = Factory::singleton('DB');
 
-		$DB->query("SELECT $AuthNamesI FROM ".TBLPFX."forums_auth WHERE ForumID='".$ForumData['ForumID']."' AND AuthType='".AUTH_TYPE_USER."' AND AuthID='$UserID'");
-		if($DB->getAffectedRows() == 1) return $DB->fetchArray();
+		$db->query("SELECT $authNamesI FROM ".TBLPFX."forums_auth WHERE forumID='".$forumData['forumID']."' AND authType='".AUTH_TYPE_USER."' AND authID='$userID'");
+		if($db->getAffectedRows() == 1) return $db->fetchArray();
 
-		$DB->query("SELECT GroupID FROM ".TBLPFX."groups_members WHERE MemberID='$UserID'");
-		if($DB->getAffectedRows() > 0) {
-			$GroupIDs = $DB->Raw2FVArray();
+		$db->query("SELECT GroupID FROM ".TBLPFX."groups_members WHERE MemberID='$UserID'");
+		if($db->getAffectedRows() > 0) {
+			$GroupIDs = $db->Raw2FVArray();
 
-			$DB->query("SELECT $AuthNamesI FROM ".TBLPFX."forums_auth WHERE ForumID='".$ForumData['ForumID']."' AND AuthType='".AUTH_TYPE_GROUP."' AND AuthID IN ('".implode("','",$GroupIDs)."')");
-			if($DB->getAffectedRows() > 0) {
-				$GroupsAuthData = $DB->Raw2Array();
+			$db->query("SELECT $AuthNamesI FROM ".TBLPFX."forums_auth WHERE ForumID='".$ForumData['ForumID']."' AND AuthType='".AUTH_TYPE_GROUP."' AND AuthID IN ('".implode("','",$GroupIDs)."')");
+			if($db->getAffectedRows() > 0) {
+				$GroupsAuthData = $db->Raw2Array();
 				foreach($AuthNames AS $curAuth) {
 					$AuthData[$curAuth] = $ForumData['Members'.$curAuth];
 					foreach($GroupsAuthData AS $curGroupAuth) {
@@ -322,17 +322,17 @@ class Functions {
 
 		$DB->query("LOCK TABLES ".TBLPFX."cats WRITE"); // Die Tabelle sperren
 
-		$DB->query("SELECT cat_l,cat_r FROM ".TBLPFX."cats WHERE CatID='$parent_id'"); // Die Daten der uebergeordneten Kategorie laden
+		$DB->query("SELECT catL,catR FROM ".TBLPFX."cats WHERE catID='$parent_id'"); // Die Daten der uebergeordneten Kategorie laden
 		$parent_cat_data = $DB->fetch_array();
 
 		$DB->query("UPDATE ".TBLPFX."cats SET cat_l=cat_l+2 WHERE cat_l> '".$parent_cat_data['cat_r']."'"); // Platz schaffen
 		$DB->query("UPDATE ".TBLPFX."cats SET cat_r=cat_r+2 WHERE cat_r>='".$parent_cat_data['cat_r']."'"); // und nochmal Platz schaffen
 		$DB->query("INSERT INTO ".TBLPFX."cats (cat_l,cat_r) VALUES ('".$parent_cat_data['cat_r']."','".($parent_cat_data['cat_r']+1)."')"); // Daten der neuen Kategorie einfuegen
-		$new_CatID = $DB->insert_id;
+		$newCatID = $DB->insert_id;
 
 		$DB->query("UNLOCK TABLES"); // Tabelle entsperren
 
-		return $new_CatID;
+		return $newCatID;
 	}
 
 
@@ -464,21 +464,21 @@ class Functions {
 	//*
 	//* Laedt alle Kategorien inklusive der Tiefe und der Anzahl der Kinder
 	//*
-	static public function getCatsData($CatID = 1) {
+	static public function getCatsData($catID = 1) {
 		$DB = Factory::singleton('DB');
 
-		if($CatID == 1) $DB->query("SELECT t1.*, COUNT(*)-1 AS cat_depth, (t1.CatR - t1.CatL - 1) / 2 AS cat_childs_counter FROM ".TBLPFX."cats AS t1, ".TBLPFX."cats AS t2 WHERE t1.CatID<>'1' AND t1.CatL BETWEEN t2.CatL AND t2.CatR GROUP BY t1.CatL ORDER BY CatL");
+		if($catID == 1) $DB->query("SELECT t1.*, COUNT(*)-1 AS catDepth, (t1.catR - t1.catL - 1) / 2 AS catChildsCounter FROM (".TBLPFX."cats AS t1, ".TBLPFX."cats AS t2) WHERE t1.catID<>'1' AND t1.catL BETWEEN t2.catL AND t2.catR GROUP BY t1.catL ORDER BY catL");
 		else {
-			$DB->query("SELECT CatL,CatR FROM ".TBLPFX."cats WHERE CatID='$CatID'");
+			$DB->query("SELECT catL,catR FROM ".TBLPFX."cats WHERE catID='$catID'");
 			if($DB->getAffectedRows() != 1) return FALSE;
 
 
-			list($CatL,$CatR) = $DB->fetchArray();
-			$DB->query("SELECT t1.*, COUNT(*)-1 AS cat_depth, (t1.CatR - t1.CatL - 1) / 2 AS cat_childs_counter FROM ".TBLPFX."cats AS t1, ".TBLPFX."cats AS t2 WHERE t1.CatID<>'$CatID' AND t1.CatL BETWEEN '$CatL' AND '$CatR' AND t1.CatL BETWEEN t2.CatL AND t2.CatR GROUP BY t1.CatL ORDER BY CatL");
+			list($catL,$catR) = $DB->fetchArray();
+			$DB->query("SELECT t1.*, COUNT(*)-1 AS catDepth, (t1.catR - t1.catL - 1) / 2 AS catChildsCounter FROM (".TBLPFX."cats AS t1, ".TBLPFX."cats AS t2) WHERE t1.catID<>'$catID' AND t1.catL BETWEEN '$catL' AND '$catR' AND t1.catL BETWEEN t2.catL AND t2.catR GROUP BY t1.catL ORDER BY catL");
 			if($DB->getAffectedRows() == 0) return array();
 		}
 
-		return $DB->Raw2Array();
+		return $DB->raw2Array();
 	}
 
 

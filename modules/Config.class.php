@@ -9,7 +9,7 @@ class Config extends ModuleTemplate {
 
 	public function initializeMe() {
 		$this->myConfig = $this->modules['Cache']->getConfig();
-		$this->modules['Cache']->setPPicsData();
+		//$this->modules['Cache']->setPPicsData();
 	}
 
 	public function getValue($configName) {

@@ -1,7 +1,7 @@
 <?php
 
 class MemberList extends ModuleTemplate {
-	protected $RequiredModules = array(
+	protected $requiredModules = array(
 		'Auth',
 		'Cache',
 		'DB',
@@ -12,114 +12,114 @@ class MemberList extends ModuleTemplate {
 	);
 
 	public function executeMe() {
-		$UsersPerPage = isset($_REQUEST['UsersPerPage']) ? intval($_REQUEST['UsersPerPage']) : 20;
-		$OrderBy = isset($_REQUEST['OrderBy']) ? $_REQUEST['OrderBy'] : 'id';
-		$OrderType = isset($_REQUEST['OrderType']) ? $_REQUEST['OrderType'] : 'ASC';
-		$Page = isset($_GET['Page']) ? $_GET['Page'] : '1';
+		$usersPerPage = isset($_REQUEST['UsersPerPage']) ? intval($_REQUEST['UsersPerPage']) : 20;
+		$orderBy = isset($_REQUEST['OrderBy']) ? $_REQUEST['OrderBy'] : 'id';
+		$orderType = isset($_REQUEST['OrderType']) ? $_REQUEST['OrderType'] : 'ASC';
+		$page = isset($_GET['Page']) ? $_GET['Page'] : '1';
 
 
 		//
 		// Stellt sicher, dass keine ungueltigen Werte uebergeben wurden
 		//
-		if(!in_array($OrderBy,array('id','nick','rank','posts')))
-			$OrderBy = 'id';
-		if(!in_array($OrderType,array('ASC','DESC')))
-			$OrderType = 'DESC';
+		if(!in_array($orderBy,array('id','nick','rank','posts')))
+			$orderBy = 'id';
+		if(!in_array($orderType,array('ASC','DESC')))
+			$orderType = 'DESC';
 
 
 		//
 		// Die Seitenanzeige
 		//
-		$this->Modules['DB']->query("SELECT COUNT(*) AS UsersCounter FROM ".TBLPFX."users");
-		list($UsersCounter) = $this->Modules['DB']->fetchArray();
+		$this->modules['DB']->query("SELECT COUNT(*) AS UsersCounter FROM ".TBLPFX."users");
+		list($usersCounter) = $this->modules['DB']->fetchArray();
 
-		$PageListing = Functions::createPageListing($UsersCounter,$UsersPerPage,$Page,'<a href="'.INDEXFILE.'?Action=MemberList&amp;OrderBy='.$OrderBy.'&amp;OrderType='.$OrderType.'&amp;UsersPerPage='.$UsersPerPage.'&amp;Page=%1$s&amp;'.MYSID.'">%2$s</a>');
-		$Start = $Page*$UsersPerPage-$UsersPerPage;
+		$pageListing = Functions::createPageListing($usersCounter,$usersPerPage,$page,'<a href="'.INDEXFILE.'?Action=MemberList&amp;OrderBy='.$orderBy.'&amp;OrderType='.$orderType.'&amp;UsersPerPage='.$usersPerPage.'&amp;Page=%1$s&amp;'.MYSID.'">%2$s</a>');
+		$start = $page*$usersPerPage-$usersPerPage;
 
-		$this->Modules['Navbar']->setRightArea($PageListing);
+		$this->modules['Navbar']->setRightArea($pageListing);
 
 
 		//
 		// Nach welchem Aspekt sortiert werden soll...
 		//
-		$QueryOrderBy = '';
-		if($OrderBy == 'id') $QueryOrderBy = 't1.UserID';
-		elseif($OrderBy == 'nick') $QueryOrderBy = 't1.UserNick';
-		elseif($OrderBy == 'rank') $QueryOrderBy = "t1.UserIsAdmin $OrderType,t1.UserIsSupermod $OrderType,t1.RankID $OrderType,t1.UserPostsCounter";
-		else $QueryOrderBy = 't1.UserPostsCounter';
+		$queryOrderBy = '';
+		if($orderBy == 'id') $queryOrderBy = 't1.UserID';
+		elseif($orderBy == 'nick') $queryOrderBy = 't1.UserNick';
+		elseif($orderBy == 'rank') $queryOrderBy = "t1.UserIsAdmin $orderType,t1.UserIsSupermod $orderType,t1.RankID $orderType,t1.UserPostsCounter";
+		else $queryOrderBy = 't1.UserPostsCounter';
 
 
 		//
 		// Rangdaten laden
 		//
-		$RanksData = $this->Modules['Cache']->getRanksData();
+		$ranksData = $this->modules['Cache']->getRanksData();
 
 
 		//
 		// User-IDs aller Moderatoren laden
 		//
-		$ModIDs = array();
-		$this->Modules['DB']->query("SELECT AuthID FROM ".TBLPFX."forums_auth WHERE AuthType='".AUTH_TYPE_USER."' AND AuthIsMod='1' GROUP BY AuthID");
-		while(list($curUserID) = $this->Modules['DB']->fetchArray())
-			$ModIDs[] = $curUserID;
+		$modIDs = array();
+		$this->modules['DB']->query("SELECT AuthID FROM ".TBLPFX."forums_auth WHERE AuthType='".AUTH_TYPE_USER."' AND AuthIsMod='1' GROUP BY AuthID");
+		while(list($curUserID) = $this->modules['DB']->fetchArray())
+			$modIDs[] = $curUserID;
 
-		$this->Modules['DB']->query("SELECT t2.MemberID FROM ".TBLPFX."forums_auth AS t1, ".TBLPFX."groups_members AS t2 WHERE t1.AuthIsMod='1' AND t1.AuthType='".AUTH_TYPE_GROUP."' AND t2.GroupID=t1.AuthID GROUP BY t2.MemberID");
-		while(list($curUserID) = $this->Modules['DB']->fetchArray())
-			$ModIDs[] = $curUserID;
+		$this->modules['DB']->query("SELECT t2.MemberID FROM ".TBLPFX."forums_auth AS t1, ".TBLPFX."groups_members AS t2 WHERE t1.AuthIsMod='1' AND t1.AuthType='".AUTH_TYPE_GROUP."' AND t2.GroupID=t1.AuthID GROUP BY t2.MemberID");
+		while(list($curUserID) = $this->modules['DB']->fetchArray())
+			$modIDs[] = $curUserID;
 
-		$ModIDs = array_unique($ModIDs);
+		$modIDs = array_unique($modIDs);
 
 
 		//
 		// Die Daten der Profilfelder laden, die in der Mitgliederliste zusaetzlich angezeigt werden sollen
 		//
-		$this->Modules['DB']->query("SELECT * FROM ".TBLPFX."profile_fields WHERE FieldShowMemberList='1'");
-		$FieldsData = $this->Modules['DB']->Raw2Array();
+		$this->modules['DB']->query("SELECT * FROM ".TBLPFX."profile_fields WHERE FieldShowMemberList='1'");
+		$fieldsData = $this->modules['DB']->raw2Array();
 
 
 		//
 		// Die Titel fuer die Profilfelder, gleichzeitig noch die IDs der Felder bestimmen
 		//
-		$FieldIDs = array();
-		foreach($FieldsData AS $curField)
-			$FieldIDs[] = $curField['FieldID'];
+		$fieldIDs = array();
+		foreach($fieldsData AS $curField)
+			$fieldIDs[] = $curField['FieldID'];
 
 
 		//
 		// Mitgliederdaten laden
 		//
-		$this->Modules['DB']->query("SELECT t1.UserID,t1.UserNick,t1.UserEmail,t1.UserPostsCounter,t1.UserIsAdmin,t1.UserIsSupermod,t2.RankName AS UserRankName FROM ".TBLPFX."users AS t1 LEFT JOIN ".TBLPFX."ranks AS t2 ON t1.RankID=t2.RankID ORDER BY $QueryOrderBy $OrderType LIMIT $Start,$UsersPerPage");
-		$UsersData = $this->Modules['DB']->Raw2Array();
+		$this->modules['DB']->query("SELECT t1.UserID,t1.UserNick,t1.UserEmail,t1.UserPostsCounter,t1.UserIsAdmin,t1.UserIsSupermod,t2.RankName AS UserRankName FROM ".TBLPFX."users AS t1 LEFT JOIN ".TBLPFX."ranks AS t2 ON t1.RankID=t2.RankID ORDER BY $queryOrderBy $orderType LIMIT $start,$usersPerPage");
+		$usersData = $this->modules['DB']->raw2Array();
 
 
 		//
 		// Mitglieder-IDs bestimmen
 		//
-		$UserIDs = array();
-		foreach($UsersData AS $curUser)
-			$UserIDs[] = $curUser['UserID'];
+		$userIDs = array();
+		foreach($usersData AS $curUser)
+			$userIDs[] = $curUser['UserID'];
 
 
 		//
 		// Die Mitgliederdaten der extra-Profilfelder laden
 		//
-		$this->Modules['DB']->query("SELECT UserID,FieldID,FieldValue FROM ".TBLPFX."profile_fields_data WHERE UserID IN ('".implode("','",$UserIDs)."') AND FieldID IN ('".implode("','",$FieldIDs)."')");
-		$FieldsValues = $this->Modules['DB']->Raw2Array();
+		$this->modules['DB']->query("SELECT UserID,FieldID,FieldValue FROM ".TBLPFX."profile_fields_data WHERE UserID IN ('".implode("','",$userIDs)."') AND FieldID IN ('".implode("','",$fieldIDs)."')");
+		$fieldsValues = $this->modules['DB']->raw2Array();
 
 
 		//
 		// Daten ausgeben
 		//
-		for($i = 0; $i < count($UsersData); $i++) {
-			$curUser = &$UsersData[$i];
+		for($i = 0; $i < count($usersData); $i++) {
+			$curUser = &$usersData[$i];
 
 			$curUserRank = '';
-			if($curUser['UserIsAdmin'] == 1) $curUserRank = $this->Modules['Language']->getString('Administrator');
-			elseif($curUser['UserIsSupermod'] == 1) $curUserRank = $this->Modules['Language']->getString('Supermoderator');
-			elseif(in_array($curUser['UserID'],$ModIDs)) $curUserRank = $this->Modules['Language']->getString('Moderator');
+			if($curUser['UserIsAdmin'] == 1) $curUserRank = $this->modules['Language']->getString('Administrator');
+			elseif($curUser['UserIsSupermod'] == 1) $curUserRank = $this->modules['Language']->getString('Supermoderator');
+			elseif(in_array($curUser['UserID'],$modIDs)) $curUserRank = $this->modules['Language']->getString('Moderator');
 			elseif($curUser['UserRankName'] != '') $curUserRank = $curUser['UserRankName'];
 			else {
-				foreach($RanksData[0] AS $curRank) {
+				foreach($ranksData[0] AS $curRank) {
 					if($curRank['RankPosts'] > $curUser['UserPostsCounter']) break;
 
 					$curUserRank = $curRank['RankName']; // ...den Namen das Rangs verwenden...
@@ -131,13 +131,13 @@ class MemberList extends ModuleTemplate {
 
 			// Die extra-Profilefelder
 			$curUserFieldsValues = array();
-			foreach($FieldsData AS $curField) {
+			foreach($fieldsData AS $curField) {
 				$curFieldValue = '';
 
-				while(list($curKey,$curValue) = each($FieldsValues)) {
+				while(list($curKey,$curValue) = each($fieldsValues)) {
 					if($curValue['UserID'] != $curUser['UserID'] || $curValue['FieldID'] != $curField['FieldID']) continue;
 					$curFieldValue = $curValue['FieldValue'];
-					unset($FieldsValues[$curKey]);
+					unset($fieldsValues[$curKey]);
 					break;
 				}
 
@@ -149,18 +149,18 @@ class MemberList extends ModuleTemplate {
 		}
 
 
-		$this->Modules['Navbar']->addElement($this->Modules['Language']->getString('Memberlist'),INDEXFILE.'?Action=MemberList&'.MYSID);
+		$this->modules['Navbar']->addElement($this->modules['Language']->getString('Memberlist'),INDEXFILE.'?Action=MemberList&'.MYSID);
 
 		// Seite ausgeben
-		$this->Modules['Template']->assign(array(
-			'FieldsData'=>$FieldsData,
-			'UsersData'=>$UsersData,
-			'Page'=>$Page,
-			'OrderBy'=>$OrderBy,
-			'OrderType'=>$OrderType
+		$this->modules['Template']->assign(array(
+			'FieldsData'=>$fieldsData,
+			'UsersData'=>$usersData,
+			'Page'=>$page,
+			'OrderBy'=>$orderBy,
+			'OrderType'=>$orderType
 		));
 
-		$this->Modules['PageParts']->printPage('MemberList.tpl');
+		$this->modules['PageParts']->printPage('MemberList.tpl');
 	}
 }
 

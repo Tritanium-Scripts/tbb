@@ -1,15 +1,15 @@
 <?php
 
 class DB extends ModuleTemplate {
-	protected $QueriesCounter = 0;
-	protected $DBObject = NULL;
-	protected $CurResult = NULL;
-	protected $QueryTime = 0;
+	protected $queriesCounter = 0;
+	protected $dBObject = NULL;
+	protected $curResult = NULL;
+	protected $queryTime = 0;
 
 	public function initializeMe() {
-		$this->DBObject = new mysqli;
+		$this->dBObject = new mysqli;
 
-		@$this->DBObject->connect($this->getC('dbServer'),$this->getC('dbUser'),$this->getC('dbPassword'),$this->getC('dbName'));
+		@$this->dBObject->connect($this->getC('dbServer'),$this->getC('dbUser'),$this->getC('dbPassword'),$this->getC('dbName'));
 		if(mysqli_connect_error() != '') die('Database error: <b>'.mysqli_connect_error().'</b>');
 
 		define('TBLPFX',$this->getTablePrefix());
@@ -38,59 +38,59 @@ class DB extends ModuleTemplate {
 		$this->query("update tbb2_forums set ForumDescription = REPLACE(ForumDescription,'ÃŸ','ß')");/**/
 	}
 
-	public function query($Query) {
-		$StarTime = Functions::getMicroTime();
-		if(($this->CurResult = $this->DBObject->query($Query)) == FALSE) die('Database error: <b>'.$this->DBObject->error.'</b><br/>Query: <b>'.$Query.'</b>');
-		$this->QueryTime += Functions::getMicroTime()-$StarTime;
-		$this->QueriesCounter++;
+	public function query($query) {
+		$starTime = Functions::getMicroTime();
+		if(($this->curResult = $this->dBObject->query($query)) == FALSE) die('Database error: <b>'.$this->dBObject->error.'</b><br/>Query: <b>'.$query.'</b>');
+		$this->queryTime += Functions::getMicroTime()-$starTime;
+		$this->queriesCounter++;
 	}
 
 	public function getQueryTime() {
-		return $this->QueryTime;
+		return $this->queryTime;
 	}
 
 	public function getInsertID() {
-		return $this->DBObject->insert_id;
+		return $this->dBObject->insert_id;
 	}
 
 	public function Raw2Array() {
-		$Temp = array();
-		while($CurRow = $this->CurResult->fetch_array())
-			$Temp[] = $CurRow;
+		$temp = array();
+		while($curRow = $this->curResult->fetch_array())
+			$temp[] = $curRow;
 
-		return $Temp;
+		return $temp;
 	}
 
 	public function Raw2FVArray() {
-		$Temp = array();
+		$temp = array();
 
 		while(list($curValue) = $this->fetchArray())
-			$Temp[] = $curValue;
+			$temp[] = $curValue;
 
-		return $Temp;
+		return $temp;
 	}
 
 	public function fetchArray() {
-		return $this->CurResult->fetch_array();
+		return $this->curResult->fetch_array();
 	}
 
 	public function getAffectedRows() {
-		return $this->DBObject->affected_rows;
+		return $this->dBObject->affected_rows;
 	}
 
 	public function getTablePrefix() {
 		return $this->getC('tablePrefix');
 	}
 
-	public function fromUnixTimestamp($Timestamp) {
-		return date('Y-m-d H:i:s',$Timestamp);
+	public function fromUnixTimestamp($timestamp) {
+		return date('Y-m-d H:i:s',$timestamp);
 	}
 
-	public function toUnixTimstamp($Date) {
+	public function toUnixTimstamp($date) {
 	}
 
-	public function escapeString($String) {
-		return mysql_escape_string($String);
+	public function escapeString($string) {
+		return mysql_escape_string($string);
 	}
 }
 

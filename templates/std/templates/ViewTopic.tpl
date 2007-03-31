@@ -1,6 +1,6 @@
 <script>
-	IndexFile = "{$IndexFile}";
-	MySID = "{$MySID}";
+	IndexFile = "{$indexFile}";
+	MySID = "{$mySID}";
 {literal}
 	function toggleFastEdit(PostID) {
 		if(document.getElementById("Post"+PostID+"Text").style.display == "none") {
@@ -14,7 +14,7 @@
 
 	function ajaxUpdatePost(PostID) {
 		var AjaxConnection = ajaxGetInstance("ajaxUpdatePostHandle");
-		AjaxConnection.open("GET", IndexFile+"?Action=Ajax&Mode=EditPost&PostID="+PostID+"&PostText="+encodeURIComponent(document.getElementsByName('PostData'+PostID)[0].value)+"&"+MySID, true);
+		AjaxConnection.open("GET", IndexFile+"?action=Ajax&mode=EditPost&PostID="+PostID+"&PostText="+encodeURIComponent(document.getElementsByName('PostData'+PostID)[0].value)+"&"+MySID, true);
 		AjaxConnection.send(null);
 	}
 
@@ -36,34 +36,35 @@
 <tr><td class="CellNavbarBig">
  <table border="0" cellpadding="0" cellspacing="0" width="100%">
  <tr>
-  <td><span class="FontNavbar">{$PageListing}</span></td>
-  <td align="right"><span class="FontNavbar"><a href="{$IndexFile}?Action=Posting&amp;Mode=Reply&amp;TopicID={$TopicID}&amp;{$MySID}"><img src="{$Modules.Template->getTD()}/images/buttons/{$Modules.Language->getLC()}/AddReply.png" class="ImageButton" border="0" alt="{$Modules.Language->getString('Post_new_reply')}"/></a><a href="{$IndexFile}?Action=Posting&amp;Mode=Topic&amp;ForumID={$ForumID}&amp;{$MySID}"><img src="{$Modules.Template->getTD()}/images/buttons/{$Modules.Language->getLC()}/AddTopic.png" class="ImageButton" border="0" alt="{$Modules.Language->getString('Post_new_topic')}"/></a></span></td>
+  <td><span class="FontNavbar">{$pageListing}</span></td>
+  <td align="right"><span class="FontNavbar"><a href="{$indexFile}?action=Posting&amp;mode=Reply&amp;TopicID={$topicID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLC()}/AddReply.png" class="ImageButton" border="0" alt="{$modules.Language->getString('Post_new_reply')}"/></a><a href="{$indexFile}?action=Posting&amp;mode=Topic&amp;ForumID={$forumID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLC()}/AddTopic.png" class="ImageButton" border="0" alt="{$modules.Language->getString('Post_new_topic')}"/></a></span></td>
  </tr>
  </table>
 </td></tr>
 </table>
 <br/>
-{$poll_box}
+{if $pollData}
+{/if}
 <table class="TableStd" width="100%" border="0" cellspacing="0" cellpadding="3">
 <tr>
- <td class="CellTitle" align="left" width="15%"><span class="FontTitleSmall">{$Modules.Language->getString('Author')}</span></td>
- <td class="CellTitle" align="left" width="85%"><span class="FontTitleSmall">{$Modules.Language->getString('Topic')}: {$TopicData.TopicTitle}</span></td>
+ <td class="CellTitle" align="left" width="15%"><span class="FontTitleSmall">{$modules.Language->getString('Author')}</span></td>
+ <td class="CellTitle" align="left" width="85%"><span class="FontTitleSmall">{$modules.Language->getString('Topic')}: {$topicData.topicTitle}</span></td>
 </tr>
-{foreach from=$PostsData item=curPost}
+{foreach from=$postsData item=curPost}
  <tr>
-  <td class="CellAlt" width="15%" valign="top" rowspan="3"><span class="FontNorm"><b>{$curPost._PostPosterNick}</b></span><br/><span class="FontSmall">{$curPost._PostPosterRankText}<br/>{$curPost._PostPosterRankPic}<br/>{$curPost._PostPosterIDText}<br/><br/>{$curPost._PostPosterAvatar}<br/><br/></span></td>
+  <td class="CellAlt" width="15%" valign="top" rowspan="3"><span class="FontNorm"><b>{$curPost._postPosterNick}</b></span><br/><span class="FontSmall">{$curPost._postPosterRankText}<br/>{$curPost._postPosterRankPic}<br/>{$curPost._postPosterIDText}<br/><br/>{$curPost._postPosterAvatar}<br/><br/></span></td>
   <td class="CellAlt" width="85%" valign="middle">
    <table border="0" cellspacing="0" cellpadding="0" width="100%">
    <tr>
-    <td>{if $curPost.PostSmileyFileName != ''}<span style="margin-right:4px;"><img src="{$curPost.PostSmileyFileName}" border="0" alt=""/></span>{/if}<span class="FontSmall"><a id="Post{$curPost.PostID}" name="Post{$curPost.PostID}"></a><b>{$curPost.PostTitle}</b></span></td>
+    <td>{if $curPost.postSmileyFileName != ''}<span style="margin-right:4px;"><img src="{$curPost.postSmileyFileName}" border="0" alt=""/></span>{/if}<span class="FontSmall"><a id="Post{$curPost.postID}" name="Post{$curPost.postID}"></a><b>{$curPost.postTitle}</b></span></td>
     <td align="right">
      <table border="0" cellpadding="0" cellspacing="0">
       <tr>
-       {if $curPost.Show.DeleteButton}<td><a href="{$IndexFile}?Action=DeletePost&amp;PostID={$curPost.PostID}&amp;{$MySID}"><img src="templates/std/templates/images/buttons/de/delete.png" class="ImageButton" alt="" border="0"/></a></td>{/if}
-       {if $curPost.Show.EditButton}<td><a href="javascript:toggleFastEdit('{$curPost.PostID}');"><img src="templates/std/templates/images/buttons/de/test.png" alt="" class="ImageButton" border="0"/></a></td>{/if}
-       {if $curPost.Show.EditButton}<td><a href="{$IndexFile}?Action=Posting&amp;Mode=Edit&amp;PostID={$curPost.PostID}&amp;{$MySID}"><img src="templates/std/templates/images/buttons/de/test.png" class="ImageButton" alt="" border="0"/></a></td>{/if}
-       {if $curPost.PostPosterHideEmail != 1 && $curPost.PostPosterEmail != ''}<td><a href="mailto:{$curPost.PostPosterEmail}"><img src="templates/std/templates/images/buttons/de/email.png" class="ImageButton" alt="{$curPost.PostPosterEmail}" border="0"/></a>{else}<td>{if $curPost.PostPosterReceiveEmails == 1}<a href="{$IndexFile}?Action=ViewProfile&amp;ProfileID={$curPost.UserID}&amp;mode=SendMail&amp;{$MySID}"><img src="{$Modules.Template->getTemplateDir()}/images/button_user_email.gif" alt="{$Modules.Language->getString('Send_email')}" border="0"/></a></td>{/if}{/if}
-       <td><a href="{$IndexFile}?Action=Posting&amp;Mode=Reply&amp;TopicID={$TopicID}&amp;Quote={$curPost.PostID}&amp;{$MySID}"><img src="templates/std/templates/images/buttons/de/quote.png" class="ImageButton" alt="" border="0"/></a></td>
+       {if $curPost.show.deleteButton}<td><a href="{$indexFile}?action=DeletePost&amp;PostID={$curPost.postID}&amp;{$mySID}"><img src="templates/std/templates/images/buttons/de/delete.png" class="ImageButton" alt="" border="0"/></a></td>{/if}
+       {if $curPost.show.editButton}<td><a href="javascript:toggleFastEdit('{$curPost.postID}');"><img src="templates/std/templates/images/buttons/de/test.png" alt="" class="ImageButton" border="0"/></a></td>{/if}
+       {if $curPost.show.editButton}<td><a href="{$indexFile}?action=Posting&amp;mode=Edit&amp;PostID={$curPost.postID}&amp;{$mySID}"><img src="templates/std/templates/images/buttons/de/test.png" class="ImageButton" alt="" border="0"/></a></td>{/if}
+       {if $curPost.postPosterHideEmail != 1 && $curPost.postPosterEmail != ''}<td><a href="mailto:{$curPost.postPosterEmail}"><img src="templates/std/templates/images/buttons/de/email.png" class="ImageButton" alt="{$curPost.postPosterEmail}" border="0"/></a>{else}<td>{if $curPost.postPosterReceiveEmails == 1}<a href="{$indexFile}?action=ViewProfile&amp;profileID={$curPost.UserID}&amp;mode=SendMail&amp;{$mySID}"><img src="{$modules.Template->getTemplateDir()}/images/button_user_email.gif" alt="{$modules.Language->getString('Send_email')}" border="0"/></a></td>{/if}{/if}
+       <td><a href="{$indexFile}?action=Posting&amp;mode=Reply&amp;TopicID={$topicID}&amp;Quote={$curPost.postID}&amp;{$mySID}"><img src="templates/std/templates/images/buttons/de/quote.png" class="ImageButton" alt="" border="0"/></a></td>
       </tr>
      </table>
     </td>
@@ -73,19 +74,19 @@
  </tr>
  <tr>
   <td class="CellStd">
-   <div id="Post{$curPost.PostID}Text" class="FontNorm"{if $curPost.Show.EditButton} ondblclick="toggleFastEdit('{$curPost.PostID}');"{/if}>{$curPost._PostText}</div>
-   <div id="Post{$curPost.PostID}EditBox" style="display:none;">
+   <div id="Post{$curPost.postID}Text" class="FontNorm"{if $curPost.show.editButton} ondblclick="toggleFastEdit('{$curPost.postID}');"{/if}>{$curPost._postText}</div>
+   <div id="Post{$curPost.postID}EditBox" style="display:none;">
     <table class="TableStd" cellpadding="0"width="100%">
     <tr><td class="CellCat"><span class="FontCat">Fast Edit</span></td></tr>
-    <tr><td class="CellNone" align="center"><textarea class="FormTextArea" rows="14" style="width:99%;" name="PostData{$curPost.PostID}">{$curPost._PostEditBoxText}</textarea></td></tr>
-    <tr><td class="CellButtons" align="center"><input class="FormBButton" type="button" value="{$Modules.Language->getString('Edit_post')}" onclick="ajaxUpdatePost({$curPost.PostID});"/></td></tr>
+    <tr><td class="CellNone" align="center"><textarea class="FormTextArea" rows="14" style="width:99%;" name="PostData{$curPost.postID}">{$curPost._postEditBoxText}</textarea></td></tr>
+    <tr><td class="CellButtons" align="center"><input class="FormBButton" type="button" value="{$modules.Language->getString('Edit_post')}" onclick="ajaxUpdatePost({$curPost.postID});"/></td></tr>
     </table>
    </div>
-   {if $curPost._PostSignature != ''}<br/><span class="signature">-----------<br/>{$curPost._PostSignature}</span>{/if}
-   {if $curPost._PostEditedText != ''}<br/><br/><span class="FontSmall">{$curPost._PostEditedText}</span>{/if}
+   {if $curPost._postSignature != ''}<br/><span class="signature">-----------<br/>{$curPost._postSignature}</span>{/if}
+   {if $curPost._postEditedText != ''}<br/><br/><span class="FontSmall">{$curPost._postEditedText}</span>{/if}
   </td>
  </tr>
- <tr><td class="CellStd" width="85%"><span class="FontSmall">{$Modules.Language->getString('Posted')}: {$curPost._PostDateTime}</span></td></tr>
+ <tr><td class="CellStd" width="85%"><span class="FontSmall">{$modules.Language->getString('Posted')}: {$curPost._postDateTime}</span></td></tr>
  {/foreach}
 </table>
 <br/>
@@ -93,15 +94,15 @@
 <tr><td class="CellNavbarBig">
  <table border="0" cellpadding="0" cellspacing="0" width="100%">
  <tr>
-  <td><span class="FontNavbar">{$PageListing}</span></td>
-  <td align="right"><span class="FontNavbar"><a href="{$IndexFile}?Action=Posting&amp;Mode=Reply&amp;TopicID={$TopicID}&amp;{$MySID}"><img src="{$Modules.Template->getTD()}/images/buttons/{$Modules.Language->getLC()}/AddReply.png" class="ImageButton" border="0" alt="{$Modules.Language->getString('Post_new_reply')}"/></a><a href="{$IndexFile}?Action=Posting&amp;Mode=Topic&amp;ForumID={$ForumID}&amp;{$MySID}"><img src="{$Modules.Template->getTD()}/images/buttons/{$Modules.Language->getLC()}/AddTopic.png" class="ImageButton" border="0" alt="{$Modules.Language->getString('Post_new_topic')}"/></a></span></td>
+  <td><span class="FontNavbar">{$pageListing}</span></td>
+  <td align="right"><span class="FontNavbar"><a href="{$indexFile}?action=Posting&amp;mode=Reply&amp;TopicID={$topicID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLC()}/AddReply.png" class="ImageButton" border="0" alt="{$modules.Language->getString('Post_new_reply')}"/></a><a href="{$indexFile}?action=Posting&amp;mode=Topic&amp;ForumID={$forumID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLC()}/AddTopic.png" class="ImageButton" border="0" alt="{$modules.Language->getString('Post_new_topic')}"/></a></span></td>
  </tr>
  </table>
 </td></tr>
 </table>
-{if $ModTools != ''}
+{if $modTools != ''}
  <br/>
  <table class="TableNavbar" width="100%">
- <tr><td class="CellNavbar" align="center"><span class="FontNavbar">{$ModTools}</span></td></tr>
+ <tr><td class="CellNavbar" align="center"><span class="FontNavbar">{$modTools}</span></td></tr>
  </table>
 {/if}

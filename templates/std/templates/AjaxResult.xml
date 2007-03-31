@@ -7,10 +7,10 @@
 	<!ELEMENT value (#PCDATA)>
 ]>
 <ajaxresult>
-	<mode>{$Mode}</mode>
-	<status>{$Status}</status>
+	<mode>{$mode}</mode>
+	<status>{$status}</status>
 	<values>
-		{foreach from=$Values item=curValue}
+		{foreach from=$values item=curValue}
 		<value name="{$curValue.Name}">{$curValue.Value}</value>
 		{/foreach}
 	</values>

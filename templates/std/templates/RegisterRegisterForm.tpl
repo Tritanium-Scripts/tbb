@@ -1,33 +1,33 @@
-<form method="post" action="{$IndexFile}?Action=Register&amp;Mode=RegisterForm&amp;Doit=1&amp;{$MySID}">
+<form method="post" action="{$indexFile}?action=Register&amp;mode=RegisterForm&amp;Doit=1&amp;{$mySID}">
 <table class="TableStd" border="0" cellpadding="3" cellspacing="0" width="100%">
-<tr><td class="CellTitle"><span class="FontTitle">{$Modules.Language->getString('Register')}</span></td></tr>
-{if $Error != ''}<tr><td class="CellError"><span class="FontError">{$Error}</span></td></tr>{/if}
-<tr><td class="CellCat"><span class="FontCat">{$Modules.Language->getString('General_information')}</span></td></tr>
+<tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('Register')}</span></td></tr>
+{if $error != ''}<tr><td class="CellError"><span class="FontError">{$error}</span></td></tr>{/if}
+<tr><td class="CellCat"><span class="FontCat">{$modules.Language->getString('General_information')}</span></td></tr>
 <tr><td class="CellStd">
  <fieldset>
-  <legend><span class="FontSmall"><b>{$Modules.Language->getString('User_name')}</b></span></legend>
-  <div class="DivInfoBox"><img src="{$Modules.Template->getTD()}/images/icons/Info.gif" class="ImageIcon"/><span class="FontInfoBox">{$Modules.Language->getString('user_name_info')}</span></div>
-  <span class="FontNorm"><b>{$Modules.Language->getString('User_name')}:</b> <input class="FormText" type="text" name="p[UserName]" value="{$p.UserName}" size="30"/></span>
+  <legend><span class="FontSmall"><b>{$modules.Language->getString('User_name')}</b></span></legend>
+  <div class="DivInfoBox"><img src="{$modules.Template->getTD()}/images/icons/Info.gif" class="ImageIcon"/><span class="FontInfoBox">{$modules.Language->getString('user_name_info')}</span></div>
+  <span class="FontNorm"><b>{$modules.Language->getString('User_name')}:</b> <input class="FormText" type="text" name="p[UserName]" value="{$p.UserName}" size="30"/></span>
  </fieldset>
  <br/>
  <fieldset>
-  <legend><span class="FontSmall">{$Modules.Language->getString('Email_address')}</span></legend>
-  <div class="DivInfoBox"><img src="{$Modules.Template->getTD()}/images/icons/Info.gif" class="ImageIcon"/><span class="FontInfoBox">{$Modules.Language->getString('email_address_info')}</span></div>
-  <span class="FontNorm"><b>{$Modules.Language->getString('Email_address')}:</b> <input class="FormText" type="text" name="p[UserEmail]" value="{$p.UserEmail}" size="40"/>&nbsp;&nbsp;&nbsp;<b>{$Modules.Language->getString('Email_address_confirmation')}:</b> <input class="FormText" type="text" name="p[UserEmailConfirmation]" value="{$p.UserEmailConfirmation}" size="40"/></span>
+  <legend><span class="FontSmall">{$modules.Language->getString('Email_address')}</span></legend>
+  <div class="DivInfoBox"><img src="{$modules.Template->getTD()}/images/icons/Info.gif" class="ImageIcon"/><span class="FontInfoBox">{$modules.Language->getString('email_address_info')}</span></div>
+  <span class="FontNorm"><b>{$modules.Language->getString('Email_address')}:</b> <input class="FormText" type="text" name="p[UserEmail]" value="{$p.UserEmail}" size="40"/>&nbsp;&nbsp;&nbsp;<b>{$modules.Language->getString('Email_address_confirmation')}:</b> <input class="FormText" type="text" name="p[UserEmailConfirmation]" value="{$p.UserEmailConfirmation}" size="40"/></span>
  </fieldset>
- {if $Modules.Config->getValue('verify_email_address') != 1}
+ {if $modules.Config->getValue('verify_email_address') != 1}
  <br/>
   <fieldset>
-   <legend><span class="FontSmall">{$Modules.Language->getString('Password')}</span></legend>
-   <div class="DivInfoBox"><img src="{$Modules.Template->getTD()}/images/icons/Info.gif" class="ImageIcon"/><span class="FontInfoBox">{$Modules.Language->getString('password_info')}</span></div>
-   <span class="FontNorm"><b>{$Modules.Language->getString('Password')}:</b> <input class="FormText" type="password" name="p[UserPassword]" value="" size="40"/>&nbsp;&nbsp;&nbsp;<b>{$Modules.Language->getString('Password_confirmation')}:</b> <input class="FormText" type="password" name="p[UserPasswordConfirmation]" value="" size="40"/></span>
+   <legend><span class="FontSmall">{$modules.Language->getString('Password')}</span></legend>
+   <div class="DivInfoBox"><img src="{$modules.Template->getTD()}/images/icons/Info.gif" class="ImageIcon"/><span class="FontInfoBox">{$modules.Language->getString('password_info')}</span></div>
+   <span class="FontNorm"><b>{$modules.Language->getString('Password')}:</b> <input class="FormText" type="password" name="p[UserPassword]" value="" size="40"/>&nbsp;&nbsp;&nbsp;<b>{$modules.Language->getString('Password_confirmation')}:</b> <input class="FormText" type="password" name="p[UserPasswordConfirmation]" value="" size="40"/></span>
   </fieldset>
  {/if}
 </td></tr>
-{if $FieldsCounter > 0}
-<tr><td class="CellCat"><span class="FontCat">{$Modules.Language->getString('Other_information')}</span></td></tr>
+{if $fieldsCounter > 0}
+<tr><td class="CellCat"><span class="FontCat">{$modules.Language->getString('Other_information')}</span></td></tr>
 <tr><td class="CellStd">
-{foreach from=$GroupsData item=curGroup}
+{foreach from=$groupsData item=curGroup}
  {if count($curGroup.GroupFields) > 0}
  <fieldset>
  <legend><span class="FontSmall"><b>{$curGroup.GroupName}</b></span></legend>
@@ -73,6 +73,6 @@
 {/foreach}
 </td></tr>
 {/if}
-<tr><td class="CellButtons" align="center"><input class="FormBButton" type="submit" value="{$Modules.Language->getString('Register')}"/></td></tr>
+<tr><td class="CellButtons" align="center"><input class="FormBButton" type="submit" value="{$modules.Language->getString('Register')}"/></td></tr>
 </table>
 </form>

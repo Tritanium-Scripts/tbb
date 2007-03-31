@@ -1,7 +1,7 @@
 <?php
 
 class WhoIsOnline extends ModuleTemplate {
-	protected $RequiredModules = array(
+	protected $requiredModules = array(
 		'Auth',
 		'Config',
 		'DB',
@@ -12,19 +12,19 @@ class WhoIsOnline extends ModuleTemplate {
 	);
 
 	public function executeMe() {
-		if($this->Modules['Config']->getValue('enable_wio') != 1) {
+		if($this->modules['Config']->getValue('enable_wio') != 1) {
 			// TODO: Richtige Meldung
-			//add_navbar_items(array($LNG['Function_deactivated'],''));
+			//add_navbar_items(array($lNG['Function_deactivated'],''));
 
 			//include_once('pheader.php');
-			//show_message($LNG['Function_deactivated'],$LNG['message_function_deactivated']);
+			//show_message($lNG['Function_deactivated'],$lNG['message_function_deactivated']);
 			//include_once('ptail.php'); exit;
 			die('Diese Funktion ist nicht verfuegbar');
 		}
 
-		$this->Modules['Language']->addFile('WhoIsOnline');
+		$this->modules['Language']->addFile('WhoIsOnline');
 
-		$this->Modules['DB']->query("
+		$this->modules['DB']->query("
 			SELECT
 				t1.SessionUserID,
 				t1.SessionLastLocation,
@@ -34,24 +34,24 @@ class WhoIsOnline extends ModuleTemplate {
 			LEFT JOIN ".TBLPFX."users AS t2 ON t1.SessionUserID=t2.UserID
 			WHERE
 				t1.SessionIsGhost<>'1'
-				AND t1.SessionLastUpdate>'".$this->Modules['DB']->fromUnixTimestamp(time()-$this->Modules['Config']->getValue('wio_timeout')*60)."'
+				AND t1.SessionLastUpdate>'".$this->modules['DB']->fromUnixTimestamp(time()-$this->modules['Config']->getValue('wio_timeout')*60)."'
 		");
-		$WIOData = $this->Modules['DB']->Raw2Array();
-		$WIODataCounter = count($WIOData);
+		$wIOData = $this->modules['DB']->raw2Array();
+		$wIODataCounter = count($wIOData);
 
-		for($i = 0; $i < $WIODataCounter; $i++) {
-			$curWIO = &$WIOData[$i];
+		for($i = 0; $i < $wIODataCounter; $i++) {
+			$curWIO = &$wIOData[$i];
 
-			if($curWIO['SessionUserID'] == 0) $curWIO['SessionUserNick'] = $this->Modules['Language']->getString('Guest');
-			$curWIO['_SessionLastLocationText'] = $this->Modules['Language']->getString('wio_'.$curWIO['SessionLastLocation']);
+			if($curWIO['SessionUserID'] == 0) $curWIO['SessionUserNick'] = $this->modules['Language']->getString('Guest');
+			$curWIO['_SessionLastLocationText'] = $this->modules['Language']->getString('wio_'.$curWIO['SessionLastLocation']);
 		}
 
-		$this->Modules['Navbar']->addElement($this->Modules['Language']->getString('Who_is_online'),INDEXFILE.'?Action=WhoIsOnline&.'.MYSID);
+		$this->modules['Navbar']->addElement($this->modules['Language']->getString('Who_is_online'),INDEXFILE.'?Action=WhoIsOnline&.'.MYSID);
 
-		$this->Modules['Template']->assign(array(
-			'WIOData'=>$WIOData
+		$this->modules['Template']->assign(array(
+			'WIOData'=>$wIOData
 		));
-		$this->Modules['PageParts']->printPage('WhoIsOnline.tpl');
+		$this->modules['PageParts']->printPage('WhoIsOnline.tpl');
 	}
 }
 

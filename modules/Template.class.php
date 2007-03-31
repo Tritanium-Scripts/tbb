@@ -23,8 +23,10 @@ class Template extends ModuleTemplate {
 	public function initializeMe() {
 		$this->smarty = new Smarty;
 
+		$this->smarty->error_reporting = E_ALL;
+
 		$this->setDirs($this->getC('defaultTemplateDir'));
-		$this->smarty->assign('IndexFile',INDEXFILE);
+		$this->smarty->assign('indexFile',INDEXFILE);
 
 		$modules = &Factory::getInstances();
 		$this->smarty->assign_by_ref('modules',$modules);

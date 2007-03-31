@@ -1,7 +1,7 @@
 <?php
 
 class Posting extends ModuleTemplate {
-	protected $RequiredModules = array(
+	protected $requiredModules = array(
 		'Auth',
 		'DB',
 		'Cache',
@@ -20,79 +20,79 @@ class Posting extends ModuleTemplate {
 		*/
 
 		// Einen falschen Modus ausschliessen
-		$Mode = isset($_GET['Mode']) ? $_GET['Mode'] : '';
-		if(in_array($Mode,array('Topic','Reply','Edit')) == FALSE) $Mode = 'Topic';
+		$mode = isset($_GET['Mode']) ? $_GET['Mode'] : '';
+		if(in_array($mode,array('Topic','Reply','Edit')) == FALSE) $mode = 'Topic';
 
 		// Alle angegebenen IDs bestimmen (normalerweise ist immer nur eine ID wichtig
-		$ForumID = isset($_GET['ForumID']) ? intval($_GET['ForumID']) : 0;
-		$TopicID = isset($_GET['TopicID']) ? intval($_GET['TopicID']) : 0;
-		$PostID = isset($_GET['PostID']) ? intval($_GET['PostID']) : 0;
+		$forumID = isset($_GET['ForumID']) ? intval($_GET['ForumID']) : 0;
+		$topicID = isset($_GET['TopicID']) ? intval($_GET['TopicID']) : 0;
+		$postID = isset($_GET['PostID']) ? intval($_GET['PostID']) : 0;
 
-		switch($Mode) {
+		switch($mode) {
 			case 'Edit':
-				if(!$PostData = Functions::getPostData($PostID)) die('Kann Daten nicht laden: Beitrag');
-				$TopicID = &$PostData['TopicID'];
+				if(!$postData = Functions::getPostData($postID)) die('Kann Daten nicht laden: Beitrag');
+				$topicID = &$postData['TopicID'];
 			case 'Reply':
-				if(!$TopicData = Functions::getTopicData($TopicID)) die('Kann Daten nicht laden: Thema');
-				$ForumID = &$TopicData['ForumID'];
+				if(!$topicData = Functions::getTopicData($topicID)) die('Kann Daten nicht laden: Thema');
+				$forumID = &$topicData['ForumID'];
 			case 'Topic':
-				if(!$ForumData = Functions::getForumData($ForumID)) die('Kann Daten nicht laden: Forum');
+				if(!$forumData = Functions::getForumData($forumID)) die('Kann Daten nicht laden: Forum');
 				break;
 		}
 
-		$this->Modules['Language']->addFile('Posting');
+		$this->modules['Language']->addFile('Posting');
 
-		$AuthData = $this->_authenticateUser($Mode,$ForumData);
+		$authData = $this->_authenticateUser($mode,$forumData);
 
-		$Error = '';
+		$error = '';
 
 		//
 		// Alle uebergebenen Daten laden
 		//
 		$p = array();
 
-		$p['MessageText'] = isset($_POST['p']['MessageText']) ? $_POST['p']['MessageText'] : (($Mode == 'Edit') ? addslashes($PostData['PostText']) : '');
-		$p['MessageTitle'] = isset($_POST['p']['MessageTitle']) ? $_POST['p']['MessageTitle'] : (($Mode == 'Edit') ? addslashes($PostData['PostTitle']) : (($Mode == 'Reply') ? 'Re: '.addslashes($TopicData['TopicTitle']) : ''));
+		$p['MessageText'] = isset($_POST['p']['MessageText']) ? $_POST['p']['MessageText'] : (($mode == 'Edit') ? addslashes($postData['PostText']) : '');
+		$p['MessageTitle'] = isset($_POST['p']['MessageTitle']) ? $_POST['p']['MessageTitle'] : (($mode == 'Edit') ? addslashes($postData['PostTitle']) : (($mode == 'Reply') ? 'Re: '.addslashes($topicData['TopicTitle']) : ''));
 		$p['GuestNick'] = isset($_POST['p']['GuestNick']) ? $_POST['p']['GuestNick'] : '';
 		$p['SmileyID'] = isset($_POST['p']['SmileyID']) ? intval($_POST['p']['SmileyID']) : 0;
 		$p['PollTitle'] = isset($_POST['p']['PollTitle']) ? $_POST['p']['PollTitle'] : '';
 		$p['PollOptions'] = (isset($_POST['p']['PollOptions']) == TRUE && is_array($_POST['p']['PollOptions']) == TRUE) ? $_POST['p']['PollOptions'] : array();
 
-		$SubscriptionStatus = ($Mode == 'Reply' && Functions::getSubscriptionStatus(SUBSCRIPTION_TYPE_TOPIC,USERID,$TopicID) == TRUE) ? 1 : 0;
+		$subscriptionStatus = ($mode == 'Reply' && Functions::getSubscriptionStatus(SUBSCRIPTION_TYPE_TOPIC,USERID,$topicID) == TRUE) ? 1 : 0;
 
-		$c['ShowEditings'] = ($Mode == 'Edit') ? $PostData['PostShowEditings'] : 1;
-		$c['EnableURITransformation'] = ($Mode == 'Edit') ? $PostData['PostEnableURITransformation'] : 1;
-		$c['EnableSmilies'] = ($Mode == 'Edit') ? $PostData['PostEnableSmilies'] : 1;
-		$c['ShowSignature'] = ($Mode == 'Edit') ? $PostData['PostShowSignature'] : 1;
-		$c['EnableBBCode'] = ($Mode == 'Edit') ? $PostData['PostEnableBBCode'] : 1;
-		$c['EnableHtmlCode'] = ($Mode == 'Edit') ? $PostData['PostEnableHtmlCode'] : 0;
+		$c['ShowEditings'] = ($mode == 'Edit') ? $postData['PostShowEditings'] : 1;
+		$c['EnableURITransformation'] = ($mode == 'Edit') ? $postData['PostEnableURITransformation'] : 1;
+		$c['EnableSmilies'] = ($mode == 'Edit') ? $postData['PostEnableSmilies'] : 1;
+		$c['ShowSignature'] = ($mode == 'Edit') ? $postData['PostShowSignature'] : 1;
+		$c['EnableBBCode'] = ($mode == 'Edit') ? $postData['PostEnableBBCode'] : 1;
+		$c['EnableHtmlCode'] = ($mode == 'Edit') ? $postData['PostEnableHtmlCode'] : 0;
 
-		$c['PinTopic'] = ($Mode == 'Reply') ? $TopicData['TopicIsPinned'] : 0;
-		$c['CloseTopic'] = ($Mode == 'Reply') ? $TopicData['TopicStatus'] : 0;
-		$c['SubscribeTopic'] = $SubscriptionStatus;
+		$c['PinTopic'] = ($mode == 'Reply') ? $topicData['TopicIsPinned'] : 0;
+		$c['CloseTopic'] = ($mode == 'Reply') ? $topicData['TopicStatus'] : 0;
+		$c['SubscribeTopic'] = $subscriptionStatus;
 
 		if(isset($_GET['Doit'])) {
-			$c['EnableBBCode'] = (isset($_POST['c']['EnableBBCode']) && $ForumData['ForumEnableBBCode'] == 1) ? 1 : 0;
-			$c['EnableSmilies'] = (isset($_POST['c']['EnableSmilies']) && $ForumData['ForumEnableSmilies'] == 1) ? 1 : 0;
-			$c['EnableHtmlCode'] = (isset($_POST['c']['EnableHtmlCode']) && $ForumData['ForumEnableHtmlCode'] == 1) ? 1 : 0;
-			$c['ShowSignature'] = (isset($_POST['c']['ShowSignature']) && $this->Modules['Config']->getValue('enable_sig') == 1 && $this->Modules['Auth']->isLoggedIn() == 1) ? 1 : 0;
+			$c['EnableBBCode'] = (isset($_POST['c']['EnableBBCode']) && $forumData['ForumEnableBBCode'] == 1) ? 1 : 0;
+			$c['EnableSmilies'] = (isset($_POST['c']['EnableSmilies']) && $forumData['ForumEnableSmilies'] == 1) ? 1 : 0;
+			$c['EnableHtmlCode'] = (isset($_POST['c']['EnableHtmlCode']) && $forumData['ForumEnableHtmlCode'] == 1) ? 1 : 0;
+			$c['ShowSignature'] = (isset($_POST['c']['ShowSignature']) && $this->modules['Config']->getValue('enable_sig') == 1 && $this->modules['Auth']->isLoggedIn() == 1) ? 1 : 0;
 			$c['SubscribeTopic'] = isset($_POST['c']['SubscribeTopic']) ? 1 : 0;
-			$c['EnableURITransformation'] = (isset($_POST['c']['EnableURITransformation']) && $ForumData['ForumEnableURITransformation'] == 1) ? 1 : 0;
+			$c['EnableURITransformation'] = (isset($_POST['c']['EnableURITransformation']) && $forumData['ForumEnableURITransformation'] == 1) ? 1 : 0;
 
-			if($this->Modules['Auth']->isLoggedIn() == 1 && ($this->Modules['Auth']->getValue('UserIsAdmin') == 1 || $this->Modules['Auth']->getValue('UserIsSupermod') == 1 || $AuthData['AuthIsMod'] == 1)) {
+			if($this->modules['Auth']->isLoggedIn() == 1 && ($this->modules['Auth']->getValue('UserIsAdmin') == 1 || $this->modules['Auth']->getValue('UserIsSupermod') == 1 || $authData['AuthIsMod'] == 1)) {
 				$c['ShowEditings'] = isset($_POST['c']['ShowEditings']) ? 1 : 0;
 				$c['PinTopic'] = isset($_POST['c']['PinTopic']) ? 1 : 0;
 				$c['CloseTopic'] = isset($_POST['c']['CloseTopic']) ? 1 : 0;
 			}
 
 			if(!isset($_POST['ShowPreview'])) {
-				if(trim($p['MessageTitle']) == '') $Error = $this->Modules['Language']->getString('error_no_title');
-				elseif(strlen($p['MessageTitle']) > 100) $Error = $this->Modules['Language']->getString('error_title_too_long');
-				elseif(trim($p['MessageText']) == '') $Error = $this->Modules['Language']->getString('error_no_post');
-				elseif($Mode != 'Edit' && $this->Modules['Auth']->isLoggedIn() != 1 && Functions::verifyEmail($p['GuestNick']) == FALSE) $Error = $this->Modules['Language']->getString('error_invalid_name');
-				elseif($Mode != 'Edit' && $this->Modules['Auth']->isLoggedIn() != 1 && Functions::unifyNick($p['GuestNick']) == FALSE) $Error = $this->Modules['Language']->getString('error_existing_user_name');
-				elseif($Mode == 'Edit') {
-					$this->Modules['DB']->query("
+				if(trim($p['MessageTitle']) == '') $error = $this->modules['Language']->getString('error_no_title');
+				elseif(strlen($p['MessageTitle']) > 100) $error = $this->modules['Language']->getString('error_title_too_long');
+				elseif(trim($p['MessageText']) == '') $error = $this->modules['Language']->getString('error_no_post');
+				elseif($mode != 'Edit' && $this->modules['Auth']->isLoggedIn() != 1 && Functions::verifyEmail($p['GuestNick']) == FALSE) $error = $this->modules['Language']->getString('error_invalid_name');
+				elseif($mode != 'Edit' && $this->modules['Auth']->isLoggedIn() != 1 && Functions::unifyNick($p['GuestNick']) == FALSE) $error = $this->modules['Language']->getString('error_existing_user_name');
+				elseif($mode == 'Edit') {
+					$this->modules['DB']->query("
 						UPDATE
 							".TBLPFX."posts
 						SET
@@ -104,38 +104,38 @@ class Posting extends ModuleTemplate {
 							PostEnableURITransformation='".$c['EnableURITransformation']."',
 							PostShowEditings='".$c['ShowEditings']."',
 							PostEditedCounter=PostEditedCounter+1,
-							PostLastEditorNick='".$this->Modules['Auth']->getValue('UserNick')."',
+							PostLastEditorNick='".$this->modules['Auth']->getValue('UserNick')."',
 							PostTitle='".$p['MessageTitle']."',
 							PostText='".$p['MessageText']."'
 						WHERE
-							PostID='$PostID'
+							PostID='$postID'
 					");
-					//Functions::myHeader("index.php?p=$PostID&".MYSID."#post$PostID"); exit;
-					Functions::myHeader(INDEXFILE."?Action=ViewTopic&PostID=$PostID&".MYSID."#Post$PostID"); exit;
+					//Functions::myHeader("index.php?p=$postID&".MYSID."#post$postID"); exit;
+					Functions::myHeader(INDEXFILE."?Action=ViewTopic&PostID=$postID&".MYSID."#Post$postID"); exit;
 				}
 				else {
 					if(USERID != 0)
 						$p['GuestNick'] = '';
 
-					if($Mode == 'Topic') {
+					if($mode == 'Topic') {
 						// Das Thema in die Datenbank eintragen
-						$this->Modules['DB']->query("
+						$this->modules['DB']->query("
 							INSERT INTO
 								".TBLPFX."topics
 							SET
 								TopicTitle='".$p['MessageTitle']."',
-								ForumID='$ForumID',
+								ForumID='$forumID',
 								TopicStatus='".$c['CloseTopic']."',
 								TopicIsPinned='".$c['PinTopic']."',
 								PosterID='".USERID."',
-								SmileyID='$SmileyID',
+								SmileyID='$smileyID',
 								TopicTimestamp='".time()."',
 								TopicGuestNick='".$p['GuestNick']."'
 						");
-						$TopicID = $this->Modules['DB']->getInsertID();
+						$topicID = $this->modules['DB']->getInsertID();
 
 						// Eventuell die Umfrage zum Thema hinzufuegen
-						if(($this->Modules['Auth']->getValue('UserIsAdmin') == 1 || $this->Modules['Auth']->getValue('UserIsSupermod') == 1 || $AuthData['AuthIsMod'] == 1 || $AuthData['AuthPostPoll'] == 1) && trim($p['PollTitle']) != '') {
+						if(($this->modules['Auth']->getValue('UserIsAdmin') == 1 || $this->modules['Auth']->getValue('UserIsSupermod') == 1 || $authData['AuthIsMod'] == 1 || $authData['AuthPostPoll'] == 1) && trim($p['PollTitle']) != '') {
 							while(list($curKey) = each($p['PollOptions'])) {
 								if(trim($p['PollOptions'][$curKey]) == '')
 									unset($p['PollOptions'][$curKey]);
@@ -143,11 +143,11 @@ class Posting extends ModuleTemplate {
 							reset($p['PollOptions']);
 
 							if(count($p['PollOptions']) > 1) {
-								$this->Modules['DB']->query("
+								$this->modules['DB']->query("
 									INSERT INTO
 										".TBLPFX."polls
 									SET
-										TopicID='$TopicID',
+										TopicID='$topicID',
 										PosterID='".USERID.",
 										PollTitle='".$p['PollTitle']."',
 										PollGuestNick='".$p['GuestNick']."'
@@ -155,29 +155,29 @@ class Posting extends ModuleTemplate {
 
 								$i = 1;
 								foreach($p['PollOptions'] AS $curOption) {
-									$this->Modules['DB']->query("
+									$this->modules['DB']->query("
 										INSERT INTO
 											".TBLPFX."polls_options
 										SET
-											TopicID='$TopicID',
+											TopicID='$topicID',
 											OptionID='$i',
 											OptionTitle='$curOption'
 									");
 									$i++;
 								}
 
-								$this->Modules['DB']->query("UPDATE ".TBLPFX."topics SET TopicHasPoll='1' WHERE TopicID='$TopicID'");
+								$this->modules['DB']->query("UPDATE ".TBLPFX."topics SET TopicHasPoll='1' WHERE TopicID='$topicID'");
 							}
 						}
 					}
 
 					// Den Beitrag in die Datenbank eintragen
-					$this->Modules['DB']->query("
+					$this->modules['DB']->query("
 						INSERT INTO
 							".TBLPFX."posts
 						SET
-							TopicID='$TopicID',
-							ForumID='$ForumID',
+							TopicID='$topicID',
+							ForumID='$forumID',
 							PosterID='".USERID."',
 							SmileyID='".$p['SmileyID']."',
 							PostIP='".$_SERVER['REMOTE_ADDR']."',
@@ -192,78 +192,78 @@ class Posting extends ModuleTemplate {
 							PostText='".$p['MessageText']."',
 							PostGuestNick='".$p['GuestNick']."'
 					");
-					$PostID = $this->Modules['DB']->getInsertID();
+					$postID = $this->modules['DB']->getInsertID();
 
 					// Verschiedene Dinge updaten (Beitragszahl, erster/letzter Beitrag usw.)
-					if($Mode == 'Topic') $this->Modules['DB']->query("UPDATE ".TBLPFX."topics SET TopicFirstPostID='$PostID', TopicLastPostID='$PostID' WHERE TopicID='$TopicID'");
-					else $this->Modules['DB']->query("UPDATE ".TBLPFX."topics SET TopicLastPostID='$PostID', TopicRepliesCounter=TopicRepliesCounter+1, TopicStatus='".$c['CloseTopic']."', TopicIsPinned='".$c['PinTopic']."' WHERE TopicID='$TopicID'");
+					if($mode == 'Topic') $this->modules['DB']->query("UPDATE ".TBLPFX."topics SET TopicFirstPostID='$postID', TopicLastPostID='$postID' WHERE TopicID='$topicID'");
+					else $this->modules['DB']->query("UPDATE ".TBLPFX."topics SET TopicLastPostID='$postID', TopicRepliesCounter=TopicRepliesCounter+1, TopicStatus='".$c['CloseTopic']."', TopicIsPinned='".$c['PinTopic']."' WHERE TopicID='$topicID'");
 
-					$this->Modules['DB']->query("UPDATE ".TBLPFX."forums SET ForumLastPostID='$PostID', ForumPostsCounter=ForumPostsCounter+1, ForumTopicsCounter=ForumTopicsCounter+1 WHERE ForumID='$ForumID'");
-					$this->Modules['DB']->query("UPDATE ".TBLPFX."users SET UserPostsCounter=UserPostsCounter+1 WHERE UserID='".USERID."'");
+					$this->modules['DB']->query("UPDATE ".TBLPFX."forums SET ForumLastPostID='$postID', ForumPostsCounter=ForumPostsCounter+1, ForumTopicsCounter=ForumTopicsCounter+1 WHERE ForumID='$forumID'");
+					$this->modules['DB']->query("UPDATE ".TBLPFX."users SET UserPostsCounter=UserPostsCounter+1 WHERE UserID='".USERID."'");
 
 					// Eventuell Themenabo entfernen oder hinzufuegen
-					if($Mode != 'Edit' && $this->Modules['Auth']->isLoggedIn() == 1 && $this->Modules['Config']->getValue('enable_email_functions') == 1 && $this->Modules['Config']->getValue('enable_topic_subscription') == 1 && $c['SubscribeTopic'] != $SubscriptionStatus) {
-						if($c['SubscribeTopic'] == 0) $this->Modules['DB']->query("DELETE FROM ".TBLPFX."topics_subscriptions WHERE TopicID='$TopicID' AND UserID='$USER_ID'");
-						else $this->Modules['DB']->query("INSERT INTO ".TBLPFX."topics_subscriptions SET TopicID='$TopicID', UserID='".USERID."'");
+					if($mode != 'Edit' && $this->modules['Auth']->isLoggedIn() == 1 && $this->modules['Config']->getValue('enable_email_functions') == 1 && $this->modules['Config']->getValue('enable_topic_subscription') == 1 && $c['SubscribeTopic'] != $subscriptionStatus) {
+						if($c['SubscribeTopic'] == 0) $this->modules['DB']->query("DELETE FROM ".TBLPFX."topics_subscriptions WHERE TopicID='$topicID' AND UserID='$uSER_ID'");
+						else $this->modules['DB']->query("INSERT INTO ".TBLPFX."topics_subscriptions SET TopicID='$topicID', UserID='".USERID."'");
 					}
-					//Functions::myHeader("index.php?t=$TopicID&".MYSID); exit;
+					//Functions::myHeader("index.php?t=$topicID&".MYSID); exit;
 					exit;
 				}
 			}
 		}
 
-		$Show = array();
+		$show = array();
 
-		$Show['EnableSmilies'] = $ForumData['ForumEnableSmilies'] == 1;
-		$Show['ShowSignature'] = $this->Modules['Config']->getValue('enable_sig') == 1 && $this->Modules['Auth']->isLoggedIn() == 1;
-		$Show['EnableBBCode'] = $ForumData['ForumEnableBBCode'] == 1;
-		$Show['EnableURITransformation'] = $ForumData['ForumEnableURITransformation'];
-		$Show['EnableHtmlCode'] = $ForumData['ForumEnableHtmlCode'] == 1;
-		$Show['SubscribeTopic'] = $Mode != 'Edit' && $this->Modules['Auth']->isLoggedIn() == 1 && $this->Modules['Config']->getValue('enable_email_functions') == 1 && $this->Modules['Config']->getValue('enable_topic_subscription') == 1;
-		$Show['CloseTopic'] = $Mode != 'Edit' && $this->Modules['Auth']->isLoggedIn() == 1 && ($this->Modules['Auth']->getValue('UserIsAdmin') == 1 || $this->Modules['Auth']->getValue('UserIsSupermod') == 1 || $AuthData['AuthIsMod'] == 1);
-		$Show['PinTopic'] = $Mode != 'Edit' && $this->Modules['Auth']->isLoggedIn() == 1 && ($this->Modules['Auth']->getValue('UserIsAdmin') == 1 || $this->Modules['Auth']->getValue('UserIsSupermod') == 1 || $AuthData['AuthIsMod'] == 1);
-		$Show['ShowEditings'] = $this->Modules['Auth']->isLoggedIn() == 1 && ($this->Modules['Auth']->getValue('UserIsAdmin') == 1 || $this->Modules['Auth']->getValue('UserIsSupermod') == 1 || $AuthData['auth_is_mod'] == 1);
-		$Show['PollBox'] = $Mode == 'Topic' && ($this->Modules['Auth']->getValue('UserIsAdmin') == 1 || $this->Modules['Auth']->getValue('UserIsSupermod') == 1 || $AuthData['AuthIsMod'] == 1 || $AuthData['AuthPostPoll'] == 1);
-		$Show['PreviewBox'] = isset($_POST['ShowPreview']);
+		$show['EnableSmilies'] = $forumData['ForumEnableSmilies'] == 1;
+		$show['ShowSignature'] = $this->modules['Config']->getValue('enable_sig') == 1 && $this->modules['Auth']->isLoggedIn() == 1;
+		$show['EnableBBCode'] = $forumData['ForumEnableBBCode'] == 1;
+		$show['EnableURITransformation'] = $forumData['ForumEnableURITransformation'];
+		$show['EnableHtmlCode'] = $forumData['ForumEnableHtmlCode'] == 1;
+		$show['SubscribeTopic'] = $mode != 'Edit' && $this->modules['Auth']->isLoggedIn() == 1 && $this->modules['Config']->getValue('enable_email_functions') == 1 && $this->modules['Config']->getValue('enable_topic_subscription') == 1;
+		$show['CloseTopic'] = $mode != 'Edit' && $this->modules['Auth']->isLoggedIn() == 1 && ($this->modules['Auth']->getValue('UserIsAdmin') == 1 || $this->modules['Auth']->getValue('UserIsSupermod') == 1 || $authData['AuthIsMod'] == 1);
+		$show['PinTopic'] = $mode != 'Edit' && $this->modules['Auth']->isLoggedIn() == 1 && ($this->modules['Auth']->getValue('UserIsAdmin') == 1 || $this->modules['Auth']->getValue('UserIsSupermod') == 1 || $authData['AuthIsMod'] == 1);
+		$show['ShowEditings'] = $this->modules['Auth']->isLoggedIn() == 1 && ($this->modules['Auth']->getValue('UserIsAdmin') == 1 || $this->modules['Auth']->getValue('UserIsSupermod') == 1 || $authData['auth_is_mod'] == 1);
+		$show['PollBox'] = $mode == 'Topic' && ($this->modules['Auth']->getValue('UserIsAdmin') == 1 || $this->modules['Auth']->getValue('UserIsSupermod') == 1 || $authData['AuthIsMod'] == 1 || $authData['AuthPostPoll'] == 1);
+		$show['PreviewBox'] = isset($_POST['ShowPreview']);
 
 		// Smilies und Beitragsbilder laden
-		$Smilies = array(); $SmiliesBox = '';
-		if($Show['EnableSmilies'] == TRUE) {
-			$Smilies = $this->Modules['Cache']->getSmiliesData('write');
-			$SmiliesBox = Functions::getSmiliesBox();
+		$smilies = array(); $smiliesBox = '';
+		if($show['EnableSmilies'] == TRUE) {
+			$smilies = $this->modules['Cache']->getSmiliesData('write');
+			$smiliesBox = Functions::getSmiliesBox();
 		}
-		$PPicsBox = Functions::getPPicsBox($p['SmileyID']);
+		$pPicsBox = Functions::getPPicsBox($p['SmileyID']);
 
 		// Die Vorschau
-		$PreviewData = array();
-		if($Show['PreviewBox'] == TRUE) {
-			if($c['EnableHtmlCode'] != 1 || $Show['EnableHtmlCode'] == FALSE) $PreviewData['MessageText'] = Functions::HTMLSpecialChars($p['MessageText']);
-			if($c['EnableSmilies'] == 1 && $Show['EnableSmilies'] == TRUE) $PreviewData['MessageText'] = strtr($PreviewData['MessageText'],$Smilies);
-			$PreviewData['MessageText'] = nl2br($PreviewData['MessageText']);
-			if($c['EnableBBCode'] == 1 && $Show['EnableBBCode'] == TRUE) $PreviewData['MessageText'] = Functions::BBCode($PreviewData['MessageText']);
-			$PreviewData['MessageTitle'] = Functions::HTMLSpecialChars($p['MessageTitle']);
+		$previewData = array();
+		if($show['PreviewBox'] == TRUE) {
+			if($c['EnableHtmlCode'] != 1 || $show['EnableHtmlCode'] == FALSE) $previewData['MessageText'] = Functions::HTMLSpecialChars($p['MessageText']);
+			if($c['EnableSmilies'] == 1 && $show['EnableSmilies'] == TRUE) $previewData['MessageText'] = strtr($previewData['MessageText'],$smilies);
+			$previewData['MessageText'] = nl2br($previewData['MessageText']);
+			if($c['EnableBBCode'] == 1 && $show['EnableBBCode'] == TRUE) $previewData['MessageText'] = Functions::BBCode($previewData['MessageText']);
+			$previewData['MessageTitle'] = Functions::HTMLSpecialChars($p['MessageTitle']);
 		}
 
 		// Fuer die richtige Anzeige des Navileiste usw.
-		$this->Modules['Navbar']->addCategories($ForumData['CatID']);
-		$this->Modules['Navbar']->addElement(Functions::HTMLSpecialChars($ForumData['ForumName']),INDEXFILE.'?Action=ViewForum&amp;ForumID='.$ForumID.'&amp;'.MYSID);
+		$this->modules['Navbar']->addCategories($forumData['CatID']);
+		$this->modules['Navbar']->addElement(Functions::HTMLSpecialChars($forumData['ForumName']),INDEXFILE.'?Action=ViewForum&amp;ForumID='.$forumID.'&amp;'.MYSID);
 
-		if($Mode == 'Topic') {
-			$ActionText = $this->Modules['Language']->getString('Post_topic');
-			$this->Modules['Navbar']->addElement($this->Modules['Language']->getString('Post_topic'),INDEXFILE.'?Action=Posting&amp;Mode=Topic&amp;ForumID='.$ForumID.'&amp;'.MYSID);
+		if($mode == 'Topic') {
+			$actionText = $this->modules['Language']->getString('Post_topic');
+			$this->modules['Navbar']->addElement($this->modules['Language']->getString('Post_topic'),INDEXFILE.'?Action=Posting&amp;Mode=Topic&amp;ForumID='.$forumID.'&amp;'.MYSID);
 		}
-		elseif($Mode == 'Reply') {
-			$ActionText = $this->Modules['Language']->getString('Post_reply');
-			$this->Modules['Navbar']->addElements(
-				array(Functions::HTMLSpecialChars($TopicData['TopicTitle']),INDEXFILE.'?Action=ViewTopic&amp;TopicID='.$TopicID.'&amp;'.MYSID),
-				array($this->Modules['Language']->getString('Post_reply'),INDEXFILE.'?Action=Posting&amp;Mode=Reply&amp;TopicID='.$TopicID.'&amp;'.MYSID)
+		elseif($mode == 'Reply') {
+			$actionText = $this->modules['Language']->getString('Post_reply');
+			$this->modules['Navbar']->addElements(
+				array(Functions::HTMLSpecialChars($topicData['TopicTitle']),INDEXFILE.'?Action=ViewTopic&amp;TopicID='.$topicID.'&amp;'.MYSID),
+				array($this->modules['Language']->getString('Post_reply'),INDEXFILE.'?Action=Posting&amp;Mode=Reply&amp;TopicID='.$topicID.'&amp;'.MYSID)
 			);
 		}
-		elseif($Mode == 'Edit') {
-			$ActionText = $this->Modules['Language']->getString('Edit_post');
-			$this->Modules['Navbar']->addElements(
-				array(Functions::HTMLSpecialChars($TopicData['TopicTitle']),INDEXFILE.'?Action=ViewTopic&amp;TopicID='.$TopicID.'&amp;'.MYSID),
-				array($this->Modules['Language']->getString('Edit_post'),INDEXFILE.'?Action=Posting&amp;Mode=Edit&amp;PostID='.$PostID.'&amp;'.MYSID)
+		elseif($mode == 'Edit') {
+			$actionText = $this->modules['Language']->getString('Edit_post');
+			$this->modules['Navbar']->addElements(
+				array(Functions::HTMLSpecialChars($topicData['TopicTitle']),INDEXFILE.'?Action=ViewTopic&amp;TopicID='.$topicID.'&amp;'.MYSID),
+				array($this->modules['Language']->getString('Edit_post'),INDEXFILE.'?Action=Posting&amp;Mode=Edit&amp;PostID='.$postID.'&amp;'.MYSID)
 			);
 		}
 
@@ -271,37 +271,37 @@ class Posting extends ModuleTemplate {
 		//
 		// Der Rest...
 		//
-		$title_max_chars = sprintf($this->Modules['Language']->getString('Maximum_x_chars'),100);
+		$title_max_chars = sprintf($this->modules['Language']->getString('Maximum_x_chars'),100);
 
-		$this->Modules['PageParts']->printStdHeader();
+		$this->modules['PageParts']->printStdHeader();
 
-		$this->Modules['Template']->assign(array(
+		$this->modules['Template']->assign(array(
 			'p'=>Functions::HTMLSpecialChars(Functions::StripSlashes($p)),
 			'c'=>$c,
-			'ActionText'=>$ActionText,
-			'Show'=>$Show,
+			'ActionText'=>$actionText,
+			'Show'=>$show,
 			'PollOptionsCounter'=>count($p['PollOptions']),
-			'ForumID'=>$ForumID,
-			'TopicID'=>$TopicID,
-			'PostID'=>$PostID,
-			'Mode'=>$Mode,
-			'Error'=>$Error,
-			'PPicsBox'=>$PPicsBox,
-			'SmiliesBox'=>$SmiliesBox
+			'ForumID'=>$forumID,
+			'TopicID'=>$topicID,
+			'PostID'=>$postID,
+			'Mode'=>$mode,
+			'Error'=>$error,
+			'PPicsBox'=>$pPicsBox,
+			'SmiliesBox'=>$smiliesBox
 		));
-		$this->Modules['Template']->display('Posting.tpl');
+		$this->modules['Template']->display('Posting.tpl');
 
-		$this->Modules['PageParts']->printStdTail();
+		$this->modules['PageParts']->printStdTail();
 	}
 
-	protected function _authenticateUser(&$Mode,&$ForumData) {
-		$AuthData = Functions::getAuthData($ForumData,array('AuthPostTopic','AuthPostReply','AuthPostPoll','AuthEditPosts','AuthIsMod'));
-		if($Mode == 'Reply' && $AuthData['AuthPostReply'] == 0 || $Mode == 'Edit' && $AuthData['AuthEditPosts'] == 0 || $Mode == 'Topic' && $AuthData['AuthPostTopic'] == 0) {
+	protected function _authenticateUser(&$mode,&$forumData) {
+		$authData = Functions::getAuthData($forumData,array('AuthPostTopic','AuthPostReply','AuthPostPoll','AuthEditPosts','AuthIsMod'));
+		if($mode == 'Reply' && $authData['AuthPostReply'] == 0 || $mode == 'Edit' && $authData['AuthEditPosts'] == 0 || $mode == 'Topic' && $authData['AuthPostTopic'] == 0) {
 			// TODO
 			die('Leider kein Zugriff');
 		}
 
-		return $AuthData;
+		return $authData;
 	}
 }
 

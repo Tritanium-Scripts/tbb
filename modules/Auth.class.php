@@ -10,12 +10,12 @@ class Auth extends ModuleTemplate {
 	protected $userData = array();
 
 	public function initializeMe() {
-		if(isset($_SESSION['UserID']) == TRUE) {
-			$this->modules['DB']->query("SELECT * FROM ".TBLPFX."users WHERE UserID='".$_SESSION['UserID']."'");
+		if(isset($_SESSION['userID']) == TRUE) {
+			$this->modules['DB']->query("SELECT * FROM ".TBLPFX."users WHERE userID='".$_SESSION['userID']."'");
 			if($this->modules['DB']->getAffectedRows() == 1) {
-				$tempUserData = $this->Modules['DB']->fetchArray();
-				if($tempUserData['UserPassword'] == $_SESSION['UserPassword']) {
-					$this->userID = $tempUserData['UserID'];
+				$tempUserData = $this->modules['DB']->fetchArray();
+				if($tempUserData['userPassword'] == $_SESSION['userPassword']) {
+					$this->userID = $tempUserData['userID'];
 					$this->userLoggedIn = 1;
 					$this->userData = $tempUserData;
 				}
@@ -37,11 +37,11 @@ class Auth extends ModuleTemplate {
 	}
 
 	public function setSessionUserID($newUserID) {
-		$_SESSION['UserID'] = $newUserID;
+		$_SESSION['userID'] = $newUserID;
 	}
 
 	public function setSessionUserPassword($newUserPassword) {
-		$_SESSION['UserPassword'] = $newUserPassword;
+		$_SESSION['userPassword'] = $newUserPassword;
 	}
 
 	public function getUserDataValue($key) {
@@ -57,8 +57,8 @@ class Auth extends ModuleTemplate {
 	}
 
 	public function destroySessionData() {
-		unset($_SESSION['UserID']);
-		unset($_SESSION['UserPassword']);
+		unset($_SESSION['userID']);
+		unset($_SESSION['userPassword']);
 	}
 }
 

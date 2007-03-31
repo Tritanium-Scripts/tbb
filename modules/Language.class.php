@@ -29,18 +29,18 @@ class Language extends ModuleTemplate {
 		return $this->languageDir;
 	}
 
-	public function addFile($FileName) {
-		if(!isset($this->loadedFiles[$FileName])) {
-			if(file_exists($this->languageDir.$FileName.'.language') == FALSE) die('Language file "'.$this->languageDir.$FileName.'.language" does not exist');
+	public function addFile($fileName) {
+		if(!isset($this->loadedFiles[$fileName])) {
+			if(file_exists($this->languageDir.$fileName.'.language') == FALSE) die('Language file "'.$this->languageDir.$fileName.'.language" does not exist');
 
-			foreach(explode("\n",file_get_contents($this->languageDir.$FileName.'.language')) AS $curLine) {
-				preg_match('/^([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)[ ]*=[ ]*"(.*)"$/',rtrim($curLine),$Matches);
+			foreach(explode("\n",file_get_contents($this->languageDir.$fileName.'.language')) AS $curLine) {
+				preg_match('/^([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)[ ]*=[ ]*"(.*)"$/',rtrim($curLine),$matches);
 
-				if(count($Matches) == 3)
-					$this->strings[$Matches[1]] = $Matches[2];
+				if(count($matches) == 3)
+					$this->strings[$matches[1]] = $matches[2];
 			}
 
-			$this->loadedFiles[$FileName] = TRUE;
+			$this->loadedFiles[$fileName] = TRUE;
 		}
 	}
 
@@ -48,12 +48,12 @@ class Language extends ModuleTemplate {
 		$this->strings = array();
 	}
 
-	public function getString($Index) {
-		if(isset($this->strings[$Index]) == FALSE) {
-			trigger_error('Language string "'.$Index.'" does not exist');
+	public function getString($index) {
+		if(isset($this->strings[$index]) == FALSE) {
+			trigger_error('Language string "'.$index.'" does not exist');
 			return FALSE;
 		}
-		return $this->strings[$Index];
+		return $this->strings[$index];
 	}
 
 	public function setLanguageDir($newLanguageDir) {
