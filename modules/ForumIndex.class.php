@@ -1,7 +1,7 @@
 <?php
 
 class ForumIndex extends ModuleTemplate {
-	protected $RequiredModules = array(
+	protected $requiredModules = array(
 		'Auth',
 		'Cache',
 		'Config',
@@ -13,23 +13,23 @@ class ForumIndex extends ModuleTemplate {
 	);
 
 	public function executeMe() {
-		$BaseCatID = isset($_GET['BaseCatID']) ? intval($_GET['BaseCatID']) : 1;
-		$CatID = isset($_GET['CatID']) ? intval($_GET['CatID']) : $BaseCatID;
+		$baseCatID = isset($_GET['baseCatID']) ? intval($_GET['baseCatID']) : 1;
+		$catID = isset($_GET['CatID']) ? intval($_GET['CatID']) : $baseCatID;
 
 		// Kategoriedaten laden
-		if(($CatsData = Functions::getCatsData($CatID)) === FALSE) die('Wrong base cat id');
-		$CatsCounter = count($CatsData);
+		if(($catsData = Functions::getCatsData($catID)) === FALSE) die('Wrong base cat id');
+		$catsCounter = count($catsData);
 
 		// Sprachstrings laden
-		$this->Modules['Language']->addFile('ForumIndex');
+		$this->modules['Language']->addFile('ForumIndex');
 
 		// Forendaten laden
-		$ForumsData = $this->_loadForumsData();
-		$ForumsCounter = count($ForumsData);
+		$forumsData = $this->_loadForumsData();
+		$forumsCounter = count($forumsData);
 
 		// Moderatorendaten laden
-		$ModsUsersData = $this->_loadModsUsersData();
-		$ModsGroupsData = $this->_loadModsGroupsData();
+		$modsUsersData = $this->_loadModsUsersData();
+		$modsGroupsData = $this->_loadModsGroupsData();
 
 		// Zugriffsrechte auf die Foren laden
 		$ForumsAuthData = $this->_loadForumsAuthData();
@@ -41,16 +41,16 @@ class ForumIndex extends ModuleTemplate {
 
 		$ClosedCatIDs = array();
 		if(!isset($_COOKIE['ClosedCatIDs'])) {
-			for($i = 0; $i < $CatsCounter; $i++) {
-				if($CatsData[$i]['CatStandardStatus'] != 1) $ClosedCatIDs[] = $CatsData[$i]['CatID'];
+			for($i = 0; $i < $catsCounter; $i++) {
+				if($catsData[$i]['CatStandardStatus'] != 1) $ClosedCatIDs[] = $catsData[$i]['CatID'];
 			}
 			setcookie('ClosedCatIDs',implode('.',$ClosedCatIDs),time()+31536000);
 		}
 		else
 			$ClosedCatIDs = explode('.',$_COOKIE['ClosedCatIDs']);
 
-		for($i = 0; $i < $CatsCounter; $i++) {
-			$curCat = &$CatsData[$i];
+		for($i = 0; $i < $catsCounter; $i++) {
+			$curCat = &$catsData[$i];
 
 			if(in_array($curCat['CatID'],$ClosedCatIDs) == TRUE) $curCat['CatIsOpen'] = 0;
 			else $curCat['CatIsOpen'] = 1;
@@ -58,20 +58,20 @@ class ForumIndex extends ModuleTemplate {
 			$curCat['CatName'] = Functions::HTMLSpecialChars($curCat['CatName']);
 		}
 
-		for($i = 0; $i < $ForumsCounter; $i++) {
-			$curForum = &$ForumsData[$i];
+		for($i = 0; $i < $forumsCounter; $i++) {
+			$curForum = &$forumsData[$i];
 
 			//
 			// Der Zugriff zu diesem Forum
 			//
 			$curAuthViewForum = 1;
-			if($this->Modules['Auth']->isLoggedIn() == 0) {
-				if($ForumsData[$i]['GuestsAuthViewForum'] == 0) $curAuthViewForum = 0;
+			if($this->modules['Auth']->isLoggedIn() == 0) {
+				if($forumsData[$i]['GuestsAuthViewForum'] == 0) $curAuthViewForum = 0;
 			}
-			elseif($this->Modules['Auth']->getValue('UserIsAdmin')!= 1 && $this->Modules['Auth']->getValue('UserIsSupermod') != 1) {
-				if($ForumsData[$i]['MembersAuthViewForum'] == 1) {
+			elseif($this->modules['Auth']->getValue('UserIsAdmin')!= 1 && $this->modules['Auth']->getValue('UserIsSupermod') != 1) {
+				if($forumsData[$i]['MembersAuthViewForum'] == 1) {
 					while(list($curKey,$curData) = each($ForumsAuthData)) {
-						if($curData['ForumID'] != $ForumsData[$i]['ForumID']) continue;
+						if($curData['ForumID'] != $forumsData[$i]['ForumID']) continue;
 
 						unset($ForumsAuthData[$curKey]);
 
@@ -84,7 +84,7 @@ class ForumIndex extends ModuleTemplate {
 				else {
 					$curAuthViewForum = 0;
 					while(list($akt_key,$akt_data) = each($ForumsAuthData)) {
-						if($curData['ForumID'] != $ForumsData[$i]['ForumID']) continue;
+						if($curData['ForumID'] != $forumsData[$i]['ForumID']) continue;
 
 						unset($ForumsAuthData[$akt_key]);
 
@@ -96,31 +96,31 @@ class ForumIndex extends ModuleTemplate {
 				}
 				reset($ForumsAuthData);
 			}
-			$ForumsData[$i]['ForumIsAccessible'] = $curAuthViewForum;
+			$forumsData[$i]['ForumIsAccessible'] = $curAuthViewForum;
 
 
-			if($curAuthViewForum == 1 || $this->Modules['Config']->getValue('HideNotAccessibleForums') == 0) {
+			if($curAuthViewForum == 1 || $this->modules['Config']->getValue('HideNotAccessibleForums') == 0) {
 				//
 				// Die Moderatoren (Mitglieder und Gruppen) des aktuellen Forums
 				//
 				$curForumMods = array(); // Array fuer die Moderatoren
-				while(list($curKey) = each($ModsUsersData)) { // Erst werden alle Mitglieder-Moderatoren ueberprueft
-					if($ModsUsersData[$curKey]['ForumID'] != $ForumsData[$i]['ForumID']) continue;
+				while(list($curKey) = each($modsUsersData)) { // Erst werden alle Mitglieder-Moderatoren ueberprueft
+					if($modsUsersData[$curKey]['ForumID'] != $forumsData[$i]['ForumID']) continue;
 
-					$curForumMods[] = '<a href="'.INDEXFILE.'?Action=ViewProfile&amp;ProfileID='.$ModsUsersData[$curKey]['UserID'].'&amp;'.MYSID.'">'.$ModsUsersData[$curKey]['UserNick'].'</a>'; // Aktuelles Mitglied zu Array mit Moderatoren des aktuellen Forums hinzufuegen
-					unset($ModsUsersData[$curKey]); // Mitglied kann aus Array geloescht werden
+					$curForumMods[] = '<a href="'.INDEXFILE.'?Action=ViewProfile&amp;ProfileID='.$modsUsersData[$curKey]['UserID'].'&amp;'.MYSID.'">'.$modsUsersData[$curKey]['UserNick'].'</a>'; // Aktuelles Mitglied zu Array mit Moderatoren des aktuellen Forums hinzufuegen
+					unset($modsUsersData[$curKey]); // Mitglied kann aus Array geloescht werden
 				}
-				reset($ModsUsersData);
+				reset($modsUsersData);
 
-				while(list($curKey) = each($ModsGroupsData)) { // Erst werden alle Gruppen-Moderatoren ueberprueft
-					if($ModsGroupsData[$curKey]['ForumID'] != $ForumsData[$i]['ForumID']) continue;
+				while(list($curKey) = each($modsGroupsData)) { // Erst werden alle Gruppen-Moderatoren ueberprueft
+					if($modsGroupsData[$curKey]['ForumID'] != $forumsData[$i]['ForumID']) continue;
 
-					$curForumMods[] = '<a href="'.INDEXFILE.'?Action=ViewGroup&amp;GroupID='.$ModsGroupsData[$curKey]['GroupID'].'&amp;'.MYSID.'">'.$ModsGroupsData[$curKey]['GroupName'].'</a>'; // Aktuelle Gruppe zu Array mit Moderatoren des aktuellen Forums hinzufuegen
-					unset($ModsGroupsData[$curKey]); // Mitglied kann aus Array geloescht werden
+					$curForumMods[] = '<a href="'.INDEXFILE.'?Action=ViewGroup&amp;GroupID='.$modsGroupsData[$curKey]['GroupID'].'&amp;'.MYSID.'">'.$modsGroupsData[$curKey]['GroupName'].'</a>'; // Aktuelle Gruppe zu Array mit Moderatoren des aktuellen Forums hinzufuegen
+					unset($modsGroupsData[$curKey]); // Mitglied kann aus Array geloescht werden
 				}
-				reset($ModsGroupsData); // Array resetten (Pointer auf Position 1 setzen)
+				reset($modsGroupsData); // Array resetten (Pointer auf Position 1 setzen)
 
-				$ForumsData[$i]['ForumMods'] = implode(', ',$curForumMods);
+				$forumsData[$i]['ForumMods'] = implode(', ',$curForumMods);
 
 
 				//
@@ -133,22 +133,22 @@ class ForumIndex extends ModuleTemplate {
 				// Der neueste Beitrag
 				//
 				$curLastPostPic = $curLastPostText = '';
-				if($ForumsData[$i]['ForumLastPostID'] != 0) {
+				if($forumsData[$i]['ForumLastPostID'] != 0) {
 					if($curAuthViewForum == 1) {
-						$curLastPostPic = ($ForumsData[$i]['ForumLastPostSmileyFileName'] == '') ? '' : '<img src="'.$ForumsData[$i]['ForumLastPostSmileyFileName'].'" alt="" border="" />';
-						if(strlen($ForumsData[$i]['ForumLastPostTitle']) > 22) $curLastPostLink = '<a href="'.INDEXFILE.'?Action=ViewTopic&amp;PostID='.$ForumsData[$i]['ForumLastPostID'].'&amp;'.MYSID.'#Post'.$ForumsData[$i]['ForumLastPostID'].'" title="'.Functions::HTMLSpecialChars(($ForumsData[$i]['ForumLastPostTitle'])).'">'.Functions::HTMLSpecialChars(substr($ForumsData[$i]['ForumLastPostTitle'],0,22)).'...</a>';
-						else $curLastPostLink = '<a href="'.INDEXFILE.'?Action=ViewTopic&amp;PostID='.$ForumsData[$i]['ForumLastPostID'].'&amp;'.MYSID.'#Post'.$ForumsData[$i]['ForumLastPostID'].'">'.Functions::HTMLSpecialChars($ForumsData[$i]['ForumLastPostTitle']).'</a>';
+						$curLastPostPic = ($forumsData[$i]['ForumLastPostSmileyFileName'] == '') ? '' : '<img src="'.$forumsData[$i]['ForumLastPostSmileyFileName'].'" alt="" border="" />';
+						if(strlen($forumsData[$i]['ForumLastPostTitle']) > 22) $curLastPostLink = '<a href="'.INDEXFILE.'?Action=ViewTopic&amp;PostID='.$forumsData[$i]['ForumLastPostID'].'&amp;'.MYSID.'#Post'.$forumsData[$i]['ForumLastPostID'].'" title="'.Functions::HTMLSpecialChars(($forumsData[$i]['ForumLastPostTitle'])).'">'.Functions::HTMLSpecialChars(substr($forumsData[$i]['ForumLastPostTitle'],0,22)).'...</a>';
+						else $curLastPostLink = '<a href="'.INDEXFILE.'?Action=ViewTopic&amp;PostID='.$forumsData[$i]['ForumLastPostID'].'&amp;'.MYSID.'#Post'.$forumsData[$i]['ForumLastPostID'].'">'.Functions::HTMLSpecialChars($forumsData[$i]['ForumLastPostTitle']).'</a>';
 
-						if($ForumsData[$i]['ForumLastPostPosterID'] == 0) $curLastPostPosterNick = $ForumsData[$i]['ForumLastPostGuestNick'];
-						else $curLastPostPosterNick = '<a href="index.php?action=viewprofile&amp;profile_id='.$ForumsData[$i]['ForumLastPostPosterID'].'&amp;'.MYSID.'">'.$ForumsData[$i]['ForumLastPostPosterNick'].'</a>';
+						if($forumsData[$i]['ForumLastPostPosterID'] == 0) $curLastPostPosterNick = $forumsData[$i]['ForumLastPostGuestNick'];
+						else $curLastPostPosterNick = '<a href="index.php?action=viewprofile&amp;profile_id='.$forumsData[$i]['ForumLastPostPosterID'].'&amp;'.MYSID.'">'.$forumsData[$i]['ForumLastPostPosterNick'].'</a>';
 
-						$curLastPostText = $curLastPostLink.' ('.$this->Modules['Language']->getString('by').' '.$curLastPostPosterNick.')<br/>'.Functions::toDateTime($ForumsData[$i]['ForumLastPostTimestamp']);
+						$curLastPostText = $curLastPostLink.' ('.$this->modules['Language']->getString('by').' '.$curLastPostPosterNick.')<br/>'.Functions::toDateTime($forumsData[$i]['ForumLastPostTimestamp']);
 					}
 				}
-				else $curLastPostText = $this->Modules['Language']->getString('No_last_post');
+				else $curLastPostText = $this->modules['Language']->getString('No_last_post');
 
-				$ForumsData[$i]['ForumLastPostPic'] = $curLastPostPic;
-				$ForumsData[$i]['ForumLastPostText'] = $curLastPostText;
+				$forumsData[$i]['ForumLastPostPic'] = $curLastPostPic;
+				$forumsData[$i]['ForumLastPostText'] = $curLastPostText;
 
 
 				//
@@ -159,23 +159,23 @@ class ForumIndex extends ModuleTemplate {
 			}
 		}
 
-		$CatsData = array_merge(array(array('CatID'=>$CatID,'CatIsOpen'=>1)),$CatsData);
+		$catsData = array_merge(array(array('CatID'=>$catID,'CatIsOpen'=>1)),$catsData);
 
-		$this->Modules['Navbar']->addCategories($CatID);
+		$this->modules['Navbar']->addCategories($catID);
 
-		$this->Modules['Template']->assign(array(
-			'CatID'=>$CatID,
-			'CatsData'=>$CatsData,
-			'ForumsData'=>$ForumsData,
+		$this->modules['Template']->assign(array(
+			'CatID'=>$catID,
+			'CatsData'=>$catsData,
+			'ForumsData'=>$forumsData,
 			'NewsData'=>$NewsData,
 			'WIOData'=>$WIOData,
 			'BoardStatsData'=>$BoardStatsData
 		));
-		$this->Modules['PageParts']->printPage('ForumIndex.tpl');
+		$this->modules['PageParts']->printPage('ForumIndex.tpl');
 	}
 
 	protected function _loadForumsData() {
-		$this->Modules['DB']->query("SELECT
+		$this->modules['DB']->query("SELECT
 			t1.*,
 			t2.PosterID AS ForumLastPostPosterID,
 			t2.PostTimestamp AS ForumLastPostTimestamp,
@@ -190,7 +190,7 @@ class ForumIndex extends ModuleTemplate {
 		LEFT JOIN ".TBLPFX."smilies AS t5 ON t2.SmileyID=t5.SmileyID
 		ORDER BY t1.OrderID
 		");
-		return $this->Modules['DB']->Raw2Array();
+		return $this->modules['DB']->Raw2Array();
 	}
 
 	/**
@@ -200,7 +200,7 @@ class ForumIndex extends ModuleTemplate {
 	 * @return array
 	 */
 	protected function _loadModsUsersData() {
-		$this->Modules['DB']->query("SELECT
+		$this->modules['DB']->query("SELECT
 			t1.AuthID AS UserID,
 			t1.ForumID,
 			t2.UserNick
@@ -212,7 +212,7 @@ class ForumIndex extends ModuleTemplate {
 			AND t1.AuthIsMod='1'
 			AND t2.UserID=t1.AuthID
 		");
-		return $this->Modules['DB']->Raw2Array();
+		return $this->modules['DB']->Raw2Array();
 	}
 
 	/**
@@ -222,7 +222,7 @@ class ForumIndex extends ModuleTemplate {
 	 * @return array
 	 */
 	protected function _loadModsGroupsData() {
-		$this->Modules['DB']->query("SELECT
+		$this->modules['DB']->query("SELECT
 			t1.AuthID AS GroupID,
 			t1.ForumID,
 			t2.GroupName
@@ -234,7 +234,7 @@ class ForumIndex extends ModuleTemplate {
 			AND t1.AuthIsMod='1'
 			AND t2.GroupID=t1.AuthID
 		");
-		return $this->Modules['DB']->Raw2Array();
+		return $this->modules['DB']->Raw2Array();
 	}
 
 	/**
@@ -246,8 +246,8 @@ class ForumIndex extends ModuleTemplate {
 	protected function _loadForumsAuthData() {
 		$ForumsAuthData = array();
 
-		if($this->Modules['Auth']->isLoggedIn() == 1 && $this->Modules['Auth']->getValue('UserIsAdmin') != 1 && $this->Modules['Auth']->getValue('UserIsSupermod') != 1) {
-			$this->Modules['DB']->query("SELECT
+		if($this->modules['Auth']->isLoggedIn() == 1 && $this->modules['Auth']->getValue('UserIsAdmin') != 1 && $this->modules['Auth']->getValue('UserIsSupermod') != 1) {
+			$this->modules['DB']->query("SELECT
 				t1.ForumID,
 				t1.AuthViewForum
 			FROM
@@ -256,9 +256,9 @@ class ForumIndex extends ModuleTemplate {
 				t1.AuthType='0'
 				AND t1.AuthID='".USERID."'
 			");
-			$ForumsAuthData = $this->Modules['DB']->Raw2Array();
+			$ForumsAuthData = $this->modules['DB']->Raw2Array();
 
-			$this->Modules['DB']->query("SELECT
+			$this->modules['DB']->query("SELECT
 				t1.ForumID,
 				t1.AuthViewForum
 			FROM
@@ -268,7 +268,7 @@ class ForumIndex extends ModuleTemplate {
 				t1.AuthType='1'
 				AND t1.AuthID=t2.GroupID
 				AND t2.MemberID='".USERID."'");
-			while($curData = $this->Modules['DB']->fetchArray())
+			while($curData = $this->modules['DB']->fetchArray())
 				$ForumsAuthData[] = $curData;
 		}
 
@@ -284,8 +284,8 @@ class ForumIndex extends ModuleTemplate {
 	protected function _loadNewsData() {
 		$NewsData = FALSE;
 
-		if($this->Modules['Config']->getValue('news_forum') != 0 && $this->Modules['Config']->getValue('show_news_forumindex') == 1) {
-			$this->Modules['DB']->query("
+		if($this->modules['Config']->getValue('news_forum') != 0 && $this->modules['Config']->getValue('show_news_forumindex') == 1) {
+			$this->modules['DB']->query("
 				SELECT
 					t2.PostText AS NewsText,
 					t2.PostID,
@@ -299,14 +299,14 @@ class ForumIndex extends ModuleTemplate {
 					".TBLPFX."posts AS t2
 				)
 				WHERE
-					t1.ForumID='".$this->Modules['Config']->getValue('news_forum')."'
+					t1.ForumID='".$this->modules['Config']->getValue('news_forum')."'
 					AND t2.PostID=t1.TopicFirstPosID
 				ORDER BY t1.TopicTimestamp
 				DESC LIMIT 1
 			");
 
-			if($this->Modules['DB']->getAffectedRows() == 1) {
-				$NewsData = $this->Modules['DB']->fetchArray();
+			if($this->modules['DB']->getAffectedRows() == 1) {
+				$NewsData = $this->modules['DB']->fetchArray();
 				//$news_comments_link = "<a href=\"index.php?action=viewtopic&amp;post_id=".$news_data['post_id']."&amp;$MYSID\">".sprintf($LNG['x_comments'],$news_data['news_comments_counter']).'</a>';
 
 				$NewsData['NewsTitle'] = Functions::HTMLSpecialChars($NewsData['NewsTitle']);
@@ -329,21 +329,21 @@ class ForumIndex extends ModuleTemplate {
 	protected function _loadWIOData() {
 		$WIOData = FALSE;
 
-		if($this->Modules['Config']->getValue('enable_wio') == 1 && $this->Modules['Config']->getValue('show_wio_forumindex') == 1) {
+		if($this->modules['Config']->getValue('enable_wio') == 1 && $this->modules['Config']->getValue('show_wio_forumindex') == 1) {
 			$OnlineGuestsCounter = $OnlineMembersCounter = $OnlineGhostsCounter = $OnlineUsersCounter = 0;
 			$Members = array();
 			$MembersChecks = array();
 			$Guests = '';
 
-			$this->Modules['DB']->query("
+			$this->modules['DB']->query("
 				SELECT
 					t1.*,
 					t2.UserNick AS SessionUserNick
 				FROM ".TBLPFX."sessions AS t1
 				LEFT JOIN ".TBLPFX."users AS t2 ON t1.SessionUserID=t2.UserID
-				WHERE SessionLastUpdate>'".($this->Modules['DB']->fromUnixTimestamp(time()-$this->Modules['Config']->getValue('wio_timeout')*60))."'
+				WHERE SessionLastUpdate>'".($this->modules['DB']->fromUnixTimestamp(time()-$this->modules['Config']->getValue('wio_timeout')*60))."'
 			");
-			while($curData = $this->Modules['DB']->fetchArray()) {
+			while($curData = $this->modules['DB']->fetchArray()) {
 				if($curData['SessionUserID'] == 0) $OnlineGuestsCounter++;
 				elseif($curData['SessionIsGhost'] == 1) $OnlineGhostsCounter++;
 				else {
@@ -356,29 +356,29 @@ class ForumIndex extends ModuleTemplate {
 			}
 
 			$OnlineUsersCounter = $OnlineGuestsCounter+$OnlineGhostsCounter+$OnlineMembersCounter;
-			if($this->Modules['Config']->getValue('online_users_record') == '')
+			if($this->modules['Config']->getValue('online_users_record') == '')
 				$OnlineUsersRecord = array(0,0);
 			else
-				$OnlineUsersRecord = explode(',',$this->Modules['Config']->getValue('online_users_record'));
+				$OnlineUsersRecord = explode(',',$this->modules['Config']->getValue('online_users_record'));
 
 			if($OnlineUsersCounter > $OnlineUsersRecord[0]) {
 				$OnlineUsersRecord = array($OnlineUsersCounter,time());
-				$this->Modules['Config']->updateValue('online_users_record',implode(',',$OnlineUsersRecord));
+				$this->modules['Config']->updateValue('online_users_record',implode(',',$OnlineUsersRecord));
 			}
 
-			if($OnlineMembersCounter == 0) $OnlineMembersCounter = $this->Modules['Language']->getString('no_members');
-			elseif($OnlineMembersCounter == 1) $OnlineMembersCounter = $this->Modules['Language']->getString('one_member');
-			else $OnlineMembersCounter = sprintf($this->Modules['Language']->getString('x_members'),$OnlineMembersCounter);
+			if($OnlineMembersCounter == 0) $OnlineMembersCounter = $this->modules['Language']->getString('no_members');
+			elseif($OnlineMembersCounter == 1) $OnlineMembersCounter = $this->modules['Language']->getString('one_member');
+			else $OnlineMembersCounter = sprintf($this->modules['Language']->getString('x_members'),$OnlineMembersCounter);
 
-			if($OnlineGhostsCounter == 0) $OnlineGhostsCounter = $this->Modules['Language']->getString('no_ghosts');
-			elseif($OnlineGhostsCounter == 1) $OnlineGhostsCounter = $this->Modules['Language']->getString('one_ghost');
-			else $OnlineGhostsCounter = sprintf($this->Modules['Language']->getString('x_ghosts'),$OnlineGhostsCounter);
+			if($OnlineGhostsCounter == 0) $OnlineGhostsCounter = $this->modules['Language']->getString('no_ghosts');
+			elseif($OnlineGhostsCounter == 1) $OnlineGhostsCounter = $this->modules['Language']->getString('one_ghost');
+			else $OnlineGhostsCounter = sprintf($this->modules['Language']->getString('x_ghosts'),$OnlineGhostsCounter);
 
-			if($OnlineGuestsCounter == 0) $OnlineGuestsCounter = $this->Modules['Language']->getString('no_guests');
-			elseif($OnlineGuestsCounter == 1) $OnlineGuestsCounter = $this->Modules['Language']->getString('one_guest');
-			else $OnlineGuestsCounter = sprintf($this->Modules['Language']->getString('x_guests'),$OnlineGuestsCounter);
+			if($OnlineGuestsCounter == 0) $OnlineGuestsCounter = $this->modules['Language']->getString('no_guests');
+			elseif($OnlineGuestsCounter == 1) $OnlineGuestsCounter = $this->modules['Language']->getString('one_guest');
+			else $OnlineGuestsCounter = sprintf($this->modules['Language']->getString('x_guests'),$OnlineGuestsCounter);
 
-			$WIOData['Text'] = sprintf($this->Modules['Language']->getString('wio_text'),$OnlineGuestsCounter,$OnlineGhostsCounter,$OnlineMembersCounter,$OnlineUsersCounter,Functions::toDateTime($OnlineUsersRecord[1],TRUE),$OnlineUsersRecord[0]);
+			$WIOData['Text'] = sprintf($this->modules['Language']->getString('wio_text'),$OnlineGuestsCounter,$OnlineGhostsCounter,$OnlineMembersCounter,$OnlineUsersCounter,Functions::toDateTime($OnlineUsersRecord[1],TRUE),$OnlineUsersRecord[0]);
 			$WIOData['Members'] = implode(', ',$Members);
 		}
 
@@ -387,12 +387,12 @@ class ForumIndex extends ModuleTemplate {
 
 	protected function _loadBoardStatsData() {
 		$BoardStatsData = FALSE;
-		if($this->Modules['Config']->getValue('show_boardstats_forumindex') == 1) {
+		if($this->modules['Config']->getValue('show_boardstats_forumindex') == 1) {
 			$MembersCounter = Functions::getUsersCounter();
 			$TopicsCounter = Functions::getTopicsCounter();
 			$PostsCounter = Functions::getPostsCounter();
 
-			$BoardStatsData['Text'] = sprintf($this->Modules['Language']->getString('board_stats_text'),$MembersCounter,$PostsCounter,$TopicsCounter,'<a href="index.php?action=viewprofile&amp;profile_id='.$this->Modules['Config']->getValue('newest_user_id').'&amp;'.MYSID.'">'.$this->Modules['Config']->getValue('newest_user_nick').'</a>');
+			$BoardStatsData['Text'] = sprintf($this->modules['Language']->getString('board_stats_text'),$MembersCounter,$PostsCounter,$TopicsCounter,'<a href="index.php?action=viewprofile&amp;profile_id='.$this->modules['Config']->getValue('newest_user_id').'&amp;'.MYSID.'">'.$this->modules['Config']->getValue('newest_user_nick').'</a>');
 		}
 		return $BoardStatsData;
 	}

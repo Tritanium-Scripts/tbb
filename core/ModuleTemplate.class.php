@@ -1,21 +1,21 @@
 <?php
 
 class ModuleTemplate {
-	protected $RequiredModules = array();
-	protected $Modules = array();
-	protected $ModuleConfig = NULL;
+	protected $requiredModules = array();
+	protected $modules = array();
+	protected $moduleConfig = NULL;
 
 	public function __construct() {
-		$ClassName = get_class($this);
+		$className = get_class($this);
 
-		if(file_exists('config/'.$ClassName.'.config.class.php')) {
-			include('config/'.$ClassName.'.config.class.php');
-			$Temp = $ClassName.'Config';
-			$this->ModuleConfig = new $Temp;
+		if(file_exists('config/'.$className.'.config.class.php')) {
+			include('config/'.$className.'.config.class.php');
+			$temp = $className.'Config';
+			$this->moduleConfig = new $temp;
 		}
 
-		foreach($this->RequiredModules AS $curModule)
-			$this->Modules[$curModule] = &Factory::singleton($curModule);
+		foreach($this->requiredModules AS $curModule)
+			$this->modules[$curModule] = &Factory::singleton($curModule);
 	}
 
 	public function initializeMe() {
@@ -24,8 +24,12 @@ class ModuleTemplate {
 	public function executeMe() {
 	}
 
-	public function getConfigValue($ConfigName) {
-		return $this->ModuleConfig->getValue($ConfigName);
+	public function getConfigValue($configName) {
+		return $this->moduleConfig->getValue($configName);
+	}
+
+	public function getC($configName) {
+		return $this->moduleConfig->getValue($configName);
 	}
 }
 

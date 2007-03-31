@@ -1,19 +1,19 @@
 <?php
 
 class Config extends ModuleTemplate {
-	protected $RequiredModules = array(
+	protected $requiredModules = array(
 		'Cache',
 		'DB'
 	);
-	protected $MyConfig = array();
+	protected $myConfig = array();
 
 	public function initializeMe() {
-		$this->MyConfig = $this->Modules['Cache']->getConfig();
-		$this->Modules['Cache']->setPPicsData();
+		$this->myConfig = $this->modules['Cache']->getConfig();
+		$this->modules['Cache']->setPPicsData();
 	}
 
-	public function getValue($ConfigName) {
-		return (isset($this->MyConfig[$ConfigName]) == FALSE) ? FALSE : $this->MyConfig[$ConfigName];
+	public function getValue($configName) {
+		return (isset($this->myConfig[$configName]) == FALSE) ? FALSE : $this->myConfig[$configName];
 	}
 }
 

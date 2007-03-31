@@ -1,10 +1,11 @@
 <?php
 
 class CoreConfig extends ConfigTemplate {
-	protected $Config = array(
-		'IndexFile'=>'index.php',
-		'DefaultAction'=>'ForumIndex',
-		'AllowedActions'=>array(
+	protected $config = array(
+		'indexFile'=>'index.php',
+		'defaultAction'=>'ForumIndex',
+		'enableOutputCompression'=>TRUE,
+		'allowedActions'=>array(
 			'Ajax',
 			'EditProfile',
 			'ForumIndex',

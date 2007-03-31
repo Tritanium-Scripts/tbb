@@ -1,10 +1,10 @@
 <?php
 
 class ConfigTemplate {
-	protected $Config = array();
+	protected $config = array();
 
-	public function getValue($ConfigName) {
-		return $this->Config[$ConfigName];
+	public function getValue($configName) {
+		return $this->config[$configName];
 	}
 }
 

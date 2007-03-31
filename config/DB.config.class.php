@@ -1,13 +1,13 @@
 <?php
 
 class DBConfig extends ConfigTemplate {
-	protected $Config = array(
-		'DBType'=>'Mysql',
-		'DBServer'=>'localhost',
-		'DBUser'=>'root',
-		'DBPassword'=>'',
-		'DBName'=>'tbb2test',
-		'TablePrefix'=>'tbb2_'
+	protected $config = array(
+		'dbType'=>'Mysql',
+		'dbServer'=>'localhost',
+		'dbUser'=>'root',
+		'dbPassword'=>'',
+		'dbName'=>'tbb2test',
+		'tablePrefix'=>'tbb2_'
 	);
 }
 

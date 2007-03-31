@@ -1,7 +1,7 @@
 <?php
 
 class Session extends ModuleTemplate {
-	protected $RequiredModules = array(
+	protected $requiredModules = array(
 		'Template',
 		'DB'
 	);
@@ -26,7 +26,7 @@ class Session extends ModuleTemplate {
 		$MySID = (SID == '') ? 'sid=0' : 'sid='.session_id(); // Falls die Session-ID per Cookie uebergeben wird ist SID leer, man braucht also auch keine (gueltige) Session-ID per URL zu uebergeben
 
 		define('MYSID',$MySID);
-		$this->Modules['Template']->assign('MySID',$MySID);
+		$this->modules['Template']->assign('MySID',$MySID);
 	}
 
 	public function DataHandlerOpen($SavePath,$SessionName) {
@@ -38,33 +38,33 @@ class Session extends ModuleTemplate {
 	}
 
 	public function DataHandlerRead($SessionID) {
-		$this->Modules['DB']->query("SELECT SessionData FROM ".TBLPFX."sessions WHERE SessionID='$SessionID'");
-		if($this->Modules['DB']->getAffectedRows() == 0) {
-			$this->Modules['DB']->query("INSERT INTO ".TBLPFX."sessions (SessionID) VALUES ('$SessionID')");
+		$this->modules['DB']->query("SELECT SessionData FROM ".TBLPFX."sessions WHERE SessionID='$SessionID'");
+		if($this->modules['DB']->getAffectedRows() == 0) {
+			$this->modules['DB']->query("INSERT INTO ".TBLPFX."sessions (SessionID) VALUES ('$SessionID')");
 			return "";
 		}
 
-		list($SessionData) = $this->Modules['DB']->fetchArray();
+		list($SessionData) = $this->modules['DB']->fetchArray();
 		return $SessionData;
 	}
 
 	public function DataHandlerWrite($SessionID,$SessionData) {
-		$SessionData = $this->Modules['DB']->escapeString($SessionData);
+		$SessionData = $this->modules['DB']->escapeString($SessionData);
 
-		$this->Modules['DB']->query("UPDATE ".TBLPFX."sessions SET SessionData='$SessionData', SessionLastUpdate=NOW() WHERE SessionID='$SessionID'");
-		if($this->Modules['DB']->getAffectedRows() == 0)
+		$this->modules['DB']->query("UPDATE ".TBLPFX."sessions SET SessionData='$SessionData', SessionLastUpdate=NOW() WHERE SessionID='$SessionID'");
+		if($this->modules['DB']->getAffectedRows() == 0)
 			return FALSE;
 
 		return TRUE;
 	}
 
 	function DataHandlerDestroy($SessionID) {
-		$this->Modules['DB']->query("DELETE FROM ".TBLPFX."sessions WHERE SessionID='$SessionID'");
-		return ($this->Modules['DB']->getAffectedRows() == 0) ? FALSE : TRUE;
+		$this->modules['DB']->query("DELETE FROM ".TBLPFX."sessions WHERE SessionID='$SessionID'");
+		return ($this->modules['DB']->getAffectedRows() == 0) ? FALSE : TRUE;
 	}
 
 	function DataHandlerGc($SessionMaxLifeTime) {
-		$this->Modules['DB']->query("DELETE FROM ".TBLPFX."sessions WHERE SessionLastUpdate<'".$this->Modules['DB']->fromUnixTimestamp(time()-$SessionMaxLifeTime)."'");
+		$this->modules['DB']->query("DELETE FROM ".TBLPFX."sessions WHERE SessionLastUpdate<'".$this->modules['DB']->fromUnixTimestamp(time()-$SessionMaxLifeTime)."'");
 
 		return TRUE;
 	}

@@ -8,32 +8,34 @@ class DB extends ModuleTemplate {
 
 	public function initializeMe() {
 		$this->DBObject = new mysqli;
-		@$this->DBObject->connect($this->ModuleConfig->getValue('DBServer'),$this->ModuleConfig->getValue('DBUser'),$this->ModuleConfig->getValue('DBPassword'),$this->ModuleConfig->getValue('DBName'));
+
+		@$this->DBObject->connect($this->getC('dbServer'),$this->getC('dbUser'),$this->getC('dbPassword'),$this->getC('dbName'));
 		if(mysqli_connect_error() != '') die('Database error: <b>'.mysqli_connect_error().'</b>');
+
 		define('TBLPFX',$this->getTablePrefix());
 		$this->query("SET NAMES utf8");
-		////$this->query("update tbb2_posts set PostText = REPLACE(PostText,'Ã¶','ö')");
-		////$this->query("update tbb2_posts set PostText = REPLACE(PostText,'Ã¤','ä')");
-		////$this->query("update tbb2_posts set PostText = REPLACE(PostText,'Ã¼','ü')");
-		////$this->query("update tbb2_posts set PostText = REPLACE(PostText,'ÃŸ','ß')");
-		//$this->query("update tbb2_posts set PostText = REPLACE(PostText,'Ã¶','ö')");
-		//$this->query("update tbb2_posts set PostText = REPLACE(PostText,'Ã¶','ö')");
-		//$this->query("update tbb2_posts set PostText = REPLACE(PostText,'Ã¶','ö')");
+		/*/$this->query("update tbb2_posts set PostText = REPLACE(PostText,'Ã¶','ö')");
+		$this->query("update tbb2_posts set PostText = REPLACE(PostText,'Ã¤','ä')");
+		$this->query("update tbb2_posts set PostText = REPLACE(PostText,'Ã¼','ü')");
+		$this->query("update tbb2_posts set PostText = REPLACE(PostText,'ÃŸ','ß')");
+		$this->query("update tbb2_posts set PostText = REPLACE(PostText,'Ã¶','ö')");
+		$this->query("update tbb2_posts set PostText = REPLACE(PostText,'Ã¶','ö')");
+		$this->query("update tbb2_posts set PostText = REPLACE(PostText,'Ã¶','ö')");
 
 
-		////$this->query("update tbb2_posts set PostTitle = REPLACE(PostTitle,'Ã¶','ö')");
-		////$this->query("update tbb2_posts set PostTitle = REPLACE(PostTitle,'Ã¤','ä')");
-		////$this->query("update tbb2_posts set PostTitle = REPLACE(PostTitle,'Ã¼','ü')");
-		////$this->query("update tbb2_posts set PostTitle = REPLACE(PostTitle,'ÃŸ','ß')");
+		$this->query("update tbb2_posts set PostTitle = REPLACE(PostTitle,'Ã¶','ö')");
+		$this->query("update tbb2_posts set PostTitle = REPLACE(PostTitle,'Ã¤','ä')");
+		$this->query("update tbb2_posts set PostTitle = REPLACE(PostTitle,'Ã¼','ü')");
+		$this->query("update tbb2_posts set PostTitle = REPLACE(PostTitle,'ÃŸ','ß')");
 
-		//$this->query("update tbb2_forums set ForumName = REPLACE(ForumName,'Ã¶','ö')");
-		//$this->query("update tbb2_forums set ForumName = REPLACE(ForumName,'Ã¤','ä')");
-		//$this->query("update tbb2_forums set ForumName = REPLACE(ForumName,'Ã¼','ü')");
-		//$this->query("update tbb2_forums set ForumName = REPLACE(ForumName,'ÃŸ','ß')");
-		//$this->query("update tbb2_forums set ForumDescription = REPLACE(ForumDescription,'Ã¶','ö')");
-		//$this->query("update tbb2_forums set ForumDescription = REPLACE(ForumDescription,'Ã¤','ä')");
-		//$this->query("update tbb2_forums set ForumDescription = REPLACE(ForumDescription,'Ã¼','ü')");
-		//$this->query("update tbb2_forums set ForumDescription = REPLACE(ForumDescription,'ÃŸ','ß')");
+		$this->query("update tbb2_forums set ForumName = REPLACE(ForumName,'Ã¶','ö')");
+		$this->query("update tbb2_forums set ForumName = REPLACE(ForumName,'Ã¤','ä')");
+		$this->query("update tbb2_forums set ForumName = REPLACE(ForumName,'Ã¼','ü')");
+		$this->query("update tbb2_forums set ForumName = REPLACE(ForumName,'ÃŸ','ß')");
+		$this->query("update tbb2_forums set ForumDescription = REPLACE(ForumDescription,'Ã¶','ö')");
+		$this->query("update tbb2_forums set ForumDescription = REPLACE(ForumDescription,'Ã¤','ä')");
+		$this->query("update tbb2_forums set ForumDescription = REPLACE(ForumDescription,'Ã¼','ü')");
+		$this->query("update tbb2_forums set ForumDescription = REPLACE(ForumDescription,'ÃŸ','ß')");/**/
 	}
 
 	public function query($Query) {
@@ -77,7 +79,7 @@ class DB extends ModuleTemplate {
 	}
 
 	public function getTablePrefix() {
-		return $this->ModuleConfig->getValue('TablePrefix');
+		return $this->getC('tablePrefix');
 	}
 
 	public function fromUnixTimestamp($Timestamp) {

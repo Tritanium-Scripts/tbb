@@ -1,39 +1,39 @@
 <?php
 
 class Auth extends ModuleTemplate {
-	protected $RequiredModules = array(
+	protected $requiredModules = array(
 		'Session',
 		'DB'
 	);
-	protected $UserLoggedIn = 0;
-	protected $UserID = 0;
-	protected $UserData = array();
+	protected $userLoggedIn = 0;
+	protected $userID = 0;
+	protected $userData = array();
 
 	public function initializeMe() {
 		if(isset($_SESSION['UserID']) == TRUE) {
-			$this->Modules['DB']->query("SELECT * FROM ".TBLPFX."users WHERE UserID='".$_SESSION['UserID']."'");
-			if($this->Modules['DB']->getAffectedRows() == 1) {
-				$TempUserData = $this->Modules['DB']->fetchArray();
-				if($TempUserData['UserPassword'] == $_SESSION['UserPassword']) {
-					$this->UserID = $TempUserData['UserID'];
-					$this->UserLoggedIn = 1;
-					$this->UserData = $TempUserData;
+			$this->modules['DB']->query("SELECT * FROM ".TBLPFX."users WHERE UserID='".$_SESSION['UserID']."'");
+			if($this->modules['DB']->getAffectedRows() == 1) {
+				$tempUserData = $this->Modules['DB']->fetchArray();
+				if($tempUserData['UserPassword'] == $_SESSION['UserPassword']) {
+					$this->userID = $tempUserData['UserID'];
+					$this->userLoggedIn = 1;
+					$this->userData = $tempUserData;
 				}
 			}
 		}
-		define('USERID',$this->UserID);
+		define('USERID',$this->userID);
 	}
 
 	public function getUserID() {
-		return $this->UserID;
+		return $this->userID;
 	}
 
 	public function isLoggedIn() {
-		return $this->UserLoggedIn;
+		return $this->userLoggedIn;
 	}
 
 	public function getUserData() {
-		return $this->UserData;
+		return $this->userData;
 	}
 
 	public function setSessionUserID($newUserID) {
@@ -44,16 +44,16 @@ class Auth extends ModuleTemplate {
 		$_SESSION['UserPassword'] = $newUserPassword;
 	}
 
-	public function getUserDataValue($Key) {
-		return (isset($this->UserData[$Key]) == TRUE) ? $this->UserData[$Key] : FALSE;
+	public function getUserDataValue($key) {
+		return isset($this->userData[$key]) ? $this->userData[$key] : FALSE;
 	}
 
-	public function getValue($Key) {
-		return $this->getUserDataValue($Key);
+	public function getValue($key) {
+		return $this->getUserDataValue($key);
 	}
 
-	public function setValue($Key,$Value) {
-		$this->UserData[$Key] = $Value;
+	public function setValue($key,$value) {
+		$this->userData[$key] = $value;
 	}
 
 	public function destroySessionData() {
