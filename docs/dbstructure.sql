@@ -35,13 +35,13 @@ CREATE TABLE `tbb2_avatars` (
 #
 
 CREATE TABLE `tbb2_cats` (
-  `CatID` mediumint(5) unsigned NOT NULL auto_increment,
-  `CatL` mediumint(5) NOT NULL default '0',
-  `CatR` mediumint(5) NOT NULL default '0',
-  `CatStandardStatus` tinyint(1) unsigned NOT NULL default '1',
-  `CatName` varchar(255) NOT NULL default '',
-  `CatDescription` varchar(255) NOT NULL default '',
-  PRIMARY KEY  (`CatID`)
+  `catID` mediumint(5) unsigned NOT NULL auto_increment,
+  `catL` mediumint(5) NOT NULL default '0',
+  `catR` mediumint(5) NOT NULL default '0',
+  `catStandardStatus` tinyint(1) unsigned NOT NULL default '1',
+  `catName` varchar(255) NOT NULL default '',
+  `catDescription` varchar(255) NOT NULL default '',
+  PRIMARY KEY  (`catID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 #
@@ -58,32 +58,32 @@ CREATE TABLE `tbb2_config` (
 #
 
 CREATE TABLE `tbb2_forums` (
-  `ForumID` mediumint(8) unsigned NOT NULL auto_increment,
-  `CatID` mediumint(8) unsigned NOT NULL default '0',
-  `OrderID` mediumint(8) unsigned NOT NULL default '0',
-  `ForumName` varchar(255) NOT NULL default '',
-  `ForumDescription` varchar(255) NOT NULL default '',
-  `ForumTopicsCounter` mediumint(8) unsigned NOT NULL default '0',
-  `ForumPostsCounter` mediumint(8) unsigned NOT NULL default '0',
-  `ForumLastPostID` mediumint(8) unsigned NOT NULL default '0',
-  `ForumEnableBBCode` tinyint(1) unsigned NOT NULL default '0',
-  `ForumEnableHtmlCode` tinyint(1) unsigned NOT NULL default '0',
-  `ForumEnableSmilies` tinyint(1) unsigned NOT NULL default '0',
-  `ForumEnableURITransformation` tinyint(1) unsigned NOT NULL default '0',
-  `forum_is_moderated` tinyint(1) unsigned NOT NULL default '0',
-  `forum_show_latest_posts` tinyint(1) unsigned NOT NULL default '0',
-  `auth_members_view_forum` tinyint(1) unsigned NOT NULL default '0',
-  `auth_members_post_topic` tinyint(1) unsigned NOT NULL default '0',
-  `auth_members_post_reply` tinyint(1) unsigned NOT NULL default '0',
-  `auth_members_post_poll` tinyint(1) unsigned NOT NULL default '0',
-  `auth_members_edit_posts` tinyint(1) unsigned NOT NULL default '0',
-  `GuestsAuthViewForum` tinyint(1) unsigned NOT NULL default '0',
-  `auth_guests_post_topic` tinyint(1) unsigned NOT NULL default '0',
-  `auth_guests_post_reply` tinyint(1) unsigned NOT NULL default '0',
-  `auth_guests_post_poll` tinyint(1) unsigned NOT NULL default '0',
-  PRIMARY KEY  (`ForumID`),
-  KEY `cat_id` (`CatID`),
-  KEY `order_id` (`OrderID`)
+  `forumID` mediumint(8) unsigned NOT NULL auto_increment,
+  `catID` mediumint(8) unsigned NOT NULL default '0',
+  `orderID` mediumint(8) unsigned NOT NULL default '0',
+  `forumName` varchar(255) NOT NULL default '',
+  `forumDescription` varchar(255) NOT NULL default '',
+  `forumTopicsCounter` mediumint(8) unsigned NOT NULL default '0',
+  `forumPostsCounter` mediumint(8) unsigned NOT NULL default '0',
+  `forumLastPostID` mediumint(8) unsigned NOT NULL default '0',
+  `forumEnableBBCode` tinyint(1) unsigned NOT NULL default '0',
+  `forumEnableHtmlCode` tinyint(1) unsigned NOT NULL default '0',
+  `forumEnableSmilies` tinyint(1) unsigned NOT NULL default '0',
+  `forumEnableURITransformation` tinyint(1) unsigned NOT NULL default '0',
+  `forumIsModerated` tinyint(1) unsigned NOT NULL default '0',
+  `forumShowLatestPosts` tinyint(1) unsigned NOT NULL default '0',
+  `membersAuthViewForum` tinyint(1) unsigned NOT NULL default '0',
+  `authPostTopicMembers` tinyint(1) unsigned NOT NULL default '0',
+  `authPostReplyMembers` tinyint(1) unsigned NOT NULL default '0',
+  `authPostPollMembers` tinyint(1) unsigned NOT NULL default '0',
+  `authEditPostsMembers` tinyint(1) unsigned NOT NULL default '0',
+  `authViewForumGuests` tinyint(1) unsigned NOT NULL default '0',
+  `authPostTopicGuests` tinyint(1) unsigned NOT NULL default '0',
+  `authPostReplyGuests` tinyint(1) unsigned NOT NULL default '0',
+  `authPostPollGuests` tinyint(1) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`forumID`),
+  KEY `cat_id` (`catID`),
+  KEY `order_id` (`orderID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 #
@@ -91,16 +91,16 @@ CREATE TABLE `tbb2_forums` (
 #
 
 CREATE TABLE `tbb2_forums_auth` (
-  `ForumID` mediumint(8) unsigned NOT NULL default '0',
-  `AuthType` tinyint(1) unsigned NOT NULL default '0',
-  `AuthID` mediumint(8) unsigned NOT NULL default '0',
-  `auth_view_forum` tinyint(1) unsigned NOT NULL default '0',
-  `auth_post_topic` tinyint(1) unsigned NOT NULL default '0',
-  `auth_post_reply` tinyint(1) unsigned NOT NULL default '0',
-  `auth_post_poll` tinyint(1) unsigned NOT NULL default '0',
-  `auth_edit_posts` tinyint(1) unsigned NOT NULL default '0',
-  `AuthIsMod` tinyint(1) unsigned NOT NULL default '0',
-  KEY `forum_id` (`ForumID`)
+  `forumID` mediumint(8) unsigned NOT NULL default '0',
+  `authType` tinyint(1) unsigned NOT NULL default '0',
+  `authID` mediumint(8) unsigned NOT NULL default '0',
+  `authViewForum` tinyint(1) unsigned NOT NULL default '0',
+  `authPostTopic` tinyint(1) unsigned NOT NULL default '0',
+  `authPostReply` tinyint(1) unsigned NOT NULL default '0',
+  `authPostPoll` tinyint(1) unsigned NOT NULL default '0',
+  `authEditPosts` tinyint(1) unsigned NOT NULL default '0',
+  `authIsMod` tinyint(1) unsigned NOT NULL default '0',
+  KEY `forum_id` (`forumID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 #
@@ -211,28 +211,28 @@ CREATE TABLE `tbb2_polls_votes` (
 #
 
 CREATE TABLE `tbb2_posts` (
-  `PostID` mediumint(8) unsigned NOT NULL auto_increment,
-  `TopicID` mediumint(8) unsigned NOT NULL default '0',
-  `ForumID` mediumint(8) unsigned NOT NULL default '0',
-  `PosterID` mediumint(8) unsigned NOT NULL default '0',
-  `PostTimestamp` int(10) unsigned NOT NULL default '0',
-  `PostIP` varchar(15) NOT NULL default '',
-  `SmileyID` smallint(5) unsigned NOT NULL default '0',
-  `PostEnableBBCode` tinyint(1) unsigned NOT NULL default '0',
-  `PostEnableSmilies` tinyint(1) unsigned NOT NULL default '0',
-  `PostEnableHtmlCode` tinyint(1) unsigned NOT NULL default '0',
-  `PostShowSignature` tinyint(1) unsigned NOT NULL default '0',
-  `post_enable_urltransformation` tinyint(1) unsigned NOT NULL default '0',
-  `post_show_editings` tinyint(1) unsigned NOT NULL default '0',
-  `PostGuestNick` varchar(15) NOT NULL default '',
-  `PostEditedCounter` smallint(5) unsigned NOT NULL default '0',
-  `post_last_editor_id` mediumint(8) unsigned NOT NULL default '0',
-  `PostTitle` varchar(255) NOT NULL default '',
-  `PostText` text NOT NULL,
-  PRIMARY KEY  (`PostID`),
-  KEY `topic_id` (`TopicID`),
-  KEY `forum_id` (`ForumID`),
-  KEY `poster_id` (`PosterID`)
+  `postID` mediumint(8) unsigned NOT NULL auto_increment,
+  `topicID` mediumint(8) unsigned NOT NULL default '0',
+  `forumID` mediumint(8) unsigned NOT NULL default '0',
+  `posterID` mediumint(8) unsigned NOT NULL default '0',
+  `postTimestamp` int(10) unsigned NOT NULL default '0',
+  `postIP` varchar(15) NOT NULL default '',
+  `smileyID` smallint(5) unsigned NOT NULL default '0',
+  `postEnableBBCode` tinyint(1) unsigned NOT NULL default '0',
+  `postEnableSmilies` tinyint(1) unsigned NOT NULL default '0',
+  `postEnableHtmlCode` tinyint(1) unsigned NOT NULL default '0',
+  `postShowSignature` tinyint(1) unsigned NOT NULL default '0',
+  `postEnableURITransformation` tinyint(1) unsigned NOT NULL default '0',
+  `postShowEditings` tinyint(1) unsigned NOT NULL default '0',
+  `postGuestNick` varchar(15) NOT NULL default '',
+  `postEditedCounter` smallint(5) unsigned NOT NULL default '0',
+  `postLastEditorID` mediumint(8) unsigned NOT NULL default '0',
+  `postTitle` varchar(255) NOT NULL default '',
+  `postText` text NOT NULL,
+  PRIMARY KEY  (`postID`),
+  KEY `topic_id` (`topicID`),
+  KEY `forum_id` (`forumID`),
+  KEY `poster_id` (`posterID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 #
@@ -284,13 +284,13 @@ CREATE TABLE `tbb2_profile_notes` (
 #
 
 CREATE TABLE `tbb2_ranks` (
-  `RankID` smallint(5) unsigned NOT NULL auto_increment,
-  `RankType` tinyint(1) unsigned NOT NULL default '0',
-  `RankName` varchar(255) NOT NULL default '',
-  `RankGfx` text NOT NULL,
-  `RankPosts` mediumint(8) unsigned NOT NULL default '0',
-  PRIMARY KEY  (`RankID`),
-  KEY `rank_type` (`RankType`)
+  `rankID` smallint(5) unsigned NOT NULL auto_increment,
+  `rankType` tinyint(1) unsigned NOT NULL default '0',
+  `rankName` varchar(255) NOT NULL default '',
+  `rankGfx` text NOT NULL,
+  `rankPosts` mediumint(8) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`rankID`),
+  KEY `rank_type` (`rankType`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 #
@@ -310,14 +310,14 @@ CREATE TABLE `tbb2_search_results` (
 #
 
 CREATE TABLE `tbb2_sessions` (
-  `SessionID` varchar(32) NOT NULL default '',
-  `SessionLastUpdate` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
-  `SessionData` text NOT NULL,
-  `SessionUserID` mediumint(8) unsigned NOT NULL default '0',
-  `SessionIsGhost` tinyint(1) unsigned NOT NULL default '0',
-  `SessionLastLocation` varchar(255) NOT NULL default 'forumindex',
-  PRIMARY KEY  (`SessionID`),
-  KEY `session_last_update` (`SessionLastUpdate`)
+  `sessionID` varchar(32) NOT NULL default '',
+  `sessionLastUpdate` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+  `sessionData` text NOT NULL,
+  `sessionUserID` mediumint(8) unsigned NOT NULL default '0',
+  `sessionIsGhost` tinyint(1) unsigned NOT NULL default '0',
+  `sessionLastLocation` varchar(255) NOT NULL default 'forumindex',
+  PRIMARY KEY  (`sessionID`),
+  KEY `session_last_update` (`sessionLastUpdate`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 #
@@ -338,25 +338,25 @@ CREATE TABLE `tbb2_smilies` (
 #
 
 CREATE TABLE `tbb2_topics` (
-  `TopicID` mediumint(8) unsigned NOT NULL auto_increment,
-  `ForumID` mediumint(8) unsigned NOT NULL default '0',
-  `PosterID` mediumint(8) unsigned NOT NULL default '0',
-  `TopicStatus` tinyint(1) unsigned NOT NULL default '0',
-  `TopicIsPinned` tinyint(1) unsigned NOT NULL default '0',
-  `SmileyID` smallint(5) unsigned NOT NULL default '0',
-  `TopicRepliesCounter` mediumint(8) unsigned NOT NULL default '0',
-  `TopicViewsCounter` mediumint(8) unsigned NOT NULL default '0',
-  `TopicHasPoll` tinyint(1) unsigned NOT NULL default '0',
-  `TopicFirstPostID` mediumint(8) unsigned NOT NULL default '0',
-  `TopicLastPostID` mediumint(8) unsigned NOT NULL default '0',
-  `TopicMovedID` mediumint(8) unsigned NOT NULL default '0',
-  `TopicPostTime` int(10) unsigned NOT NULL default '0',
-  `TopicTitle` varchar(255) NOT NULL default '',
-  `TopicGuestNick` varchar(255) NOT NULL default '',
-  PRIMARY KEY  (`TopicID`),
-  KEY `forum_id_topic_id` (`ForumID`,`TopicID`),
-  KEY `poster_id` (`PosterID`),
-  KEY `topic_moved_id` (`TopicMovedID`)
+  `topicID` mediumint(8) unsigned NOT NULL auto_increment,
+  `forumID` mediumint(8) unsigned NOT NULL default '0',
+  `posterID` mediumint(8) unsigned NOT NULL default '0',
+  `topicStatus` tinyint(1) unsigned NOT NULL default '0',
+  `topicIsPinned` tinyint(1) unsigned NOT NULL default '0',
+  `smileyID` smallint(5) unsigned NOT NULL default '0',
+  `topicRepliesCounter` mediumint(8) unsigned NOT NULL default '0',
+  `topicViewsCounter` mediumint(8) unsigned NOT NULL default '0',
+  `topicHasPoll` tinyint(1) unsigned NOT NULL default '0',
+  `topicFirstPostID` mediumint(8) unsigned NOT NULL default '0',
+  `topicLastPostID` mediumint(8) unsigned NOT NULL default '0',
+  `topicMovedID` mediumint(8) unsigned NOT NULL default '0',
+  `topicPostTime` int(10) unsigned NOT NULL default '0',
+  `topicTitle` varchar(255) NOT NULL default '',
+  `topicGuestNick` varchar(255) NOT NULL default '',
+  PRIMARY KEY  (`topicID`),
+  KEY `forum_id_topic_id` (`forumID`,`topicID`),
+  KEY `poster_id` (`posterID`),
+  KEY `topic_moved_id` (`topicMovedID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 #
@@ -375,36 +375,35 @@ CREATE TABLE `tbb2_topics_subscriptions` (
 #
 
 CREATE TABLE `tbb2_users` (
-  `UserID` mediumint(8) unsigned NOT NULL auto_increment,
-  `UserStatus` tinyint(1) unsigned NOT NULL default '0',
-  `UserIsAdmin` tinyint(1) unsigned NOT NULL default '0',
-  `UserIsSupermod` tinyint(1) unsigned NOT NULL default '0',
-  `user_hash` varchar(32) NOT NULL default '',
-  `UserNick` varchar(255) NOT NULL default '',
-  `UserEmail` varchar(255) NOT NULL default '',
-  `UserPassword` varchar(255) NOT NULL default '',
-  `UserPasswordSalt` varchar(255) default NULL,
-  `UserNewPassword` varchar(255) default NULL,
-  `UserNewPasswordSalt` varchar(255) default NULL,
-  `UserPostsCounter` mediumint(8) unsigned NOT NULL default '0',
-  `UserRegistrationTimestamp` int(10) unsigned NOT NULL default '0',
-  `UserSignature` text NOT NULL,
+  `userID` mediumint(8) unsigned NOT NULL auto_increment,
+  `userStatus` tinyint(1) unsigned NOT NULL default '0',
+  `userIsAdmin` tinyint(1) unsigned NOT NULL default '0',
+  `userIsSupermod` tinyint(1) unsigned NOT NULL default '0',
+  `userHash` varchar(32) NOT NULL default '',
+  `userNick` varchar(255) NOT NULL default '',
+  `userEmail` varchar(255) NOT NULL default '',
+  `userPassword` varchar(255) NOT NULL default '',
+  `userPasswordSalt` varchar(255) default NULL,
+  `userNewPassword` varchar(255) default NULL,
+  `userNewPasswordSalt` varchar(255) default NULL,
+  `userPostsCounter` mediumint(8) unsigned NOT NULL default '0',
+  `userRegistrationTimestamp` int(10) unsigned NOT NULL default '0',
+  `userSignature` text NOT NULL,
   `user_group_id` mediumint(8) unsigned NOT NULL default '0',
   `user_special_status` mediumint(8) unsigned NOT NULL default '0',
-  `user_last_action` int(10) unsigned NOT NULL default '0',
-  `RankID` smallint(5) unsigned NOT NULL default '0',
-  `UserAvatarAddress` varchar(255) NOT NULL default '',
+  `userLastAction` int(10) unsigned NOT NULL default '0',
+  `rankID` smallint(5) unsigned NOT NULL default '0',
+  `userAvatarAddress` varchar(255) NOT NULL default '',
   `user_tz` varchar(255) NOT NULL default 'gmt',
-  `user_new_pw` varchar(32) NOT NULL default '',
-  `UserReceiveEmails` tinyint(1) unsigned NOT NULL default '1',
-  `UserHideEmail` tinyint(1) unsigned NOT NULL default '0',
-  `user_is_locked` tinyint(1) unsigned NOT NULL default '0',
-  `user_memo` text NOT NULL,
+  `userReceiveEmails` tinyint(1) unsigned NOT NULL default '1',
+  `userHideEmail` tinyint(1) unsigned NOT NULL default '0',
+  `userIsLocked` tinyint(1) unsigned NOT NULL default '0',
+  `userMemo` text NOT NULL,
   `user_auth_profile_notes` tinyint(1) unsigned NOT NULL default '2',
   `user_language` varchar(255) NOT NULL default '',
-  PRIMARY KEY  (`UserID`),
-  KEY `user_last_action` (`user_last_action`),
-  KEY `user_rank_id` (`RankID`)
+  PRIMARY KEY  (`userID`),
+  KEY `user_last_action` (`userLastAction`),
+  KEY `user_rank_id` (`rankID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 #
