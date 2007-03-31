@@ -91,6 +91,7 @@ docs/dbstructure.sql -text
 docs/farben[!!-~]logo.txt -text
 docs/history.txt -text
 images/Thumbs.db -text
+images/bck.jpg -text
 images/dot.gif -text
 images/new_smilies/Thumbs.db -text
 images/new_smilies/standard_biggrin.gif -text
@@ -150,6 +151,7 @@ images/smilies/7.gif -text
 images/smilies/8.gif -text
 images/smilies/9.gif -text
 images/smilies/Thumbs.db -text
+images/test.jpg -text
 images/tsmilies/1.gif -text
 images/tsmilies/10.gif -text
 images/tsmilies/11.gif -text
