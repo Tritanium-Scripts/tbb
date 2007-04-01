@@ -260,16 +260,16 @@ class Functions {
 
 	public static function getAuthData(&$forumData,$authNames) {
 		$authData = array();
-		$auth = Factory::singleton('Auth');
+		$Auth = Factory::singleton('Auth');
 
-		if($auth->isLoggedIn() == 0) {
+		if($Auth->isLoggedIn() == 0) {
 			foreach($authNames AS $curAuth)
 				$authData[$curAuth] = isset($forumData[$curAuth.'Guests']) ? $forumData[$curAuth.'Guests'] : 0;
 
 			return $authData;
 		}
 		elseif($Auth->getValue('userIsAdmin') == 1 || $Auth->getValue('userIsSupermod') == 1) {
-			foreach($AuthNames AS $curAuth)
+			foreach($authNames AS $curAuth)
 				$authData[$curAuth] = 1;
 
 			return $authData;
@@ -277,18 +277,18 @@ class Functions {
 
 		$authNamesI = implode(', ',$authNames);
 
-		$db = Factory::singleton('DB');
+		$DB = Factory::singleton('DB');
 
-		$db->query("SELECT $authNamesI FROM ".TBLPFX."forums_auth WHERE forumID='".$forumData['forumID']."' AND authType='".AUTH_TYPE_USER."' AND authID='$userID'");
-		if($db->getAffectedRows() == 1) return $db->fetchArray();
+		$DB->query("SELECT $authNamesI FROM ".TBLPFX."forums_auth WHERE forumID='".$forumData['forumID']."' AND authType='".AUTH_TYPE_USER."' AND authID='$userID'");
+		if($DB->getAffectedRows() == 1) return $DB->fetchArray();
 
-		$db->query("SELECT GroupID FROM ".TBLPFX."groups_members WHERE MemberID='$UserID'");
-		if($db->getAffectedRows() > 0) {
-			$GroupIDs = $db->Raw2FVArray();
+		$DB->query("SELECT GroupID FROM ".TBLPFX."groups_members WHERE MemberID='$UserID'");
+		if($DB->getAffectedRows() > 0) {
+			$GroupIDs = $DB->Raw2FVArray();
 
-			$db->query("SELECT $AuthNamesI FROM ".TBLPFX."forums_auth WHERE ForumID='".$ForumData['ForumID']."' AND AuthType='".AUTH_TYPE_GROUP."' AND AuthID IN ('".implode("','",$GroupIDs)."')");
-			if($db->getAffectedRows() > 0) {
-				$GroupsAuthData = $db->Raw2Array();
+			$DB->query("SELECT $AuthNamesI FROM ".TBLPFX."forums_auth WHERE ForumID='".$ForumData['ForumID']."' AND AuthType='".AUTH_TYPE_GROUP."' AND AuthID IN ('".implode("','",$GroupIDs)."')");
+			if($DB->getAffectedRows() > 0) {
+				$GroupsAuthData = $DB->Raw2Array();
 				foreach($AuthNames AS $curAuth) {
 					$AuthData[$curAuth] = $ForumData['Members'.$curAuth];
 					foreach($GroupsAuthData AS $curGroupAuth) {

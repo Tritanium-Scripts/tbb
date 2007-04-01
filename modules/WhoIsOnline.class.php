@@ -26,30 +26,30 @@ class WhoIsOnline extends ModuleTemplate {
 
 		$this->modules['DB']->query("
 			SELECT
-				t1.SessionUserID,
-				t1.SessionLastLocation,
-				t1.SessionIsGhost,
-				t2.UserNick AS SessionUserNick
+				t1.sessionUserID,
+				t1.sessionLastLocation,
+				t1.sessionIsGhost,
+				t2.userNick AS sessionUserNick
 			FROM ".TBLPFX."sessions AS t1
-			LEFT JOIN ".TBLPFX."users AS t2 ON t1.SessionUserID=t2.UserID
+			LEFT JOIN ".TBLPFX."users AS t2 ON t1.sessionUserID=t2.userID
 			WHERE
-				t1.SessionIsGhost<>'1'
-				AND t1.SessionLastUpdate>'".$this->modules['DB']->fromUnixTimestamp(time()-$this->modules['Config']->getValue('wio_timeout')*60)."'
+				t1.sessionIsGhost<>'1'
+				AND t1.sessionLastUpdate>'".$this->modules['DB']->fromUnixTimestamp(time()-$this->modules['Config']->getValue('wio_timeout')*60)."'
 		");
-		$wIOData = $this->modules['DB']->raw2Array();
-		$wIODataCounter = count($wIOData);
+		$wioData = $this->modules['DB']->raw2Array();
+		$wioDataCounter = count($wioData);
 
-		for($i = 0; $i < $wIODataCounter; $i++) {
-			$curWIO = &$wIOData[$i];
+		for($i = 0; $i < $wioDataCounter; $i++) {
+			$curWIO = &$wioData[$i];
 
-			if($curWIO['SessionUserID'] == 0) $curWIO['SessionUserNick'] = $this->modules['Language']->getString('Guest');
-			$curWIO['_SessionLastLocationText'] = $this->modules['Language']->getString('wio_'.$curWIO['SessionLastLocation']);
+			if($curWIO['sessionUserID'] == 0) $curWIO['sessionUserNick'] = $this->modules['Language']->getString('Guest');
+			$curWIO['_sessionLastLocationText'] = $this->modules['Language']->getString('wio_'.$curWIO['sessionLastLocation']);
 		}
 
 		$this->modules['Navbar']->addElement($this->modules['Language']->getString('Who_is_online'),INDEXFILE.'?Action=WhoIsOnline&.'.MYSID);
 
 		$this->modules['Template']->assign(array(
-			'WIOData'=>$wIOData
+			'wioData'=>$wioData
 		));
 		$this->modules['PageParts']->printPage('WhoIsOnline.tpl');
 	}

@@ -103,7 +103,7 @@ class Cache extends ModuleTemplate {
 
 		if(file_exists('cache/PPics.cache.php') == TRUE)
 			include('cache/PPics.cache.php');
-		else return $$this->setPPicsData();
+		else return $this->setPPicsData();
 
 		return $pPicsData;
 	}

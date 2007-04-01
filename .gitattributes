@@ -300,13 +300,13 @@ templates/std/templates/PopupHeader.tpl -text
 templates/std/templates/PopupTail.tpl -text
 templates/std/templates/Posting.tpl -text
 templates/std/templates/PrivateMessagesAddFolder.tpl -text
-templates/std/templates/PrivateMessagesDefault.tpl -text
 templates/std/templates/PrivateMessagesDeleteFolder.tpl -text
 templates/std/templates/PrivateMessagesEditFolder.tpl -text
 templates/std/templates/PrivateMessagesHeader.tpl -text
 templates/std/templates/PrivateMessagesManageFolders.tpl -text
 templates/std/templates/PrivateMessagesNewPM.tpl -text
 templates/std/templates/PrivateMessagesTail.tpl -text
+templates/std/templates/PrivateMessagesViewFolder.tpl -text
 templates/std/templates/PrivateMessagesViewPM.tpl -text
 templates/std/templates/RegisterBoardRules.tpl -text
 templates/std/templates/RegisterRegisterForm.tpl -text

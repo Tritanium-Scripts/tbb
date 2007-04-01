@@ -81,10 +81,10 @@ class ViewTopic extends ModuleTemplate {
 			if($forumID != 0) $modTools[] = "<a href=\"".INDEXFILE."?action=edittopic&amp;mode=move&amp;topic_id=$topicID&amp;".MYSID."\">".$this->modules['Language']->getString('Move_topic').'</a>';
 			$modTools[] = "<a href=\"".INDEXFILE."?action=edittopic&amp;mode=delete&amp;topic_id=$topicID&amp;".MYSID."\">".$this->modules['Language']->getString('Delete_topic').'</a>';
 
-			$temp = ($topicData['TopicIsPinned'] == 1) ? $this->modules['Language']->getString('Mark_topic_unimportant') : $this->modules['Language']->getString('Mark_topic_important');
+			$temp = ($topicData['topicIsPinned'] == 1) ? $this->modules['Language']->getString('Mark_topic_unimportant') : $this->modules['Language']->getString('Mark_topic_important');
 			$modTools[] = "<a href=\"".INDEXFILE."?action=edittopic&amp;mode=pinn&amp;topic_id=$topicID&amp;".MYSID."\">".$temp.'</a>';
 
-			$temp = ($topicData['TopicStatus'] == TOPIC_STATUS_CLOSED) ? $this->modules['Language']->getString('Open_topic') : $this->modules['Language']->getString('Close_topic');
+			$temp = ($topicData['topicStatus'] == TOPIC_STATUS_CLOSED) ? $this->modules['Language']->getString('Open_topic') : $this->modules['Language']->getString('Close_topic');
 			$modTools[] = "<a href=\"".INDEXFILE."?action=edittopic&amp;mode=openclose&amp;topic_id=$topicID&amp;".MYSID."\">".$temp.'</a>';
 		}
 		$modTools = implode(' | ',$modTools);

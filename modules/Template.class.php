@@ -39,6 +39,10 @@ class Template extends ModuleTemplate {
 	public function display($value1) {
 		$this->smarty->display($value1);
 	}
+
+	public function fetch($value) {
+		$this->smarty->fetch($value);
+	}
 }
 
 ?>

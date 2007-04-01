@@ -6,17 +6,17 @@
 <tr><td class="CellCat" colspan="2"><span class="FontCat">{$modules.Language->getString('View_private_message')}</span></td></tr>
 <tr>
  <td class="CellAlt"><span class="FontNorm">{$modules.Language->getString('Date')}:</span></td>
- <td class="CellAlt"><span class="FontNorm">{$pMData._PMSendDateTime}</span></td>
+ <td class="CellAlt"><span class="FontNorm">{$pmData._pmSendDateTime}</span></td>
 </tr>
 <tr>
  <td class="CellAlt"><span class="FontNorm">{$modules.Language->getString('Subject')}:</span></td>
- <td class="CellAlt"><span class="FontNorm"><b>{$pMData._PMSubject}</b> {$pMData._PMSender}</span></td>
+ <td class="CellAlt"><span class="FontNorm"><b>{$pmData._pmSubject}</b> {$pmData._pmSender}</span></td>
 </tr>
-<tr><td class="CellStd" colspan="2"><span class="FontNorm">{$pMData._PMMessageText}</span></td></tr>
+<tr><td class="CellStd" colspan="2"><span class="FontNorm">{$pmData._pmMessageText}</span></td></tr>
 </table>
-{if $pMData.PMType == 0 && $pMData.PMFromID != 0}
+{if $pmData.pmType == 0 && $pmData.pmFromID != 0}
  <br/>
- <form method="post" action="{$indexFile}?action=PrivateMessages&amp;mode=ViewPM&amp;PMID={$pMID}&amp;Doit=1&amp;{$mySID}" name="tbb_form">
+ <form method="post" action="{$indexFile}?action=PrivateMessages&amp;mode=ViewPM&amp;pmID={$pmID}&amp;doit=1&amp;{$mySID}" name="tbb_form">
  <table class="TableStd" border="0" cellpadding="3" cellspacing="0" width="100%">
  <colgroup>
   <col width="20%"/>
@@ -26,11 +26,11 @@
  {if $error != ''}<tr><td class="CellError" colspan="2"><span class="FontError">{$error}</span></td></tr>{/if}
  <tr>
   <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Recipient')}:</span></td>
-  <td class="CellAlt"><span class="FontNorm">{$pMData.PMFromNick}</span></td>
+  <td class="CellAlt"><span class="FontNorm">{$pmData.pmFromNick}</span></td>
  </tr>
  <tr>
   <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Subject')}:</span></td>
-  <td class="CellAlt"><input size="60" class="FormText" type="text" name="p[PMSubject]" value="{$p.PMSubject}" maxlength="255"/></td>
+  <td class="CellAlt"><input size="60" class="FormText" type="text" name="p[pmSubject]" value="{$p.pmSubject}" maxlength="255"/></td>
  </tr>
  <template:bbcoderow>
   <tr>
@@ -40,17 +40,17 @@
  </template>
  <tr>
   <td class="CellStd" valign="top"><span class="FontNorm">{$modules.Language->getString('Message')}:</span></td>
-  <td class="CellAlt"><textarea class="FormTextArea" rows="14" cols="80" name="p[PMMessageText]" onselect="storecaret();" onclick="storecaret();" onkeyup="storecaret();">{$p.PMMessageText}</textarea></td>
+  <td class="CellAlt"><textarea class="FormTextArea" rows="14" cols="80" name="p[pmMessageText]" onselect="storecaret();" onclick="storecaret();" onkeyup="storecaret();">{$p.pmMessageText}</textarea></td>
  </tr>
  <tr>
   <td class="CellStd" valign="top"><span class="FontNorm">{$modules.Language->getString('Options')}:</span></td>
   <td class="CellAlt"><span class="FontNorm">
-   {if $show.EnableSmilies}<input type="checkbox" name="c[EnableSmilies]" value="1"{if $c.EnableSmilies == 1} checked="checked"{/if} id="iEnableSmilies"/><label for="iEnableSmilies">&nbsp;{$modules.Language->getString('Enable_smilies')}</label><br/>{/if}
-   {if $show.ShowSignature}<input type="checkbox" name="c[ShowSignature]" value="1"{if $c.ShowSignature == 1} checked="checked"{/if} id="iShowSignature"/><label for="iShowSignature">&nbsp;{$modules.Language->getString('Show_signature')}</label><br/>{/if}
-   {if $show.EnableBBCode}<input type="checkbox" name="c[EnableBBCode]" value="1"{if $c.EnableBBCode == 1} checked="checked"{/if} id="iEnableBBCode"/><label for="iEnableBBCode">&nbsp;{$modules.Language->getString('Enable_bbcode')}</label><br/>{/if}
-   {if $show.EnableHtmlCode}<input type="checkbox" name="c[EnableHtmlCode]" value="1"{if $c.EnableHtmlCode == 1} checked="checked"{/if} id="iEnableHtmlCode"/><label for="iEnableHtmlCode">&nbsp;{$modules.Language->getString('Enable_html_code')}</label><br/>{/if}
-   {if $show.SaveOutbox}<input type="checkbox" name="c[SaveOutbox]" value="1"{if $c.SaveOutbox == 1} checked="checked"{/if} id="iSaveOutbox"/><label for="iSaveOutbox">&nbsp;{$modules.Language->getString('Save_pm_outbox')}</label><br/>{/if}
-   {if $show.RequestReadReceipt}<input type="checkbox" name="c[RequestReadReceipt]" value="1"{if $c.RequestReadReceipt == 1} checked="checked"{/if} id="iRequestReadReceipt"/><label for="iRequestReadReceipt">&nbsp;{$modules.Language->getString('Request_read_confirmation')}</label><br/>{/if}
+   {if $show.enableSmilies}<label><input type="checkbox" name="c[enableSmilies]" value="1"{if $c.enableSmilies == 1} checked="checked"{/if}/>&nbsp;{$modules.Language->getString('Enable_smilies')}</label><br/>{/if}
+   {if $show.showSignature}<label><input type="checkbox" name="c[showSignature]" value="1"{if $c.showSignature == 1} checked="checked"{/if}/>&nbsp;{$modules.Language->getString('Show_signature')}</label><br/>{/if}
+   {if $show.enableBBCode}<label><input type="checkbox" name="c[enableBBCode]" value="1"{if $c.enableBBCode == 1} checked="checked"{/if}/>&nbsp;{$modules.Language->getString('Enable_bbcode')}</label><br/>{/if}
+   {if $show.enableHtmlCode}<label><input type="checkbox" name="c[enableHtmlCode]" value="1"{if $c.enableHtmlCode == 1} checked="checked"{/if}/>&nbsp;{$modules.Language->getString('Enable_html_code')}</label><br/>{/if}
+   {if $show.saveOutbox}<label><input type="checkbox" name="c[saveOutbox]" value="1"{if $c.saveOutbox == 1} checked="checked"{/if}/>&nbsp;{$modules.Language->getString('Save_pm_outbox')}</label><br/>{/if}
+   {if $show.requestReadReceipt}<label><input type="checkbox" name="c[requestReadReceipt]" value="1"{if $c.requestReadReceipt == 1} checked="checked"{/if}/>&nbsp;{$modules.Language->getString('Request_read_confirmation')}</label><br/>{/if}
   </span></td>
  </tr>
  <tr><td class="CellButtons" colspan="2" align="center"><input class="FormButton" type="submit" value="{$modules.Language->getString('Send_private_message')}"/>&nbsp;&nbsp;&nbsp;<input class="FormBButton" type="submit" name="ShowPreview" value="{$modules.Language->getString('Preview')}"/>&nbsp;&nbsp;&nbsp;<input class="FormButton" type="reset" value="{$modules.Language->getString('Reset')}"/></td></tr>

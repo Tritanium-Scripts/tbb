@@ -7,17 +7,17 @@
   <table border="0" cellpadding="2" cellspacing="0" width="100%">
   <tr>
    <td width="35%" valign="top"><span class="FontNorm">{$modules.Language->getString('Show_email_address')}:</span><br/><span class="FontSmall">{$modules.Language->getString('show_email_address_info')}</span></td>
-   <td width="65%" valign="top"><span class="FontNorm"><input class="FormRadio" type="radio" name="p[UserHideEmail]" value="0"{if $p.UserHideEmail == 0} checked="checked"{/if}/>&nbsp;{$modules.Language->getString('Yes')}&nbsp;&nbsp;&nbsp;<input class="FormRadio" type="radio" name="p[UserHideEmail]" value="1"{if $p.UserHideEmail == 1} checked="checked"{/if}/>&nbsp;{$modules.Language->getString('No')}</span></td>
+   <td width="65%" valign="top"><span class="FontNorm"><input class="FormRadio" type="radio" name="p[userHideEmail]" value="0"{if $p.userHideEmail == 0} checked="checked"{/if}/>&nbsp;{$modules.Language->getString('Yes')}&nbsp;&nbsp;&nbsp;<input class="FormRadio" type="radio" name="p[userHideEmail]" value="1"{if $p.userHideEmail == 1} checked="checked"{/if}/>&nbsp;{$modules.Language->getString('No')}</span></td>
   </tr>
   <tr>
    <td width="35%" valign="top"><span class="FontNorm">{$modules.Language->getString('Receive_board_emails')}:</span><br/><span class="FontSmall">{$modules.Language->getString('receive_board_emails_info')}</span></td>
-   <td width="65%" valign="top"><span class="FontNorm"><input class="FormRadio" type="radio" name="p[UserReceiveEmails]" value="1"{if $p.UserReceiveEmails == 1} checked="checked"{/if}/>&nbsp;{$modules.Language->getString('Yes')}&nbsp;&nbsp;&nbsp;<input class="FormRadio" type="radio" name="p[UserReceiveEmails]" value="0"{if $p.UserReceiveEmails == 0} checked="checked"{/if}/>&nbsp;{$modules.Language->getString('No')}</span></td>
+   <td width="65%" valign="top"><span class="FontNorm"><input class="FormRadio" type="radio" name="p[userReceiveEmails]" value="1"{if $p.userReceiveEmails == 1} checked="checked"{/if}/>&nbsp;{$modules.Language->getString('Yes')}&nbsp;&nbsp;&nbsp;<input class="FormRadio" type="radio" name="p[userReceiveEmails]" value="0"{if $p.userReceiveEmails == 0} checked="checked"{/if}/>&nbsp;{$modules.Language->getString('No')}</span></td>
   </tr>
   <tr>
    <td width="35%" valign="top"><span class="FontNorm">{$modules.Language->getString('Timezone')}:</span></td>
-   <td width="65%" valign="top"><select class="form_select" name="p[UserTimeZone]">
+   <td width="65%" valign="top"><select class="form_select" name="p[userTimeZone]">
    {foreach from=$timeZones item=curTimeZone key=curTimeZoneKey}
-    <option value="{$curTimeZoneKey}"{if $curTimeZoneKey == $p.UserTimeZone} selected="selected"{/if}>{$curTimeZone}</option>
+    <option value="{$curTimeZoneKey}"{if $curTimeZoneKey == $p.userTimeZone} selected="selected"{/if}>{$curTimeZone}</option>
    {/foreach}
    </select></td>
   </tr>

@@ -52,16 +52,16 @@ class PageParts extends ModuleTemplate {
 		if($this->flags['inEditProfile'])
 			$this->modules['Template']->display('EditProfileHeader.tpl');
 		elseif($this->flags['inPrivateMessages']) {
-			$this->modules['DB']->query("SELECT FolderName,FolderID FROM ".TBLPFX."pms_folders WHERE UserID='".USERID."' ORDER BY FolderName");
+			$this->modules['DB']->query("SELECT folderName,folderID FROM ".TBLPFX."pms_folders WHERE userID='".USERID."' ORDER BY folderName");
 			$headerFoldersData = $this->modules['DB']->raw2Array();
 
 			array_unshift($headerFoldersData, // Fuegt an den Anfang die Standardordner hinzu...
-				array('FolderID'=>0,'FolderName'=>$this->modules['Language']->getString('Inbox')),
-				array('FolderID'=>1,'FolderName'=>$this->modules['Language']->getString('Outbox'))
+				array('folderID'=>0,'folderName'=>$this->modules['Language']->getString('Inbox')),
+				array('folderID'=>1,'folderName'=>$this->modules['Language']->getString('Outbox'))
 			);
 			reset($headerFoldersData);
 
-			$this->modules['Template']->assign('HeaderFoldersData',$headerFoldersData);
+			$this->modules['Template']->assign('headerFoldersData',$headerFoldersData);
 
 			$this->modules['Template']->display('PrivateMessagesHeader.tpl');
 		}
