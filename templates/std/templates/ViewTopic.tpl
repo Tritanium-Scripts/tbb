@@ -1,33 +1,33 @@
 <script>
-	IndexFile = "{$indexFile}";
-	MySID = "{$mySID}";
+	indexFile = "{$indexFile}";
+	mySID = "{$mySID}";
 {literal}
-	function toggleFastEdit(PostID) {
-		if(document.getElementById("Post"+PostID+"Text").style.display == "none") {
-			document.getElementById("Post"+PostID+"Text").style.display = "";
-			document.getElementById("Post"+PostID+"EditBox").style.display = "none"
+	function toggleFastEdit(postID) {
+		if(document.getElementById("post"+postID+"Text").style.display == "none") {
+			document.getElementById("post"+postID+"Text").style.display = "";
+			document.getElementById("post"+postID+"EditBox").style.display = "none"
 		} else {
-			document.getElementById("Post"+PostID+"Text").style.display = "none";
-			document.getElementById("Post"+PostID+"EditBox").style.display = ""
+			document.getElementById("post"+postID+"Text").style.display = "none";
+			document.getElementById("post"+postID+"EditBox").style.display = ""
 		}
 	}
 
-	function ajaxUpdatePost(PostID) {
-		var AjaxConnection = ajaxGetInstance("ajaxUpdatePostHandle");
-		AjaxConnection.open("GET", IndexFile+"?action=Ajax&mode=EditPost&PostID="+PostID+"&PostText="+encodeURIComponent(document.getElementsByName('PostData'+PostID)[0].value)+"&"+MySID, true);
-		AjaxConnection.send(null);
+	function ajaxUpdatePost(postID) {
+		var ajaxConnection = ajaxGetInstance("ajaxUpdatePostHandle");
+		ajaxConnection.open("GET", indexFile+"?action=Ajax&mode=EditPost&postID="+postID+"&postText="+encodeURIComponent(document.getElementsByName('postData'+postID)[0].value)+"&"+mySID, true);
+		ajaxConnection.send(null);
 	}
 
-	function ajaxUpdatePostHandle(AjaxConnection) {
-		if(AjaxConnection.readyState == 4) {
-			if(ajaxGetStatus(AjaxConnection.responseXML) != 'SUCC') {
-				alert(ajaxGetValue(AjaxConnection.responseXML,'Error'));
+	function ajaxUpdatePostHandle(ajaxConnection) {
+		if(ajaxConnection.readyState == 4) {
+			if(ajaxGetStatus(ajaxConnection.responseXML) != 'SUCC') {
+				alert(ajaxGetValue(ajaxConnection.responseXML,'error'));
 			} else {
-				document.getElementById("Post"+ajaxGetValue(AjaxConnection.responseXML,'PostID')+"Text").innerHTML = ajaxGetValue(AjaxConnection.responseXML,'PostTextHTMLReady');
-				document.getElementById("Post"+ajaxGetValue(AjaxConnection.responseXML,'PostID')+"Text").style.display = "";
-				document.getElementById("Post"+ajaxGetValue(AjaxConnection.responseXML,'PostID')+"EditBox").style.display = "none";
+				document.getElementById("post"+ajaxGetValue(ajaxConnection.responseXML,'postID')+"Text").innerHTML = ajaxGetValue(ajaxConnection.responseXML,'postTextHTMLReady');
+				document.getElementById("post"+ajaxGetValue(ajaxConnection.responseXML,'postID')+"Text").style.display = "";
+				document.getElementById("post"+ajaxGetValue(ajaxConnection.responseXML,'postID')+"EditBox").style.display = "none";
 			}
-			delete AjaxConnection;
+			delete ajaxConnection;
 		}
 	}
 {/literal}
@@ -37,7 +37,7 @@
  <table border="0" cellpadding="0" cellspacing="0" width="100%">
  <tr>
   <td><span class="FontNavbar">{$pageListing}</span></td>
-  <td align="right"><span class="FontNavbar"><a href="{$indexFile}?action=Posting&amp;mode=Reply&amp;TopicID={$topicID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLC()}/AddReply.png" class="ImageButton" border="0" alt="{$modules.Language->getString('Post_new_reply')}"/></a><a href="{$indexFile}?action=Posting&amp;mode=Topic&amp;ForumID={$forumID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLC()}/AddTopic.png" class="ImageButton" border="0" alt="{$modules.Language->getString('Post_new_topic')}"/></a></span></td>
+  <td align="right"><span class="FontNavbar"><a href="{$indexFile}?action=Posting&amp;mode=Reply&amp;topicID={$topicID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLC()}/AddReply.png" class="ImageButton" border="0" alt="{$modules.Language->getString('Post_new_reply')}"/></a><a href="{$indexFile}?action=Posting&amp;mode=Topic&amp;forumID={$forumID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLC()}/AddTopic.png" class="ImageButton" border="0" alt="{$modules.Language->getString('Post_new_topic')}"/></a></span></td>
  </tr>
  </table>
 </td></tr>
@@ -56,15 +56,15 @@
   <td class="CellAlt" width="85%" valign="middle">
    <table border="0" cellspacing="0" cellpadding="0" width="100%">
    <tr>
-    <td>{if $curPost.postSmileyFileName != ''}<span style="margin-right:4px;"><img src="{$curPost.postSmileyFileName}" border="0" alt=""/></span>{/if}<span class="FontSmall"><a id="Post{$curPost.postID}" name="Post{$curPost.postID}"></a><b>{$curPost.postTitle}</b></span></td>
+    <td>{if $curPost.postSmileyFileName != ''}<span style="margin-right:4px;"><img src="{$curPost.postSmileyFileName}" border="0" alt=""/></span>{/if}<span class="FontSmall"><a id="post{$curPost.postID}" name="post{$curPost.postID}"></a><b>{$curPost.postTitle}</b></span></td>
     <td align="right">
      <table border="0" cellpadding="0" cellspacing="0">
       <tr>
-       {if $curPost.show.deleteButton}<td><a href="{$indexFile}?action=DeletePost&amp;PostID={$curPost.postID}&amp;{$mySID}"><img src="templates/std/templates/images/buttons/de/delete.png" class="ImageButton" alt="" border="0"/></a></td>{/if}
+       {if $curPost.show.deleteButton}<td><a href="{$indexFile}?action=DeletePost&amp;postID={$curPost.postID}&amp;{$mySID}"><img src="templates/std/templates/images/buttons/de/delete.png" class="ImageButton" alt="" border="0"/></a></td>{/if}
        {if $curPost.show.editButton}<td><a href="javascript:toggleFastEdit('{$curPost.postID}');"><img src="templates/std/templates/images/buttons/de/test.png" alt="" class="ImageButton" border="0"/></a></td>{/if}
-       {if $curPost.show.editButton}<td><a href="{$indexFile}?action=Posting&amp;mode=Edit&amp;PostID={$curPost.postID}&amp;{$mySID}"><img src="templates/std/templates/images/buttons/de/test.png" class="ImageButton" alt="" border="0"/></a></td>{/if}
+       {if $curPost.show.editButton}<td><a href="{$indexFile}?action=Posting&amp;mode=Edit&amp;postID={$curPost.postID}&amp;{$mySID}"><img src="templates/std/templates/images/buttons/de/test.png" class="ImageButton" alt="" border="0"/></a></td>{/if}
        {if $curPost.postPosterHideEmail != 1 && $curPost.postPosterEmail != ''}<td><a href="mailto:{$curPost.postPosterEmail}"><img src="templates/std/templates/images/buttons/de/email.png" class="ImageButton" alt="{$curPost.postPosterEmail}" border="0"/></a>{else}<td>{if $curPost.postPosterReceiveEmails == 1}<a href="{$indexFile}?action=ViewProfile&amp;profileID={$curPost.UserID}&amp;mode=SendMail&amp;{$mySID}"><img src="{$modules.Template->getTemplateDir()}/images/button_user_email.gif" alt="{$modules.Language->getString('Send_email')}" border="0"/></a></td>{/if}{/if}
-       <td><a href="{$indexFile}?action=Posting&amp;mode=Reply&amp;TopicID={$topicID}&amp;Quote={$curPost.postID}&amp;{$mySID}"><img src="templates/std/templates/images/buttons/de/quote.png" class="ImageButton" alt="" border="0"/></a></td>
+       <td><a href="{$indexFile}?action=Posting&amp;mode=Reply&amp;topicID={$topicID}&amp;Quote={$curPost.postID}&amp;{$mySID}"><img src="templates/std/templates/images/buttons/de/quote.png" class="ImageButton" alt="" border="0"/></a></td>
       </tr>
      </table>
     </td>
@@ -74,11 +74,11 @@
  </tr>
  <tr>
   <td class="CellStd">
-   <div id="Post{$curPost.postID}Text" class="FontNorm"{if $curPost.show.editButton} ondblclick="toggleFastEdit('{$curPost.postID}');"{/if}>{$curPost._postText}</div>
-   <div id="Post{$curPost.postID}EditBox" style="display:none;">
+   <div id="post{$curPost.postID}Text" class="FontNorm"{if $curPost.show.editButton} ondblclick="toggleFastEdit('{$curPost.postID}');"{/if}>{$curPost._postText}</div>
+   <div id="post{$curPost.postID}EditBox" style="display:none;">
     <table class="TableStd" cellpadding="0"width="100%">
     <tr><td class="CellCat"><span class="FontCat">Fast Edit</span></td></tr>
-    <tr><td class="CellNone" align="center"><textarea class="FormTextArea" rows="14" style="width:99%;" name="PostData{$curPost.postID}">{$curPost._postEditBoxText}</textarea></td></tr>
+    <tr><td class="CellNone" align="center"><textarea class="FormTextArea" rows="14" style="width:99%;" name="postData{$curPost.postID}">{$curPost._postEditBoxText}</textarea></td></tr>
     <tr><td class="CellButtons" align="center"><input class="FormBButton" type="button" value="{$modules.Language->getString('Edit_post')}" onclick="ajaxUpdatePost({$curPost.postID});"/></td></tr>
     </table>
    </div>
@@ -95,7 +95,7 @@
  <table border="0" cellpadding="0" cellspacing="0" width="100%">
  <tr>
   <td><span class="FontNavbar">{$pageListing}</span></td>
-  <td align="right"><span class="FontNavbar"><a href="{$indexFile}?action=Posting&amp;mode=Reply&amp;TopicID={$topicID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLC()}/AddReply.png" class="ImageButton" border="0" alt="{$modules.Language->getString('Post_new_reply')}"/></a><a href="{$indexFile}?action=Posting&amp;mode=Topic&amp;ForumID={$forumID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLC()}/AddTopic.png" class="ImageButton" border="0" alt="{$modules.Language->getString('Post_new_topic')}"/></a></span></td>
+  <td align="right"><span class="FontNavbar"><a href="{$indexFile}?action=Posting&amp;mode=Reply&amp;topicID={$topicID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLC()}/AddReply.png" class="ImageButton" border="0" alt="{$modules.Language->getString('Post_new_reply')}"/></a><a href="{$indexFile}?action=Posting&amp;mode=Topic&amp;forumID={$forumID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLC()}/AddTopic.png" class="ImageButton" border="0" alt="{$modules.Language->getString('Post_new_topic')}"/></a></span></td>
  </tr>
  </table>
 </td></tr>

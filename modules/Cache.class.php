@@ -2,7 +2,8 @@
 
 class Cache extends ModuleTemplate {
 	protected $requiredModules = array(
-		'DB'
+		'DB',
+		'Constants'
 	);
 	protected $isWritable = FALSE;
 
@@ -12,18 +13,18 @@ class Cache extends ModuleTemplate {
 
 	public function setSmiliesData() {
 		$toWrite1 = $toWrite2 = array();
-		$this->modules['DB']->query("SELECT SmileyID,SmileyType,SmileyFileName,SmileySynonym,SmileyStatus FROM ".TBLPFX."smilies WHERE SmileyType='".SMILEY_TYPE_SMILEY."' OR SmileyType='".SMILEY_TYPE_ADMINSMILEY."'");
+		$this->modules['DB']->query("SELECT smileyID,smileyType,smileyFileName,smileySynonym,smileyStatus FROM ".TBLPFX."smilies WHERE smileyType='".SMILEY_TYPE_SMILEY."' OR smileyType='".SMILEY_TYPE_ADMINSMILEY."'");
 		while($curSmiley = $this->modules['DB']->fetchArray()) {
-			if($curSmiley['SmileyType'] != SMILEY_TYPE_ADMINSMILEY)
-				$toWrite1[] = 'array(\'SmileyID\'=>\''.$curSmiley['SmileyID'].'\',\'SmileyFileName\'=>\''.$curSmiley['SmileyFileName'].'\',\'SmileySynonym\'=>\''.$curSmiley['SmileySynonym'].'\',\'SmileyStatus\'=>\''.$curSmiley['SmileyStatus'].'\')';
-			$toWrite2[] = '\''.$curSmiley['SmileySynonym'].'\'=>\'<img src="'.$curSmiley['SmileyFileName'].'" border="0" alt="'.$curSmiley['SmileySynonym'].'"/>\'';
+			if($curSmiley['smileyType'] != SMILEY_TYPE_ADMINSMILEY)
+				$toWrite1[] = 'array(\'smileyID\'=>\''.$curSmiley['smileyID'].'\',\'smileyFileName\'=>\''.$curSmiley['smileyFileName'].'\',\'smileySynonym\'=>\''.$curSmiley['smileySynonym'].'\',\'smileyStatus\'=>\''.$curSmiley['smileyStatus'].'\')';
+			$toWrite2[] = '\''.$curSmiley['smileySynonym'].'\'=>\'<img src="'.$curSmiley['smileyFileName'].'" border="0" alt="'.$curSmiley['smileySynonym'].'"/>\'';
 		}
 
 		$toWrite1 = '<?php $smiliesDataRead = array('.implode(',',$toWrite1).'); ?>';
 		$toWrite2 = '<?php $smiliesDataWrite = array('.implode(',',$toWrite2).'); ?>';
 
-		Functions::FileWrite('cache/cache_smilies_read.php',$toWrite1,'w');
-		Functions::FileWrite('cache/cache_smilies_write.php',$toWrite2,'w');
+		Functions::FileWrite('cache/SmiliesRead.cache.php',$toWrite1,'w');
+		Functions::FileWrite('cache/SmiliesWrite.cache.php',$toWrite2,'w');
 	}
 
 	public function getSmiliesData($mode = 'read') {
@@ -33,7 +34,7 @@ class Cache extends ModuleTemplate {
 			if(file_exists('cache/SmiliesRead.cache.php') == TRUE)
 				include('cache/SmiliesRead.cache.php');
 			else {
-				$this->modules['DB']->query("SELECT SmileyID,SmileyFileName,SmileySynonym,SmileyStatus FROM ".TBLPFX."smilies WHERE SmileyType='".SMILEY_TYPE_SMILEY."'");
+				$this->modules['DB']->query("SELECT smileyID,smileyFileName,smileySynonym,smileyStatus FROM ".TBLPFX."smilies WHERE smileyType='".SMILEY_TYPE_SMILEY."'");
 				$smiliesDataRead = $this->modules['DB']->raw2Array();
 			}
 
@@ -45,9 +46,9 @@ class Cache extends ModuleTemplate {
 			if(file_exists('cache/SmiliesWrite.cache.php') == TRUE)
 				include('cache/SmiliesWrite.cache.php');
 			else {
-				$this->modules['DB']->query("SELECT SmileyFileName,SmileySynonym FROM ".TBLPFX."smilies WHERE SmileyType='".SMILEY_TYPE_SMILEY."' OR SmileyType='".SMILEY_TYPE_ADMINSMILEY."'");
+				$this->modules['DB']->query("SELECT smileyFileName,smileySynonym FROM ".TBLPFX."smilies WHERE smileyType='".SMILEY_TYPE_SMILEY."' OR smileyType='".SMILEY_TYPE_ADMINSMILEY."'");
 				while($curSmiley = $this->modules['DB']->fetchArray())
-					$smiliesDataWrite[$curSmiley['SmileySynonym']] = '<img src="'.$curSmiley['SmileyFileName'].'" border="0" alt="'.$curSmiley['SmileySynonym'].'"/>';
+					$smiliesDataWrite[$curSmiley['smileySynonym']] = '<img src="'.$curSmiley['smileyFileName'].'" border="0" alt="'.$curSmiley['smileySynonym'].'"/>';
 			}
 
 			return $smiliesDataWrite;
@@ -66,15 +67,15 @@ class Cache extends ModuleTemplate {
 	public function setAdminSmiliesData() {
 		$adminSmiliesData = $toWrite = array();
 
-		$this->modules['DB']->query("SELECT SmileyID,SmileyType,SmileyFileName,SmileySynonym,SmileyStatus FROM ".TBLPFX."smilies WHERE SmileyType='".SMILEY_TYPE_ADMINSMILEY."'");
+		$this->modules['DB']->query("SELECT smileyID,smileyType,smileyFileName,smileySynonym,smileyStatus FROM ".TBLPFX."smilies WHERE smileyType='".SMILEY_TYPE_ADMINSMILEY."'");
 		while($curSmiley = $this->modules['DB']->fetchArray()) {
 			$adminSmiliesData[] = array(
-				'SmileyID'=>$curSmiley['SmileyID'],
-				'SmileyFileName'=>$curSmiley['SmileyFileName'],
-				'SmileySynonym'=>$curSmiley['SmileySynonym'],
-				'SmileyStatus'=>$curSmiley['SmileyStatus']
+				'smileyID'=>$curSmiley['smileyID'],
+				'smileyFileName'=>$curSmiley['smileyFileName'],
+				'smileySynonym'=>$curSmiley['smileySynonym'],
+				'smileyStatus'=>$curSmiley['smileyStatus']
 			);
-			$toWrite[] = 'array(\'SmileyID\'=>\''.$curSmiley['SmileyID'].'\',\'SmileyFileName\'=>\''.$curSmiley['SmileyFileName'].'\',\'SmileySynonym\'=>\''.$curSmiley['SmileySynonym'].'\',\'SmileyStatus\'=>\''.$curSmiley['SmileyStatus'].'\')';
+			$toWrite[] = 'array(\'smileyID\'=>\''.$curSmiley['smileyID'].'\',\'smileyFileName\'=>\''.$curSmiley['smileyFileName'].'\',\'smileySynonym\'=>\''.$curSmiley['smileySynonym'].'\',\'smileyStatus\'=>\''.$curSmiley['smileyStatus'].'\')';
 		}
 
 		Functions::FileWrite('cache/AdminSmilies.cache.php','<?php $adminSmiliesData = array('.implode(',',$toWrite).'); ?>','w');
@@ -82,30 +83,30 @@ class Cache extends ModuleTemplate {
 		return $adminSmiliesData;
 	}
 
-	public function setPPicsData() {
-		$toWrite = $pPicsData = array();
+	public function setTopicPicsData() {
+		$toWrite = $topicPicsData = array();
 
-		$this->modules['DB']->query("SELECT SmileyID,SmileyFileName FROM ".TBLPFX."smilies WHERE SmileyType='1'");
+		$this->modules['DB']->query("SELECT smileyID,smileyFileName FROM ".TBLPFX."smilies WHERE SmileyType='".SMILEY_TYPE_TPIC."'");
 		while($curSmiley = $this->modules['DB']->fetchArray()) {
-			$toWrite[] = 'array(\'SmileyID\'=>\''.$curSmiley['SmileyID'].'\',\'SmileyFileName\'=>\''.$curSmiley['SmileyFileName'].'\')';
-			$pPicsData[] = $curSmiley;
+			$toWrite[] = 'array(\'smileyID\'=>\''.$curSmiley['smileyID'].'\',\'smileyFileName\'=>\''.$curSmiley['smileyFileName'].'\')';
+			$topicPicsData[] = $curSmiley;
 		}
 
-		$toWrite = '<?php $pPicsData = array('.implode(',',$toWrite).'); ?>';
+		$toWrite = '<?php $topicPicsData = array('.implode(',',$toWrite).'); ?>';
 
-		Functions::FileWrite('cache/PPics.cache.php',$toWrite,'w');
+		Functions::FileWrite('cache/TopicPics.cache.php',$toWrite,'w');
 
-		return $pPicsData;
+		return $topicPicsData;
 	}
 
-	public function getPPicsData() {
-		$pPicsData = array();
+	public function getTopicPicsData() {
+		$topicPicsData = array();
 
-		if(file_exists('cache/PPics.cache.php') == TRUE)
-			include('cache/PPics.cache.php');
-		else return $this->setPPicsData();
+		if(file_exists('cache/TopicPics.cache.php') == TRUE)
+			include('cache/TopicPics.cache.php');
+		else return $this->setTopicPicsData();
 
-		return $pPicsData;
+		return $topicPicsData;
 	}
 
 	public function setRanksData() {

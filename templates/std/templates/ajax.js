@@ -1,49 +1,49 @@
-function ajaxGetInstance(FunctionName) {
-	var AjaxConnection = false;
+function ajaxGetInstance(functionName) {
+	var ajaxConnection = false;
 
 	if (window.XMLHttpRequest) {
-		AjaxConnection = new XMLHttpRequest();
+		ajaxConnection = new XMLHttpRequest();
 	} else if (window.ActiveXObject) {
-		AjaxConnection = new ActiveXObject("Microsoft.XMLHTTP");
+		ajaxConnection = new ActiveXObject("Microsoft.XMLHTTP");
 	}
 
-	if(AjaxConnection) {
-		AjaxConnection.onreadystatechange = function() {
-			eval(FunctionName+'(AjaxConnection)');
+	if(ajaxConnection) {
+		ajaxConnection.onreadystatechange = function() {
+			eval(functionName+'(ajaxConnection)');
 		}
-		return AjaxConnection;
+		return ajaxConnection;
 	} else {
 		alert("Fehler!");
 	}
 }
 
-function ajaxGetValue(XMLObject,ValueName) {
-	var Result = null;
+function ajaxGetValue(xmlObject,valueName) {
+	var result = null;
 
-	for(var i = 0; i < XMLObject.getElementsByTagName('ajaxresult')[0].getElementsByTagName('values')[0].getElementsByTagName('value').length; i++) {
-		if(XMLObject.getElementsByTagName('ajaxresult')[0].getElementsByTagName('values')[0].getElementsByTagName('value')[i].getAttribute('name') == ValueName) {
-			Result = XMLUnescapeString(XMLObject.getElementsByTagName('ajaxresult')[0].getElementsByTagName('values')[0].getElementsByTagName('value')[i].firstChild.data);
+	for(var i = 0; i < xmlObject.getElementsByTagName('ajaxresult')[0].getElementsByTagName('values')[0].getElementsByTagName('value').length; i++) {
+		if(xmlObject.getElementsByTagName('ajaxresult')[0].getElementsByTagName('values')[0].getElementsByTagName('value')[i].getAttribute('name') == valueName) {
+			result = xmlUnescapeString(xmlObject.getElementsByTagName('ajaxresult')[0].getElementsByTagName('values')[0].getElementsByTagName('value')[i].firstChild.data);
 			break;
 		}
 	}
 
-	return Result;
+	return result;
 }
 
-function ajaxGetStatus(XMLObject) {
-	return XMLObject.getElementsByTagName('ajaxresult')[0].getElementsByTagName('status')[0].firstChild.data;
+function ajaxGetStatus(xmlObject) {
+	return xmlObject.getElementsByTagName('ajaxresult')[0].getElementsByTagName('status')[0].firstChild.data;
 }
 
-function ajaxGetMode(XMLObject) {
-	return XMLObject.getElementsByTagName('ajaxresult')[0].getElementsByTagName('mode')[0].firstChild.data;
+function ajaxGetMode(xmlObject) {
+	return xmlObject.getElementsByTagName('ajaxresult')[0].getElementsByTagName('mode')[0].firstChild.data;
 }
 
-function XMLUnescapeString(Value) {
-	Value = Value.replace(/&lt;/g,"<");
-	Value = Value.replace(/&gt;/g,">");
-	Value = Value.replace(/&amp;/g,"&");
-	Value = Value.replace(/&quot;/g,"\"");
-	Value = Value.replace(/&apos;/g,"'");
+function xmlUnescapeString(value) {
+	value = value.replace(/&lt;/g,"<");
+	value = value.replace(/&gt;/g,">");
+	value = value.replace(/&amp;/g,"&");
+	value = value.replace(/&quot;/g,"\"");
+	value = value.replace(/&apos;/g,"'");
 
-	return Value;
+	return value;
 }

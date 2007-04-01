@@ -42,7 +42,7 @@ class ViewForum extends ModuleTemplate {
 		 * Page listing
 		 */
 		$topicsCounter = Functions::getTopicsCounter($forumID);
-		$pageListing = Functions::createPageListing($topicsCounter,$this->modules['Config']->getValue('topics_per_page'),$page,"<a href=\"".INDEXFILE."?action=ViewForum&amp;ForumID=$forumID&amp;Page=%1\$s&amp;".MYSID."\">%2\$s</a>");
+		$pageListing = Functions::createPageListing($topicsCounter,$this->modules['Config']->getValue('topics_per_page'),$page,"<a href=\"".INDEXFILE."?action=ViewForum&amp;forumID=$forumID&amp;Page=%1\$s&amp;".MYSID."\">%2\$s</a>");
 		$start = $page*$this->modules['Config']->getValue('topics_per_page')-$this->modules['Config']->getValue('topics_per_page');
 
 
@@ -142,7 +142,7 @@ class ViewForum extends ModuleTemplate {
 
 		$this->modules['Navbar']->addCategories($forumData['catID']);
 		$this->modules['Navbar']->addElement(Functions::HTMLSpecialChars($forumData['forumName']),INDEXFILE.'?action=ViewForum&amp;forumID='.$forumID.'&amp;'.MYSID);
-		$this->modules['Navbar']->setRightArea('<a href="'.INDEXFILE.'?action=ViewForum&amp;ForumID='.$forumID.'&amp;markAll=1&amp;'.MYSID.'">'.$this->modules['Language']->getString('Mark_topics_read').'</a>');
+		$this->modules['Navbar']->setRightArea('<a href="'.INDEXFILE.'?action=ViewForum&amp;forumID='.$forumID.'&amp;markAll=1&amp;'.MYSID.'">'.$this->modules['Language']->getString('Mark_topics_read').'</a>');
 
 		$this->modules['Template']->assign(array(
 			'forumID'=>$forumID,

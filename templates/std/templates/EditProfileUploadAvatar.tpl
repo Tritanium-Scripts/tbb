@@ -1,4 +1,4 @@
-<form method="post" action="{$indexFile}?action=EditProfile&amp;mode=UploadAvatar&amp;Doit=1&amp;{$mySID}" enctype="multipart/form-data">
+<form method="post" action="{$indexFile}?action=EditProfile&amp;mode=UploadAvatar&amp;doit=1&amp;{$mySID}" enctype="multipart/form-data">
 <table class="TableStd" border="0" cellpadding="3" cellspacing="0" width="100%">
 <tr><td class="CellTitle" colspan="2"><span class="FontTitle">{$modules.Language->getString('Upload_avatar')}</span></td></tr>
 {if $error != ''}<tr><td class="CellError" colspan="2"><span class="FontError">{$error}</span></td></tr>{/if}
@@ -23,7 +23,7 @@
 </tr>
 <tr>
  <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('File_name')}:</span></td>
- <td class="CellAlt"><input class="FormText" size="40" type="file" name="AvatarFile"/></td>
+ <td class="CellAlt"><input class="FormText" size="40" type="file" name="avatarFile"/></td>
 </tr>
 <tr><td class="CellButtons" colspan="2" align="center"><input class="FormBButton" type="submit" value="{$modules.Language->getString('Upload_avatar')}"/></td></tr>
 </table>

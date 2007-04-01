@@ -25,9 +25,9 @@ USE `tbb2test`;
 #
 
 CREATE TABLE `tbb2_avatars` (
-  `avatar_id` smallint(5) unsigned NOT NULL auto_increment,
-  `avatar_address` varchar(255) NOT NULL default '',
-  PRIMARY KEY  (`avatar_id`)
+  `avatarID` smallint(5) unsigned NOT NULL auto_increment,
+  `avatarAddress` varchar(255) NOT NULL default '',
+  PRIMARY KEY  (`avatarID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 #
@@ -130,26 +130,26 @@ CREATE TABLE `tbb2_groups_members` (
 #
 
 CREATE TABLE `tbb2_pms` (
-  `PMID` mediumint(8) unsigned NOT NULL auto_increment,
-  `FolderID` smallint(5) unsigned NOT NULL default '0',
-  `PMFromID` mediumint(8) unsigned NOT NULL default '0',
-  `PMToID` mediumint(8) unsigned NOT NULL default '0',
-  `PMIsRead` tinyint(1) unsigned NOT NULL default '0',
-  `PMType` tinyint(1) unsigned NOT NULL default '0',
-  `PMSubject` varchar(255) NOT NULL default '',
-  `PMMessageText` text NOT NULL,
-  `PMSendTimestamp` int(10) unsigned NOT NULL default '0',
-  `pm_enable_bbcode` tinyint(1) unsigned NOT NULL default '0',
-  `pm_enable_smilies` tinyint(1) unsigned NOT NULL default '0',
-  `pm_enable_htmlcode` tinyint(1) unsigned NOT NULL default '0',
-  `pm_show_sig` tinyint(1) unsigned NOT NULL default '0',
-  `PMRequestReadReceipt` tinyint(1) unsigned NOT NULL default '0',
-  `PMGuestNick` varchar(255) NOT NULL default '',
-  `PMIsReplied` tinyint(1) unsigned NOT NULL default '0',
-  PRIMARY KEY  (`PMID`),
-  KEY `folder_id` (`FolderID`),
-  KEY `pm_from_id` (`PMFromID`),
-  KEY `pm_to_id` (`PMToID`)
+  `pmID` mediumint(8) unsigned NOT NULL auto_increment,
+  `folderID` smallint(5) unsigned NOT NULL default '0',
+  `pmFromID` mediumint(8) unsigned NOT NULL default '0',
+  `pmToID` mediumint(8) unsigned NOT NULL default '0',
+  `pmIsRead` tinyint(1) unsigned NOT NULL default '0',
+  `pmType` tinyint(1) unsigned NOT NULL default '0',
+  `pmSubject` varchar(255) NOT NULL default '',
+  `pmMessageText` text NOT NULL,
+  `pmSendTimestamp` int(10) unsigned NOT NULL default '0',
+  `pmEnableBBCode` tinyint(1) unsigned NOT NULL default '0',
+  `pmEnableSmilies` tinyint(1) unsigned NOT NULL default '0',
+  `pmEnableHtmlCode` tinyint(1) unsigned NOT NULL default '0',
+  `pmShowSignature` tinyint(1) unsigned NOT NULL default '0',
+  `pmRequestReadReceipt` tinyint(1) unsigned NOT NULL default '0',
+  `pmGuestNick` varchar(255) NOT NULL default '',
+  `pmIsReplied` tinyint(1) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`pmID`),
+  KEY `folder_id` (`folderID`),
+  KEY `pm_from_id` (`pmFromID`),
+  KEY `pm_to_id` (`pmToID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 #
@@ -157,11 +157,11 @@ CREATE TABLE `tbb2_pms` (
 #
 
 CREATE TABLE `tbb2_pms_folders` (
-  `FolderID` smallint(5) unsigned NOT NULL default '0',
-  `UserID` mediumint(8) unsigned NOT NULL default '0',
-  `FolderName` varchar(255) NOT NULL default '',
-  KEY `folder_id` (`FolderID`),
-  KEY `user_id` (`UserID`)
+  `folderID` smallint(5) unsigned NOT NULL default '0',
+  `userID` mediumint(8) unsigned NOT NULL default '0',
+  `folderName` varchar(255) NOT NULL default '',
+  KEY `folder_id` (`folderID`),
+  KEY `user_id` (`userID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 #
@@ -226,7 +226,7 @@ CREATE TABLE `tbb2_posts` (
   `postShowEditings` tinyint(1) unsigned NOT NULL default '0',
   `postGuestNick` varchar(15) NOT NULL default '',
   `postEditedCounter` smallint(5) unsigned NOT NULL default '0',
-  `postLastEditorID` mediumint(8) unsigned NOT NULL default '0',
+  `postLastEditorNick` varchar(255) NOT NULL default '',
   `postTitle` varchar(255) NOT NULL default '',
   `postText` text NOT NULL,
   PRIMARY KEY  (`postID`),
@@ -240,16 +240,16 @@ CREATE TABLE `tbb2_posts` (
 #
 
 CREATE TABLE `tbb2_profile_fields` (
-  `FieldID` smallint(5) unsigned NOT NULL auto_increment,
-  `FieldName` varchar(255) NOT NULL default '',
-  `FieldType` tinyint(1) unsigned NOT NULL default '0',
-  `FieldIsRequired` tinyint(1) unsigned NOT NULL default '0',
-  `FieldShowRegistration` tinyint(1) unsigned NOT NULL default '0',
-  `FieldShowMemberlist` tinyint(1) unsigned NOT NULL default '0',
-  `FieldLink` varchar(255) NOT NULL default '',
-  `FieldData` text NOT NULL,
-  `FieldRegexVerification` varchar(255) NOT NULL default '',
-  PRIMARY KEY  (`FieldID`)
+  `fieldID` smallint(5) unsigned NOT NULL auto_increment,
+  `fieldName` varchar(255) NOT NULL default '',
+  `fieldType` tinyint(1) unsigned NOT NULL default '0',
+  `fieldIsRequired` tinyint(1) unsigned NOT NULL default '0',
+  `fieldShowRegistration` tinyint(1) unsigned NOT NULL default '0',
+  `fieldShowMemberlist` tinyint(1) unsigned NOT NULL default '0',
+  `fieldLink` varchar(255) NOT NULL default '',
+  `fieldData` text NOT NULL,
+  `fieldRegexVerification` varchar(255) NOT NULL default '',
+  PRIMARY KEY  (`fieldID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 #

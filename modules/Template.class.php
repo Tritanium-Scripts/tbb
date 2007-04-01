@@ -41,7 +41,7 @@ class Template extends ModuleTemplate {
 	}
 
 	public function fetch($value) {
-		$this->smarty->fetch($value);
+		return $this->smarty->fetch($value);
 	}
 }
 

@@ -128,8 +128,8 @@ class EditProfile extends ModuleTemplate {
 				}
 
 				$groupsData = array(
-					array('GroupName'=>$this->modules['Language']->getString('Required_information'),'groupType'=>1,'groupFields'=>array()),
-					array('GroupName'=>$this->modules['Language']->getString('Other_information'),'groupType'=>0,'groupFields'=>array())
+					array('groupName'=>$this->modules['Language']->getString('Required_information'),'groupType'=>1,'groupFields'=>array()),
+					array('groupName'=>$this->modules['Language']->getString('Other_information'),'groupType'=>0,'groupFields'=>array())
 				);
 
 				foreach($profileFields AS $curField) {
@@ -180,7 +180,7 @@ class EditProfile extends ModuleTemplate {
 						WHERE userID='".USERID."'
 					");
 
-					// TODO richtige meldung
+					// TODO correct message
 					die('geupdatet');
 					exit;
 					//include_once('pheader.php');
@@ -258,21 +258,23 @@ class EditProfile extends ModuleTemplate {
 
 			case 'UploadAvatar':
 				if($this->modules['Config']->getValue('enable_avatar_upload') != 1) {
-					include_once('pop_pheader.php');
-					show_message($this->modules['Language']->getString('Avatar_upload_disabled'),$this->modules['Language']->getString('message_avatar_upload_disabled'));
-					include_once('pop_ptail.php'); exit;
+					// TODO: correct message
+					die('Upoad disabled');
+					//include_once('pop_pheader.php');
+					//show_message($this->modules['Language']->getString('Avatar_upload_disabled'),$this->modules['Language']->getString('message_avatar_upload_disabled'));
+					//include_once('pop_ptail.php'); exit;
 				}
 
 				$error = '';
 
 				if(isset($_GET['doit'])) {
-					if(isset($_FILES['p_avatar_file']) == FALSE || $_FILES['p_avatar_file']['name'] == '') $error = $this->modules['Language']->getString('error_invalid_file');
-					elseif($_FILES['p_avatar_file']['size'] > $cONFIG['max_avatar_file_size']*1024) $error = $this->modules['Language']->getString('error_file_too_big');
+					if(!isset($_FILES['avatarFile']) || $_FILES['avatarFile']['name'] == '') $error = $this->modules['Language']->getString('error_invalid_file');
+					elseif($_FILES['avatarFile']['size'] > $this->modules['Config']->getValue('max_avatar_file_size')*1024) $error = $this->modules['Language']->getString('error_file_too_big');
 					else {
-						preg_match("/^(.*)\.([^.]*)/i",strtolower($_FILES['p_avatar_file']['name']),$file_extension);
-						$file_extension = $file_extension[2];
+						preg_match("/^(.*)\.([^.]*)/i",strtolower($_FILES['avatarFile']['name']),$fileExtension);
+						$fileExtension = $fileExtension[2];
 
-						$good_file_extensions = array(
+						$validFileExtensions = array(
 							'jpg',
 							'jpeg',
 							'bmp',
@@ -280,86 +282,42 @@ class EditProfile extends ModuleTemplate {
 							'gif'
 						);
 
-						if(in_array($file_extension,$good_file_extensions) != TRUE) $error = $this->modules['Language']->getString('error_invalid_file_extension');
+						if(!in_array($fileExtension,$validFileExtensions)) $error = $this->modules['Language']->getString('error_invalid_file_extension');
 						else {
-
-							//
-							// Erst muss ueberprueft werden, ob der User nicht schon ein Avatar hochgeladen hat, und falls ja diesen loeschen
-							//
-							while(list(,$akt_extension) = each($good_file_extensions)) { // Die Dateiendungen durchgehen
-								if(file_exists('upload/avatars/'.$uSER_ID.'.'.$akt_extension) == TRUE) { // Falls eine Datei mit der aktuellen Dateiendung existiert...
-									unlink('upload/avatars/'.$uSER_ID.'.'.$akt_extension); // ...diese loeschen...
-									break; // ...und die Schleife beenden, da der User maximal ein Avatar haben kann
+							/**
+							 * Check if the user already uploaded an avatar
+							 */
+							foreach($validFileExtensions AS $curExtension) {
+								if(file_exists('uploads/avatars/'.USERID.'.'.$curExtension)) {
+									unlink('uploads/avatars/'.USERID.'.'.$curExtension);
+									break;
 								}
 							}
 
-							$remote_avatar_file_name = 'upload/avatars/'.$uSER_ID.'.'.$file_extension;
+							/**
+							 * Move new avatar to correct dir
+							 */
+							$localAvatarFileName = 'upload/avatars/'.USERID.'.'.$fileExtension;
+							move_uploaded_file($_FILES['avatarFile']['tmp_name'],$localAvatarFileName);
+							chmod($localAvatarFileName,0777);
+							$this->modules['DB']->query("UPDATE ".TBLPFX."users SET userAvatarAddress='$localAvatarFileName' WHERE userID='".USERID."'");
 
-
-							//
-							// Jetzt kann der Avatar verschoben werden...
-							//
-							move_uploaded_file($_FILES['p_avatar_file']['tmp_name'],$remote_avatar_file_name); // Datei verschieben
-							chmod('upload/avatars/'.$uSER_ID.'.'.$file_extension,0777); // Datei aenderbar/loeschbar machen
-							$this->modules['DB']->query("UPDATE ".TBLPFX."users SET user_avatar_address='$remote_avatar_file_name' WHERE user_id='$uSER_ID'"); // Neuen Avatar in der Datenbank aktualisieren
-
-							$tpl = new Template($tEMPLATE_PATH.'/'.$tCONFIG['templates']['editprofile_avatarresult']);
-
-							$avatar_address = $remote_avatar_file_name;
 							$avatar_selected_text = sprintf($this->modules['Language']->getString('avatar_selected_text'),'<img src="'.$remote_avatar_file_name.'" width="'.$cONFIG['avatar_image_width'].'" height="'.$cONFIG['avatar_image_height'].'" border="0" alt="" />');
 
-							include_once('pop_pheader.php');
-							$tpl->parseCode(TRUE);
-							include_once('pop_ptail.php'); exit;
+							// TODO: Correct message
+
+							//include_once('pop_pheader.php');
+							//$tpl->parseCode(TRUE);
+							//include_once('pop_ptail.php'); exit;
 						}
 					}
 				}
 
-				//$tpl = new Template($tEMPLATE_PATH.'/'.$tCONFIG['templates']['editprofile_uploadavatar']);
+				$this->modules['Template']->assign(array(
+					'error'=>$error
+				));
 
 				$this->modules['PageParts']->printPopupPage('EditProfileUploadAvatar.tpl');
-				break;
-
-			case 'selectavatar':
-				$avatar_address = isset($_GET['avatar_address']) ? $_GET['avatar_address'] : '';
-
-				if(isset($_GET['doit'])) {
-					$this->modules['DB']->query("UPDATE ".TBLPFX."users SET user_avatar_address='$avatar_address' WHERE user_id='$uSER_ID'");
-
-					$tpl = new Template($tEMPLATE_PATH.'/'.$tCONFIG['templates']['editprofile_avatarresult']);
-
-					$avatar_selected_text = sprintf($this->modules['Language']->getString('avatar_selected_text'),'<img src="'.$avatar_address.'" width="'.$cONFIG['avatar_image_width'].'" height="'.$cONFIG['avatar_image_height'].'" border="0" alt="" />');
-
-					include_once('pop_pheader.php');
-					$tpl->parseCode(TRUE);
-					include_once('pop_ptail.php'); exit;
-				}
-
-				$tpl = new Template($tEMPLATE_PATH.'/'.$tCONFIG['templates']['editprofile_selectavatar']);
-
-				$this->modules['DB']->query("SELECT avatar_address FROM ".TBLPFX."avatars");
-				$avatars_data = $this->modules['DB']->raw2array();
-				$avatars_counter = count($avatars_data);
-
-				if($avatars_counter > 0) {
-					for($i = 0; $i < $avatars_counter; $i++) {
-						$akt_avatar = &$avatars_data[$i];
-						$akt_encoded_avatar_address = urlencode($akt_avatar['avatar_address']);
-
-						$tpl->blocks['avatarrow']->blocks['avatarcol']->parseCode(FALSE,TRUE);
-
-						if(($i+1) % 5 == 0 && $i != $avatars_counter-1) {
-							$tpl->blocks['avatarrow']->parseCode(FALSE,TRUE);
-							$tpl->blocks['avatarrow']->blocks['avatarcol']->resetTpl();
-						}
-					}
-					$tpl->blocks['avatarrow']->parseCode(FALSE,TRUE);
-				}
-
-
-				include_once('pop_pheader.php');
-				$tpl->parseCode(TRUE);
-				include_once('pop_ptail.php');
 				break;
 		}
 	}

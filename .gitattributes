@@ -293,7 +293,6 @@ templates/std/templates/ForumIndex.tpl -text
 templates/std/templates/Login.tpl -text
 templates/std/templates/MemberList.tpl -text
 templates/std/templates/Message.tpl -text
-templates/std/templates/PPicsBox.tpl -text
 templates/std/templates/PageHeader.tpl -text
 templates/std/templates/PageTail.tpl -text
 templates/std/templates/PopupHeader.tpl -text
@@ -311,6 +310,7 @@ templates/std/templates/PrivateMessagesViewPM.tpl -text
 templates/std/templates/RegisterBoardRules.tpl -text
 templates/std/templates/RegisterRegisterForm.tpl -text
 templates/std/templates/SmiliesBox.tpl -text
+templates/std/templates/TopicPicsBox.tpl -text
 templates/std/templates/ViewForum.tpl -text
 templates/std/templates/ViewTopic.tpl -text
 templates/std/templates/WhoIsOnline.tpl -text

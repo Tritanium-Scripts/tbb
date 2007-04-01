@@ -6,7 +6,7 @@
 {foreach from=$groupsData item=curGroup}
  {if count($curGroup.groupFields) > 0}
  <fieldset>
- <legend><span class="FontSmall"><b>{$curGroup.GroupName}</b></span></legend>
+ <legend><span class="FontSmall"><b>{$curGroup.groupName}</b></span></legend>
  <table border="0" cellpadding="2" cellspacing="0" width="100%">
  {foreach from=$curGroup.groupFields item=curField}
   {if $curField.fieldType == $smarty.const.PROFILE_FIELD_TYPE_TEXT}

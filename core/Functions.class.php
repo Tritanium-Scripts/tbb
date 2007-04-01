@@ -236,24 +236,24 @@ class Functions {
 	   return $Value;
 	}
 
-	public static function getPPicsBox($CheckedID = 0) {
+	public static function getTopicPicsBox($CheckedID = 0) {
 		$Template = Factory::singleton('Template');
 		$Cache = Factory::singleton('Cache');
 
-		$PPicsData = $Cache->getPPicsData();
+		$topicPicsData = $Cache->getTopicPicsData();
 
-		$Template->assign('PPicsData',$PPicsData);
+		$Template->assign('topicPicsData',$topicPicsData);
 
-		return $Template->fetch('PPicsBox.tpl');
+		return $Template->fetch('TopicPicsBox.tpl');
 	}
 
 	public static function getSmiliesBox() {
 		$Cache = Factory::singleton('Cache');
 		$Template = Factory::singleton('Template');
 
-		$SmiliesData = array_slice($Cache->getSmiliesData('read'),0,24);
+		$smiliesData = array_slice($Cache->getSmiliesData('read'),0,24);
 
-		$Template->assign('SmiliesData',$SmiliesData);
+		$Template->assign('smiliesData',$smiliesData);
 
 		return $Template->fetch('SmiliesBox.tpl');
 	}

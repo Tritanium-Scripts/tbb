@@ -59,7 +59,7 @@ class ViewTopic extends ModuleTemplate {
 		//update_topic_cookie($forum_id,$topicID,time());
 
 		if(!isset($_SESSION['topicViews'][$topicID])) { // Falls dieses Thema in dieser Session noch nicht besucht wurde...
-			$this->modules['DB']->query("UPDATE ".TBLPFX."topics SET TopicViewsCounter=TopicViewsCounter+1 WHERE TopicID='$topicID'"); // ...Anzahl der Views um 1 erhoehen...
+			$this->modules['DB']->query("UPDATE ".TBLPFX."topics SET topicViewsCounter=topicViewsCounter+1 WHERE topicID='$topicID'"); // ...Anzahl der Views um 1 erhoehen...
 			$_SESSION['topicViews'][$topicID] = TRUE; // ...Und Thema in dieser Session vermerken
 		}
 
@@ -68,7 +68,7 @@ class ViewTopic extends ModuleTemplate {
 		// Seitenanzeige erstellen
 		//
 		if(!isset($topicPostsCounter)) $topicPostsCounter = Functions::getPostsCounter($topicID); // Anzahl der Beitraege bestimmen (kann eventuell aus schon vorhandenen Daten geschehen)
-		$pageListing = Functions::createPageListing($topicPostsCounter,$this->modules['Config']->getValue('posts_per_page'),$page,"<a href=\"".INDEXFILE."?action=ViewTopic&amp;TopicID=$topicID&amp;Page=%1\$s&amp;".MYSID."\">%2\$s</a>"); // Die Seitenansicht erstellen
+		$pageListing = Functions::createPageListing($topicPostsCounter,$this->modules['Config']->getValue('posts_per_page'),$page,"<a href=\"".INDEXFILE."?action=ViewTopic&amp;topicID=$topicID&amp;Page=%1\$s&amp;".MYSID."\">%2\$s</a>"); // Die Seitenansicht erstellen
 		$start = $page*$this->modules['Config']->getValue('posts_per_page')-$this->modules['Config']->getValue('posts_per_page'); // Startbeitrag
 
 
@@ -110,7 +110,7 @@ class ViewTopic extends ModuleTemplate {
 					$info_text = $this->modules['Language']->getString('poll_not_logged_in_info'); // ...und Infotext fuer "nicht eingeloggt" erzeugen
 				}
 
-				$this->modules['DB']->query("SELECT OptionID,OptionTitle,OptionVotesCounter FROM ".TBLPFX."polls_options WHERE TopicID='$topicID' ORDER BY OptionID"); // Die Auswahlmoeglichkeiten fuer die Umfrage laden
+				$this->modules['DB']->query("SELECT OptionID,OptionTitle,OptionVotesCounter FROM ".TBLPFX."polls_options WHERE topicID='$topicID' ORDER BY OptionID"); // Die Auswahlmoeglichkeiten fuer die Umfrage laden
 				while($akt_option = $this->modules['DB']->fetchArray()) {
 					$akt_fraction = ($poll_data['poll_votes'] == 0) ? 0 : round($akt_option['option_votes']/$poll_data['poll_votes'],2); // Der Anteil an Stimmen (0,xx)
 					$akt_percent = $akt_fraction*100; // Stimmenanteil in Prozent
@@ -259,7 +259,7 @@ class ViewTopic extends ModuleTemplate {
 
 		$subscribeText = '';
 		if($this->modules['Auth']->isLoggedIn() == 1 && $this->modules['Config']->getValue('enable_email_functions') == 1 && $this->modules['Config']->getValue('enable_topic_subscription') == 1) {
-			$this->modules['DB']->query("SELECT UserID FROM ".TBLPFX."topics_subscriptions WHERE TopicID='$topicID' AND UserID='".USERID."'");
+			$this->modules['DB']->query("SELECT UserID FROM ".TBLPFX."topics_subscriptions WHERE topicID='$topicID' AND UserID='".USERID."'");
 			$subscribeText = ($this->modules['DB']->getAffectedRows() == 0) ? $this->modules['Language']->getString('Subscribe_topic') : $this->modules['Language']->getString('Unsubscribe_topic');
 		}
 
@@ -290,30 +290,31 @@ class ViewTopic extends ModuleTemplate {
 		if($forumID != 0) {
 			$this->modules['DB']->query("
 				SELECT
-					AuthID
+					authID
 				FROM
 					".TBLPFX."forums_auth
 				WHERE
-					AuthType='".AUTH_TYPE_USER."'
-					AND ForumID='$forumID'
-					AND AuthIsMod='1'
+					authType='".AUTH_TYPE_USER."'
+					AND forumID='$forumID'
+					AND authIsMod='1'
 			");
 			while(list($curUserID) = $this->modules['DB']->fetchArray())
 				$forumModIDs[intval($curUserID)] = TRUE;
 
 			$this->modules['DB']->query("
 				SELECT
-					t2.MemberID
-				FROM
+					t2.memberID
+				FROM (
 					".TBLPFX."forums_auth AS t1,
 					".TBLPFX."groups_members AS t2
+				)
 				WHERE
-					t1.ForumID='$forumID'
-					AND t1.AuthIsMod=1
-					AND t1.AuthType='".AUTH_TYPE_GROUP."'
-					AND t2.GroupID=t1.AuthID
+					t1.forumID='$forumID'
+					AND t1.authIsMod=1
+					AND t1.authType='".AUTH_TYPE_GROUP."'
+					AND t2.groupID=t1.authID
 				GROUP BY
-					t2.MemberID
+					t2.memberID
 			");
 			while(list($curUserID) = $this->modules['DB']->fetchArray())
 				$forumModIDs[intval($curUserID)] = TRUE;
