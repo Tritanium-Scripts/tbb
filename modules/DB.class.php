@@ -53,7 +53,7 @@ class DB extends ModuleTemplate {
 		return $this->dBObject->insert_id;
 	}
 
-	public function Raw2Array() {
+	public function raw2Array() {
 		$temp = array();
 		while($curRow = $this->curResult->fetch_array())
 			$temp[] = $curRow;
@@ -61,7 +61,7 @@ class DB extends ModuleTemplate {
 		return $temp;
 	}
 
-	public function Raw2FVArray() {
+	public function raw2FVArray() {
 		$temp = array();
 
 		while(list($curValue) = $this->fetchArray())
