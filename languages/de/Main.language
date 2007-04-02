@@ -106,6 +106,9 @@ Enable_bbcode = "BBCode aktivieren"
 Enable_html_code = "HTML-Code aktivieren"
 Show_signature = "Signatur anzeigen"
 Actions = "Aktionen"
+Message = "Nachricht"
+Subject = "Betreff"
+
 
 Display_options = "Darstellungsoptionen"
 Ascending = "Aufsteigend"

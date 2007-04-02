@@ -13,11 +13,17 @@ class ViewProfile extends ModuleTemplate {
 	);
 
 	public function executeMe() {
+		$this->modules['Language']->addFile('ViewProfile');
+
 		$profileID = isset($_GET['profileID']) ? intval($_GET['profileID']) : 0;
 
 		if(!$profileData = Functions::getUserData($profileID)) die('Cannot load data: Profile');
 
-		$this->modules['Navbar']->addElements('left',array($this->modules['Language']->getString('View_profile'),INDEXFILE."?action=ViewProfile&amp;profileID=$profileID&amp".MYSID));
+		$this->modules['Navbar']->addElements(array($this->modules['Language']->getString('View_profile'),INDEXFILE."?action=ViewProfile&amp;profileID=$profileID&amp".MYSID));
+		$this->modules['Template']->assign(array(
+			'userIsMod'=>Functions::checkModStatus(USERID),
+			'profileID'=>$profileID
+		));
 
 		switch(@$_GET['mode']) {
 			default:
@@ -50,9 +56,12 @@ class ViewProfile extends ModuleTemplate {
 					//reset($ranksData[0]);
 				}
 
-				$profileRegisterDate = Functions::toDateTime($profileData['userRegistrationTimestamp']);
+				$profileData['_profileRankText'] = $profileRankText;
+				$profileData['_profileRankPic'] = $profileRankPic;
+				$profileData['_profileRegisterDate'] = Functions::toDateTime($profileData['userRegistrationTimestamp']);
 
-				$userIsMod = Functions::checkModStatus(USERID);
+				$show = array('notesTable'=>FALSE);
+
 				if($this->modules['Auth']->getValue('userAuthProfileNotes') == 1 || $this->modules['Auth']->getValue('userIsAdmin') == 1 || $this->modules['Auth']->getValue('userIsSupermod') == 1 || $userIsMod) {
 					if($this->modules['Auth']->getValue('userIsAdmin') == 1 || $this->modules['Auth']->getValue('userIsSupermod') == 1 || $userIsMod) {
 						$this->modules['DB']->query("
@@ -69,129 +78,161 @@ class ViewProfile extends ModuleTemplate {
 						");
 					}
 					else {
-						$DB->query("SELECT * FROM ".TBLPFX."profile_notes WHERE profile_id='$profile_id' AND user_id='$USER_ID' ORDER BY note_time DESC");
+						$this->modules['DB']->query("
+							SELECT
+								*
+							FROM
+								".TBLPFX."profile_notes
+							WHERE
+								profileID='$profileID' AND userID='".USERID."'
+							ORDER BY
+								noteTimestamp DESC
+						");
 					}
 
 					$notesData = array();
 					while($curNote = $this->modules['DB']->fetchArray()) {
-						$curNote['_noteData'] = Functions::toDateTime($curNote['noteTimestamp']);
+						$curNote['_noteDate'] = Functions::toDateTime($curNote['noteTimestamp']);
 						$curNote['_noteText'] = nl2br(Functions::HTMLSpecialChars($curNote['noteText']));
-						//$tpl->Blocks['notestable']->Blocks['noterow']->parseCode(FALSE,TRUE);
+						$notesData[] = $curNote;
 					}
 
-					//$tpl->Blocks['notestable']->parseCode();
+					$this->modules['Template']->assign('notesData',$notesData);
+
+					$show['notesTable'] = TRUE;
 				}
 
 				$this->modules['Template']->assign(array(
-					'profileData'=>$profileData
+					'profileData'=>$profileData,
+					'show'=>$show
 				));
 
 				$this->modules['PageParts']->printPage('ViewProfileView.tpl');
-				//include_once('pheader.php');
-				//$tpl->parseCode(TRUE);
-				//include_once('ptail.php');
 				break;
 
-			case 'addnote':
-				$userIsMod = Functions::checkModStatus(USERID);
-				if($this->modules['Auth']->getValue('userAuthProfileNotes') != 1 && $this->modules['Auth']->getValue('userIsAdmin') != 1 && $this->modules['Auth']->getValue('userIsSupermod') != 1 && !$userIsMod) die('Kein Zugriff');
+			case 'AddNote':
+				if($this->modules['Auth']->getValue('userAuthProfileNotes') != 1 && $this->modules['Auth']->getValue('userIsAdmin') != 1 && $this->modules['Auth']->getValue('userIsSupermod') != 1 && !$userIsMod) die('Access denied: add profile note');
 
-				$p_note_text = isset($_POST['p_note_text']) ? $_POST['p_note_text'] : '';
-				$p_note_is_public = 0;
-
-				if(isset($_GET['doit'])) {
-					$p_note_is_public = isset($_POST['p_note_is_public']) ? 1 : 0;
-
-					// Oeffentlich darf man nur als Admin oder Mod posten...
-					if($this->modules['Auth']->getValue('userIsAdmin') != 1 && $this->modules['Auth']->getValue('userIsSupermod') != 1 && !$userIsMod) $p_note_is_public = 0;
-
-					$DB->query("INSERT INTO ".TBLPFX."profile_notes (user_id,profile_id,note_time,note_is_public,note_text) VALUES ('$USER_ID','$profile_id','".time()."','$p_note_is_public','$p_note_text')");
-
-					header("Location: index.php?action=viewprofile&profile_id=$profile_id&{$MYSID}"); exit;
-				}
-
-				$tpl = new Template($TEMPLATE_PATH.'/'.$TCONFIG['templates']['viewprofile_addnote']);
-
-				$NAVBAR->addElements('left',array($LNG['Add_note'],"index.php?action=viewprofile&amp;profile_id=$profile_id&amp;{$MYSID}"));
-
-				include_once('pheader.php');
-				$tpl->parseCode(TRUE);
-				include_once('ptail.php');
-			break;
-
-			case 'editnote':
-				$note_id = isset($_GET['note_id']) ? intval($_GET['note_id']) : 0;
-				if(!$note_data = get_profile_note_data($note_id)) die('Kann Daten nicht laden: Profilnotiz');
-				if($this->modules['Auth']->getValue('userIsAdmin') != 1 && $note_data['user_id'] != $USER_ID) die('Kein Zugriff');
-				$userIsMod = Functions::checkModStatus(USERID);
-
-				$p_note_text = isset($_POST['p_note_text']) ? $_POST['p_note_text'] : addslashes($note_data['note_text']);
-				$p_note_is_public = $note_data['note_is_public'];
+				$p = Functions::getSGValues($_POST['p'],array('noteText'),'');
+				$c = Functions::getSGValues($_POST['c'],array('noteIsPublic'),0);
 
 				if(isset($_GET['doit'])) {
-					$p_note_is_public = isset($_POST['p_note_is_public']) ? 1 : 0;
-
 					// Oeffentlich darf man nur als Admin oder Mod posten...
-					if($this->modules['Auth']->getValue('userIsAdmin') != 1 && $this->modules['Auth']->getValue('userIsSupermod') != 1 && !$userIsMod) $p_note_is_public = 0;
+					if($this->modules['Auth']->getValue('userIsAdmin') != 1 && $this->modules['Auth']->getValue('userIsSupermod') != 1 && !$userIsMod)
+						$c['noteIsPublic'] = 0;
 
-					$DB->query("UPDATE ".TBLPFX."profile_notes SET note_is_public='$p_note_is_public', note_text='$p_note_text' WHERE note_id='$note_id'");
+					$this->modules['DB']->query("
+						INSERT INTO
+							".TBLPFX."profile_notes
+						SET
+							userID='".USERID."',
+							profileID='".$profileID."',
+							noteTimestamp='".time()."',
+							noteIsPublic='".$c['noteIsPublic']."',
+							noteText='".$p['noteText']."'
+						");
 
+					Functions::myHeader(INDEXFILE."?action=ViewProfile&profileID=$profileID&".MYSID);
 				}
 
-				$tpl = new Template($TEMPLATE_PATH.'/'.$TCONFIG['templates']['viewprofile_editnote']);
+				$this->modules['Template']->assign(array(
+					'p'=>$p,
+					'c'=>$c
+				));
 
-				$NAVBAR->addElements('left',array($LNG['Edit_note'],"index.php?action=viewprofile&amp;profile_id=$profile_id&amp;{$MYSID}"));
+				$this->modules['Navbar']->addElements(array($this->modules['Language']->getString('Add_note'),INDEXFILE."?action=ViewProfile&amp;profileID=$profileID&amp;".MYSID));
 
-				include('pheader.php');
-				$tpl->parseCode(TRUE);
-				include('ptail.php');
-			break;
+				$this->modules['PageParts']->printPage('ViewProfileAddNote.tpl');
+				break;
 
-			case 'deletenote':
-				$note_id = isset($_GET['note_id']) ? intval($_GET['note_id']) : 0;
-				if(!$note_data = get_profile_note_data($note_id)) die('Kann Daten nicht laden: Profilnotiz');
-				if($this->modules['Auth']->getValue('userIsAdmin') != 1 && $note_data['user_id'] != $USER_ID) die('Kein Zugriff');
+			case 'EditNote':
+				$noteID = isset($_GET['noteID']) ? intval($_GET['noteID']) : 0;
+				if(!$noteData = Functions::getProfileNoteData($noteID)) die('Cannot load data: profile note');
+				if($this->modules['Auth']->getValue('userIsAdmin') != 1 && $noteData['userID'] != USERID) die('Access denied: edit profile note');
 
-				$DB->query("DELETE FROM ".TBLPFX."profile_notes WHERE note_id='$note_id'");
+				$p = Functions::getSGValues($_POST['p'],array('noteText'),'',Functions::addSlashes($noteData));
+				$c = Functions::getSGValues($_POST['c'],array('noteIsPublic'),'',Functions::addSlashes($noteData));
 
-				header("Location: index.php?action=viewprofile&profile_id=$profile_id&{$MYSID}"); exit;
-			break;
+				if(isset($_GET['doit'])) {
+					// Oeffentlich darf man nur als Admin oder Mod posten...
+					if($this->modules['Auth']->getValue('userIsAdmin') != 1 && $this->modules['Auth']->getValue('userIsSupermod') != 1 && !$userIsMod)
+						$c['noteIsPublic'] = 0;
 
-			case 'sendmail':
-				if($USER_LOGGED_IN == 0 || $CONFIG['enable_email_formular'] == 0) die('Das geht wohl so nicht...!');
+					$this->modules['DB']->query("
+						UPDATE
+							".TBLPFX."profile_notes
+						SET
+							noteIsPublic='".$c['noteIsPublic']."',
+							noteText='".$p['noteText']."'
+						WHERE
+							noteID='$noteID'
+					");
 
-				add_navbar_items(array($LNG['Send_email'],"index.php?action=viewprofile&amp;profile_id=$profile_id&ampmode=sendmail&amp;$MYSID"));
+					Functions::myHeader(INDEXFILE."?action=ViewProfile&profileID=$profileID&".MYSID);
+				}
 
-				$p_mail_subject = isset($_POST['p_mail_subject']) ? $_POST['p_mail_subject'] : '';
-				$p_mail_message = isset($_POST['p_mail_message']) ? $_POST['p_mail_message'] : '';
+				$this->modules['Template']->assign(array(
+					'p'=>$p,
+					'c'=>$c,
+					'noteID'=>$noteID
+				));
+
+				$this->modules['Navbar']->addElements(array($this->modules['Language']->getString('Edit_note'),INDEXFILE."?action=ViewProfile&amp;profileID=$profileID&amp;".MYSID));
+
+				$this->modules['PageParts']->printPage('ViewProfileEditNote.tpl');
+				break;
+
+			case 'DeleteNote':
+				$noteID = isset($_GET['noteID']) ? intval($_GET['noteID']) : 0;
+				if(!$noteData = Functions::getProfileNoteData($noteID)) die('Cannot load data: profile note');
+				if($this->modules['Auth']->getValue('userIsAdmin') != 1 && $noteData['userID'] != USERID) die('Access denied: delete profile note');
+
+				$this->modules['DB']->query("
+					DELETE FROM
+						".TBLPFX."profile_notes
+					WHERE
+						noteID='$noteID'
+				");
+
+				Functions::myHeader(INDEXFILE."?action=ViewProfile&profileID=$profileID&".MYSID);
+				break;
+
+			case 'SendEmail':
+				if($this->modules['Auth']->isLoggedIn() == 0 || $this->modules['Config']->getValue('enable_email_formular') == 0) die('Access denied: profile: send email');
+
+				$this->modules['Navbar']->addElement($this->modules['Language']->getString('Send_email'),INDEXFILE."?action=ViewProfile&amp;profileID=$profileID&amp;mode=SendEmail&amp;".MYSID);
+
+				$p = Functions::getSGValues($_POST['p'],array('emailSubject','emailMessage'),'');
 
 				$error = '';
 
 				if(isset($_GET['doit'])) {
-					$p_mail_message = mysslashes($p_mail_message);
-					$p_mail_subject = mysslashes($p_mail_subject);
+					$p = Functions::stripSlashes($p);
 
-					if(trim($p_mail_subject) == '') $error = $LNG['error_no_subject'];
-					elseif(trim($p_mail_message) == '') $error = $LNG['error_no_message'];
+					if(trim($p['emailSubject']) == '') $error = $this->modules['Language']->getString('error_no_subject');
+					elseif(trim($p['emailMessage']) == '') $error = $this->modules['Language']->getString('error_no_message');
 					else {
-						mymail($this->modules['Auth']->getValue('user_nick').' <'.$this->modules['Auth']->getValue('user_email').'>',$profileData['user_nick'].' <'.$profileData['user_email'].'>',$p_mail_subject,$p_mail_message);
-						add_navbar_items(array($LNG['Email_sent'],''));
+						Functions::myMail($this->modules['Auth']->getValue('userNick').' <'.$this->modules['Auth']->getValue('userEmail').'>',$profileData['userNick'].' <'.$profileData['userEmail'].'>',$p['emailSubject'],$p['emailMessage']);
 
-						include_once('pheader.php');
-						show_message($LNG['Email_sent'],$LNG['message_email_sent'].'<br />'.sprintf($LNG['click_here_back_profile'],"<a href=\"index.php?action=viewprofile&amp;profile_id=$profile_id&amp;$MYSID\">",'</a>'));
-						include_once('ptail.php'); exit;
+						// TODO: correct message
+						die('Email sent');
+
+						//add_navbar_items(array($LNG['Email_sent'],''));
+
+						//include_once('pheader.php');
+						//show_message($LNG['Email_sent'],$LNG['message_email_sent'].'<br />'.sprintf($LNG['click_here_back_profile'],"<a href=\"index.php?action=viewprofile&amp;profile_id=$profile_id&amp;$MYSID\">",'</a>'));
+						//include_once('ptail.php'); exit;
 					}
 				}
 
-				$p_mail_message = myhtmlentities($p_mail_message);
-				$p_mail_subject = myhtmlentities($p_mail_subject);
+				$this->modules['Template']->assign(array(
+					'p'=>Functions::HTMLSpecialChars($p),
+					'error'=>$error,
+					'profileData'=>$profileData
+				));
 
-				$tpl = new Template($TEMPLATE_PATH.'/'.$TCONFIG['templates']['viewprofile_sendmail']);
-
-				include_once('pheader.php');
-				$tpl->parseCode(TRUE);
-				include_once('ptail.php');
-			break;
+				$this->modules['PageParts']->printPage('ViewProfileSendEmail.tpl');
+				break;
 		}
 	}
 }

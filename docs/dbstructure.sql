@@ -269,14 +269,14 @@ CREATE TABLE `tbb2_profile_fields_data` (
 #
 
 CREATE TABLE `tbb2_profile_notes` (
-  `note_id` mediumint(8) unsigned NOT NULL auto_increment,
-  `user_id` mediumint(8) unsigned NOT NULL default '0',
-  `profile_id` mediumint(8) unsigned NOT NULL default '0',
-  `note_time` int(10) unsigned NOT NULL default '0',
-  `note_is_public` tinyint(1) unsigned NOT NULL default '0',
-  `note_text` text NOT NULL,
-  PRIMARY KEY  (`note_id`),
-  KEY `user_id_profile_id` (`user_id`,`profile_id`)
+  `noteID` mediumint(8) unsigned NOT NULL auto_increment,
+  `userID` mediumint(8) unsigned NOT NULL default '0',
+  `profileID` mediumint(8) unsigned NOT NULL default '0',
+  `noteTimestamp` int(10) unsigned NOT NULL default '0',
+  `noteIsPublic` tinyint(1) unsigned NOT NULL default '0',
+  `noteText` text NOT NULL,
+  PRIMARY KEY  (`noteID`),
+  KEY `user_id_profile_id` (`userID`,`profileID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 #
@@ -389,18 +389,18 @@ CREATE TABLE `tbb2_users` (
   `userPostsCounter` mediumint(8) unsigned NOT NULL default '0',
   `userRegistrationTimestamp` int(10) unsigned NOT NULL default '0',
   `userSignature` text NOT NULL,
-  `user_group_id` mediumint(8) unsigned NOT NULL default '0',
-  `user_special_status` mediumint(8) unsigned NOT NULL default '0',
+  `groupID` mediumint(8) unsigned NOT NULL default '0',
+  `userSpecialStatus` mediumint(8) unsigned NOT NULL default '0',
   `userLastAction` int(10) unsigned NOT NULL default '0',
   `rankID` smallint(5) unsigned NOT NULL default '0',
   `userAvatarAddress` varchar(255) NOT NULL default '',
-  `user_tz` varchar(255) NOT NULL default 'gmt',
+  `userTimezone` varchar(255) NOT NULL default 'gmt',
   `userReceiveEmails` tinyint(1) unsigned NOT NULL default '1',
   `userHideEmail` tinyint(1) unsigned NOT NULL default '0',
   `userIsLocked` tinyint(1) unsigned NOT NULL default '0',
   `userMemo` text NOT NULL,
-  `user_auth_profile_notes` tinyint(1) unsigned NOT NULL default '2',
-  `user_language` varchar(255) NOT NULL default '',
+  `userAuthProfileNotes` tinyint(1) unsigned NOT NULL default '2',
+  `userLanguage` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`userID`),
   KEY `user_last_action` (`userLastAction`),
   KEY `user_rank_id` (`rankID`)

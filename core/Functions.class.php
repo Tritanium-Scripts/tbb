@@ -514,6 +514,19 @@ class Functions {
 		return FALSE; // User ist kein Mod
 	}
 
+	/**
+	 * Returns the specified profile note or false on error
+	 *
+	 * @param int $noteID
+	 * @return mixed
+	 */
+	static public function getProfileNoteData($noteID) {
+		$DB = Factory::singleton('DB');
+
+		$DB->query("SELECT * FROM ".TBLPFX."profile_notes WHERE noteID='$noteID'");
+		return ($DB->getAffectedRows() == 1) ? $DB->fetchArray() : FALSE;
+	}
+
 	public static function getTimeZones($AssignNames = FALSE) {
 		$TimeZones = array(
 			'idlw'=>-43200,
