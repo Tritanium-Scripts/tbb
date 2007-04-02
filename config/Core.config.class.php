@@ -14,6 +14,7 @@ class CoreConfig extends ConfigTemplate {
 			'MemberList',
 			'PrivateMessages',
 			'ViewForum',
+			'ViewProfile',
 			'ViewTopic',
 			'Posting',
 			'Register',

@@ -492,6 +492,28 @@ class Functions {
 		return ($DB->affected_rows == 0) ? FALSE : $DB->fetch_array();
 	}
 
+	/**
+	 * Returns true if user is mod, false otherwise
+	 *
+	 * @param int $userID
+	 * @return bool
+	 */
+	static public function checkModStatus($userID) {
+		$DB = Factory::singleton('DB');
+
+		// Erst wird nach einem Mod-Recht des Users gesucht
+		$DB->query("SELECT authID FROM ".TBLPFX."forums_auth WHERE authType='".AUTH_TYPE_GROUP."' AND authID='$userID' AND authIsMod='1' LIMIT 1");
+		if($DB->getAffectedRows() > 0) return TRUE;
+
+		// Nichts gefunden, also muessen die Gruppen ueberprueft werden, in denen der User Mitglied ist
+		$DB->query("SELECT groupID FROM ".TBLPFX."groups_members WHERE memberID='$userID'");
+		$groupIDs = $DB->raw2FVArray();
+		$DB->query("SELECT authID FROM ".TBLPFX."forums_auth WHERE authType='".AUTH_TYPE_GROUP."' AND authID IN ('".implode("','",$groupIDs)."') AND authIsMod='1' LIMIT 1");
+		if($DB->getAffectedRows() > 0) return TRUE;
+
+		return FALSE; // User ist kein Mod
+	}
+
 	public static function getTimeZones($AssignNames = FALSE) {
 		$TimeZones = array(
 			'idlw'=>-43200,
