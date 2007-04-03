@@ -184,38 +184,38 @@ class Functions {
 		return ($DB->getAffectedRows() == 1) ? TRUE : FALSE;
 	}
 
-	public static function createPageListing($EntriesCounter,$EntriesPerPage,&$Page,$Link) {
+	public static function createPageListing($entriesCounter,$entriesPerPage,&$page,$link) {
 		$Language = Factory::singleton('Language');
 
-		$PagesCounter = ceil($EntriesCounter/$EntriesPerPage);
+		$pagesCounter = ceil($entriesCounter/$entriesPerPage);
 
-		if($PagesCounter == 0) $Page = 1;
-		elseif($Page == 'last' || $Page > $PagesCounter) $Page = $PagesCounter;
+		if($pagesCounter == 0) $page = 1;
+		elseif($page == 'last' || $page > $pagesCounter) $page = $pagesCounter;
 
-		$PageListing = array();
+		$pageListing = array();
 
-		$Pre = $Suf = '';
+		$pre = $suf = '';
 
-		if($PagesCounter > 0) {
-			if($PagesCounter > 5) {
-				if($Page > 2 && $Page < $PagesCounter-2) $PageListing = array($Page-2,$Page-1,$Page,$Page+1,$Page+2);
-				elseif($Page <= 2) $PageListing = array(1,2,3,4,5);
-				elseif($Page >= $PagesCounter-2) $PageListing = array($PagesCounter-4,$PagesCounter-3,$PagesCounter-2,$PagesCounter-1,$PagesCounter);
+		if($pagesCounter > 0) {
+			if($pagesCounter > 5) {
+				if($page > 2 && $page < $pagesCounter-2) $pageListing = array($page-2,$page-1,$page,$page+1,$page+2);
+				elseif($page <= 2) $pageListing = array(1,2,3,4,5);
+				elseif($page >= $pagesCounter-2) $pageListing = array($pagesCounter-4,$pagesCounter-3,$pagesCounter-2,$pagesCounter-1,$pagesCounter);
 			}
 			else {
-				for($i = 1; $i < $PagesCounter+1; $i++)
-					$PageListing[] = $i;
+				for($i = 1; $i < $pagesCounter+1; $i++)
+					$pageListing[] = $i;
 			}
 		}
-		else $PageListing[] = 1;
-		for($i = 0; $i < count($PageListing); $i++) {
-			if($PageListing[$i] != $Page) $PageListing[$i] = sprintf($Link,$PageListing[$i],$PageListing[$i]);
+		else $pageListing[] = 1;
+		for($i = 0; $i < count($pageListing); $i++) {
+			if($pageListing[$i] != $page) $pageListing[$i] = sprintf($link,$pageListing[$i],$pageListing[$i]);
 		}
 
-		if($Page > 1) $Pre = sprintf($Link,1,$Language->getString('First_page')).'&nbsp;'.sprintf($Link,$Page-1,$Language->getString('Previous_page')).'&nbsp;&nbsp;';
-		if($Page < $PagesCounter) $Suf = '&nbsp;&nbsp;'.sprintf($Link,$Page+1,$Language->getString('Next_page')).'&nbsp;'.sprintf($Link,'last',$Language->getString('Last_page'));
+		if($page > 1) $pre = sprintf($link,1,$Language->getString('First_page')).'&nbsp;'.sprintf($link,$page-1,$Language->getString('Previous_page')).'&nbsp;&nbsp;';
+		if($page < $pagesCounter) $suf = '&nbsp;&nbsp;'.sprintf($link,$page+1,$Language->getString('Next_page')).'&nbsp;'.sprintf($link,'last',$Language->getString('Last_page'));
 
-		return sprintf($Language->getString('Pages'),$PagesCounter,$Pre.implode(' | ',$PageListing).$Suf);
+		return sprintf($Language->getString('Pages'),$pagesCounter,$pre.implode(' | ',$pageListing).$suf);
 	}
 
 	public static function FileWrite($FileName,$Data,$Mode) {
@@ -450,14 +450,14 @@ class Functions {
 	//*
 	//* Bestimmt alle Vaterkategorien einer Kategorie
 	//*
-	static public function catsGetParentCatsData($CatID,$IncludeSelf = TRUE) {
+	static public function catsGetParentCatsData($catID,$includeSelf = TRUE) {
 		$DB = Factory::singleton('DB');
 
-		if($CatID == 1) return array();
+		if($catID == 1) return array();
 
-		$DB->query("SELECT t1.* FROM ".TBLPFX."cats AS t1, ".TBLPFX."cats AS t2 WHERE t2.CatID='$CatID' AND t1.CatID<>1 AND t2.CatL BETWEEN t1.CatL AND t1.catR ".(!$IncludeSelf ? "AND t1.CatID<>'$CatID'" : '')." ORDER BY t1.CatL");
+		$DB->query("SELECT t1.* FROM ".TBLPFX."cats AS t1, ".TBLPFX."cats AS t2 WHERE t2.catID='$catID' AND t1.catID<>1 AND t2.catL BETWEEN t1.catL AND t1.catR ".(!$includeSelf ? "AND t1.catID<>'$catID'" : '')." ORDER BY t1.catL");
 
-		return $DB->Raw2Array();
+		return $DB->raw2Array();
 	}
 
 

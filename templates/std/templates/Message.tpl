@@ -1,5 +1,5 @@
 <table class="TableStd" width="100%">
-{if $flags.InPrivateMessages || $flags.InEditProfile}
+{if $flags.inPrivateMessages || $flags.inEditProfile || $pageInPage}
  <tr><td class="CellCat"><span class="FontCat">{$messageTitle}</span></td></tr>
 {else}
  <tr><td class="CellTitle"><span class="FontTitle">{$messageTitle}</span></td></tr>

@@ -39,9 +39,21 @@ textarea.FormTextArea {
 	font-size:11px;
 	font-family:verdana,arial;
 }
+textarea.FormTextArea:focus {
+	border:1px #000000 solid;
+	padding:4px;
+	font-size:11px;
+	font-family:verdana,arial;
+}
 
 input.FormText {
 	border:1px #000000 dotted;
+	padding:3px;
+	font-size:11px;
+	font-family:verdana,arial;
+}
+input.FormText:focus {
+	border:1px #000000 solid;
 	padding:3px;
 	font-size:11px;
 	font-family:verdana,arial;

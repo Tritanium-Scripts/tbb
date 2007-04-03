@@ -32,7 +32,7 @@ class Login extends ModuleTemplate {
 			if(trim($userNick) == '' || ($userData = Functions::getUserData($userNick)) == FALSE) $error = $this->modules['Language']->getString('error_unknown_user');
 			elseif($userData['userStatus'] == USER_STATUS_INACTIVE) $error = sprintf($this->modules['Language']->getString('error_inactive_account'),$userData['UserNick']);
 			elseif(Functions::getSaltedHash($p['userPassword'],$userData['userPasswordSalt']) != $userData['userPassword'] && ($userData['userNewPassword'] == '' || Functions::getSaltedHash($p['userPassword'],$userData['userNewPasswordSalt']) != $userData['userNewPassword'])) $error = $this->modules['Language']->getString('error_wrong_password');
-			elseif($userData['userIsLocked'] == 1 && Functions::checkLockStatus($userData['userID']) == TRUE) { // Falls der Benutzer sich nicht mehr einloggen darf
+			elseif($userData['userIsLocked'] == 1 && Functions::checkLockStatus($userData['userID'])) { // Falls der Benutzer sich nicht mehr einloggen darf
 				$dB->query("SELECT lock_start_time,lock_dur_time FROM ".TBLPFX."users_locks WHERE user_id='".$p_user_data['user_id']."'");
 				$lock_data = $dB->fetch_array();
 
@@ -90,7 +90,7 @@ class Login extends ModuleTemplate {
 				// also dorthin weitergeleitet werden soll. Falls nicht, wird einfach
 				// die Forenuebersicht aufgerufen
 				//
-				//isset($_SESSION['lastPlaceUrl']) ? Functions::myHeader($_SESSION['lastPlaceUrl']) : Functions::myHeader('index.php?'.MYSID);
+				isset($_SESSION['lastPlaceUrl']) ? Functions::myHeader($_SESSION['lastPlaceUrl']) : Functions::myHeader('index.php?'.MYSID);
 			}
 		}
 

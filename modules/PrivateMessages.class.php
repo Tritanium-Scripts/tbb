@@ -541,7 +541,22 @@ class PrivateMessages extends ModuleTemplate {
 				break;
 
 			case 'MovePMs':
-				// TODO: Alles
+				$pmIDs = (isset($_POST['pmIDs']) && is_array($_POST['pmIDs'])) ? $_POST['pmIDs'] : array();
+				$targetFolderID = isset($_GET['targetFolderID']) ? intval($_GET['targetFolderID']) : 0;
+				$returnFolderID = isset($_GET['returnFolderID']) ? intval($_GET['returnFolderID']) : 0;
+				$returnPage = isset($_GET['returnPage']) ? intval($_GET['returnPage']) : 1;
+
+				/**
+				 * Check if target folder is valid
+				 */
+				if($targetFolderID != 0 && $targetFolderID != 1) {
+					$this->modules['DB']->query("SELECT folderID FROM ".TBLPFX."pms_folders WHERE folderID='$targetFolderID' AND userID='".USERID."'");
+					if($this->modules['DB']->getAffectedRows() == 0) Functions::myHeader(INDEXFILE."?action=PrivateMessages&mode=ViewFolder&folderID=$returnFolderID&page=$returnPage&".MYSID);
+				}
+
+				$this->modules['DB']->query("UPDATE ".TBLPFX."pms SET folderID='$targetFolderID' WHERE pmID IN ('".implode("','",$pmIDs)."') AND pmToID='".USERID."'");
+
+				Functions::myHeader(INDEXFILE."?action=PrivateMessages&mode=ViewFolder&folderID=$returnFolderID&page=$returnPage&".MYSID);
 				break;
 		}
 	}

@@ -27,7 +27,7 @@ class EditProfile extends ModuleTemplate {
 
 				$error = '';
 
-				if(isset($_GET['Doit'])) {
+				if(isset($_GET['doit'])) {
 					if(!Functions::verifyEmail($p['userEmail'])) $error = $this->modules['Language']->getString('error_bad_email');
 					elseif(trim($p['userNewPassword']) != '' && Functions::getSaltedHash($p['userOldPassword'],$this->modules['Auth']->getValue('userPasswordSalt')) != $this->modules['Auth']->getValue('user_pw')) $error = $this->modules['Language']->getString('error_wrong_password');
 					elseif(trim($p['userNewPassword']) != '' && $p['userNewPassword'] != $p['userNewPasswordConfirmation']) $error = $this->modules['Language']->getString('error_pws_no_match');
@@ -42,9 +42,9 @@ class EditProfile extends ModuleTemplate {
 								userID='".USERID."'
 						");
 
-						if(trim($p['UserNewPassword']) != '') {
+						if(trim($p['userNewPassword']) != '') {
 							$newPasswordSalt = Functions::getRandomString(10);
-							$newPasswordEncrypted = Functions::getSaltedHash($p['UserNewPassword'],$newPasswordSalt);
+							$newPasswordEncrypted = Functions::getSaltedHash($p['userNewPassword'],$newPasswordSalt);
 
 							$this->modules['DB']->query("
 								UPDATE
@@ -59,9 +59,7 @@ class EditProfile extends ModuleTemplate {
 
 						$this->modules['Navbar']->addElements('left',array($this->modules['Language']->getString('Profile_saved'),''));
 
-						include_once('pheader.php');
-						show_message($this->modules['Language']->getString('Profile_saved'),$this->modules['Language']->getString('message_profile_saved'));
-						include_once('ptail.php'); exit;
+						$this->modules['PageParts']->printMessage('profile_saved'); exit;
 					}
 				}
 

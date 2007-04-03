@@ -17,7 +17,7 @@
 <form method="post" action="{$indexFile}?action=PrivateMessages&amp;folderID={$folderID}&amp;page={$page}&amp;{$mySID}" name="myForm">
 <table class="TableStd" border="0" cellpadding="3" cellspacing="0" width="100%">
 <tr>
- <td class="CellCat" align="center"><input type="checkbox" name="p_checkall" onclick="switch_all(this.checked);" /></td>
+ <td class="CellCat" align="center"><input type="checkbox" name="p_checkall" onclick="switchAllCheckboxes(this.checked);" /></td>
  <td class="CellCat" align="center">&nbsp;</td>
  <td class="CellCat" align="center"><span class="FontTitle">{$modules.Language->getString('Subject')}</span></td>
  <td class="CellCat"><span class="FontTitle">&nbsp;</span></td>

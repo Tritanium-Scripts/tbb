@@ -68,7 +68,7 @@ class ViewTopic extends ModuleTemplate {
 		// Seitenanzeige erstellen
 		//
 		if(!isset($topicPostsCounter)) $topicPostsCounter = Functions::getPostsCounter($topicID); // Anzahl der Beitraege bestimmen (kann eventuell aus schon vorhandenen Daten geschehen)
-		$pageListing = Functions::createPageListing($topicPostsCounter,$this->modules['Config']->getValue('posts_per_page'),$page,"<a href=\"".INDEXFILE."?action=ViewTopic&amp;topicID=$topicID&amp;Page=%1\$s&amp;".MYSID."\">%2\$s</a>"); // Die Seitenansicht erstellen
+		$pageListing = Functions::createPageListing($topicPostsCounter,$this->modules['Config']->getValue('posts_per_page'),$page,"<a href=\"".INDEXFILE."?action=ViewTopic&amp;topicID=$topicID&amp;page=%1\$s&amp;".MYSID."\">%2\$s</a>"); // Die Seitenansicht erstellen
 		$start = $page*$this->modules['Config']->getValue('posts_per_page')-$this->modules['Config']->getValue('posts_per_page'); // Startbeitrag
 
 
@@ -144,7 +144,7 @@ class ViewTopic extends ModuleTemplate {
 
 			$curEditedText = '';
 			if($curPost['postEditedCounter'] > 0 && $curPost['postShowEditings'] == 1)
-				$curEditedText = sprintf($this->modules['Language']->getString('edited_post_text'),$curPost['postEditedCounter'],$curPost['postLastEditorID']);
+				$curEditedText = sprintf($this->modules['Language']->getString('edited_post_text'),$curPost['postEditedCounter'],$curPost['postLastEditorNick']);
 
 			$show = array(
 				'editButton'=>FALSE,

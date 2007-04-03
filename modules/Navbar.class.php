@@ -30,7 +30,7 @@ class Navbar extends ModuleTemplate {
 		$catsData = Functions::catsGetParentCatsData($catID,$includeSelf);
 
 		foreach($catsData AS $curCat)
-			$this->addElement(Functions::HTMLSpecialChars($curCat['CatName']),INDEXFILE.'?CatID='.$curCat['CatID'].'&amp;'.MYSID);
+			$this->addElement(Functions::HTMLSpecialChars($curCat['catName']),INDEXFILE.'?catID='.$curCat['catID'].'&amp;'.MYSID);
 	}
 
 	public function parseElements($integrateLinks = TRUE) {

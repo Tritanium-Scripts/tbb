@@ -19,9 +19,11 @@ class ViewProfile extends ModuleTemplate {
 
 		if(!$profileData = Functions::getUserData($profileID)) die('Cannot load data: Profile');
 
+		$userIsMod = Functions::checkModStatus(USERID);
+
 		$this->modules['Navbar']->addElements(array($this->modules['Language']->getString('View_profile'),INDEXFILE."?action=ViewProfile&amp;profileID=$profileID&amp".MYSID));
 		$this->modules['Template']->assign(array(
-			'userIsMod'=>Functions::checkModStatus(USERID),
+			'userIsMod'=>$userIsMod,
 			'profileID'=>$profileID
 		));
 

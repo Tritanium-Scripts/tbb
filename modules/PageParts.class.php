@@ -73,18 +73,19 @@ class PageParts extends ModuleTemplate {
 		$this->printTail();
 	}
 
-	public function printMessage($messageCode,$additionalLinks = array()) {
+	public function printMessage($messageCode,$additionalLinks = array(),$pageInPage = FALSE,$inPopup = FALSE) {
 		$this->modules['Language']->addFile('Messages');
 
-		$this->printHeader();
 		$this->modules['Template']->assign(array(
-			'Flags'=>$this->flags,
-			'MessageTitle'=>$this->modules['Language']->getString('message_title_'.$messageCode),
-			'MessageText'=>$this->modules['Language']->getString('message_text_'.$messageCode),
-			'AdditionalLinks'=>$additionalLinks
+			'flags'=>$this->flags,
+			'messageTitle'=>$this->modules['Language']->getString('message_title_'.$messageCode),
+			'messageText'=>$this->modules['Language']->getString('message_text_'.$messageCode),
+			'additionalLinks'=>$additionalLinks,
+			'pageInPage'=>$pageInPage
 		));
-		$this->modules['Template']->display('Message.tpl');
-		$this->printTail();
+
+		if($inPopup) $this->printPopupPage('Message.tpl');
+		else $this->printPage('Message.tpl');
 	}
 
 	public function printTail() {

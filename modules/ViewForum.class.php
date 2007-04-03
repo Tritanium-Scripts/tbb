@@ -42,7 +42,7 @@ class ViewForum extends ModuleTemplate {
 		 * Page listing
 		 */
 		$topicsCounter = Functions::getTopicsCounter($forumID);
-		$pageListing = Functions::createPageListing($topicsCounter,$this->modules['Config']->getValue('topics_per_page'),$page,"<a href=\"".INDEXFILE."?action=ViewForum&amp;forumID=$forumID&amp;Page=%1\$s&amp;".MYSID."\">%2\$s</a>");
+		$pageListing = Functions::createPageListing($topicsCounter,$this->modules['Config']->getValue('topics_per_page'),$page,"<a href=\"".INDEXFILE."?action=ViewForum&amp;forumID=$forumID&amp;page=%1\$s&amp;".MYSID."\">%2\$s</a>");
 		$start = $page*$this->modules['Config']->getValue('topics_per_page')-$this->modules['Config']->getValue('topics_per_page');
 
 
@@ -206,9 +206,10 @@ class ViewForum extends ModuleTemplate {
 	}
 
 	protected function _authenticateUser(&$forumData) {
-		$authData = Functions::getAuthData($forumData,array('AuthViewForum','AuthPostTopic','AuthIsMod'));
+		$authData = Functions::getAuthData($forumData,array('authViewForum','authPostTopic','authIsMod'));
 
-		if($authData['AuthViewForum'] != 1) {
+		if($authData['authViewForum'] != 1) {
+			die('Kein Zugriff');
 			// TODO
 			exit;
 		}
