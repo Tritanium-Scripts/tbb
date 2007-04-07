@@ -215,7 +215,9 @@ templates/std/templates/EditProfileTopicSubscriptions.tpl -text
 templates/std/templates/EditProfileUploadAvatar.tpl -text
 templates/std/templates/FatalError.tpl -text
 templates/std/templates/ForumIndex.tpl -text
-templates/std/templates/Login.tpl -text
+templates/std/templates/LoginActivateAccount.tpl -text
+templates/std/templates/LoginLogin.tpl -text
+templates/std/templates/LoginRequestPassword.tpl -text
 templates/std/templates/MemberList.tpl -text
 templates/std/templates/Message.tpl -text
 templates/std/templates/PageHeader.tpl -text
@@ -294,6 +296,7 @@ templates/std/templates/images/icons/PrivateMessageReadReplied.png -text
 templates/std/templates/images/icons/PrivateMessageUnread.png -text
 templates/std/templates/images/icons/Thumbs.db -text
 templates/std/templates/images/icons/Warning.png -text
+templates/std/templates/images/icons/information.png -text
 templates/std/templates/images/lightbulb_a.gif -text
 templates/std/templates/images/minus.gif -text
 templates/std/templates/images/plus.gif -text

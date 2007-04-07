@@ -108,9 +108,9 @@ CREATE TABLE `tbb2_forums_auth` (
 #
 
 CREATE TABLE `tbb2_groups` (
-  `GroupID` smallint(5) unsigned NOT NULL auto_increment,
-  `GroupName` varchar(255) NOT NULL default '',
-  PRIMARY KEY  (`GroupID`)
+  `groupID` smallint(5) unsigned NOT NULL auto_increment,
+  `groupName` varchar(255) NOT NULL default '',
+  PRIMARY KEY  (`groupID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 #
@@ -160,9 +160,9 @@ CREATE TABLE `tbb2_pms_folders` (
   `folderID` smallint(5) unsigned NOT NULL default '0',
   `userID` mediumint(8) unsigned NOT NULL default '0',
   `folderName` varchar(255) NOT NULL default '',
-  KEY `folder_id` (`folderID`),
-  KEY `user_id` (`userID`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+  KEY `userID` (`userID`),
+  KEY `folderIDUserID` (`folderID`,`userID`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Table structure for table tbb2_polls
@@ -376,12 +376,12 @@ CREATE TABLE `tbb2_topics_subscriptions` (
 
 CREATE TABLE `tbb2_users` (
   `userID` mediumint(8) unsigned NOT NULL auto_increment,
-  `userStatus` tinyint(1) unsigned NOT NULL default '0',
+  `userIsActivated` tinyint(1) unsigned NOT NULL default '0',
   `userIsAdmin` tinyint(1) unsigned NOT NULL default '0',
   `userIsSupermod` tinyint(1) unsigned NOT NULL default '0',
   `userHash` varchar(32) NOT NULL default '',
   `userNick` varchar(255) NOT NULL default '',
-  `userEmail` varchar(255) NOT NULL default '',
+  `userEmailAddress` varchar(255) NOT NULL default '',
   `userPassword` varchar(255) NOT NULL default '',
   `userPasswordSalt` varchar(255) default NULL,
   `userNewPassword` varchar(255) default NULL,
@@ -390,20 +390,19 @@ CREATE TABLE `tbb2_users` (
   `userRegistrationTimestamp` int(10) unsigned NOT NULL default '0',
   `userSignature` text NOT NULL,
   `groupID` mediumint(8) unsigned NOT NULL default '0',
-  `userSpecialStatus` mediumint(8) unsigned NOT NULL default '0',
   `userLastAction` int(10) unsigned NOT NULL default '0',
   `rankID` smallint(5) unsigned NOT NULL default '0',
   `userAvatarAddress` varchar(255) NOT NULL default '',
-  `userTimezone` varchar(255) NOT NULL default 'gmt',
+  `userTimeZone` varchar(255) NOT NULL default 'gmt',
   `userReceiveEmails` tinyint(1) unsigned NOT NULL default '1',
-  `userHideEmail` tinyint(1) unsigned NOT NULL default '0',
+  `userHideEmailAddress` tinyint(1) unsigned NOT NULL default '0',
   `userIsLocked` tinyint(1) unsigned NOT NULL default '0',
   `userMemo` text NOT NULL,
   `userAuthProfileNotes` tinyint(1) unsigned NOT NULL default '2',
   `userLanguage` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`userID`),
-  KEY `user_last_action` (`userLastAction`),
-  KEY `user_rank_id` (`rankID`)
+  KEY `userLastAction` (`userLastAction`),
+  KEY `rankID` (`rankID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 #

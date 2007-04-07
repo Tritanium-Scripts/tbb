@@ -18,7 +18,7 @@
  <td class="CellTitle" align="center"><span class="FontTitleSmall">{$modules.Language->getString('Last_post')}</span></td>
 </tr>
 {foreach from=$topicsData item=curTopic}
- <tr>
+ <tr onmouseover="setRowCellsClass(this,'CellHighlight');" onmouseout="restoreRowCellsClass(this);">
   <td class="CellAlt" width="20" align="center"><img src="{$akt_topic_status}" alt="" /></td>
   <td class="CellAlt" width="20" align="center">{$curTopic._topicPic}</td>
   <td class="CellStd"><span class="FontNorm">{$curTopic._topicPrefix}</span><span class="topiclink"><a class="topiclink" href="{$indexFile}?action=ViewTopic&amp;topicID={$curTopic.topicID}&amp;{$mySID}">{$curTopic.topicTitle}</a></span></td>

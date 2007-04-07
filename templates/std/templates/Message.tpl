@@ -4,5 +4,7 @@
 {else}
  <tr><td class="CellTitle"><span class="FontTitle">{$messageTitle}</span></td></tr>
 {/if}
-<tr><td class="CellStd" style="padding:15px;" align="center"><span class="FontNorm">{$messageText}</span></td></tr>
+<tr><td class="CellStd" style="padding:15px;" align="center"><span class="FontNorm">{$messageText}
+ {foreach from=$additionalLinks item=curLink}<br/>{$curLink}{/foreach}
+</span></td></tr>
 </table>

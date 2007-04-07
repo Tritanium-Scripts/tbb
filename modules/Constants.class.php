@@ -12,8 +12,6 @@ class Constants extends ModuleTemplate {
 		define('AUTH_TYPE_USER',0);
 		define('AUTH_TYPE_GROUP',1);
 
-		define('USER_STATUS_INACTIVE',0);
-
 		define('TOPIC_STATUS_OPEN',0);
 		define('TOPIC_STATUS_CLOSED',1);
 

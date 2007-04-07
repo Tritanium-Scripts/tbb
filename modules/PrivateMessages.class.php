@@ -16,13 +16,9 @@ class PrivateMessages extends ModuleTemplate {
 	function executeMe() {
 		if($this->modules['Auth']->isLoggedIn() != 1) die('Kein Zugriff: Nicht eingeloggt');
 		elseif($this->modules['Config']->getValue('enable_pms') != 1) {
-			// TODO: Richtige Meldung
-			//add_navbar_items(array($this->modules['Language']->getString('Function_deactivated'),''));
-
-			//include_once('pheader.php');
-			//show_message($lNG['Function_deactivated'],$lNG['message_function_deactivated']);
-			//include_once('ptail.php'); exit;
-			die('Funktion nicht verfuegbar');
+			$this->modules['Navbar']->addElement($this->modules['Language']->getString('Function_deactivated'),'');
+			$this->modules['PageParts']->printMessage('function_deactivated');
+			exit;
 		}
 
 		$this->modules['PageParts']->setInPrivateMessages(TRUE);
@@ -63,6 +59,7 @@ class PrivateMessages extends ModuleTemplate {
 					SELECT
 						t1.pmID,
 						t1.pmSubject,
+						t1.pmMessageText,
 						t1.pmSendTimestamp,
 						t1.pmFromID,
 						t1.pmType,
@@ -86,6 +83,9 @@ class PrivateMessages extends ModuleTemplate {
 					$curSenderNick = ($curPM['pmFromID'] == 0) ? $curPM['pmGuestNick'] : $curPM['pmFromNick'];
 					$curPM['_pmSender'] = ($curPM['pmType'] == 0) ? sprintf($this->modules['Language']->getString('from_x'),$curSenderNick) : sprintf($this->modules['Language']->getString('to_x'),$curSenderNick);
 					$curPM['_pmSendDateTime'] = Functions::toDateTime($curPM['pmSendTimestamp']);
+
+					$curPM['_pmMessageTextShort'] = (strlen($curPM['pmMessageText']) > 100) ? Functions::HTMLSpecialChars(substr($curPM['pmMessageText'],0,100)).'...' : Functions::HTMLSpecialChars($curPM['pmMessageText']);
+
 					$pmsData[] = $curPM;
 				}
 

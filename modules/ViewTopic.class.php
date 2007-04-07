@@ -179,7 +179,7 @@ class ViewTopic extends ModuleTemplate {
 				// Zur Sicherheit wird es auch hier geloescht, damit der Templatebauer die Emailadresse
 				// nicht doch aus Versehen anzeigen l?sst
 				//
-				if($curPost['postPosterHideEmail'] == 1) $curPost['posterEmail'] = '';
+				if($curPost['postPosterHideEmailAddress'] == 1) $curPost['posterEmailAddress'] = '';
 
 
 				//
@@ -335,7 +335,7 @@ class ViewTopic extends ModuleTemplate {
 				t2.userPostsCounter AS postPosterPosts,
 				t2.rankID AS postPosterRankID,
 				t2.userAvatarAddress AS postPosterAvatarAddress,
-				t2.userHideEmail AS postPosterHideEmail,
+				t2.userHideEmailAddress AS postPosterHideEmailAddress,
 				t2.userReceiveEmails AS postPosterReceiveEmails,
 				t3.smileyFileName AS postSmileyFileName
 			FROM ".TBLPFX."posts AS t1

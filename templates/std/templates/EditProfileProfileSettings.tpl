@@ -1,4 +1,4 @@
-<form method="post" action="index.php?action=editprofile&amp;mode=settings&amp;doit=1&amp;{$mYSID}">
+<form method="post" action="{$indexFile}?action=EditProfile&amp;mode=ProfileSettings&amp;doit=1&amp;{$mySID}">
 <table class="TableStd" border="0" cellpadding="3" cellspacing="0" width="100%">
 <tr><td class="CellCat"><span class="FontCat">{$modules.Language->getString('Settings')}</span></td></tr>
 <tr><td class="CellStd">
@@ -7,7 +7,7 @@
   <table border="0" cellpadding="2" cellspacing="0" width="100%">
   <tr>
    <td width="35%" valign="top"><span class="FontNorm">{$modules.Language->getString('Show_email_address')}:</span><br/><span class="FontSmall">{$modules.Language->getString('show_email_address_info')}</span></td>
-   <td width="65%" valign="top"><span class="FontNorm"><input class="FormRadio" type="radio" name="p[userHideEmail]" value="0"{if $p.userHideEmail == 0} checked="checked"{/if}/>&nbsp;{$modules.Language->getString('Yes')}&nbsp;&nbsp;&nbsp;<input class="FormRadio" type="radio" name="p[userHideEmail]" value="1"{if $p.userHideEmail == 1} checked="checked"{/if}/>&nbsp;{$modules.Language->getString('No')}</span></td>
+   <td width="65%" valign="top"><span class="FontNorm"><input class="FormRadio" type="radio" name="p[userHideEmailAddress]" value="0"{if $p.userHideEmailAddress == 0} checked="checked"{/if}/>&nbsp;{$modules.Language->getString('Yes')}&nbsp;&nbsp;&nbsp;<input class="FormRadio" type="radio" name="p[userHideEmailAddress]" value="1"{if $p.userHideEmailAddress == 1} checked="checked"{/if}/>&nbsp;{$modules.Language->getString('No')}</span></td>
   </tr>
   <tr>
    <td width="35%" valign="top"><span class="FontNorm">{$modules.Language->getString('Receive_board_emails')}:</span><br/><span class="FontSmall">{$modules.Language->getString('receive_board_emails_info')}</span></td>

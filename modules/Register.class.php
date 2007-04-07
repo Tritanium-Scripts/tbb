@@ -18,7 +18,7 @@ class Register extends ModuleTemplate {
 
 		// Zuerst einige Ueberpruefungen...
 		if($this->modules['Auth']->isLoggedIn() == 1) Functions::myHeader(INDEXFILE.'?'.MYSID);
-		elseif($this->modules['Config']->getValue('enable_registration') != 1) { // Ist die Registrierung ueberhaupt aktiviert?
+		elseif($this->modules['Config']->getValue('enable_registration') != 1) {
 			$this->modules['Navbar']->addElement($this->modules['Language']->getString('Registration_disabled'),INDEXFILE.'?Action=Register&amp'.MYSID);
 			$this->modules['PageParts']->printMessage('registration_disabled');
 			exit;
@@ -70,7 +70,7 @@ class Register extends ModuleTemplate {
 				//
 				// Falls das Formular abgeschickt wurde
 				//
-				if(isset($_GET['Doit'])) {
+				if(isset($_GET['doit'])) {
 					$fieldIsMissing = FALSE;
 					foreach($profileFields AS $curField) {
 						if($curField['FieldIsRequired'] == 1 && ($curField['FieldType'] != PROFILE_FIELD_TYPE_SELECTMULTI && $p['FieldsData'][$curField['FieldID']] === '' || $curField['FieldType'] == PROFILE_FIELD_TYPE_SELECTMULTI && count($p['FieldsData'][$curField['FieldID']]) == 0)) {

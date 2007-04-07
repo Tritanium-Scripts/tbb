@@ -93,7 +93,8 @@ class MemberList extends ModuleTemplate {
 			SELECT
 				t1.userID,
 				t1.userNick,
-				t1.userEmail,
+				t1.userEmailAddress,
+				t1.userHideEmailAddress,
 				t1.userPostsCounter,
 				t1.userIsAdmin,
 				t1.userIsSupermod,

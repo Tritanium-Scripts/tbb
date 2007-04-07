@@ -214,7 +214,7 @@ class ViewProfile extends ModuleTemplate {
 					if(trim($p['emailSubject']) == '') $error = $this->modules['Language']->getString('error_no_subject');
 					elseif(trim($p['emailMessage']) == '') $error = $this->modules['Language']->getString('error_no_message');
 					else {
-						Functions::myMail($this->modules['Auth']->getValue('userNick').' <'.$this->modules['Auth']->getValue('userEmail').'>',$profileData['userNick'].' <'.$profileData['userEmail'].'>',$p['emailSubject'],$p['emailMessage']);
+						Functions::myMail($this->modules['Auth']->getValue('userNick').' <'.$this->modules['Auth']->getValue('userEmailAddress').'>',$profileData['userNick'].' <'.$profileData['userEmailAddress'].'>',$p['emailSubject'],$p['emailMessage']);
 
 						// TODO: correct message
 						die('Email sent');

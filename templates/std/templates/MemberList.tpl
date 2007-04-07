@@ -10,7 +10,7 @@
  {/foreach}
 </tr>
 {foreach from=$usersData item=curUser}
- <tr>
+ <tr onmouseover="setRowCellsClass(this,'CellHighlight');" onmouseout="restoreRowCellsClass(this);">
   <td class="CellStd"><span class="FontNorm">{$curUser.userID}</span></td>
   <td class="CellAlt"><span class="FontNorm">{$curUser.userNick}</span></td>
   <td class="CellStd"><span class="FontNorm">{$curUser._userRankName}</span></td>

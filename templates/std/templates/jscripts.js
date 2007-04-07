@@ -68,3 +68,17 @@ function EntitiesToUnicode(Text) {
 
 	return Text;
 }
+
+function setRowCellsClass(row,newClass) {
+	for(var i = 0; i < row.cells.length; i++) {
+		row.cells[i].setAttribute("tbbOldClassName",row.cells[i].className);
+		row.cells[i].className = newClass;
+	}
+}
+
+function restoreRowCellsClass(row,newClass) {
+	for(var i = 0; i < row.cells.length; i++) {
+		row.cells[i].className = row.cells[i].getAttribute("tbbOldClassName");
+		row.cells[i].removeAttribute("tbbOldClassName");
+	}
+}

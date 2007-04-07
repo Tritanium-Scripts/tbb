@@ -18,17 +18,17 @@ class EditProfile extends ModuleTemplate {
 		$this->modules['Language']->addFile('EditProfile');
 		$this->modules['PageParts']->setInEditProfile(TRUE);
 
-		//add_navbar_items(array($this->modules['Language']->getString('User_administration'],"index.php?action=editprofile&amp;$mYSID"));
+		$this->modules['Navbar']->addElement($this->modules['Language']->getString('User_administration'),INDEXFILE."?action=EditProfile&amp;".MYSID);
 
 		switch(@$_GET['mode']) {
 			default:
-				$p = Functions::getSGValues($_POST['p'],array('userEmail','userSignature'),'',Functions::addSlashes($this->modules['Auth']->getUserData()));
+				$p = Functions::getSGValues($_POST['p'],array('userEmailAddress','userSignature'),'',Functions::addSlashes($this->modules['Auth']->getUserData()));
 				$p = array_merge($p,Functions::getSGValues($_POST['p'],array('userOldPassword','userNewPassword','userNewPasswordConfirmation'),''));
 
 				$error = '';
 
 				if(isset($_GET['doit'])) {
-					if(!Functions::verifyEmail($p['userEmail'])) $error = $this->modules['Language']->getString('error_bad_email');
+					if(!Functions::verifyEmail($p['userEmailAddress'])) $error = $this->modules['Language']->getString('error_bad_email');
 					elseif(trim($p['userNewPassword']) != '' && Functions::getSaltedHash($p['userOldPassword'],$this->modules['Auth']->getValue('userPasswordSalt')) != $this->modules['Auth']->getValue('user_pw')) $error = $this->modules['Language']->getString('error_wrong_password');
 					elseif(trim($p['userNewPassword']) != '' && $p['userNewPassword'] != $p['userNewPasswordConfirmation']) $error = $this->modules['Language']->getString('error_pws_no_match');
 					else {
@@ -36,7 +36,7 @@ class EditProfile extends ModuleTemplate {
 							UPDATE
 								".TBLPFX."users
 							SET
-								userEmail='".$p['userEmail']."',
+								userEmailAddress='".$p['userEmailAddress']."',
 								userSignature='".$p['userSignature']."'
 							WHERE
 								userID='".USERID."'
@@ -57,9 +57,9 @@ class EditProfile extends ModuleTemplate {
 							$this->modules['Auth']->setSessionUserPassword($newPasswordEncrypted);
 						}
 
-						$this->modules['Navbar']->addElements('left',array($this->modules['Language']->getString('Profile_saved'),''));
-
-						$this->modules['PageParts']->printMessage('profile_saved'); exit;
+						$this->modules['Navbar']->addElements(array($this->modules['Language']->getString('Profile_saved'),''));
+						$this->modules['PageParts']->printMessage('profile_saved');
+						exit;
 					}
 				}
 
@@ -156,15 +156,12 @@ class EditProfile extends ModuleTemplate {
 				break;
 
 			case 'ProfileSettings':
-				$p = array();
-				$p['userTimeZone'] = isset($_POST['p']['userTimeZone']) ? $_POST['p']['userTimeZone'] : $this->modules['Auth']->getValue('userTimeZone');
-				$p['userHideEmail'] = isset($_POST['p']['userHideEmail']) ? intval($_POST['p']['userHideEmail']) : $this->modules['Auth']->getValue('userHideEmail');
-				$p['userReceiveEmails'] = isset($_POST['p']['userReceiveEmails']) ? intval($_POST['p']['userReceiveEmails']) : $this->modules['Auth']->getValue('userReceiveEmails');
+				$p = Functions::getSGValues($_POST['p'],array('userTimeZone','userHideEmailAddress','userReceiveEmails'),'',Functions::addSlashes($this->modules['Auth']->getUserData()));
 
 				$timeZones = Functions::getTimeZones(TRUE);
 
-				if(in_array($p['userHideEmail'],array(0,1)) == FALSE) $p['userHideEmail'] = 0;
-				if(in_array($p['userReceiveEmails'],array(0,1)) == FALSE) $p['userReceiveEmails'] = 1;
+				if(!in_array($p['userHideEmailAddress'],array(0,1))) $p['userHideEmailAddress'] = 0;
+				if(!in_array($p['userReceiveEmails'],array(0,1))) $p['userReceiveEmails'] = 1;
 				if(!isset($timeZones[$p['userTimeZone']])) $p['userTimeZone'] = 'gmt';
 
 				if(isset($_GET['doit'])) {
@@ -172,18 +169,15 @@ class EditProfile extends ModuleTemplate {
 						UPDATE
 							".TBLPFX."users
 						SET
-							userHideEmail='".$p['userHideEmail']."',
+							userHideEmailAddress='".$p['userHideEmailAddress']."',
 							userReceiveEmails='".$p['userReceiveEmails']."',
 							userTimeZone='".$p['userTimeZone']."'
 						WHERE userID='".USERID."'
 					");
 
-					// TODO correct message
-					die('geupdatet');
+					$this->modules['Navbar']->addElements(array($this->modules['Language']->getString('Profile_saved'),''));
+					$this->modules['PageParts']->printMessage('profile_saved');
 					exit;
-					//include_once('pheader.php');
-					//show_message($this->modules['Language']->getString('Settings_saved'),$this->modules['Language']->getString('message_settings_successfully_saved'));
-					//include_once('ptail.php'); exit;
 				}
 
 				$this->modules['Template']->assign(array(
@@ -208,7 +202,7 @@ class EditProfile extends ModuleTemplate {
 				$this->modules['DB']->query("SELECT t2.topicTitle,t1.topicID FROM (".TBLPFX."topics_subscriptions AS t1, ".TBLPFX."topics AS t2) WHERE t1.userID='".USERID."' AND t2.topicID=t1.topicID");
 				$subscriptionsData = $this->modules['DB']->raw2Array();
 
-				//add_navbar_items(array($this->modules['Language']->getString('Topic_subscriptions'),''));
+				$this->modules['Navbar']->addElement($this->modules['Language']->getString('Topic_subscriptions'),'');
 
 				$this->modules['Template']->assign(array(
 					'subscriptionsData'=>$subscriptionsData
@@ -256,11 +250,8 @@ class EditProfile extends ModuleTemplate {
 
 			case 'UploadAvatar':
 				if($this->modules['Config']->getValue('enable_avatar_upload') != 1) {
-					// TODO: correct message
-					die('Upoad disabled');
-					//include_once('pop_pheader.php');
-					//show_message($this->modules['Language']->getString('Avatar_upload_disabled'),$this->modules['Language']->getString('message_avatar_upload_disabled'));
-					//include_once('pop_ptail.php'); exit;
+					$this->modules['PageParts']->printMessage('avatar_upload_disabled',array(),FALSE,TRUE);
+					exit;
 				}
 
 				$error = '';

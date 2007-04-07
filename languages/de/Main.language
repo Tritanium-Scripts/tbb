@@ -117,3 +117,12 @@ User_rank = "Benutzerrang"
 Users_per_page = "Benutzer pro Seite"
 Sort_by = "Sortieren nach"
 General_information = "Allgemeine Informationen"
+
+
+message_link_click_here_back_profile = "%sHier%s geht's zur&uuml;ck zum Profil"
+message_link_click_here_back_forumindex = "%sHier%s geht's zur&uuml;ck zur Foren&uuml;bersicht"
+message_link_click_here_login = "%sHier%s k&ouml;nnen Sie sich einloggen"
+message_link_click_here_register = "%sHier%s k&ouml;nnen Sie sich registrieren"
+message_link_click_here_back = "%sHier%s geht's zur&uuml;ck"
+message_link_click_here_back_topic = "%sHier%s geht's zur&uuml;ck zum Thema"
+message_link_click_here_moved_topic = "%sHier%s geht's zum verschobenen Thema"

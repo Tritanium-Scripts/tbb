@@ -10,7 +10,7 @@
 </tr>
 <tr>
  <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Email_address')}:</span></td>
- <td class="CellAlt"><span class="FontNorm">{if $profileData.userHideEmail} != 1}<a href="mailto:{$profileData.userEmail}">{$profileData.userEmail}</a>{else}{$modules.Language->getString('Email_address_hidden')}{/if}{if $profileData.userReceiveEmails == 1 && $modules.Auth->isLoggedIn() == 1 && $modules.Config->getValue('enable_email_formular') == 1} <a href="{$indexFile}?action=ViewProfile&amp;profileID={$profileID}&amp;mode=SendEmail&amp;{$mySID}">[{$modules.Language->getString('Send_email')}]</a>{/if}</span></td>
+ <td class="CellAlt"><span class="FontNorm">{if $profileData.userHideEmailAddress} != 1}<a href="mailto:{$profileData.userEmail}">{$profileData.userEmail}</a>{else}{$modules.Language->getString('Email_address_hidden')}{/if}{if $profileData.userReceiveEmails == 1 && $modules.Auth->isLoggedIn() == 1 && $modules.Config->getValue('enable_email_formular') == 1} <a href="{$indexFile}?action=ViewProfile&amp;profileID={$profileID}&amp;mode=SendEmail&amp;{$mySID}">[{$modules.Language->getString('Send_email')}]</a>{/if}</span></td>
 </tr>
 <tr>
  <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Register_date')}:</span></td>

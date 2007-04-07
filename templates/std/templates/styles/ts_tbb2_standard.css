@@ -40,7 +40,7 @@ textarea.FormTextArea {
 	font-family:verdana,arial;
 }
 textarea.FormTextArea:focus {
-	border:1px #000000 solid;
+	border:1px #696969 solid;
 	padding:4px;
 	font-size:11px;
 	font-family:verdana,arial;
@@ -53,7 +53,7 @@ input.FormText {
 	font-family:verdana,arial;
 }
 input.FormText:focus {
-	border:1px #000000 solid;
+	border:1px #696969 solid;
 	padding:3px;
 	font-size:11px;
 	font-family:verdana,arial;
@@ -223,6 +223,12 @@ td.CellAlt {
 	background-color:#DFE6EF;
 }
 
+td.CellHighlight {
+	padding:4px;
+	border:#000000 0px solid;
+	background-color:#B0C4DE;
+}
+
 
 /**
 *
@@ -390,18 +396,20 @@ td.CellInfoBox {
 	vertical-align:middle;
 }
 div.DivInfoBox {
-	background-color:#FAFAD2;
-	border:1px olive dotted;
-	padding:4px;
-	margin-top:3px;
-	margin-bottom:3px;
+	/*background-color:#FAFAD2;*/
+	background-color:#E6E6FA;
+	/*border:1px olive dotted;*/
+	border:1px #0000CD dotted;
+	padding:2px;
+	margin-top:4px;
+	margin-bottom:4px;
 	vertical-align:middle;
 }
 .FontInfoBox {
 	font-family:verdana,arial;
 	color:#111755;
 	font-size:13px;
-	vertical-align:middle;
+	/*vertical-align:middle;*/
 }
 
 /**
@@ -410,7 +418,7 @@ div.DivInfoBox {
  *
  */
 img.ImageIcon {
-	margin:3px;
+	margin:4px;
 	vertical-align:middle;
 }
 img.ImageButton {

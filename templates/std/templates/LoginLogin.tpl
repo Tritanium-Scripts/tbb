@@ -9,7 +9,7 @@
 </tr>
 <tr>
  <td class="CellStd" width="25%"><span class="FontNorm">{$modules.Language->getString('Password')}:</span></td>
- <td class="CellAlt" width="75%"><input class="FormText" type="password" name="p[userPassword]" tabindex="2" size="30"/>&nbsp;<span class="FontSmall">(<a href="{$indexFile}?action=RequestPassword&amp;{$mySID}" tabindex="4">{$modules.Language->getString('Request_new_password')}</a>)</span></td>
+ <td class="CellAlt" width="75%"><input class="FormText" type="password" name="p[userPassword]" tabindex="2" size="30"/>&nbsp;<span class="FontSmall">(<a href="{$indexFile}?action=Login&amp;mode=RequestPassword&amp;{$mySID}" tabindex="4">{$modules.Language->getString('Request_new_password')}</a>)</span></td>
 </tr>
 <tr><td class="CellCat" colspan="2"><span class="FontCat">{$modules.Language->getString('Other_options')}</span></td></tr>
 <tr><td class="CellStd" colspan="2"><span class="FontNorm"><label><input type="checkbox" name="c[StayLoggedIn]" value="1"{if $c.stayLoggedIn == 1} checked="checked"{/if}/>&nbsp;{$modules.Language->getString('Stay_logged_in')}</label></span></td></tr>
