@@ -33,3 +33,4 @@ error_emails_no_match = "Die Emailadresse und die Emailadressenbest&auml;tigung 
 error_bad_icq = "Bitte geben Sie eine g&uuml;ltige ICQ-Nummer ein!"
 error_nick_already_in_use = "Dieser Benutzername wird schon von einem anderen User verwendet!"
 error_bad_information = "Mindestens eine weitere Angabe hat ein ung&uuml;ltiges Format!"
+error_required_fields_missing = "Bitte f&uuml;llen Sie alle ben&ouml;tigten Angaben aus"

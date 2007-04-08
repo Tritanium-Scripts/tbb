@@ -25,9 +25,8 @@ class Functions {
 		return (strlen($UserName) <= 15 && preg_match('/^[a-z_]{1}[a-z0-9_]{1,}$/si',$UserName));
 	}
 
-	public static function verifyEmail($Email) {
-		if(preg_match('/^[\.0-9a-z_-]{1,}@[\.0-9a-z-]{1,}\.[a-z]{1,}$/si',$Email)) return TRUE;
-		return FALSE;
+	public static function verifyEmailAddress($emailAddress) {
+		return preg_match('/^[\.0-9a-z_-]{1,}@[\.0-9a-z-]{1,}\.[a-z]{1,}$/si',$emailAddress);
 	}
 
 	function unifyUserName($UserName) {
@@ -37,10 +36,10 @@ class Functions {
 		return ($DB->getAffectedRows() != 1);
 	}
 
-	function unifyEmail($EmailAddress) {
+	function unifyEmailAddress($emailAddress) {
 		$DB = Factory::singleton('DB');
 
-		$DB->query("SELECT UserID FROM ".TBLPFX."users WHERE UserEmail='$EmailAddress' LIMIT 1");
+		$DB->query("SELECT userID FROM ".TBLPFX."users WHERE userEmailAddress='$emailAddress' LIMIT 1");
 		return ($DB->getAffectedRows() != 1);
 	}
 

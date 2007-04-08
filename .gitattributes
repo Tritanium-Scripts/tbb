@@ -290,13 +290,13 @@ templates/std/templates/images/icons/FolderDelete.png -text
 templates/std/templates/images/icons/FolderEdit.png -text
 templates/std/templates/images/icons/FolderGo.png -text
 templates/std/templates/images/icons/Info.gif -text
+templates/std/templates/images/icons/Info.png -text
 templates/std/templates/images/icons/PrivateMessageDelete.png -text
 templates/std/templates/images/icons/PrivateMessageRead.png -text
 templates/std/templates/images/icons/PrivateMessageReadReplied.png -text
 templates/std/templates/images/icons/PrivateMessageUnread.png -text
 templates/std/templates/images/icons/Thumbs.db -text
 templates/std/templates/images/icons/Warning.png -text
-templates/std/templates/images/icons/information.png -text
 templates/std/templates/images/lightbulb_a.gif -text
 templates/std/templates/images/minus.gif -text
 templates/std/templates/images/plus.gif -text

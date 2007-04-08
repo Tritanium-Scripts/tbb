@@ -31,13 +31,13 @@ class Register extends ModuleTemplate {
 
 		$this->modules['Navbar']->addElement($this->modules['Language']->getString('Register'),INDEXFILE."?Action=Register&amp;".MYSID);
 
-		switch(@$_GET['Mode']) {
+		switch(@$_GET['mode']) {
 			default:
-				if(isset($_GET['Doit'])) {
-					Functions::myHeader(INDEXFILE.'?Action=Register&Mode=RegisterForm&'.MYSID);
+				if(isset($_GET['doit'])) {
+					Functions::myHeader(INDEXFILE.'?action=Register&mode=RegisterForm&'.MYSID);
 				}
 
-				$this->modules['Navbar']->addElement($this->modules['Language']->getString('Board_rules'),INDEXFILE."?Action=Register&amp;".MYSID);
+				$this->modules['Navbar']->addElement($this->modules['Language']->getString('Board_rules'),INDEXFILE."?action=Register&amp;".MYSID);
 
 				$this->modules['PageParts']->printPage('RegisterBoardRules.tpl');
 				break;
@@ -48,7 +48,7 @@ class Register extends ModuleTemplate {
 				//
 				// Die Profilfelder laden, die bei der Registrierung angezeigt werden sollen
 				//
-				$this->modules['DB']->query("SELECT * FROM ".TBLPFX."profile_fields WHERE FieldShowRegistration='1'");
+				$this->modules['DB']->query("SELECT * FROM ".TBLPFX."profile_fields WHERE fieldShowRegistration='1'");
 				$profileFields = $this->modules['DB']->raw2Array();
 				$fieldsCounter = count($profileFields);
 
@@ -57,23 +57,20 @@ class Register extends ModuleTemplate {
 				//
 				$p = array();
 				foreach($profileFields AS $curField) {
-					switch($curField['FieldType']) {
-						case PROFILE_FIELD_TYPE_TEXT        : $p['FieldsData'][$curField['FieldID']] = isset($_POST['p']['FieldsData'][$curField['FieldID']]) ? $_POST['p']['FieldsData'][$curField['FieldID']] : ''; break;
-						case PROFILE_FIELD_TYPE_TEXTAREA    : $p['FieldsData'][$curField['FieldID']] = isset($_POST['p']['FieldsData'][$curField['FieldID']]) ? $_POST['p']['FieldsData'][$curField['FieldID']] : ''; break;
-						case PROFILE_FIELD_TYPE_SELECTSINGLE: $p['FieldsData'][$curField['FieldID']] = isset($_POST['p']['FieldsData'][$curField['FieldID']]) ? intval($_POST['p']['FieldsData'][$curField['FieldID']]) : ''; break;
-						case PROFILE_FIELD_TYPE_SELECTMULTI : $p['FieldsData'][$curField['FieldID']] = (isset($_POST['p']['FieldsData'][$curField['FieldID']]) == TRUE && is_array($_POST['p']['FieldsData'][$curField['FieldID']]) == TRUE) ? $_POST['p']['FieldsData'][$curField['FieldID']] : array(); break;
+					switch($curField['fieldType']) {
+						case PROFILE_FIELD_TYPE_TEXT        : $p['fieldsData'][$curField['fieldID']] = isset($_POST['p']['fieldsData'][$curField['fieldID']]) ? $_POST['p']['fieldsData'][$curField['fieldID']] : ''; break;
+						case PROFILE_FIELD_TYPE_TEXTAREA    : $p['fieldsData'][$curField['fieldID']] = isset($_POST['p']['fieldsData'][$curField['fieldID']]) ? $_POST['p']['fieldsData'][$curField['fieldID']] : ''; break;
+						case PROFILE_FIELD_TYPE_SELECTSINGLE: $p['fieldsData'][$curField['fieldID']] = isset($_POST['p']['fieldsData'][$curField['fieldID']]) ? intval($_POST['p']['fieldsData'][$curField['fieldID']]) : ''; break;
+						case PROFILE_FIELD_TYPE_SELECTMULTI : $p['fieldsData'][$curField['fieldID']] = (isset($_POST['p']['fieldsData'][$curField['fieldID']]) && is_array($_POST['p']['fieldsData'][$curField['fieldID']])) ? $_POST['p']['fieldsData'][$curField['fieldID']] : array(); break;
 					}
 				}
 
-				$p = array_merge($p,Functions::getSGValues($_POST['p'],array('UserName','UserEmail','UserEmailConfirmation','UserPassword','UserPasswordConfirmation')));
+				$p = array_merge($p,Functions::getSGValues($_POST['p'],array('userName','userEmailAddress','userEmailAddressConfirmation','userPassword','userPasswordConfirmation')));
 
-				//
-				// Falls das Formular abgeschickt wurde
-				//
 				if(isset($_GET['doit'])) {
 					$fieldIsMissing = FALSE;
 					foreach($profileFields AS $curField) {
-						if($curField['FieldIsRequired'] == 1 && ($curField['FieldType'] != PROFILE_FIELD_TYPE_SELECTMULTI && $p['FieldsData'][$curField['FieldID']] === '' || $curField['FieldType'] == PROFILE_FIELD_TYPE_SELECTMULTI && count($p['FieldsData'][$curField['FieldID']]) == 0)) {
+						if($curField['fieldIsRequired'] == 1 && ($curField['fieldType'] != PROFILE_FIELD_TYPE_SELECTMULTI && $p['fieldsData'][$curField['fieldID']] === '' || $curField['fieldType'] == PROFILE_FIELD_TYPE_SELECTMULTI && count($p['fieldsData'][$curField['fieldID']]) == 0)) {
 							$fieldIsMissing = TRUE;
 							break;
 						}
@@ -81,96 +78,111 @@ class Register extends ModuleTemplate {
 
 					$fieldIsInvalid = FALSE;
 					foreach($profileFields AS $curField) {
-						if(($curField['FieldType'] == PROFILE_FIELD_TYPE_TEXT || $curField['FieldType'] == PROFILE_FIELD_TYPE_TEXTAREA) && $curField['FieldRegexVerification'] != '' && !preg_match($curField['FieldRegexVerification'],$p['FieldsData'][$curField['FieldID']])) {
+						if(($curField['fieldType'] == PROFILE_FIELD_TYPE_TEXT || $curField['fieldType'] == PROFILE_FIELD_TYPE_TEXTAREA) && $curField['fieldRegexVerification'] != '' && !preg_match($curField['fieldRegexVerification'],$p['fieldsData'][$curField['fieldID']])) {
 							$fieldIsInvalid = TRUE;
 							break;
 						}
 					}
 
-					if($p['UserName'] == '' || !Functions::verifyUserName($p['UserName'])) $error = $this->modules['Language']->getString('error_bad_nick'); // Hat der Nick ein falsches Format?
-					elseif(!Functions::unifyUserName($p['UserName'])) $error = $this->modules['Language']->getString('error_nick_already_in_use'); // Wird der Nick schon verwendet?
-					elseif($p['UserEmail'] == '' || !Functions::verifyEmail($p['UserEmail'])) $error = $this->modules['Language']->getString('error_bad_email'); // Hat die Emailadresse das richtige Format?
-					elseif(!Functions::unifyEmail($p['UserEmail'])) $error = $this->modules['Language']->getString('error_emailaddress_already_in_use');
-					elseif($p['UserEmail'] != $p['UserEmailConfirmation']) $error = $this->modules['Language']->getString('error_emails_no_match'); // Stimmen die Emailadressen ueberein?
-					elseif(trim($p['UserPassword']) == '' && ($this->modules['Config']->getValue('verify_email_address') != 1 || $this->modules['Config']->getValue('enable_email_functions') != 1)) $error = $this->modules['Language']->getString('error_no_pw'); // Wurde ein Passwort angegeben?
-					elseif($p['UserPassword'] != $p['UserPasswordConfirmation'] && ($this->modules['Config']->getValue('verify_email_address') != 1 || $this->modules['Config']->getValue('enable_email_functions') != 1)) $error = $this->modules['Language']->getString('error_pws_no_match'); // Stimmen die Passworter ueberein?
-					elseif($fieldIsMissing) $error = $this->modules['Language']->getString('error_required_fields_missing'); // Fehlt ein benoetigtes Feld?
-					elseif($fieldIsInvalid) $error = $this->modules['Language']->getString('error_bad_information'); // Hat ein Feld ein falsches Format?
+					if($p['userName'] == '' || !Functions::verifyUserName($p['userName'])) $error = $this->modules['Language']->getString('error_bad_nick');
+					elseif(!Functions::unifyUserName($p['userName'])) $error = $this->modules['Language']->getString('error_nick_already_in_use');
+					elseif($p['userEmailAddress'] == '' || !Functions::verifyEmailAddress($p['userEmailAddress'])) $error = $this->modules['Language']->getString('error_bad_email');
+					elseif(!Functions::unifyEmailAddress($p['userEmailAddress'])) $error = $this->modules['Language']->getString('error_emailaddress_already_in_use');
+					elseif($p['userEmailAddress'] != $p['userEmailAddressConfirmation']) $error = $this->modules['Language']->getString('error_emails_no_match');
+					elseif(trim($p['userPassword']) == '' && ($this->modules['Config']->getValue('verify_email_address') != 1 || $this->modules['Config']->getValue('enable_email_functions') != 1)) $error = $this->modules['Language']->getString('error_no_pw');
+					elseif($p['userPassword'] != $p['userPasswordConfirmation'] && ($this->modules['Config']->getValue('verify_email_address') != 1 || $this->modules['Config']->getValue('enable_email_functions') != 1)) $error = $this->modules['Language']->getString('error_pws_no_match');
+					elseif($fieldIsMissing) $error = $this->modules['Language']->getString('error_required_fields_missing');
+					elseif($fieldIsInvalid) $error = $this->modules['Language']->getString('error_bad_information');
 					else {
 						// Falls noch kein User existiert, wird man automatisch als Admin registriert
 						$userIsAdmin = (Functions::getUsersCounter() == 0) ? 1 : 0;
 
 						// Im Folgenden wird ueberprueft, ob der User Admin ist. Ist er kein Admin,
 						// wird ueberprueft, ob er seine Emailadresse irgendwie verifizieren muss
-						$userStatus = 1; // bedeutet, der User ist freigeschaltet
+						$userIsActive = 1; // bedeutet, der User ist freigeschaltet
 						$userHash = '';
 						if($userIsAdmin != 1) {
 							if($this->modules['Config']->getValue('verify_email_address') == 1 && $this->modules['Config']->getValue('enable_email_functions') == 1)
-								$p['UserPassword'] = Functions::getRandomString(8);
+								$p['userPassword'] = Functions::getRandomString(8);
 							elseif($this->modules['Config']->getValue('verify_email_address') == 2 && $this->modules['Config']->getValue('enable_email_functions') == 1) {
-								$userStatus = USER_STATUS_INACTIVE; // bedeutet, der User ist noch _nicht_ freigeschaltet
+								$userIsActive = 0; // bedeutet, der User ist noch _nicht_ freigeschaltet
 								$userHash = Functions::getRandomString(32,TRUE); // ist spaeter der Verifizierungscode
 							}
 						}
 
 						$userPasswordSalt = Functions::getRandomString(10);
-						$userPasswordEncrypted = Functions::getSaltedHash($p['UserPassword'],$userPasswordSalt); // Passwort fuer Datenbank verschluesseln
+						$userPasswordEncrypted = Functions::getSaltedHash($p['userPassword'],$userPasswordSalt); // Passwort fuer Datenbank verschluesseln
 
-						/*$this->modules['DB']->query("
+						/*/$this->modules['DB']->query("
 							INSERT INTO
 								".TBLPFX."users
 							SET
-								UserStatus='".$userStatus."',
-								UserIsAdmin='".$userIsAdmin."',
-								UserHash='".$userHash."',
-								UserNick='".$p['UserName']."',
-								UserEmail='".$p['UserEmail']."',
-								UserPassword='".$userPasswordEncrypted."',
-								UserPasswordSalt='".$userPasswordSalt."',
-								UserRegistrationTimestamp='".time()."',
-								UserTimeZone='".$this->modules['Config']->getValue('standard_tz')."'
-						");*/
+								userIsActive='".$userIsActive."',
+								userIsAdmin='".$userIsAdmin."',
+								userHash='".$userHash."',
+								userNick='".$p['userName']."',
+								userEmailAddress='".$p['userEmailAddress']."',
+								userPassword='".$userPasswordEncrypted."',
+								userPasswordSalt='".$userPasswordSalt."',
+								userRegistrationTimestamp='".time()."',
+								userTimeZone='".$this->modules['Config']->getValue('standard_tz')."'
+						");/**/
 
 						$userID = $this->modules['DB']->getInsertID();
 
-						/*foreach($profileFields AS $curField) {
-							$curValue = ($curField['FieldType'] == PROFILE_FIELD_TYPE_SELECTMULTI) ? implode(',',$p['FieldsData'][$curField['FieldID']]) : $p['FieldsData'][$curField['FieldID']];
+						/*/foreach($profileFields AS $curField) {
+							$curValue = ($curField['fieldType'] == PROFILE_FIELD_TYPE_SELECTMULTI) ? implode(',',$p['fieldsData'][$curField['fieldID']]) : $p['fieldsData'][$curField['fieldID']];
 							$this->modules['DB']->query("
 								INSERT INTO
 									".TBLPFX."profile_fields_data
 								SET
-									FieldID='".$curField['FieldID']."',
-									UserID='".$userID."'
-									FieldValue='".$curValue."'
+									fieldID='".$curField['fieldID']."',
+									userID='".$userID."'
+									fieldValue='".$curValue."'
 							");
-						}*/
+						}/**/
+						$activationLink = $this->modules['Config']->getValue('board_address').'/'.INDEXFILE.'?action=Login&mode=ActivateAccount&accountID='.$p['userName'].'&activationCode='.$userHash.'&doit=1';
+								$this->modules['Template']->assign(array(
+									'userNick'=>$p['userName'],
+									'activationLink'=>$activationLink,
+									'activationCode'=>$userHash
+								));
+						echo $this->modules['Template']->fetch('file:'.$this->modules['Language']->getLD().'mails/RegistrationAccountVerification.mail'); exit;
 
-						$_SESSION['LastPlaceUrl'] = INDEXFILE.'?'.MYSID;
-
-						echo nl2br($this->modules['Template']->fetch($this->modules['Language']->getLD().'mails/RegistrationWelcome.mail'));  exit;
+						$_SESSION['lastPlaceUrl'] = INDEXFILE.'?'.MYSID;
 
 						if($userIsAdmin != 1 && $this->modules['Config']->getValue('enable_email_functions') == 1) {
 							$this->modules['Template']->assign(array(
-								'UserNick'=>$p['UserName'],
-								'UserID'=>$userID,
-								'UserEmail'=>$p['UserEmail'],
-								'UserPassword'=>$p['UserPassword']
+								'userNick'=>$p['userName'],
+								'userID'=>$userID,
+								'userEmailAddress'=>$p['userEmailAddress'],
+								'userPassword'=>$p['userPassword']
 							));
 							Functions::myMail(
 								$this->modules['Config']->getValue('board_name').' <'.$this->modules['Config']->getValue('board_email_address').'>',
-								$p['UserEmail'],
+								$p['userEmailAddress'],
 								sprintf($this->modules['Language']->getString('email_subject_welcome'),$this->modules['Config']->getValue('board_name')),
-								$this->modules['Template']->fetch($this->modules['Language']->getLD().'mails/RegistrationWelcome.mail')
+								$this->modules['Template']->fetch('file:'.$this->modules['Language']->getLD().'mails/RegistrationWelcome.mail')
 							);
 
 
-							if($cONFIG['verify_email_address'] == 2) {
-								$activation_link = $cONFIG['board_address'].'/index.php?action=activateaccount&account_id='.$p_user_nick.'&activation_code='.$p_user_hash.'&doit=1';
-								$email_tpl->loadTpl($lANGUAGE_PATH.'/emails/email_account_activation.tpl');
-								mymail('"'.$cONFIG['board_name'].'" <'.$cONFIG['board_email_address'].'>',$p_user_email,sprintf($lNG['email_subject_account_activation'],$cONFIG['board_name']),$email_tpl->parseCode());
+							if($this->modules['Config']->getValue('verify_email_address') == 2) {
+								$this->modules['Template']->assign(array(
+									'userNick'=>$p['userName'],
+									'activationLink'=>$activationLink,
+									'activationCode'=>$activationCode
+								));
+								$activationLink = $this->modules['Config']->getValue('board_address').'/'.INDEXFILE.'?action=Login&mode=ActivateAccount&accountID='.$p['userNick'].'&activationCode='.$p['userHash'].'&doit=1';
+								Functions::myMail(
+									$this->modules['Config']->getValue('board_name').' <'.$this->modules['Config']->getValue('board_email_address').'>',
+									$p['userEmailAddress'],
+									sprintf($this->modules['Language']->getString('email_subject_account_activation'),$this->modules['Config']->getValue('board_name')),
+									$this->modules['Template']->fetch('file:'.$this->modules['Language']->getLD().'mails/RegistrationAccountVerification.mail')
+								);
 							}
 						}
 
+						// TODO:
 						//update_latest_user($new_user_id,$p_user_nick);
 
 						$this->modules['Navbar']->addElement($this->modules['Language']->getString('Registration_successful'),INDEXFILE."?Action=Register&amp;".MYSID);
@@ -187,33 +199,33 @@ class Register extends ModuleTemplate {
 				//
 				if($fieldsCounter > 0) {
 					$groupsData = array(
-						array('GroupName'=>$this->modules['Language']->getString('Required_information'),'GroupType'=>1,'GroupFields'=>array()),
-						array('GroupName'=>$this->modules['Language']->getString('Other_information'),'GroupType'=>0,'GroupFields'=>array())
+						array('groupName'=>$this->modules['Language']->getString('Required_information'),'groupType'=>1,'groupFields'=>array()),
+						array('groupName'=>$this->modules['Language']->getString('Other_information'),'groupType'=>0,'groupFields'=>array())
 					);
 
 					foreach($profileFields AS $curField) {
-						switch($curField['FieldType']) {
+						switch($curField['fieldType']) {
 							case PROFILE_FIELD_TYPE_TEXT:
 							case PROFILE_FIELD_TYPE_TEXTAREA:
-								$curField['_FieldValue'] = Functions::HTMLSpecialChars(Functions::StripSlashes($p['FieldsData'][$curField['FieldID']]));
+								$curField['_fieldValue'] = Functions::HTMLSpecialChars(Functions::StripSlashes($p['fieldsData'][$curField['fieldID']]));
 								break;
 
 							case PROFILE_FIELD_TYPE_SELECTSINGLE:
 							case PROFILE_FIELD_TYPE_SELECTMULTI:
-								$curField['_FieldSelectedIDs'] = $p['ProfileFields'][$curField['FieldID']];
-								$curField['_FieldOptions'] = unserialize($curField['FieldData']);
+								$curField['_fieldSelectedIDs'] = $p['profileFields'][$curField['fieldID']];
+								$curField['_fieldOptions'] = unserialize($curField['fieldData']);
 								break;
 						}
-						if($curField['FieldIsRequired'] == 0) $groupsData[1]['GroupFields'][] = $curField;
-						else $groupsData[0]['GroupFields'][] = $curField;
+						if($curField['fieldIsRequired'] == 0) $groupsData[1]['groupFields'][] = $curField;
+						else $groupsData[0]['groupFields'][] = $curField;
 					}
 				}
 
 				$this->modules['Template']->assign(array(
-					'Error'=>$error,
+					'error'=>$error,
 					'p'=>$p,
-					'GroupsData'=>$groupsData,
-					'FieldsCounter'=>$fieldsCounter
+					'groupsData'=>$groupsData,
+					'fieldsCounter'=>$fieldsCounter
 				));
 				$this->modules['PageParts']->printPage('RegisterRegisterForm.tpl');
 			break;

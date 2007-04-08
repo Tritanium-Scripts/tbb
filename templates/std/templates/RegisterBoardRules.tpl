@@ -1,4 +1,4 @@
-<form method="post" action="{$indexFile}?action=Register&amp;mode=BoardRules&amp;Doit=1&amp;{$mySID}">
+<form method="post" action="{$indexFile}?action=Register&amp;mode=BoardRules&amp;doit=1&amp;{$mySID}">
 <table class="TableStd" width="100%">
 <tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('Register')}</span></td></tr>
 <tr><td class="CellCat"><span class="FontCat">{$modules.Language->getString('Board_rules')}</span></td></tr>
