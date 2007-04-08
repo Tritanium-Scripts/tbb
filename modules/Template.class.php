@@ -6,9 +6,8 @@ class Template extends ModuleTemplate {
 	protected $smarty = NULL;
 
 	public function setDirs($dirName) {
-		$this->smarty->template_dir = 'templates/'.$dirName.'/templates';
-		$this->smarty->cache_dir = 'templates/'.$dirName.'/cache';
-		$this->smarty->config_dir = 'templates/'.$dirName.'/configs';
+		$this->smarty->template_dir = 'templates/'.$dirName.'/files';
+		$this->smarty->config_dir = 'templates/'.$dirName.'/config';
 		$this->smarty->compile_id = $dirName;
 	}
 
@@ -25,6 +24,7 @@ class Template extends ModuleTemplate {
 
 		$this->smarty->error_reporting = E_ALL;
 		$this->smarty->compile_dir = 'cache';
+		$this->smarty->cache_dir = 'cache';
 
 		$this->setDirs($this->getC('defaultTemplateDir'));
 		$this->smarty->assign('indexFile',INDEXFILE);
