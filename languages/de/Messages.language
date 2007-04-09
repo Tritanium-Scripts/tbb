@@ -22,8 +22,13 @@ message_text_enter_board_not_logged_in = "Sie m&uuml;ssen eingeloggt sein um die
 message_text_no_more_folders_allowed = "Sie d&uuml;rfen keine weiteren Ordner anlegen!"
 message_text_new_private_message_text_received = "In Ihrem Posteingang befindet sich mindestens eine neue private Nachricht"
 message_text_account_activated = "Ihr Account wurde erfolgreich aktiviert! Vielen Dank f&uuml;r Ihr Verst&auml;ndnis!"
+
+message_title_topic_subscription_successful = "Thema abonniert"
 message_text_topic_subscription_successful = "Sie haben dieses Thema erfolgreich abonniert!"
+
+message_title_topic_unsubscription_successful = "Thema deabonniert"
 message_text_topic_unsubscription_successful = "Sie haben dieses Thema erfolgreich deabonniert!"
+
 message_text_closed_topic = "Diese Thema wurde geschlossen, d.h. Sie d&uuml;rfen keine weiteren Antworten erstellen!"
 message_text_topic_moved = "Das Thema wurde erfolgreich verschoben!"
 message_text_board_rules_not_accepted = "Sie haben die Boardregeln nicht akzeptiert! Da wir dies f&uuml;r unser Board vorraussetzen, k&ouml;nnen wir eine Registrierung leider nicht zulassen!"

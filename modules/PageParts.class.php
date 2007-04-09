@@ -4,9 +4,10 @@ class PageParts extends ModuleTemplate {
 	protected $requiredModules = array(
 		'Auth',
 		'Config',
+		'DB',
 		'Language',
-		'Template',
-		'DB'
+		'Navbar',
+		'Template'
 	);
 
 	protected $flags = array(
@@ -75,6 +76,8 @@ class PageParts extends ModuleTemplate {
 
 	public function printMessage($message,$additionalLinks = array(),$pageInPage = FALSE,$inPopup = FALSE) {
 		$this->modules['Language']->addFile('Messages');
+
+		$this->modules['Navbar']->addElement((is_array($message) ? $message[0] : $this->modules['Language']->getString('message_title_'.$message)),'');
 
 		$this->modules['Template']->assign(array(
 			'flags'=>$this->flags,

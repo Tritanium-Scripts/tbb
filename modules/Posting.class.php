@@ -48,7 +48,7 @@ class Posting extends ModuleTemplate {
 		$p['messageText'] = isset($_POST['p']['messageText']) ? $_POST['p']['messageText'] : (($mode == 'Edit') ? addslashes($postData['postText']) : '');
 		$p['messageTitle'] = isset($_POST['p']['messageTitle']) ? $_POST['p']['messageTitle'] : (($mode == 'Edit') ? addslashes($postData['postTitle']) : (($mode == 'Reply') ? 'Re: '.addslashes($topicData['topicTitle']) : ''));
 		$p['guestNick'] = isset($_POST['p']['guestNick']) ? $_POST['p']['guestNick'] : '';
-		$p['smileyID'] = isset($_POST['p']['smileyID']) ? intval($_POST['p']['smileyID']) : 0;
+		$p['smileyID'] = isset($_POST['p']['smileyID']) ? intval($_POST['p']['smileyID']) : (($mode == 'Edit') ? addslashes($postData['smileyID']) : '');
 		$p['pollTitle'] = isset($_POST['p']['pollTitle']) ? $_POST['p']['pollTitle'] : '';
 		$p['pollOptions'] = (isset($_POST['p']['pollOptions']) == TRUE && is_array($_POST['p']['pollOptions']) == TRUE) ? $_POST['p']['pollOptions'] : array();
 
@@ -104,7 +104,20 @@ class Posting extends ModuleTemplate {
 						WHERE
 							postID='$postID'
 					");
-					Functions::myHeader(INDEXFILE."?Action=ViewTopic&PostID=$postID&".MYSID."#Post$postID"); exit;
+
+					if($postID == $topicData['topicFirstPostID']) {
+						$this->modules['DB']->query("
+							UPDATE
+								".TBLPFX."topics
+							SET
+								topicTitle='".$p['messageTitle']."',
+								smileyID='".$p['smileyID']."'
+							WHERE
+								topicID='$topicID'
+						");
+					}
+
+					Functions::myHeader(INDEXFILE."?action=ViewTopic&postID=$postID&".MYSID."#post$postID"); exit;
 				}
 				else {
 					if(USERID != 0)
@@ -224,7 +237,7 @@ class Posting extends ModuleTemplate {
 			$smilies = $this->modules['Cache']->getSmiliesData('write');
 			$smiliesBox = Functions::getSmiliesBox();
 		}
-		$topicPicsBox = Functions::getTopicPicsBox($p['smileyID']);
+		$postPicsBox = Functions::getPostPicsBox($p['smileyID']);
 
 		// Die Vorschau
 		$previewData = array();
@@ -275,7 +288,7 @@ class Posting extends ModuleTemplate {
 			'postID'=>$postID,
 			'mode'=>$mode,
 			'error'=>$error,
-			'topicPicsBox'=>$topicPicsBox,
+			'postPicsBox'=>$postPicsBox,
 			'smiliesBox'=>$smiliesBox
 		));
 		$this->modules['PageParts']->printPage('Posting.tpl');

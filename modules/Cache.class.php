@@ -83,30 +83,30 @@ class Cache extends ModuleTemplate {
 		return $adminSmiliesData;
 	}
 
-	public function setTopicPicsData() {
-		$toWrite = $topicPicsData = array();
+	public function setPostPicsData() {
+		$toWrite = $postPicsData = array();
 
-		$this->modules['DB']->query("SELECT smileyID,smileyFileName FROM ".TBLPFX."smilies WHERE SmileyType='".SMILEY_TYPE_TPIC."'");
+		$this->modules['DB']->query("SELECT smileyID,smileyFileName FROM ".TBLPFX."smilies WHERE smileyType='".SMILEY_TYPE_TPIC."'");
 		while($curSmiley = $this->modules['DB']->fetchArray()) {
 			$toWrite[] = 'array(\'smileyID\'=>\''.$curSmiley['smileyID'].'\',\'smileyFileName\'=>\''.$curSmiley['smileyFileName'].'\')';
-			$topicPicsData[] = $curSmiley;
+			$postPicsData[] = $curSmiley;
 		}
 
-		$toWrite = '<?php $topicPicsData = array('.implode(',',$toWrite).'); ?>';
+		$toWrite = '<?php $postPicsData = array('.implode(',',$toWrite).'); ?>';
 
-		Functions::FileWrite('cache/TopicPics.cache.php',$toWrite,'w');
+		Functions::FileWrite('cache/PostPics.cache.php',$toWrite,'w');
 
-		return $topicPicsData;
+		return $postPicsData;
 	}
 
-	public function getTopicPicsData() {
-		$topicPicsData = array();
+	public function getPostPicsData() {
+		$postPicsData = array();
 
-		if(file_exists('cache/TopicPics.cache.php') == TRUE)
-			include('cache/TopicPics.cache.php');
-		else return $this->setTopicPicsData();
+		if(file_exists('cache/PostPics.cache.php'))
+			include('cache/PostPics.cache.php');
+		else return $this->setPostPicsData();
 
-		return $topicPicsData;
+		return $postPicsData;
 	}
 
 	public function setRanksData() {

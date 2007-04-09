@@ -246,15 +246,18 @@ class Functions {
 	   return $Value;
 	}
 
-	public static function getTopicPicsBox($CheckedID = 0) {
+	public static function getPostPicsBox($checkedID = 0) {
 		$Template = Factory::singleton('Template');
 		$Cache = Factory::singleton('Cache');
 
-		$topicPicsData = $Cache->getTopicPicsData();
+		$postPicsData = $Cache->getPostPicsData();
 
-		$Template->assign('topicPicsData',$topicPicsData);
+		$Template->assign(array(
+			'postPicsData'=>$postPicsData,
+			'checkedID'=>$checkedID
+		));
 
-		return $Template->fetch('TopicPicsBox.tpl');
+		return $Template->fetch('PostPicsBox.tpl');
 	}
 
 	public static function getSmiliesBox() {
@@ -292,36 +295,36 @@ class Functions {
 		$DB->query("SELECT $authNamesI FROM ".TBLPFX."forums_auth WHERE forumID='".$forumData['forumID']."' AND authType='".AUTH_TYPE_USER."' AND authID='$userID'");
 		if($DB->getAffectedRows() == 1) return $DB->fetchArray();
 
-		$DB->query("SELECT GroupID FROM ".TBLPFX."groups_members WHERE MemberID='$UserID'");
+		$DB->query("SELECT GroupID FROM ".TBLPFX."groups_members WHERE memberID='".USERID."'");
 		if($DB->getAffectedRows() > 0) {
-			$GroupIDs = $DB->Raw2FVArray();
+			$groupIDs = $DB->raw2FVArray();
 
-			$DB->query("SELECT $AuthNamesI FROM ".TBLPFX."forums_auth WHERE ForumID='".$ForumData['ForumID']."' AND AuthType='".AUTH_TYPE_GROUP."' AND AuthID IN ('".implode("','",$GroupIDs)."')");
+			$DB->query("SELECT $AuthNamesI FROM ".TBLPFX."forums_auth WHERE forumID='".$forumData['forumID']."' AND authType='".AUTH_TYPE_GROUP."' AND authID IN ('".implode("','",$groupIDs)."')");
 			if($DB->getAffectedRows() > 0) {
-				$GroupsAuthData = $DB->Raw2Array();
-				foreach($AuthNames AS $curAuth) {
-					$AuthData[$curAuth] = $ForumData['Members'.$curAuth];
-					foreach($GroupsAuthData AS $curGroupAuth) {
-						if($curGroupAuth[$curAuth] == 1 - $AuthData[$curAuth]) {
-							$AuthData[$curAuth] = 1 - $AuthData[$curAuth];
+				$groupsAuthData = $DB->raw2Array();
+				foreach($authNames AS $curAuth) {
+					$authData[$curAuth] = $forumData['Members'.$curAuth];
+					foreach($groupsAuthData AS $curGroupAuth) {
+						if($curGroupAuth[$curAuth] == 1 - $authData[$curAuth]) {
+							$authData[$curAuth] = 1 - $authData[$curAuth];
 							break;
 						}
 					}
 				}
 
-				if($AuthData['AuthIsMod'] == 1) {
-					foreach($AuthNames AS $curAuth)
-						$AuthData[$curAuth] = 1;
+				if($authData['authIsMod'] == 1) {
+					foreach($authNames AS $curAuth)
+						$authData[$curAuth] = 1;
 				}
 
-				return $AuthData;
+				return $authData;
 			}
 		}
 
-		foreach($AuthData AS $curAuth)
-			$Auth[$curAuth] = isset($ForumData['Guests'.$curAuth]) ? $ForumData['Guests'.$curAuth] : 0;
+		foreach($authData AS $curAuth)
+			$auth[$curAuth] = isset($forumData['Guests'.$curAuth]) ? $forumData['Guests'.$curAuth] : 0;
 
-		return $AuthData;
+		return $authData;
 	}
 
 	//*

@@ -8,6 +8,7 @@ class CoreConfig extends ConfigTemplate {
 		'allowedActions'=>array(
 			'Ajax',
 			'EditProfile',
+			'EditTopic',
 			'ForumIndex',
 			'Login',
 			'Logout',
@@ -18,6 +19,7 @@ class CoreConfig extends ConfigTemplate {
 			'ViewTopic',
 			'Posting',
 			'Register',
+			'SubscribeTopic',
 			'WhoIsOnline'
 		)
 	);

@@ -116,6 +116,7 @@ modules/Config.class.php -text
 modules/Constants.class.php -text
 modules/DB.class.php -text
 modules/EditProfile.class.php -text
+modules/EditTopic.class.php -text
 modules/ForumIndex.class.php -text
 modules/Globals.class.php -text
 modules/Language.class.php -text
@@ -128,6 +129,7 @@ modules/Posting.class.php -text
 modules/PrivateMessages.class.php -text
 modules/Register.class.php -text
 modules/Session.class.php -text
+modules/SubscribeTopic.class.php -text
 modules/Template.class.php -text
 modules/Template/Config_File.class.php -text
 modules/Template/Smarty.class.php -text
@@ -216,6 +218,7 @@ templates/std/files/EditProfileProfileSettings.tpl -text
 templates/std/files/EditProfileTail.tpl -text
 templates/std/files/EditProfileTopicSubscriptions.tpl -text
 templates/std/files/EditProfileUploadAvatar.tpl -text
+templates/std/files/EditTopicEdit.tpl -text
 templates/std/files/FatalError.tpl -text
 templates/std/files/ForumIndex.tpl -text
 templates/std/files/LoginActivateAccount.tpl -text
@@ -227,6 +230,7 @@ templates/std/files/PageHeader.tpl -text
 templates/std/files/PageTail.tpl -text
 templates/std/files/PopupHeader.tpl -text
 templates/std/files/PopupTail.tpl -text
+templates/std/files/PostPicsBox.tpl -text
 templates/std/files/Posting.tpl -text
 templates/std/files/PrivateMessagesAddFolder.tpl -text
 templates/std/files/PrivateMessagesDeleteFolder.tpl -text
@@ -240,7 +244,6 @@ templates/std/files/PrivateMessagesViewPM.tpl -text
 templates/std/files/RegisterBoardRules.tpl -text
 templates/std/files/RegisterRegisterForm.tpl -text
 templates/std/files/SmiliesBox.tpl -text
-templates/std/files/TopicPicsBox.tpl -text
 templates/std/files/ViewForum.tpl -text
 templates/std/files/ViewProfileAddNote.tpl -text
 templates/std/files/ViewProfileEditNote.tpl -text

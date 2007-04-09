@@ -53,7 +53,7 @@ class ViewTopic extends ModuleTemplate {
 		$forumModIDs = $this->_loadForumModIDs($forumID);
 
 
-		// Authehtifizierung
+		// Authentifizierung
 		$authData = $this->_authenticateUser($forumData);
 
 
@@ -258,13 +258,12 @@ class ViewTopic extends ModuleTemplate {
 		}
 
 
-		$subscribeText = '';
 		if($this->modules['Auth']->isLoggedIn() == 1 && $this->modules['Config']->getValue('enable_email_functions') == 1 && $this->modules['Config']->getValue('enable_topic_subscription') == 1) {
 			$this->modules['DB']->query("SELECT UserID FROM ".TBLPFX."topics_subscriptions WHERE topicID='$topicID' AND UserID='".USERID."'");
 			$subscribeText = ($this->modules['DB']->getAffectedRows() == 0) ? $this->modules['Language']->getString('Subscribe_topic') : $this->modules['Language']->getString('Unsubscribe_topic');
+			$this->modules['Navbar']->setRightArea('<a href="'.INDEXFILE.'?action=SubscribeTopic&amp;topicID='.$topicID.'&amp;'.MYSID.'">'.$subscribeText.'</a>');
 		}
 
-		// TODO Navibar
 		$this->modules['Navbar']->addCategories($forumData['catID']);
 		$this->modules['Navbar']->addElements(
 			array(Functions::HTMLSpecialChars($forumData['forumName']),INDEXFILE.'?action=ViewForum&amp;forumID='.$forumID.'&amp;'.MYSID),
@@ -278,7 +277,6 @@ class ViewTopic extends ModuleTemplate {
 			'modTools'=>$modTools,
 			'topicID'=>$topicID,
 			'forumID'=>$forumID,
-			'subscribeText'=>$subscribeText,
 			'topicData'=>$topicData,
 			'pollData'=>$pollData
 		));

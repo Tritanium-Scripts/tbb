@@ -71,7 +71,7 @@
 {/if}
 <tr>
  <td class="CellStd" valign="top"><span class="FontNorm">{$modules.Language->getString('Post_pic')}:</span></td>
- <td class="CellAlt" valign="top">{$topicPicsBox}</td>
+ <td class="CellAlt" valign="top">{$postPicsBox}</td>
 </tr>
 <tr>
  <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Title')}:</span></td>
