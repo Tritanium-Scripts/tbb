@@ -5,6 +5,7 @@ class ForumIndex extends ModuleTemplate {
 		'Auth',
 		'Cache',
 		'Config',
+		'BBCode',
 		'DB',
 		'Language',
 		'Navbar',
@@ -13,6 +14,7 @@ class ForumIndex extends ModuleTemplate {
 	);
 
 	public function executeMe() {
+		//echo $this->modules['BBCode']->parse('[quote]test[/quote][quote=xxx]test[/quote][b]bold[/b][i]italic[/i][u]underline[/u][s]strike[/s][center]center[/center][email]juulian@tritanium-scripts.com[/email][img]tralala.gif[/img][url=http://www.julianbackes.de]jb[/url][url]http://www.julianbackes.de[/url][color=#FFFFFF]weisser text[/color][code]hehehe[/code]');
 		$baseCatID = isset($_GET['baseCatID']) ? intval($_GET['baseCatID']) : 1;
 		$catID = isset($_GET['catID']) ? intval($_GET['catID']) : $baseCatID;
 

@@ -29,14 +29,14 @@ class Functions {
 		return preg_match('/^[\.0-9a-z_-]{1,}@[\.0-9a-z-]{1,}\.[a-z]{1,}$/si',$emailAddress);
 	}
 
-	function unifyUserName($UserName) {
+	public static function unifyUserName($UserName) {
 		$DB = Factory::singleton('DB');
 
 		$DB->query("SELECT UserID FROM ".TBLPFX."users WHERE UserNick='$UserName' LIMIT 1");
 		return ($DB->getAffectedRows() != 1);
 	}
 
-	function unifyEmailAddress($emailAddress) {
+	public static function unifyEmailAddress($emailAddress) {
 		$DB = Factory::singleton('DB');
 
 		$DB->query("SELECT userID FROM ".TBLPFX."users WHERE userEmailAddress='$emailAddress' LIMIT 1");
@@ -90,6 +90,17 @@ class Functions {
 	public static function toTime($Timestamp) {
 		$Lng = Factory::singleton('Language');
 		return date($Lng->getString('time_format'),$Timestamp);
+	}
+
+	public static function addHttp($text) {
+		if(substr($text,0,7) != "http://") $text = "http://".$text;
+		return $text;
+	}
+
+	public static function br2nl($text) {
+		$text = str_replace('<br>',"\n",$text);
+		$text = str_replace('<br/>',"\n",$text);
+		return str_replace('<br />',"\n",$text);
 	}
 
 	public static function myMail($From,$To,$Subject,$Message,$AdditionalHeaders = '') {

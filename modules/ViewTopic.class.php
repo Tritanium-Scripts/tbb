@@ -3,6 +3,7 @@
 class ViewTopic extends ModuleTemplate {
 	protected $requiredModules = array(
 		'Auth',
+		'BBCode',
 		'Cache',
 		'Constants',
 		'Config',
@@ -223,11 +224,11 @@ class ViewTopic extends ModuleTemplate {
 			// Den Beitrag entsprechend formatieren
 			//
 			$curPost['_postText'] = $curPost['postText'];
-			if($curPost['postEnableHtmlCode'] != 1 || $forumID != 0 && $forumData['forumEnableHtmlCode'] != 1) $curPost['_postText'] = Functions::HTMLSpecialChars($curPost['_postText']);
-			if($curPost['postEnableSmilies'] == 1 && ($forumID == 0 || $forumData['forumEnableSmilies'] == 1)) $curPost['_postText'] = strtr($curPost['_postText'],$smiliesData);
+			if($curPost['postEnableHtmlCode'] != 1 || $forumData['forumEnableHtmlCode'] != 1) $curPost['_postText'] = Functions::HTMLSpecialChars($curPost['_postText']);
+			if($curPost['postEnableSmilies'] == 1 && $forumData['forumEnableSmilies'] == 1) $curPost['_postText'] = strtr($curPost['_postText'],$smiliesData);
 			$curPost['_postText'] = nl2br($curPost['_postText']);
 			//if($curPost['post_enable_urltransformation'] == 1  && ($forum_id == 0 || $forumData['forum_enable_urltransformation'] == 1)) $curPost['post_text'] = transform_urls($curPost['post_text']);
-			//if($curPost['post_enable_bbcode'] == 1 && ($forum_id == 0 || $forumData['forum_enable_bbcode'] == 1)) $curPost['post_text'] = bbcode($curPost['post_text']);
+			if($curPost['postEnableBBCode'] == 1 && $forumData['forumEnableBBCode'] == 1) $curPost['_postText'] = $this->modules['BBCode']->parse($curPost['_postText']);
 
 
 			//
@@ -239,7 +240,7 @@ class ViewTopic extends ModuleTemplate {
 					if($this->modules['Config']->getValue('allow_sig_html') != 1) $parsedSignatures[$curPost['posterID']] = Functions::HTMLSpecialChars($curPost['postPosterSignature']);
 					if($this->modules['Config']->getValue('allow_sig_smilies') == 1) $parsedSignatures[$curPost['posterID']] = strtr($parsedSignatures[$curPost['posterID']],$smiliesData);
 					$parsedSignatures[$curPost['posterID']] = nl2br($parsedSignatures[$curPost['posterID']]);
-					//if($this->modules['Config']->getValue('allow_sig_bbcode') == 1) $parsed_signatures[$curPost['PosterID']] = bbcode($parsed_signatures[$curPost['PosterID']]);
+					if($this->modules['Config']->getValue('allow_sig_bbcode') == 1) $parsedSignatures[$curPost['posterID']] = $this->modules['BBCode']->parse($parsedSignatures[$curPost['posterID']]);
 				}
 				$curSignature = $parsedSignatures[$curPost['posterID']];
 			}
@@ -327,7 +328,7 @@ class ViewTopic extends ModuleTemplate {
 		$this->modules['DB']->query("
 			SELECT
 				t1.*,
-				t2.userEmail AS postPosterEmail,
+				t2.userEmailAddress AS postPosterEmailAddress,
 				t2.userNick AS postPosterNick,
 				t2.userSignature AS postPosterSignature,
 				t2.userIsAdmin AS postPosterIsAdmin,

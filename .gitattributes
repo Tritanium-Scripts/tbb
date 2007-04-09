@@ -110,6 +110,7 @@ languages/de/mails/RegistrationAccountVerification.mail -text
 languages/de/mails/RegistrationWelcome.mail -text
 modules/Ajax.class.php -text
 modules/Auth.class.php -text
+modules/BBCode.class.php -text
 modules/Cache.class.php -text
 modules/Config.class.php -text
 modules/Constants.class.php -text
@@ -204,6 +205,7 @@ modules/ViewProfile.class.php -text
 modules/ViewTopic.class.php -text
 modules/WhoIsOnline.class.php -text
 templates/std/files/AjaxResult.xml -text
+templates/std/files/BBCodeHtml.tpl -text
 templates/std/files/EditProfileAvatar.tpl -text
 templates/std/files/EditProfileExtendedProfile.tpl -text
 templates/std/files/EditProfileGeneral.tpl -text

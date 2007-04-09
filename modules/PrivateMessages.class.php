@@ -3,6 +3,7 @@
 class PrivateMessages extends ModuleTemplate {
 	protected $requiredModules = array(
 		'Auth',
+		'BBCode',
 		'Cache',
 		'Config',
 		'Constants',

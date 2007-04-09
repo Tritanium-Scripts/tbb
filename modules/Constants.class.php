@@ -19,6 +19,18 @@ class Constants extends ModuleTemplate {
 		define('PROFILE_FIELD_TYPE_TEXTAREA',1);
 		define('PROFILE_FIELD_TYPE_SELECTSINGLE',2);
 		define('PROFILE_FIELD_TYPE_SELECTMULTI',3);
+
+		define('BBCODE_QUOTE',0);
+		define('BBCODE_CODE',1);
+		define('BBCODE_BOLD',2);
+		define('BBCODE_ITALIC',3);
+		define('BBCODE_UNDERLINE',4);
+		define('BBCODE_STRIKE',5);
+		define('BBCODE_CENTER',6);
+		define('BBCODE_EMAIL',7);
+		define('BBCODE_IMAGE',8);
+		define('BBCODE_LINK',9);
+		define('BBCODE_COLOR',10);
 	}
 }
 
