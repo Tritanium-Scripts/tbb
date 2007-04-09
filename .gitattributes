@@ -117,6 +117,7 @@ modules/Constants.class.php -text
 modules/DB.class.php -text
 modules/EditProfile.class.php -text
 modules/ForumIndex.class.php -text
+modules/Globals.class.php -text
 modules/Language.class.php -text
 modules/Login.class.php -text
 modules/Logout.class.php -text

@@ -2,18 +2,18 @@
 
 class Session extends ModuleTemplate {
 	protected $requiredModules = array(
-		'Template',
-		'DB'
+		'DB',
+		'Template'
 	);
 
-	function initializeMe() {
+	public function initializeMe() {
 		session_set_save_handler( // Session-Management auf Datenbank umstellen
-			array(&$this,'DataHandlerOpen'),
-			array(&$this,'DataHandlerClose'),
-			array(&$this,'DataHandlerRead'),
-			array(&$this,'DataHandlerWrite'),
-			array(&$this,'DataHandlerDestroy'),
-			array(&$this,'DataHandlerGc')
+			array($this,'DataHandlerOpen'),
+			array($this,'DataHandlerClose'),
+			array($this,'DataHandlerRead'),
+			array($this,'DataHandlerWrite'),
+			array($this,'DataHandlerDestroy'),
+			array($this,'DataHandlerGc')
 		);
 		session_name('sid'); // Name der Session zu "sid" aendern
 		session_start(); // Session starten
@@ -27,6 +27,7 @@ class Session extends ModuleTemplate {
 
 		define('MYSID',$mySID);
 		$this->modules['Template']->assign('mySID',$mySID);
+		$this->modules['DB']->registerDestructFunction('session_write_close');
 	}
 
 	public function DataHandlerOpen($savePath,$sessionName) {
@@ -58,19 +59,15 @@ class Session extends ModuleTemplate {
 		return TRUE;
 	}
 
-	function DataHandlerDestroy($sessionID) {
+	public function DataHandlerDestroy($sessionID) {
 		$this->modules['DB']->query("DELETE FROM ".TBLPFX."sessions WHERE SessionID='$sessionID'");
 		return ($this->modules['DB']->getAffectedRows() == 0) ? FALSE : TRUE;
 	}
 
-	function DataHandlerGc($sessionMaxLifeTime) {
+	public function DataHandlerGc($sessionMaxLifeTime) {
 		$this->modules['DB']->query("DELETE FROM ".TBLPFX."sessions WHERE SessionLastUpdate<'".$this->modules['DB']->fromUnixTimestamp(time()-$sessionMaxLifeTime)."'");
 
 		return TRUE;
-	}
-
-	public function __destruct() {
-		session_write_close();
 	}
 }
 

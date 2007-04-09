@@ -2,14 +2,15 @@
 
 class DB extends ModuleTemplate {
 	protected $queriesCounter = 0;
-	protected $dBObject = NULL;
+	protected $dbObject = NULL;
 	protected $curResult = NULL;
 	protected $queryTime = 0;
+	protected $destructFunctions = array();
 
 	public function initializeMe() {
-		$this->dBObject = new mysqli;
+		$this->dbObject = new mysqli;
 
-		@$this->dBObject->connect($this->getC('dbServer'),$this->getC('dbUser'),$this->getC('dbPassword'),$this->getC('dbName'));
+		@$this->dbObject->connect($this->getC('dbServer'),$this->getC('dbUser'),$this->getC('dbPassword'),$this->getC('dbName'));
 		if(mysqli_connect_error() != '') die('Database error: <b>'.mysqli_connect_error().'</b>');
 
 		define('TBLPFX',$this->getTablePrefix());
@@ -39,9 +40,9 @@ class DB extends ModuleTemplate {
 	}
 
 	public function query($query) {
-		$starTime = Functions::getMicroTime();
-		if(($this->curResult = $this->dBObject->query($query)) == FALSE) die('Database error: <b>'.$this->dBObject->error.'</b><br/>Query: <b>'.$query.'</b>');
-		$this->queryTime += Functions::getMicroTime()-$starTime;
+		$startTime = Functions::getMicroTime();
+		if(!($this->curResult = $this->dbObject->query($query))) die('Database error: <b>'.$this->dbObject->error.'</b><br/>Query: <b>'.$query.'</b>');
+		$this->queryTime += Functions::getMicroTime()-$startTime;
 		$this->queriesCounter++;
 	}
 
@@ -50,7 +51,7 @@ class DB extends ModuleTemplate {
 	}
 
 	public function getInsertID() {
-		return $this->dBObject->insert_id;
+		return $this->dbObject->insert_id;
 	}
 
 	public function raw2Array() {
@@ -75,7 +76,7 @@ class DB extends ModuleTemplate {
 	}
 
 	public function getAffectedRows() {
-		return $this->dBObject->affected_rows;
+		return $this->dbObject->affected_rows;
 	}
 
 	public function getTablePrefix() {
@@ -91,6 +92,15 @@ class DB extends ModuleTemplate {
 
 	public function escapeString($string) {
 		return mysql_escape_string($string);
+	}
+
+	public function registerDestructFunction($function) {
+		$this->destructFunctions[] = $function;
+	}
+
+	public function __destruct() {
+		foreach($this->destructFunctions AS $curFunc)
+			call_user_func($curFunc);
 	}
 }
 

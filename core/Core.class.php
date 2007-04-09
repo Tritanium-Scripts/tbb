@@ -47,6 +47,10 @@ class Core extends ModuleTemplate {
 			}
 		}
 
+		/**
+		 * Initialize global stuff
+		 */
+		Factory::singleton('Globals');
 
 		/**
 		 * Check what to do and execute specified module, if allowed and if existing.
