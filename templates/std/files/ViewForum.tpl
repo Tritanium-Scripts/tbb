@@ -18,15 +18,27 @@
  <td class="CellTitle" align="center"><span class="FontTitleSmall">{$modules.Language->getString('Last_post')}</span></td>
 </tr>
 {foreach from=$topicsData item=curTopic}
- <tr onmouseover="setRowCellsClass(this,'CellHighlight');" onmouseout="restoreRowCellsClass(this);">
-  <td class="CellAlt" width="20" align="center"><img src="{$akt_topic_status}" alt="" /></td>
-  <td class="CellAlt" width="20" align="center">{$curTopic._topicPic}</td>
-  <td class="CellStd"><span class="FontNorm">{$curTopic._topicPrefix}</span><span class="topiclink"><a class="topiclink" href="{$indexFile}?action=ViewTopic&amp;topicID={$curTopic.topicID}&amp;{$mySID}">{$curTopic.topicTitle}</a></span></td>
-  <td class="CellAlt"><span class="FontNorm">{$curTopic._topicPosterNick}</span></td>
-  <td class="CellStd" align="center"><span class="FontSmall">{$curTopic.topicRepliesCounter}</span></td>
-  <td class="CellStd" align="center"><span class="FontSmall">{$curTopic.topicViewsCounter}</span></td>
-  <td class="CellAlt" align="right"><span class="FontSmall">{$curTopic._topicLastPost}</span></td>
- </tr>
+ {if $curTopic.topicMovedID != 0}
+   <tr onmouseover="setRowCellsClass(this,'CellHighlight');" onmouseout="restoreRowCellsClass(this);">
+   <td class="CellAlt" width="20" align="center"><img src="{$akt_topic_status}" alt="" /></td>
+   <td class="CellAlt" width="20" align="center"></td>
+   <td class="CellStd"><span class="FontNorm">{$curTopic._topicPrefix}</span><span class="topiclink"><a class="topiclink" href="{$indexFile}?action=ViewTopic&amp;topicID={$curTopic.topicID}&amp;{$mySID}">{$curTopic.topicTitle}</a></span></td>
+   <td class="CellAlt"><span class="FontNorm">{$curTopic._topicPosterNick}</span></td>
+   <td class="CellStd" align="center"><span class="FontSmall">-</span></td>
+   <td class="CellStd" align="center"><span class="FontSmall">-</span></td>
+   <td class="CellAlt" align="right"><span class="FontSmall">-<br/>-</span></td>
+  </tr>
+ {else}
+  <tr onmouseover="setRowCellsClass(this,'CellHighlight');" onmouseout="restoreRowCellsClass(this);">
+   <td class="CellAlt" width="20" align="center"><img src="{$akt_topic_status}" alt="" /></td>
+   <td class="CellAlt" width="20" align="center">{$curTopic._topicPic}</td>
+   <td class="CellStd"><span class="FontNorm">{$curTopic._topicPrefix}</span><span class="topiclink"><a class="topiclink" href="{$indexFile}?action=ViewTopic&amp;topicID={$curTopic.topicID}&amp;{$mySID}">{$curTopic.topicTitle}</a></span></td>
+   <td class="CellAlt"><span class="FontNorm">{$curTopic._topicPosterNick}</span></td>
+   <td class="CellStd" align="center"><span class="FontSmall">{$curTopic.topicRepliesCounter}</span></td>
+   <td class="CellStd" align="center"><span class="FontSmall">{$curTopic.topicViewsCounter}</span></td>
+   <td class="CellAlt" align="right"><span class="FontSmall">{$curTopic._topicLastPost}</span></td>
+  </tr>
+ {/if}
 {foreachelse}
  <tr><td class="CellStd" align="center" colspan="7"><span class="FontNorm">{$modules.Language->getString('No_topics')}</span></td></tr>
 {/foreach}

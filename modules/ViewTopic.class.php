@@ -77,9 +77,10 @@ class ViewTopic extends ModuleTemplate {
 		// Die Moderatorenwerkzeuge bestimmen
 		//
 		$modTools = array(); // Beinhaltet spaeter pro Element eine Moderationsoption
-		if($this->modules['Auth']->getValue('userIsAdmin') == 1 || $this->modules['Auth']->getValue('userIsSuperMod') == 1 || $topicData['posterID'] != 0 && USERID == $topicData['posterID'] && $authData['authEditPosts'] == 1 || $authData['authIsMod'] == 1) $modTools[] = "<a href=\"".INDEXFILE."?action=EditTopic&amp;mode=Edit&amp;topicID=$topicID&amp;".MYSID."\">".$this->modules['Language']->getString('Edit_topic').'</a>'; // Thema bearbeiten (duerfen auch User, die das Thema erstellt haben)
+		if($this->modules['Auth']->getValue('userIsAdmin') == 1 || $this->modules['Auth']->getValue('userIsSuperMod') == 1 || $topicData['posterID'] != 0 && USERID == $topicData['posterID'] && $authData['authEditPosts'] == 1 || $authData['authIsMod'] == 1)
+			$modTools[] = "<a href=\"".INDEXFILE."?action=EditTopic&amp;mode=Edit&amp;topicID=$topicID&amp;".MYSID."\">".$this->modules['Language']->getString('Edit_topic').'</a>'; // Thema bearbeiten (duerfen auch User, die das Thema erstellt haben)
 		if($this->modules['Auth']->getValue('userIsAdmin') == 1 || $this->modules['Auth']->getValue('userIsSupermod') == 1 || $authData['authIsMod'] == 1) {
-			if($forumID != 0) $modTools[] = "<a href=\"".INDEXFILE."?action=edittopic&amp;mode=move&amp;topic_id=$topicID&amp;".MYSID."\">".$this->modules['Language']->getString('Move_topic').'</a>';
+			$modTools[] = "<a href=\"".INDEXFILE."?action=EditTopic&amp;mode=Move&amp;topicID=$topicID&amp;".MYSID."\">".$this->modules['Language']->getString('Move_topic').'</a>';
 			$modTools[] = "<a href=\"".INDEXFILE."?action=EditTopic&amp;mode=Delete&amp;topicID=$topicID&amp;".MYSID."\">".$this->modules['Language']->getString('Delete_topic').'</a>';
 
 			$temp = ($topicData['topicIsPinned'] == 1) ? $this->modules['Language']->getString('Mark_topic_unimportant') : $this->modules['Language']->getString('Mark_topic_important');

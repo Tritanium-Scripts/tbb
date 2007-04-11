@@ -40,7 +40,7 @@ class Navbar extends ModuleTemplate {
 
 		$result = '';
 
-		if($integrateLinks == TRUE) {
+		if($integrateLinks) {
 			for($i = 0; $i < $elementsCounter-1; $i++)
 				$result .= '<a href="'.$this->elements[$i][1].'">'.$this->elements[$i][0].'</a>'.$this->seperator;
 

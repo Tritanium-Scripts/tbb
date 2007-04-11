@@ -34,7 +34,7 @@ class Language extends ModuleTemplate {
 			if(file_exists($this->languageDir.$fileName.'.language') == FALSE) die('Language file "'.$this->languageDir.$fileName.'.language" does not exist');
 
 			foreach(explode("\n",file_get_contents($this->languageDir.$fileName.'.language')) AS $curLine) {
-				preg_match('/^([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)[ ]*=[ ]*"(.*)"$/',rtrim($curLine),$matches);
+				preg_match('/^([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)[ ]*=[ ]*(.*)$/',rtrim($curLine),$matches);
 
 				if(count($matches) == 3)
 					$this->strings[$matches[1]] = $matches[2];

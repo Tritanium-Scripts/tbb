@@ -219,6 +219,7 @@ templates/std/files/EditProfileTail.tpl -text
 templates/std/files/EditProfileTopicSubscriptions.tpl -text
 templates/std/files/EditProfileUploadAvatar.tpl -text
 templates/std/files/EditTopicEdit.tpl -text
+templates/std/files/EditTopicMove.tpl -text
 templates/std/files/FatalError.tpl -text
 templates/std/files/ForumIndex.tpl -text
 templates/std/files/LoginActivateAccount.tpl -text

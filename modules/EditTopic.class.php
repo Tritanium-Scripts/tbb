@@ -28,6 +28,8 @@ class EditTopic extends ModuleTemplate {
 			array(Functions::HTMLSpecialChars($topicData['topicTitle']),INDEXFILE."?action=ViewTopic&amp;topicID=$topicID&amp;".MYSID)
 		);
 
+		$this->modules['Language']->addFile('EditTopic');
+
 		if($mode == 'Edit') {
 			if((USERID != $topicData['posterID'] || $authData['authEditPosts'] != 1) && $this->modules['Auth']->getValue('userIsAdmin') != 1 && $this->modules['Auth']->getValue('userIsSupermod') != 1 && $authData['authIsMod'] != 1) die('Access denied: unsufficient rights');
 
@@ -106,6 +108,7 @@ class EditTopic extends ModuleTemplate {
 				break;
 
 				case 'Delete':
+					// TODO: Daran denken, eventuelle Referenzen wegen Themenverschiebungen zu loeschen
 					$topic_posts_ids = array();
 					$this->modules['DB']->query("SELECT post_id FROM ".TBLPFX."posts WHERE topicID='$topicID'");
 					while(list($akt_post_id) = $this->modules['DB']->fetch_array())
@@ -148,8 +151,10 @@ class EditTopic extends ModuleTemplate {
 
 					$error = '';
 
+					$this->modules['Navbar']->addElement($this->modules['Language']->getString('Move_topic'),INDEXFILE."action=EditTopic&amp;topicID=$topicID&amp;mode=Move&amp;".MYSID);
+
 					if(isset($_GET['doit'])) {
-						if(!$targetForumData = getForumData($p['targetForumID'])) $error = $this->modules['Language']->getString('error_invalid_forum');
+						if(!$targetForumData = Functions::getForumData($p['targetForumID'])) $error = $this->modules['Language']->getString('error_invalid_forum');
 						else {
 							$this->modules['DB']->query("UPDATE ".TBLPFX."topics SET forumID='".$p['targetForumID']."' WHERE topicID='$topicID'");
 							$this->modules['DB']->query("UPDATE ".TBLPFX."posts SET forumID='".$p['targetForumID']."' WHERE topicID='$topicID'");
@@ -179,8 +184,8 @@ class EditTopic extends ModuleTemplate {
 										topicHasPoll='".$slashedTopicData['topicHasPoll']."',
 										topicFirstPostID='".$slashedTopicData['topicFirstPostID']."',
 										topicLastPostID='".$slashedTopicData['topicLastPostID']."',
-										topicMovedID='".$slashedTopicData['topicMovedID']."',
-										topicMovedTimestamp='".$slashedTopicData['topicMovedTimestamp']."',
+										topicMovedID='".$slashedTopicData['topicID']."',
+										topicMovedTimestamp='".time()."',
 										topicPostTimestamp='".$slashedTopicData['topicPostTimestamp']."',
 										topicTitle='".$slashedTopicData['topicTitle']."',
 										topicGuestNick='".$slashedTopicData['topicGuestNick']."'
@@ -192,9 +197,8 @@ class EditTopic extends ModuleTemplate {
 							//update_forum_last_post($forumID);
 							//update_forum_last_post($p_target_forumID);
 
-							include_once('pheader.php');
-							show_message($LNG['Topic_moved'],$LNG['message_topic_moved'].'<br />'.sprintf($LNG['click_here_moved_topic'],"<a href=\"index.php?action=viewtopic&amp;topicID=$topicID&amp;$MYSID\">",'</a>'));
-							include_once('ptail.php'); exit;
+							$this->modules['PageParts']->printMessage('topic_moved',array(sprintf($this->modules['Language']->getString('message_link_click_here_moved_topic'),'<a href="'.INDEXFILE."?action=ViewTopic&amp;topicID=$topicID&amp;".MYSID.'">','</a>')));
+							exit;
 						}
 					}
 
@@ -202,54 +206,49 @@ class EditTopic extends ModuleTemplate {
 					//
 					// Kategorie- und Forendaten laden
 					//
-					$cats_data = cats_get_cats_data();
-					$this->modules['DB']->query("SELECT forumID,forum_name,cat_id FROM ".TBLPFX."forums WHERE forumID<>'$forumID'");
-					$forums_data = $this->modules['DB']->raw2array();
+					$catsData = Functions::getCatsData();
+					$this->modules['DB']->query("SELECT forumID,forumName,catID FROM ".TBLPFX."forums WHERE forumID<>'$forumID'");
+					$forumsData = $this->modules['DB']->raw2Array();
 
 
 					//
 					// Auswahlmenue fuer das Zielforum erstellen
 					//
-					while(list(,$akt_cat) = each($cats_data)) {
-						$akt_prefix = '';
-						for($i = 1; $i < $akt_cat['cat_depth']; $i++)
-							$akt_prefix .= '--';
+					$selectOptions = array();
+					foreach($catsData AS $curCat) {
+						$curPrefix = '';
+						for($i = 1; $i < $curCat['catDepth']; $i++)
+							$curPrefix .= '--';
 
-						$akt_option_value = '';
-						$akt_option_text = $akt_prefix.' ('.$akt_cat['cat_name'].')';
-						$edittopic_tpl->Blocks['optionrow']->parseCode(FALSE,TRUE);
+						$selectOptions[] = array('',$curPrefix.' ('.$curCat['catName'].')');
 
-						while(list($akt_key,$akt_forum) = each($forums_data)) {
-							if($akt_forum['cat_id'] == $akt_cat['cat_id']) {
-								$akt_option_value = $akt_forum['forumID'];
-								$akt_option_text = $akt_prefix.'-- '.$akt_forum['forum_name'];
-								$edittopic_tpl->Blocks['optionrow']->parseCode(FALSE,TRUE);
-
-								unset($forums_data[$akt_key]);
+						while(list($curKey,$curForum) = each($forumsData)) {
+							if($curForum['catID'] == $curCat['catID']) {
+								$selectOptions[] = array($curForum['forumID'],$curPrefix.'-- '.$curForum['forumName']);
+								unset($forumsData[$curKey]);
 							}
 						}
-						reset($forums_data);
+						reset($forumsData);
 					}
 
-					if(count($forums_data) > 0) { // Falls noch mehr als ein Forum uebrig ist (es also noch Foren ohne Kategorie gibt)
-						$akt_option_values = $akt_option_text = '';
-						$edittopic_tpl->Blocks['optionrow']->parseCode(FALSE,TRUE); // Leerzeile einfuegen
+					// Foren ohne Kategorie an den Schluss haengen
+					if(count($forumsData) > 0) {
+						$selectOptions[] = array('','');
 
-						while(list(,$akt_forum) = each($forums_data)) {
-							$akt_option_value = $akt_forum['forumID'];
-							$akt_option_text = $akt_forum['forum_name'];
-							$edittopic_tpl->Blocks['optionrow']->parseCode(FALSE,TRUE);
-						}
+						foreach($forumsData AS $curForum)
+							$selectOptions[] = array($curForum['forumID'],$curForum['forumName']);
 					}
 
+					$this->modules['Template']->assign(array(
+						'c'=>$c,
+						'p'=>$p,
+						'error'=>$error,
+						'selectOptions'=>$selectOptions,
+						'topicID'=>$topicID
+					));
 
-					//
-					// Seite ausgeben
-					//
-					include_once('pheader.php');
-					$edittopic_tpl->parseCode(TRUE);
-					include_once('ptail.php');
-				break;
+					$this->modules['PageParts']->printPage('EditTopicMove.tpl');
+					break;
 			}
 		}
 	}

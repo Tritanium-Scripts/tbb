@@ -82,26 +82,20 @@ class ViewForum extends ModuleTemplate {
 			$curPrefix = $curLastPost = '';
 			$curTopic = &$topicsData[$i];
 
-			if($curTopic['topicMovedID'] != 0) { // Falls das Thema nur eine Referenz zu einem verschobenem Thema ist...
+			if($curTopic['topicMovedID'] != 0)
 				$curPrefix .= $this->modules['Language']->getString('Prefix_moved'); // ...das hinschreiben...
 
-				$curTopic['TopicRepliesCounter'] = '-'; // ...den Antwortenzaehler auf "nichts" setzen...
-				$curTopic['TopicViewsCounter'] = '-'; // ...den Viewszaehler auf "nichts" setzen...
-				$curLastPost = '-'; // ...und den neuesten Beitrag auf "nichts" setzen
-			}
-			else { // Falls es sich um ein normales Thema handelt die normalen Sachen erledigen
-				if($curTopic['forumID'] == $announcementsForumID && $announcementsForumID != $forumID) $curPrefix .= $this->modules['Language']->getString('Prefix_announcement');
-				if($curTopic['topicIsPinned'] == 1) $curPrefix .= $this->modules['Language']->getString('Prefix_important');
-				if($curTopic['topicHasPoll'] == 1) $curPrefix .= $this->modules['Language']->getString('Prefix_poll');
+			if($curTopic['forumID'] == $announcementsForumID && $announcementsForumID != $forumID) $curPrefix .= $this->modules['Language']->getString('Prefix_announcement');
+			if($curTopic['topicIsPinned'] == 1) $curPrefix .= $this->modules['Language']->getString('Prefix_important');
+			if($curTopic['topicHasPoll'] == 1) $curPrefix .= $this->modules['Language']->getString('Prefix_poll');
 
-				if($curTopic['topicLastPostPosterID'] == 0)
-					$curLastPostPoster = $curTopic['topicLastPostPosterNick'];
-				else $curLastPostPoster = '<a href="'.INDEXFILE.'?action=ViewProfile&amp;profileID='.$curTopic['topicLastPostPosterID'].'&amp;'.MYSID.'">'.$curTopic['topicLastPostPosterNick'].'</a>';
-				$curLastPost = Functions::toDateTime($curTopic['topicLastPostTimestamp']).'<br/>'.$this->modules['Language']->getString('by').' '.$curLastPostPoster.' <a href="'.INDEXFILE.'?action=ViewTopic&amp;topicID='.$curTopic['topicID'].'&amp;page=last&amp;'.MYSID.'#Post'.$curTopic['topicLastPostID'].'">&#187;</a>';
+			if($curTopic['topicLastPostPosterID'] == 0)
+				$curLastPostPoster = $curTopic['topicLastPostPosterNick'];
+			else $curLastPostPoster = '<a href="'.INDEXFILE.'?action=ViewProfile&amp;profileID='.$curTopic['topicLastPostPosterID'].'&amp;'.MYSID.'">'.$curTopic['topicLastPostPosterNick'].'</a>';
+			$curLastPost = Functions::toDateTime($curTopic['topicLastPostTimestamp']).'<br/>'.$this->modules['Language']->getString('by').' '.$curLastPostPoster.' <a href="'.INDEXFILE.'?action=ViewTopic&amp;topicID='.$curTopic['topicID'].'&amp;page=last&amp;'.MYSID.'#Post'.$curTopic['topicLastPostID'].'">&#187;</a>';
 
-				$curTopic['topicRepliesCounter'] = number_format($curTopic['topicRepliesCounter'],0,',','.');
-				$curTopic['topicViewsCounter'] = number_format($curTopic['topicViewsCounter'],0,',','.');
-			}
+			$curTopic['topicRepliesCounter'] = number_format($curTopic['topicRepliesCounter'],0,',','.');
+			$curTopic['topicViewsCounter'] = number_format($curTopic['topicViewsCounter'],0,',','.');
 
 			//
 			// Der Themen-Author
