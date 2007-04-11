@@ -1,40 +1,32 @@
-# SQLFront 3.2  (Build 14.11)
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES latin1 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='SYSTEM' */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE */;
-/*!40101 SET SQL_MODE='' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES */;
-/*!40103 SET SQL_NOTES='ON' */;
+/*!40100 SET CHARACTER SET latin1*/;
 
 
-# Host: localhost    Database: tbb2test
-# ------------------------------------------------------
-# Server version 4.1.14-nt
+#
+# Database structure for database 'tbb2test'
+#
 
-DROP DATABASE IF EXISTS `tbb2test`;
-CREATE DATABASE `tbb2test` /*!40100 DEFAULT CHARACTER SET latin1 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `tbb2test`;
+
 USE `tbb2test`;
 
+
 #
-# Table structure for table tbb2_avatars
+# Table structure for table 'tbb2_avatars'
 #
 
-CREATE TABLE `tbb2_avatars` (
+CREATE TABLE /*!32312 IF NOT EXISTS*/ `tbb2_avatars` (
   `avatarID` smallint(5) unsigned NOT NULL auto_increment,
   `avatarAddress` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`avatarID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+
+
 #
-# Table structure for table tbb2_cats
+# Table structure for table 'tbb2_cats'
 #
 
-CREATE TABLE `tbb2_cats` (
+CREATE TABLE /*!32312 IF NOT EXISTS*/ `tbb2_cats` (
   `catID` mediumint(5) unsigned NOT NULL auto_increment,
   `catL` mediumint(5) NOT NULL default '0',
   `catR` mediumint(5) NOT NULL default '0',
@@ -44,20 +36,24 @@ CREATE TABLE `tbb2_cats` (
   PRIMARY KEY  (`catID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+
+
 #
-# Table structure for table tbb2_config
+# Table structure for table 'tbb2_config'
 #
 
-CREATE TABLE `tbb2_config` (
+CREATE TABLE /*!32312 IF NOT EXISTS*/ `tbb2_config` (
   `ConfigName` varchar(255) NOT NULL default '',
   `ConfigValue` varchar(255) NOT NULL default ''
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+
+
 #
-# Table structure for table tbb2_forums
+# Table structure for table 'tbb2_forums'
 #
 
-CREATE TABLE `tbb2_forums` (
+CREATE TABLE /*!32312 IF NOT EXISTS*/ `tbb2_forums` (
   `forumID` mediumint(8) unsigned NOT NULL auto_increment,
   `catID` mediumint(8) unsigned NOT NULL default '0',
   `orderID` mediumint(8) unsigned NOT NULL default '0',
@@ -86,11 +82,13 @@ CREATE TABLE `tbb2_forums` (
   KEY `order_id` (`orderID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+
+
 #
-# Table structure for table tbb2_forums_auth
+# Table structure for table 'tbb2_forums_auth'
 #
 
-CREATE TABLE `tbb2_forums_auth` (
+CREATE TABLE /*!32312 IF NOT EXISTS*/ `tbb2_forums_auth` (
   `forumID` mediumint(8) unsigned NOT NULL default '0',
   `authType` tinyint(1) unsigned NOT NULL default '0',
   `authID` mediumint(8) unsigned NOT NULL default '0',
@@ -103,21 +101,25 @@ CREATE TABLE `tbb2_forums_auth` (
   KEY `forum_id` (`forumID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+
+
 #
-# Table structure for table tbb2_groups
+# Table structure for table 'tbb2_groups'
 #
 
-CREATE TABLE `tbb2_groups` (
+CREATE TABLE /*!32312 IF NOT EXISTS*/ `tbb2_groups` (
   `groupID` smallint(5) unsigned NOT NULL auto_increment,
   `groupName` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`groupID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+
+
 #
-# Table structure for table tbb2_groups_members
+# Table structure for table 'tbb2_groups_members'
 #
 
-CREATE TABLE `tbb2_groups_members` (
+CREATE TABLE /*!32312 IF NOT EXISTS*/ `tbb2_groups_members` (
   `GroupID` smallint(5) unsigned NOT NULL default '0',
   `MemberID` mediumint(8) unsigned NOT NULL default '0',
   `MemberStatus` tinyint(1) unsigned NOT NULL default '0',
@@ -125,11 +127,13 @@ CREATE TABLE `tbb2_groups_members` (
   KEY `member_id_group_id` (`MemberID`,`GroupID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+
+
 #
-# Table structure for table tbb2_pms
+# Table structure for table 'tbb2_pms'
 #
 
-CREATE TABLE `tbb2_pms` (
+CREATE TABLE /*!32312 IF NOT EXISTS*/ `tbb2_pms` (
   `pmID` mediumint(8) unsigned NOT NULL auto_increment,
   `folderID` smallint(5) unsigned NOT NULL default '0',
   `pmFromID` mediumint(8) unsigned NOT NULL default '0',
@@ -152,11 +156,13 @@ CREATE TABLE `tbb2_pms` (
   KEY `pm_to_id` (`pmToID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+
+
 #
-# Table structure for table tbb2_pms_folders
+# Table structure for table 'tbb2_pms_folders'
 #
 
-CREATE TABLE `tbb2_pms_folders` (
+CREATE TABLE /*!32312 IF NOT EXISTS*/ `tbb2_pms_folders` (
   `folderID` smallint(5) unsigned NOT NULL default '0',
   `userID` mediumint(8) unsigned NOT NULL default '0',
   `folderName` varchar(255) NOT NULL default '',
@@ -164,11 +170,13 @@ CREATE TABLE `tbb2_pms_folders` (
   KEY `folderIDUserID` (`folderID`,`userID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+
+
 #
-# Table structure for table tbb2_polls
+# Table structure for table 'tbb2_polls'
 #
 
-CREATE TABLE `tbb2_polls` (
+CREATE TABLE /*!32312 IF NOT EXISTS*/ `tbb2_polls` (
   `poll_id` mediumint(8) unsigned NOT NULL auto_increment,
   `topic_id` mediumint(8) unsigned NOT NULL default '0',
   `poster_id` mediumint(8) unsigned NOT NULL default '0',
@@ -182,11 +190,13 @@ CREATE TABLE `tbb2_polls` (
   KEY `poster_id` (`poster_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+
+
 #
-# Table structure for table tbb2_polls_options
+# Table structure for table 'tbb2_polls_options'
 #
 
-CREATE TABLE `tbb2_polls_options` (
+CREATE TABLE /*!32312 IF NOT EXISTS*/ `tbb2_polls_options` (
   `poll_id` mediumint(8) unsigned NOT NULL default '0',
   `option_id` smallint(5) unsigned NOT NULL default '0',
   `option_title` varchar(255) NOT NULL default '',
@@ -195,22 +205,26 @@ CREATE TABLE `tbb2_polls_options` (
   KEY `poll_id_option_id` (`poll_id`,`option_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+
+
 #
-# Table structure for table tbb2_polls_votes
+# Table structure for table 'tbb2_polls_votes'
 #
 
-CREATE TABLE `tbb2_polls_votes` (
+CREATE TABLE /*!32312 IF NOT EXISTS*/ `tbb2_polls_votes` (
   `poll_id` mediumint(8) unsigned NOT NULL default '0',
   `voter_id` mediumint(8) unsigned NOT NULL default '0',
   KEY `poll_id` (`poll_id`),
   KEY `voter_id_poll_id` (`voter_id`,`poll_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+
+
 #
-# Table structure for table tbb2_posts
+# Table structure for table 'tbb2_posts'
 #
 
-CREATE TABLE `tbb2_posts` (
+CREATE TABLE /*!32312 IF NOT EXISTS*/ `tbb2_posts` (
   `postID` mediumint(8) unsigned NOT NULL auto_increment,
   `topicID` mediumint(8) unsigned NOT NULL default '0',
   `forumID` mediumint(8) unsigned NOT NULL default '0',
@@ -235,11 +249,13 @@ CREATE TABLE `tbb2_posts` (
   KEY `poster_id` (`posterID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+
+
 #
-# Table structure for table tbb2_profile_fields
+# Table structure for table 'tbb2_profile_fields'
 #
 
-CREATE TABLE `tbb2_profile_fields` (
+CREATE TABLE /*!32312 IF NOT EXISTS*/ `tbb2_profile_fields` (
   `fieldID` smallint(5) unsigned NOT NULL auto_increment,
   `fieldName` varchar(255) NOT NULL default '',
   `fieldType` tinyint(1) unsigned NOT NULL default '0',
@@ -252,23 +268,27 @@ CREATE TABLE `tbb2_profile_fields` (
   PRIMARY KEY  (`fieldID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+
+
 #
-# Table structure for table tbb2_profile_fields_data
+# Table structure for table 'tbb2_profile_fields_data'
 #
 
-CREATE TABLE `tbb2_profile_fields_data` (
-  `FieldID` smallint(5) unsigned NOT NULL default '0',
-  `UserID` mediumint(8) unsigned NOT NULL default '0',
-  `FieldValue` text NOT NULL,
-  KEY `field_id` (`FieldID`),
-  KEY `user_id_field_id` (`UserID`,`FieldID`)
+CREATE TABLE /*!32312 IF NOT EXISTS*/ `tbb2_profile_fields_data` (
+  `fieldID` smallint(5) unsigned NOT NULL default '0',
+  `userID` mediumint(8) unsigned NOT NULL default '0',
+  `fieldValue` text NOT NULL,
+  KEY `field_id` (`fieldID`),
+  KEY `user_id_field_id` (`userID`,`fieldID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+
+
 #
-# Table structure for table tbb2_profile_notes
+# Table structure for table 'tbb2_profile_notes'
 #
 
-CREATE TABLE `tbb2_profile_notes` (
+CREATE TABLE /*!32312 IF NOT EXISTS*/ `tbb2_profile_notes` (
   `noteID` mediumint(8) unsigned NOT NULL auto_increment,
   `userID` mediumint(8) unsigned NOT NULL default '0',
   `profileID` mediumint(8) unsigned NOT NULL default '0',
@@ -279,11 +299,13 @@ CREATE TABLE `tbb2_profile_notes` (
   KEY `user_id_profile_id` (`userID`,`profileID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+
+
 #
-# Table structure for table tbb2_ranks
+# Table structure for table 'tbb2_ranks'
 #
 
-CREATE TABLE `tbb2_ranks` (
+CREATE TABLE /*!32312 IF NOT EXISTS*/ `tbb2_ranks` (
   `rankID` smallint(5) unsigned NOT NULL auto_increment,
   `rankType` tinyint(1) unsigned NOT NULL default '0',
   `rankName` varchar(255) NOT NULL default '',
@@ -293,11 +315,13 @@ CREATE TABLE `tbb2_ranks` (
   KEY `rank_type` (`rankType`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+
+
 #
-# Table structure for table tbb2_search_results
+# Table structure for table 'tbb2_search_results'
 #
 
-CREATE TABLE `tbb2_search_results` (
+CREATE TABLE /*!32312 IF NOT EXISTS*/ `tbb2_search_results` (
   `search_id` varchar(32) NOT NULL default '',
   `session_id` varchar(32) NOT NULL default '',
   `search_last_access` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
@@ -305,11 +329,13 @@ CREATE TABLE `tbb2_search_results` (
   PRIMARY KEY  (`search_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+
+
 #
-# Table structure for table tbb2_sessions
+# Table structure for table 'tbb2_sessions'
 #
 
-CREATE TABLE `tbb2_sessions` (
+CREATE TABLE /*!32312 IF NOT EXISTS*/ `tbb2_sessions` (
   `sessionID` varchar(32) NOT NULL default '',
   `sessionLastUpdate` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   `sessionData` text NOT NULL,
@@ -320,11 +346,13 @@ CREATE TABLE `tbb2_sessions` (
   KEY `session_last_update` (`sessionLastUpdate`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+
+
 #
-# Table structure for table tbb2_smilies
+# Table structure for table 'tbb2_smilies'
 #
 
-CREATE TABLE `tbb2_smilies` (
+CREATE TABLE /*!32312 IF NOT EXISTS*/ `tbb2_smilies` (
   `SmileyID` smallint(5) unsigned NOT NULL auto_increment,
   `SmileyType` tinyint(1) unsigned NOT NULL default '0',
   `SmileyFileName` varchar(255) NOT NULL default '',
@@ -333,15 +361,17 @@ CREATE TABLE `tbb2_smilies` (
   PRIMARY KEY  (`SmileyID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+
+
 #
-# Table structure for table tbb2_topics
+# Table structure for table 'tbb2_topics'
 #
 
-CREATE TABLE `tbb2_topics` (
+CREATE TABLE /*!32312 IF NOT EXISTS*/ `tbb2_topics` (
   `topicID` mediumint(8) unsigned NOT NULL auto_increment,
   `forumID` mediumint(8) unsigned NOT NULL default '0',
   `posterID` mediumint(8) unsigned NOT NULL default '0',
-  `topicStatus` tinyint(1) unsigned NOT NULL default '0',
+  `topicIsClosed` tinyint(1) unsigned NOT NULL default '0',
   `topicIsPinned` tinyint(1) unsigned NOT NULL default '0',
   `smileyID` smallint(5) unsigned NOT NULL default '0',
   `topicRepliesCounter` mediumint(8) unsigned NOT NULL default '0',
@@ -350,7 +380,8 @@ CREATE TABLE `tbb2_topics` (
   `topicFirstPostID` mediumint(8) unsigned NOT NULL default '0',
   `topicLastPostID` mediumint(8) unsigned NOT NULL default '0',
   `topicMovedID` mediumint(8) unsigned NOT NULL default '0',
-  `topicPostTime` int(10) unsigned NOT NULL default '0',
+  `topicMovedTimestamp` int(10) unsigned NOT NULL default '0',
+  `topicPostTimestamp` int(10) unsigned NOT NULL default '0',
   `topicTitle` varchar(255) NOT NULL default '',
   `topicGuestNick` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`topicID`),
@@ -359,22 +390,26 @@ CREATE TABLE `tbb2_topics` (
   KEY `topic_moved_id` (`topicMovedID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+
+
 #
-# Table structure for table tbb2_topics_subscriptions
+# Table structure for table 'tbb2_topics_subscriptions'
 #
 
-CREATE TABLE `tbb2_topics_subscriptions` (
-  `TopicID` mediumint(8) unsigned NOT NULL default '0',
-  `UserID` mediumint(8) unsigned NOT NULL default '0',
-  KEY `topic_id` (`TopicID`),
-  KEY `user_id_topic_id` (`UserID`,`TopicID`)
+CREATE TABLE /*!32312 IF NOT EXISTS*/ `tbb2_topics_subscriptions` (
+  `topicID` mediumint(8) unsigned NOT NULL default '0',
+  `userID` mediumint(8) unsigned NOT NULL default '0',
+  KEY `topic_id` (`topicID`),
+  KEY `user_id_topic_id` (`userID`,`topicID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+
+
 #
-# Table structure for table tbb2_users
+# Table structure for table 'tbb2_users'
 #
 
-CREATE TABLE `tbb2_users` (
+CREATE TABLE /*!32312 IF NOT EXISTS*/ `tbb2_users` (
   `userID` mediumint(8) unsigned NOT NULL auto_increment,
   `userIsActivated` tinyint(1) unsigned NOT NULL default '0',
   `userIsAdmin` tinyint(1) unsigned NOT NULL default '0',
@@ -405,11 +440,13 @@ CREATE TABLE `tbb2_users` (
   KEY `rankID` (`rankID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+
+
 #
-# Table structure for table tbb2_users_locks
+# Table structure for table 'tbb2_users_locks'
 #
 
-CREATE TABLE `tbb2_users_locks` (
+CREATE TABLE /*!32312 IF NOT EXISTS*/ `tbb2_users_locks` (
   `user_id` mediumint(8) unsigned NOT NULL default '0',
   `lock_type` tinyint(1) unsigned NOT NULL default '0',
   `lock_start_time` int(10) unsigned NOT NULL default '0',
@@ -418,11 +455,13 @@ CREATE TABLE `tbb2_users_locks` (
   KEY `lock_type_user_id` (`lock_type`,`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+
+
 #
-# Table structure for table tbb2_wio
+# Table structure for table 'tbb2_wio'
 #
 
-CREATE TABLE `tbb2_wio` (
+CREATE TABLE /*!32312 IF NOT EXISTS*/ `tbb2_wio` (
   `wio_session_id` varchar(32) NOT NULL default '',
   `wio_user_id` mediumint(8) unsigned NOT NULL default '0',
   `wio_last_action` int(10) unsigned NOT NULL default '0',
@@ -430,9 +469,3 @@ CREATE TABLE `tbb2_wio` (
   `wio_is_ghost` tinyint(1) unsigned NOT NULL default '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

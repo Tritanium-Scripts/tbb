@@ -196,13 +196,13 @@ class PrivateMessages extends ModuleTemplate {
 					$smilies = $this->modules['Cache']->getSmiliesData('write');
 					$smiliesBox = Functions::getSmiliesBox();
 				}
-				$topicPicsBox = Functions :: getTopicPicsBox();
+				$postPicsBox = Functions :: getPostPicsBox();
 
 				$this->modules['Template']->assign(array(
 					'show'=>$show,
 					'error'=>$error,
 					'smiliesBox'=>$smiliesBox,
-					'topicPicsBox'=>$topicPicsBox,
+					'postPicsBox'=>$postPicsBox,
 					'p'=>$p,
 					'c'=>$c
 				));
@@ -379,14 +379,15 @@ class PrivateMessages extends ModuleTemplate {
 						$smilies = $this->modules['Cache']->getSmiliesData('write');
 						$smiliesBox = Functions::getSmiliesBox();
 					}
-					$topicPicsBox = Functions :: getTopicPicsBox();
+					$postPicsBox = Functions::getPostPicsBox();
 
 					$this->modules['Template']->assign(array(
 						'show'=>$show,
 						'error'=>$error,
 						'smiliesBox'=>$smiliesBox,
 						'p'=>$p,
-						'c'=>$c
+						'c'=>$c,
+						'postPicsBox'=>$postPicsBox
 					));
 				}
 

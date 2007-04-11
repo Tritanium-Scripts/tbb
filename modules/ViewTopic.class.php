@@ -80,13 +80,13 @@ class ViewTopic extends ModuleTemplate {
 		if($this->modules['Auth']->getValue('userIsAdmin') == 1 || $this->modules['Auth']->getValue('userIsSuperMod') == 1 || $topicData['posterID'] != 0 && USERID == $topicData['posterID'] && $authData['authEditPosts'] == 1 || $authData['authIsMod'] == 1) $modTools[] = "<a href=\"".INDEXFILE."?action=EditTopic&amp;mode=Edit&amp;topicID=$topicID&amp;".MYSID."\">".$this->modules['Language']->getString('Edit_topic').'</a>'; // Thema bearbeiten (duerfen auch User, die das Thema erstellt haben)
 		if($this->modules['Auth']->getValue('userIsAdmin') == 1 || $this->modules['Auth']->getValue('userIsSupermod') == 1 || $authData['authIsMod'] == 1) {
 			if($forumID != 0) $modTools[] = "<a href=\"".INDEXFILE."?action=edittopic&amp;mode=move&amp;topic_id=$topicID&amp;".MYSID."\">".$this->modules['Language']->getString('Move_topic').'</a>';
-			$modTools[] = "<a href=\"".INDEXFILE."?action=edittopic&amp;mode=delete&amp;topic_id=$topicID&amp;".MYSID."\">".$this->modules['Language']->getString('Delete_topic').'</a>';
+			$modTools[] = "<a href=\"".INDEXFILE."?action=EditTopic&amp;mode=Delete&amp;topicID=$topicID&amp;".MYSID."\">".$this->modules['Language']->getString('Delete_topic').'</a>';
 
 			$temp = ($topicData['topicIsPinned'] == 1) ? $this->modules['Language']->getString('Mark_topic_unimportant') : $this->modules['Language']->getString('Mark_topic_important');
-			$modTools[] = "<a href=\"".INDEXFILE."?action=edittopic&amp;mode=pinn&amp;topic_id=$topicID&amp;".MYSID."\">".$temp.'</a>';
+			$modTools[] = '<a href="'.INDEXFILE."?action=EditTopic&amp;mode=Pinn&amp;topicID=$topicID&amp;".MYSID.'">'.$temp.'</a>';
 
-			$temp = ($topicData['topicStatus'] == TOPIC_STATUS_CLOSED) ? $this->modules['Language']->getString('Open_topic') : $this->modules['Language']->getString('Close_topic');
-			$modTools[] = "<a href=\"".INDEXFILE."?action=edittopic&amp;mode=openclose&amp;topic_id=$topicID&amp;".MYSID."\">".$temp.'</a>';
+			$temp = ($topicData['topicIsClosed'] == 1) ? $this->modules['Language']->getString('Open_topic') : $this->modules['Language']->getString('Close_topic');
+			$modTools[] = "<a href=\"".INDEXFILE."?action=EditTopic&amp;mode=OpenClose&amp;topicID=$topicID&amp;".MYSID."\">".$temp.'</a>';
 		}
 		$modTools = implode(' | ',$modTools);
 

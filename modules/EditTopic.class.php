@@ -16,6 +16,7 @@ class EditTopic extends ModuleTemplate {
 
 		if($this->modules['Auth']->isLoggedIn() != 1) die('Access denied: not logged in');
 		elseif(!$topicData = Functions::getTopicData($topicID)) die('Cannot load data: topic');
+		elseif($topicData['topicMovedID'] != 0) die('Cannot edit topic: moved topic');
 		elseif(!$forumData = Functions::getForumData($topicData['forumID'])) die('Cannot load data: forum');
 
 		$forumID = &$topicData['forumID'];
@@ -74,7 +75,7 @@ class EditTopic extends ModuleTemplate {
 			$this->modules['PageParts']->printPage('EditTopicEdit.tpl');
 		}
 		else {
-			if($USER_DATA['user_is_admin'] != 1 && $auth_data['auth_is_mod'] != 1 && $USER_DATA['user_is_supermod'] != 1) die('Kein Zugriff!');
+			if($this->modules['Auth']->getValue('userIsAdmin') != 1 && $authData['authIsMod'] != 1 && $this->modules['Auth']->getValue('userIsSupermod') != 1) die('Access denied: insufficient rights');
 			switch(@$_GET['mode']) {
 				case 'Pinn':
 					$this->modules['DB']->query("
@@ -90,40 +91,47 @@ class EditTopic extends ModuleTemplate {
 				break;
 
 				case 'OpenClose':
-					$new_topic_status = ($topicData['topic_status'] == 1) ? 0 : 1;
+					$topicIsClosed = ($topicData['topicIsClosed'] == 1) ? 0 : 1;
 
-					$DB->query("UPDATE ".TBLPFX."topics SET topic_status='$new_topic_status' WHERE topicID='$topicID'");
+					$this->modules['DB']->query("
+						UPDATE
+							".TBLPFX."topics
+						SET
+							topicIsClosed='$topicIsClosed'
+						WHERE
+							topicID='$topicID'
+					");
 
-					header("Location: index.php?action=viewtopic&topicID=$topicID&$MYSID"); exit;
+					Functions::myHeader(INDEXFILE."?action=ViewTopic&topicID=$topicID&".MYSID);
 				break;
 
 				case 'Delete':
 					$topic_posts_ids = array();
-					$DB->query("SELECT post_id FROM ".TBLPFX."posts WHERE topicID='$topicID'");
-					while(list($akt_post_id) = $DB->fetch_array())
+					$this->modules['DB']->query("SELECT post_id FROM ".TBLPFX."posts WHERE topicID='$topicID'");
+					while(list($akt_post_id) = $this->modules['DB']->fetch_array())
 						$topic_posts_ids[] = $akt_post_id;
 
 					$topic_posts_counter = count($topic_posts_ids);
 
-					$DB->query("SELECT COUNT(*) AS poster_posts_counter, poster_id FROM ".TBLPFX."posts WHERE topicID='$topicID' GROUP BY poster_id");
-					$DB_data = $DB->raw2array();
+					$this->modules['DB']->query("SELECT COUNT(*) AS poster_posts_counter, poster_id FROM ".TBLPFX."posts WHERE topicID='$topicID' GROUP BY poster_id");
+					$DB_data = $this->modules['DB']->raw2array();
 					while(list(,$akt_data) = each($DB_data)) {
-						$DB->query("UPDATE ".TBLPFX."users SET user_posts=user_posts-".$akt_data['poster_posts_counter']." WHERE user_id='".$akt_data['poster_id']."'");
+						$this->modules['DB']->query("UPDATE ".TBLPFX."users SET user_posts=user_posts-".$akt_data['poster_posts_counter']." WHERE user_id='".$akt_data['poster_id']."'");
 					}
 
-					$DB->query("UPDATE ".TBLPFX."forums SET forum_posts_counter=forum_posts_counter-$topic_posts_counter, forum_topics_counter=forum_topics_counter-1 WHERE forumID='$forumID'");
-					$DB->query("DELETE FROM ".TBLPFX."topics WHERE topicID='$topicID'");
-					$DB->query("DELETE FROM ".TBLPFX."posts WHERE post_id IN ('".implode("','",$topic_posts_ids)."')");
-					$DB->query("DELETE FROM ".TBLPFX."topics_subscriptions WHERE topicID='$topicID'");
+					$this->modules['DB']->query("UPDATE ".TBLPFX."forums SET forum_posts_counter=forum_posts_counter-$topic_posts_counter, forum_topics_counter=forum_topics_counter-1 WHERE forumID='$forumID'");
+					$this->modules['DB']->query("DELETE FROM ".TBLPFX."topics WHERE topicID='$topicID'");
+					$this->modules['DB']->query("DELETE FROM ".TBLPFX."posts WHERE post_id IN ('".implode("','",$topic_posts_ids)."')");
+					$this->modules['DB']->query("DELETE FROM ".TBLPFX."topics_subscriptions WHERE topicID='$topicID'");
 
 					if($topicData['topic_poll'] == 1) {
-						$DB->query("SELECT poll_id FROM ".TBLPFX."polls WHERE topicID='$topicID'");
-						if($DB->affected_rows == 1) {
-							list($topic_poll_id) = $DB->fetch_array();
+						$this->modules['DB']->query("SELECT poll_id FROM ".TBLPFX."polls WHERE topicID='$topicID'");
+						if($this->modules['DB']->affected_rows == 1) {
+							list($topic_poll_id) = $this->modules['DB']->fetch_array();
 
-							$DB->query("DELETE FROM ".TBLPFX."polls WHERE poll_id='$topic_poll_id'");
-							$DB->query("DELETE FROM ".TBLPFX."polls_options WHERE poll_id='$topic_poll_id'");
-							$DB->query("DELETE FROM ".TBLPFX."polls_votes WHERE poll_id='$topic_poll_id'");
+							$this->modules['DB']->query("DELETE FROM ".TBLPFX."polls WHERE poll_id='$topic_poll_id'");
+							$this->modules['DB']->query("DELETE FROM ".TBLPFX."polls_options WHERE poll_id='$topic_poll_id'");
+							$this->modules['DB']->query("DELETE FROM ".TBLPFX."polls_votes WHERE poll_id='$topic_poll_id'");
 						}
 					}
 
@@ -135,60 +143,68 @@ class EditTopic extends ModuleTemplate {
 				break;
 
 				case 'Move':
-					if($forumID == 0) die('Ankuendigungen verschieben? Wie soll das denn gehen...');
-					$p_target_forumID = isset($_POST['p_target_forumID']) ? $_POST['p_target_forumID'] : 0;
-					$p_create_reference = 1;
-
-					add_navbar_items(array($LNG['Move_topic'],''));
+					$p = Functions::getSGValues($_POST['p'],array('targetForumID'),0);
+					$c = Functions::getSGValues($_POST['c'],array('createReference'),1);
 
 					$error = '';
 
 					if(isset($_GET['doit'])) {
-						$p_create_reference = isset($_POST['p_create_reference']) ? 1 : 0;
-
-						if(!$target_forumData = get_forumData($p_target_forumID)) $error = $LNG['error_invalid_forum'];
+						if(!$targetForumData = getForumData($p['targetForumID'])) $error = $this->modules['Language']->getString('error_invalid_forum');
 						else {
-							$DB->query("UPDATE ".TBLPFX."topics SET forumID='$p_target_forumID' WHERE topicID='$topicID'");
-							$DB->query("UPDATE ".TBLPFX."posts SET forumID='$p_target_forumID' WHERE topicID='$topicID'");
+							$this->modules['DB']->query("UPDATE ".TBLPFX."topics SET forumID='".$p['targetForumID']."' WHERE topicID='$topicID'");
+							$this->modules['DB']->query("UPDATE ".TBLPFX."posts SET forumID='".$p['targetForumID']."' WHERE topicID='$topicID'");
 
-							if($topicData['topic_poll'] != 0)
-								$DB->query("UPDATE ".TBLPFX."polls SET forumID='$p_target_forumID' WHERE topicID='$topicID'");
+							if($topicData['topicHasPoll'] == 1)
+								$this->modules['DB']->query("UPDATE ".TBLPFX."polls SET forumID='".$p['targetForumID']."' WHERE topicID='$topicID'");
 
-							$DB->query("SELECT COUNT(*) AS topic_posts_counter FROM ".TBLPFX."posts WHERE topicID='$topicID'");
-							list($topic_posts_counter) = $DB->fetch_array();
+							$this->modules['DB']->query("SELECT COUNT(*) AS topicPostsCounter FROM ".TBLPFX."posts WHERE topicID='$topicID'");
+							list($topicPostsCounter) = $this->modules['DB']->fetchArray();
 
-							$DB->query("UPDATE ".TBLPFX."forums SET forum_topics_counter=forum_topics_counter-1, forum_posts_counter=forum_posts_counter-$topic_posts_counter WHERE forumID='$forumID'");
-							$DB->query("UPDATE ".TBLPFX."forums SET forum_topics_counter=forum_topics_counter+1, forum_posts_counter=forum_posts_counter+$topic_posts_counter WHERE forumID='$p_target_forumID'");
+							$this->modules['DB']->query("UPDATE ".TBLPFX."forums SET forumTopicsCounter=forumTopicsCounter-1, forumPostsCounter=forumPostsCounter-$topicPostsCounter WHERE forumID='$forumID'");
+							$this->modules['DB']->query("UPDATE ".TBLPFX."forums SET forumTopicsCounter=forumTopicsCounter+1, forumPostsCounter=forumPostsCounter+$topicPostsCounter WHERE forumID='".$p['targetForumID']."'");
 
-							if($p_create_reference == 1)
-								$DB->query("INSERT INTO ".TBLPFX."topics (forumID,poster_id,topic_status,topic_pic,topic_poll,topic_first_post_id,topic_last_post_id,topic_moved_id,topic_post_time,topic_title,topic_guest_nick) VALUES ('$forumID','".$topicData['poster_id']."','".$topicData['topic_status']."','".$topicData['topic_pic']."','".$topicData['topic_poll']."','".$topicData['topic_first_post_id']."','".$topicData['topic_first_post_id']."','$topicID','".$topicData['topic_post_time']."','".$topicData['topic_title']."','".$topicData['topic_guest_nick']."')");
+							if($c['createReference'] == 1) {
+								$slashedTopicData = Functions::addSlashes($topicData);
+								$this->modules['DB']->query("
+									INSERT INTO
+										".TBLPFX."topics
+									SET
+										forumID='$forumID',
+										posterID='".$slashedTopicData['posterID']."',
+										topicIsClosed='".$slashedTopicData['topicIsClosed']."',
+										topicIsPinned='".$slashedTopicData['topicIsPinned']."',
+										smileyID='".$slashedTopicData['smileyID']."',
+										topicRepliesCounter='".$slashedTopicData['topicRepliesCounter']."',
+										topicViewsCounter='".$slashedTopicData['topicViewsCounter']."',
+										topicHasPoll='".$slashedTopicData['topicHasPoll']."',
+										topicFirstPostID='".$slashedTopicData['topicFirstPostID']."',
+										topicLastPostID='".$slashedTopicData['topicLastPostID']."',
+										topicMovedID='".$slashedTopicData['topicMovedID']."',
+										topicMovedTimestamp='".$slashedTopicData['topicMovedTimestamp']."',
+										topicPostTimestamp='".$slashedTopicData['topicPostTimestamp']."',
+										topicTitle='".$slashedTopicData['topicTitle']."',
+										topicGuestNick='".$slashedTopicData['topicGuestNick']."'
+								");
+							}
 
-							update_forum_last_post($forumID);
-							update_forum_last_post($p_target_forumID);
+
+							// TODO: Letzten Beitrag updaten
+							//update_forum_last_post($forumID);
+							//update_forum_last_post($p_target_forumID);
 
 							include_once('pheader.php');
-												show_message($LNG['Topic_moved'],$LNG['message_topic_moved'].'<br />'.sprintf($LNG['click_here_moved_topic'],"<a href=\"index.php?action=viewtopic&amp;topicID=$topicID&amp;$MYSID\">",'</a>'));
+							show_message($LNG['Topic_moved'],$LNG['message_topic_moved'].'<br />'.sprintf($LNG['click_here_moved_topic'],"<a href=\"index.php?action=viewtopic&amp;topicID=$topicID&amp;$MYSID\">",'</a>'));
 							include_once('ptail.php'); exit;
 						}
 					}
-
-
-					$c = ' checked="checked"';
-					$checked['reference'] = ($p_create_reference == 1) ? $c : '';
-
-
-					//
-					// Template laden
-					//
-					$edittopic_tpl = new Template($TEMPLATE_PATH.'/'.$TCONFIG['templates']['edittopic_move']);
 
 
 					//
 					// Kategorie- und Forendaten laden
 					//
 					$cats_data = cats_get_cats_data();
-					$DB->query("SELECT forumID,forum_name,cat_id FROM ".TBLPFX."forums WHERE forumID<>'$forumID'");
-					$forums_data = $DB->raw2array();
+					$this->modules['DB']->query("SELECT forumID,forum_name,cat_id FROM ".TBLPFX."forums WHERE forumID<>'$forumID'");
+					$forums_data = $this->modules['DB']->raw2array();
 
 
 					//

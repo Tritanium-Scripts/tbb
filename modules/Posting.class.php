@@ -37,6 +37,10 @@ class Posting extends ModuleTemplate {
 		$this->modules['Language']->addFile('Posting');
 
 		$authData = $this->_authenticateUser($mode,$forumData);
+		if($mode == 'Reply' && $topicData['topicIsClosed'] == 1 && $authData['authIsMod'] != 1 && $this->modules['Auth']->getValue('userIsSuperadmin') && $this->modules['Auth']->getValue('userIsSupermod')) {
+			// TODO: Richtige Meldung
+			die('Kein Zugriff/Thema geschlossen');
+		}
 
 		$error = '';
 
@@ -62,7 +66,7 @@ class Posting extends ModuleTemplate {
 		$c['enableHtmlCode'] = ($mode == 'Edit') ? $postData['postEnableHtmlCode'] : 0;
 
 		$c['pinTopic'] = ($mode == 'Reply') ? $topicData['topicIsPinned'] : 0;
-		$c['closeTopic'] = ($mode == 'Reply') ? $topicData['topicStatus'] : 0;
+		$c['closeTopic'] = ($mode == 'Reply') ? $topicData['topicIsClosed'] : 0;
 		$c['subscribeTopic'] = $subscriptionStatus;
 
 		if(isset($_GET['doit'])) {
@@ -130,7 +134,7 @@ class Posting extends ModuleTemplate {
 							SET
 								topicTitle='".$p['messageTitle']."',
 								forumID='$forumID',
-								topicStatus='".$c['closeTopic']."',
+								topicIsClosed='".$c['closeTopic']."',
 								topicIsPinned='".$c['pinTopic']."',
 								posterID='".USERID."',
 								smileyID='$smileyID',
@@ -201,7 +205,7 @@ class Posting extends ModuleTemplate {
 
 					// Verschiedene Dinge updaten (Beitragszahl, erster/letzter Beitrag usw.)
 					if($mode == 'Topic') $this->modules['DB']->query("UPDATE ".TBLPFX."topics SET topicFirstPostID='$postID', topicLastPostID='$postID' WHERE topicID='$topicID'");
-					else $this->modules['DB']->query("UPDATE ".TBLPFX."topics SET topicLastPostID='$postID', topicRepliesCounter=topicRepliesCounter+1, topicStatus='".$c['closeTopic']."', topicIsPinned='".$c['pinTopic']."' WHERE topicID='$topicID'");
+					else $this->modules['DB']->query("UPDATE ".TBLPFX."topics SET topicLastPostID='$postID', topicRepliesCounter=topicRepliesCounter+1, topicIsClosed='".$c['closeTopic']."', topicIsPinned='".$c['pinTopic']."' WHERE topicID='$topicID'");
 
 					$this->modules['DB']->query("UPDATE ".TBLPFX."forums SET forumLastPostID='$postID', forumPostsCounter=forumPostsCounter+1, forumTopicsCounter=forumTopicsCounter+1 WHERE forumID='$forumID'");
 					$this->modules['DB']->query("UPDATE ".TBLPFX."users SET userPostsCounter=userPostsCounter+1 WHERE userID='".USERID."'");
