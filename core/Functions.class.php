@@ -43,15 +43,15 @@ class Functions {
 		return ($DB->getAffectedRows() != 1);
 	}
 
-	public static function getRandomString($Length,$OnlyAlphaNumeric = FALSE) {
-		if($OnlyAlphaNumeric == FALSE) {
-			$String = '';
-			for($i = 0; $i < $Length; $i++)
-				$String .= chr(rand(33,126));
-			return $String;
+	public static function getRandomString($length,$onlyAlphaNumeric = FALSE) {
+		if(!$onlyAlphaNumeric) {
+			$string = '';
+			for($i = 0; $i < $length; $i++)
+				$string .= chr(rand(33,126));
+			return $string;
 		}
 		else
-			return substr(md5(uniqid(rand(),1)),0,$StringLength);
+			return substr(md5(uniqid(rand(),1)),0,$length);
 	}
 
 	public static function getSaltedHash($Value,$Salt) {

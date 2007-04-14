@@ -197,8 +197,8 @@ class Cache extends ModuleTemplate {
 		$config = $toWrite = array();
 		$this->modules['DB']->query("SELECT * FROM ".TBLPFX."config");
 		while($curRow = $this->modules['DB']->fetchArray()) {
-			$config[$curRow['ConfigName']] = $curRow['ConfigValue'];
-			$toWrite[] = '\''.$curRow['ConfigName'].'\'=>\''.addslashes($curRow['ConfigValue']).'\'';
+			$config[$curRow['configName']] = $curRow['configValue'];
+			$toWrite[] = '\''.$curRow['configName'].'\'=>\''.addslashes($curRow['configValue']).'\'';
 		}
 
 		$toWrite = '<?php $config = array('.implode(',',$toWrite).'); ?>';

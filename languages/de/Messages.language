@@ -1,4 +1,3 @@
-message_text_registration_successful = Sie wurden erfolgreich registriert!
 message_text_not_logged_in = Sie m&uuml;ssen eingeloggt sein um diese Funktion nutzen zu k&ouml;nnen!
 message_text_no_access = Sie haben nicht die erforderlichen Rechte diese Funktion zu nutzen!
 message_text_board_config_updated = Die Boardkonfiguration wurde erfolgreich geupdated!
@@ -21,6 +20,8 @@ message_text_email_sent = Die Email wurde erfolgreich verschickt.
 message_text_memo_updated = Ihr Notitzzettel wurde erfolgreich aktualisiert.
 message_text_settings_successfully_saved = Die Einstellungen wurden erfolgreich gespeichert
 
+message_title_registration_successful = Registrierung erfolgreich
+message_text_registration_successful = Sie wurden erfolgreich registriert
 message_title_topic_subscription_successful = Thema abonniert
 message_text_topic_subscription_successful = Sie haben dieses Thema erfolgreich abonniert
 message_title_topic_unsubscription_successful = Thema deabonniert

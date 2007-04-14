@@ -113,7 +113,7 @@ class Register extends ModuleTemplate {
 						$userPasswordSalt = Functions::getRandomString(10);
 						$userPasswordEncrypted = Functions::getSaltedHash($p['userPassword'],$userPasswordSalt); // Passwort fuer Datenbank verschluesseln
 
-						/*/$this->modules['DB']->query("
+						$this->modules['DB']->query("
 							INSERT INTO
 								".TBLPFX."users
 							SET
@@ -123,14 +123,14 @@ class Register extends ModuleTemplate {
 								userNick='".$p['userName']."',
 								userEmailAddress='".$p['userEmailAddress']."',
 								userPassword='".$userPasswordEncrypted."',
-								userPasswordSalt='".$userPasswordSalt."',
+								userPasswordSalt='".Functions::addSlashes($userPasswordSalt)."',
 								userRegistrationTimestamp='".time()."',
 								userTimeZone='".$this->modules['Config']->getValue('standard_tz')."'
-						");/**/
+						");
 
 						$userID = $this->modules['DB']->getInsertID();
 
-						/*/foreach($profileFields AS $curField) {
+						foreach($profileFields AS $curField) {
 							$curValue = ($curField['fieldType'] == PROFILE_FIELD_TYPE_SELECTMULTI) ? implode(',',$p['fieldsData'][$curField['fieldID']]) : $p['fieldsData'][$curField['fieldID']];
 							$this->modules['DB']->query("
 								INSERT INTO
@@ -140,14 +140,7 @@ class Register extends ModuleTemplate {
 									userID='".$userID."'
 									fieldValue='".$curValue."'
 							");
-						}/**/
-						$activationLink = $this->modules['Config']->getValue('board_address').'/'.INDEXFILE.'?action=Login&mode=ActivateAccount&accountID='.$p['userName'].'&activationCode='.$userHash.'&doit=1';
-								$this->modules['Template']->assign(array(
-									'userNick'=>$p['userName'],
-									'activationLink'=>$activationLink,
-									'activationCode'=>$userHash
-								));
-						echo $this->modules['Template']->fetch('file:'.$this->modules['Language']->getLD().'mails/RegistrationAccountVerification.mail'); exit;
+						}
 
 						$_SESSION['lastPlaceUrl'] = INDEXFILE.'?'.MYSID;
 
@@ -162,22 +155,21 @@ class Register extends ModuleTemplate {
 								$this->modules['Config']->getValue('board_name').' <'.$this->modules['Config']->getValue('board_email_address').'>',
 								$p['userEmailAddress'],
 								sprintf($this->modules['Language']->getString('email_subject_welcome'),$this->modules['Config']->getValue('board_name')),
-								$this->modules['Template']->fetch('file:'.$this->modules['Language']->getLD().'mails/RegistrationWelcome.mail')
+								$this->modules['Template']->fetch('RegistrationWelcome.mail',$this->modules['Language']->getLD().'mails')
 							);
 
 
 							if($this->modules['Config']->getValue('verify_email_address') == 2) {
 								$this->modules['Template']->assign(array(
 									'userNick'=>$p['userName'],
-									'activationLink'=>$activationLink,
-									'activationCode'=>$activationCode
+									'activationLink'=>$this->modules['Config']->getValue('board_address').'/'.INDEXFILE.'?action=Login&mode=ActivateAccount&accountID='.$p['userNick'].'&activationCode='.$userHash.'&doit=1',
+									'activationCode'=>$userHash
 								));
-								$activationLink = $this->modules['Config']->getValue('board_address').'/'.INDEXFILE.'?action=Login&mode=ActivateAccount&accountID='.$p['userNick'].'&activationCode='.$p['userHash'].'&doit=1';
 								Functions::myMail(
 									$this->modules['Config']->getValue('board_name').' <'.$this->modules['Config']->getValue('board_email_address').'>',
 									$p['userEmailAddress'],
 									sprintf($this->modules['Language']->getString('email_subject_account_activation'),$this->modules['Config']->getValue('board_name')),
-									$this->modules['Template']->fetch('file:'.$this->modules['Language']->getLD().'mails/RegistrationAccountVerification.mail')
+									$this->modules['Template']->fetch('RegistrationAccountVerification.mail',$this->modules['Language']->getLD().'mails')
 								);
 							}
 						}
@@ -187,10 +179,9 @@ class Register extends ModuleTemplate {
 
 						$this->modules['Navbar']->addElement($this->modules['Language']->getString('Registration_successful'),INDEXFILE."?Action=Register&amp;".MYSID);
 
-						$this->modules['PageParts']->printMessage('registration_successful',array('login'));
-						include_once('pheader.php');
-						show_message($lNG['Registration_successful'],$lNG['message_registration_successful'].'<br />'.sprintf($lNG['click_here_login'],"<a href=\"index.php?action=login&amp;$mYSID\">",'</a>'));
-						include_once('ptail.php'); exit;
+						// TODO: Richtige Meldung bei Accoutn verification
+						$this->modules['PageParts']->printMessage('registration_successful',array(sprintf($this->modules['Language']->getString('link_click_here_login'),'<a href="'.INDEXFILE.'?action=Login&amp;'.MYSID.'">','</a>')));
+						exit;
 					}
 				}
 

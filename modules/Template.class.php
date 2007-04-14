@@ -8,7 +8,7 @@ class Template extends ModuleTemplate {
 	public function setDirs($dirName) {
 		$this->smarty->template_dir = 'templates/'.$dirName.'/files';
 		$this->smarty->config_dir = 'templates/'.$dirName.'/config';
-		$this->smarty->compile_id = $dirName;
+		$this->smarty->compile_id = 'templates/'.$dirName;
 	}
 
 	public function getTemplateDir() {
@@ -41,7 +41,22 @@ class Template extends ModuleTemplate {
 		$this->smarty->display($value1);
 	}
 
-	public function fetch($value) {
+	public function fetch($file,$baseDir = '') {
+		if($baseDir != '') {
+			$oldTemplateDir = $this->smarty->template_dir;
+			$oldCompileID = $this->smarty->compile_id;
+
+			$this->smarty->compile_id = $baseDir;
+			$this->smarty->template_dir = $baseDir;
+
+			$result = $this->smarty->fetch($file);
+
+			$this->smarty->compile_id = $oldCompileID;
+			$this->smarty->template_dir = $oldTemplateDir;
+
+			return $result;
+		}
+
 		return $this->smarty->fetch($value);
 	}
 }

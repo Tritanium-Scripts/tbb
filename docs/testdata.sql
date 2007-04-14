@@ -23,7 +23,7 @@ UNLOCK TABLES;
 
 /*!40000 ALTER TABLE `tbb2_config` DISABLE KEYS*/;
 LOCK TABLES `tbb2_config` WRITE;
-REPLACE INTO `tbb2_config` (`ConfigName`, `ConfigValue`) VALUES ('admin_rank_pic','images/rankpics/admin.gif'),
+REPLACE INTO `tbb2_config` (`configName`, `configValue`) VALUES ('admin_rank_pic','images/rankpics/admin.gif'),
 	('allow_pms_bbcode','1'),
 	('allow_pms_htmlcode','0'),
 	('allow_pms_rconfirmation','1'),

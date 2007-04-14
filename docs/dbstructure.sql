@@ -43,8 +43,9 @@ CREATE TABLE /*!32312 IF NOT EXISTS*/ `tbb2_cats` (
 #
 
 CREATE TABLE /*!32312 IF NOT EXISTS*/ `tbb2_config` (
-  `ConfigName` varchar(255) NOT NULL default '',
-  `ConfigValue` varchar(255) NOT NULL default ''
+  `configName` varchar(255) NOT NULL default '',
+  `configValue` varchar(255) NOT NULL default '',
+  PRIMARY KEY  (`configName`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 
@@ -453,19 +454,5 @@ CREATE TABLE /*!32312 IF NOT EXISTS*/ `tbb2_users_locks` (
   `lock_dur_time` int(10) unsigned NOT NULL default '0',
   KEY `user_id` (`user_id`),
   KEY `lock_type_user_id` (`lock_type`,`user_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
-
-
-#
-# Table structure for table 'tbb2_wio'
-#
-
-CREATE TABLE /*!32312 IF NOT EXISTS*/ `tbb2_wio` (
-  `wio_session_id` varchar(32) NOT NULL default '',
-  `wio_user_id` mediumint(8) unsigned NOT NULL default '0',
-  `wio_last_action` int(10) unsigned NOT NULL default '0',
-  `wio_last_location` varchar(10) NOT NULL default '',
-  `wio_is_ghost` tinyint(1) unsigned NOT NULL default '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
