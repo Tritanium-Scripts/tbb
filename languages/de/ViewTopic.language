@@ -6,7 +6,7 @@ Post_new_reply = Neue Antwort erstellen
 Move_topic = Thema verschieben
 Delete_topic = Thema l&ouml;schen
 Poll_results = Umfrageergebnisse
-x_votes = %s Stimmen // %s = Anzahl der Stimmen
+x_votes = %s Stimmen
 one_vote = eine Stimme
 Vote = Abstimmen
 Subscribe_topic = Dieses Thema abonnieren

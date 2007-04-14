@@ -32,7 +32,7 @@ class PrivateMessages extends ModuleTemplate {
 		switch(@$_GET['mode']) {
 			default:
 				$folderID = isset($_GET['folderID']) ? intval($_GET['folderID']) : 0;
-				$page = isset($_GET['page']) ? intval($_GET['page']) : 1;
+				$page = isset($_GET['page']) ? $_GET['page'] : 1;
 
 				if($folderID == 0) $folderData = $inboxFolderData;
 				elseif($folderID == 1) $folderData = $outboxFolderData;
@@ -52,8 +52,8 @@ class PrivateMessages extends ModuleTemplate {
 				//$this->modules['Config']->getValue('pms_per_page') = 10;
 
 				$pageListing = Functions::createPageListing($pmsCounter,$pmsPerPage,$page,"<a href=\"".INDEXFILE."?action=PrivateMessages&amp;mode=ViewFolder&amp;folderID=$folderID&amp;page=%1\$s&amp;".MYSID."\">%2\$s</a>");
-				$start = $page*$this->modules['Config']->getValue('pms_per_page')-$this->modules['Config']->getValue('pms_per_page');
-
+				//$start = $page*$this->modules['Config']->getValue('pms_per_page')-$this->modules['Config']->getValue('pms_per_page');
+				$start = $page*$pmsPerPage-$pmsPerPage;
 
 				// PM-Daten laden
 				$this->modules['DB']->query("
@@ -97,9 +97,9 @@ class PrivateMessages extends ModuleTemplate {
 					$foldersData[$curKey]['_moveText'] = sprintf($this->modules['Language']->getString('Move_messages_to'),$foldersData[$curKey]['folderName']);
 
 				$this->modules['Navbar']->addElement(Functions::HTMLSpecialChars($folderData['folderName']),INDEXFILE.'?action=PrivateMessages&amp;folderID='.$folderID.'&amp;'.MYSID);
+				$this->modules['Navbar']->setRightArea($pageListing);
 
 				$this->modules['Template']->assign(array(
-					'pageListing'=>$pageListing,
 					'pmsData'=>$pmsData,
 					'folderID'=>$folderID,
 					'page'=>$page,
@@ -128,11 +128,16 @@ class PrivateMessages extends ModuleTemplate {
 					$c['requestReadReceipt'] = (isset($_POST['c']['requestReadReceipt']) && $this->modules['Config']->getValue('allow_pms_rconfirmation') == 1) ? 1 : 0;
 
 					$recipients = explode(',',$p['recipients']);
-					while(list($curKey) = each($recipients)) {
-						$recipients[$curKey] = trim($recipients[$curKey]);
-						if(!$recipients[$curKey] = Functions::getUserID($recipients[$curKey])) unset($recipients[$curKey]);
+					$recipientsID = $recipientsNick = array();
+					while(count($recipients) > 0) {
+						$curRecipient = trim(array_pop($recipients));
+						if(!preg_match('/^[0-9]{1,}$/si',$curRecipient))
+							$recipientsNick[] = $curRecipient;
+						else $recipientsID[] = $curRecipient;
 					}
-					reset($recipients);
+
+					$this->modules['DB']->query("SELECT userID FROM ".TBLPFX."users WHERE userID IN ('".implode("','",$recipientsID)."') OR userNick IN ('".implode("','",$recipientsNick)."') GROUP BY userID");
+					$recipients = $this->modules['DB']->raw2FVArray();
 
 					if(count($recipients) == 0) $error = $this->modules['Language']->getString('error_no_recipient');
 					elseif(trim($p['pmSubject']) == '') $error = $this->modules['Language']->getString('error_no_subject');
