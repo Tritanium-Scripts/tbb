@@ -12,6 +12,7 @@ core/Version.php -text
 docs/dbstructure.sql -text
 docs/farben[!!-~]logo.txt -text
 docs/history.txt -text
+docs/testdata.sql -text
 images/Thumbs.db -text
 images/bck.jpg -text
 images/dot.gif -text
