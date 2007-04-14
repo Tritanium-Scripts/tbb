@@ -15,6 +15,7 @@
  </script>
 </head>
 <body>
+<div align="center"><div align="left" style="width:80%;">
 <form method="post" action="{$indexFile}?action=login&amp;doit=1&amp;{$mySID}">
 <table style="border-spacing:0px; border:2px #000000 solid; width:100%; padding:1px; background-color:#FFFFFF;">
 <tr><td>

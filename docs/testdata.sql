@@ -109,7 +109,7 @@ UNLOCK TABLES;
 /*!40000 ALTER TABLE `tbb2_forums` DISABLE KEYS*/;
 LOCK TABLES `tbb2_forums` WRITE;
 REPLACE INTO `tbb2_forums` (`forumID`, `catID`, `orderID`, `forumName`, `forumDescription`, `forumTopicsCounter`, `forumPostsCounter`, `forumLastPostID`, `forumEnableBBCode`, `forumEnableHtmlCode`, `forumEnableSmilies`, `forumEnableURITransformation`, `forumIsModerated`, `forumShowLatestPosts`, `membersAuthViewForum`, `authPostTopicMembers`, `authPostReplyMembers`, `authPostPollMembers`, `authEditPostsMembers`, `authViewForumGuests`, `authPostTopicGuests`, `authPostReplyGuests`, `authPostPollGuests`) VALUES
-	(1,2,1,'Testforum','Zum Testen',0,0,0,1,0,1,1,0,1,1,1,1,1,1,1,0,0,0),;
+	(1,2,1,'Testforum','Zum Testen',0,0,0,1,0,1,1,0,1,1,1,1,1,1,1,0,0,0);
 UNLOCK TABLES;
 /*!40000 ALTER TABLE `tbb2_forums` ENABLE KEYS*/;
 

@@ -305,7 +305,7 @@ class ForumIndex extends ModuleTemplate {
 				WHERE
 					t1.forumID='".$this->modules['Config']->getValue('news_forum')."'
 					AND t2.postID=t1.topicFirstPosID
-				ORDER BY t1.topicTimestamp
+				ORDER BY t1.topicPostTimestamp
 				DESC LIMIT 1
 			");
 

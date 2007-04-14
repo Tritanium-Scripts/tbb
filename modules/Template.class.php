@@ -57,7 +57,7 @@ class Template extends ModuleTemplate {
 			return $result;
 		}
 
-		return $this->smarty->fetch($value);
+		return $this->smarty->fetch($file);
 	}
 }
 

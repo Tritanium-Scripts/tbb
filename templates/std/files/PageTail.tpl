@@ -13,5 +13,6 @@
  <tr><td align="center"><span class="techstats">{$techstats_text}</span></td></tr>
  </table>
 </template>-->
+</div></div>
 </body>
 </html>

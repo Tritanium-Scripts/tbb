@@ -138,7 +138,7 @@ class Posting extends ModuleTemplate {
 								topicIsPinned='".$c['pinTopic']."',
 								posterID='".USERID."',
 								smileyID='$smileyID',
-								topicTimestamp='".time()."',
+								topicPostTimestamp='".time()."',
 								topicGuestNick='".$p['guestNick']."'
 						");
 						$topicID = $this->modules['DB']->getInsertID();

@@ -99,13 +99,13 @@ class Register extends ModuleTemplate {
 
 						// Im Folgenden wird ueberprueft, ob der User Admin ist. Ist er kein Admin,
 						// wird ueberprueft, ob er seine Emailadresse irgendwie verifizieren muss
-						$userIsActive = 1; // bedeutet, der User ist freigeschaltet
+						$userIsActivated = 1; // bedeutet, der User ist freigeschaltet
 						$userHash = '';
 						if($userIsAdmin != 1) {
 							if($this->modules['Config']->getValue('verify_email_address') == 1 && $this->modules['Config']->getValue('enable_email_functions') == 1)
 								$p['userPassword'] = Functions::getRandomString(8);
 							elseif($this->modules['Config']->getValue('verify_email_address') == 2 && $this->modules['Config']->getValue('enable_email_functions') == 1) {
-								$userIsActive = 0; // bedeutet, der User ist noch _nicht_ freigeschaltet
+								$userIsActivated = 0; // bedeutet, der User ist noch _nicht_ freigeschaltet
 								$userHash = Functions::getRandomString(32,TRUE); // ist spaeter der Verifizierungscode
 							}
 						}
@@ -117,7 +117,7 @@ class Register extends ModuleTemplate {
 							INSERT INTO
 								".TBLPFX."users
 							SET
-								userIsActive='".$userIsActive."',
+								userIsActivated='".$userIsActivated."',
 								userIsAdmin='".$userIsAdmin."',
 								userHash='".$userHash."',
 								userNick='".$p['userName']."',
