@@ -91,6 +91,7 @@ images/tsmilies/8.gif -text
 images/tsmilies/9.gif -text
 images/tsmilies/Thumbs.db -text
 /index.php -text
+languages/de/AdminMain.language -text
 languages/de/BoardRules.language -text
 languages/de/EditProfile.language -text
 languages/de/EditTopic.language -text

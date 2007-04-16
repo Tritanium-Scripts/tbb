@@ -137,8 +137,8 @@ class ForumIndex extends ModuleTemplate {
 				if($forumsData[$i]['forumLastPostID'] != 0) {
 					if($curAuthViewForum == 1) {
 						$curLastPostPic = ($forumsData[$i]['forumLastPostSmileyFileName'] == '') ? '' : '<img src="'.$forumsData[$i]['forumLastPostSmileyFileName'].'" alt="" border="0"/>';
-						if(strlen($forumsData[$i]['forumLastPostTitle']) > 22) $curLastPostLink = '<a href="'.INDEXFILE.'?action=ViewTopic&amp;postID='.$forumsData[$i]['forumLastPostID'].'&amp;'.MYSID.'#Post'.$forumsData[$i]['forumLastPostID'].'" title="'.Functions::HTMLSpecialChars(($forumsData[$i]['forumLastPostTitle'])).'">'.Functions::HTMLSpecialChars(substr($forumsData[$i]['forumLastPostTitle'],0,22)).'...</a>';
-						else $curLastPostLink = '<a href="'.INDEXFILE.'?action=ViewTopic&amp;PostID='.$forumsData[$i]['forumLastPostID'].'&amp;'.MYSID.'#Post'.$forumsData[$i]['forumLastPostID'].'">'.Functions::HTMLSpecialChars($forumsData[$i]['forumLastPostTitle']).'</a>';
+						if(strlen($forumsData[$i]['forumLastPostTitle']) > 22) $curLastPostLink = '<a href="'.INDEXFILE.'?action=ViewTopic&amp;postID='.$forumsData[$i]['forumLastPostID'].'&amp;'.MYSID.'#post'.$forumsData[$i]['forumLastPostID'].'" title="'.Functions::HTMLSpecialChars(($forumsData[$i]['forumLastPostTitle'])).'">'.Functions::HTMLSpecialChars(substr($forumsData[$i]['forumLastPostTitle'],0,22)).'...</a>';
+						else $curLastPostLink = '<a href="'.INDEXFILE.'?action=ViewTopic&amp;postID='.$forumsData[$i]['forumLastPostID'].'&amp;'.MYSID.'#post'.$forumsData[$i]['forumLastPostID'].'">'.Functions::HTMLSpecialChars($forumsData[$i]['forumLastPostTitle']).'</a>';
 
 						if($forumsData[$i]['forumLastPostPosterID'] == 0) $curLastPostPosterNick = $forumsData[$i]['forumLastPostGuestNick'];
 						else $curLastPostPosterNick = '<a href="index.php?action=ViewProfile&amp;profileID='.$forumsData[$i]['forumLastPostPosterID'].'&amp;'.MYSID.'">'.$forumsData[$i]['forumLastPostPosterNick'].'</a>';
