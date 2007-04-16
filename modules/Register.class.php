@@ -179,7 +179,7 @@ class Register extends ModuleTemplate {
 
 						$this->modules['Navbar']->addElement($this->modules['Language']->getString('Registration_successful'),INDEXFILE."?Action=Register&amp;".MYSID);
 
-						// TODO: Richtige Meldung bei Accoutn verification
+						// TODO: Richtige Meldung bei Account verification
 						$this->modules['PageParts']->printMessage('registration_successful',array(sprintf($this->modules['Language']->getString('link_click_here_login'),'<a href="'.INDEXFILE.'?action=Login&amp;'.MYSID.'">','</a>')));
 						exit;
 					}
@@ -188,6 +188,7 @@ class Register extends ModuleTemplate {
 				//
 				// Die Spezial-Profilfelder
 				//
+				$groupsData = array();
 				if($fieldsCounter > 0) {
 					$groupsData = array(
 						array('groupName'=>$this->modules['Language']->getString('Required_information'),'groupType'=>1,'groupFields'=>array()),

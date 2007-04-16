@@ -13,7 +13,8 @@ class PageParts extends ModuleTemplate {
 	protected $flags = array(
 		'inEditProfile'=>FALSE,
 		'inAdministration'=>FALSE,
-		'inPrivateMessages'=>FALSE
+		'inPrivateMessages'=>FALSE,
+		'inAdministration'=>FALSE
 	);
 
 	public function initializeMe() {
@@ -66,6 +67,9 @@ class PageParts extends ModuleTemplate {
 
 			$this->modules['Template']->display('PrivateMessagesHeader.tpl');
 		}
+		elseif($this->flags['inAdministration']) {
+			$this->modules['Template']->display('AdminPageHeader.tpl');
+		}
 	}
 
 	public function printPage($templateName) {
@@ -96,6 +100,9 @@ class PageParts extends ModuleTemplate {
 			$this->modules['Template']->display('EditProfileTail.tpl');
 		elseif($this->flags['inPrivateMessages'] == TRUE)
 			$this->modules['Template']->display('PrivateMessagesTail.tpl');
+		elseif($this->flags['inAdministration']) {
+			$this->modules['Template']->display('AdminPageTail.tpl');
+		}
 
 		$this->modules['Template']->display('PageTail.tpl');
 	}

@@ -110,8 +110,10 @@ languages/de/ViewTopic.language -text
 languages/de/WhoIsOnline.language -text
 languages/de/mails/RegistrationAccountVerification.mail -text
 languages/de/mails/RegistrationWelcome.mail -text
+modules/AdminMain.class.php -text
 modules/Ajax.class.php -text
 modules/Auth.class.php -text
+modules/AuthAdmin.class.php -text
 modules/BBCode.class.php -text
 modules/Cache.class.php -text
 modules/Config.class.php -text
@@ -121,6 +123,7 @@ modules/EditProfile.class.php -text
 modules/EditTopic.class.php -text
 modules/ForumIndex.class.php -text
 modules/Globals.class.php -text
+modules/GlobalsAdmin.class.php -text
 modules/Language.class.php -text
 modules/Login.class.php -text
 modules/Logout.class.php -text
@@ -209,6 +212,9 @@ modules/ViewForum.class.php -text
 modules/ViewProfile.class.php -text
 modules/ViewTopic.class.php -text
 modules/WhoIsOnline.class.php -text
+templates/std/files/AdminMain.tpl -text
+templates/std/files/AdminPageHeader.tpl -text
+templates/std/files/AdminPageTail.tpl -text
 templates/std/files/AjaxResult.xml -text
 templates/std/files/BBCodeHtml.tpl -text
 templates/std/files/EditProfileAvatar.tpl -text

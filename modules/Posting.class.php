@@ -121,7 +121,7 @@ class Posting extends ModuleTemplate {
 						");
 					}
 
-					Functions::myHeader(INDEXFILE."?action=ViewTopic&postID=$postID&".MYSID."#post$postID"); exit;
+					Functions::myHeader(INDEXFILE."?p=$postID&".MYSID."#post$postID");
 				}
 				else {
 					if(USERID != 0)
@@ -137,7 +137,7 @@ class Posting extends ModuleTemplate {
 								topicIsClosed='".$c['closeTopic']."',
 								topicIsPinned='".$c['pinTopic']."',
 								posterID='".USERID."',
-								smileyID='$smileyID',
+								smileyID='".$p['smileyID']."',
 								topicPostTimestamp='".time()."',
 								topicGuestNick='".$p['guestNick']."'
 						");
@@ -157,7 +157,7 @@ class Posting extends ModuleTemplate {
 										".TBLPFX."polls
 									SET
 										topicID='$topicID',
-										posterID='".USERID.",
+										posterID='".USERID."',
 										pollTitle='".$p['pollTitle']."',
 										pollGuestNick='".$p['guestNick']."'
 								");
@@ -215,8 +215,7 @@ class Posting extends ModuleTemplate {
 						if($c['subscribeTopic'] == 0) $this->modules['DB']->query("DELETE FROM ".TBLPFX."topics_subscriptions WHERE topicID='$topicID' AND userID='".USERID."'");
 						else $this->modules['DB']->query("INSERT INTO ".TBLPFX."topics_subscriptions SET topicID='$topicID', UserID='".USERID."'");
 					}
-					//Functions::myHeader("index.php?t=$topicID&".MYSID); exit;
-					exit;
+					Functions::myHeader(INDEXFILE."?t=$topicID&".MYSID);
 				}
 			}
 		}

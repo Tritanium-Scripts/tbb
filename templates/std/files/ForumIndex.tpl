@@ -7,30 +7,30 @@ closedCatIDs = new Array();
 function switchCatStatus(catID) {
 	var i;
 
-	if(document.getElementById("CatForums"+CatID).style.display == "none") {
-		document.getElementById("CatForums"+CatID).style.display = "";
-		document.getElementById("CatPic"+CatID).src = templateDir+"/images/minus.gif";
+	if(document.getElementById("CatForums"+catID).style.display == "none") {
+		document.getElementById("CatForums"+catID).style.display = "";
+		document.getElementById("CatPic"+catID).src = templateDir+"/images/minus.gif";
 
 		for(i = 0; i < closedCatIDs.length; i++) {
-			if(closedCatIDs[i] == CatID) {
+			if(closedCatIDs[i] == catID) {
 				closedCatIDs.splice(i,1);
-				setCookieValue("ClosedCatIDs",ClosedCatIDs.join("."));
+				setCookieValue("ClosedCatIDs",closedCatIDs.join("."));
 				break;
 			}
 		}
 	} else {
-		document.getElementById("CatForums"+CatID).style.display= "none";
-		document.getElementById("CatPic"+CatID).src = templateDir+"/images/plus.gif";
+		document.getElementById("CatForums"+catID).style.display= "none";
+		document.getElementById("CatPic"+catID).src = templateDir+"/images/plus.gif";
 
 		closedCatIDs.push(catID);
-		setCookieValue("ClosedCatIDs",ClosedCatIDs.join("."));
+		setCookieValue("closedCatIDs",closedCatIDs.join("."));
 	}
 }
 
 function initializeClosedCatIDs() {
 	var cookieValue;
 
-	if(cookieValue = getCookieValue("ClosedCatIDs"))
+	if(cookieValue = getCookieValue("closedCatIDs"))
 		closedCatIDs = cookieValue.split(".");
 }
 

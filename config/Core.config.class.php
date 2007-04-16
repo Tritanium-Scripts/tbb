@@ -6,6 +6,7 @@ class CoreConfig extends ConfigTemplate {
 		'defaultAction'=>'ForumIndex',
 		'enableOutputCompression'=>TRUE,
 		'allowedActions'=>array(
+			'AdminMain',
 			'Ajax',
 			'EditProfile',
 			'EditTopic',

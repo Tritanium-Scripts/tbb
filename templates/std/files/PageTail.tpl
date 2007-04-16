@@ -1,6 +1,9 @@
-<!--<table border="0" cellpadding="0" cellspacing="0" width="100%">
-<tr><td align="center"><span class="FontNorm">{$admin_link}</span></td></tr>
-</table>-->
+{if $modules.Auth->getValue('userIsAdmin') == 1}
+<br/>
+<div align="center">
+ <span class="FontNorm"><a href="{$indexFile}?action=AdminMain&amp;{$mySID}">{$modules.Language->getString('Administration')}</a></span></td></tr>
+</div>
+{/if}
 <br/>
 <div align="center">
 <table class="TableCopyright">

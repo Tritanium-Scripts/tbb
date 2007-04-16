@@ -7,5 +7,4 @@ Logout = Ausloggen
 Logout_nick = Ausloggen [ %s ]
 welcome_not_logged_in = <b>Willkommen bei %1$s!</b> Falls dies Ihr erster Besuch hier ist, lesen Sie sich bitte die <a href=%2$s?Action=Help&amp;%3$s>Hilfe mit den h&auml;ufigsten Fragen</a> und ausf&uuml;hrlichen Erkl&auml;rungen durch! Falls Sie an den Diskussionen teilnehmen wollen, sollten Sie <a href=%2$s?Action=Register&amp;%3$s>sich registrieren</a> oder, falls Sie das schon getan haben, <a href=%2$s?Action=Login&amp;%3$s>sich einloggen</a>. Wir w&uuml;nschen Ihnen viel Spa&szlig;!
 welcome_logged_in = Hallo %1$s! Wir haben %2$s <a href=%3$s?Action=Logout&amp;%4$s>[ Ausloggen ]</a>
-Administration = Administration
 technical_stats_text = Datenbankzugriffe: %1$s; GZIP-Komprimierung: %2$s;<br />Seitenaufbauzeit: %3$s (PHP: %4$s, DB: %5$s)

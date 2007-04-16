@@ -69,7 +69,7 @@ CREATE TABLE /*!32312 IF NOT EXISTS*/ `tbb2_forums` (
   `forumEnableURITransformation` tinyint(1) unsigned NOT NULL default '0',
   `forumIsModerated` tinyint(1) unsigned NOT NULL default '0',
   `forumShowLatestPosts` tinyint(1) unsigned NOT NULL default '0',
-  `membersAuthViewForum` tinyint(1) unsigned NOT NULL default '0',
+  `authViewForumMembers` tinyint(1) unsigned NOT NULL default '0',
   `authPostTopicMembers` tinyint(1) unsigned NOT NULL default '0',
   `authPostReplyMembers` tinyint(1) unsigned NOT NULL default '0',
   `authPostPollMembers` tinyint(1) unsigned NOT NULL default '0',

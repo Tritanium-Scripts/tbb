@@ -269,6 +269,7 @@ td.CellHighlight {
 td.CellTitle {
 	padding:0px;
 	padding-left:3px;
+	padding-right:3px;
 	height:30px;
 	background-image:url(../images/celltitle.gif);
 	background-color:#107AB0;
@@ -308,6 +309,7 @@ a.FontCat:hover {
 td.CellCat {
 	padding:0px;
 	padding-left:3px;
+	padding-right:3px;
 	height:25px;
 	background-image:url(../images/cellcat.gif);
 	background-color:#000000;

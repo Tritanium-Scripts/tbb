@@ -14,7 +14,6 @@ class ForumIndex extends ModuleTemplate {
 	);
 
 	public function executeMe() {
-		//echo $this->modules['BBCode']->parse('[quote]test[/quote][quote=xxx]test[/quote][b]bold[/b][i]italic[/i][u]underline[/u][s]strike[/s][center]center[/center][email]juulian@tritanium-scripts.com[/email][img]tralala.gif[/img][url=http://www.julianbackes.de]jb[/url][url]http://www.julianbackes.de[/url][color=#FFFFFF]weisser text[/color][code]hehehe[/code]');
 		$baseCatID = isset($_GET['baseCatID']) ? intval($_GET['baseCatID']) : 1;
 		$catID = isset($_GET['catID']) ? intval($_GET['catID']) : $baseCatID;
 
@@ -42,19 +41,19 @@ class ForumIndex extends ModuleTemplate {
 
 
 		$closedCatIDs = array();
-		if(!isset($_COOKIE['ClosedCatIDs'])) {
+		if(!isset($_COOKIE['closedCatIDs'])) {
 			for($i = 0; $i < $catsCounter; $i++) {
 				if($catsData[$i]['catStandardStatus'] != 1) $closedCatIDs[] = $catsData[$i]['catID'];
 			}
-			setcookie('ClosedCatIDs',implode('.',$closedCatIDs),time()+31536000);
+			setcookie('closedCatIDs',implode('.',$closedCatIDs),time()+31536000);
 		}
 		else
-			$closedCatIDs = explode('.',$_COOKIE['ClosedCatIDs']);
+			$closedCatIDs = explode('.',$_COOKIE['closedCatIDs']);
 
 		for($i = 0; $i < $catsCounter; $i++) {
 			$curCat = &$catsData[$i];
 
-			if(in_array($curCat['catID'],$closedCatIDs) == TRUE) $curCat['catIsOpen'] = 0;
+			if(in_array($curCat['catID'],$closedCatIDs)) $curCat['catIsOpen'] = 0;
 			else $curCat['catIsOpen'] = 1;
 
 			$curCat['catName'] = Functions::HTMLSpecialChars($curCat['catName']);
@@ -71,7 +70,7 @@ class ForumIndex extends ModuleTemplate {
 				if($forumsData[$i]['authViewForumGuests'] == 0) $curAuthViewForum = 0;
 			}
 			elseif($this->modules['Auth']->getValue('userIsAdmin')!= 1 && $this->modules['Auth']->getValue('userIsSupermod') != 1) {
-				if($forumsData[$i]['membersAuthViewForum'] == 1) {
+				if($forumsData[$i]['authViewForumMembers'] == 1) {
 					while(list($curKey,$curData) = each($forumsAuthData)) {
 						if($curData['forumID'] != $forumsData[$i]['forumID']) continue;
 
@@ -85,10 +84,10 @@ class ForumIndex extends ModuleTemplate {
 				}
 				else {
 					$curAuthViewForum = 0;
-					while(list($akt_key,$akt_data) = each($forumsAuthData)) {
+					while(list($curKey,$curData) = each($forumsAuthData)) {
 						if($curData['forumID'] != $forumsData[$i]['forumID']) continue;
 
-						unset($forumsAuthData[$akt_key]);
+						unset($forumsAuthData[$curKey]);
 
 						if($curData['authViewForum'] == 1) {
 							$curAuthViewForum = 1;
@@ -313,12 +312,12 @@ class ForumIndex extends ModuleTemplate {
 				$newsData = $this->modules['DB']->fetchArray();
 				//$news_comments_link = "<a href=\"index.php?action=viewtopic&amp;post_id=".$news_data['post_id']."&amp;$mYSID\">".sprintf($lNG['x_comments'],$news_data['news_comments_counter']).'</a>';
 
-				$newsData['NewsTitle'] = Functions::HTMLSpecialChars($newsData['NewsTitle']);
+				$newsData['newsTitle'] = Functions::HTMLSpecialChars($newsData['newsTitle']);
 
-				if($newsData['PostEnableHtmlCode'] != 1) $newsData['NewsText'] = Functions::HTMLSpecialChars($newsData['NewsText']);
-				if($newsData['PostEnableSmilies'] == 1 && $forumData['ForumEnableSmilies'] == 1) $newsData['NewsText'] = strtr($newsData['NewsText']);
-				$newsData['NewsText'] = nl2br($newsData['NewsText']);
-				//if($newsData['PostEnableBBCode'] == 1) $newsData['NewsText'] = bbcode($news_data['news_text']);
+				if($newsData['postEnableHtmlCode'] != 1) $newsData['newsText'] = Functions::HTMLSpecialChars($newsData['newsText']);
+				if($newsData['postEnableSmilies'] == 1 && $forumData['forumEnableSmilies'] == 1) $newsData['newsText'] = strtr($newsData['newsText']);
+				$newsData['newsText'] = nl2br($newsData['newsText']);
+				if($newsData['postEnableBBCode'] == 1) $newsData['newsText'] = $this->modules['BBCode']->parse($newsData['newsText']);
 			}
 		}
 
