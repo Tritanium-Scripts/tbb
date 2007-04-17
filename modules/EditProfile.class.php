@@ -286,18 +286,19 @@ class EditProfile extends ModuleTemplate {
 							/**
 							 * Move new avatar to correct dir
 							 */
-							$localAvatarFileName = 'upload/avatars/'.USERID.'.'.$fileExtension;
+							$localAvatarFileName = 'uploads/avatars/'.USERID.'.'.$fileExtension;
 							move_uploaded_file($_FILES['avatarFile']['tmp_name'],$localAvatarFileName);
 							chmod($localAvatarFileName,0777);
 							$this->modules['DB']->query("UPDATE ".TBLPFX."users SET userAvatarAddress='$localAvatarFileName' WHERE userID='".USERID."'");
 
-							$avatar_selected_text = sprintf($this->modules['Language']->getString('avatar_selected_text'),'<img src="'.$remote_avatar_file_name.'" width="'.$cONFIG['avatar_image_width'].'" height="'.$cONFIG['avatar_image_height'].'" border="0" alt="" />');
+							$avatarSelectedText = sprintf($this->modules['Language']->getString('avatar_selected_text'),'<img src="'.$localAvatarFileName.'" width="'.$this->modules['Config']->getValue('avatar_image_width').'" height="'.$this->modules['Config']->getValue('avatar_image_height').'" border="0" alt=""/>');
 
 							// TODO: Correct message
 
 							//include_once('pop_pheader.php');
 							//$tpl->parseCode(TRUE);
 							//include_once('pop_ptail.php'); exit;
+							die($avatarSelectedText);
 						}
 					}
 				}

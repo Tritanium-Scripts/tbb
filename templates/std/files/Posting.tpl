@@ -11,6 +11,7 @@
 		newtr.id = 'idOption'+LastRowID;
 
 		var newtd = document.createElement('td');
+		newtd.style.padding = '3px';
 		var newinput = document.createElement('input');
 		newinput.type = 'text';
 		newinput.className = 'FormText';
@@ -106,13 +107,25 @@
   <td class="CellAlt" valign="top"><input class="FormText" type="text" name="p[pollTitle]" maxlength="255" size="60" value="{$p.pollTitle}"/></td>
  </tr>
  <tr>
+  <td class="CellStd" valign="top"><span class="FontNorm">{$modules.Language->getString('Poll_duration')}:</span></td>
+  <td class="CellAlt" valign="top"><input class="FormText" size="5" name="p[pollDuration]" value="{$p.pollDuration}"/> <span class="FontSmall">({$modules.Language->getString('in_days')})</span></td>
+ </tr>
+ <tr>
+  <td class="CellStd" valign="top"><span class="FontNorm">{$modules.Language->getString('Options')}:</span></td>
+  <td class="CellAlt" valign="top"><span class="FontNorm">
+   <label><input class="FormCheckbox" type="checkbox" name="c[pollShowResultsAfterEnd]"{if $c.pollShowResultsAfterEnd == 1} checked="checked"{/if}/>&nbsp;{$modules.Language->getString('Show_results_after_end')}</label>
+   <br/><label><input class="FormCheckbox" type="checkbox" name="c[pollGuestsVote]"{if $c.pollGuestsVote == 1} checked="checked"{/if}/>&nbsp;{$modules.Language->getString('Guests_allowed_vote')}</label>
+   <br/><label><input class="FormCheckbox" type="checkbox" name="c[pollGuestsViewResults]"{if $c.pollGuestsViewResults == 1} checked="checked"{/if}/>&nbsp;{$modules.Language->getString('Guests_allowed_view_results')}</label>
+  </span></td>
+ </tr>
+ <tr>
   <td class="CellStd" valign="top"><span class="FontNorm">{$modules.Language->getString('Poll_options')}:</span></td>
   <td class="CellAlt" valign="top">
    <table id="idPollOptionsTable" border="0" cellpadding="1" cellspacing="0">
    {foreach from=$p.pollOptions item=curOption name=pollOptionsLoop}
     <tr id="idOption{$smarty.foreach.pollOptionsLoop.iteration}">
-     <td><input type="text" class="FormText" size="30" value="{$curOption}" name="p[pollOptions][]""/></td>
-     <td><span class="FontSmall"><a href="javascript:deletePollOption('idOption{$smarty.foreach.pollOptionsLoop.iteration}');">l&ouml;schen</a></span></td>
+     <td style="padding:3px;"><input type="text" class="FormText" size="30" value="{$curOption}" name="p[pollOptions][]""/></td>
+     <td style="padding:3px;"><span class="FontSmall"><a href="javascript:deletePollOption('idOption{$smarty.foreach.pollOptionsLoop.iteration}');">l&ouml;schen</a></span></td>
     </tr>
    {/foreach}
    <tr><td><span class="FontSmall"><a href="javascript:addPollOption();">{$modules.Language->getString('Add_poll_option')}</a></span></td></tr>

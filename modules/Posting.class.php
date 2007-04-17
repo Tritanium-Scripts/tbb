@@ -54,9 +54,11 @@ class Posting extends ModuleTemplate {
 		$p['guestNick'] = isset($_POST['p']['guestNick']) ? $_POST['p']['guestNick'] : '';
 		$p['smileyID'] = isset($_POST['p']['smileyID']) ? intval($_POST['p']['smileyID']) : (($mode == 'Edit') ? addslashes($postData['smileyID']) : '');
 		$p['pollTitle'] = isset($_POST['p']['pollTitle']) ? $_POST['p']['pollTitle'] : '';
-		$p['pollOptions'] = (isset($_POST['p']['pollOptions']) == TRUE && is_array($_POST['p']['pollOptions']) == TRUE) ? $_POST['p']['pollOptions'] : array();
+		$p['pollOptions'] = (isset($_POST['p']['pollOptions']) && is_array($_POST['p']['pollOptions'])) ? $_POST['p']['pollOptions'] : array();
 
-		$subscriptionStatus = ($mode == 'Reply' && Functions::getSubscriptionStatus(SUBSCRIPTION_TYPE_TOPIC,USERID,$topicID) == TRUE) ? 1 : 0;
+		$p['pollDuration'] = isset($_POST['p']['pollDuration']) ? intval($_POST['p']['pollDuration']) : 1;
+
+		$subscriptionStatus = ($mode == 'Reply' && Functions::getSubscriptionStatus(SUBSCRIPTION_TYPE_TOPIC,USERID,$topicID)) ? 1 : 0;
 
 		$c['showEditings'] = ($mode == 'Edit') ? $postData['postShowEditings'] : 1;
 		$c['enableURITransformation'] = ($mode == 'Edit') ? $postData['postEnableURITransformation'] : 1;
@@ -69,6 +71,9 @@ class Posting extends ModuleTemplate {
 		$c['closeTopic'] = ($mode == 'Reply') ? $topicData['topicIsClosed'] : 0;
 		$c['subscribeTopic'] = $subscriptionStatus;
 
+		$c['pollGuestsVote'] = $c['pollShowResultsAfterEnd'] = 0;
+		$c['pollGuestsViewResults'] = 1;
+
 		if(isset($_GET['doit'])) {
 			$c['enableBBCode'] = (isset($_POST['c']['enableBBCode']) && $forumData['forumEnableBBCode'] == 1) ? 1 : 0;
 			$c['enableSmilies'] = (isset($_POST['c']['enableSmilies']) && $forumData['forumEnableSmilies'] == 1) ? 1 : 0;
@@ -76,6 +81,9 @@ class Posting extends ModuleTemplate {
 			$c['showSignature'] = (isset($_POST['c']['showSignature']) && $this->modules['Config']->getValue('enable_sig') == 1 && $this->modules['Auth']->isLoggedIn() == 1) ? 1 : 0;
 			$c['subscribeTopic'] = isset($_POST['c']['subscribeTopic']) ? 1 : 0;
 			$c['enableURITransformation'] = (isset($_POST['c']['enableURITransformation']) && $forumData['forumEnableURITransformation'] == 1) ? 1 : 0;
+			$c['pollGuestsVote'] = isset($_POST['c']['pollGuestsVote']) ? 1 : 0;
+			$c['pollGuestsViewResults'] = isset($_POST['c']['pollGuestsViewResults']) ? 1 : 0;
+			$c['pollShowResultsAfterEnd'] = isset($_POST['c']['pollShowResultsAfterEnd']) ? 1 : 0;
 
 			if($this->modules['Auth']->isLoggedIn() == 1 && ($this->modules['Auth']->getValue('userIsAdmin') == 1 || $this->modules['Auth']->getValue('userIsSupermod') == 1 || $authData['authIsMod'] == 1)) {
 				$c['showEditings'] = isset($_POST['c']['showEditings']) ? 1 : 0;
@@ -87,8 +95,8 @@ class Posting extends ModuleTemplate {
 				if(trim($p['messageTitle']) == '') $error = $this->modules['Language']->getString('error_no_title');
 				elseif(strlen($p['messageTitle']) > 255) $error = $this->modules['Language']->getString('error_title_too_long');
 				elseif(trim($p['messageText']) == '') $error = $this->modules['Language']->getString('error_no_post');
-				elseif($mode != 'Edit' && $this->modules['Auth']->isLoggedIn() != 1 && Functions::verifyEmail($p['guestNick']) == FALSE) $error = $this->modules['Language']->getString('error_invalid_name');
-				elseif($mode != 'Edit' && $this->modules['Auth']->isLoggedIn() != 1 && Functions::unifyNick($p['guestNick']) == FALSE) $error = $this->modules['Language']->getString('error_existing_user_name');
+				elseif($mode != 'Edit' && $this->modules['Auth']->isLoggedIn() != 1 && !Functions::verifyEmail($p['guestNick'])) $error = $this->modules['Language']->getString('error_invalid_name');
+				elseif($mode != 'Edit' && $this->modules['Auth']->isLoggedIn() != 1 && !Functions::unifyNick($p['guestNick'])) $error = $this->modules['Language']->getString('error_existing_user_name');
 				elseif($mode == 'Edit') {
 					$this->modules['DB']->query("
 						UPDATE
@@ -144,7 +152,7 @@ class Posting extends ModuleTemplate {
 						$topicID = $this->modules['DB']->getInsertID();
 
 						// Eventuell die Umfrage zum Thema hinzufuegen
-						if(($this->modules['Auth']->getValue('userIsAdmin') == 1 || $this->modules['Auth']->getValue('userIsSupermod') == 1 || $authData['authIsMod'] == 1 || $authData['authPostPoll'] == 1) && trim($p['pollTitle']) != '') {
+						if(($this->modules['Auth']->getValue('userIsAdmin') == 1 || $this->modules['Auth']->getValue('userIsSupermod') == 1 || $authData['authIsMod'] == 1 || $authData['authPostPoll'] == 1) && trim($p['pollTitle']) != '' && $p['pollDuration'] > 0) {
 							while(list($curKey) = each($p['pollOptions'])) {
 								if(trim($p['pollOptions'][$curKey]) == '')
 									unset($p['pollOptions'][$curKey]);
@@ -159,7 +167,11 @@ class Posting extends ModuleTemplate {
 										topicID='$topicID',
 										posterID='".USERID."',
 										pollTitle='".$p['pollTitle']."',
-										pollGuestNick='".$p['guestNick']."'
+										pollGuestNick='".$p['guestNick']."',
+										pollStartTimestamp='".time()."',
+										pollEndTimestamp='".(time()+86400*$p['pollDuration'])."',
+										pollGuestsVote='".$c['pollGuestsVote']."',
+										pollGuestsViewResults='".$c['pollGuestsViewResults']."'
 								");
 
 								$i = 1;
@@ -168,7 +180,6 @@ class Posting extends ModuleTemplate {
 										INSERT INTO
 											".TBLPFX."polls_options
 										SET
-											topicID='$topicID',
 											optionID='$i',
 											optionTitle='$curOption'
 									");

@@ -32,12 +32,12 @@
   <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Subject')}:</span></td>
   <td class="CellAlt"><input size="60" class="FormText" type="text" name="p[pmSubject]" value="{$p.pmSubject}" maxlength="255"/></td>
  </tr>
- <template:bbcoderow>
+ <!--
   <tr>
    <td class="CellStd" valign="top"></td>
    <td class="CellAlt">{$bbcode_box}</td>
   </tr>
- </template>
+ -->
  <tr>
   <td class="CellStd" valign="top"><span class="FontNorm">{$modules.Language->getString('Message')}:</span></td>
   <td class="CellAlt"><textarea class="FormTextArea" rows="14" cols="80" name="p[pmMessageText]" onselect="storecaret();" onclick="storecaret();" onkeyup="storecaret();">{$p.pmMessageText}</textarea></td>

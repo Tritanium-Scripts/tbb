@@ -108,41 +108,39 @@ class EditTopic extends ModuleTemplate {
 				break;
 
 				case 'Delete':
-					// TODO: Daran denken, eventuelle Referenzen wegen Themenverschiebungen zu loeschen
-					$topic_posts_ids = array();
-					$this->modules['DB']->query("SELECT post_id FROM ".TBLPFX."posts WHERE topicID='$topicID'");
-					while(list($akt_post_id) = $this->modules['DB']->fetch_array())
-						$topic_posts_ids[] = $akt_post_id;
+					$this->modules['DB']->query("SELECT postID FROM ".TBLPFX."posts WHERE topicID='$topicID'");
+					$postIDs = $this->modules['DB']->raw2FVArray();
 
-					$topic_posts_counter = count($topic_posts_ids);
+					$postsCounter = count($postIDs);
 
-					$this->modules['DB']->query("SELECT COUNT(*) AS poster_posts_counter, poster_id FROM ".TBLPFX."posts WHERE topicID='$topicID' GROUP BY poster_id");
-					$DB_data = $this->modules['DB']->raw2array();
-					while(list(,$akt_data) = each($DB_data)) {
-						$this->modules['DB']->query("UPDATE ".TBLPFX."users SET user_posts=user_posts-".$akt_data['poster_posts_counter']." WHERE user_id='".$akt_data['poster_id']."'");
+					$this->modules['DB']->query("SELECT COUNT(*) AS posterPostsCounter, posterID FROM ".TBLPFX."posts WHERE topicID='$topicID' GROUP BY posterID");
+					$postsCounter = $this->modules['DB']->raw2Array();
+					foreach($postsCounter AS $curCounter) {
+						$this->modules['DB']->query("UPDATE ".TBLPFX."users SET userPostsCounter=userPostsCounter-".$curCounter['posterPostsCounter']." WHERE userID='".$curCounter['posterID']."'");
 					}
 
-					$this->modules['DB']->query("UPDATE ".TBLPFX."forums SET forum_posts_counter=forum_posts_counter-$topic_posts_counter, forum_topics_counter=forum_topics_counter-1 WHERE forumID='$forumID'");
+					$this->modules['DB']->query("UPDATE ".TBLPFX."forums SET forumPostsCounter=forumPostsCounter-$postsCounter, forumTopicsCounter=forumTopicsCounter-1 WHERE forumID='$forumID'");
 					$this->modules['DB']->query("DELETE FROM ".TBLPFX."topics WHERE topicID='$topicID'");
-					$this->modules['DB']->query("DELETE FROM ".TBLPFX."posts WHERE post_id IN ('".implode("','",$topic_posts_ids)."')");
+					$this->modules['DB']->query("DELETE FROM ".TBLPFX."topics WHERE topicMovedID='$topicID'");
+					$this->modules['DB']->query("DELETE FROM ".TBLPFX."posts WHERE postID IN ('".implode("','",$postIDs)."')");
 					$this->modules['DB']->query("DELETE FROM ".TBLPFX."topics_subscriptions WHERE topicID='$topicID'");
 
-					if($topicData['topic_poll'] == 1) {
-						$this->modules['DB']->query("SELECT poll_id FROM ".TBLPFX."polls WHERE topicID='$topicID'");
-						if($this->modules['DB']->affected_rows == 1) {
-							list($topic_poll_id) = $this->modules['DB']->fetch_array();
+					if($topicData['topicHasPoll'] == 1) {
+						$this->modules['DB']->query("SELECT pollID FROM ".TBLPFX."polls WHERE topicID='$topicID'");
+						if($this->modules['DB']->getAffectedRows() == 1) {
+							list($topicPollID) = $this->modules['DB']->fetchArray();
 
-							$this->modules['DB']->query("DELETE FROM ".TBLPFX."polls WHERE poll_id='$topic_poll_id'");
-							$this->modules['DB']->query("DELETE FROM ".TBLPFX."polls_options WHERE poll_id='$topic_poll_id'");
-							$this->modules['DB']->query("DELETE FROM ".TBLPFX."polls_votes WHERE poll_id='$topic_poll_id'");
+							$this->modules['DB']->query("DELETE FROM ".TBLPFX."polls WHERE pollID='$topicPollID'");
+							$this->modules['DB']->query("DELETE FROM ".TBLPFX."polls_options WHERE poll_id='$topicPollID'");
+							$this->modules['DB']->query("DELETE FROM ".TBLPFX."polls_votes WHERE poll_id='$topicPollID'");
 						}
 					}
 
-					if($forumID != 0) {
-						if(in_array($forumData['forum_last_post_id'],$topic_posts_ids) == TRUE) update_forum_last_post($forumID);
-						header("Location: index.php?action=viewforum&forumID=$forumID&$MYSID"); exit;
+					if(in_array($forumData['forumLastPostID'],$postIDs)) {
+						// TODO: Neue Funktion
+						update_forum_last_post($forumID);
 					}
-					header("Location: index.php?$MYSID"); exit;
+					Functions::myHeader(INDEXFILE."?action=ViewForum&forumID=$forumID&".MYSID);
 				break;
 
 				case 'Move':

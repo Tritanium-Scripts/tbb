@@ -57,6 +57,7 @@ class ViewTopic extends ModuleTemplate {
 		$authData = $this->_authenticateUser($forumData);
 
 
+		// TODO:
 		//update_topic_cookie($forum_id,$topicID,time());
 
 		if(!isset($_SESSION['topicViews'][$topicID])) { // Falls dieses Thema in dieser Session noch nicht besucht wurde...
@@ -92,34 +93,40 @@ class ViewTopic extends ModuleTemplate {
 		$modTools = implode(' | ',$modTools);
 
 
-		//
-		// Die Umfrage
-		//
-		$pollData = FALSE;
-		if($topicData['topicHasPoll'] == 1) { // Falls fuer das Thema eine Umfrage angegeben wurde...
-			$this->modules['DB']->query("SELECT * FROM ".TBLPFX."polls WHERE topicID='$topicID' LIMIT 1"); // ...versuchen die Daten der Umfrage zu laden...
-			if($pollData = $this->modules['DB']->fetchArray()) { // ...und falls diese existiert...
-				if($this->modules['Auth']->isLoggedIn() == 1) { // Falls User eingeloggt ist
-					$this->modules['DB']->query("SELECT VoterID FROM ".TBLPFX."polls_votes WHERE PollID='".$pollData['PollID']."' AND VoterID='".USERID."'"); // Ueberpruefen, ob User shcon abgestimmt hat...
-					if($this->modules['DB']->getAffectedRows() == 0) // ...falls nicht...
-						$poll_tpl = new Template($tEMPLATE_PATH.'/'.$tCONFIG['templates']['viewtopic_poll_voting']); // ...Abstimmungsboxtemplate laden...
-					else { // ...andernfalls...
-						$info_text = $this->modules['Language']->getString('poll_already_voted_info'); // ...und Infotext fuer "schon abgestimmt" erzeugen
-					}
-				}
-				else { // Falls User nicht eingeloggt ist...
-					$poll_tpl = new Template($tEMPLATE_PATH.'/'.$tCONFIG['templates']['viewtopic_poll_results']); // ...Ergebnisboxtemplate laden...
-					$info_text = $this->modules['Language']->getString('poll_not_logged_in_info'); // ...und Infotext fuer "nicht eingeloggt" erzeugen
-				}
+		/**
+		 * Poll
+		 */
+		if($topicData['topicHasPoll'] == 1) {
+			// Get poll data
+			$this->modules['DB']->query("SELECT * FROM ".TBLPFX."polls WHERE topicID='$topicID'");
+			$pollData = $this->modules['DB']->fetchArray();
+			$pollHasEnded = (time()-$pollData['pollEndTimestamp']) > 0;
 
-				$this->modules['DB']->query("SELECT OptionID,OptionTitle,OptionVotesCounter FROM ".TBLPFX."polls_options WHERE topicID='$topicID' ORDER BY OptionID"); // Die Auswahlmoeglichkeiten fuer die Umfrage laden
-				while($akt_option = $this->modules['DB']->fetchArray()) {
-					$akt_fraction = ($poll_data['poll_votes'] == 0) ? 0 : round($akt_option['option_votes']/$poll_data['poll_votes'],2); // Der Anteil an Stimmen (0,xx)
-					$akt_percent = $akt_fraction*100; // Stimmenanteil in Prozent
-					$akt_votes = ($akt_option['option_votes'] == 1) ? $this->modules['Language']->getString('one_vote') : sprintf($this->modules['Language']->getString('x_votes'),$akt_option['option_votes']); // Anzahl der Stimmen
-					$akt_checked = ($akt_option['option_id'] == 1) ? ' checked="checked"' : ''; // checked="checked" fuer den ersten Radiobutton erzeugen (damit auf jeden Fall was ausgewaehlt ist)
-				}
+			// Check if user already voted
+			if($this->modules['Auth']->isLoggedIn() == 1) {
+				$this->modules['DB']->query("SELECT voterID FROM ".TBLPFX."polls_votes WHERE pollID='".$pollData['pollID']."' AND voterID='".USERID."'");
+				$userAlreadyVoted = $this->modules['DB']->getAffectedRows() != 0;
 			}
+			else {
+				$userAlreadyVoted = isset($_SESSION['pollVotes']) && in_array($pollData['pollID'],explode(',',$_SESSION['pollVotes'])) || isset($_COOKIE['pollVotes']) && in_array($pollData['pollID'],explode(',',$_COOKIE['pollVotes']));
+			}
+
+			// Get poll options
+			$this->modules['DB']->query("SELECT optionID,optionTitle,optionVotesCounter FROM ".TBLPFX."polls_options WHERE pollID='".$pollData['pollID']."' ORDER BY optionID");
+			$pollOptionsData = $this->modules['DB']->raw2Array();
+
+			foreach($pollOptionsData AS &$curOption) {
+				$curFraction = ($pollData['pollVotesCounter'] == 0) ? 0 : round($curOption['optionVotesCounter']/$pollData['pollVotesCounter'],2);
+				$curOption['_optionPercent'] = $curFraction*100;
+				$curOption['_optionVotesCounterText'] = ($curOption['optionVotesCounter'] == 1) ? $this->modules['Language']->getString('one_vote') : sprintf($this->modules['Language']->getString('x_votes'),$curOption['optionVotesCounter']);
+			}
+
+			$this->modules['Template']->assign(array(
+				'pollData'=>$pollData,
+				'pollOptionsData'=>$pollOptionsData,
+				'userAlreadyVoted'=>$userAlreadyVoted,
+				'pollHasEnded'=>$pollHasEnded
+			));
 		}
 
 
@@ -140,7 +147,6 @@ class ViewTopic extends ModuleTemplate {
 		$postsData = $this->_loadPostsData($topicID,$start);
 		$postsCounter = count($postsData);
 
-		//$akt_cell_class = $tCONFIG['cell_classes']['start_class'];
 		for($i = 0; $i < $postsCounter; $i++) {
 			$curPost = &$postsData[$i];
 

@@ -43,9 +43,41 @@
 </td></tr>
 </table>
 <br/>
-{if $pollData}
+{if $topicData.topicHasPoll == 1}
+ <table class="TableStd" width="100%">
+ <tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('Poll')}: {$pollData.pollTitle}</td></tr>
+ <tr><td class="CellStd"><span class="FontNorm">
+  {if $userAlreadyVoted || $modules.Auth->isloggedIn() != 1 && $pollData.pollGuestsVote != 1 || $pollHasEnded}
+   {if $modules.Auth->isloggedIn() != 1 && $pollData.pollGuestsViewResults == 0}
+    {$modules.Language->getString('Must_be_logged_in_view_results')}
+   {elseif $pollData.pollShowResultsAfterEnd && !$pollHasEnded}
+    {$modules.Language->getString('Results_after_end_of_poll')}
+   {else}
+    <table border="0" cellpadding="2" cellspacing="0">
+    {foreach from=$pollOptionsData item=curOption}
+     <tr>
+      <td style="padding:3px;"><span class="FontNorm">{$curOption.optionTitle}</span></td>
+      <td style="padding:3px;"><span class="FontNorm"><img src="{$modules.Template->getTD()}/images/poll.gif" alt="" border="0" width="{$curOption._optionPercent}" height="15"/></span></td>
+      <td style="padding:3px;"><span class="FontSmall">({$curOption._optionPercent} %, {$curOption._optionVotesCounterText})</span></td>
+     </tr>
+    {/foreach}
+    </table>
+   {/if}
+  {else}
+   <table border="0" cellpadding="2" cellspacing="0">
+   {foreach from=$pollOptionsData item=curOption}
+    <tr>
+     <td style="padding:3px;"><span class="FontNorm"><input type="radio" name="p_option_id" value="{$curOption.optionID}"/></span></td>
+     <td style="padding:3px;"><span class="FontNorm">{$curOption.optionTitle}</span></td>
+    </tr>
+   {/foreach}
+   </table>
+  {/if}
+ </span></td></tr>
+ </table>
+ <br/>
 {/if}
-<table class="TableStd" width="100%" border="0" cellspacing="0" cellpadding="3">
+<table class="TableStd" width="100%">
 <tr>
  <td class="CellTitle" align="left" width="15%"><span class="FontTitleSmall">{$modules.Language->getString('Author')}</span></td>
  <td class="CellTitle" align="left" width="85%"><span class="FontTitleSmall">{$modules.Language->getString('Topic')}: {$topicData.topicTitle}</span></td>
