@@ -195,12 +195,15 @@ CREATE TABLE /*!32312 IF NOT EXISTS*/ `tbb2_polls` (
   `topicID` mediumint(8) unsigned NOT NULL default '0',
   `posterID` mediumint(8) unsigned NOT NULL default '0',
   `pollTitle` varchar(255) NOT NULL default '',
-  `pollVotes` mediumint(8) unsigned NOT NULL default '0',
+  `pollVotesCounter` mediumint(8) unsigned NOT NULL default '0',
   `pollGuestNick` varchar(255) NOT NULL default '',
   `pollStartTimestamp` int(10) unsigned NOT NULL default '0',
   `pollEndTimestamp` int(10) unsigned NOT NULL default '0',
+  `pollGuestsVote` tinyint(1) unsigned NOT NULL default '0',
+  `pollGuestsViewResults` tinyint(1) unsigned NOT NULL default '1',
+  `pollShowResultsAfterEnd` tinyint(1) unsigned NOT NULL default '0',
   PRIMARY KEY  (`pollID`),
-  KEY `topic_id_poll_id` (`topicID`,`pollID`),
+  UNIQUE KEY `topicID` (`topicID`),
   KEY `poster_id` (`posterID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
