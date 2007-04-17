@@ -1,3 +1,16 @@
+# HeidiSQL Dump 
+#
+# --------------------------------------------------------
+# Host:                 localhost
+# Database:             tbb2test
+# Server version:       4.1.14-nt
+# Server OS:            Win32
+# Target-Compatibility: MySQL 4.1
+# Extended INSERTs:     Y
+# max_allowed_packet:   1048576
+# HeidiSQL version:     3.0 Revision: 572
+# --------------------------------------------------------
+
 /*!40100 SET CHARACTER SET latin1*/;
 
 
@@ -121,11 +134,11 @@ CREATE TABLE /*!32312 IF NOT EXISTS*/ `tbb2_groups` (
 #
 
 CREATE TABLE /*!32312 IF NOT EXISTS*/ `tbb2_groups_members` (
-  `GroupID` smallint(5) unsigned NOT NULL default '0',
-  `MemberID` mediumint(8) unsigned NOT NULL default '0',
-  `MemberStatus` tinyint(1) unsigned NOT NULL default '0',
-  KEY `group_id` (`GroupID`),
-  KEY `member_id_group_id` (`MemberID`,`GroupID`)
+  `groupID` smallint(5) unsigned NOT NULL default '0',
+  `memberID` mediumint(8) unsigned NOT NULL default '0',
+  `memberStatus` tinyint(1) unsigned NOT NULL default '0',
+  KEY `group_id` (`groupID`),
+  KEY `member_id_group_id` (`memberID`,`groupID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 
@@ -178,17 +191,17 @@ CREATE TABLE /*!32312 IF NOT EXISTS*/ `tbb2_pms_folders` (
 #
 
 CREATE TABLE /*!32312 IF NOT EXISTS*/ `tbb2_polls` (
-  `poll_id` mediumint(8) unsigned NOT NULL auto_increment,
-  `topic_id` mediumint(8) unsigned NOT NULL default '0',
-  `poster_id` mediumint(8) unsigned NOT NULL default '0',
-  `poll_title` varchar(255) NOT NULL default '',
-  `poll_votes` mediumint(8) unsigned NOT NULL default '0',
-  `poll_guest_nick` varchar(255) NOT NULL default '',
-  `poll_start_time` int(10) unsigned NOT NULL default '0',
-  `poll_end_time` int(10) unsigned NOT NULL default '0',
-  PRIMARY KEY  (`poll_id`),
-  KEY `topic_id_poll_id` (`topic_id`,`poll_id`),
-  KEY `poster_id` (`poster_id`)
+  `pollID` mediumint(8) unsigned NOT NULL auto_increment,
+  `topicID` mediumint(8) unsigned NOT NULL default '0',
+  `posterID` mediumint(8) unsigned NOT NULL default '0',
+  `pollTitle` varchar(255) NOT NULL default '',
+  `pollVotes` mediumint(8) unsigned NOT NULL default '0',
+  `pollGuestNick` varchar(255) NOT NULL default '',
+  `pollStartTimestamp` int(10) unsigned NOT NULL default '0',
+  `pollEndTimestamp` int(10) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`pollID`),
+  KEY `topic_id_poll_id` (`topicID`,`pollID`),
+  KEY `poster_id` (`posterID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 
@@ -198,12 +211,12 @@ CREATE TABLE /*!32312 IF NOT EXISTS*/ `tbb2_polls` (
 #
 
 CREATE TABLE /*!32312 IF NOT EXISTS*/ `tbb2_polls_options` (
-  `poll_id` mediumint(8) unsigned NOT NULL default '0',
-  `option_id` smallint(5) unsigned NOT NULL default '0',
-  `option_title` varchar(255) NOT NULL default '',
-  `option_votes` mediumint(8) NOT NULL default '0',
-  KEY `option_id` (`option_id`),
-  KEY `poll_id_option_id` (`poll_id`,`option_id`)
+  `pollID` mediumint(8) unsigned NOT NULL default '0',
+  `optionID` smallint(5) unsigned NOT NULL default '0',
+  `optionTitle` varchar(255) NOT NULL default '',
+  `optionVotesCounter` mediumint(8) NOT NULL default '0',
+  KEY `option_id` (`optionID`),
+  KEY `poll_id_option_id` (`pollID`,`optionID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 
@@ -213,10 +226,10 @@ CREATE TABLE /*!32312 IF NOT EXISTS*/ `tbb2_polls_options` (
 #
 
 CREATE TABLE /*!32312 IF NOT EXISTS*/ `tbb2_polls_votes` (
-  `poll_id` mediumint(8) unsigned NOT NULL default '0',
-  `voter_id` mediumint(8) unsigned NOT NULL default '0',
-  KEY `poll_id` (`poll_id`),
-  KEY `voter_id_poll_id` (`voter_id`,`poll_id`)
+  `pollID` mediumint(8) unsigned NOT NULL default '0',
+  `voterID` mediumint(8) unsigned NOT NULL default '0',
+  KEY `poll_id` (`pollID`),
+  KEY `voter_id_poll_id` (`voterID`,`pollID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 
@@ -323,11 +336,11 @@ CREATE TABLE /*!32312 IF NOT EXISTS*/ `tbb2_ranks` (
 #
 
 CREATE TABLE /*!32312 IF NOT EXISTS*/ `tbb2_search_results` (
-  `search_id` varchar(32) NOT NULL default '',
-  `session_id` varchar(32) NOT NULL default '',
-  `search_last_access` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
-  `search_results` text NOT NULL,
-  PRIMARY KEY  (`search_id`)
+  `searchID` varchar(32) NOT NULL default '',
+  `sessionID` varchar(32) NOT NULL default '',
+  `searchLastAccess` timestamp NOT NULL default '0000-00-00 00:00:00',
+  `searchResults` text NOT NULL,
+  PRIMARY KEY  (`searchID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 
@@ -354,12 +367,12 @@ CREATE TABLE /*!32312 IF NOT EXISTS*/ `tbb2_sessions` (
 #
 
 CREATE TABLE /*!32312 IF NOT EXISTS*/ `tbb2_smilies` (
-  `SmileyID` smallint(5) unsigned NOT NULL auto_increment,
-  `SmileyType` tinyint(1) unsigned NOT NULL default '0',
-  `SmileyFileName` varchar(255) NOT NULL default '',
-  `SmileySynonym` varchar(255) NOT NULL default '',
-  `SmileyStatus` tinyint(1) unsigned NOT NULL default '0',
-  PRIMARY KEY  (`SmileyID`)
+  `smileyID` smallint(5) unsigned NOT NULL auto_increment,
+  `smileyType` tinyint(1) unsigned NOT NULL default '0',
+  `smileyFileName` varchar(255) NOT NULL default '',
+  `smileySynonym` varchar(255) NOT NULL default '',
+  `smileyStatus` tinyint(1) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`smileyID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 
@@ -448,11 +461,11 @@ CREATE TABLE /*!32312 IF NOT EXISTS*/ `tbb2_users` (
 #
 
 CREATE TABLE /*!32312 IF NOT EXISTS*/ `tbb2_users_locks` (
-  `user_id` mediumint(8) unsigned NOT NULL default '0',
-  `lock_type` tinyint(1) unsigned NOT NULL default '0',
-  `lock_start_time` int(10) unsigned NOT NULL default '0',
-  `lock_dur_time` int(10) unsigned NOT NULL default '0',
-  KEY `user_id` (`user_id`),
-  KEY `lock_type_user_id` (`lock_type`,`user_id`)
+  `userID` mediumint(8) unsigned NOT NULL default '0',
+  `lockType` tinyint(1) unsigned NOT NULL default '0',
+  `lockStartTimestamp` int(10) unsigned NOT NULL default '0',
+  `lockEndTimestamp` int(10) unsigned NOT NULL default '0',
+  KEY `user_id` (`userID`),
+  KEY `lock_type_user_id` (`lockType`,`userID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
