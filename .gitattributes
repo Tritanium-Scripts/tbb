@@ -1,4 +1,5 @@
 * text=auto !eol
+cache/dummy -text
 config/Core.config.class.php -text
 config/DB.config.class.php -text
 config/Language.config.class.php -text
@@ -332,3 +333,5 @@ templates/std/files/images/v3.gif -text
 templates/std/files/images/v4.gif -text
 templates/std/files/jscripts.js -text
 templates/std/files/styles/ts_tbb2_standard.css -text
+uploads/avatars/dummy -text
+uploads/dummy -text
