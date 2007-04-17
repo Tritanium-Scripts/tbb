@@ -284,8 +284,7 @@ class ViewTopic extends ModuleTemplate {
 			'modTools'=>$modTools,
 			'topicID'=>$topicID,
 			'forumID'=>$forumID,
-			'topicData'=>$topicData,
-			'pollData'=>$pollData
+			'topicData'=>$topicData
 		));
 		$this->modules['PageParts']->printPage('ViewTopic.tpl');
 	}
