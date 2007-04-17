@@ -131,8 +131,8 @@ class EditTopic extends ModuleTemplate {
 							list($topicPollID) = $this->modules['DB']->fetchArray();
 
 							$this->modules['DB']->query("DELETE FROM ".TBLPFX."polls WHERE pollID='$topicPollID'");
-							$this->modules['DB']->query("DELETE FROM ".TBLPFX."polls_options WHERE poll_id='$topicPollID'");
-							$this->modules['DB']->query("DELETE FROM ".TBLPFX."polls_votes WHERE poll_id='$topicPollID'");
+							$this->modules['DB']->query("DELETE FROM ".TBLPFX."polls_options WHERE pollID='$topicPollID'");
+							$this->modules['DB']->query("DELETE FROM ".TBLPFX."polls_votes WHERE pollID='$topicPollID'");
 						}
 					}
 

@@ -173,6 +173,7 @@ class Posting extends ModuleTemplate {
 										pollGuestsVote='".$c['pollGuestsVote']."',
 										pollGuestsViewResults='".$c['pollGuestsViewResults']."'
 								");
+								$pollID = $this->modules['DB']->getInsertID();
 
 								$i = 1;
 								foreach($p['pollOptions'] AS $curOption) {
@@ -180,6 +181,7 @@ class Posting extends ModuleTemplate {
 										INSERT INTO
 											".TBLPFX."polls_options
 										SET
+											pollID='$pollID',
 											optionID='$i',
 											optionTitle='$curOption'
 									");
