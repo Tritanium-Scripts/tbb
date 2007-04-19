@@ -16,9 +16,9 @@ class SubscribeTopic extends ModuleTemplate {
 		$topicID = isset($_GET['topicID']) ? intval($_GET['topicID']) : 0;
 		$returnPage = isset($_GET['returnPage']) ? intval($_GET['returnPage']) : 1;
 
-		if(!$topicData = Functions::getTopicData($topicID)) die('Cannot load data: topic');
+		if(!$topicData = Functions::FuncTopics($topicID)) die('Cannot load data: topic');
 		if($topicData['topicMovedID'] != 0) die('Cannot subscribe topic: topic was moved');
-		elseif(!$forumData = Functions::getForumData($topicData['forumID'])) die('Cannot load data: forum');
+		elseif(!$forumData = FuncForums::getForumData($topicData['forumID'])) die('Cannot load data: forum');
 
 		$forumID = $forumData['forumID'];
 		$authData = Functions::getAuthData($forumData,array('authViewForum'));

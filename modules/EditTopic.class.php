@@ -17,7 +17,7 @@ class EditTopic extends ModuleTemplate {
 		if($this->modules['Auth']->isLoggedIn() != 1) die('Access denied: not logged in');
 		elseif(!$topicData = Functions::getTopicData($topicID)) die('Cannot load data: topic');
 		elseif($topicData['topicMovedID'] != 0) die('Cannot edit topic: moved topic');
-		elseif(!$forumData = Functions::getForumData($topicData['forumID'])) die('Cannot load data: forum');
+		elseif(!$forumData = FuncForums::getForumData($topicData['forumID'])) die('Cannot load data: forum');
 
 		$forumID = &$topicData['forumID'];
 

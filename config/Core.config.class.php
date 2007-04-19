@@ -21,6 +21,7 @@ class CoreConfig extends ConfigTemplate {
 			'Posting',
 			'Register',
 			'SubscribeTopic',
+			'Vote',
 			'WhoIsOnline'
 		)
 	);

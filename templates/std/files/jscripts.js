@@ -76,6 +76,13 @@ function setRowCellsClass(row,newClass) {
 	}
 }
 
+function removeRowCellsClass(row) {
+	for(var i = 0; i < row.cells.length; i++) {
+		row.cells[i].setAttribute("tbbOldClassName",row.cells[i].className);
+		row.cells[i].className = '';
+	}
+}
+
 function restoreRowCellsClass(row,newClass) {
 	for(var i = 0; i < row.cells.length; i++) {
 		row.cells[i].className = row.cells[i].getAttribute("tbbOldClassName");

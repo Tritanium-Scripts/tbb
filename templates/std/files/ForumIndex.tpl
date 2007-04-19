@@ -66,7 +66,7 @@ initializeClosedCatIDs();
  <tbody id="CatForums{$curCat.catID}" style="{if $curCat.catIsOpen == 1}{else}display:none;{/if}">
  {foreach from=$forumsData item=curForum}
   {if $curForum.catID == $curCat.catID}
-  <tr>
+  <tr class="RowToHighlight" onmouseover="setRowCellsClass(this,'CellHighlight');" onmouseout="restoreRowCellsClass(this);">
    <td class="CellAlt" align="center"></td>
    <td class="CellStd" width="50%">
     <table border="0" cellspacing="0" cellpadding="0">

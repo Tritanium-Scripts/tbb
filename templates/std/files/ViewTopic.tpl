@@ -44,15 +44,18 @@
 </table>
 <br/>
 {if $topicData.topicHasPoll == 1}
- <table class="TableStd" width="100%">
+<form method="post" action="{$indexFile}?action=Vote&amp;pollID={$pollData.pollID}&amp;{$mySID}">
+<table class="TableStd" width="100%">
  <tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('Poll')}: {$pollData.pollTitle}</td></tr>
- <tr><td class="CellStd"><span class="FontNorm">
   {if $userAlreadyVoted || $modules.Auth->isloggedIn() != 1 && $pollData.pollGuestsVote != 1 || $pollHasEnded}
-   {if $modules.Auth->isloggedIn() != 1 && $pollData.pollGuestsViewResults == 0}
-    {$modules.Language->getString('Must_be_logged_in_view_results')}
+   {if $modules.Auth->isloggedIn() != 1 && $pollData.pollGuestsVote != 1 && !$userAlreadyVoted && !$pollHasEnded}
+    <tr><td class="CellMessageBox"><span class="FontNorm">{$modules.Language->getString('Must_be_logged_in_vote')}</span></td></tr>
+   {elseif $modules.Auth->isloggedIn() != 1 && $pollData.pollGuestsViewResults == 0}
+    <tr><td class="CellMessageBox"><span class="FontNorm">{$modules.Language->getString('Must_be_logged_in_view_results')}</span></td></tr>
    {elseif $pollData.pollShowResultsAfterEnd && !$pollHasEnded}
-    {$modules.Language->getString('Results_after_end_of_poll')}
+    <tr><td class="CellMessageBox"><span class="FontNorm">{$modules.Language->getString('Results_after_end_of_poll')}</span></td></tr>
    {else}
+    <tr><td class="CellStd">
     <table border="0" cellpadding="2" cellspacing="0">
     {foreach from=$pollOptionsData item=curOption}
      <tr>
@@ -62,19 +65,20 @@
      </tr>
     {/foreach}
     </table>
+    </tr></td>
    {/if}
   {else}
+   <tr><td class="CellStd">
    <table border="0" cellpadding="2" cellspacing="0">
    {foreach from=$pollOptionsData item=curOption}
-    <tr>
-     <td style="padding:3px;"><span class="FontNorm"><input type="radio" name="p_option_id" value="{$curOption.optionID}"/></span></td>
-     <td style="padding:3px;"><span class="FontNorm">{$curOption.optionTitle}</span></td>
-    </tr>
+    <tr><td style="padding:3px;"><span class="FontNorm"><label><input type="radio" name="p[optionID]" value="{$curOption.optionID}"/>&nbsp;{$curOption.optionTitle}</label></span></td></tr>
    {/foreach}
    </table>
+   </td></tr>
+   <tr><td class="CellButtons"><input type="submit" class="FormBButton" value="{$modules.Language->getString('Vote')}"/></td></tr>
   {/if}
- </span></td></tr>
  </table>
+ </form>
  <br/>
 {/if}
 <table class="TableStd" width="100%">

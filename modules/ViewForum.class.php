@@ -15,7 +15,7 @@ class ViewForum extends ModuleTemplate {
 		$forumID = isset($_GET['forumID']) ? intval($_GET['forumID']) : 0;
 		$page = isset($_GET['page']) ? $_GET['page'] : 1;
 
-		if(!$forumData = Functions::getForumData($forumID)) die('Cannot load data: Forum');
+		if(!$forumData = FuncForums::getForumData($forumID)) die('Cannot load data: Forum');
 
 		$this->modules['Language']->addFile('ViewForum');
 

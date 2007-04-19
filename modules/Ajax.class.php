@@ -25,7 +25,7 @@ class Ajax extends ModuleTemplate {
 
 				if($this->modules['Auth']->isLoggedIn() != 1) $error = 'Kann Beitrag nicht laden: Nicht eingeloggt';
 				elseif(!$postData = Functions::getPostData($postID)) $error = 'Kann Daten nicht laden: Beitrag';
-				elseif(!$forumData = Functions::getForumData($postData['forumID'])) $error = 'Kann Daten nicht laden: Forum';
+				elseif(!$forumData = FuncForums::getForumData($postData['forumID'])) $error = 'Kann Daten nicht laden: Forum';
 				else {
 					$authData = Functions::getAuthData($forumData,array('authIsMod','authEditPosts'));
 					if($authData['authEditPosts'] != 1) $error = 'Kann Beitrag nicht bearbeiten: Kein Zugriff';

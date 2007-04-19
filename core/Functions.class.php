@@ -120,18 +120,6 @@ class Functions {
 		return ($DB->getAffectedRows() == 1) ? $DB->fetchArray() : FALSE;
 	}
 
-	public static function getForumData($ForumID) {
-		$DB = Factory::singleton('DB');
-		$DB->query("SELECT * FROM ".TBLPFX."forums WHERE ForumID='$ForumID'");
-		return ($DB->getAffectedRows() == 1) ? $DB->fetchArray() : FALSE;
-	}
-
-	public static function getTopicData($TopicID) {
-		$DB = Factory::singleton('DB');
-		$DB->query("SELECT * FROM ".TBLPFX."topics WHERE TopicID='$TopicID'");
-		return ($DB->getAffectedRows() == 1) ? $DB->fetchArray() : FALSE;
-	}
-
 	public static function getPostData($PostID) {
 		$DB = Factory::singleton('DB');
 		$DB->query("SELECT * FROM ".TBLPFX."posts WHERE PostID='$PostID'");

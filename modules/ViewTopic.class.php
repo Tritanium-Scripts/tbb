@@ -41,9 +41,9 @@ class ViewTopic extends ModuleTemplate {
 		}
 
 		// Thema- und Forumdaten laden
-		if(!$topicData = Functions::getTopicData($topicID)) die('Kann Daten nicht laden: Thema'); // Themendaten laden
-		if($topicData['topicMovedID'] != 0 && ($topicData = Functions::getTopicData($topicData['topicMovedID'])) == FALSE) die('Thema wurde verschoben/kann neues Thema nicht laden!'); // Falls das Thema verschoben wurde und die neuen Daten nicht gefunden werden koennen
-		elseif($topicData['forumID'] != 0 && ($forumData = Functions::getForumData($topicData['forumID'])) == FALSE) die('Kann Daten nicht laden: Forum');
+		if(!$topicData = FuncTopics::getTopicData($topicID)) die('Kann Daten nicht laden: Thema'); // Themendaten laden
+		if($topicData['topicMovedID'] != 0 && ($topicData = FuncTopics::getTopicData($topicData['topicMovedID'])) == FALSE) die('Thema wurde verschoben/kann neues Thema nicht laden!'); // Falls das Thema verschoben wurde und die neuen Daten nicht gefunden werden koennen
+		elseif($topicData['forumID'] != 0 && ($forumData = FuncForums::getForumData($topicData['forumID'])) == FALSE) die('Kann Daten nicht laden: Forum');
 
 		$topicID = &$topicData['topicID']; // ID des Themas, ist wichtig, falls es ein verschobenes Thema ist
 		$forumID = &$topicData['forumID']; // ID des Forums

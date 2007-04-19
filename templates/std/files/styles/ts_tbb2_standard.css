@@ -209,6 +209,7 @@ table.TableStd{
 	border:2px #000000 solid;
 	border-spacing:1px;
 	empty-cells:show;
+	border-collapse:separate;
 }
 
 td.CellStd {
@@ -224,11 +225,26 @@ td.CellAlt {
 }
 
 td.CellHighlight {
-	padding:4px;
-	border:#000000 0px solid;
-	background-color:#B0C4DE;
+	padding:3px;
+	/*border:#000000 1px dashed;*/
+	border:#8c8c8c 1px dashed;
+	background-color:#d5dce5;
 }
-
+td.CellMessageBox {
+	padding:15px;
+	border:#ACACAC 1px solid;
+	background-color:#EEF0F2;
+	text-align:center;
+}
+/*tr.RowToHighlight {
+	padding:5px;
+	border:3px black solid;
+	margin:10px;
+}
+tr.RowToHighlight:hover {
+	padding:30px;
+	border:2px black solid;
+}*/
 
 /**
 *
@@ -365,6 +381,17 @@ td.CellButtons {
 	background-color:#778899;
 	border:1px #000000 solid;
 	padding:1px;
+}
+.FontButtonsStd {
+	font-family:verdana,arial;
+	font-size:13px;
+	color:#FFFFFF;
+}
+
+.FontButtonsSmall {
+	font-family:verdana,arial;
+	font-size:10px;
+	color:#FFFFFF;
 }
 
 
