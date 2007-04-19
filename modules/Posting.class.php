@@ -27,7 +27,7 @@ class Posting extends ModuleTemplate {
 				if(!$postData = Functions::getPostData($postID)) die('Kann Daten nicht laden: Beitrag');
 				$topicID = &$postData['topicID'];
 			case 'Reply':
-				if(!$topicData = Functions::getTopicData($topicID)) die('Kann Daten nicht laden: Thema');
+				if(!$topicData = FuncTopics::getTopicData($topicID)) die('Kann Daten nicht laden: Thema');
 				$forumID = &$topicData['forumID'];
 			case 'Topic':
 				if(!$forumData = FuncForums::getForumData($forumID)) die('Kann Daten nicht laden: Forum');

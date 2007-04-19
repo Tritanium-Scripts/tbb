@@ -15,7 +15,7 @@ class EditTopic extends ModuleTemplate {
 		$mode = isset($_GET['mode']) ? $_GET['mode'] : 'edit';
 
 		if($this->modules['Auth']->isLoggedIn() != 1) die('Access denied: not logged in');
-		elseif(!$topicData = Functions::getTopicData($topicID)) die('Cannot load data: topic');
+		elseif(!$topicData = FuncTopics::getTopicData($topicID)) die('Cannot load data: topic');
 		elseif($topicData['topicMovedID'] != 0) die('Cannot edit topic: moved topic');
 		elseif(!$forumData = FuncForums::getForumData($topicData['forumID'])) die('Cannot load data: forum');
 
@@ -152,7 +152,7 @@ class EditTopic extends ModuleTemplate {
 					$this->modules['Navbar']->addElement($this->modules['Language']->getString('Move_topic'),INDEXFILE."action=EditTopic&amp;topicID=$topicID&amp;mode=Move&amp;".MYSID);
 
 					if(isset($_GET['doit'])) {
-						if(!$targetForumData = Functions::getForumData($p['targetForumID'])) $error = $this->modules['Language']->getString('error_invalid_forum');
+						if(!$targetForumData = FuncForums::getForumData($p['targetForumID'])) $error = $this->modules['Language']->getString('error_invalid_forum');
 						else {
 							$this->modules['DB']->query("UPDATE ".TBLPFX."topics SET forumID='".$p['targetForumID']."' WHERE topicID='$topicID'");
 							$this->modules['DB']->query("UPDATE ".TBLPFX."posts SET forumID='".$p['targetForumID']."' WHERE topicID='$topicID'");
