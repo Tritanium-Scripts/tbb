@@ -14,7 +14,7 @@ function switchCatStatus(catID) {
 		for(i = 0; i < closedCatIDs.length; i++) {
 			if(closedCatIDs[i] == catID) {
 				closedCatIDs.splice(i,1);
-				setCookieValue("ClosedCatIDs",closedCatIDs.join("."));
+				setCookieValue("closedCatIDs",closedCatIDs.join("."));
 				break;
 			}
 		}

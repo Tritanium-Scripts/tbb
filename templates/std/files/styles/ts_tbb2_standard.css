@@ -344,7 +344,7 @@ td.CellNav {
 }
 td.CellNav:hover {
 	background-color:#E5F3FF;
-	border:1px #4169E1 dotted;
+	border:1px #4169E1 dashed;
 	cursor:pointer;
 	padding:2px;
 }

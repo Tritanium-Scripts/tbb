@@ -36,9 +36,48 @@ class EditTopic extends ModuleTemplate {
 			$error = '';
 
 			$p = Functions::getSGValues($_POST['p'],array('topicTitle','smileyID'),'',Functions::addSlashes($topicData));
+			$c = array();
+
+			if($topicData['topicHasPoll'] == 1) {
+				$this->modules['Language']->addFile('Posting');
+
+				$this->modules['DB']->query("SELECT * FROM ".TBLPFX."polls WHERE topicID='$topicID'");
+				$pollData = $this->modules['DB']->fetchArray();
+				$pollID = &$pollData['pollID'];
+
+				$this->modules['DB']->query("SELECT * FROM ".TBLPFX."polls_options WHERE pollID='$pollID' ORDER BY optionID ASC");
+				$optionsData = $this->modules['DB']->raw2Array();
+
+				$p['optionsData'] = array();
+
+				foreach($optionsData AS $curOption)
+					$p['optionsData'][$curOption['optionID']] = isset($_POST['p']['optionsData'][$curOption['optionID']]) ? $_POST['p']['optionsData'][$curOption['optionID']] : Functions::addSlashes($curOption['optionTitle']);
+
+				$p['pollDuration'] = isset($_POST['p']['pollDuration']) ? intval($_POST['p']['pollDuration']) : (($pollData['pollEndTimestamp']-$pollData['pollStartTimestamp'])/86400);
+
+				$p += Functions::getSGValues($_POST['p'],array('pollTitle'),'',Functions::addSlashes($pollData));
+				$c = Functions::getSGValues($pollData,array('pollGuestsVote','pollShowResultsAfterEnd','pollGuestsViewResults'),0);
+
+				$this->modules['Template']->assign('optionsData',$optionsData);
+			}
 
 			if(isset($_GET['doit'])) {
+				if($topicData['topicHasPoll'] == 1) {
+					$optionTitleMissing = FALSE;
+					foreach($p['optionsData'] AS $curOption) {
+						if(trim($curOption) == '') {
+							$optionTitleMissing = TRUE;
+							break;
+						}
+					}
+				}
+
+				$c = Functions::getSGValues($_POST['c'],array('pollGuestsVote','pollShowResultsAfterEnd','pollGuestsViewResults'),0);
+
 				if(trim($p['topicTitle']) == '') $error = $this->modules['Language']->getString('error_no_title');
+				elseif($topicData['topicHasPoll'] == 1 && trim($p['pollTitle']) == '') $error = $this->modules['Language']->getString('error_poll_title_missing');
+				elseif($topicData['topicHasPoll'] == 1 && $optionTitleMissing) $error = $this->modules['Language']->getString('error_poll_option_missing');
+				elseif($topicData['topicHasPoll'] == 1 && $p['pollDuration'] <= 0) $error = $this->modules['Language']->getString('error_invalid_poll_duration');
 				else {
 					$this->modules['DB']->query("
 						UPDATE
@@ -60,6 +99,24 @@ class EditTopic extends ModuleTemplate {
 							postID='".$topicData['topicFirstPostID']."'
 					");
 
+					if($topicData['topicHasPoll'] == 1) {
+						$this->modules['DB']->query("
+							UPDATE
+								".TBLPFX."polls
+							SET
+								pollTitle='".$p['pollTitle']."',
+								pollEndTimestamp='".($pollData['pollStartTimestamp']+$p['pollDuration']*86400)."',
+								pollGuestsVote='".$c['pollGuestsVote']."',
+								pollGuestsViewResults='".$c['pollGuestsViewResults']."',
+								pollShowResultsAfterEnd='".$c['pollShowResultsAfterEnd']."'
+							WHERE
+								pollID='$pollID'
+						");
+
+						foreach($p['optionsData'] AS $curKey => $curValue)
+							$this->modules['DB']->query("UPDATE ".TBLPFX."polls_options SET optionTitle='".$curValue."' WHERE pollID='$pollID' AND optionID='$curKey'");
+					}
+
 					Functions::myHeader(INDEXFILE."?action=ViewTopic&topicID=$topicID&".MYSID);
 				}
 			}
@@ -70,9 +127,11 @@ class EditTopic extends ModuleTemplate {
 
 			$this->modules['Template']->assign(array(
 				'p'=>Functions::HTMLSpecialChars(Functions::stripSlashes($p)),
+				'c'=>$c,
 				'error'=>$error,
 				'postPicsBox'=>$postPicsBox,
-				'topicID'=>$topicID
+				'topicID'=>$topicID,
+				'topicData'=>$topicData
 			));
 			$this->modules['PageParts']->printPage('EditTopicEdit.tpl');
 		}

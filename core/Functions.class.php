@@ -62,7 +62,8 @@ class Functions {
 		$ValuesArray = array();
 
 		while(list(,$curValue) = each($KeysArray)) {
-			$ValuesArray[$curValue] = isset($SGVar[$curValue]) ? $SGVar[$curValue] : (isset($stdValues[$curValue]) ? $stdValues[$curValue] : $stdValue);
+			if(is_array($curValue)) $ValuesArray[$curValue[0]] = isset($SGVar[$curValue[0]]) ? $SGVar[$curValue[0]] : (isset($stdValues[$curValue[0]]) ? $stdValues[$curValue[0]] : $curValue[1]);
+			else $ValuesArray[$curValue] = isset($SGVar[$curValue]) ? $SGVar[$curValue] : (isset($stdValues[$curValue]) ? $stdValues[$curValue] : $stdValue);
 		}
 
 		return $ValuesArray;

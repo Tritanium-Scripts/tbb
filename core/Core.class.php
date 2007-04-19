@@ -39,12 +39,11 @@ class Core extends ModuleTemplate {
 			$_GET = Functions::addSlashes($_GET);
 			$_REQUEST = Functions::addSlashes($_REQUEST);
 		}
-		if(isset($_POST['p']) == FALSE || is_array($_POST['p']) == FALSE) $_POST['p'] = array();
-		if(isset($_POST['c']) == FALSE || is_array($_POST['c']) == FALSE) $_POST['c'] = array();
-		if(isset($_GET['doIt'])) {
-			while(list($curKey) = each($_POST['c'])) {
-				$_POST['c'][$curKey] = 1;
-			}
+		if(!isset($_POST['p']) || !is_array($_POST['p'])) $_POST['p'] = array();
+		if(!isset($_POST['c']) || !is_array($_POST['c'])) $_POST['c'] = array();
+		if(isset($_GET['doit'])) {
+			foreach($_POST['c'] AS &$curValue)
+				$curValue = 1;
 		}
 
 		/**

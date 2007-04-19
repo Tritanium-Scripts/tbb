@@ -4,3 +4,6 @@ Target_forum = Zielforum
 Create_reference_topic = Referenz zu verschobenen Thema im alten Forum erstellen
 Topic_moved = Thema verschoben
 error_invalid_forum = Bitte w&auml;hlen Sie ein g&uuml;ltiges Forum aus
+error_poll_title_missing = Bitte geben Sie einen g&uuml;ltigen Titel f&uuml;r die Umfrage an
+error_poll_option_missing = Bitte geben Sie g&uuml;ltige Antwortm&ouml;glichkeiten an
+error_invalid_poll_duration = Bitte geben Sie eine g&uuml;ltige Umfragedauer an
