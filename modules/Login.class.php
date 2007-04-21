@@ -33,7 +33,7 @@ class Login extends ModuleTemplate {
 					// 3) das Passwort stimmt, bzw. das Passwort mit einem neu angeforderten ueberein stimmt
 					// 4) der User gesperrt ist und falls ja wie lange
 					//
-					if(trim($userNick) == '' || ($userData = Functions::getUserData($userNick)) == FALSE) $error = $this->modules['Language']->getString('error_unknown_user');
+					if(trim($userNick) == '' || ($userData = FuncUsers::getUserData($userNick)) == FALSE) $error = $this->modules['Language']->getString('error_unknown_user');
 					elseif($userData['userIsActivated'] != 1) $error = sprintf($this->modules['Language']->getString('error_inactive_account'),$userData['userNick']);
 					elseif(Functions::getSaltedHash($p['userPassword'],$userData['userPasswordSalt']) != $userData['userPassword'] && ($userData['userNewPassword'] == '' || Functions::getSaltedHash($p['userPassword'],$userData['userNewPasswordSalt']) != $userData['userNewPassword'])) $error = $this->modules['Language']->getString('error_wrong_password');
 					elseif($userData['userIsLocked'] == 1 && Functions::checkLockStatus($userData['userID'])) { // Falls der Benutzer sich nicht mehr einloggen darf
@@ -118,7 +118,7 @@ class Login extends ModuleTemplate {
 				if(isset($_GET['doit'])) {
 					if(!$accountID = Functions::getUserID($accountID)) $error = $this->modules['Language']->getString('error_unknown_user');
 					else {
-						$accountData = Functions::getUserData($accountID);
+						$accountData = FuncUsers::getUserData($accountID);
 						if($accountData['userIsActivated'] != 0 || $accountData['userHash'] == '') $error = $this->modules['Language']->getString('error_no_inactive_account');
 						elseif($accountData['userHash'] != $activationCode) $error = $this->modules['Language']->getString('error_wrong_activationCode');
 						else {

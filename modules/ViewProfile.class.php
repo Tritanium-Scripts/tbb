@@ -17,7 +17,7 @@ class ViewProfile extends ModuleTemplate {
 
 		$profileID = isset($_GET['profileID']) ? intval($_GET['profileID']) : 0;
 
-		if(!$profileData = Functions::getUserData($profileID)) die('Cannot load data: Profile');
+		if(!$profileData = FuncUsers::getUserData($profileID)) die('Cannot load data: Profile');
 
 		$userIsMod = Functions::checkModStatus(USERID);
 
