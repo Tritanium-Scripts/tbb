@@ -159,7 +159,7 @@ class Login extends ModuleTemplate {
 				$this->modules['Navbar']->addElement($this->modules['Language']->getString('Request_new_password'),INDEXFILE."?action=Login&amp;mode=RequestPassword&amp;".MYSID);
 
 				if(isset($_GET['doit'])) {
-					if(!$userData = Functions::getUserData($p['userName'])) $error = $this->modules['Language']->getString('error_unknown_user');
+					if(!$userData = FuncUsers::getUserData($p['userName'])) $error = $this->modules['Language']->getString('error_unknown_user');
 					elseif($userData['userEmailAddress'] != $p['emailAddress']) $error = $this->modules['Language']->getString('error_wrong_email_address');
 					else {
 						$newPassword = Functions::getRandomString(8);
