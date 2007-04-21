@@ -115,7 +115,7 @@ languages/de/ViewTopic.language -text
 languages/de/WhoIsOnline.language -text
 languages/de/mails/RegistrationAccountVerification.mail -text
 languages/de/mails/RegistrationWelcome.mail -text
-modules/AdminMain.class.php -text
+modules/AdminIndex.class.php -text
 modules/Ajax.class.php -text
 modules/Auth.class.php -text
 modules/AuthAdmin.class.php -text
@@ -218,7 +218,7 @@ modules/ViewProfile.class.php -text
 modules/ViewTopic.class.php -text
 modules/Vote.class.php -text
 modules/WhoIsOnline.class.php -text
-templates/std/files/AdminMain.tpl -text
+templates/std/files/AdminIndex.tpl -text
 templates/std/files/AdminPageHeader.tpl -text
 templates/std/files/AdminPageTail.tpl -text
 templates/std/files/AjaxResult.xml -text

@@ -38,37 +38,54 @@ class PageParts extends ModuleTemplate {
 	}
 
 	public function printHeader() {
-		if($this->modules['Config']->getValue('board_logo') != '') $boardBanner = '<img src="'.$this->modules['Config']->getValue('board_logo').'" alt="'.$this->modules['Config']->getValue('board_name').'" />';
-		else $boardBanner = $this->modules['Config']->getValue('board_name');
-
-		if($this->modules['Auth']->isLoggedIn() == 1) $welcomeText = sprintf($this->modules['Language']->getString('welcome_logged_in'),$this->modules['Auth']->getValue('UserNick'),Functions::toTime(time()),INDEXFILE,MYSID);
-		else $welcomeText = sprintf($this->modules['Language']->getString('welcome_not_logged_in'),$this->modules['Config']->getValue('board_name'),INDEXFILE,MYSID);
-
-		$this->modules['Template']->assign(array(
-			'BoardBanner'=>$boardBanner,
-			'WelcomeText'=>$welcomeText
-		));
-
-		$this->modules['Template']->display('PageHeader.tpl');
-
-		if($this->flags['inEditProfile'])
-			$this->modules['Template']->display('EditProfileHeader.tpl');
-		elseif($this->flags['inPrivateMessages']) {
-			$this->modules['DB']->query("SELECT folderName,folderID FROM ".TBLPFX."pms_folders WHERE userID='".USERID."' ORDER BY folderName");
-			$headerFoldersData = $this->modules['DB']->raw2Array();
-
-			array_unshift($headerFoldersData, // Fuegt an den Anfang die Standardordner hinzu...
-				array('folderID'=>0,'folderName'=>$this->modules['Language']->getString('Inbox')),
-				array('folderID'=>1,'folderName'=>$this->modules['Language']->getString('Outbox'))
+		if($this->flags['inAdministration']) {
+			$navigation = array(
+				array(INDEXFILE.'?action=AdminIndex'.MYSID,$this->modules['Language']->getString('Overview'),'AdminIndex'),
+				array(INDEXFILE.'?action=AdminUsers&amp;'.MYSID,$this->modules['Language']->getString('Manage_users'),'AdminUsers'),
+				array(INDEXFILE.'?action=AdminProfile&amp;'.MYSID,$this->modules['Language']->getString('Manage_profile_fields'),'AdminProfile'),
+				array(INDEXFILE.'?action=AdminForums&amp;'.MYSID,$this->modules['Language']->getString('Manage_forums'),'AdminForums'),
+				array(INDEXFILE.'?action=AdminSmilies&amp;'.MYSID,$this->modules['Language']->getString('Manage_smilies'),'AdminSmilies'),
+				array(INDEXFILE.'?action=AdminConfig&amp;'.MYSID,$this->modules['Language']->getString('Boardconfig'),'AdminConfig'),
+				array(INDEXFILE.'?action=AdminTemplates&amp;'.MYSID,$this->modules['Language']->getString('Manage_templates'),'AdminTemplates'),
+				array(INDEXFILE.'?action=AdminGroups&amp;'.MYSID,$this->modules['Language']->getString('Manage_groups'),'AdminGroups'),
+				array(INDEXFILE.'?action=AdminRanks&amp;'.MYSID,$this->modules['Language']->getString('Manage_ranks'),'AdminRanks'),
+				array(INDEXFILE.'?action=AdminAvatars&amp;'.MYSID,$this->modules['Language']->getString('Manage_avatars'),'AdminAvatars'),
+				array('-','','')
 			);
-			reset($headerFoldersData);
 
-			$this->modules['Template']->assign('headerFoldersData',$headerFoldersData);
+			$this->modules['Template']->assign('navigation',$navigation);
 
-			$this->modules['Template']->display('PrivateMessagesHeader.tpl');
-		}
-		elseif($this->flags['inAdministration']) {
 			$this->modules['Template']->display('AdminPageHeader.tpl');
+		} else {
+			if($this->modules['Config']->getValue('board_logo') != '') $boardBanner = '<img src="'.$this->modules['Config']->getValue('board_logo').'" alt="'.$this->modules['Config']->getValue('board_name').'" />';
+			else $boardBanner = $this->modules['Config']->getValue('board_name');
+
+			if($this->modules['Auth']->isLoggedIn() == 1) $welcomeText = sprintf($this->modules['Language']->getString('welcome_logged_in'),$this->modules['Auth']->getValue('UserNick'),Functions::toTime(time()),INDEXFILE,MYSID);
+			else $welcomeText = sprintf($this->modules['Language']->getString('welcome_not_logged_in'),$this->modules['Config']->getValue('board_name'),INDEXFILE,MYSID);
+
+			$this->modules['Template']->assign(array(
+				'boardBanner'=>$boardBanner,
+				'welcomeText'=>$welcomeText
+			));
+
+			$this->modules['Template']->display('PageHeader.tpl');
+
+			if($this->flags['inEditProfile'])
+				$this->modules['Template']->display('EditProfileHeader.tpl');
+			elseif($this->flags['inPrivateMessages']) {
+				$this->modules['DB']->query("SELECT folderName,folderID FROM ".TBLPFX."pms_folders WHERE userID='".USERID."' ORDER BY folderName");
+				$headerFoldersData = $this->modules['DB']->raw2Array();
+
+				array_unshift($headerFoldersData, // Fuegt an den Anfang die Standardordner hinzu...
+					array('folderID'=>0,'folderName'=>$this->modules['Language']->getString('Inbox')),
+					array('folderID'=>1,'folderName'=>$this->modules['Language']->getString('Outbox'))
+				);
+				reset($headerFoldersData);
+
+				$this->modules['Template']->assign('headerFoldersData',$headerFoldersData);
+
+				$this->modules['Template']->display('PrivateMessagesHeader.tpl');
+			}
 		}
 	}
 
@@ -96,15 +113,19 @@ class PageParts extends ModuleTemplate {
 	}
 
 	public function printTail() {
-		if($this->flags['inEditProfile'] == TRUE)
-			$this->modules['Template']->display('EditProfileTail.tpl');
-		elseif($this->flags['inPrivateMessages'] == TRUE)
-			$this->modules['Template']->display('PrivateMessagesTail.tpl');
-		elseif($this->flags['inAdministration']) {
+		if($this->flags['inAdministration']) {
 			$this->modules['Template']->display('AdminPageTail.tpl');
-		}
+		} else {
+			if($this->flags['inEditProfile'] == TRUE)
+				$this->modules['Template']->display('EditProfileTail.tpl');
+			elseif($this->flags['inPrivateMessages'] == TRUE)
+				$this->modules['Template']->display('PrivateMessagesTail.tpl');
+			elseif($this->flags['inAdministration']) {
+				$this->modules['Template']->display('AdminPageTail.tpl');
+			}
 
-		$this->modules['Template']->display('PageTail.tpl');
+			$this->modules['Template']->display('PageTail.tpl');
+		}
 	}
 
 	public function printPopupHeader() {

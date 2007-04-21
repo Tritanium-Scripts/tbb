@@ -1,6 +1,6 @@
 <?php
 
-class AdminMain extends ModuleTemplate {
+class AdminIndex extends ModuleTemplate {
 	protected $requiredModules = array(
 		'Auth',
 		'AuthAdmin',
@@ -11,7 +11,7 @@ class AdminMain extends ModuleTemplate {
 
 	public function executeMe() {
 		$this->modules['Language']->addFile('AdminMain');
-		$this->modules['PageParts']->printPage('AdminMain.tpl');
+		$this->modules['PageParts']->printPage('AdminIndex.tpl');
 	}
 }
 

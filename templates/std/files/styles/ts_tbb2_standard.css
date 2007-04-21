@@ -251,6 +251,12 @@ tr.RowToHighlight:hover {
 * Die allgemeinen Schriftarten
 *
 **/
+.FontBig {
+	font-family:verdana,arial;
+	font-size:17px;
+	color:#000000;
+}
+
 .FontNorm {
 	font-family:verdana,arial;
 	font-size:13px;
@@ -337,16 +343,33 @@ td.CellCat {
  * Die Navigation z.B. im Profil (nicht die Navigationsleiste!)
  *
  **/
+td.CellNavActive {
+	background-color:#a9b3d9;
+	padding:4px;
+	padding-top:7px;
+	padding-bottom:7px;
+	cursor:default;
+	border:1px #838ba8 solid;
+}
+td.CellNone {
+	background-color:#F7F7F7;
+	text-align:center;
+}
 td.CellNav {
 	background-color:#F7F7F7;
-	padding:3px;
+	padding:4px;
+	padding-top:7px;
+	padding-bottom:7px;
 	cursor:default;
+	border:1px lightgray dotted;
 }
 td.CellNav:hover {
 	background-color:#E5F3FF;
-	border:1px #4169E1 dashed;
+	border:1px #4169E1 solid;
 	cursor:pointer;
-	padding:2px;
+	padding:4px;
+	padding-top:7px;
+	padding-bottom:7px;
 }
 
 td.CellNavNone {
@@ -361,9 +384,9 @@ table.TableNav {
 
 a.FontNav {
 	font-family:verdana,arial;
-	font-size:13px;
+	font-size:11px;
 	color:darkblue;
-	font-weight:bold;
+	/*font-weight:bold;*/
 	text-decoration:none;
 }
 a.FontNav:visited {

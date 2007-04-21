@@ -34,7 +34,7 @@ class MemberList extends ModuleTemplate {
 		$this->modules['DB']->query("SELECT COUNT(*) AS UsersCounter FROM ".TBLPFX."users");
 		list($usersCounter) = $this->modules['DB']->fetchArray();
 
-		$pageListing = Functions::createPageListing($usersCounter,$usersPerPage,$page,'<a href="'.INDEXFILE.'?Action=MemberList&amp;OrderBy='.$orderBy.'&amp;OrderType='.$orderType.'&amp;UsersPerPage='.$usersPerPage.'&amp;Page=%1$s&amp;'.MYSID.'">%2$s</a>');
+		$pageListing = Functions::createPageListing($usersCounter,$usersPerPage,$page,'<a href="'.INDEXFILE.'?action=MemberList&amp;orderBy='.$orderBy.'&amp;orderType='.$orderType.'&amp;usersPerPage='.$usersPerPage.'&amp;page=%1$s&amp;'.MYSID.'">%2$s</a>');
 		$start = $page*$usersPerPage-$usersPerPage;
 
 		$this->modules['Navbar']->setRightArea($pageListing);

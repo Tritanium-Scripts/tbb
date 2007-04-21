@@ -232,18 +232,15 @@ class EditProfile extends ModuleTemplate {
 				$p = array();
 				$p['userMemo'] = isset($_POST['p']['userMemo']) ? $_POST['p']['userMemo'] : addslashes($this->modules['Auth']->getValue('userMemo'));
 
-				$memoWasUpdated = FALSE;
+				$this->modules['Navbar']->addelement($this->modules['Language']->getString('Memo'),INDEXFILE.'?action=EditProfile&amp;mode=Memo&amp;'.MYSID);
 
 				if(isset($_GET['doit'])) {
 					$this->modules['DB']->query("UPDATE ".TBLPFX."users SET userMemo='".$p['userMemo']."' WHERE userID='".USERID."'");
-					$memoWasUpdated = TRUE;
+					$this->modules['PageParts']->printMessage('memo_updated'); exit;
 				}
 
-				//add_navbar_items(array($this->modules['Language']->getString('Memo'),"index.php?action=editprofile&amp;mode=memo&amp;$mYSID"));
-
 				$this->modules['Template']->assign(array(
-					'p'=>Functions::HTMLSpecialChars(Functions::stripSlashes($p)),
-					'memoWasUpdated'=>$memoWasUpdated
+					'p'=>Functions::HTMLSpecialChars(Functions::stripSlashes($p))
 				));
 				$this->modules['PageParts']->printPage('EditProfileMemo.tpl');
 				break;

@@ -12,7 +12,7 @@
 {foreach from=$usersData item=curUser}
  <tr onmouseover="setRowCellsClass(this,'CellHighlight');" onmouseout="restoreRowCellsClass(this);">
   <td class="CellStd"><span class="FontNorm">{$curUser.userID}</span></td>
-  <td class="CellAlt"><span class="FontNorm">{$curUser.userNick}</span></td>
+  <td class="CellAlt"><span class="FontNorm"><a href="{$indexFile}?action=ViewProfile&amp;profileID={$curUser.userID}&amp;{$mySID}">{$curUser.userNick}</a></span></td>
   <td class="CellStd"><span class="FontNorm">{$curUser._userRankName}</span></td>
   <td class="CellAlt"><span class="FontNorm">{$curUser.userPostsCounter}</span></td>
   {foreach from=$curUser._userFieldsValues item=curFieldValue}
@@ -36,7 +36,7 @@
   <option value="20">20</option>
   <option value="50">50</option>
   <option value="100">100</option>
- </select>&nbsp;&nbsp;&nbsp;<input class="FormBButton" type="submit" value="{$modules.Language->getString('Go')}" />
+ </select>&nbsp;&nbsp;&nbsp;<input class="FormBButton" type="submit" value="{$modules.Language->getString('Go')}"/>
 </td></tr>
 </table>
 </form>
