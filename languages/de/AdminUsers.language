@@ -1,0 +1,27 @@
+Add_user = Benutzer hinzuf&uuml;gen
+Unlock_users = Benutzer freischalten
+No_locked_users = Keine Benutzer vorhanden
+Search_users = Benutzer suchen
+Unlock_selected_users = Gew&auml;hlte Benutzer freischalten
+unlock = freischalten
+Notify_user_registration = Den Benutzer &uuml;ber die Registrierung per Email informieren
+User_added = Benutzer hinzugef&uuml;gt
+search_users_info = Hier k&ouml;nnen Sie nach Benutzern unter Angabe von User-ID, Benutzername und/oder Emailadresse suchen. Als Platzhalter k&ouml;nnen Sie * verwenden.
+Search_results = Suchergebnisse
+Edit_user = Benutzer bearbeiten
+Delete_user = Benutzer l&ouml;schen
+Lock_user = Benutzer sperren
+Delete_users_posts = Beitr&auml;ge des Benutzers l&ouml;schen
+Ban_nick_email = Benutzername und Emailadresse sperren
+Ban_time = Sperrzeit
+ban_time_info = in Stunden; -1 = f&uuml;r immer
+Ban_type = Sperrtyp
+User_must_not_login = Benutzer darf sich nicht mehr einloggen
+User_must_not_write = Benutzer darf sich noch einloggen, aber keine Beitr&auml;ge mehr verfassen
+User_is_admin = Benutzer ist Administrator (hat Zugriff auf die Administration)
+User_is_supermod = Benutzer ist Supermoderator (ist in allen Foren automatisch Moderator)
+User_edited = Benutzer bearbeitet
+User_deleted = Benutzer gel&ouml;scht
+Unlock_user = Benutzer entsperren
+Remaining_lock_time = Verbleibende Sperrzeit
+No_special_rank = Kein Spezialrang

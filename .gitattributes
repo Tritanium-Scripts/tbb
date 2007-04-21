@@ -14,9 +14,13 @@ docs/dbstructure.sql -text
 docs/farben[!!-~]logo.txt -text
 docs/history.txt -text
 docs/testdata.sql -text
+functions/FuncConfig.class.php -text
+functions/FuncDate.class.php -text
 functions/FuncForums.class.php -text
 functions/FuncPolls.class.php -text
+functions/FuncRanks.class.php -text
 functions/FuncTopics.class.php -text
+functions/FuncUsers.class.php -text
 images/Thumbs.db -text
 images/bck.jpg -text
 images/dot.gif -text
@@ -96,6 +100,8 @@ images/tsmilies/9.gif -text
 images/tsmilies/Thumbs.db -text
 /index.php -text
 languages/de/AdminMain.language -text
+languages/de/AdminRanks.language -text
+languages/de/AdminUsers.language -text
 languages/de/BoardRules.language -text
 languages/de/EditProfile.language -text
 languages/de/EditTopic.language -text
@@ -116,6 +122,7 @@ languages/de/WhoIsOnline.language -text
 languages/de/mails/RegistrationAccountVerification.mail -text
 languages/de/mails/RegistrationWelcome.mail -text
 modules/AdminIndex.class.php -text
+modules/AdminUsers.class.php -text
 modules/Ajax.class.php -text
 modules/Auth.class.php -text
 modules/AuthAdmin.class.php -text
@@ -221,6 +228,10 @@ modules/WhoIsOnline.class.php -text
 templates/std/files/AdminIndex.tpl -text
 templates/std/files/AdminPageHeader.tpl -text
 templates/std/files/AdminPageTail.tpl -text
+templates/std/files/AdminUsers.tpl -text
+templates/std/files/AdminUsersAddUser.tpl -text
+templates/std/files/AdminUsersEditUser.tpl -text
+templates/std/files/AdminUsersSearchUsers.tpl -text
 templates/std/files/AjaxResult.xml -text
 templates/std/files/BBCodeHtml.tpl -text
 templates/std/files/EditProfileAvatar.tpl -text

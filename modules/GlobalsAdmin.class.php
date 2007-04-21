@@ -8,6 +8,7 @@ class GlobalsAdmin extends ModuleTemplate {
 	);
 
 	public function initializeMe() {
+		$this->modules['Language']->addFile('AdminMain');
 		$this->modules['Navbar']->addElement($this->modules['Language']->getString('Administration'),INDEXFILE.'?action=AdminIndex&amp;'.MYSID);
 		$this->modules['PageParts']->setFlag('inAdministration',TRUE);
 	}

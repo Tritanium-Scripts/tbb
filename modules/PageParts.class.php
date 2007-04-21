@@ -40,7 +40,7 @@ class PageParts extends ModuleTemplate {
 	public function printHeader() {
 		if($this->flags['inAdministration']) {
 			$navigation = array(
-				array(INDEXFILE.'?action=AdminIndex'.MYSID,$this->modules['Language']->getString('Overview'),'AdminIndex'),
+				array(INDEXFILE.'?action=AdminIndex&amp;'.MYSID,$this->modules['Language']->getString('Overview'),'AdminIndex'),
 				array(INDEXFILE.'?action=AdminUsers&amp;'.MYSID,$this->modules['Language']->getString('Manage_users'),'AdminUsers'),
 				array(INDEXFILE.'?action=AdminProfile&amp;'.MYSID,$this->modules['Language']->getString('Manage_profile_fields'),'AdminProfile'),
 				array(INDEXFILE.'?action=AdminForums&amp;'.MYSID,$this->modules['Language']->getString('Manage_forums'),'AdminForums'),

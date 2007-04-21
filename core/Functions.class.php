@@ -112,15 +112,6 @@ class Functions {
 		return mail($To,$Subject,$Message,$AdditionalHeaders);
 	}
 
-	public static function getUserData($UserID) {
-		$DB = Factory::singleton('DB');
-		if(!preg_match('/^[0-9]{1,}$/si',$UserID))
-			$DB->query("SELECT * FROM ".TBLPFX."users WHERE UserNick='$UserID'");
-		else
-			$DB->query("SELECT * FROM ".TBLPFX."users WHERE UserID='$UserID'");
-		return ($DB->getAffectedRows() == 1) ? $DB->fetchArray() : FALSE;
-	}
-
 	public static function getPostData($PostID) {
 		$DB = Factory::singleton('DB');
 		$DB->query("SELECT * FROM ".TBLPFX."posts WHERE PostID='$PostID'");

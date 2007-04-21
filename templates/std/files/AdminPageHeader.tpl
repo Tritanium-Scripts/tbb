@@ -33,10 +33,10 @@
 <tr>
  <td valign="top" width="200">
   <table class="TableStd" cellspacing="0" width="100%">
-  <tr><td class="CellCat"><span class="FontCat">{$modules.Language->getString('Navigation')}</span></td></tr>
+  <tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('Navigation')}</span></td></tr>
   {foreach from=$navigation item=curNav}
    {if $curNav.0 == '-'}
-    <tr><td class="CellNavNone"><hr style="color:black; background-color:black; height:1px; margin:4px; padding:0px; border:1px black solid;"/></td></tr>
+    <tr><td class="CellNavNone"><hr class="LineNav"/></td></tr>
    {else}
     <tr><td class="{if $smarty.get.action == $curNav.2}CellNavActive{else}CellNav{/if}" onclick="goTo('{$curNav.0}');"><a class="FontNav" href="{$curNav.0}">{$curNav.1}</a></td></tr>
    {/if}

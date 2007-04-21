@@ -377,7 +377,14 @@ td.CellNavNone {
 	padding:3px;
 	cursor:default;
 }
-
+hr.LineNav {
+	color:black;
+	background-color:black;
+	height:1px;
+	margin:4px;
+	padding:0px;
+	border:1px black solid;
+}
 table.TableNav {
 	border:#ACACAC 1px solid;
 }

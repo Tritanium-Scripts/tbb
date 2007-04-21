@@ -19,6 +19,8 @@ message_text_user_edited = Der Benutzer wurde erfolgreich bearbeitet.
 message_text_email_sent = Die Email wurde erfolgreich verschickt.
 message_text_settings_successfully_saved = Die Einstellungen wurden erfolgreich gespeichert
 
+message_title_user_edited =Benutzer bearbeitet
+message_text_user_edited = Der Benutzer wurde erfolgreich bearbeitet
 message_title_memo_updated = Notizzettel gespeichert
 message_text_memo_updated = Ihr Notizzettel wurde erfolgreich gespeichert
 message_title_registration_successful = Registrierung erfolgreich

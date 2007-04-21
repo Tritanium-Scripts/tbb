@@ -10,7 +10,6 @@ class AdminIndex extends ModuleTemplate {
 	);
 
 	public function executeMe() {
-		$this->modules['Language']->addFile('AdminMain');
 		$this->modules['PageParts']->printPage('AdminIndex.tpl');
 	}
 }

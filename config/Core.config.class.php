@@ -7,6 +7,7 @@ class CoreConfig extends ConfigTemplate {
 		'enableOutputCompression'=>TRUE,
 		'allowedActions'=>array(
 			'AdminIndex',
+			'AdminUsers',
 			'Ajax',
 			'EditProfile',
 			'EditTopic',
