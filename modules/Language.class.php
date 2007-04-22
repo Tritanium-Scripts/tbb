@@ -31,7 +31,7 @@ class Language extends ModuleTemplate {
 
 	public function addFile($fileName) {
 		if(!isset($this->loadedFiles[$fileName])) {
-			if(file_exists($this->languageDir.$fileName.'.language') == FALSE) die('Language file "'.$this->languageDir.$fileName.'.language" does not exist');
+			if(!file_exists($this->languageDir.$fileName.'.language')) die('Language file "'.$this->languageDir.$fileName.'.language" does not exist');
 
 			foreach(explode("\n",file_get_contents($this->languageDir.$fileName.'.language')) AS $curLine) {
 				preg_match('/^([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)[ ]*=[ ]*(.*)$/',rtrim($curLine),$matches);
@@ -49,7 +49,7 @@ class Language extends ModuleTemplate {
 	}
 
 	public function getString($index) {
-		if(isset($this->strings[$index]) == FALSE) {
+		if(!isset($this->strings[$index])) {
 			trigger_error('Language string "'.$index.'" does not exist');
 			return FALSE;
 		}

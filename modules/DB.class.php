@@ -15,6 +15,7 @@ class DB extends ModuleTemplate {
 
 		define('TBLPFX',$this->getTablePrefix());
 		$this->query("SET NAMES utf8");
+
 		/*/$this->query("update tbb2_posts set PostText = REPLACE(PostText,'Ã¶','ö')");
 		$this->query("update tbb2_posts set PostText = REPLACE(PostText,'Ã¤','ä')");
 		$this->query("update tbb2_posts set PostText = REPLACE(PostText,'Ã¼','ü')");

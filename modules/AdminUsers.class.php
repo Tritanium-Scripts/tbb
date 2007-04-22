@@ -19,9 +19,6 @@ class AdminUsers extends ModuleTemplate {
 
 		switch(@$_GET['mode']) {
 			default:
-				//$this->modules['DB']->query
-		//		$tpl->Blocks['nolockedusers']->parseCode();
-
 				$this->modules['PageParts']->printPage('AdminUsers.tpl');
 				break;
 

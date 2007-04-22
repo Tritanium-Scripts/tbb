@@ -10,7 +10,7 @@ class Auth extends ModuleTemplate {
 	protected $userData = array();
 
 	public function initializeMe() {
-		if(isset($_SESSION['userID']) == TRUE) {
+		if(isset($_SESSION['userID'])) {
 			$this->modules['DB']->query("SELECT * FROM ".TBLPFX."users WHERE userID='".$_SESSION['userID']."'");
 			if($this->modules['DB']->getAffectedRows() == 1) {
 				$tempUserData = $this->modules['DB']->fetchArray();

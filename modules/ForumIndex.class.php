@@ -18,7 +18,7 @@ class ForumIndex extends ModuleTemplate {
 		$catID = isset($_GET['catID']) ? intval($_GET['catID']) : $baseCatID;
 
 		// Kategoriedaten laden
-		if(($catsData = Functions::getCatsData($catID)) === FALSE) die('Wrong base cat id');
+		if(($catsData = FuncCats::getCatsData($catID)) === FALSE) die('Wrong base cat id');
 		$catsCounter = count($catsData);
 
 		// Sprachstrings laden

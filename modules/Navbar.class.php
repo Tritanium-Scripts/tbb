@@ -27,7 +27,7 @@ class Navbar extends ModuleTemplate {
 	}
 
 	public function addCategories($catID,$includeSelf = TRUE) {
-		$catsData = Functions::catsGetParentCatsData($catID,$includeSelf);
+		$catsData = FuncCats::getParentCatsData($catID,$includeSelf);
 
 		foreach($catsData AS $curCat)
 			$this->addElement(Functions::HTMLSpecialChars($curCat['catName']),INDEXFILE.'?catID='.$curCat['catID'].'&amp;'.MYSID);

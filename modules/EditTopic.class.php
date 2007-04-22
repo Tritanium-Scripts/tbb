@@ -263,7 +263,7 @@ class EditTopic extends ModuleTemplate {
 					//
 					// Kategorie- und Forendaten laden
 					//
-					$catsData = Functions::getCatsData();
+					$catsData = FuncCats::getCatsData();
 					$this->modules['DB']->query("SELECT forumID,forumName,catID FROM ".TBLPFX."forums WHERE forumID<>'$forumID'");
 					$forumsData = $this->modules['DB']->raw2Array();
 
