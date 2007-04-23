@@ -296,7 +296,18 @@ td.CellTitle {
 	background-image:url(../images/celltitle.gif);
 	background-color:#107AB0;
 }
-
+td.CellTitle a:link {
+	color:yellow;
+	text-decoration:none;
+}
+td.CellTitle a:visited {
+	color:yellow;
+	text-decoration:none;
+}
+td.CellTitle a:hover {
+	color:yellow;
+	text-decoration:underline;
+}
 
 /**
 *
@@ -315,18 +326,6 @@ td.CellTitle {
 	font-weight:bold;
 	color:#FFFFFF;
 }
-a.FontCat:link {
-	color:#FFFFFF;
-	text-decoration:none;
-}
-a.FontCat:visited {
-	color:#FFFFFF;
-	text-decoration:none;
-}
-a.FontCat:hover {
-	color:#FFFFFF;
-	text-decoration:underline;
-}
 
 td.CellCat {
 	padding:0px;
@@ -335,6 +334,18 @@ td.CellCat {
 	height:25px;
 	background-image:url(../images/cellcat.gif);
 	background-color:#000000;
+}
+td.CellCat a:link {
+	color:yellow;
+	text-decoration:none;
+}
+td.CellCat a:visited {
+	color:yellow;
+	text-decoration:none;
+}
+td.CellCat a:hover {
+	color:yellow;
+	text-decoration:underline;
 }
 
 
