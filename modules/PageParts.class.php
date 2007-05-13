@@ -42,7 +42,7 @@ class PageParts extends ModuleTemplate {
 			$navigation = array(
 				array(INDEXFILE.'?action=AdminIndex&amp;'.MYSID,$this->modules['Language']->getString('Overview'),'AdminIndex'),
 				array(INDEXFILE.'?action=AdminUsers&amp;'.MYSID,$this->modules['Language']->getString('Manage_users'),'AdminUsers'),
-				array(INDEXFILE.'?action=AdminProfile&amp;'.MYSID,$this->modules['Language']->getString('Manage_profile_fields'),'AdminProfile'),
+				array(INDEXFILE.'?action=AdminProfileFields&amp;'.MYSID,$this->modules['Language']->getString('Manage_profile_fields'),'AdminProfileFields'),
 				array(INDEXFILE.'?action=AdminForums&amp;'.MYSID,$this->modules['Language']->getString('Manage_forums'),'AdminForums'),
 				array(INDEXFILE.'?action=AdminSmilies&amp;'.MYSID,$this->modules['Language']->getString('Manage_smilies'),'AdminSmilies'),
 				array(INDEXFILE.'?action=AdminConfig&amp;'.MYSID,$this->modules['Language']->getString('Boardconfig'),'AdminConfig'),

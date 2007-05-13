@@ -8,6 +8,7 @@ class CoreConfig extends ConfigTemplate {
 		'allowedActions'=>array(
 			'AdminForums',
 			'AdminIndex',
+			'AdminProfileFields',
 			'AdminUsers',
 			'Ajax',
 			'EditProfile',

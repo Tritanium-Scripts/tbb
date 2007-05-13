@@ -23,7 +23,7 @@ div {
 	color:black;
 }
 
-input {
+input, textarea, select {
 	cursor:pointer;
 }
 
