@@ -26,6 +26,23 @@ class FuncUsers {
 
 		return FALSE;
 	}
+
+	public static function getUserID($userID) {
+		$DB = Factory::singleton('DB');
+
+		if(strlen($userID) > 0) {
+			if(!preg_match('/^[0-9]{1,}$/si',$userID))
+				$DB->query("SELECT UserID FROM ".TBLPFX."users WHERE UserNick='$userID' LIMIT 1");
+			else $DB->query("SELECT UserID FROM ".TBLPFX."users WHERE UserID='$userID' LIMIT 1");
+
+			if($DB->getAffectedRows() == 1) {
+				list($userID) = $DB->fetchArray();
+				return $userID;
+			}
+		}
+
+		return FALSE;
+	}
 }
 
 ?>

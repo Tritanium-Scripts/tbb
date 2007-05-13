@@ -116,7 +116,7 @@ class Login extends ModuleTemplate {
 				$this->modules['Navbar']->addElement($this->modules['Language']->getString('Account_activation'),INDEXFILE."?action=Login&amp;mode=ActivateAccount&amp;".MYSID);
 
 				if(isset($_GET['doit'])) {
-					if(!$accountID = Functions::getUserID($accountID)) $error = $this->modules['Language']->getString('error_unknown_user');
+					if(!$accountID = FuncUsers::getUserID($accountID)) $error = $this->modules['Language']->getString('error_unknown_user');
 					else {
 						$accountData = FuncUsers::getUserData($accountID);
 						if($accountData['userIsActivated'] != 0 || $accountData['userHash'] == '') $error = $this->modules['Language']->getString('error_no_inactive_account');

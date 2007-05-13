@@ -143,21 +143,6 @@ class Functions {
 		return $Counter;
 	}
 
-	public static function getUserID($UserID) {
-		$DB = Factory::singleton('DB');
-
-		if(!preg_match('/^[0-9]{1,}$/si',$UserID))
-			$DB->query("SELECT UserID FROM ".TBLPFX."users WHERE UserNick='$UserID' LIMIT 1");
-		else $DB->query("SELECT UserID FROM ".TBLPFX."users WHERE UserID='$UserID' LIMIT 1");
-
-		if($DB->getAffectedRows() == 1) {
-			list($UserID) = $DB->fetchArray();
-			return $UserID;
-		}
-
-		return FALSE;
-	}
-
 	public static function addSlashes($Value) {
 	   if(is_array($Value) == TRUE) $Value = array_map(array('Functions','addSlashes'),$Value);
 	   else $Value = addslashes($Value);

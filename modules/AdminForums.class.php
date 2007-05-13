@@ -96,6 +96,8 @@ class AdminForums extends ModuleTemplate {
 
 					if(trim($p['forumName']) == '') $error = $this->modules['Language']->getString('error_no_forum_name');
 					else {
+						if(!FuncCats::getCatData($p['catID'])) $p['catID'] = 1;
+
 						$this->modules['DB']->query("
 							UPDATE
 								".TBLPFX."forums
@@ -143,12 +145,14 @@ class AdminForums extends ModuleTemplate {
 					'error'=>$error,
 					'forumID'=>$forumID
 				));
+
+				$this->modules['Navbar']->addElement($this->modules['Language']->getString('Edit_forum'),INDEXFILE.'?action=AdminForums&amp;mode=EditForum&amp;forumID='.$forumID.'&amp;'.MYSID);
 				$this->modules['PageParts']->printPage('AdminForumsEditForum.tpl');
 				break;
 
 			case 'EditCat':
 				$catID = isset($_GET['catID']) ? intval($_GET['catID']) : 0;
-				if($catID == 1 || ($catData = FuncCats::getCatData($catID)) == FALSE) die('Cannot load data: category');
+				if($catID == 1 || !($catData = FuncCats::getCatData($catID))) die('Cannot load data: category');
 
 				$parentCatData = FuncCats::getParentCatData($catID);
 
@@ -205,7 +209,7 @@ class AdminForums extends ModuleTemplate {
 					'parentCatData'=>$parentCatData
 				));
 
-				$this->modules['Navbar']->addElement($this->modules['Language']->getString('Edit_category'),INDEXFILE.'?action=EditCat&amp;catID='.$catID.'&amp;'.MYSID);
+				$this->modules['Navbar']->addElement($this->modules['Language']->getString('Edit_category'),INDEXFILE.'?action=AdminForums&amp;mode=EditCat&amp;catID='.$catID.'&amp;'.MYSID);
 				$this->modules['PageParts']->printPage('AdminForumsEditCat.tpl');
 				break;
 
@@ -313,274 +317,237 @@ class AdminForums extends ModuleTemplate {
 					'rightsDataUsers'=>$rightsDataUsers,
 					'forumID'=>$forumID
 				));
+
+				$this->modules['Navbar']->addElements(
+					array($this->modules['Language']->getString('Edit_forum'),INDEXFILE.'?action=AdminForums&amp;mode=EditForum&amp;forumID='.$forumID.'&amp;'.MYSID),
+					array($this->modules['Language']->getString('Edit_special_rights'),INDEXFILE.'?action=AdminForums&amp;mode=EditSpecialRights&amp;forumID='.$forumID.'&amp;'.MYSID)
+				);
 				$this->modules['PageParts']->printPage('AdminForumsEditSpecialRights.tpl');
-			break;
+				break;
 
-
-			//*
-			//* Kategorie hinzufuegen
-			//*
-			case 'addcat':
-				$p_parent_id = isset($_GET['parent_id']) ? $_GET['parent_id'] : 1;
-				if(isset($_POST['p_parent_id'])) $p_parent_id = $_POST['p_parent_id'];
-
-				$p_cat_name = isset($_POST['p_cat_name']) ? $_POST['p_cat_name'] : '';
-				$p_cat_description = isset($_POST['p_cat_description']) ? $_POST['p_cat_description'] : '';
-				$p_cat_standard_status = isset($_POST['p_cat_standard_status']) ? $_POST['p_cat_standard_status'] : 1;
+			case 'AddCat':
+				$p = Functions::getSGValues($_POST['p'],array('catName','catDescription'),'');
+				$p += Functions::getSGValues($_POST['p'],array('catStandardStatus'),1);
+				$p['parentID'] = isset($_POST['p']['parentID']) ? intval($_POST['p']['parentID']) : 1;
+				if(isset($_GET['parentCatID'])) $p['parentID'] = intval($_GET['parentCatID']);
 
 				$error = '';
 
 				if(isset($_GET['doit'])) {
-					if(trim($p_cat_name) == '') $error = $LNG['error_no_category_name'];
+					if(trim($p['catName']) == '') $error = $this->modules['Language']->getStirng('error_no_category_name');
 					else {
-						if($new_catID = cats_add_cat_data($p_parent_id)) {
-							$this->modules['DB']->query("UPDATE ".TBLPFX."cats SET cat_standard_status='$p_cat_standard_status', cat_name='$p_cat_name', cat_description='$p_cat_description' WHERE catID='$new_catID'");
-						}
-						header("Location: administration.php?action=ad_forums&$MYSID"); exit;
+						$this->modules['DB']->query("
+							INSERT INTO
+								".TBLPFX."cats
+							SET
+								catName='".$p['catName']."',
+								catDescription='".$p['catDescription']."',
+								catStandardStatus='".$p['catStandardStatus']."'
+						");
+
+						Functions::myHeader(INDEXFILE."?action=AdminForums&".MYSID);
 					}
 				}
 
-				$c = ' selected="selected"';
-				$checked = array(
-					'open'=>'',
-					'closed'=>''
-				);
-				($p_cat_standard_status == 0) ? $checked['closed'] = $c : $checked['open'] = $c;
+				$catsData = FuncCats::getCatsData();
+				array_unshift($catsData,array('catID'=>1,'catDepth'=>0,'catName'=>$this->modules['Language']->getString('No_parent_category')));
 
-				$adforums_tpl = new Template($TEMPLATE_PATH.'/'.$TCONFIG['templates']['ad_forums_addcat']);
+				foreach($catsData AS &$curCat) {
+					$curPrefix = '';
+					for($i = 0; $i < $curCat['catDepth']; $i++)
+						$curPrefix .= '--';
 
-				if($error != '') $adforums_tpl->Blocks['errorrow']->parseCode();
-
-				$catsData = cats_get_catsData();
-				array_unshift($catsData,array('catID'=>1,'cat_depth'=>0,'cat_name'=>$LNG['No_parent_category'])); // "Keine uebergeordnete Kategorie" zum Array hinzufuegen
-				$catsCounter = count($catsData);
-
-
-				while(list(,$akt_cat) = each($catsData)) {
-					$akt_prefix = '';
-					for($j = 0; $j < $akt_cat['cat_depth']; $j++)
-						$akt_prefix .= '--';
-
-					$akt_selected = ($p_parent_id == $akt_cat['catID']) ? ' selected="selected"' : '';
-					$adforums_tpl->Blocks['optionrow']->parseCode(FALSE,TRUE);
+					$curCat['_catPrefix'] = $curPrefix;
 				}
 
+				$this->modules['Template']->assign(array(
+					'catsData'=>$catsData,
+					'p'=>Functions::stripSlashes(Functions::HTMLSpecialChars($p)),
+					'error'=>$error
+				));
 
-				include_once('pheader.php');
+				$this->modules['Navbar']->addElement($this->modules['Language']->getString('Add_category'),INDEXFILE.'?action=AdminForums&amp;mode=AddCat&amp;parentCatID='.$p['parentCatID'].'&amp;'.MYSID);
+				$this->modules['PageParts']->printPage('AdminForumsAddCat.tpl');
+				break;
 
-				$adforums_tpl->parseCode(TRUE);
+			case 'AddForum':
+				$p =  Functions::getSGValues($_POST['p'],array('forumName','forumDescription'),'');
+				$c =  Functions::getSGValues($_POST['c'],array('authViewForumMembers','authPostTopicMembers','authPostReplyMembers','authPostPollMembers','authEditPostsMembers','authViewForumGuests','forumEnableBBCode','forumEnableSmilies','forumShowLatestPosts'),1);
+				$c += Functions::getSGValues($_POST['c'],array('authPostTopicGuests','authPostReplyGuests','authPostPollGuests','forumIsModerated','forumEnableHtmlCode'),0);
 
-				include_once('ptail.php');
-			break;
+				$p['catID'] = isset($_POST['p']['catID']) ? intval($_POST['p']['catID']) : 1;
+				if(isset($_GET['catID'])) $p['catID'] = intval($_GET['catID']);
 
-
-			//*
-			//* Forum hinzufuegen
-			//*
-			case 'addforum':
-
-				$p_catID = isset($_GET['catID']) ? $_GET['catID'] : 0;
-				if(isset($_POST['p_catID'])) $p_catID = $_POST['p_catID'];
-
-				$p_forum_name = isset($_POST['p_forum_name']) ? $_POST['p_forum_name'] : '';
-				$p_forum_description = isset($_POST['p_forum_description']) ? $_POST['p_forum_description'] : '';
-
-				$p_forum_enable_bbcode = $p_forum_enable_smilies = $p_members_view_forum = $p_members_post_topic = $p_members_post_reply = $p_members_post_poll = $p_members_edit_posts = $p_guests_view_forum = $p_forum_show_latest_posts = 1;
-				$p_forum_enable_htmlcode = $p_forum_is_moderated = $p_guests_post_topic = $p_guests_post_reply = $p_guests_post_poll = 0;
-
+				$error = '';
 
 				if(isset($_GET['doit'])) {
-					$p_members_view_forum = isset($_POST['p_members_view_forum']) ? 1 : 0;
-					$p_members_post_topic = isset($_POST['p_members_post_topic']) ? 1 : 0;
-					$p_members_post_reply = isset($_POST['p_members_post_reply']) ? 1 : 0;
-					$p_members_post_poll = isset($_POST['p_members_post_poll']) ? 1 : 0;
-					$p_members_edit_posts = isset($_POST['p_members_edit_posts']) ? 1 : 0;
-					$p_guests_view_forum = isset($_POST['p_guests_view_forum']) ? 1 : 0;
-					$p_guests_post_topic = isset($_POST['p_guests_post_topic']) ? 1 : 0;
-					$p_guests_post_reply = isset($_POST['p_guests_post_reply']) ? 1 : 0;
-					$p_guests_post_poll = isset($_POST['p_guests_post_poll']) ? 1 : 0;
+					$c = Functions::getSGValues($_POST['c'],array('authViewForumMembers','authPostTopicMembers','authPostReplyMembers','authPostPollMembers','authEditPostsMembers','authViewForumGuests','authPostTopicGuests','authPostReplyGuests','authPostPollGuests','forumIsModerated','forumEnableBBCode','forumEnableHtmlCode','forumEnableSmilies','forumShowLatestPosts'),0);
 
-					$p_forum_show_latest_posts = isset($_POST['p_forum_show_latest_posts']) ? 1 : 0;
-					$p_forum_is_moderated = isset($_POST['p_forum_is_moderated']) ? 1 : 0;
-					$p_forum_enable_bbcode = isset($_POST['p_forum_enable_bbcode']) ? 1 : 0;
-					$p_forum_enable_htmlcode = isset($_POST['p_forum_enable_htmlcode']) ? 1 : 0;
-					$p_forum_enable_smilies = isset($_POST['p_forum_enable_smilies']) ? 1 : 0;
-
-					if(trim($p_forum_name) == '') $error = $LNG['error_no_forum_name'];
+					if(trim($p['forumName']) == '') $error = $this->modules['Language']->getString('error_no_forum_name');
 					else {
+						if(!FuncCats::getCatData($p['catID'])) $p['catID'] = 1;
 
-						$this->modules['DB']->query("SELECT MAX(order_id) AS max_ord_id FROM ".TBLPFX."forums");
-						list($p_order_id) = $this->modules['DB']->fetch_array();
-						$p_order_id++;
-
-						$this->modules['DB']->query("INSERT INTO ".TBLPFX."forums (catID,order_id,forum_name,forum_description,forum_topics_counter,forum_posts_counter,forum_last_post_id,forum_enable_bbcode,forum_enable_htmlcode,forum_enable_smilies,forum_is_moderated,forum_show_latest_posts,auth_members_view_forum,auth_members_post_topic,auth_members_post_reply,auth_members_post_poll,auth_members_edit_posts,auth_guests_view_forum,auth_guests_post_topic,auth_guests_post_reply,auth_guests_post_poll)
-							VALUES ('$p_catID','$p_order_id','$p_forum_name','$p_forum_description','0','0','0','$p_forum_enable_bbcode','$p_forum_enable_htmlcode','$p_forum_enable_smilies','$p_forum_is_moderated','$p_forum_show_latest_posts','$p_members_view_forum','$p_members_post_topic','$p_members_post_reply','$p_members_post_poll','$p_members_edit_posts','$p_guests_view_forum','$p_guests_post_topic','$p_guests_post_reply','$p_guests_post_poll')");
-
-						header("Location: administration.php?action=ad_forums&$MYSID"); exit;
+						$this->modules['DB']->query("
+							INSERT INTO
+								".TBLPFX."forums
+							SET
+								catID='".$p['catID']."',
+								forumName='".$p['forumName']."',
+								forumDescription='".$p['forumDescription']."',
+								forumIsModerated='".$c['forumIsModerated']."',
+								forumEnableBBCode='".$c['forumEnableBBCode']."',
+								forumEnableHtmlCode='".$c['forumEnableHtmlCode']."',
+								forumEnableSmilies='".$c['forumEnableSmilies']."',
+								forumShowLatestPosts='".$c['forumShowLatestPosts']."',
+								authViewForumMembers='".$c['authViewForumMembers']."',
+								authPostTopicMembers='".$c['authPostTopicMembers']."',
+								authPostReplyMembers='".$c['authPostReplyMembers']."',
+								authPostPollMembers='".$c['authPostPollMembers']."',
+								authEditPostsMembers='".$c['authEditPostsMembers']."',
+								authViewForumGuests='".$c['authViewForumGuests']."',
+								authPostTopicGuests='".$c['authPostTopicGuests']."',
+								authPostReplyGuests='".$c['authPostReplyGuests']."',
+								authPostPollGuests='".$c['authPostPollGuests']."'
+						");
+						Functions::myHeader(INDEXFILE."?action=AdminForums&".MYSID);
 					}
 				}
 
-				$c = ' checked="checked"';
+				$catsData = FuncCats::getCatsData();
+				array_unshift($catsData,array('catID'=>1,'catDepth'=>0,'catName'=>$this->modules['Language']->getString('No_category')));
 
-				$checked['smilies'] = ($p_forum_enable_smilies == 1) ? $c : '';
-				$checked['bbcode'] = ($p_forum_enable_bbcode == 1) ? $c : '';
-				$checked['htmlcode'] = ($p_forum_enable_htmlcode == 1) ? $c : '';
-				$checked['moderated'] = ($p_forum_is_moderated == 1) ? $c : '';
-				$checked['latestposts'] = ($p_forum_show_latest_posts == 1) ? $c : '';
-				$checked['members_view_forum'] = ($p_members_view_forum == 1) ? $c : '';
-				$checked['members_post_topic'] = ($p_members_post_topic == 1) ? $c : '';
-				$checked['members_post_reply'] = ($p_members_post_reply == 1) ? $c : '';
-				$checked['members_post_poll'] = ($p_members_post_poll == 1) ? $c : '';
-				$checked['members_edit_posts'] = ($p_members_edit_posts == 1) ? $c : '';
-				$checked['guests_view_forum'] = ($p_guests_view_forum == 1) ? $c : '';
-				$checked['guests_post_topic'] = ($p_guests_post_topic == 1) ? $c : '';
-				$checked['guests_post_reply'] = ($p_guests_post_reply== 1) ? $c : '';
-				$checked['guests_post_poll'] = ($p_guests_post_poll == 1) ? $c : '';
+				foreach($catsData AS &$curCat) {
+					$curPrefix = '';
+					for($i = 0; $i < $curCat['catDepth']; $i++)
+						$curPrefix .= '--';
 
-				$adforums_tpl = new Template($TEMPLATE_PATH.'/'.$TCONFIG['templates']['ad_forums_addforum']);
-
-				if($error != '') $adforums_tpl->Blocks['errorrow']->parseCode();
-
-
-				$catsData = cats_get_catsData();
-				array_unshift($catsData,array('catID'=>1,'cat_depth'=>0,'cat_name'=>$LNG['No_category'])); // "Keine uebergeordnete Kategorie" zum Array hinzufuegen
-
-				while(list(,$akt_cat) = each($catsData)) {
-					$akt_prefix = '';
-					for($i = 0; $i < $akt_cat['cat_depth']; $i++)
-						$akt_prefix .= '--';
-
-					$akt_selected = ($p_catID == $akt_cat['catID']) ? ' selected="selected"' : '';
-					$adforums_tpl->Blocks['optionrow']->parseCode(FALSE,TRUE);
+					$curCat['_catPrefix'] = $curPrefix;
 				}
 
+				$this->modules['Template']->assign(array(
+					'catsData'=>$catsData,
+					'p'=>Functions::HTMLSpecialChars(Functions::stripSlashes($p)),
+					'c'=>$c,
+					'error'=>$error
+				));
 
-				include_once('pheader.php');
+				$this->modules['Navbar']->addElement($this->modules['Language']->getString('Add_forum'),INDEXFILE.'?action=AdminForums&amp;mode=AddForum&amp;catID='.$p['catID'].'&amp;'.MYSID);
+				$this->modules['PageParts']->printPage('AdminForumsAddForum.tpl');
+				break;
 
-				$adforums_tpl->parseCode(TRUE);
-
-				include_once('ptail.php');
-			break;
-
-
-			//*
-			//* Spezialrecht fuer einzelne User hinzufuegen
-			//*
-			case 'adduserright':
+			case 'AddUserRight':
 				$forumID = isset($_GET['forumID']) ? $_GET['forumID'] : 0;
+				if(!$forumData = FuncForums::getForumData($forumID)) die('Cannot load date: forum');
 
-				if(!$forumData = get_forumData($forumID)) die('Kann Forumdaten nicht laden!');
-
-				$p_users = isset($_POST['p_users']) ? $_POST['p_users'] : '';
-
-				$p_view_forum = $forumData['auth_members_view_forum'];
-				$p_post_topic = $forumData['auth_members_post_topic'];
-				$p_post_reply = $forumData['auth_members_post_reply'];
-				$p_post_poll = $forumData['auth_members_post_poll'];
-				$p_edit_posts = $forumData['auth_members_edit_posts'];
-				$p_is_mod = 0;
+				$p = Functions::getSGValues($_POST['p'],array('users'),'');
+				$c = Functions::getSGValues($_POST['c'],array('authViewForumMembers','authPostTopicMembers','authPostReplyMembers','authPostPollMembers','authEditPostsMembers'),0,Functions::addSlashes($forumData));
+				$c += Functions::getSGValues($_POST['c'],array('authIsMod'),0);
 
 				if(isset($_GET['doit'])) {
-					$p_view_forum = isset($_POST['p_view_forum']) ? 1 : 0;
-					$p_post_topic = isset($_POST['p_post_topic']) ? 1 : 0;
-					$p_post_reply = isset($_POST['p_post_reply']) ? 1 : 0;
-					$p_post_poll = isset($_POST['p_post_poll']) ? 1 : 0;
-					$p_edit_posts = isset($_POST['p_edit_posts']) ? 1 : 0;
-					$p_is_mod = isset($_POST['p_is_mod']) ? 1 : 0;
+					$c = Functions::getSGValues($_POST['c'],array('authViewForumMembers','authPostTopicMembers','authPostReplyMembers','authPostPollMembers','authEditPostsMembers','authIsMod'),0);
 
-					$users_array = explode(',',$p_users);
-					while(list(,$akt_user) = each($users_array)) {
-						if(($akt_user_id = get_user_id(trim($akt_user))) != FALSE) {
-							$this->modules['DB']->query("SELECT auth_id FROM ".TBLPFX."forums_auth WHERE forumID='$forumID' AND auth_type='0' AND auth_id='$akt_user_id'");
-							if($this->modules['DB']->affected_rows == 0) $this->modules['DB']->query("INSERT INTO ".TBLPFX."forums_auth (forumID,auth_type,auth_id,auth_view_forum,auth_post_topic,auth_post_reply,auth_post_poll,auth_edit_posts,auth_is_mod) VALUES ('$forumID','0','$akt_user_id','$p_view_forum','$p_post_topic','$p_post_reply','$p_post_poll','$p_edit_posts','$p_is_mod')");
+					$users = explode(',',$p['users']);
+					foreach($users AS &$curUser) {
+						if($curUserID = FuncUsers::getUserID(trim($curUser))) {
+							$this->modules['DB']->query("SELECT authID FROM ".TBLPFX."forums_auth WHERE forumID='$forumID' AND authType='".AUTH_TYPE_USER."' AND authID='$curUserID'");
+							if($this->modules['DB']->getAffectedRows() == 0) {
+								$this->modules['DB']->query("
+									INSERT INTO
+										".TBLPFX."forums_auth
+									SET
+										forumID='$forumID',
+										authType='".AUTH_TYPE_USER."',
+										authID='$curUserID',
+										authViewForum='".$c['authViewForumMembers']."',
+										authPostTopic='".$c['authPostTopicMembers']."',
+										authPostReply='".$c['authPostReplyMembers']."',
+										authPostPoll='".$c['authPostPollMembers']."',
+										authEditPosts='".$c['authEditPostsMembers']."',
+										authIsMod='".$c['authIsMod']."'
+								");
+							}
 						}
 					}
-					header("Location: administration.php?action=ad_forums&mode=editsrights&forumID=$forumID&$MYSID"); exit;
+					Functions::myHeader(INDEXFILE."?action=AdminForums&mode=EditSpecialRights&forumID=$forumID&".MYSID);
 				}
 
-				$c = ' checked="checked"';
-				$checked['view_forum'] = ($p_view_forum == 1) ? $c : '';
-				$checked['post_topic'] = ($p_post_topic == 1) ? $c : '';
-				$checked['post_reply'] = ($p_post_reply == 1) ? $c : '';
-				$checked['post_poll'] = ($p_post_poll == 1) ? $c : '';
-				$checked['edit_posts'] = ($p_edit_posts == 1) ? $c : '';
-				$checked['is_mod'] = ($p_is_mod == 1) ? $c : '';
+				$this->modules['Template']->assign(array(
+					'p'=>$p,
+					'c'=>$c,
+					'forumID'=>$forumID,
+					'forumData'=>$forumData
+				));
 
-				$adforums_tpl = new Template($TEMPLATE_PATH.'/'.$TCONFIG['templates']['ad_forums_adduserright']);
+				$this->modules['Navbar']->addElements(
+					array($this->modules['Language']->getString('Edit_forum'),INDEXFILE.'?action=AdminForums&amp;mode=EditForum&amp;forumID='.$forumID.'&amp;'.MYSID),
+					array($this->modules['Language']->getString('Edit_special_rights'),INDEXFILE.'?action=AdminForums&amp;mode=EditSpecialRights&amp;forumID='.$forumID.'&amp;'.MYSID),
+					array($this->modules['Language']->getString('Add_user_right'),INDEXFILE.'?action=AdminForums&amp;mode=AddUserRight&amp;forumID='.$forumID.'&amp;'.MYSID)
+				);
+				$this->modules['PageParts']->printPage('AdminForumsAddUserRight.tpl');
+				break;
 
-				include_once('pheader.php');
-				$adforums_tpl->parseCode(TRUE);
-				include_once('ptail.php');
-			break;
+			case 'AddGroupRight':
+				$forumID = isset($_GET['forumID']) ? $_GET['forumID'] : 0;
+				if(!$forumData = FuncForums::getForumData($forumID)) die('Cannot load date: forum');
 
-
-			//*
-			//* Spezialrecht fuer Gruppe hinzufuegen
-			//*
-			case 'addgroupright':
-				$forumID = isset($_GET['forumID']) ? $_GET['forumID'] : 0; // ID des Forums
-				$p_group_id = isset($_POST['p_group_id']) ? $_POST['p_group_id'] : 0; // ID der Gruppe
-
-				if(!$forumData = get_forumData($forumID)) die('Kann Forumdaten nicht laden!'); // Ueberpruefen, ob Forum existiert
-
-				$p_view_forum = $forumData['auth_members_view_forum'];
-				$p_post_topic = $forumData['auth_members_post_topic'];
-				$p_post_reply = $forumData['auth_members_post_reply'];
-				$p_post_poll = $forumData['auth_members_post_poll'];
-				$p_edit_posts = $forumData['auth_members_edit_posts'];
-				$p_is_mod = 0;
+				$p = Functions::getSGValues($_POST['p'],array('groupID'),0);
+				$c = Functions::getSGValues($_POST['c'],array('authViewForumMembers','authPostTopicMembers','authPostReplyMembers','authPostPollMembers','authEditPostsMembers'),0,Functions::addSlashes($forumData));
+				$c += Functions::getSGValues($_POST['c'],array('authIsMod'),0);
 
 				if(isset($_GET['doit'])) { // Falls Formular abgeschickt wurde
-					$p_view_forum = isset($_POST['p_view_forum']) ? 1 : 0;
-					$p_post_topic = isset($_POST['p_post_topic']) ? 1 : 0;
-					$p_post_reply = isset($_POST['p_post_reply']) ? 1 : 0;
-					$p_post_poll = isset($_POST['p_post_poll']) ? 1 : 0;
-					$p_edit_posts = isset($_POST['p_edit_posts']) ? 1 : 0;
-					$p_is_mod = isset($_POST['p_is_mod']) ? 1 : 0;
+					$c = Functions::getSGValues($_POST['c'],array('authViewForumMembers','authPostTopicMembers','authPostReplyMembers','authPostPollMembers','authEditPostsMembers','authIsMod'),0);
 
-					if($group_data = get_group_data($p_group_id)) { // Falls die Gruppe existiert
-						$this->modules['DB']->query("SELECT auth_id FROM ".TBLPFX."forums_auth WHERE forumID='$forumID' AND auth_type='1' AND auth_id='$p_group_id'"); // Ueberpruefen, ob diese Gruppe in diesem Forum schon Spezialrechte hat
-						if($this->modules['DB']->affected_rows == 0) $this->modules['DB']->query("INSERT INTO ".TBLPFX."forums_auth (forumID,auth_type,auth_id,auth_view_forum,auth_post_topic,auth_post_reply,auth_post_poll,auth_edit_posts,auth_is_mod) VALUES ('$forumID','1','$p_group_id','$p_view_forum','$p_post_topic','$p_post_reply','$p_post_poll','$p_edit_posts','$p_is_mod')"); // Falls nicht, die neuen Spezialrechte speichern
+					if($groupData = FuncGroups::getGroupData($p['groupID'])) {
+						$this->modules['DB']->query("SELECT authID FROM ".TBLPFX."forums_auth WHERE forumID='$forumID' AND authType='".AUTH_TYPE_GROUP."' AND authID='".$groupData['groupID']."'");
+						if($this->modules['DB']->getAffectedRows() == 0) {
+							$this->modules['DB']->query("
+								INSERT INTO
+									".TBLPFX."forums_auth
+								SET
+									forumID='$forumID',
+									authType='".AUTH_TYPE_GROUP."',
+									authID='".$groupData['groupID']."',
+									authViewForum='".$c['authViewForumMembers']."',
+									authPostTopic='".$c['authPostTopicMembers']."',
+									authPostReply='".$c['authPostReplyMembers']."',
+									authPostPoll='".$c['authPostPollMembers']."',
+									authEditPosts='".$c['authEditPostsMembers']."',
+									authIsMod='".$c['authIsMod']."'
+							");
+						}
 					}
 
-					header("Location: administration.php?action=ad_forums&mode=editsrights&forumID=$forumID&$MYSID"); exit; // Zurueck zur Spezialrechteuebersicht
+					Functions::myHeader(INDEXFILE."?action=AdminForums&mode=EditSpecialRights&forumID=$forumID&".MYSID);
 				}
 
-				$c = ' checked="checked"';
-				$checked['view_forum'] = ($p_view_forum == 1) ? $c : '';
-				$checked['post_topic'] = ($p_post_topic == 1) ? $c : '';
-				$checked['post_reply'] = ($p_post_reply == 1) ? $c : '';
-				$checked['post_poll'] = ($p_post_poll == 1) ? $c : '';
-				$checked['edit_posts'] = ($p_edit_posts == 1) ? $c : '';
-				$checked['is_mod'] = ($p_is_mod == 1) ? $c : '';
+				$this->modules['DB']->query("SELECT * FROM ".TBLPFX."groups WHERE groupID NOT IN (SELECT authID FROM ".TBLPFX."forums_auth WHERE authType='".AUTH_TYPE_GROUP."' AND forumID='$forumID')");
+				$groupsData = $this->modules['DB']->raw2Array();
 
-				$ad_forums_tpl = new Template($TEMPLATE_PATH.'/'.$TCONFIG['templates']['ad_forums_addgroupright']); // Neue Templateklasse erzeugen
+				$this->modules['Template']->assign(array(
+					'p'=>$p,
+					'c'=>$c,
+					'forumID'=>$forumID,
+					'forumData'=>$forumData,
+					'groupsData'=>$groupsData
+				));
 
-				$group_ids = array(); // Array fuer die IDs der Gruppen, die schon Spezialrechte haben
-				$this->modules['DB']->query("SELECT auth_id FROM ".TBLPFX."forums_auth WHERE auth_type='1' AND forumID='$forumID'"); // IDs der Gruppen laden, die schon Spezialrechte haben
-				while(list($akt_group_id) = $this->modules['DB']->fetch_array())
-					$group_ids[] = $akt_group_id; // Aktuelle ID zum Array hinzufuegen
+				$this->modules['Navbar']->addElements(
+					array($this->modules['Language']->getString('Edit_forum'),INDEXFILE.'?action=AdminForums&amp;mode=EditForum&amp;forumID='.$forumID.'&amp;'.MYSID),
+					array($this->modules['Language']->getString('Edit_special_rights'),INDEXFILE.'?action=AdminForums&amp;mode=EditSpecialRights&amp;forumID='.$forumID.'&amp;'.MYSID),
+					array($this->modules['Language']->getString('Add_group_right'),INDEXFILE.'?action=AdminForums&amp;mode=AddGroupRight&amp;forumID='.$forumID.'&amp;'.MYSID)
+				);
+				$this->modules['PageParts']->printPage('AdminForumsAddGroupRight.tpl');
+				break;
 
-				$this->modules['DB']->query("SELECT * FROM ".TBLPFX."groups WHERE group_id NOT IN ('".implode("','",$group_ids)."')"); // Die IDs der Gruppen laden, die noch keine Spezialrechte in diesem Forum haben
-				if($this->modules['DB']->affected_rows != 0) { // Falls Gruppen existieren
-					while($akt_group = $this->modules['DB']->fetch_array())
-						$ad_forums_tpl->Blocks['grouprow']->parseCode(FALSE,TRUE); // Templateblock fuer eine Option mit der aktuellen Gruppe erzeugen
-				}
+			case 'DeleteSpecialRight':
+				$forumID = isset($_GET['forumID']) ? intval($_GET['forumID']) : 0;
+				$authType = isset($_GET['authType']) ? intval($_GET['authType']) : 0;
+				$authID = isset($_GET['authID']) ? intval($_GET['authID']) : 0;
 
-				include_once('pheader.php'); // Seitenkopf ausgeben
-				$ad_forums_tpl->parseCode(TRUE); // Seite ausgeben
-				include_once('ptail.php'); // Seitenende ausgeben
-			break;
+				$this->modules['DB']->query("DELETE FROM ".TBLPFX."forums_auth WHERE forumID='$forumID' AND authType='$authType' AND authID='$authID'");
 
-			case 'deletesright':
-				$forumID = isset($_GET['forumID']) ? $_GET['forumID'] : 0; // ID des Forums
-				$sright_type = isset($_GET['sright_type']) ? $_GET['sright_type'] : 2; // Spezialrechttyp (0 = User, 1 = Gruppe (, 2 = ungueltig))
-				$sright_id = isset($_GET['sright_id']) ? $_GET['sright_id'] : 0; // ID des Spezialrechts
-
-				$this->modules['DB']->query("DELETE FROM ".TBLPFX."forums_auth WHERE forumID='$forumID' AND auth_type='$sright_type' AND auth_id='$sright_id'"); // Loeschen des entsprechenden Spezialrechts
-
-				header("Location: administration.php?action=ad_forums&mode=editsrights&forumID=$forumID&$MYSID"); exit; // Zurueck zur Spezialrechteuebersicht
-			break;
+				Functions::myHeader(INDEXFILE."?action=AdminForums&mode=EditSpecialRights&forumID=$forumID&".MYSID);
+				break;
 		}
 
 	}

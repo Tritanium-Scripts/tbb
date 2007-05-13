@@ -23,6 +23,18 @@ div {
 	color:black;
 }
 
+input {
+	cursor:pointer;
+}
+
+label {
+	border-bottom:1px gray dotted;
+}
+label:hover {
+	border-bottom:1px gray solid;
+	cursor:pointer;
+}
+
 /**
  *
  * Allgemeine Formulare und Formularelemente
@@ -51,6 +63,9 @@ input.FormText {
 	padding:3px;
 	font-size:11px;
 	font-family:verdana,arial;
+}
+input.FormText:hover {
+	cursor:pointer;
 }
 input.FormText:focus {
 	border:1px #696969 solid;
@@ -367,12 +382,12 @@ td.CellNone {
 	text-align:center;
 }
 td.CellNav {
-	background-color:#F7F7F7;
-	padding:4px;
-	padding-top:7px;
-	padding-bottom:7px;
+	background-color:#FFFFFF;
+	padding:5px;
+	padding-top:8px;
+	padding-bottom:8px;
 	cursor:default;
-	border:1px lightgray dotted;
+	/*border:1px lightgray dotted;*/
 }
 td.CellNav:hover {
 	background-color:#E5F3FF;
@@ -384,7 +399,7 @@ td.CellNav:hover {
 }
 
 td.CellNavNone {
-	background-color:#F7F7F7;
+	background-color:#FFFFFF;
 	padding:3px;
 	cursor:default;
 }

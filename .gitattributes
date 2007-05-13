@@ -18,6 +18,7 @@ functions/FuncCats.class.php -text
 functions/FuncConfig.class.php -text
 functions/FuncDate.class.php -text
 functions/FuncForums.class.php -text
+functions/FuncGroups.class.php -text
 functions/FuncPolls.class.php -text
 functions/FuncRanks.class.php -text
 functions/FuncTopics.class.php -text
@@ -229,6 +230,10 @@ modules/ViewTopic.class.php -text
 modules/Vote.class.php -text
 modules/WhoIsOnline.class.php -text
 templates/std/files/AdminForums.tpl -text
+templates/std/files/AdminForumsAddCat.tpl -text
+templates/std/files/AdminForumsAddForum.tpl -text
+templates/std/files/AdminForumsAddGroupRight.tpl -text
+templates/std/files/AdminForumsAddUserRight.tpl -text
 templates/std/files/AdminForumsEditCat.tpl -text
 templates/std/files/AdminForumsEditForum.tpl -text
 templates/std/files/AdminForumsEditSpecialRights.tpl -text

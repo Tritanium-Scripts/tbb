@@ -20,7 +20,7 @@
   <td class="CellStd" align="center"><input type="checkbox" name="p[rightsData][{$curRight.authID}][authPostReply]" value="1"{if $curRight.authPostReply == 1} checked="checked"{/if}/></td>
   <td class="CellStd" align="center"><input type="checkbox" name="p[rightsData][{$curRight.authID}][authPostPoll]" value="1"{if $curRight.authPostPoll == 1} checked="checked"{/if}/></td>
   <td class="CellStd" align="center"><input type="checkbox" name="p[rightsData][{$curRight.authID}][authEditPosts]" value="1"{if $curRight.authEditPosts == 1} checked="checked"{/if}/></td>
-  <td class="CellStd" align="center"><span class="FontSmall"><a href="{$indexFile}?action=AdminForums&amp;mode=deletesright&amp;forumID={$forumID}&amp;sright_type=0&amp;sright_id={$curRight.authID}&amp;{$mySID}">{$modules.Language->getString('delete')}</a></span></td>
+  <td class="CellStd" align="center"><span class="FontSmall"><a href="{$indexFile}?action=AdminForums&amp;mode=DeleteSpecialRight&amp;forumID={$forumID}&amp;authType={$smarty.const.AUTH_TYPE_USER}&amp;authID={$curRight.authID}&amp;{$mySID}">{$modules.Language->getString('delete')}</a></span></td>
  </tr>
 {/foreach}
 <tr><td class="CellCat" colspan="8"><span class="FontCat">{$modules.Language->getString('Group_rights')}</span></td></tr>
@@ -33,7 +33,7 @@
   <td class="CellStd" align="center"><input type="checkbox" name="p[rightsData][{$curRight.authID}][authPostReply]" value="1"{if $curRight.authPostReply == 1} checked="checked"{/if}/></td>
   <td class="CellStd" align="center"><input type="checkbox" name="p[rightsData][{$curRight.authID}][authPostPoll]" value="1"{if $curRight.authPostPoll == 1} checked="checked"{/if}/></td>
   <td class="CellStd" align="center"><input type="checkbox" name="p[rightsData][{$curRight.authID}][authEditPosts]" value="1"{if $curRight.authEditPosts == 1} checked="checked"{/if}/></td>
-  <td class="CellStd" align="center"><span class="FontSmall"><a href="{$indexFile}?action=AdminForums&amp;mode=deletesright&amp;forumID={$forumID}&amp;sright_type=1&amp;sright_id={$curRight.authID}&amp;{$mySID}">{$modules.Language->getString('delete')}</a></span></td>
+  <td class="CellStd" align="center"><span class="FontSmall"><a href="{$indexFile}?action=AdminForums&amp;mode=DeleteSpecialRight&amp;forumID={$forumID}&amp;authType={$smarty.const.AUTH_TYPE_GROUP}&amp;authID={$curRight.authID}&amp;{$mySID}">{$modules.Language->getString('delete')}</a></span></td>
  </tr>
 {/foreach}
 <tr><td colspan="8" class="CellButtons" align="center"><input type="submit" class="FormBButton" value="{$modules.Language->getString('Edit_special_rights')}"/>&nbsp;&nbsp;&nbsp;<input class="FormButton" type="reset" value="{$modules.Language->getString('Reset')}"/></td></tr>
@@ -42,8 +42,8 @@
 <table class="TableStd" border="0" cellpadding="3" cellspacing="0" width="100%">
 <tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('Other_options')}</span></td></tr>
 <tr><td class="CellStd"><span class="FontNorm">
- <a href="{$indexFile}?action=AdminForums&amp;mode=AddSpecialRight&amp;forumID={$forumID}&amp;{$mySID}">{$modules.Language->getString('Add_user_right')}</a><br/>
- <a href="{$indexFile}?action=AdminForums&amp;mode=AddSpecialRight&amp;forumID={$forumID}&amp;{$mySID}">{$modules.Language->getString('Add_group_right')}</a>
+ <a href="{$indexFile}?action=AdminForums&amp;mode=AddUserRight&amp;forumID={$forumID}&amp;{$mySID}">{$modules.Language->getString('Add_user_right')}</a><br/>
+ <a href="{$indexFile}?action=AdminForums&amp;mode=AddGroupRight&amp;forumID={$forumID}&amp;{$mySID}">{$modules.Language->getString('Add_group_right')}</a>
 </span></td></tr>
 </table>
 </form>

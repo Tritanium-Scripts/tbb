@@ -8,7 +8,7 @@
  </tr>
  {foreach from=$forumsData item=curForum}
   {if $curForum.catID == $curCat.catID}
-   <tr>
+   <tr class="RowToHighlight" onmouseover="setRowCellsClass(this,'CellHighlight');" onmouseout="restoreRowCellsClass(this);">
     <td class="CellStd"><span class="FontNorm">--{$curCat._catPrefix} {$curForum.forumName}</span></td>
     <td class="CellStd"><span class="FontSmall">--{$curCat._catPrefix} {$curForum._forumUp} | {$curForum._forumDown}</span></td>
     <td class="CellStd" align="right"><span class="FontSmall"><a href="{$indexFile}?action=AdminForums&amp;mode=EditSpecialRights&amp;forumID={$curForum.forumID}&amp;{$mySID}">{$modules.Language->getString('Edit_special_rights')}</a> | <a href="{$indexFile}?action=AdminForums&amp;mode=EditForum&amp;forumID={$curForum.forumID}&amp;{$mySID}">{$modules.Language->getString('Edit')}</a></span></td>
@@ -22,10 +22,10 @@
 <tr><td class="CellTitle" colspan="2"><span class="FontTitle">{$modules.Language->getString('Forums_without_category')}</span></td></tr>
 {foreach from=$forumsData item=curForum}
  {if $curForum.catID == 1}
- <tr>
-  <td class="CellStd"><span class="FontNorm">{$curForum.forumName}</span></td>
-  <td class="CellStd" align="right"><span class="FontSmall"><a href="{$indexFile}?action=AdminForums&amp;mode=EditSpecialRights&amp;forumID={$curForum.forumID}&amp;{$mySID}">{$modules.Language->getString('Edit_special_rights')}</a> | <span class="FontSmall"><a href="{$indexFile}?action=AdminForums&amp;mode=EditForum&amp;forumID={$curForum.forumID}&amp;{$mySID}">{$modules.Language->getString('Edit')}</a></span></td>
- </tr>
+  <tr class="RowToHighlight" onmouseover="setRowCellsClass(this,'CellHighlight');" onmouseout="restoreRowCellsClass(this);">
+   <td class="CellStd"><span class="FontNorm">{$curForum.forumName}</span></td>
+   <td class="CellStd" align="right"><span class="FontSmall"><a href="{$indexFile}?action=AdminForums&amp;mode=EditSpecialRights&amp;forumID={$curForum.forumID}&amp;{$mySID}">{$modules.Language->getString('Edit_special_rights')}</a> | <span class="FontSmall"><a href="{$indexFile}?action=AdminForums&amp;mode=EditForum&amp;forumID={$curForum.forumID}&amp;{$mySID}">{$modules.Language->getString('Edit')}</a></span></td>
+  </tr>
  {/if}
 {/foreach}
 </table>
