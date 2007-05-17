@@ -4,7 +4,6 @@ class AdminProfileFields extends ModuleTemplate {
 	protected $requiredModules = array(
 		'Auth',
 		'AuthAdmin',
-		'Config',
 		'DB',
 		'GlobalsAdmin',
 		'Language',

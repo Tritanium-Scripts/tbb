@@ -9,6 +9,7 @@ class CoreConfig extends ConfigTemplate {
 			'AdminForums',
 			'AdminIndex',
 			'AdminProfileFields',
+			'AdminSmilies',
 			'AdminUsers',
 			'Ajax',
 			'EditProfile',

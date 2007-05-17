@@ -43,9 +43,10 @@
 </td></tr>
 </table>
 </form>
-<!--<br/>
-<div class="DivInfoBox"><span class="FontInfoBox"><img src="{$modules.Template->getTemplateDir()}/images/icons/Info.gif" class="ImageIcon" alt="" border="0"/>{$welcomeText}</span></div>
--->
+
+<br/>
+<div class="DivInfoBox"><span class="FontInfoBox"><img src="{$modules.Template->getTemplateDir()}/images/icons/Info.png" class="ImageIcon" alt="" border="0"/>{$welcomeText}</span></div>
+
 <br/>
 <table class="TableNavbar" width="100%">
 <tr>

@@ -40,3 +40,4 @@ open = offen
 closed = geschlossen
 error_no_forum_name = Bitte geben Sie einen Forumnamen ein
 error_no_category_name = Bitte geben Sie einen Kategorienamen ein
+error_invalid_parent_category = Bitte geben Sie eine g&uuml;ltige Elternkategorie an

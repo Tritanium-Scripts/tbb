@@ -1,4 +1,4 @@
-<form method="post" action="{$indexFile}?action=AdminForums&amp;mode=AddCat&amp;catID={$catID}&amp;doit=1&amp;{$mySID}">
+<form method="post" action="{$indexFile}?action=AdminForums&amp;mode=AddCat&amp;doit=1&amp;{$mySID}">
 <table class="TableStd" cellspacing="0" width="100%">
 <colgroup>
  <col width="20%"/>
@@ -20,9 +20,9 @@
 </tr>
 <tr>
  <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Parent_category')}:</span></td>
- <td class="CellAlt"><select class="FormSelect" name="p[parentID]">´
+ <td class="CellAlt"><select class="FormSelect" name="p[parentCatID]">´
  {foreach from=$catsData item=curCat}
-  <option value="{$curCat.catID}"{if $curCat.catID == $p.parentID} selected="selected"{/if}>{$curCat._catPrefix} {$curCat.catName}</option>
+  <option value="{$curCat.catID}"{if $curCat.catID == $p.parentCatID} selected="selected"{/if}>{$curCat._catPrefix} {$curCat.catName}</option>
  {/foreach}
  </select></td>
 </tr>

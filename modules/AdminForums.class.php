@@ -4,7 +4,6 @@ class AdminForums extends ModuleTemplate {
 	protected $requiredModules = array(
 		'Auth',
 		'AuthAdmin',
-		'Config',
 		'DB',
 		'GlobalsAdmin',
 		'Language',
@@ -82,6 +81,71 @@ class AdminForums extends ModuleTemplate {
 				$this->modules['PageParts']->printPage('AdminForums.tpl');
 				break;
 
+			case 'AddForum':
+				$p  = Functions::getSGValues($_POST['p'],array('forumName','forumDescription'),'');
+				$c  = Functions::getSGValues($_POST['c'],array('authViewForumMembers','authPostTopicMembers','authPostReplyMembers','authPostPollMembers','authEditPostsMembers','authViewForumGuests','forumEnableBBCode','forumEnableSmilies','forumShowLatestPosts'),1);
+				$c += Functions::getSGValues($_POST['c'],array('authPostTopicGuests','authPostReplyGuests','authPostPollGuests','forumIsModerated','forumEnableHtmlCode'),0);
+
+				$p['catID'] = isset($_POST['p']['catID']) ? intval($_POST['p']['catID']) : 1;
+				if(isset($_GET['catID'])) $p['catID'] = intval($_GET['catID']);
+
+				$error = '';
+
+				if(isset($_GET['doit'])) {
+					$c = Functions::getSGValues($_POST['c'],array('authViewForumMembers','authPostTopicMembers','authPostReplyMembers','authPostPollMembers','authEditPostsMembers','authViewForumGuests','authPostTopicGuests','authPostReplyGuests','authPostPollGuests','forumIsModerated','forumEnableBBCode','forumEnableHtmlCode','forumEnableSmilies','forumShowLatestPosts'),0);
+
+					if(trim($p['forumName']) == '') $error = $this->modules['Language']->getString('error_no_forum_name');
+					else {
+						if(!FuncCats::getCatData($p['catID'])) $p['catID'] = 1;
+
+						$this->modules['DB']->query("
+							INSERT INTO
+								".TBLPFX."forums
+							SET
+								catID='".$p['catID']."',
+								forumName='".$p['forumName']."',
+								forumDescription='".$p['forumDescription']."',
+								forumIsModerated='".$c['forumIsModerated']."',
+								forumEnableBBCode='".$c['forumEnableBBCode']."',
+								forumEnableHtmlCode='".$c['forumEnableHtmlCode']."',
+								forumEnableSmilies='".$c['forumEnableSmilies']."',
+								forumShowLatestPosts='".$c['forumShowLatestPosts']."',
+								authViewForumMembers='".$c['authViewForumMembers']."',
+								authPostTopicMembers='".$c['authPostTopicMembers']."',
+								authPostReplyMembers='".$c['authPostReplyMembers']."',
+								authPostPollMembers='".$c['authPostPollMembers']."',
+								authEditPostsMembers='".$c['authEditPostsMembers']."',
+								authViewForumGuests='".$c['authViewForumGuests']."',
+								authPostTopicGuests='".$c['authPostTopicGuests']."',
+								authPostReplyGuests='".$c['authPostReplyGuests']."',
+								authPostPollGuests='".$c['authPostPollGuests']."'
+						");
+						Functions::myHeader(INDEXFILE."?action=AdminForums&".MYSID);
+					}
+				}
+
+				$catsData = FuncCats::getCatsData();
+				array_unshift($catsData,array('catID'=>1,'catDepth'=>0,'catName'=>$this->modules['Language']->getString('No_category')));
+
+				foreach($catsData AS &$curCat) {
+					$curPrefix = '';
+					for($i = 0; $i < $curCat['catDepth']; $i++)
+						$curPrefix .= '--';
+
+					$curCat['_catPrefix'] = $curPrefix;
+				}
+
+				$this->modules['Template']->assign(array(
+					'catsData'=>$catsData,
+					'p'=>Functions::HTMLSpecialChars(Functions::stripSlashes($p)),
+					'c'=>$c,
+					'error'=>$error
+				));
+
+				$this->modules['Navbar']->addElement($this->modules['Language']->getString('Add_forum'),INDEXFILE.'?action=AdminForums&amp;mode=AddForum&amp;catID='.$p['catID'].'&amp;'.MYSID);
+				$this->modules['PageParts']->printPage('AdminForumsAddForum.tpl');
+				break;
+
 			case 'EditForum';
 				$forumID = isset($_GET['forumID']) ? intval($_GET['forumID']) : 0;
 				if(!$forumData = FuncForums::getForumData($forumID)) die('Cannot load data: forum');
@@ -150,6 +214,56 @@ class AdminForums extends ModuleTemplate {
 				$this->modules['PageParts']->printPage('AdminForumsEditForum.tpl');
 				break;
 
+			case 'AddCat':
+				$p = Functions::getSGValues($_POST['p'],array('catName','catDescription'),'');
+				$p += Functions::getSGValues($_POST['p'],array('catStandardStatus'),1);
+				$p['parentCatID'] = isset($_POST['p']['parentCatID']) ? intval($_POST['p']['parentCatID']) : 1;
+				if(isset($_GET['parentCatID'])) $p['parentCatID'] = intval($_GET['parentCatID']);
+
+				$error = '';
+
+				if(isset($_GET['doit'])) {
+					if(trim($p['catName']) == '') $error = $this->modules['Language']->getString('error_no_category_name');
+					elseif(!FuncCats::getCatData($p['parentCatID'])) $error = $this->modules['Language']->getString('error_invalid_parent_category');
+					else {
+						if($newCatID = FuncCats::addCatData($p['parentCatID'])) {
+							$this->modules['DB']->query("
+								UPDATE
+									".TBLPFX."cats
+								SET
+									catName='".$p['catName']."',
+									catDescription='".$p['catDescription']."',
+									catStandardStatus='".$p['catStandardStatus']."'
+								WHERE
+									catID='$newCatID'
+							");
+						}
+
+						Functions::myHeader(INDEXFILE."?action=AdminForums&".MYSID);
+					}
+				}
+
+				$catsData = FuncCats::getCatsData();
+				array_unshift($catsData,array('catID'=>1,'catDepth'=>0,'catName'=>$this->modules['Language']->getString('No_parent_category')));
+
+				foreach($catsData AS &$curCat) {
+					$curPrefix = '';
+					for($i = 0; $i < $curCat['catDepth']; $i++)
+						$curPrefix .= '--';
+
+					$curCat['_catPrefix'] = $curPrefix;
+				}
+
+				$this->modules['Template']->assign(array(
+					'catsData'=>$catsData,
+					'p'=>Functions::stripSlashes(Functions::HTMLSpecialChars($p)),
+					'error'=>$error
+				));
+
+				$this->modules['Navbar']->addElement($this->modules['Language']->getString('Add_category'),INDEXFILE.'?action=AdminForums&amp;mode=AddCat&amp;parentCatID='.$p['parentCatID'].'&amp;'.MYSID);
+				$this->modules['PageParts']->printPage('AdminForumsAddCat.tpl');
+				break;
+
 			case 'EditCat':
 				$catID = isset($_GET['catID']) ? intval($_GET['catID']) : 0;
 				if($catID == 1 || !($catData = FuncCats::getCatData($catID))) die('Cannot load data: category');
@@ -157,12 +271,13 @@ class AdminForums extends ModuleTemplate {
 				$parentCatData = FuncCats::getParentCatData($catID);
 
 				$p = Functions::getSGValues($_POST['p'],array('catName','catDescription','catStandardStatus'),'',Functions::addSlashes($catData));
-				$p['parentID'] = isset($_POST['p']['parentID']) ? intval($_POST['p']['parentID']) : $parentCatData['catID'];
+				$p['parentCatID'] = isset($_POST['p']['parentCatID']) ? intval($_POST['p']['parentCatID']) : $parentCatData['catID'];
 
 				$error = '';
 
 				if(isset($_GET['doit'])) {
 					if(trim($p['catName']) == '') $error = $this->modules['Language']->getStirng('error_no_category_name');
+					elseif(!FuncCats::getCatData($p['parentCatID'])) $error = $this->modules['Language']->getString('error_invalid_parent_category');
 					else {
 						$this->modules['DB']->query("
 							UPDATE
@@ -175,8 +290,8 @@ class AdminForums extends ModuleTemplate {
 								catID='$catID'
 						");
 
-						if($p['parentID'] != $parentCatData['catID'])
-							FuncCats::moveCat($catID,$p['parentID']);
+						if($p['parentCatID'] != $parentCatData['catID'])
+							FuncCats::moveCat($catID,$p['parentCatID']);
 
 						Functions::myHeader(INDEXFILE."?action=AdminForums&".MYSID);
 					}
@@ -323,116 +438,6 @@ class AdminForums extends ModuleTemplate {
 					array($this->modules['Language']->getString('Edit_special_rights'),INDEXFILE.'?action=AdminForums&amp;mode=EditSpecialRights&amp;forumID='.$forumID.'&amp;'.MYSID)
 				);
 				$this->modules['PageParts']->printPage('AdminForumsEditSpecialRights.tpl');
-				break;
-
-			case 'AddCat':
-				$p = Functions::getSGValues($_POST['p'],array('catName','catDescription'),'');
-				$p += Functions::getSGValues($_POST['p'],array('catStandardStatus'),1);
-				$p['parentID'] = isset($_POST['p']['parentID']) ? intval($_POST['p']['parentID']) : 1;
-				if(isset($_GET['parentCatID'])) $p['parentID'] = intval($_GET['parentCatID']);
-
-				$error = '';
-
-				if(isset($_GET['doit'])) {
-					if(trim($p['catName']) == '') $error = $this->modules['Language']->getStirng('error_no_category_name');
-					else {
-						$this->modules['DB']->query("
-							INSERT INTO
-								".TBLPFX."cats
-							SET
-								catName='".$p['catName']."',
-								catDescription='".$p['catDescription']."',
-								catStandardStatus='".$p['catStandardStatus']."'
-						");
-
-						Functions::myHeader(INDEXFILE."?action=AdminForums&".MYSID);
-					}
-				}
-
-				$catsData = FuncCats::getCatsData();
-				array_unshift($catsData,array('catID'=>1,'catDepth'=>0,'catName'=>$this->modules['Language']->getString('No_parent_category')));
-
-				foreach($catsData AS &$curCat) {
-					$curPrefix = '';
-					for($i = 0; $i < $curCat['catDepth']; $i++)
-						$curPrefix .= '--';
-
-					$curCat['_catPrefix'] = $curPrefix;
-				}
-
-				$this->modules['Template']->assign(array(
-					'catsData'=>$catsData,
-					'p'=>Functions::stripSlashes(Functions::HTMLSpecialChars($p)),
-					'error'=>$error
-				));
-
-				$this->modules['Navbar']->addElement($this->modules['Language']->getString('Add_category'),INDEXFILE.'?action=AdminForums&amp;mode=AddCat&amp;parentCatID='.$p['parentCatID'].'&amp;'.MYSID);
-				$this->modules['PageParts']->printPage('AdminForumsAddCat.tpl');
-				break;
-
-			case 'AddForum':
-				$p =  Functions::getSGValues($_POST['p'],array('forumName','forumDescription'),'');
-				$c =  Functions::getSGValues($_POST['c'],array('authViewForumMembers','authPostTopicMembers','authPostReplyMembers','authPostPollMembers','authEditPostsMembers','authViewForumGuests','forumEnableBBCode','forumEnableSmilies','forumShowLatestPosts'),1);
-				$c += Functions::getSGValues($_POST['c'],array('authPostTopicGuests','authPostReplyGuests','authPostPollGuests','forumIsModerated','forumEnableHtmlCode'),0);
-
-				$p['catID'] = isset($_POST['p']['catID']) ? intval($_POST['p']['catID']) : 1;
-				if(isset($_GET['catID'])) $p['catID'] = intval($_GET['catID']);
-
-				$error = '';
-
-				if(isset($_GET['doit'])) {
-					$c = Functions::getSGValues($_POST['c'],array('authViewForumMembers','authPostTopicMembers','authPostReplyMembers','authPostPollMembers','authEditPostsMembers','authViewForumGuests','authPostTopicGuests','authPostReplyGuests','authPostPollGuests','forumIsModerated','forumEnableBBCode','forumEnableHtmlCode','forumEnableSmilies','forumShowLatestPosts'),0);
-
-					if(trim($p['forumName']) == '') $error = $this->modules['Language']->getString('error_no_forum_name');
-					else {
-						if(!FuncCats::getCatData($p['catID'])) $p['catID'] = 1;
-
-						$this->modules['DB']->query("
-							INSERT INTO
-								".TBLPFX."forums
-							SET
-								catID='".$p['catID']."',
-								forumName='".$p['forumName']."',
-								forumDescription='".$p['forumDescription']."',
-								forumIsModerated='".$c['forumIsModerated']."',
-								forumEnableBBCode='".$c['forumEnableBBCode']."',
-								forumEnableHtmlCode='".$c['forumEnableHtmlCode']."',
-								forumEnableSmilies='".$c['forumEnableSmilies']."',
-								forumShowLatestPosts='".$c['forumShowLatestPosts']."',
-								authViewForumMembers='".$c['authViewForumMembers']."',
-								authPostTopicMembers='".$c['authPostTopicMembers']."',
-								authPostReplyMembers='".$c['authPostReplyMembers']."',
-								authPostPollMembers='".$c['authPostPollMembers']."',
-								authEditPostsMembers='".$c['authEditPostsMembers']."',
-								authViewForumGuests='".$c['authViewForumGuests']."',
-								authPostTopicGuests='".$c['authPostTopicGuests']."',
-								authPostReplyGuests='".$c['authPostReplyGuests']."',
-								authPostPollGuests='".$c['authPostPollGuests']."'
-						");
-						Functions::myHeader(INDEXFILE."?action=AdminForums&".MYSID);
-					}
-				}
-
-				$catsData = FuncCats::getCatsData();
-				array_unshift($catsData,array('catID'=>1,'catDepth'=>0,'catName'=>$this->modules['Language']->getString('No_category')));
-
-				foreach($catsData AS &$curCat) {
-					$curPrefix = '';
-					for($i = 0; $i < $curCat['catDepth']; $i++)
-						$curPrefix .= '--';
-
-					$curCat['_catPrefix'] = $curPrefix;
-				}
-
-				$this->modules['Template']->assign(array(
-					'catsData'=>$catsData,
-					'p'=>Functions::HTMLSpecialChars(Functions::stripSlashes($p)),
-					'c'=>$c,
-					'error'=>$error
-				));
-
-				$this->modules['Navbar']->addElement($this->modules['Language']->getString('Add_forum'),INDEXFILE.'?action=AdminForums&amp;mode=AddForum&amp;catID='.$p['catID'].'&amp;'.MYSID);
-				$this->modules['PageParts']->printPage('AdminForumsAddForum.tpl');
 				break;
 
 			case 'AddUserRight':

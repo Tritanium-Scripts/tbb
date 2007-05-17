@@ -65,10 +65,11 @@ input.FormText {
 	font-family:verdana,arial;
 }
 input.FormText:hover {
+	border:1px #696969 solid;
 	cursor:pointer;
 }
 input.FormText:focus {
-	border:1px #696969 solid;
+	border:1px #000000 solid;
 	padding:3px;
 	font-size:11px;
 	font-family:verdana,arial;
@@ -485,7 +486,7 @@ div.DivInfoBox {
 	background-color:#E6E6FA;
 	/*border:1px olive dotted;*/
 	border:1px #0000CD dotted;
-	padding:2px;
+	padding:4px;
 	margin-top:4px;
 	margin-bottom:4px;
 	vertical-align:middle;
@@ -503,7 +504,8 @@ div.DivInfoBox {
  *
  */
 img.ImageIcon {
-	margin:4px;
+	margin-right:4px;
+	float:left;
 	vertical-align:middle;
 }
 img.ImageButton {

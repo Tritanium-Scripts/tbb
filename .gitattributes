@@ -105,6 +105,7 @@ languages/de/AdminForums.language -text
 languages/de/AdminMain.language -text
 languages/de/AdminProfileFields.language -text
 languages/de/AdminRanks.language -text
+languages/de/AdminSmilies.language -text
 languages/de/AdminUsers.language -text
 languages/de/BoardRules.language -text
 languages/de/EditProfile.language -text
@@ -128,6 +129,7 @@ languages/de/mails/RegistrationWelcome.mail -text
 modules/AdminForums.class.php -text
 modules/AdminIndex.class.php -text
 modules/AdminProfileFields.class.php -text
+modules/AdminSmilies.class.php -text
 modules/AdminUsers.class.php -text
 modules/Ajax.class.php -text
 modules/Auth.class.php -text
@@ -245,6 +247,7 @@ templates/std/files/AdminPageTail.tpl -text
 templates/std/files/AdminProfileFields.tpl -text
 templates/std/files/AdminProfileFieldsAddField.tpl -text
 templates/std/files/AdminProfileFieldsEditField.tpl -text
+templates/std/files/AdminSmilies.tpl -text
 templates/std/files/AdminUsers.tpl -text
 templates/std/files/AdminUsersAddUser.tpl -text
 templates/std/files/AdminUsersEditUser.tpl -text

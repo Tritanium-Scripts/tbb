@@ -4,7 +4,7 @@
  <tr>
   <td class="CellCat"><span class="FontCat">{$curCat._catPrefix} {$curCat.catName}</span></td>
   <td class="CellCat"><span class="FontCatSmall">{$curCat._catPrefix} {$curCat._catUp} | {$curCat._catDown}</span></td>
-  <td class="CellCat" align="right"><span class="FontCatSmall"><a href="{$indexFile}?action=AdminForums&amp;mode=EditCat&amp;catID={$curCat.catID}&amp;{$mySID}">{$modules.Language->getString('Edit')}</a> | <a href="{$indexFile}?action=AdminForums&amp;mode=AddCat&amp;parentID={$curCat.catID}&amp;{$mySID}">{$modules.Language->getString('Add_sub_category')}</a> | <a href="{$indexFile}?action=AdminForums&amp;mode=AddForum&amp;catID={$curCat.catID}&amp;{$mySID}">{$modules.Language->getString('Add_forum')}</a></span></td>
+  <td class="CellCat" align="right"><span class="FontCatSmall"><a href="{$indexFile}?action=AdminForums&amp;mode=EditCat&amp;catID={$curCat.catID}&amp;{$mySID}">{$modules.Language->getString('Edit')}</a> | <a href="{$indexFile}?action=AdminForums&amp;mode=AddCat&amp;parentCatID={$curCat.catID}&amp;{$mySID}">{$modules.Language->getString('Add_sub_category')}</a> | <a href="{$indexFile}?action=AdminForums&amp;mode=AddForum&amp;catID={$curCat.catID}&amp;{$mySID}">{$modules.Language->getString('Add_forum')}</a></span></td>
  </tr>
  {foreach from=$forumsData item=curForum}
   {if $curForum.catID == $curCat.catID}
@@ -32,5 +32,5 @@
 <br />
 <table class="TableStd" border="0" cellpadding="3" cellspacing="0" width="100%">
 <tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('Other_options')}</span></td></tr>
-<tr><td class="CellStd"><span class="FontNorm"><a href="{$indexFile}?action=AdminForums&amp;mode=AddCat&amp;parentID=0&amp;{$mySID}">{$modules.Language->getString('Add_category')}</a><br /><a href="{$indexFile}?action=AdminForums&amp;mode=AddForum&amp;catID=0&amp;{$mySID}">{$modules.Language->getString('Add_forum')}</a></span></td></tr>
+<tr><td class="CellStd"><span class="FontNorm"><a href="{$indexFile}?action=AdminForums&amp;mode=AddCat&amp;parentCatID=1&amp;{$mySID}">{$modules.Language->getString('Add_category')}</a><br /><a href="{$indexFile}?action=AdminForums&amp;mode=AddForum&amp;catID=1&amp;{$mySID}">{$modules.Language->getString('Add_forum')}</a></span></td></tr>
 </table>
