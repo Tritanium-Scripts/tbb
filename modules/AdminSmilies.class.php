@@ -32,86 +32,98 @@ class AdminSmilies extends ModuleTemplate {
 				$this->modules['PageParts']->printPage('AdminSmilies.tpl');
 				break;
 
-			case 'delete':
-				$smiley_id = isset($_GET['smiley_id']) ? $_GET['smiley_id'] : 0;
+			case 'deleteSmiley':
+				$smileyID = isset($_GET['smileyID']) ? intval($_GET['smileyID']) : 0;
 
-				$DB->query("DELETE FROM ".TBLPFX."smilies WHERE smiley_id='$smiley_id'");
-				cache_set_smilies_data();
-				cache_set_ppics_data();
-				cache_set_adminsmilies();
+				$this->modules['DB']->query("DELETE FROM ".TBLPFX."smilies WHERE smileyID='$smileyID'");
+				$this->modules['Cache']->setSmiliesData();
+				$this->modules['Cache']->setPostPicsData();
+				$this->modules['Cache']->setAdminSmiliesData();
 
-				header("Location: administration.php?action=ad_smilies&amp;$MYSID"); exit;
-			break;
+				Functions::myHeader(INDEXFILE."?action=AdminSmilies&amp;".MYSID);
+				break;
 
-			case 'add':
-				$p_smiley_type = isset($_GET['smiley_type']) ? intval($_GET['smiley_type']) : 0;
-				if(isset($_POST['p_type'])) $p_smiley_type = intval($_POST['p_smiley_type']);
+			case 'addSmiley':
+				$p = Functions::getSGValues($_POST['p'],array('smileyType','smileyFileName','smileySynonym','smileyStatus'),'');
+				if(isset($_GET['smileyType'])) $p['smileyType'] = $_GET['smileyType'];
 
-				if($p_smiley_type != 0 && $p_smiley_type != 1 && $p_smiley_type != 2) $p_smiley_type = 0;
-
-				$p_smiley_gfx = isset($_POST['p_smiley_gfx']) ? $_POST['p_smiley_gfx'] : '';
-				$p_smiley_synonym = isset($_POST['p_smiley_synonym']) ? $_POST['p_smiley_synonym'] : '';
-				$p_smiley_status = isset($_POST['p_smiley_status']) ? $_POST['p_smiley_status'] : 1;
+				if(!in_array($p['smileyType'],array(SMILEY_TYPE_SMILEY,SMILEY_TYPE_ADMINSMILEY,SMILEY_TYPE_TPIC))) $p['smileyType'] = SMILEY_TYPE_SMILEY;
 
 				$error = '';
 
 				if(isset($_GET['doit'])) {
-					if(trim($p_smiley_gfx) == '') $error = $LNG['error_no_path_or_url'];
-					elseif($p_smiley_type == 0 && trim($p_synonym) == '') $error = $LNG['error_no_synonym'];
+					if(trim($p['smileyFileName']) == '') $error = $this->modules['Language']->getString('error_no_path_or_url');
+					elseif(($p['smileyType'] == SMILEY_TYPE_SMILEY || $p['smileyType'] == SMILEY_TYPE_ADMINSMILEY) && trim($p['smileySynonym']) == '') $error = $this->modules['Language']->getString('error_no_synonym');
 					else {
-						$DB->query("INSERT INTO ".TBLPFX."smilies (smiley_type,smiley_gfx,smiley_status,smiley_synonym) VALUES ('$p_smiley_type','$p_smiley_gfx','".(($p_smiley_type == 1) ? 0 : $p_smiley_status)."','".(($p_smiley_type == 1) ? '' : $p_smiley_synonym)."')");
-						cache_set_smilies_data();
-						cache_set_ppics_data();
-						cache_set_adminsmilies();
+						$this->modules['DB']->query("
+							INSERT INTO
+								".TBLPFX."smilies
+							SET
+								smileyType='".$p['smileyType']."',
+								smileyFileName='".$p['smileyFileName']."',
+								smileyStatus='".$p['smileyStatus']."',
+								smileySynonym='".$p['smileySynonym']."'
+						");
+						$this->modules['Cache']->setSmiliesData();
+						$this->modules['Cache']->setPostPicsData();
+						$this->modules['Cache']->setAdminSmiliesData();
 
-						header("Location: administration.php?action=ad_smilies&$MYSID"); exit;
+						Functions::myHeader(INDEXFILE."?action=AdminSmilies&amp;".MYSID);
 					}
 				}
 
-				$tpl = new Template($TEMPLATE_PATH.'/'.$TCONFIG['templates']['ad_smilies_add']);
+				$this->modules['Navbar']->addElement($this->modules['Language']->getString('Add_smiley'),INDEXFILE.'?action=addSmiley&amp;'.MYSID);
 
-				include_once('pheader.php');
-				$tpl->parseCode(TRUE);
-				include_once('ptail.php');
-			break;
+				$this->modules['Template']->assign(array(
+					'p'=>$p,
+					'error'=>$error
+				));
+				$this->modules['PageParts']->printPage('AdminSmiliesAddSmiley.tpl');
+				break;
 
-			case 'edit':
-				$smiley_id = isset($_GET['smiley_id']) ? $_GET['smiley_id'] : 0;
+			case 'editSmiley':
+				$smileyID = isset($_GET['smileyID']) ? intval($_GET['smileyID']) : 0;
+				if(!$smileyData = FuncSmilies::getSmileyData($smileyID)) die('Cannot load data: smiley');
 
-				if(!$smiley_data = get_smiley_data($smiley_id)) die('Kann Smileydaten nicht laden!');
+				$p = Functions::getSGValues($_POST['p'],array('smileyType','smileyFileName','smileySynonym','smileyStatus'),'',Functions::addSlashes($smileyData));
+				if(isset($_GET['smileyType'])) $p['smileyType'] = $_GET['smileyType'];
 
-				$p_smiley_type = isset($_POST['p_smiley_type']) ? intval($_POST['p_smiley_type']) : $smiley_data['smiley_type'];
-				$p_smiley_gfx = isset($_POST['p_smiley_gfx']) ? $_POST['p_smiley_gfx'] : addslashes($smiley_data['smiley_gfx']);
-				$p_smiley_synonym = isset($_POST['p_smiley_synonym']) ? $_POST['p_smiley_synonym'] : addslashes($smiley_data['smiley_synonym']);
-				$p_smiley_status = isset($_POST['p_smiley_status']) ? intval($_POST['p_smiley_status']) : $smiley_data['smiley_status'];
+				if(!in_array($p['smileyType'],array(SMILEY_TYPE_SMILEY,SMILEY_TYPE_ADMINSMILEY,SMILEY_TYPE_TPIC))) $p['smileyType'] = SMILEY_TYPE_SMILEY;
 
 				$error = '';
 
 				if(isset($_GET['doit'])) {
-					if(trim($p_smiley_gfx) == '') $error = $LNG['error_no_path_or_url'];
-					elseif($p_smiley_type == 0 && trim($p_synonym) == '') $error = $LNG['error_no_synonym'];
+					if(trim($p['smileyFileName']) == '') $error = $this->modules['Language']->getString('error_no_path_or_url');
+					elseif(($p['smileyType'] == SMILEY_TYPE_SMILEY || $p['smileyType'] == SMILEY_TYPE_ADMINSMILEY) && trim($p['smileySynonym']) == '') $error = $this->modules['Language']->getString('error_no_synonym');
 					else {
-						$DB->query("UPDATE ".TBLPFX."smilies SET
-							smiley_type='$p_smiley_type',
-							smiley_gfx='$p_smiley_gfx',
-							smiley_status='".(($p_smiley_type == 1) ? 0 : $p_smiley_status)."',
-							smiley_synonym='".(($p_smiley_type == 1) ? '' : $p_smiley_synonym)."'
-						WHERE smiley_id='$smiley_id'");
+						$this->modules['DB']->query("
+							UPDATE
+								".TBLPFX."smilies
+							SET
+								smileyType='".$p['smileyType']."',
+								smileyFileName='".$p['smileyFileName']."',
+								smileyStatus='".$p['smileyStatus']."',
+								smileySynonym='".$p['smileySynonym']."'
+							WHERE
+								smileyID='$smileyID'
+						");
+						$this->modules['Cache']->setSmiliesData();
+						$this->modules['Cache']->setPostPicsData();
+						$this->modules['Cache']->setAdminSmiliesData();
 
-						cache_set_smilies_data();
-						cache_set_ppics_data();
-						cache_set_adminsmilies();
-
-						header("Location: administration.php?action=ad_smilies&$MYSID"); exit;
+						Functions::myHeader(INDEXFILE."?action=AdminSmilies&amp;".MYSID);
 					}
 				}
 
-				$tpl = new Template($TEMPLATE_PATH.'/'.$TCONFIG['templates']['ad_smilies_edit']);
+				$this->modules['Navbar']->addElement($this->modules['Language']->getString('Edit_smiley'),INDEXFILE.'?action=editSmiley&amp;smileyID='.$smileyID.'&amp;'.MYSID);
 
-				include_once('pheader.php');
-				$tpl->parseCode(TRUE);
-				include_once('ptail.php');
-			break;
+				$this->modules['Template']->assign(array(
+					'p'=>$p,
+					'error'=>$error,
+					'smileyID'=>$smileyID
+				));
+				$this->modules['PageParts']->printPage('AdminSmiliesEditSmiley.tpl');
+				break;
 		}
 	}
 }

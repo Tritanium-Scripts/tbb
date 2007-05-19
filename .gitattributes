@@ -21,6 +21,7 @@ functions/FuncForums.class.php -text
 functions/FuncGroups.class.php -text
 functions/FuncPolls.class.php -text
 functions/FuncRanks.class.php -text
+functions/FuncSmilies.class.php -text
 functions/FuncTopics.class.php -text
 functions/FuncUsers.class.php -text
 images/Thumbs.db -text
@@ -102,6 +103,7 @@ images/tsmilies/9.gif -text
 images/tsmilies/Thumbs.db -text
 /index.php -text
 languages/de/AdminForums.language -text
+languages/de/AdminGroups.language -text
 languages/de/AdminMain.language -text
 languages/de/AdminProfileFields.language -text
 languages/de/AdminRanks.language -text
@@ -127,6 +129,7 @@ languages/de/WhoIsOnline.language -text
 languages/de/mails/RegistrationAccountVerification.mail -text
 languages/de/mails/RegistrationWelcome.mail -text
 modules/AdminForums.class.php -text
+modules/AdminGroups.class.php -text
 modules/AdminIndex.class.php -text
 modules/AdminProfileFields.class.php -text
 modules/AdminSmilies.class.php -text
@@ -241,6 +244,10 @@ templates/std/files/AdminForumsAddUserRight.tpl -text
 templates/std/files/AdminForumsEditCat.tpl -text
 templates/std/files/AdminForumsEditForum.tpl -text
 templates/std/files/AdminForumsEditSpecialRights.tpl -text
+templates/std/files/AdminGroups.tpl -text
+templates/std/files/AdminGroupsAddGroup.tpl -text
+templates/std/files/AdminGroupsEditGroup.tpl -text
+templates/std/files/AdminGroupsManageMembers.tpl -text
 templates/std/files/AdminIndex.tpl -text
 templates/std/files/AdminPageHeader.tpl -text
 templates/std/files/AdminPageTail.tpl -text
@@ -248,6 +255,8 @@ templates/std/files/AdminProfileFields.tpl -text
 templates/std/files/AdminProfileFieldsAddField.tpl -text
 templates/std/files/AdminProfileFieldsEditField.tpl -text
 templates/std/files/AdminSmilies.tpl -text
+templates/std/files/AdminSmiliesAddSmiley.tpl -text
+templates/std/files/AdminSmiliesEditSmiley.tpl -text
 templates/std/files/AdminUsers.tpl -text
 templates/std/files/AdminUsersAddUser.tpl -text
 templates/std/files/AdminUsersEditUser.tpl -text
@@ -341,13 +350,16 @@ templates/std/files/images/icons/Attention.png -text
 templates/std/files/images/icons/FolderDelete.png -text
 templates/std/files/images/icons/FolderEdit.png -text
 templates/std/files/images/icons/FolderGo.png -text
+templates/std/files/images/icons/GroupAdd.png -text
+templates/std/files/images/icons/GroupDelete.png -text
+templates/std/files/images/icons/GroupEdit.png -text
+templates/std/files/images/icons/GroupGo.png -text
 templates/std/files/images/icons/Info.gif -text
 templates/std/files/images/icons/Info.png -text
 templates/std/files/images/icons/PrivateMessageDelete.png -text
 templates/std/files/images/icons/PrivateMessageRead.png -text
 templates/std/files/images/icons/PrivateMessageReadReplied.png -text
 templates/std/files/images/icons/PrivateMessageUnread.png -text
-templates/std/files/images/icons/Thumbs.db -text
 templates/std/files/images/icons/Warning.png -text
 templates/std/files/images/lightbulb_a.gif -text
 templates/std/files/images/minus.gif -text
