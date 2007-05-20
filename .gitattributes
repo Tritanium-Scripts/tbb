@@ -14,6 +14,7 @@ docs/dbstructure.sql -text
 docs/farben[!!-~]logo.txt -text
 docs/history.txt -text
 docs/testdata.sql -text
+functions/FuncAvatars.class.php -text
 functions/FuncCats.class.php -text
 functions/FuncConfig.class.php -text
 functions/FuncDate.class.php -text
@@ -102,6 +103,7 @@ images/tsmilies/8.gif -text
 images/tsmilies/9.gif -text
 images/tsmilies/Thumbs.db -text
 /index.php -text
+languages/de/AdminAvatars.language -text
 languages/de/AdminForums.language -text
 languages/de/AdminGroups.language -text
 languages/de/AdminMain.language -text
@@ -128,12 +130,15 @@ languages/de/ViewTopic.language -text
 languages/de/WhoIsOnline.language -text
 languages/de/mails/RegistrationAccountVerification.mail -text
 languages/de/mails/RegistrationWelcome.mail -text
+modules/AdminAvatars.class.php -text
+modules/AdminConfig.class.php -text
 modules/AdminForums.class.php -text
 modules/AdminGroups.class.php -text
 modules/AdminIndex.class.php -text
 modules/AdminProfileFields.class.php -text
 modules/AdminRanks.class.php -text
 modules/AdminSmilies.class.php -text
+modules/AdminTemplates.class.php -text
 modules/AdminUsers.class.php -text
 modules/Ajax.class.php -text
 modules/Auth.class.php -text
@@ -237,6 +242,9 @@ modules/ViewProfile.class.php -text
 modules/ViewTopic.class.php -text
 modules/Vote.class.php -text
 modules/WhoIsOnline.class.php -text
+templates/std/files/AdminAvatars.tpl -text
+templates/std/files/AdminAvatarsAddAvatar.tpl -text
+templates/std/files/AdminAvatarsEditAvatar.tpl -text
 templates/std/files/AdminForums.tpl -text
 templates/std/files/AdminForumsAddCat.tpl -text
 templates/std/files/AdminForumsAddForum.tpl -text
