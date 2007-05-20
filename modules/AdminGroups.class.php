@@ -114,75 +114,78 @@ class AdminGroups extends ModuleTemplate {
 
 				$this->modules['Template']->assign(array(
 					'groupAdminsData'=>$groupAdminsData,
-					'groupMembersData'=>$groupMembersData
+					'groupMembersData'=>$groupMembersData,
+					'groupID'=>$groupID
 				));
 				$this->modules['PageParts']->printPage('AdminGroupsManageMembers.tpl');
 				break;
 
-			case 'addmembers':
-				$groupID = isset($_GET['groupID']) ? $_GET['groupID'] : 0; // ID der Gruppe
-				$p_users = isset($_POST['p_users']) ? $_POST['p_users'] : ''; // IDs/Nicks der User als String mit Kommata getrennt
-				$p_leader = isset($_POST['p_leader'])  ? $_POST['p_leader'] : 0; // Angabe ob Kursleiter oder nicht
-				if($p_leader != 0 && $p_leader != 1) $p_leader = 0; // Falls weder Kursleiter noch normales Mitglied angegeben wurde, wird "normales Mitglied" verwendet
+			case 'AddMembers':
+				$groupID = isset($_GET['groupID']) ? intval($_GET['groupID']) : 0;
+				if(!$groupData = FuncGroups::getGroupData($groupID)) die('Cannot load data: group');
 
-				if(!$group_data = get_group_data($groupID)) die('Kann Gruppendaten nicht laden!'); // Ueberpruefen, ob Gruppe existiert
-
+				$p = Functions::getSGValues($_POST['p'],array('newMembers','membersAreLeader'),'');
+				if(!in_array($p['membersAreLeader'],array(0,1))) $p['membersAreLeader'] = 0;
 
 				//
 				// Ueberpruefen, ob die neuen Mitglieder existieren
 				//
-				$p_users = explode(',',trim($p_users)); // Den uebergebenen String in Array mit User-Nicks/IDs als Elemente umwandeln
-				while(list($akt_key) = each($p_users)) {
-					if(!$p_users[$akt_key] = get_user_id($p_users[$akt_key])) unset($p_users[$akt_key]); // Falls User nicht existiert, das Arrayelement loeschen
+				$newMembers = explode(',',$p['newMembers']);
+				while(list($curKey) = each($newMembers)) {
+					if(!$newMembers[$curKey] = FuncUsers::getUserID($newMembers[$curKey]))
+						unset($newMembers[$curKey]);
 				}
-				reset($p_users); // Arraypointer an den Anfang setzen
+				reset($newMembers);
 
 
 				//
 				// Die IDs der User laden, die schon Mitglied der Gruppe sind
 				//
-				$existing_users = array(); // Array, in dem die IDs der User stehen werden, die schon Mitglied sind
-				$this->modules['DB']->query("SELECT member_id FROM ".TBLPFX."groups_members WHERE groupID='$groupID' AND member_id IN ('".implode("','",$p_users)."')"); // IDs der User laden, die schon Mitglied sind
-				while($akt_euser = $this->modules['DB']->fetch_array())
-					$existing_users[$akt_euser['member_id']] = TRUE; // Element mit dem Key "ID des Users" und dem Wert TRUE in das Array einfuegen
+				$existingUsers = array();
+				$this->modules['DB']->query("SELECT memberID FROM ".TBLPFX."groups_members WHERE groupID='$groupID' AND memberID IN ('".implode("','",$newMembers)."')");
+				while($curMember = $this->modules['DB']->fetchArray())
+					$existingUsers[$curMember['memberID']] = TRUE;
 
 
 				//
 				// Die neuen Mitglieder speichern
 				//
-				while(list(,$akt_user) = each($p_users)) {
-					if(!isset($existing_users[$akt_user])) // Falls der User noch nicht Mitglied der Gruppe ist
-						$this->modules['DB']->query("INSERT INTO ".TBLPFX."groups_members (groupID,member_id,member_status) VALUES ('$groupID','$akt_user','$p_leader')"); // Die Daten des neuen Mitgleids speichern
+				foreach($newMembers AS &$curMember) {
+					if(!isset($existingUsers[$curMember]))
+						$this->modules['DB']->query("
+							INSERT INTO
+								".TBLPFX."groups_members
+							SET
+								groupID='$groupID',
+								memberID='$curMember',
+								memberStatus='".$p['membersAreLeader']."'
+						");
 				}
 
-				header("Location: administration.php?action=ad_groups&mode=managemembers&groupID=$groupID&$MYSID"); exit; // Zurueck zur Mitgliederuebersicht
+				Functions::myHeader(INDEXFILE."?action=AdminGroups&mode=ManageMembers&groupID=$groupID&".MYSID);
 				break;
 
-			case 'deletemember':
-				$member_id = isset($_GET['member_id']) ? $_GET['member_id'] : 0; // ID des Mitglieds
-				$groupID = isset($_GET['groupID']) ? $_GET['groupID'] : 0; // ID der Gruppe
+			case 'DeleteMember':
+				$memberID = isset($_GET['memberID']) ? intval($_GET['memberID']) : 0;
+				$groupID = isset($_GET['groupID']) ? intval($_GET['groupID']) : 0;
 
-				if(!$group_data = get_group_data($groupID)) die('Kann Gruppendaten nicht laden!'); // Ueberpruefen, ob Gruppe existiert
+				$this->modules['DB']->query("DELETE FROM ".TBLPFX."groups_members WHERE groupID='$groupID' AND memberID='$memberID'");
 
-				$this->modules['DB']->query("DELETE FROM ".TBLPFX."groups_members WHERE groupID='$groupID' AND member_id='$member_id'"); // Mitglied loeschen, falls es existiert
-
-				header("Location: administration.php?action=ad_groups&mode=managemembers&groupID=$groupID&$MYSID"); exit; // Zurueck zur Mitgliederuebersicht
+				Functions::myHeader(INDEXFILE."?action=AdminGroups&mode=ManageMembers&groupID=$groupID&".MYSID);
 				break;
 
-			case 'switchmemberstatus':
-				$member_id = isset($_GET['member_id']) ? $_GET['member_id'] : 0; // ID des Mitglieds
-				$groupID = isset($_GET['groupID']) ? $_GET['groupID'] : 0; // ID der Gruppe
+			case 'SwitchMemberStatus':
+				$memberID = isset($_GET['memberID']) ? $_GET['memberID'] : 0;
+				$groupID = isset($_GET['groupID']) ? $_GET['groupID'] : 0;
 
-				if(!$group_data = get_group_data($groupID)) die('Kann Gruppendaten nicht laden!'); // Ueberpruefen, ob Gruppe existiert
-
-				$this->modules['DB']->query("SELECT member_status FROM ".TBLPFX."groups_members WHERE groupID='$groupID' AND member_id='$member_id'"); // Aktueller Status des Mitglieds laden
-				if($this->modules['DB']->affected_rows == 1) { // Falls der User auch Mitglied der Gruppe ist
-					list($akt_status) = $this->modules['DB']->fetch_array(); // Der aktuelle Status
-					$new_status = ($akt_status == 1) ? 0 : 1; // Falls der alte Status 1 (Kursleiter) war, ist der neue 0 (normales Mitglied), ansonsten 1 (Kursleiter)
-					$this->modules['DB']->query("UPDATE ".TBLPFX."groups_members SET member_status='$new_status' WHERE groupID='$groupID' AND member_id='$member_id'"); // Neuer Status speichern
+				$this->modules['DB']->query("SELECT memberStatus FROM ".TBLPFX."groups_members WHERE groupID='$groupID' AND memberID='$memberID'");
+				if($this->modules['DB']->getAffectedRows() == 1) {
+					list($memberStatus) = $this->modules['DB']->fetchArray();
+					$newMemberStatus = ($memberStatus == 1) ? 0 : 1;
+					$this->modules['DB']->query("UPDATE ".TBLPFX."groups_members SET memberStatus='$newMemberStatus' WHERE groupID='$groupID' AND memberID='$memberID'");
 				}
 
-				header("Location: administration.php?action=ad_groups&mode=managemembers&groupID=$groupID&$MYSID"); exit; // Zurueck zur Mitgliederuebersicht
+				Functions::myHeader(INDEXFILE."?action=AdminGroups&mode=ManageMembers&groupID=$groupID&".MYSID);
 				break;
 		}
 	}

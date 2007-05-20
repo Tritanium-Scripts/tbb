@@ -356,10 +356,13 @@ templates/std/files/images/icons/GroupEdit.png -text
 templates/std/files/images/icons/GroupGo.png -text
 templates/std/files/images/icons/Info.gif -text
 templates/std/files/images/icons/Info.png -text
+templates/std/files/images/icons/MedalGoldAdd.png -text
+templates/std/files/images/icons/MedalGoldDelete.png -text
 templates/std/files/images/icons/PrivateMessageDelete.png -text
 templates/std/files/images/icons/PrivateMessageRead.png -text
 templates/std/files/images/icons/PrivateMessageReadReplied.png -text
 templates/std/files/images/icons/PrivateMessageUnread.png -text
+templates/std/files/images/icons/UserDelete.png -text
 templates/std/files/images/icons/Warning.png -text
 templates/std/files/images/lightbulb_a.gif -text
 templates/std/files/images/minus.gif -text
