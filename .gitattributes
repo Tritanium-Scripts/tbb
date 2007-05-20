@@ -132,6 +132,7 @@ modules/AdminForums.class.php -text
 modules/AdminGroups.class.php -text
 modules/AdminIndex.class.php -text
 modules/AdminProfileFields.class.php -text
+modules/AdminRanks.class.php -text
 modules/AdminSmilies.class.php -text
 modules/AdminUsers.class.php -text
 modules/Ajax.class.php -text
@@ -254,6 +255,9 @@ templates/std/files/AdminPageTail.tpl -text
 templates/std/files/AdminProfileFields.tpl -text
 templates/std/files/AdminProfileFieldsAddField.tpl -text
 templates/std/files/AdminProfileFieldsEditField.tpl -text
+templates/std/files/AdminRanks.tpl -text
+templates/std/files/AdminRanksAddRank.tpl -text
+templates/std/files/AdminRanksEditRank.tpl -text
 templates/std/files/AdminSmilies.tpl -text
 templates/std/files/AdminSmiliesAddSmiley.tpl -text
 templates/std/files/AdminSmiliesEditSmiley.tpl -text
@@ -347,6 +351,8 @@ templates/std/files/images/celltitle.gif -text
 templates/std/files/images/forum_off.gif -text
 templates/std/files/images/forum_on.gif -text
 templates/std/files/images/icons/Attention.png -text
+templates/std/files/images/icons/AwardStarAdd.png -text
+templates/std/files/images/icons/AwardStarDelete.png -text
 templates/std/files/images/icons/FolderDelete.png -text
 templates/std/files/images/icons/FolderEdit.png -text
 templates/std/files/images/icons/FolderGo.png -text
