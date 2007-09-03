@@ -110,6 +110,7 @@ languages/de/AdminMain.language -text
 languages/de/AdminProfileFields.language -text
 languages/de/AdminRanks.language -text
 languages/de/AdminSmilies.language -text
+languages/de/AdminTemplates.language -text
 languages/de/AdminUsers.language -text
 languages/de/BoardRules.language -text
 languages/de/EditProfile.language -text
