@@ -175,21 +175,23 @@ class ForumIndex extends ModuleTemplate {
 	}
 
 	protected function _loadForumsData() {
-		$this->modules['DB']->query("SELECT
-			t1.*,
-			t2.posterID AS forumLastPostPosterID,
-			t2.postTimestamp AS forumLastPostTimestamp,
-			t2.postTitle AS forumLastPostTitle,
-			t2.postGuestNick AS forumLastPostGuestNick,
-			t3.userNick AS forumLastPostPosterNick,
-			t5.smileyFileName AS forumLastPostSmileyFileName
-		FROM
-			".TBLPFX."forums AS t1
-		LEFT JOIN ".TBLPFX."posts AS t2 ON t2.postID=t1.forumLastPostID
-		LEFT JOIN ".TBLPFX."users AS t3 ON t2.posterID=t3.userID
-		LEFT JOIN ".TBLPFX."smilies AS t5 ON t2.smileyID=t5.smileyID
-		ORDER BY t1.orderID
-		");
+		$this->modules['DB']->query('
+			SELECT
+				t1.*,
+				t2."posterID" AS "forumLastPostPosterID",
+				t2."postTimestamp" AS "forumLastPostTimestamp",
+				t2."postTitle" AS "forumLastPostTitle",
+				t2."postGuestNick" AS "forumLastPostGuestNick",
+				t3."userNick" AS "forumLastPostPosterNick",
+				t5."smileyFileName" AS "forumLastPostSmileyFileName"
+			FROM
+				'.TBLPFX.'forums t1
+			LEFT JOIN '.TBLPFX.'posts t2 ON t2."postID"=t1."forumLastPostID"
+			LEFT JOIN '.TBLPFX.'users t3 ON t2."posterID"=t3."userID"
+			LEFT JOIN '.TBLPFX.'smilies t5 ON t2."smileyID"=t5."smileyID"
+			ORDER BY
+				t1."orderID"
+		');
 		return $this->modules['DB']->raw2Array();
 	}
 
@@ -200,19 +202,20 @@ class ForumIndex extends ModuleTemplate {
 	 * @return array
 	 */
 	protected function _loadModsUsersData() {
-		$this->modules['DB']->query("SELECT
-			t1.authID AS userID,
-			t1.forumID,
-			t2.userNick
-		FROM (
-			".TBLPFX."forums_auth AS t1,
-			".TBLPFX."users AS t2
-		)
-		WHERE
-			t1.authType='0'
-			AND t1.authIsMod='1'
-			AND t2.userID=t1.authID
-		");
+		$this->modules['DB']->query('
+			SELECT
+				t1."authID" AS "userID",
+				t1."forumID",
+				t2."userNick"
+			FROM (
+				'.TBLPFX.'forums_auth t1,
+				'.TBLPFX.'users t2
+			)
+			WHERE
+				t1."authType"=\'0\'
+				AND t1."authIsMod"=\'1\'
+				AND t2."userID"=t1."authID"
+		');
 		return $this->modules['DB']->raw2Array();
 	}
 
@@ -223,19 +226,20 @@ class ForumIndex extends ModuleTemplate {
 	 * @return array
 	 */
 	protected function _loadModsGroupsData() {
-		$this->modules['DB']->query("SELECT
-			t1.authID AS groupID,
-			t1.forumID,
-			t2.groupName
-		FROM (
-			".TBLPFX."forums_auth AS t1,
-			".TBLPFX."groups AS t2
-		)
-		WHERE
-			t1.authType='1'
-			AND t1.authIsMod='1'
-			AND t2.groupID=t1.authID
-		");
+		$this->modules['DB']->query('
+			SELECT
+				t1."authID" AS "groupID",
+				t1."forumID",
+				t2."groupName"
+			FROM (
+				'.TBLPFX.'forums_auth t1,
+				'.TBLPFX.'groups t2
+			)
+			WHERE
+				t1."authType"=\'1\'
+				AND t1."authIsMod"=\'1\'
+				AND t2."groupID"=t1."authID"
+		');
 		return $this->modules['DB']->raw2Array();
 	}
 
@@ -249,27 +253,30 @@ class ForumIndex extends ModuleTemplate {
 		$forumsAuthData = array();
 
 		if($this->modules['Auth']->isLoggedIn() == 1 && $this->modules['Auth']->getValue('UserIsAdmin') != 1 && $this->modules['Auth']->getValue('UserIsSupermod') != 1) {
-			$this->modules['DB']->query("SELECT
-				t1.forumID,
-				t1.authViewForum
-			FROM
-				".TBLPFX."forums_auth AS t1
-			WHERE
-				t1.authType='0'
-				AND t1.authID='".USERID."'
-			");
+			$this->modules['DB']->query('
+				SELECT
+					t1."forumID",
+					t1."authViewForum"
+				FROM
+					'.TBLPFX.'forums_auth t1
+				WHERE
+					t1."authType"=\'0\'
+					AND t1."authID"=\''.USERID.'\'
+			');
 			$forumsAuthData = $this->modules['DB']->raw2Array();
 
-			$this->modules['DB']->query("SELECT
-				t1.forumID,
-				t1.authViewForum
-			FROM
-				".TBLPFX."forums_auth AS t1,
-				".TBLPFX."groups_members AS t2
-			WHERE
-				t1.authType='1'
-				AND t1.authID=t2.groupID
-				AND t2.memberID='".USERID."'");
+			$this->modules['DB']->query('
+				SELECT
+					t1."forumID",
+					t1."authViewForum"
+				FROM
+					'.TBLPFX.'forums_auth t1,
+					'.TBLPFX.'groups_members t2
+				WHERE
+					t1."authType"=\'1\'
+					AND t1."authID"=t2."groupID"
+					AND t2."memberID"=\''.USERID.'\'
+			');
 			while($curData = $this->modules['DB']->fetchArray())
 				$forumsAuthData[] = $curData;
 		}
@@ -287,27 +294,29 @@ class ForumIndex extends ModuleTemplate {
 		$newsData = FALSE;
 
 		if($this->modules['Config']->getValue('news_forum') != 0 && $this->modules['Config']->getValue('show_news_forumindex') == 1) {
-			$this->modules['DB']->query("
+			$this->modules['DB']->queryParams('
 				SELECT
-					t2.postText AS newsText,
-					t2.postID,
-					t1.topicRepliesCounter AS newsCommentsCounter,
-					t1.topicTitle AS newsTitle,
-					t2.postEnableHtmlCode,
-					t2.postEnableSmilies,
-					t2.postEnableBBCode
+					t2."postText" AS "newsText",
+					t2."postID",
+					t1."topicRepliesCounter" AS "newsCommentsCounter",
+					t1."topicTitle" AS "newsTitle",
+					t2."postEnableHtmlCode",
+					t2."postEnableSmilies",
+					t2."postEnableBBCode"
 				FROM (
-					".TBLPFX."topics AS t1,
-					".TBLPFX."posts AS t2
+					'.TBLPFX.'topics t1,
+					'.TBLPFX.'posts t2
 				)
 				WHERE
-					t1.forumID='".$this->modules['Config']->getValue('news_forum')."'
-					AND t2.postID=t1.topicFirstPosID
-				ORDER BY t1.topicPostTimestamp
+					t1."forumID"=$1
+					AND t2."postID"=t1."topicFirstPosID"
+				ORDER BY t1."topicPostTimestamp"
 				DESC LIMIT 1
-			");
+			',array(
+				(int) $this->modules['Config']->getValue('news_forum')
+			));
 
-			if($this->modules['DB']->getAffectedRows() == 1) {
+			if($this->modules['DB']->numRows() == 1) {
 				$newsData = $this->modules['DB']->fetchArray();
 				//$news_comments_link = "<a href=\"index.php?action=viewtopic&amp;post_id=".$news_data['post_id']."&amp;$mYSID\">".sprintf($lNG['x_comments'],$news_data['news_comments_counter']).'</a>';
 
@@ -337,14 +346,15 @@ class ForumIndex extends ModuleTemplate {
 			$membersChecks = array();
 			$guests = '';
 
-			$this->modules['DB']->query("
+			$this->modules['DB']->query('
 				SELECT
 					t1.*,
-					t2.userNick AS sessionUserNick
-				FROM ".TBLPFX."sessions AS t1
-				LEFT JOIN ".TBLPFX."users AS t2 ON t1.sessionUserID=t2.userID
-				WHERE sessionLastUpdate>'".($this->modules['DB']->fromUnixTimestamp(time()-$this->modules['Config']->getValue('wio_timeout')*60))."'
-			");
+					t2."userNick" AS "sessionUserNick"
+				FROM '.TBLPFX.'sessions t1
+				LEFT JOIN '.TBLPFX.'users t2 ON t1."sessionUserID"=t2."userID"
+				WHERE
+					"sessionLastUpdate">\''.($this->modules['DB']->fromUnixTimestamp(time()-$this->modules['Config']->getValue('wio_timeout')*60)).'\'
+			');
 			while($curData = $this->modules['DB']->fetchArray()) {
 				if($curData['sessionUserID'] == 0) $onlineGuestsCounter++;
 				elseif($curData['sessionIsGhost'] == 1) $onlineGhostsCounter++;

@@ -16,6 +16,8 @@ class DB extends ModuleTemplate {
 		define('TBLPFX',$this->getTablePrefix());
 		$this->query("SET NAMES utf8");
 
+		$this->query("SET sql_mode='ANSI'");
+
 		/*/$this->query("update tbb2_posts set PostText = REPLACE(PostText,'Ã¶','ö')");
 		$this->query("update tbb2_posts set PostText = REPLACE(PostText,'Ã¤','ä')");
 		$this->query("update tbb2_posts set PostText = REPLACE(PostText,'Ã¼','ü')");
@@ -45,6 +47,34 @@ class DB extends ModuleTemplate {
 		if(!($this->curResult = $this->dbObject->query($query))) die('Database error: <b>'.$this->dbObject->error.'</b><br/>Query: <b>'.$query.'</b>');
 		$this->queryTime += Functions::getMicroTime()-$startTime;
 		$this->queriesCounter++;
+	}
+
+	protected function queryParamsCallback($at) {
+		return $this->parameters[$at[1]-1];
+	}
+
+	protected function parseQueryParam($parameter) {
+		if(is_array($parameter)) {
+			if(count($parameter) == 0) $parameter = '(NULL)';
+			else $parameter = '('.implode(',',array_map(array($this,'parseQueryParam'),$parameter)).')';
+		}
+		elseif(is_null($parameter))
+			$parameter = 'NULL';
+		elseif(!is_int($parameter))
+			$parameter = "'".$this->escapeString($parameter)."'";
+
+		return $parameter;
+	}
+
+	public function queryParams($query,$parameters) {
+		$this->parameters = array_map(array($this,'parseQueryParam'),$parameters);
+		$query = preg_replace_callback('/\$([0-9]+)/',array($this,'queryParamsCallback'),$query);
+
+		$startTime = Functions::getMicroTime();
+		if(!($this->curResult = $this->dbObject->query($query))) die('Database error: <b>'.$this->dbObject->error.'</b><br/>Query: <b>'.$query.'</b>');
+		$this->queryTime += Functions::getMicroTime()-$startTime;
+		$this->queriesCounter++;
+		return TRUE;
 	}
 
 	public function getQueryTime() {
@@ -80,6 +110,10 @@ class DB extends ModuleTemplate {
 		return $this->dbObject->affected_rows;
 	}
 
+	public function numRows() {
+		return $this->curResult->num_rows;
+	}
+
 	public function getTablePrefix() {
 		return $this->getC('tablePrefix');
 	}
@@ -92,7 +126,7 @@ class DB extends ModuleTemplate {
 	}
 
 	public function escapeString($string) {
-		return mysql_escape_string($string);
+		return $this->dbObject->real_escape_string($string);
 	}
 
 	public function registerDestructFunction($function) {
