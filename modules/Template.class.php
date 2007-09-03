@@ -6,19 +6,21 @@ class Template extends ModuleTemplate {
 	protected $smarty = NULL;
 	protected $globalFrame = array();
 	protected $subFrames = array();
+	protected $templateDir = '';
 
 	public function setDirs($dirName) {
-		$this->smarty->template_dir = 'templates/'.$dirName.'/files';
+		$this->smarty->template_dir = 'templates/'.$dirName.'/templates';
 		$this->smarty->config_dir = 'templates/'.$dirName.'/config';
 		$this->smarty->compile_id = 'templates/'.$dirName;
+		$this->templateDir = 'templates/'.$dirName;
 	}
 
 	public function getTemplateDir() {
-		return $this->smarty->template_dir;
+		return $this->getTD();
 	}
 
 	public function getTD() {
-		return $this->smarty->template_dir;
+		return $this->templateDir;
 	}
 
 	public function initializeMe() {
