@@ -8,7 +8,6 @@ class Register extends ModuleTemplate {
 		'DB',
 		'Language',
 		'Navbar',
-		'PageParts',
 		'Template'
 	);
 
@@ -20,12 +19,12 @@ class Register extends ModuleTemplate {
 		if($this->modules['Auth']->isLoggedIn() == 1) Functions::myHeader(INDEXFILE.'?'.MYSID);
 		elseif($this->modules['Config']->getValue('enable_registration') != 1) {
 			$this->modules['Navbar']->addElement($this->modules['Language']->getString('Registration_disabled'),INDEXFILE.'?Action=Register&amp'.MYSID);
-			$this->modules['PageParts']->printMessage('registration_disabled');
+			$this->modules['Template']->printMessage('registration_disabled');
 			exit;
 		}
 		elseif($this->modules['Config']->getValue('maximum_registrations') != -1 && $this->modules['Config']->getValue('maximum_registrations') <= Functions::getUsersCounter()) { // Gibt es eine Grenze an maximalen Registrierungen/ist diese ueberschritten?
 			$this->modules['Navbar']->addElement($this->modules['Language']->getString('Too_many_registrations'),INDEXFILE.'?Action=Register&amp'.MYSID);
-			$this->modules['PageParts']->printMessage('too_many_registrations');
+			$this->modules['Template']->printMessage('too_many_registrations');
 			exit;
 		}
 
@@ -39,7 +38,7 @@ class Register extends ModuleTemplate {
 
 				$this->modules['Navbar']->addElement($this->modules['Language']->getString('Board_rules'),INDEXFILE."?action=Register&amp;".MYSID);
 
-				$this->modules['PageParts']->printPage('RegisterBoardRules.tpl');
+				$this->modules['Template']->printPage('RegisterBoardRules.tpl');
 				break;
 
 			case 'RegisterForm':
@@ -180,7 +179,7 @@ class Register extends ModuleTemplate {
 						$this->modules['Navbar']->addElement($this->modules['Language']->getString('Registration_successful'),INDEXFILE."?Action=Register&amp;".MYSID);
 
 						// TODO: Richtige Meldung bei Account verification
-						$this->modules['PageParts']->printMessage('registration_successful',array(sprintf($this->modules['Language']->getString('message_link_click_here_login'),'<a href="'.INDEXFILE.'?action=Login&amp;'.MYSID.'">','</a>')));
+						$this->modules['Template']->printMessage('registration_successful',array(sprintf($this->modules['Language']->getString('message_link_click_here_login'),'<a href="'.INDEXFILE.'?action=Login&amp;'.MYSID.'">','</a>')));
 						exit;
 					}
 				}
@@ -219,7 +218,7 @@ class Register extends ModuleTemplate {
 					'groupsData'=>$groupsData,
 					'fieldsCounter'=>$fieldsCounter
 				));
-				$this->modules['PageParts']->printPage('RegisterRegisterForm.tpl');
+				$this->modules['Template']->printPage('RegisterRegisterForm.tpl');
 			break;
 		}
 	}

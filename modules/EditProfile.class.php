@@ -8,15 +8,25 @@ class EditProfile extends ModuleTemplate {
 		'DB',
 		'Language',
 		'Navbar',
-		'Template',
-		'PageParts'
+		'Template'
 	);
+
+	public function printHeader() {
+		$this->modules['Template']->display('EditProfileHeader.tpl');
+	}
+
+	public function printTail() {
+		$this->modules['Template']->display('EditProfileTail.tpl');
+	}
+
+	public function initializeMe() {
+		$this->modules['Template']->registerSubFrame(array($this,'printHeader'),array($this,'printTail'));
+	}
 
 	public function executeMe() {
 		if($this->modules['Auth']->isLoggedIn() != 1) die('Kein Zugriff: Nicht eingeloggt');
 
 		$this->modules['Language']->addFile('EditProfile');
-		$this->modules['PageParts']->setInEditProfile(TRUE);
 
 		$this->modules['Navbar']->addElement($this->modules['Language']->getString('User_administration'),INDEXFILE."?action=EditProfile&amp;".MYSID);
 
@@ -58,7 +68,7 @@ class EditProfile extends ModuleTemplate {
 						}
 
 						$this->modules['Navbar']->addElements(array($this->modules['Language']->getString('Profile_saved'),''));
-						$this->modules['PageParts']->printMessage('profile_saved');
+						$this->modules['Template']->printMessage('profile_saved');
 						exit;
 					}
 				}
@@ -68,7 +78,7 @@ class EditProfile extends ModuleTemplate {
 					'error'=>$error
 				));
 
-				$this->modules['PageParts']->printPage('EditProfileGeneral.tpl');
+				$this->modules['Template']->printPage('EditProfileGeneral.tpl');
 				break;
 
 			case 'ExtendedProfile':
@@ -152,7 +162,7 @@ class EditProfile extends ModuleTemplate {
 					'groupsData'=>$groupsData,
 					'error'=>$error
 				));
-				$this->modules['PageParts']->printPage('EditProfileExtendedProfile.tpl');
+				$this->modules['Template']->printPage('EditProfileExtendedProfile.tpl');
 				break;
 
 			case 'ProfileSettings':
@@ -176,7 +186,7 @@ class EditProfile extends ModuleTemplate {
 					");
 
 					$this->modules['Navbar']->addElements(array($this->modules['Language']->getString('Profile_saved'),''));
-					$this->modules['PageParts']->printMessage('profile_saved');
+					$this->modules['Template']->printMessage('profile_saved');
 					exit;
 				}
 
@@ -184,7 +194,7 @@ class EditProfile extends ModuleTemplate {
 					'p'=>$p,
 					'timeZones'=>$timeZones
 				));
-				$this->modules['PageParts']->printPage('EditProfileProfileSettings.tpl');
+				$this->modules['Template']->printPage('EditProfileProfileSettings.tpl');
 				break;
 
 			case 'TopicSubscriptions':
@@ -207,7 +217,7 @@ class EditProfile extends ModuleTemplate {
 				$this->modules['Template']->assign(array(
 					'subscriptionsData'=>$subscriptionsData
 				));
-				$this->modules['PageParts']->printPage('EditProfileTopicSubscriptions.tpl');
+				$this->modules['Template']->printPage('EditProfileTopicSubscriptions.tpl');
 				break;
 
 			case 'Avatar':
@@ -225,7 +235,7 @@ class EditProfile extends ModuleTemplate {
 					'avatarsCounter'=>$avatarsCounter,
 					'p'=>$p
 				));
-				$this->modules['PageParts']->printPage('EditProfileAvatar.tpl');
+				$this->modules['Template']->printPage('EditProfileAvatar.tpl');
 				break;
 
 			case 'Memo':
@@ -236,18 +246,18 @@ class EditProfile extends ModuleTemplate {
 
 				if(isset($_GET['doit'])) {
 					$this->modules['DB']->query("UPDATE ".TBLPFX."users SET userMemo='".$p['userMemo']."' WHERE userID='".USERID."'");
-					$this->modules['PageParts']->printMessage('memo_updated'); exit;
+					$this->modules['Template']->printMessage('memo_updated'); exit;
 				}
 
 				$this->modules['Template']->assign(array(
 					'p'=>Functions::HTMLSpecialChars(Functions::stripSlashes($p))
 				));
-				$this->modules['PageParts']->printPage('EditProfileMemo.tpl');
+				$this->modules['Template']->printPage('EditProfileMemo.tpl');
 				break;
 
 			case 'UploadAvatar':
 				if($this->modules['Config']->getValue('enable_avatar_upload') != 1) {
-					$this->modules['PageParts']->printMessage('avatar_upload_disabled',array(),FALSE,TRUE);
+					$this->modules['Template']->printMessage('avatar_upload_disabled',array(),FALSE,TRUE);
 					exit;
 				}
 
@@ -304,7 +314,7 @@ class EditProfile extends ModuleTemplate {
 					'error'=>$error
 				));
 
-				$this->modules['PageParts']->printPopupPage('EditProfileUploadAvatar.tpl');
+				$this->modules['Template']->printPopupPage('EditProfileUploadAvatar.tpl');
 				break;
 		}
 	}

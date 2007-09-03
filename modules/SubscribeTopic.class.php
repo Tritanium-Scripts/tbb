@@ -7,7 +7,6 @@ class SubscribeTopic extends ModuleTemplate {
 		'DB',
 		'Language',
 		'Navbar',
-		'PageParts',
 		'Template'
 
 	);
@@ -40,7 +39,7 @@ class SubscribeTopic extends ModuleTemplate {
 				array(Functions::HTMLSpecialChars($topicData['topicTitle']),INDEXFILE."?action=ViewTopic&amp;topicID=$topicID&amp;".MYSID)
 			);
 
-			$this->modules['PageParts']->printMessage($message); exit;
+			$this->modules['Template']->printMessage($message); exit;
 		}
 
 		Functions::myHeader(INDEXFILE."?action=ViewTopic&topicID=$topicID&page=$returnPage&".MYSID);

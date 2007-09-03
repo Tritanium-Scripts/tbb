@@ -8,7 +8,6 @@ class AdminProfileFields extends ModuleTemplate {
 		'GlobalsAdmin',
 		'Language',
 		'Navbar',
-		'PageParts',
 		'Template'
 	);
 
@@ -31,7 +30,7 @@ class AdminProfileFields extends ModuleTemplate {
 				$this->modules['Template']->assign(array(
 					'fieldsData'=>$fieldsData
 				));
-				$this->modules['PageParts']->printPage('AdminProfileFields.tpl');
+				$this->modules['Template']->printPage('AdminProfileFields.tpl');
 				break;
 
 			case 'AddField':
@@ -73,7 +72,7 @@ class AdminProfileFields extends ModuleTemplate {
 				));
 
 				$this->modules['Navbar']->addElement($this->modules['Language']->getString('Add_profile_field'),INDEXFILE.'?action=AdminProfileFields&amp;mode=AddField&amp;'.MYSID);
-				$this->modules['PageParts']->printPage('AdminProfileFieldsAddField.tpl');
+				$this->modules['Template']->printPage('AdminProfileFieldsAddField.tpl');
 				break;
 
 			case 'EditField':
@@ -125,7 +124,7 @@ class AdminProfileFields extends ModuleTemplate {
 				));
 
 				$this->modules['Navbar']->addElement($this->modules['Language']->getString('Edit_profile_field'),INDEXFILE.'?action=AdminProfileFields&amp;mode=EditField&amp;fieldID=$fieldID&amp;'.MYSID);
-				$this->modules['PageParts']->printPage('AdminProfileFieldsEditField.tpl');
+				$this->modules['Template']->printPage('AdminProfileFieldsEditField.tpl');
 				break;
 
 			case 'DeleteField':

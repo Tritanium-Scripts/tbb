@@ -6,7 +6,6 @@ class EditTopic extends ModuleTemplate {
 		'DB',
 		'Language',
 		'Navbar',
-		'PageParts',
 		'Template'
 	);
 
@@ -133,7 +132,7 @@ class EditTopic extends ModuleTemplate {
 				'topicID'=>$topicID,
 				'topicData'=>$topicData
 			));
-			$this->modules['PageParts']->printPage('EditTopicEdit.tpl');
+			$this->modules['Template']->printPage('EditTopicEdit.tpl');
 		}
 		else {
 			if($this->modules['Auth']->getValue('userIsAdmin') != 1 && $authData['authIsMod'] != 1 && $this->modules['Auth']->getValue('userIsSupermod') != 1) die('Access denied: insufficient rights');
@@ -254,7 +253,7 @@ class EditTopic extends ModuleTemplate {
 							//update_forum_last_post($forumID);
 							//update_forum_last_post($p_target_forumID);
 
-							$this->modules['PageParts']->printMessage('topic_moved',array(sprintf($this->modules['Language']->getString('message_link_click_here_moved_topic'),'<a href="'.INDEXFILE."?action=ViewTopic&amp;topicID=$topicID&amp;".MYSID.'">','</a>')));
+							$this->modules['Template']->printMessage('topic_moved',array(sprintf($this->modules['Language']->getString('message_link_click_here_moved_topic'),'<a href="'.INDEXFILE."?action=ViewTopic&amp;topicID=$topicID&amp;".MYSID.'">','</a>')));
 							exit;
 						}
 					}
@@ -304,7 +303,7 @@ class EditTopic extends ModuleTemplate {
 						'topicID'=>$topicID
 					));
 
-					$this->modules['PageParts']->printPage('EditTopicMove.tpl');
+					$this->modules['Template']->printPage('EditTopicMove.tpl');
 					break;
 			}
 		}

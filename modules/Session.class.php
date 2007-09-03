@@ -27,7 +27,7 @@ class Session extends ModuleTemplate {
 
 		define('MYSID',$mySID);
 		$this->modules['Template']->assign('mySID',$mySID);
-		$this->modules['DB']->registerDestructFunction('session_write_close');
+		register_shutdown_function('session_write_close');
 	}
 
 	public function DataHandlerOpen($savePath,$sessionName) {

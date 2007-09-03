@@ -8,7 +8,6 @@ class MemberList extends ModuleTemplate {
 		'DB',
 		'Language',
 		'Navbar',
-		'PageParts',
 		'Template'
 	);
 
@@ -186,7 +185,7 @@ class MemberList extends ModuleTemplate {
 			'orderType'=>$orderType
 		));
 
-		$this->modules['PageParts']->printPage('MemberList.tpl');
+		$this->modules['Template']->printPage('MemberList.tpl');
 	}
 }
 

@@ -23,7 +23,7 @@ div {
 	color:black;
 }
 
-input, textarea, select {
+select {
 	cursor:pointer;
 }
 
@@ -51,8 +51,11 @@ textarea.FormTextArea {
 	font-size:11px;
 	font-family:verdana,arial;
 }
-textarea.FormTextArea:focus {
+textarea.FormTextArea:hover {
 	border:1px #696969 solid;
+}
+textarea.FormTextArea:focus {
+	border:1px #000000 solid;
 	padding:4px;
 	font-size:11px;
 	font-family:verdana,arial;
@@ -66,7 +69,6 @@ input.FormText {
 }
 input.FormText:hover {
 	border:1px #696969 solid;
-	cursor:pointer;
 }
 input.FormText:focus {
 	border:1px #000000 solid;
@@ -350,6 +352,7 @@ td.CellCat {
 	height:25px;
 	background-image:url(../images/cellcat.gif);
 	background-color:#000000;
+	border:1px #000000 solid;
 }
 td.CellCat a:link {
 	color:yellow;

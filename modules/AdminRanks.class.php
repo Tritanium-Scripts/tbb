@@ -9,7 +9,6 @@ class AdminRanks extends ModuleTemplate {
 		'GlobalsAdmin',
 		'Language',
 		'Navbar',
-		'PageParts',
 		'Template'
 	);
 
@@ -53,7 +52,7 @@ class AdminRanks extends ModuleTemplate {
 					'normalRanksData'=>$normalRanksData,
 					'specialRanksData'=>$specialRanksData
 				));
-				$this->modules['PageParts']->printPage('AdminRanks.tpl');
+				$this->modules['Template']->printPage('AdminRanks.tpl');
 				break;
 
 			case 'AddRank':
@@ -95,7 +94,7 @@ class AdminRanks extends ModuleTemplate {
 					'p'=>$p,
 					'error'=>$error
 				));
-				$this->modules['PageParts']->printPage('AdminRanksAddRank.tpl');
+				$this->modules['Template']->printPage('AdminRanksAddRank.tpl');
 				break;
 
 			case 'EditRank':
@@ -143,7 +142,7 @@ class AdminRanks extends ModuleTemplate {
 					'error'=>$error,
 					'rankID'=>$rankID
 				));
-				$this->modules['PageParts']->printPage('AdminRanksEditRank.tpl');
+				$this->modules['Template']->printPage('AdminRanksEditRank.tpl');
 				break;
 
 			case 'DeleteRank':

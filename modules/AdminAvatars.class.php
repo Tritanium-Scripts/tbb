@@ -8,7 +8,6 @@ class AdminAvatars extends ModuleTemplate {
 		'GlobalsAdmin',
 		'Language',
 		'Navbar',
-		'PageParts',
 		'Template'
 	);
 
@@ -24,7 +23,7 @@ class AdminAvatars extends ModuleTemplate {
 				$this->modules['Template']->assign(array(
 					'avatarsData'=>$avatarsData
 				));
-				$this->modules['PageParts']->printPage('AdminAvatars.tpl');
+				$this->modules['Template']->printPage('AdminAvatars.tpl');
 				break;
 
 			case 'DeleteAvatar':
@@ -60,7 +59,7 @@ class AdminAvatars extends ModuleTemplate {
 					'p'=>$p,
 					'error'=>$error
 				));
-				$this->modules['PageParts']->printPage('AdminAvatarsAddAvatar.tpl');
+				$this->modules['Template']->printPage('AdminAvatarsAddAvatar.tpl');
 				break;
 
 			case 'EditAvatar':
@@ -94,7 +93,7 @@ class AdminAvatars extends ModuleTemplate {
 					'error'=>$error,
 					'avatarID'=>$avatarID
 				));
-				$this->modules['PageParts']->printPage('AdminAvatarsEditAvatar.tpl');
+				$this->modules['Template']->printPage('AdminAvatarsEditAvatar.tpl');
 				break;
 		}
 	}

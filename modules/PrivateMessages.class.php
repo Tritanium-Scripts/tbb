@@ -10,19 +10,40 @@ class PrivateMessages extends ModuleTemplate {
 		'DB',
 		'Language',
 		'Navbar',
-		'PageParts',
 		'Template'
 	);
 
-	function executeMe() {
+	public function printTail() {
+		$this->modules['Template']->display('PrivateMessagesTail.tpl');
+	}
+
+	public function printHeader() {
+		$this->modules['DB']->query("SELECT folderName,folderID FROM ".TBLPFX."pms_folders WHERE userID='".USERID."' ORDER BY folderName");
+		$headerFoldersData = $this->modules['DB']->raw2Array();
+
+		array_unshift($headerFoldersData, // Fuegt an den Anfang die Standardordner hinzu...
+			array('folderID'=>0,'folderName'=>$this->modules['Language']->getString('Inbox')),
+			array('folderID'=>1,'folderName'=>$this->modules['Language']->getString('Outbox'))
+		);
+		reset($headerFoldersData);
+
+		$this->modules['Template']->assign('headerFoldersData',$headerFoldersData);
+
+		$this->modules['Template']->display('PrivateMessagesHeader.tpl');
+	}
+
+	public function initializeMe() {
+		$this->modules['Template']->registerSubFrame(array($this,'printHeader'),array($this,'printTail'));
+	}
+
+	public function executeMe() {
 		if($this->modules['Auth']->isLoggedIn() != 1) die('Kein Zugriff: Nicht eingeloggt');
 		elseif($this->modules['Config']->getValue('enable_pms') != 1) {
 			$this->modules['Navbar']->addElement($this->modules['Language']->getString('Function_deactivated'),'');
-			$this->modules['PageParts']->printMessage('function_deactivated');
+			$this->modules['Template']->printMessage('function_deactivated');
 			exit;
 		}
 
-		$this->modules['PageParts']->setInPrivateMessages(TRUE);
 		$this->modules['Language']->addFile('PrivateMessages');
 		$this->modules['Navbar']->addElement($this->modules['Language']->getString('Private_messages'),INDEXFILE.'?action=PrivateMessages&amp;'.MYSID);
 
@@ -106,7 +127,7 @@ class PrivateMessages extends ModuleTemplate {
 					'foldersData'=>$foldersData
 				));
 
-				$this->modules['PageParts']->printPage('PrivateMessagesViewFolder.tpl');
+				$this->modules['Template']->printPage('PrivateMessagesViewFolder.tpl');
 			break;
 
 			case 'NewPM':
@@ -212,7 +233,7 @@ class PrivateMessages extends ModuleTemplate {
 					'c'=>$c
 				));
 
-				$this->modules['PageParts']->printPage('PrivateMessagesNewPM.tpl');
+				$this->modules['Template']->printPage('PrivateMessagesNewPM.tpl');
 			break;
 
 			case 'popNewPMReceived':
@@ -415,7 +436,7 @@ class PrivateMessages extends ModuleTemplate {
 					array($this->modules['Language']->getString('View_private_message'),INDEXFILE.'?action=PrivateMessages&amp;pmID='.$pmID.'&amp;'.MYSID)
 				);
 
-				$this->modules['PageParts']->printPage('PrivateMessagesViewPM.tpl');
+				$this->modules['Template']->printPage('PrivateMessagesViewPM.tpl');
 				break;
 
 			case 'ManageFolders':
@@ -426,7 +447,7 @@ class PrivateMessages extends ModuleTemplate {
 					'foldersData'=>$foldersData
 				));
 
-				$this->modules['PageParts']->printPage('PrivateMessagesManageFolders.tpl');
+				$this->modules['Template']->printPage('PrivateMessagesManageFolders.tpl');
 				break;
 
 			case 'AddFolder':
@@ -460,7 +481,7 @@ class PrivateMessages extends ModuleTemplate {
 					'error'=>$error
 				));
 
-				$this->modules['PageParts']->printPage('PrivateMessagesAddFolder.tpl');
+				$this->modules['Template']->printPage('PrivateMessagesAddFolder.tpl');
 				break;
 
 			case 'EditFolder':
@@ -496,7 +517,7 @@ class PrivateMessages extends ModuleTemplate {
 					'error'=>$error
 				));
 
-				$this->modules['PageParts']->printPage('PrivateMessagesEditFolder.tpl');
+				$this->modules['Template']->printPage('PrivateMessagesEditFolder.tpl');
 				break;
 
 			case 'DeleteFolder':
@@ -544,7 +565,7 @@ class PrivateMessages extends ModuleTemplate {
 					'folderID'=>$folderID
 				));
 
-				$this->modules['PageParts']->printPage('PrivateMessagesDeleteFolder.tpl');
+				$this->modules['Template']->printPage('PrivateMessagesDeleteFolder.tpl');
 				break;
 
 			case 'MovePMs':

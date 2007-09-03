@@ -8,7 +8,6 @@ class AdminForums extends ModuleTemplate {
 		'GlobalsAdmin',
 		'Language',
 		'Navbar',
-		'PageParts',
 		'Template'
 	);
 
@@ -78,7 +77,7 @@ class AdminForums extends ModuleTemplate {
 					'catsData'=>$catsData
 				));
 
-				$this->modules['PageParts']->printPage('AdminForums.tpl');
+				$this->modules['Template']->printPage('AdminForums.tpl');
 				break;
 
 			case 'AddForum':
@@ -143,7 +142,7 @@ class AdminForums extends ModuleTemplate {
 				));
 
 				$this->modules['Navbar']->addElement($this->modules['Language']->getString('Add_forum'),INDEXFILE.'?action=AdminForums&amp;mode=AddForum&amp;catID='.$p['catID'].'&amp;'.MYSID);
-				$this->modules['PageParts']->printPage('AdminForumsAddForum.tpl');
+				$this->modules['Template']->printPage('AdminForumsAddForum.tpl');
 				break;
 
 			case 'EditForum';
@@ -211,7 +210,7 @@ class AdminForums extends ModuleTemplate {
 				));
 
 				$this->modules['Navbar']->addElement($this->modules['Language']->getString('Edit_forum'),INDEXFILE.'?action=AdminForums&amp;mode=EditForum&amp;forumID='.$forumID.'&amp;'.MYSID);
-				$this->modules['PageParts']->printPage('AdminForumsEditForum.tpl');
+				$this->modules['Template']->printPage('AdminForumsEditForum.tpl');
 				break;
 
 			case 'AddCat':
@@ -261,7 +260,7 @@ class AdminForums extends ModuleTemplate {
 				));
 
 				$this->modules['Navbar']->addElement($this->modules['Language']->getString('Add_category'),INDEXFILE.'?action=AdminForums&amp;mode=AddCat&amp;parentCatID='.$p['parentCatID'].'&amp;'.MYSID);
-				$this->modules['PageParts']->printPage('AdminForumsAddCat.tpl');
+				$this->modules['Template']->printPage('AdminForumsAddCat.tpl');
 				break;
 
 			case 'EditCat':
@@ -325,7 +324,7 @@ class AdminForums extends ModuleTemplate {
 				));
 
 				$this->modules['Navbar']->addElement($this->modules['Language']->getString('Edit_category'),INDEXFILE.'?action=AdminForums&amp;mode=EditCat&amp;catID='.$catID.'&amp;'.MYSID);
-				$this->modules['PageParts']->printPage('AdminForumsEditCat.tpl');
+				$this->modules['Template']->printPage('AdminForumsEditCat.tpl');
 				break;
 
 			case 'MoveCatUp':
@@ -392,7 +391,7 @@ class AdminForums extends ModuleTemplate {
 
 					// TODO: Add link to message
 					// show_message($LNG['Special_rights_updated'],$LNG['message_special_rights_updated'].'<br />'.sprintf($LNG['click_here_back'],"<a href=\"administration.php?action=ad_forums&amp;mode=editforum&amp;forumID=$forumID&amp;$MYSID\">",'</a>'),FALSE);
-					$this->modules['PageParts']->printMessage('special_rights_updated');
+					$this->modules['Template']->printMessage('special_rights_updated');
 				}
 
 				$this->modules['DB']->query("
@@ -437,7 +436,7 @@ class AdminForums extends ModuleTemplate {
 					array($this->modules['Language']->getString('Edit_forum'),INDEXFILE.'?action=AdminForums&amp;mode=EditForum&amp;forumID='.$forumID.'&amp;'.MYSID),
 					array($this->modules['Language']->getString('Edit_special_rights'),INDEXFILE.'?action=AdminForums&amp;mode=EditSpecialRights&amp;forumID='.$forumID.'&amp;'.MYSID)
 				);
-				$this->modules['PageParts']->printPage('AdminForumsEditSpecialRights.tpl');
+				$this->modules['Template']->printPage('AdminForumsEditSpecialRights.tpl');
 				break;
 
 			case 'AddUserRight':
@@ -488,7 +487,7 @@ class AdminForums extends ModuleTemplate {
 					array($this->modules['Language']->getString('Edit_special_rights'),INDEXFILE.'?action=AdminForums&amp;mode=EditSpecialRights&amp;forumID='.$forumID.'&amp;'.MYSID),
 					array($this->modules['Language']->getString('Add_user_right'),INDEXFILE.'?action=AdminForums&amp;mode=AddUserRight&amp;forumID='.$forumID.'&amp;'.MYSID)
 				);
-				$this->modules['PageParts']->printPage('AdminForumsAddUserRight.tpl');
+				$this->modules['Template']->printPage('AdminForumsAddUserRight.tpl');
 				break;
 
 			case 'AddGroupRight':
@@ -541,7 +540,7 @@ class AdminForums extends ModuleTemplate {
 					array($this->modules['Language']->getString('Edit_special_rights'),INDEXFILE.'?action=AdminForums&amp;mode=EditSpecialRights&amp;forumID='.$forumID.'&amp;'.MYSID),
 					array($this->modules['Language']->getString('Add_group_right'),INDEXFILE.'?action=AdminForums&amp;mode=AddGroupRight&amp;forumID='.$forumID.'&amp;'.MYSID)
 				);
-				$this->modules['PageParts']->printPage('AdminForumsAddGroupRight.tpl');
+				$this->modules['Template']->printPage('AdminForumsAddGroupRight.tpl');
 				break;
 
 			case 'DeleteSpecialRight':

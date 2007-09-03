@@ -7,7 +7,6 @@ class ViewForum extends ModuleTemplate {
 		'DB',
 		'Language',
 		'Navbar',
-		'PageParts',
 		'Template'
 	);
 
@@ -143,7 +142,7 @@ class ViewForum extends ModuleTemplate {
 			'topicsData'=>$topicsData,
 			'pageListing'=>$pageListing
 		));
-		$this->modules['PageParts']->printPage('ViewForum.tpl');
+		$this->modules['Template']->printPage('ViewForum.tpl');
 	}
 
 	protected function _loadAnnouncementsData($forumID) {

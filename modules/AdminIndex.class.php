@@ -5,12 +5,12 @@ class AdminIndex extends ModuleTemplate {
 		'Auth',
 		'AuthAdmin',
 		'GlobalsAdmin',
-		'Language',
-		'PageParts'
+		'Template',
+		'Language'
 	);
 
 	public function executeMe() {
-		$this->modules['PageParts']->printPage('AdminIndex.tpl');
+		$this->modules['Template']->printPage('AdminIndex.tpl');
 	}
 }
 

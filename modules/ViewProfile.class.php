@@ -8,7 +8,6 @@ class ViewProfile extends ModuleTemplate {
 		'DB',
 		'Language',
 		'Navbar',
-		'PageParts',
 		'Template'
 	);
 
@@ -109,7 +108,7 @@ class ViewProfile extends ModuleTemplate {
 					'show'=>$show
 				));
 
-				$this->modules['PageParts']->printPage('ViewProfileView.tpl');
+				$this->modules['Template']->printPage('ViewProfileView.tpl');
 				break;
 
 			case 'AddNote':
@@ -144,7 +143,7 @@ class ViewProfile extends ModuleTemplate {
 
 				$this->modules['Navbar']->addElements(array($this->modules['Language']->getString('Add_note'),INDEXFILE."?action=ViewProfile&amp;profileID=$profileID&amp;".MYSID));
 
-				$this->modules['PageParts']->printPage('ViewProfileAddNote.tpl');
+				$this->modules['Template']->printPage('ViewProfileAddNote.tpl');
 				break;
 
 			case 'EditNote':
@@ -181,7 +180,7 @@ class ViewProfile extends ModuleTemplate {
 
 				$this->modules['Navbar']->addElements(array($this->modules['Language']->getString('Edit_note'),INDEXFILE."?action=ViewProfile&amp;profileID=$profileID&amp;".MYSID));
 
-				$this->modules['PageParts']->printPage('ViewProfileEditNote.tpl');
+				$this->modules['Template']->printPage('ViewProfileEditNote.tpl');
 				break;
 
 			case 'DeleteNote':
@@ -233,7 +232,7 @@ class ViewProfile extends ModuleTemplate {
 					'profileData'=>$profileData
 				));
 
-				$this->modules['PageParts']->printPage('ViewProfileSendEmail.tpl');
+				$this->modules['Template']->printPage('ViewProfileSendEmail.tpl');
 				break;
 		}
 	}

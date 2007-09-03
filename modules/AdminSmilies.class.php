@@ -9,7 +9,6 @@ class AdminSmilies extends ModuleTemplate {
 		'GlobalsAdmin',
 		'Language',
 		'Navbar',
-		'PageParts',
 		'Template'
 	);
 
@@ -29,7 +28,7 @@ class AdminSmilies extends ModuleTemplate {
 					'adminSmiliesData'=>$adminSmiliesData
 				));
 
-				$this->modules['PageParts']->printPage('AdminSmilies.tpl');
+				$this->modules['Template']->printPage('AdminSmilies.tpl');
 				break;
 
 			case 'deleteSmiley':
@@ -78,7 +77,7 @@ class AdminSmilies extends ModuleTemplate {
 					'p'=>$p,
 					'error'=>$error
 				));
-				$this->modules['PageParts']->printPage('AdminSmiliesAddSmiley.tpl');
+				$this->modules['Template']->printPage('AdminSmiliesAddSmiley.tpl');
 				break;
 
 			case 'editSmiley':
@@ -122,7 +121,7 @@ class AdminSmilies extends ModuleTemplate {
 					'error'=>$error,
 					'smileyID'=>$smileyID
 				));
-				$this->modules['PageParts']->printPage('AdminSmiliesEditSmiley.tpl');
+				$this->modules['Template']->printPage('AdminSmiliesEditSmiley.tpl');
 				break;
 		}
 	}

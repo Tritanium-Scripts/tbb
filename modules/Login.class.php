@@ -8,7 +8,6 @@ class Login extends ModuleTemplate {
 		'DB',
 		'Language',
 		'Navbar',
-		'PageParts',
 		'Template'
 	);
 
@@ -104,7 +103,7 @@ class Login extends ModuleTemplate {
 					'userNick'=>$userNick,
 					'error'=>$error
 				));
-				$this->modules['PageParts']->printPage('LoginLogin.tpl');
+				$this->modules['Template']->printPage('LoginLogin.tpl');
 				break;
 
 			case 'ActivateAccount':
@@ -136,7 +135,7 @@ class Login extends ModuleTemplate {
 
 							$this->modules['Navbar']->addElement($this->modules['Language']->getString('Account_activated'),'');
 
-							$this->modules['PageParts']->printMessage('account_activated',array(sprintf($this->modules['Language']->getString('message_link_click_here_login'),'<a href="'.INDEXFILE.'?action=Login&amp;'.MYSID.'">','</a>')));
+							$this->modules['Template']->printMessage('account_activated',array(sprintf($this->modules['Language']->getString('message_link_click_here_login'),'<a href="'.INDEXFILE.'?action=Login&amp;'.MYSID.'">','</a>')));
 							exit;
 						}
 					}
@@ -148,7 +147,7 @@ class Login extends ModuleTemplate {
 					'activationCode'=>$activationCode
 				));
 
-				$this->modules['PageParts']->printPage('LoginActivateAccount.tpl');
+				$this->modules['Template']->printPage('LoginActivateAccount.tpl');
 				break;
 
 			case 'RequestPassword':
@@ -183,7 +182,7 @@ class Login extends ModuleTemplate {
 
 						$this->modules['Navbar']->addElement($this->modules['Language']->getString('New_password_sent'),'');
 
-						$this->modules['PageParts']->printMessage('new_password_sent',array(
+						$this->modules['Template']->printMessage('new_password_sent',array(
 							sprintf($this->modules['Language']->getString('message_link_click_here_login'),'<a href="'.INDEXFILE.'?action=Login&amp;'.MYSID.'">','</a>'),
 							sprintf($this->modules['Language']->getString('message_link_click_here_back_forumindex'),'<a href="'.INDEXFILE.'?'.MYSID.'">','</a>'),
 						));
@@ -195,7 +194,7 @@ class Login extends ModuleTemplate {
 					'error'=>$error,
 					'p'=>$p
 				));
-				$this->modules['PageParts']->printPage('LoginRequestPassword.tpl');
+				$this->modules['Template']->printPage('LoginRequestPassword.tpl');
 				break;
 		}
 	}

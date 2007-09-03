@@ -9,7 +9,6 @@ class AdminUsers extends ModuleTemplate {
 		'GlobalsAdmin',
 		'Language',
 		'Navbar',
-		'PageParts',
 		'Template'
 	);
 
@@ -19,7 +18,7 @@ class AdminUsers extends ModuleTemplate {
 
 		switch(@$_GET['mode']) {
 			default:
-				$this->modules['PageParts']->printPage('AdminUsers.tpl');
+				$this->modules['Template']->printPage('AdminUsers.tpl');
 				break;
 
 			case 'AddUser':
@@ -66,7 +65,7 @@ class AdminUsers extends ModuleTemplate {
 							mymail($CONFIG['board_name'].' <'.$CONFIG['board_email_address'].'>',$p_user_email,sprintf($LNG['email_subject_welcome'],$CONFIG['board_name']),$email_tpl->parseCode());
 						}
 
-						$this->modules['PageParts']->printMessage('new_user_added'); exit;
+						$this->modules['Template']->printMessage('new_user_added'); exit;
 					}
 				}
 
@@ -75,7 +74,7 @@ class AdminUsers extends ModuleTemplate {
 					'c'=>$c,
 					'error'=>$error
 				));
-				$this->modules['PageParts']->printPage('AdminUsersAddUser.tpl');
+				$this->modules['Template']->printPage('AdminUsersAddUser.tpl');
 				break;
 
 			case 'SearchUsers':
@@ -106,7 +105,7 @@ class AdminUsers extends ModuleTemplate {
 					'usersData'=>$usersData,
 					'p'=>Functions::stripSlashes(Functions::HTMLSpecialChars($p))
 				));
-				$this->modules['PageParts']->printPage('AdminUsersSearchUsers.tpl');
+				$this->modules['Template']->printPage('AdminUsersSearchUsers.tpl');
 				break;
 
 			case 'EditUser':
@@ -144,7 +143,7 @@ class AdminUsers extends ModuleTemplate {
 							rankID='".$p['rankID']."'
 						WHERE userID='$userID'");
 
-						$this->modules['PageParts']->printMessage('user_edited'); exit;
+						$this->modules['Template']->printMessage('user_edited'); exit;
 					}
 				}
 
@@ -182,7 +181,7 @@ class AdminUsers extends ModuleTemplate {
 					'error'=>$error
 				));
 
-				$this->modules['PageParts']->printPage('AdminUsersEditUser.tpl');
+				$this->modules['Template']->printPage('AdminUsersEditUser.tpl');
 			break;
 
 			case 'deleteuser':

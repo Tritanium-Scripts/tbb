@@ -7,7 +7,6 @@ class WhoIsOnline extends ModuleTemplate {
 		'DB',
 		'Language',
 		'Navbar',
-		'PageParts',
 		'Template'
 	);
 
@@ -51,7 +50,7 @@ class WhoIsOnline extends ModuleTemplate {
 		$this->modules['Template']->assign(array(
 			'wioData'=>$wioData
 		));
-		$this->modules['PageParts']->printPage('WhoIsOnline.tpl');
+		$this->modules['Template']->printPage('WhoIsOnline.tpl');
 	}
 }
 

@@ -9,7 +9,6 @@ class Posting extends ModuleTemplate {
 		'Constants',
 		'Language',
 		'Navbar',
-		'PageParts',
 		'Template'
 	);
 
@@ -307,7 +306,7 @@ class Posting extends ModuleTemplate {
 			'postPicsBox'=>$postPicsBox,
 			'smiliesBox'=>$smiliesBox
 		));
-		$this->modules['PageParts']->printPage('Posting.tpl');
+		$this->modules['Template']->printPage('Posting.tpl');
 	}
 
 	protected function _authenticateUser(&$mode,&$forumData) {

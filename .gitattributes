@@ -119,7 +119,6 @@ languages/de/Language.config -text
 languages/de/Login.language -text
 languages/de/Main.language -text
 languages/de/Messages.language -text
-languages/de/PageParts.language -text
 languages/de/Posting.language -text
 languages/de/PrivateMessages.language -text
 languages/de/Register.language -text
@@ -158,7 +157,6 @@ modules/Login.class.php -text
 modules/Logout.class.php -text
 modules/MemberList.class.php -text
 modules/Navbar.class.php -text
-modules/PageParts.class.php -text
 modules/Posting.class.php -text
 modules/PrivateMessages.class.php -text
 modules/Register.class.php -text
@@ -242,6 +240,7 @@ modules/ViewProfile.class.php -text
 modules/ViewTopic.class.php -text
 modules/Vote.class.php -text
 modules/WhoIsOnline.class.php -text
+templates/std/config/TemplateInfo.ini -text
 templates/std/files/AdminAvatars.tpl -text
 templates/std/files/AdminAvatarsAddAvatar.tpl -text
 templates/std/files/AdminAvatarsEditAvatar.tpl -text
@@ -269,6 +268,7 @@ templates/std/files/AdminRanksEditRank.tpl -text
 templates/std/files/AdminSmilies.tpl -text
 templates/std/files/AdminSmiliesAddSmiley.tpl -text
 templates/std/files/AdminSmiliesEditSmiley.tpl -text
+templates/std/files/AdminTemplates.tpl -text
 templates/std/files/AdminUsers.tpl -text
 templates/std/files/AdminUsersAddUser.tpl -text
 templates/std/files/AdminUsersEditUser.tpl -text

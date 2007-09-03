@@ -9,7 +9,6 @@ class ForumIndex extends ModuleTemplate {
 		'DB',
 		'Language',
 		'Navbar',
-		'PageParts',
 		'Template'
 	);
 
@@ -172,7 +171,7 @@ class ForumIndex extends ModuleTemplate {
 			'wioData'=>$wioData,
 			'boardStatsData'=>$boardStatsData
 		));
-		$this->modules['PageParts']->printPage('ForumIndex.tpl');
+		$this->modules['Template']->printPage('ForumIndex.tpl');
 	}
 
 	protected function _loadForumsData() {

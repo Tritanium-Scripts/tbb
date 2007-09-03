@@ -4,6 +4,8 @@ include('Template/Smarty.class.php');
 
 class Template extends ModuleTemplate {
 	protected $smarty = NULL;
+	protected $globalFrame = array();
+	protected $subFrames = array();
 
 	public function setDirs($dirName) {
 		$this->smarty->template_dir = 'templates/'.$dirName.'/files';
@@ -58,6 +60,32 @@ class Template extends ModuleTemplate {
 		}
 
 		return $this->smarty->fetch($file);
+	}
+
+	public function setGlobalFrame($headerFunction, $tailFunction) {
+		$this->globalFrame = array($headerFunction,$tailFunction);
+	}
+
+	public function registerSubFrame($headerFunction, $tailFunction) {
+		$this->subFrames[] = array($headerFunction,$tailFunction);
+	}
+
+	public function printPage($templateName) {
+		$this->printHeader();
+		$this->display($templateName);
+		$this->printTail();
+	}
+
+	public function printHeader() {
+		call_user_func($this->globalFrame[0]);
+		foreach($this->subFrames AS $curFrame)
+			call_user_func($curFrame[0]);
+	}
+
+	public function printTail() {
+		foreach($this->subFrames AS $curFrame)
+			call_user_func($curFrame[1]);
+		call_user_func($this->globalFrame[1]);
 	}
 }
 

@@ -10,7 +10,6 @@ class ViewTopic extends ModuleTemplate {
 		'DB',
 		'Language',
 		'Navbar',
-		'PageParts',
 		'Template'
 	);
 
@@ -286,7 +285,7 @@ class ViewTopic extends ModuleTemplate {
 			'forumID'=>$forumID,
 			'topicData'=>$topicData
 		));
-		$this->modules['PageParts']->printPage('ViewTopic.tpl');
+		$this->modules['Template']->printPage('ViewTopic.tpl');
 	}
 
 	protected function _loadForumModIDs($forumID) {

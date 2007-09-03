@@ -8,7 +8,6 @@ class AdminGroups extends ModuleTemplate {
 		'GlobalsAdmin',
 		'Language',
 		'Navbar',
-		'PageParts',
 		'Template'
 	);
 
@@ -24,7 +23,7 @@ class AdminGroups extends ModuleTemplate {
 				$this->modules['Template']->assign(array(
 					'groupsData'=>$groupsData
 				));
-				$this->modules['PageParts']->printPage('AdminGroups.tpl');
+				$this->modules['Template']->printPage('AdminGroups.tpl');
 				break;
 
 			case 'AddGroup':
@@ -51,7 +50,7 @@ class AdminGroups extends ModuleTemplate {
 					'p'=>$p,
 					'error'=>$error
 				));
-				$this->modules['PageParts']->printPage('AdminGroupsAddGroup.tpl');
+				$this->modules['Template']->printPage('AdminGroupsAddGroup.tpl');
 				break;
 
 			case 'EditGroup':
@@ -84,7 +83,7 @@ class AdminGroups extends ModuleTemplate {
 					'error'=>$error,
 					'groupID'=>$groupID
 				));
-				$this->modules['PageParts']->printPage('AdminGroupsEditGroup.tpl');
+				$this->modules['Template']->printPage('AdminGroupsEditGroup.tpl');
 				break;
 
 			case 'DeleteGroup':
@@ -117,7 +116,7 @@ class AdminGroups extends ModuleTemplate {
 					'groupMembersData'=>$groupMembersData,
 					'groupID'=>$groupID
 				));
-				$this->modules['PageParts']->printPage('AdminGroupsManageMembers.tpl');
+				$this->modules['Template']->printPage('AdminGroupsManageMembers.tpl');
 				break;
 
 			case 'AddMembers':
