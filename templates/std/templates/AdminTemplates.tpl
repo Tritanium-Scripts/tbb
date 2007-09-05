@@ -8,7 +8,7 @@
 		<tr>
 			<td class="CellStd" valign="top"><span class="FontNorm">{$curTemplate.templateInfo.templateName}</span></td>
 			<td class="CellAlt" valign="top"><span class="FontNorm">{if $curTemplate.templateInfo.authorUrl neq ''}<a href="{$curTemplate.templateInfo.authorUrl}">{$curTemplate.templateInfo.authorName}</a>{else}{$curTemplate.templateInfo.authorName}{/if}</span></td>
-			<td class="CellStd"><span class="FontSmall">{$curTemplate.templateInfo.authorComment}</span></td>
+			<td class="CellStd" width="50%"><span class="FontSmall">{$curTemplate.templateInfo.authorComment}</span></td>
 		</tr>
 	{/foreach}
 </table>

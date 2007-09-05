@@ -43,6 +43,44 @@ class FuncUsers {
 
 		return FALSE;
 	}
+
+	public static function updateLatestUser($userID = '',$userNick = '') {
+		$DB = Factory::singleton('DB');
+		$Config = Factory::singleton('CONFIG');
+
+		if($userID == '' || $userNick == '') {
+			$DB->query('
+				SELECT
+					"userID",
+					"userNick"
+				FROM
+					'.TBLPFX.'users
+				ORDER BY
+					"userID" DESC
+				LIMIT 1
+			');
+			list($userID,$userNick) = $DB->fetchArray();
+		}
+
+		$Config->updateValue('newest_user_id',$userID,FALSE);
+		$Config->updateValue('newest_user_nick',$userNick);
+	}
+
+	public static function getUsersCounter() {
+		$DB = Factory::singleton('DB');
+		$DB->query('SELECT COUNT(*) FROM '.TBLPFX.'users');
+		list($usersCounter) = $DB->fetchArray();
+		return $usersCounter;
+	}
+
+	public static function updateUsersCounter() {
+		$DB = Factory::singleton('DB');
+		$Config = Factory::singleton('Config');
+
+		$DB->query('BEGIN');
+		$Config->updateValue('usersCounter',self::getUsersCounter());
+		$DB->query('COMMIT');
+	}
 }
 
 ?>

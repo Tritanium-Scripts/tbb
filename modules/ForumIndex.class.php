@@ -400,7 +400,7 @@ class ForumIndex extends ModuleTemplate {
 	protected function _loadBoardStatsData() {
 		$boardStatsData = FALSE;
 		if($this->modules['Config']->getValue('show_boardstats_forumindex') == 1) {
-			$membersCounter = Functions::getUsersCounter();
+			$membersCounter = $this->modules['Config']->getValue('usersCounter');
 			$topicsCounter = Functions::getTopicsCounter();
 			$postsCounter = Functions::getPostsCounter();
 

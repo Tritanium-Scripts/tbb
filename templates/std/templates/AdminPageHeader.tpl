@@ -5,8 +5,8 @@
  <link rel="stylesheet" href="{$modules.Template->getTD()}/styles/ts_tbb2_standard.css" type="text/css"></link>
  <meta http-equiv="Content-Type" content="text/html; charset={$modules.Language->getString('html_encoding')}"/>
  <meta http-equiv="Content-Style-Type" content="text/css"/>
- <script src="{$modules.Template->getTD()}/jscripts.js" type="text/javascript"></script>
- <script src="{$modules.Template->getTD()}/ajax.js" type="text/javascript"></script>
+ <script src="{$modules.Template->getTD()}/scripts/jscripts.js" type="text/javascript"></script>
+ <script src="{$modules.Template->getTD()}/scripts/ajax.js" type="text/javascript"></script>
  <script type="text/javascript">
  <!--
   if(0 == 1)

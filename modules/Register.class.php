@@ -112,33 +112,43 @@ class Register extends ModuleTemplate {
 						$userPasswordSalt = Functions::getRandomString(10);
 						$userPasswordEncrypted = Functions::getSaltedHash($p['userPassword'],$userPasswordSalt); // Passwort fuer Datenbank verschluesseln
 
-						$this->modules['DB']->query("
-							INSERT INTO
-								".TBLPFX."users
-							SET
-								userIsActivated='".$userIsActivated."',
-								userIsAdmin='".$userIsAdmin."',
-								userHash='".$userHash."',
-								userNick='".$p['userName']."',
-								userEmailAddress='".$p['userEmailAddress']."',
-								userPassword='".$userPasswordEncrypted."',
-								userPasswordSalt='".Functions::addSlashes($userPasswordSalt)."',
-								userRegistrationTimestamp='".time()."',
-								userTimeZone='".$this->modules['Config']->getValue('standard_tz')."'
-						");
+						$this->modules['DB']->queryParams('
+							INSERT INTO '.TBLPFX.'users SET
+								"userIsActivated"=$1,
+								"userIsAdmin"=$2,
+								"userHash"=$3,
+								"userNick"=$4,
+								"userEmailAddress"=$5,
+								"userPassword"=$6,
+								"userPasswordSalt"=$7,
+								"userRegistrationTimestamp"=$8,
+								"userTimeZone"=$9
+						',array(
+							$userIsActivated,
+							$userIsAdmin,
+							$userHash,
+							$p['userName'],
+							$p['userEmailAddress'],
+							$userPasswordEncrypted,
+							$userPasswordSalt,
+							time(),
+							$this->modules['Config']->getValue('standard_tz')
+						));
 
 						$userID = $this->modules['DB']->getInsertID();
 
 						foreach($profileFields AS $curField) {
 							$curValue = ($curField['fieldType'] == PROFILE_FIELD_TYPE_SELECTMULTI) ? implode(',',$p['fieldsData'][$curField['fieldID']]) : $p['fieldsData'][$curField['fieldID']];
-							$this->modules['DB']->query("
-								INSERT INTO
-									".TBLPFX."profile_fields_data
-								SET
-									fieldID='".$curField['fieldID']."',
-									userID='".$userID."'
-									fieldValue='".$curValue."'
-							");
+							$this->modules['DB']->queryParams('
+								INSERT INTO ".TBLPFX."profile_fields_data SET
+									"fieldID"=$1,
+									"userID"=$2.
+									"fieldValue"=$3
+							',array(
+								$curField['fieldID'],
+								$userID,
+								$curValue
+							));
 						}
 
 						$_SESSION['lastPlaceUrl'] = INDEXFILE.'?'.MYSID;
@@ -173,8 +183,8 @@ class Register extends ModuleTemplate {
 							}
 						}
 
-						// TODO:
-						//update_latest_user($new_user_id,$p_user_nick);
+						FuncUsers::updateLatestUser($userID,$p['userName']);
+						FuncUsers::updateUsersCounter();
 
 						$this->modules['Navbar']->addElement($this->modules['Language']->getString('Registration_successful'),INDEXFILE."?Action=Register&amp;".MYSID);
 

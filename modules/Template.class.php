@@ -72,6 +72,22 @@ class Template extends ModuleTemplate {
 		$this->subFrames[] = array($headerFunction,$tailFunction);
 	}
 
+	public function printMessage($message,$additionalLinks = array(),$inPopup = FALSE) {
+		$this->modules['Language']->addFile('Messages');
+
+		$this->modules['Navbar']->addElement((is_array($message) ? $message[0] : $this->modules['Language']->getString('message_title_'.$message)),'');
+
+		$this->modules['Template']->assign(array(
+			'messageTitle'=>(is_array($message) ? $message[0] : $this->modules['Language']->getString('message_title_'.$message)),
+			'messageText'=>(is_array($message) ? $message[1] : $this->modules['Language']->getString('message_text_'.$message)),
+			'additionalLinks'=>$additionalLinks,
+			'pageInPage'=>(count($this->subFrames) > 0)
+		));
+
+		if($inPopup) $this->printPopupPage('Message.tpl');
+		else $this->printPage('Message.tpl');
+	}
+
 	public function printPage($templateName) {
 		$this->printHeader();
 		$this->display($templateName);

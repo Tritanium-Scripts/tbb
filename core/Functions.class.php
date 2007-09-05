@@ -118,13 +118,6 @@ class Functions {
 		return ($DB->getAffectedRows() == 1) ? $DB->fetchArray() : FALSE;
 	}
 
-	public static function getUsersCounter() {
-		$DB = Factory::singleton('DB');
-		$DB->query("SELECT COUNT(*) FROM ".TBLPFX."users");
-		list($Counter) = $DB->fetchArray();
-		return $Counter;
-	}
-
 	public static function getPostsCounter($TopicID = 0) {
 		$DB = Factory::singleton('DB');
 

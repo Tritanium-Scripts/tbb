@@ -68,8 +68,7 @@ class EditProfile extends ModuleTemplate {
 						}
 
 						$this->modules['Navbar']->addElements(array($this->modules['Language']->getString('Profile_saved'),''));
-						$this->modules['Template']->printMessage('profile_saved');
-						exit;
+						$this->modules['Template']->printMessage('profile_saved'); exit;
 					}
 				}
 
@@ -186,8 +185,7 @@ class EditProfile extends ModuleTemplate {
 					");
 
 					$this->modules['Navbar']->addElements(array($this->modules['Language']->getString('Profile_saved'),''));
-					$this->modules['Template']->printMessage('profile_saved');
-					exit;
+					$this->modules['Template']->printMessage('profile_saved'); exit;
 				}
 
 				$this->modules['Template']->assign(array(
@@ -257,7 +255,7 @@ class EditProfile extends ModuleTemplate {
 
 			case 'UploadAvatar':
 				if($this->modules['Config']->getValue('enable_avatar_upload') != 1) {
-					$this->modules['Template']->printMessage('avatar_upload_disabled',array(),FALSE,TRUE);
+					$this->modules['Template']->printMessage('avatar_upload_disabled',array(),TRUE);
 					exit;
 				}
 
