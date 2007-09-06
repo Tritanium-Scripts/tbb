@@ -7,6 +7,7 @@
  <meta http-equiv="Content-Style-Type" content="text/css"/>
  <script src="{$modules.Template->getTD()}/scripts/jscripts.js" type="text/javascript"></script>
  <script src="{$modules.Template->getTD()}/scripts/ajax.js" type="text/javascript"></script>
+ <script src="{$modules.Template->getTD()}/scripts/posting.js" type="text/javascript"></script>
  <script type="text/javascript">
  <!--
   if(0 == 1)

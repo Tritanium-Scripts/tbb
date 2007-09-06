@@ -248,7 +248,7 @@ class Posting extends ModuleTemplate {
 
 		// Smilies und Beitragsbilder laden
 		$smilies = array(); $smiliesBox = '';
-		if($show['enableSmilies'] == TRUE) {
+		if($show['enableSmilies']) {
 			$smilies = $this->modules['Cache']->getSmiliesData('write');
 			$smiliesBox = Functions::getSmiliesBox();
 		}

@@ -49,14 +49,14 @@
 	{/literal}
 </script>
 {if $show.previewBox}
- <table class="TableStd" border="0" cellspacing="0" cellpadding="3" width="100%">
+ <table class="TableStd" width="100%">
  <tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('Preview')}</span></td></tr>
  <tr><td class="CellStd"><span class="FontNorm">{$preview_post}</span></td></tr>
  </table>
  <br/>
 {/if}
 <form method="post" action="{$indexFile}?action=Posting&amp;mode={$mode}&amp;forumID={$forumID}&amp;topicID={$topicID}&amp;postID={$postID}&amp;doit=1&amp;{$mySID}" name="MyForm">
-<table class="TableStd" border="0" cellspacing="0" cellpadding="3" width="100%">
+<table class="TableStd" width="100%">
 <colgroup>
  <col width="20%"/>
  <col width="80%"/>
@@ -78,13 +78,15 @@
  <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Title')}:</span></td>
  <td class="CellAlt"><input class="FormText" type="text" size="65" name="p[messageTitle]" value="{$p.messageTitle}" maxlength="100"/>&nbsp;<span class="FontSmall"></span></td>
 </tr>
+{if $show.enableBBCode}
  <tr>
-  <td class="CellStd" valign="top"></td>
-  <td class="CellAlt"></td>
+  <td class="CellStd" valign="top">&nbsp;</td>
+  <td class="CellAlt">{include file=BBCodeBox.tpl}</td>
  </tr>
+{/if}
 <tr>
  <td class="CellStd" valign="top"><span class="FontNorm">{$modules.Language->getString('Post')}:</span><br/><br/>{$smiliesBox}</td>
- <td class="CellAlt"><textarea class="FormTextArea" name="p[messageText]" rows="14" cols="80" onselect="storecaret();" onclick="storecaret();" onkeyup="storecaret();">{$p.messageText}</textarea></td>
+ <td class="CellAlt"><textarea class="FormTextArea" name="p[messageText]" rows="14" cols="80" id="messageBox">{$p.messageText}</textarea></td>
 </tr>
 <tr>
  <td class="CellStd" valign="top"><span class="FontNorm">{$modules.Language->getString('Options')}:</span></td>
