@@ -340,8 +340,8 @@ class Posting extends ModuleTemplate {
 	protected function _authenticateUser(&$mode,&$forumData) {
 		$authData = Functions::getAuthData($forumData,array('authPostTopic','authPostReply','authPostPoll','authEditPosts','authIsMod'));
 		if($mode == 'Reply' && $authData['authPostReply'] == 0 || ($mode == 'Edit' || $mode == 'Delete') && $authData['authEditPosts'] == 0 || $mode == 'Topic' && $authData['authPostTopic'] == 0) {
-			// TODO: Message
-			die('Leider kein Zugriff');
+			FuncMisc::printMessage('access_denied');
+			exit;
 		}
 
 		return $authData;

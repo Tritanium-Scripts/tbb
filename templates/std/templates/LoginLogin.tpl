@@ -13,7 +13,7 @@
 </tr>
 <tr><td class="CellCat" colspan="2"><span class="FontCat">{$modules.Language->getString('Other_options')}</span></td></tr>
 <tr><td class="CellStd" colspan="2"><span class="FontNorm"><label><input type="checkbox" name="c[StayLoggedIn]" value="1"{if $c.stayLoggedIn == 1} checked="checked"{/if}/>&nbsp;{$modules.Language->getString('Stay_logged_in')}</label></span></td></tr>
-<tr><td class="CellStd" colspan="2"><span class="FontNorm"><label><input type="checkbox" name="c[EnableGhostMode]" value="1"{if $c.enableGhostMode == 1} checked="checked"{/if}/>&nbsp;{$modules.Language->getString('Hide_from_who_is_online')}</label></span></td></tr>
+{if $modules.Config->getValue('allow_ghost_mode') == 1}<tr><td class="CellStd" colspan="2"><span class="FontNorm"><label><input type="checkbox" name="c[EnableGhostMode]" value="1"{if $c.enableGhostMode == 1} checked="checked"{/if}/>&nbsp;{$modules.Language->getString('Hide_from_who_is_online')}</label></span></td></tr>{/if}
 <tr><td class="CellButtons" colspan="2" align="center"><input type="submit" value="{$modules.Language->getString('Login')}" class="FormBButton"/></td></tr>
 </table>
 </form>

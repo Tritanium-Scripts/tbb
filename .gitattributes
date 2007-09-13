@@ -20,6 +20,7 @@ functions/FuncConfig.class.php -text
 functions/FuncDate.class.php -text
 functions/FuncForums.class.php -text
 functions/FuncGroups.class.php -text
+functions/FuncMisc.class.php -text
 functions/FuncPolls.class.php -text
 functions/FuncRanks.class.php -text
 functions/FuncSmilies.class.php -text
@@ -104,6 +105,7 @@ images/tsmilies/9.gif -text
 images/tsmilies/Thumbs.db -text
 /index.php -text
 languages/de/AdminAvatars.language -text
+languages/de/AdminConfig.language -text
 languages/de/AdminForums.language -text
 languages/de/AdminGroups.language -text
 languages/de/AdminMain.language -text
@@ -325,6 +327,7 @@ templates/std/styles/ts_tbb2_standard.css -text
 templates/std/templates/AdminAvatars.tpl -text
 templates/std/templates/AdminAvatarsAddAvatar.tpl -text
 templates/std/templates/AdminAvatarsEditAvatar.tpl -text
+templates/std/templates/AdminConfig.tpl -text
 templates/std/templates/AdminForums.tpl -text
 templates/std/templates/AdminForumsAddCat.tpl -text
 templates/std/templates/AdminForumsAddForum.tpl -text
