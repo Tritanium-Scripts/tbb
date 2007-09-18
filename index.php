@@ -19,6 +19,6 @@ include('core/Core.class.php');
 $Core = new Core;
 $Core->executeMe();
 
-echo (get_mtime_counter()-$t);
+//echo (get_mtime_counter()-$t);
 
 ?>

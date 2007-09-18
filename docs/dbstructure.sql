@@ -1,16 +1,3 @@
-# HeidiSQL Dump 
-#
-# --------------------------------------------------------
-# Host:                 localhost
-# Database:             tbb2test
-# Server version:       4.1.14-nt
-# Server OS:            Win32
-# Target-Compatibility: MySQL 4.1
-# Extended INSERTs:     Y
-# max_allowed_packet:   1048576
-# HeidiSQL version:     3.0 Revision: 572
-# --------------------------------------------------------
-
 /*!40100 SET CHARACTER SET latin1*/;
 
 
@@ -137,8 +124,8 @@ CREATE TABLE /*!32312 IF NOT EXISTS*/ `tbb2_groups_members` (
   `groupID` smallint(5) unsigned NOT NULL default '0',
   `memberID` mediumint(8) unsigned NOT NULL default '0',
   `memberStatus` tinyint(1) unsigned NOT NULL default '0',
-  KEY `group_id` (`groupID`),
-  KEY `member_id_group_id` (`memberID`,`groupID`)
+  UNIQUE KEY `member_id_group_id` (`memberID`,`groupID`),
+  KEY `group_id` (`groupID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 
@@ -218,8 +205,8 @@ CREATE TABLE /*!32312 IF NOT EXISTS*/ `tbb2_polls_options` (
   `optionID` smallint(5) unsigned NOT NULL default '0',
   `optionTitle` varchar(255) NOT NULL default '',
   `optionVotesCounter` mediumint(8) NOT NULL default '0',
-  KEY `option_id` (`optionID`),
-  KEY `poll_id_option_id` (`pollID`,`optionID`)
+  UNIQUE KEY `poll_id_option_id` (`pollID`,`optionID`),
+  KEY `option_id` (`optionID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 
@@ -231,8 +218,8 @@ CREATE TABLE /*!32312 IF NOT EXISTS*/ `tbb2_polls_options` (
 CREATE TABLE /*!32312 IF NOT EXISTS*/ `tbb2_polls_votes` (
   `pollID` mediumint(8) unsigned NOT NULL default '0',
   `voterID` mediumint(8) unsigned NOT NULL default '0',
-  KEY `poll_id` (`pollID`),
-  KEY `voter_id_poll_id` (`voterID`,`pollID`)
+  UNIQUE KEY `voter_id_poll_id` (`voterID`,`pollID`),
+  KEY `poll_id` (`pollID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 
@@ -295,8 +282,8 @@ CREATE TABLE /*!32312 IF NOT EXISTS*/ `tbb2_profile_fields_data` (
   `fieldID` smallint(5) unsigned NOT NULL default '0',
   `userID` mediumint(8) unsigned NOT NULL default '0',
   `fieldValue` text NOT NULL,
-  KEY `field_id` (`fieldID`),
-  KEY `user_id_field_id` (`userID`,`fieldID`)
+  UNIQUE KEY `user_id_field_id` (`userID`,`fieldID`),
+  KEY `field_id` (`fieldID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 
@@ -416,8 +403,8 @@ CREATE TABLE /*!32312 IF NOT EXISTS*/ `tbb2_topics` (
 CREATE TABLE /*!32312 IF NOT EXISTS*/ `tbb2_topics_subscriptions` (
   `topicID` mediumint(8) unsigned NOT NULL default '0',
   `userID` mediumint(8) unsigned NOT NULL default '0',
-  KEY `topic_id` (`topicID`),
-  KEY `user_id_topic_id` (`userID`,`topicID`)
+  UNIQUE KEY `user_id_topic_id` (`userID`,`topicID`),
+  KEY `topic_id` (`topicID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 
@@ -435,9 +422,9 @@ CREATE TABLE /*!32312 IF NOT EXISTS*/ `tbb2_users` (
   `userNick` varchar(255) NOT NULL default '',
   `userEmailAddress` varchar(255) NOT NULL default '',
   `userPassword` varchar(255) NOT NULL default '',
-  `userPasswordSalt` varchar(255) default NULL,
-  `userNewPassword` varchar(255) default NULL,
-  `userNewPasswordSalt` varchar(255) default NULL,
+  `userPasswordSalt` varchar(255) NOT NULL default '',
+  `userNewPassword` varchar(255) NOT NULL default '',
+  `userNewPasswordSalt` varchar(255) NOT NULL default '',
   `userPostsCounter` mediumint(8) unsigned NOT NULL default '0',
   `userRegistrationTimestamp` int(10) unsigned NOT NULL default '0',
   `userSignature` text NOT NULL,
@@ -468,7 +455,7 @@ CREATE TABLE /*!32312 IF NOT EXISTS*/ `tbb2_users_locks` (
   `lockType` tinyint(1) unsigned NOT NULL default '0',
   `lockStartTimestamp` int(10) unsigned NOT NULL default '0',
   `lockEndTimestamp` int(10) unsigned NOT NULL default '0',
-  KEY `user_id` (`userID`),
+  PRIMARY KEY  (`userID`),
   KEY `lock_type_user_id` (`lockType`,`userID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 

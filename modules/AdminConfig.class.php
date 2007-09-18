@@ -42,13 +42,24 @@ class AdminConfig extends ModuleTemplate {
 
 		$p['config']['email_signature'] = str_replace("\r\n","\n",$p['config']['email_signature']);
 
+		if(isset($_GET['doit'])) {
+			foreach($configNames AS $curName)
+				$this->modules['Config']->updateValue($curName,$p['config'][$curName],FALSE);
+
+			$this->modules['Cache']->setConfig();
+
+			FuncMisc::printMessage('board_config_updated'); exit;
+		}
+
 		$this->modules['DB']->query('SELECT "forumID","forumName" FROM '.TBLPFX.'forums ORDER BY "orderID"');
 		$forumsData = $this->modules['DB']->raw2Array();
+
+		list(,$languages) = $this->modules['Cache']->getLanguages();
 
 		$this->modules['Template']->assign(array(
 			'timeZones'=>Functions::getTimeZones(TRUE),
 			'forumsData'=>$forumsData,
-			'languages'=>$this->modules['Cache']->getLanguages(),
+			'languages'=>$languages,
 			'p'=>$p
 		));
 		$this->modules['Template']->printPage('AdminConfig.tpl');

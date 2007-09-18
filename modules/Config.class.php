@@ -16,7 +16,15 @@ class Config extends ModuleTemplate {
 	}
 
 	public function updateValue($configName,$configValue,$updateCache = TRUE) {
-		$this->modules['DB']->query("UPDATE ".TBLPFX."config SET configValue='$configValue' WHERE configName='$configName' LIMIT 1");
+		$this->modules['DB']->queryParams('
+			UPDATE '.TBLPFX.'config SET
+				"configValue"=$1
+			WHERE
+				"configName"=$2
+		',array(
+			$configValue,
+			$configName
+		));
 		if($updateCache) $this->modules['Cache']->setConfig();
 	}
 }

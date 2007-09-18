@@ -122,206 +122,210 @@
 		</tr>
 		<tr><td class="CellCat" colspan="2"><span class="FontCat">{$modules.Language->getString('Email_settings')}</span></td></tr>
 		<tr>
-		<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Enable_email_functions')}:</span></td>
-		<td class="CellStd"><select class="form_select" name="p[config][enable_email_functions]"><option value="1"{$checked.enable_email_functions[1]}>{$modules.Language->getString('Yes')}</option><option value="0"{$checked.enable_email_functions[0]}>{$modules.Language->getString('No')}</option></select></td>
+			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Enable_email_functions')}:</span></td>
+			<td class="CellAlt"><span class="FontNorm"><label><input type="radio" name="p[config][enable_email_functions]" value="1"{if $p.config.enable_email_functions == 1} checked="checked"{/if}/> {$modules.Language->getString('Yes')}</label>&nbsp;&nbsp;&nbsp;<label><input type="radio" name="p[config][enable_email_functions]" value="0"{if $p.config.enable_email_functions == 0} checked="checked"{/if}/> {$modules.Language->getString('No')}</label></span></td>
 		</tr>
 		<tr>
-		<td class="CellAlt"><span class="FontNorm">{$modules.Language->getString('Board_email_address')}:</span><br/><span class="FontSmall">{$modules.Language->getString('board_email_address_info')}</span></td>
-		<td class="CellAlt"><input size="40" class="FormText" type="text" value="{$p.config.board_email_address}" name="p[config][board_email_address]" maxlength="255"/></td>
+			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Board_email_address')}:</span><br/><span class="FontSmall">{$modules.Language->getString('board_email_address_info')}</span></td>
+			<td class="CellAlt"><input size="40" class="FormText" type="text" value="{$p.config.board_email_address}" name="p[config][board_email_address]" maxlength="255"/></td>
 		</tr>
 		<tr>
-		<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Board_email_signature')}:</span><br/><span class="FontSmall">{$modules.Language->getString('board_email_signature_info')}</span></td>
-		<td class="CellStd"><textarea class="FormTextarea" name="p[config][email_signature]" cols="40" rows="4">{$p.config.email_signature}</textarea></td>
+			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Board_email_signature')}:</span><br/><span class="FontSmall">{$modules.Language->getString('board_email_signature_info')}</span></td>
+			<td class="CellAlt"><textarea class="FormTextArea" name="p[config][email_signature]" cols="40" rows="4">{$p.config.email_signature}</textarea></td>
 		</tr>
 		<tr>
-		<td class="CellAlt"><span class="FontNorm">{$modules.Language->getString('Enable_topic_subscriptions')}:</span></td>
-		<td class="CellAlt"><select class="form_select" name="p[config][enable_topic_subscription]"><option value="1"{$checked.enable_topic_subscription[1]}>{$modules.Language->getString('Yes')}</option><option value="0"{$checked.enable_topic_subscription[0]}>{$modules.Language->getString('No')}</option></select></td>
+			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Enable_topic_subscriptions')}:</span></td>
+			<td class="CellAlt"><span class="FontNorm"><label><input type="radio" name="p[config][enable_topic_subscription]" value="1"{if $p.config.enable_topic_subscription == 1} checked="checked"{/if}/> {$modules.Language->getString('Yes')}</label>&nbsp;&nbsp;&nbsp;<label><input type="radio" name="p[config][enable_topic_subscription]" value="0"{if $p.config.enable_topic_subscription == 0} checked="checked"{/if}/> {$modules.Language->getString('No')}</label></span></td>
 		</tr>
 		<tr>
-		<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Enable_email_formular')}:</span><br/><span class="FontSmall">{$modules.Language->getString('email_formular_info')}</span></td>
-		<td class="CellStd"><select class="form_select" name="p[config][enable_email_formular]"><option value="1"{$checked.enable_email_formular[1]}>{$modules.Language->getString('Yes')}</option><option value="0"{$checked.enable_email_formular[0]}>{$modules.Language->getString('No')}</option></select></td>
+			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Enable_email_formular')}:</span><br/><span class="FontSmall">{$modules.Language->getString('email_formular_info')}</span></td>
+			<td class="CellAlt"><span class="FontNorm"><label><input type="radio" name="p[config][enable_email_formular]" value="1"{if $p.config.enable_email_formular == 1} checked="checked"{/if}/> {$modules.Language->getString('Yes')}</label>&nbsp;&nbsp;&nbsp;<label><input type="radio" name="p[config][enable_email_formular]" value="0"{if $p.config.enable_email_formular == 0} checked="checked"{/if}/> {$modules.Language->getString('No')}</label></span></td>
 		</tr>
 		<tr><td class="CellCat" colspan="2"><span class="FontCat">{$modules.Language->getString('News_settings')}</span></td></tr>
 		<tr>
-		<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('News_forum')}:</span></td>
-		<td class="CellStd"><select class="form_select" name="p[config][news_forum]">
-		<option value="0"<if:"{$p.config.news_forum} == 0"> selected="selected"</if>>{$modules.Language->getString('No_news_forum')}</option>
-		<template:forumrow>
-		<option value="{$akt_forum.forum_id}"<if:"{$akt_forum.forum_id} == {$p.config.news_forum}"> selected="selected"</if>>{$akt_forum.forum_name}</option>
-		</template>
-		</select></td>
+			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('News_forum')}:</span></td>
+			<td class="CellAlt">
+				<select class="FormSelect" name="p[config][news_forum]">
+					<option value="0"{if $p.config.news_forum == 0} selected="selected"{/if}>{$modules.Language->getString('No_news_forum')}</option>
+					{foreach from=$forumsData item=curForum}
+						<option value="{$curForum.forumID}"{if $curForum.forumID == $p.config.news_forum} selected="selected"{/if}>{$curForum.forumName}</option>
+					{/foreach}
+				</select>
+			</td>
 		</tr>
 		<tr>
-		<td class="CellAlt"><span class="FontNorm">{$modules.Language->getString('Display_news_forumindex')}:</span></td>
-		<td class="CellAlt"><select class="form_select" name="p[config][show_news_forumindex]"><option value="1"{$checked.show_news_forumindex[1]}>{$modules.Language->getString('Yes')}</option><option value="0"{$checked.show_news_forumindex[0]}>{$modules.Language->getString('No')}</option></select></td>
+			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Display_news_forumindex')}:</span></td>
+			<td class="CellAlt"><span class="FontNorm"><label><input type="radio" name="p[config][show_news_forumindex]" value="1"{if $p.config.show_news_forumindex == 1} checked="checked"{/if}/> {$modules.Language->getString('Yes')}</label>&nbsp;&nbsp;&nbsp;<label><input type="radio" name="p[config][show_news_forumindex]" value="0"{if $p.config.show_news_forumindex == 0} checked="checked"{/if}/> {$modules.Language->getString('No')}</label></span></td>
 		</tr>
-		<tr>
-		<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Enable_news_module')}:</span><br/><span class="FontSmall">{$modules.Language->getString('news_module_info')}</span></td>
-		<td class="CellStd"><select class="form_select" name="p[config][enable_news_module]"><option value="1"{$checked.enable_news_module[1]}>{$modules.Language->getString('Yes')}</option><option value="0"{$checked.enable_news_module[0]}>{$modules.Language->getString('No')}</option></select></td>
-		</tr>
+		{*<tr>
+			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Enable_news_module')}:</span><br/><span class="FontSmall">{$modules.Language->getString('news_module_info')}</span></td>
+			<td class="CellAlt"><select class="FormSelect" name="p[config][enable_news_module]"><option value="1"{$checked.enable_news_module[1]}>{$modules.Language->getString('Yes')}</option><option value="0"{$checked.enable_news_module[0]}>{$modules.Language->getString('No')}</option></select></td>
+		</tr>*}
 		<tr><td class="CellCat" colspan="2"><span class="FontCat">{$modules.Language->getString('Registration_settings')}</span></td></tr>
 		<tr>
-		<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Enable_registration')}:</span></td>
-		<td class="CellStd"><select class="form_select" name="p[config][enable_registration]"><option value="1"{$checked.enable_registration[1]}>{$modules.Language->getString('Yes')}</option><option value="0"{$checked.enable_registration[0]}>{$modules.Language->getString('No')}</option></select></td>
+			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Enable_registration')}:</span></td>
+			<td class="CellAlt"><span class="FontNorm"><label><input type="radio" name="p[config][enable_registration]" value="1"{if $p.config.enable_registration == 1} checked="checked"{/if}/> {$modules.Language->getString('Yes')}</label>&nbsp;&nbsp;&nbsp;<label><input type="radio" name="p[config][enable_registration]" value="0"{if $p.config.enable_registration == 0} checked="checked"{/if}/> {$modules.Language->getString('No')}</label></span></td>
 		</tr>
 		<tr>
-		<td class="CellAlt"><span class="FontNorm">{$modules.Language->getString('User_must_accept_board_rules')}:</span></td>
-		<td class="CellAlt"><select class="form_select" name="p[config][require_accept_boardrules]"><option value="1"{$checked.require_accept_boardrules[1]}>{$modules.Language->getString('Yes')}</option><option value="0"{$checked.require_accept_boardrules[0]}>{$modules.Language->getString('No')}</option></select></td>
+			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('User_must_accept_board_rules')}:</span></td>
+			<td class="CellAlt"><span class="FontNorm"><label><input type="radio" name="p[config][require_accept_boardrules]" value="1"{if $p.config.require_accept_boardrules == 1} checked="checked"{/if}/> {$modules.Language->getString('Yes')}</label>&nbsp;&nbsp;&nbsp;<label><input type="radio" name="p[config][require_accept_boardrules]" value="0"{if $p.config.require_accept_boardrules == 0} checked="checked"{/if}/> {$modules.Language->getString('No')}</label></span></td>
 		</tr>
 		<tr>
-		<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Allow_email_addresses_only_once')}:</span></td>
-		<td class="CellAlt"><select class="form_select" name="p[config][check_unique_email_addresses]"><option value="1"{$checked.check_unique_email_addresses[1]}>{$modules.Language->getString('Yes')}</option><option value="0"{$checked.check_unique_email_addresses[0]}>{$modules.Language->getString('No')}</option></select></td>
+			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Allow_email_addresses_only_once')}:</span></td>
+			<td class="CellAlt"><span class="FontNorm"><label><input type="radio" name="p[config][check_unique_email_addresses]" value="1"{if $p.config.check_unique_email_addresses == 1} checked="checked"{/if}/> {$modules.Language->getString('Yes')}</label>&nbsp;&nbsp;&nbsp;<label><input type="radio" name="p[config][check_unique_email_addresses]" value="0"{if $p.config.check_unique_email_addresses == 0} checked="checked"{/if}/> {$modules.Language->getString('No')}</label></span></td>
 		</tr>
 		<tr>
-		<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Verify_email_address')}:</span></td>
-		<td class="CellStd"><select class="form_select" name="p[config][verify_email_address]"><option value="0"{$checked.verify_email_address[0]}>{$modules.Language->getString('No')}</option><option value="1"{$checked.verify_email_address[1]}>{$modules.Language->getString('Create_random_password')}</option><option value="2"{$checked.verify_email_address[2]}>{$modules.Language->getString('Send_activation_code')}</option></select></td>
+			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Verify_email_address')}:</span></td>
+			<td class="CellAlt"><select class="FormSelect" name="p[config][verify_email_address]"><option value="0"{if $p.config.verify_email_address == 0} selected="selected"{/if}>{$modules.Language->getString('No')}</option><option value="1"{if $p.config.verify_email_address == 1} selected="selected"{/if}}>{$modules.Language->getString('Create_random_password')}</option><option value="2"{if $p.config.verify_email_address == 2} selected="selected"{/if}>{$modules.Language->getString('Send_activation_code')}</option></select></td>
 		</tr>
 		<tr>
-		<td class="CellAlt"><span class="FontNorm">{$modules.Language->getString('Maximum_registrations')}:</span></td>
-		<td class="CellAlt"><input size="8" class="FormText" type="text" value="{$p.config.maximum_registrations}" name="p[config][maximum_registrations]"/> <span class="FontSmall">({$modules.Language->getString('minus_1_infinite')})</span></td>
+			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Maximum_registrations')}:</span></td>
+			<td class="CellAlt"><input size="8" class="FormText" type="text" value="{$p.config.maximum_registrations}" name="p[config][maximum_registrations]"/> <span class="FontSmall">({$modules.Language->getString('minus_1_infinite')})</span></td>
 		</tr>
 		<tr><td class="CellCat" colspan="2"><span class="FontCat">{$modules.Language->getString('Signature_settings')}</span></td></tr>
 		<tr>
-		<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Enable_signature')}:</span></td>
-		<td class="CellStd"><select onchange="check_enable_sig();" class="form_select" name="p[config][enable_sig]"><option value="1"{$checked.enable_sig[1]}>{$modules.Language->getString('Yes')}</option><option value="0"{$checked.enable_sig[0]}>{$modules.Language->getString('No')}</option></select></td>
+			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Enable_signature')}:</span></td>
+			<td class="CellAlt"><span class="FontNorm"><label><input type="radio" name="p[config][enable_sig]" value="1"{if $p.config.enable_sig == 1} checked="checked"{/if}/> {$modules.Language->getString('Yes')}</label>&nbsp;&nbsp;&nbsp;<label><input type="radio" name="p[config][enable_sig]" value="0"{if $p.config.enable_sig == 0} checked="checked"{/if}/> {$modules.Language->getString('No')}</label></span></td>
 		</tr>
 		<tr>
-		<td class="CellAlt"><span class="FontNorm">{$modules.Language->getString('Maximum_signature_length')}:</span></td>
-		<td class="CellAlt"><input size="6" class="FormText" type="text" value="{$p.config.maximum_sig_length}" name="p[config][maximum_sig_length]"/></td>
+			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Maximum_signature_length')}:</span></td>
+			<td class="CellAlt"><input size="6" class="FormText" type="text" value="{$p.config.maximum_sig_length}" name="p[config][maximum_sig_length]"/></td>
 		</tr>
 		<tr>
-		<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Allow_signature_bbcode')}:</span></td>
-		<td class="CellStd"><select class="form_select" name="p[config][allow_sig_bbcode]"><option value="1"{$checked.allow_sig_bbcode[1]}>{$modules.Language->getString('Yes')}</option><option value="0"{$checked.allow_sig_bbcode[0]}/>{$modules.Language->getString('No')}</option></select></td>
+			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Allow_signature_bbcode')}:</span></td>
+			<td class="CellAlt"><span class="FontNorm"><label><input type="radio" name="p[config][allow_sig_bbcode]" value="1"{if $p.config.allow_sig_bbcode == 1} checked="checked"{/if}/> {$modules.Language->getString('Yes')}</label>&nbsp;&nbsp;&nbsp;<label><input type="radio" name="p[config][allow_sig_bbcode]" value="0"{if $p.config.allow_sig_bbcode == 0} checked="checked"{/if}/> {$modules.Language->getString('No')}</label></span></td>
 		</tr>
 		<tr>
-		<td class="CellAlt"><span class="FontNorm">{$modules.Language->getString('Allow_signature_html')}:</span></td>
-		<td class="CellAlt"><select class="form_select" name="p[config][allow_sig_html]"><option value="1"{$checked.allow_sig_html[1]}>{$modules.Language->getString('Yes')}</option><option value="0"{$checked.allow_sig_html[0]}>{$modules.Language->getString('No')}</option></select></td>
+			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Allow_signature_html')}:</span></td>
+			<td class="CellAlt"><span class="FontNorm"><label><input type="radio" name="p[config][allow_sig_html]" value="1"{if $p.config.allow_sig_html == 1} checked="checked"{/if}/> {$modules.Language->getString('Yes')}</label>&nbsp;&nbsp;&nbsp;<label><input type="radio" name="p[config][allow_sig_html]" value="0"{if $p.config.allow_sig_html == 0} checked="checked"{/if}/> {$modules.Language->getString('No')}</label></span></td>
 		</tr>
 		<tr>
-		<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Allow_signature_smilies')}:</span></td>
-		<td class="CellStd"><select class="form_select" name="p[config][allow_sig_smilies]"><option value="1"{$checked.allow_sig_smilies[1]}>{$modules.Language->getString('Yes')}</option><option value="0"{$checked.allow_sig_smilies[0]}>{$modules.Language->getString('No')}</option></select></td>
+			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Allow_signature_smilies')}:</span></td>
+			<td class="CellAlt"><span class="FontNorm"><label><input type="radio" name="p[config][allow_sig_smilies]" value="1"{if $p.config.allow_sig_smilies == 1} checked="checked"{/if}/> {$modules.Language->getString('Yes')}</label>&nbsp;&nbsp;&nbsp;<label><input type="radio" name="p[config][allow_sig_smilies]" value="0"{if $p.config.allow_sig_smilies == 0} checked="checked"{/if}/> {$modules.Language->getString('No')}</label></span></td>
 		</tr>
 		<tr><td class="CellCat" colspan="2"><span class="FontCat">{$modules.Language->getString('Avatar_settings')}</span></td></tr>
 		<tr>
-		<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Enable_avatars')}:</span></td>
-		<td class="CellStd"><select class="form_select" name="p[config][enable_avatars]"><option value="1"{$checked.enable_avatars[1]}>{$modules.Language->getString('Yes')}</option><option value="0"{$checked.enable_avatars[0]}>{$modules.Language->getString('No')}</option></select></td>
+			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Enable_avatars')}:</span></td>
+			<td class="CellAlt"><span class="FontNorm"><label><input type="radio" name="p[config][enable_avatars]" value="1"{if $p.config.enable_avatars == 1} checked="checked"{/if}/> {$modules.Language->getString('Yes')}</label>&nbsp;&nbsp;&nbsp;<label><input type="radio" name="p[config][enable_avatars]" value="0"{if $p.config.enable_avatars == 0} checked="checked"{/if}/> {$modules.Language->getString('No')}</label></span></td>
 		</tr>
 		<tr>
-		<td class="CellAlt"><span class="FontNorm">{$modules.Language->getString('Avatar_image_height')}:</span></td>
-		<td class="CellAlt"><input size="6" class="FormText" type="text" value="{$p.config.avatar_image_height}" name="p[config][avatar_image_height]"/></td>
+			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Avatar_image_height')}:</span></td>
+			<td class="CellAlt"><input size="6" class="FormText" type="text" value="{$p.config.avatar_image_height}" name="p[config][avatar_image_height]"/></td>
 		</tr>
 		<tr>
-		<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Avatar_image_width')}:</span></td>
-		<td class="CellStd"><input size="6" class="FormText" type="text" value="{$p.config.avatar_image_width}" name="p[config][avatar_image_width]"/></td>
+			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Avatar_image_width')}:</span></td>
+			<td class="CellAlt"><input size="6" class="FormText" type="text" value="{$p.config.avatar_image_width}" name="p[config][avatar_image_width]"/></td>
 		</tr>
 		<tr>
-		<td class="CellAlt"><span class="FontNorm">{$modules.Language->getString('Enable_avatar_upload')}:</span></td>
-		<td class="CellAlt"><select class="form_select" name="p[config][enable_avatar_upload]"><option value="1"{$checked.enable_avatar_upload[1]}>{$modules.Language->getString('Yes')}</option><option value="0"{$checked.enable_avatar_upload[0]}>{$modules.Language->getString('No')}</option></select></td>
+			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Enable_avatar_upload')}:</span></td>
+			<td class="CellAlt"><span class="FontNorm"><label><input type="radio" name="p[config][enable_avatar_upload]" value="1"{if $p.config.enable_avatar_upload == 1} checked="checked"{/if}/> {$modules.Language->getString('Yes')}</label>&nbsp;&nbsp;&nbsp;<label><input type="radio" name="p[config][enable_avatar_upload]" value="0"{if $p.config.enable_avatar_upload == 0} checked="checked"{/if}/> {$modules.Language->getString('No')}</label></span></td>
 		</tr>
 		<tr>
-		<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Maximum_avatar_file_size')}:</span></td>
-		<td class="CellStd"><input size="4" class="FormText" type="text" value="{$p.config.max_avatar_file_size}" name="p[config][max_avatar_file_size]" maxlength="4"/> <span class="FontSmall">{$modules.Language->getString('in_kilobytes')}</span></td>
+			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Maximum_avatar_file_size')}:</span></td>
+			<td class="CellAlt"><input size="4" class="FormText" type="text" value="{$p.config.max_avatar_file_size}" name="p[config][max_avatar_file_size]" maxlength="4"/> <span class="FontSmall">{$modules.Language->getString('in_kilobytes')}</span></td>
 		</tr>
 		<tr><td class="CellCat" colspan="2"><span class="FontCat">{$modules.Language->getString('Language_settings')}</span></td></tr>
 		<tr>
-		<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Standard_language')}:</span></td>
-		<td class="CellStd"><select class="form_select" name="p[config][standard_language]">
-		<template:lng_optionrow>
-		<option value="{$cur_language.dir}"<if:"{$CONFIG.standard_language} == {$cur_language.dir}"> selected="selected"</if>>{$cur_language.name} ({$cur_language.native_name})</option>
-		</template>
-		</select></td>
+			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Standard_language')}:</span></td>
+			<td class="CellAlt">
+				<select class="FormSelect" name="p[config][standard_language]">
+					{foreach from=$languages item=curLanguage}
+						<option value="{$curLanguage.dir}"{if $p.config.standard_language == $curLanguage.dir} selected="selected"{/if}>{$curLanguage.name} ({$curLanguage.nativeName})</option>
+					{/foreach}
+				</select>
+			</td>
 		</tr>
 		<tr>
-		<td class="CellAlt"><span class="FontNorm">{$modules.Language->getString('Enable_language_detection')}:</span></td>
-		<td class="CellAlt"><select class="form_select" name="p[config][use_language_detection]"><option value="1"{$checked.use_language_detection[1]}>{$modules.Language->getString('Yes')}</option><option value="0"{$checked.use_language_detection[0]}>{$modules.Language->getString('No')}</option></select></td>
+			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Enable_language_detection')}:</span></td>
+			<td class="CellAlt"><span class="FontNorm"><label><input type="radio" name="p[config][use_language_detection]" value="1"{if $p.config.use_language_detection == 1} checked="checked"{/if}/> {$modules.Language->getString('Yes')}</label>&nbsp;&nbsp;&nbsp;<label><input type="radio" name="p[config][use_language_detection]" value="0"{if $p.config.use_language_detection == 0} checked="checked"{/if}/> {$modules.Language->getString('No')}</label></span></td>
 		</tr>
 		<tr>
-		<td class="CellAlt"><span class="FontNorm">{$modules.Language->getString('Allow_members_select_language')}:</span></td>
-		<td class="CellAlt"><select class="form_select" name="p[config][allow_select_lng]"><option value="1"{$checked.allow_select_lng[1]}>{$modules.Language->getString('Yes')}</option><option value="0"{$checked.allow_select_lng[0]}>{$modules.Language->getString('No')}</option></select></td>
+			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Allow_members_select_language')}:</span></td>
+			<td class="CellAlt"><span class="FontNorm"><label><input type="radio" name="p[config][allow_select_lng]" value="1"{if $p.config.allow_select_lng == 1} checked="checked"{/if}/> {$modules.Language->getString('Yes')}</label>&nbsp;&nbsp;&nbsp;<label><input type="radio" name="p[config][allow_select_lng]" value="0"{if $p.config.allow_select_lng == 0} checked="checked"{/if}/> {$modules.Language->getString('No')}</label></span></td>
 		</tr>
 		<tr>
-		<td class="CellAlt"><span class="FontNorm">{$modules.Language->getString('Allow_guests_select_language')}:</span></td>
-		<td class="CellAlt"><select class="form_select" name="p[config][allow_select_lng_guests]"><option value="1"{$checked.allow_select_lng_guests[1]}>{$modules.Language->getString('Yes')}</option><option value="0"{$checked.allow_select_lng_guests[0]}>{$modules.Language->getString('No')}</option></select></td>
+			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Allow_guests_select_language')}:</span></td>
+			<td class="CellAlt"><span class="FontNorm"><label><input type="radio" name="p[config][allow_select_lng_guests]" value="1"{if $p.config.allow_select_lng_guests == 1} checked="checked"{/if}/> {$modules.Language->getString('Yes')}</label>&nbsp;&nbsp;&nbsp;<label><input type="radio" name="p[config][allow_select_lng_guests]" value="0"{if $p.config.allow_select_lng_guests == 0} checked="checked"{/if}/> {$modules.Language->getString('No')}</label></span></td>
 		</tr>
 		<tr><td class="CellCat" colspan="2"><span class="FontCat">{$modules.Language->getString('Who_is_online_settings')}</span></td></tr>
 		<tr>
-		<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Enable_who_is_online')}:</span></td>
-		<td class="CellStd"><select onchange="check_enable_wio();" class="form_select" name="p[config][enable_wio]"><option value="1"{$checked.enable_wio[1]}>{$modules.Language->getString('Yes')}</option><option value="0"{$checked.enable_wio[0]}>{$modules.Language->getString('No')}</option></select></td>
+			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Enable_who_is_online')}:</span></td>
+			<td class="CellAlt"><span class="FontNorm"><label><input type="radio" name="p[config][enable_wio]" value="1"{if $p.config.enable_wio == 1} checked="checked"{/if}/> {$modules.Language->getString('Yes')}</label>&nbsp;&nbsp;&nbsp;<label><input type="radio" name="p[config][enable_wio]" value="0"{if $p.config.enable_wio == 0} checked="checked"{/if}/> {$modules.Language->getString('No')}</label></span></td>
 		</tr>
 		<tr>
-		<td class="CellAlt"><span class="FontNorm">{$modules.Language->getString('Who_is_online_timeout')}:</span></td>
-		<td class="CellAlt"><input size="6" class="FormText" type="text" value="{$p.config.wio_timeout}" name="p[config][wio_timeout]"/> <span class="FontSmall">{$modules.Language->getString('in_minutes')}</small></td>
+			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Who_is_online_timeout')}:</span></td>
+			<td class="CellAlt"><input size="6" class="FormText" type="text" value="{$p.config.wio_timeout}" name="p[config][wio_timeout]"/> <span class="FontSmall">{$modules.Language->getString('in_minutes')}</small></td>
 		</tr>
 		<tr>
-		<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Show_who_is_online_box_forumindex')}:</span></td>
-		<td class="CellStd"><select class="form_select" name="p[config][show_wio_forumindex]"><option value="1"{$checked.show_wio_forumindex[1]}>{$modules.Language->getString('Yes')}</option><option value="0"{$checked.show_wio_forumindex[0]}>{$modules.Language->getString('No')}</option></select></td>
+			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Show_who_is_online_box_forumindex')}:</span></td>
+			<td class="CellAlt"><span class="FontNorm"><label><input type="radio" name="p[config][show_wio_forumindex]" value="1"{if $p.config.show_wio_forumindex == 1} checked="checked"{/if}/> {$modules.Language->getString('Yes')}</label>&nbsp;&nbsp;&nbsp;<label><input type="radio" name="p[config][show_wio_forumindex]" value="0"{if $p.config.show_wio_forumindex == 0} checked="checked"{/if}/> {$modules.Language->getString('No')}</label></span></td>
 		</tr>
 		<tr><td class="CellCat" colspan="2"><span class="FontCat">{$modules.Language->getString('Private_messages_settings')}</span></td></tr>
 		<tr>
-		<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Enable_private_messages')}:</span></td>
-		<td class="CellStd"><select class="form_select" name="p[config][enable_pms]"><option value="1"{$checked.enable_pms[1]}>{$modules.Language->getString('Yes')}</option><option value="0"{$checked.enable_pms[0]}>{$modules.Language->getString('No')}</option></select></td>
+			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Enable_private_messages')}:</span></td>
+			<td class="CellAlt"><span class="FontNorm"><label><input type="radio" name="p[config][enable_pms]" value="1"{if $p.config.enable_pms == 1} checked="checked"{/if}/> {$modules.Language->getString('Yes')}</label>&nbsp;&nbsp;&nbsp;<label><input type="radio" name="p[config][enable_pms]" value="0"{if $p.config.enable_pms == 0} checked="checked"{/if}/> {$modules.Language->getString('No')}</label></span></td>
 		</tr>
 		<tr>
-		<td class="CellAlt"><span class="FontNorm">{$modules.Language->getString('Maximum_additional_folders')}:</span></td>
-		<td class="CellAlt"><input class="FormText" type="text" name="p[config][maximum_pms_folders]" value="{$p.config.maximum_pms_folders}"/> <span class="FontSmall">({$modules.Language->getString('minus_1_infinite')})</span></td>
+			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Maximum_additional_folders')}:</span></td>
+			<td class="CellAlt"><input class="FormText" type="text" name="p[config][maximum_pms_folders]" value="{$p.config.maximum_pms_folders}"/> <span class="FontSmall">({$modules.Language->getString('minus_1_infinite')})</span></td>
 		</tr>
 		<tr>
-		<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Maximum_private_messages')}:</span></td>
-		<td class="CellStd"><input class="FormText" type="text" name="p[config][maximum_pms]" value="{$p.config.maximum_pms}"/> <span class="FontSmall">({$modules.Language->getString('minus_1_infinite')})</span></td>
+			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Maximum_private_messages')}:</span></td>
+			<td class="CellAlt"><input class="FormText" type="text" name="p[config][maximum_pms]" value="{$p.config.maximum_pms}"/> <span class="FontSmall">({$modules.Language->getString('minus_1_infinite')})</span></td>
 		</tr>
 		<tr>
-		<td class="CellAlt"><span class="FontNorm">{$modules.Language->getString('Allow_pms_signature')}:</span></td>
-		<td class="CellAlt"><select class="form_select" name="p[config][allow_pms_signature]"><option value="1"{$checked.allow_pms_signature[1]}>{$modules.Language->getString('Yes')}</option><option value="0"{$checked.allow_pms_signature[0]}>{$modules.Language->getString('No')}</option></select></td>
+			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Allow_pms_signature')}:</span></td>
+			<td class="CellAlt"><span class="FontNorm"><label><input type="radio" name="p[config][allow_pms_signature]" value="1"{if $p.config.allow_pms_signature == 1} checked="checked"{/if}/> {$modules.Language->getString('Yes')}</label>&nbsp;&nbsp;&nbsp;<label><input type="radio" name="p[config][allow_pms_signature]" value="0"{if $p.config.allow_pms_signature == 0} checked="checked"{/if}/> {$modules.Language->getString('No')}</label></span></td>
 		</tr>
 		<tr>
-		<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Allow_pms_smilies')}:</span></td>
-		<td class="CellStd"><select class="form_select" name="p[config][allow_pms_smilies]"><option value="1"{$checked.allow_pms_smilies[1]}>{$modules.Language->getString('Yes')}</option><option value="0"{$checked.allow_pms_smilies[0]}>{$modules.Language->getString('No')}</option></select></td>
+			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Allow_pms_smilies')}:</span></td>
+			<td class="CellAlt"><span class="FontNorm"><label><input type="radio" name="p[config][allow_pms_smilies]" value="1"{if $p.config.allow_pms_smilies == 1} checked="checked"{/if}/> {$modules.Language->getString('Yes')}</label>&nbsp;&nbsp;&nbsp;<label><input type="radio" name="p[config][allow_pms_smilies]" value="0"{if $p.config.allow_pms_smilies == 0} checked="checked"{/if}/> {$modules.Language->getString('No')}</label></span></td>
 		</tr>
 		<tr>
-		<td class="CellAlt"><span class="FontNorm">{$modules.Language->getString('Allow_pms_bbcode')}:</span></td>
-		<td class="CellAlt"><select class="form_select" name="p[config][allow_pms_bbcode]"><option value="1"{$checked.allow_pms_bbcode[1]}>{$modules.Language->getString('Yes')}</option><option value="0"{$checked.allow_pms_bbcode[0]}>{$modules.Language->getString('No')}</option></select></td>
+			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Allow_pms_bbcode')}:</span></td>
+			<td class="CellAlt"><span class="FontNorm"><label><input type="radio" name="p[config][allow_pms_bbcode]" value="1"{if $p.config.allow_pms_bbcode == 1} checked="checked"{/if}/> {$modules.Language->getString('Yes')}</label>&nbsp;&nbsp;&nbsp;<label><input type="radio" name="p[config][allow_pms_bbcode]" value="0"{if $p.config.allow_pms_bbcode == 0} checked="checked"{/if}/> {$modules.Language->getString('No')}</label></span></td>
 		</tr>
 		<tr>
-		<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Allow_pms_htmlcode')}:</span></td>
-		<td class="CellStd"><select class="form_select" name="p[config][allow_pms_htmlcode]"><option value="1"{$checked.allow_pms_htmlcode[1]}>{$modules.Language->getString('Yes')}</option><option value="0"{$checked.allow_pms_htmlcode[0]}>{$modules.Language->getString('No')}</option></select></td>
+			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Allow_pms_htmlcode')}:</span></td>
+			<td class="CellAlt"><span class="FontNorm"><label><input type="radio" name="p[config][allow_pms_htmlcode]" value="1"{if $p.config.allow_pms_htmlcode == 1} checked="checked"{/if}/> {$modules.Language->getString('Yes')}</label>&nbsp;&nbsp;&nbsp;<label><input type="radio" name="p[config][allow_pms_htmlcode]" value="0"{if $p.config.allow_pms_htmlcode == 0} checked="checked"{/if}/> {$modules.Language->getString('No')}</label></span></td>
 		</tr>
 		<tr>
-		<td class="CellAlt"><span class="FontNorm">{$modules.Language->getString('Enable_outbox')}:</span></td>
-		<td class="CellAlt"><select class="form_select" name="p[config][enable_outbox]"><option value="1"{$checked.enable_outbox[1]}>{$modules.Language->getString('Yes')}</option><option value="0"{$checked.enable_outbox[0]}>{$modules.Language->getString('No')}</option></select></td>
+			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Enable_outbox')}:</span></td>
+			<td class="CellAlt"><span class="FontNorm"><label><input type="radio" name="p[config][enable_outbox]" value="1"{if $p.config.enable_outbox == 1} checked="checked"{/if}/> {$modules.Language->getString('Yes')}</label>&nbsp;&nbsp;&nbsp;<label><input type="radio" name="p[config][enable_outbox]" value="0"{if $p.config.enable_outbox == 0} checked="checked"{/if}/> {$modules.Language->getString('No')}</label></span></td>
 		</tr>
 		<tr>
-		<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Enable_pms_read_confirmation')}:</span></td>
-		<td class="CellStd"><select class="form_select" name="p[config][allow_pms_rconfirmation]"><option value="1"{$checked.allow_pms_rconfirmation[1]}>{$modules.Language->getString('Yes')}</option><option value="0"{$checked.allow_pms_rconfirmation[0]}>{$modules.Language->getString('No')}</option></select></td>
+			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Enable_pms_read_confirmation')}:</span></td>
+			<td class="CellAlt"><span class="FontNorm"><label><input type="radio" name="p[config][allow_pms_rconfirmation]" value="1"{if $p.config.allow_pms_rconfirmation == 1} checked="checked"{/if}/> {$modules.Language->getString('Yes')}</label>&nbsp;&nbsp;&nbsp;<label><input type="radio" name="p[config][allow_pms_rconfirmation]" value="0"{if $p.config.allow_pms_rconfirmation == 0} checked="checked"{/if}/> {$modules.Language->getString('No')}</label></span></td>
 		</tr>
 		<tr><td class="CellCat" colspan="2"><span class="FontCat">{$modules.Language->getString('Attachments_settings')}</span></td></tr>
 		<tr>
-		<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Enable_attachments')}:</span></td>
-		<td class="CellStd"><select class="form_select" name="p[config][enable_attachments]"><option value="1"{$checked.enable_attachments[1]}>{$modules.Language->getString('Yes')}</option><option value="0"{$checked.enable_attachments[0]}>{$modules.Language->getString('No')}</option></select></td>
+			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Enable_attachments')}:</span></td>
+			<td class="CellAlt"><span class="FontNorm"><label><input type="radio" name="p[config][enable_attachments]" value="1"{if $p.config.enable_attachments == 1} checked="checked"{/if}/> {$modules.Language->getString('Yes')}</label>&nbsp;&nbsp;&nbsp;<label><input type="radio" name="p[config][enable_attachments]" value="0"{if $p.config.enable_attachments == 0} checked="checked"{/if}/> {$modules.Language->getString('No')}</label></span></td>
 		</tr>
 		<tr>
-		<td class="CellAlt"><span class="FontNorm">{$modules.Language->getString('Allowed_attachment_types')}:</span></td>
-		<td class="CellAlt"><input class="FormText" type="text" name="p[config][allowed_attachment_types]" value="{$p.config.allowed_attachment_types}" size="50"/> <span class="FontSmall">({$modules.Language->getString('Seperate_file_extentions_with_spaces')})</span></td>
+			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Allowed_attachment_types')}:</span></td>
+			<td class="CellAlt"><input class="FormText" type="text" name="p[config][allowed_attachment_types]" value="{$p.config.allowed_attachment_types}" size="50"/> <span class="FontSmall">({$modules.Language->getString('Seperate_file_extentions_with_spaces')})</span></td>
 		</tr>
 		<tr>
-		<td class="CellAlt"><span class="FontNorm">{$modules.Language->getString('Forbidden_attachment_types')}:</span></td>
-		<td class="CellAlt"><input class="FormText" type="text" name="p[config][forbidden_attachment_types]" value="{$p.config.forbidden_attachment_types}" size="50"/> <span class="FontSmall">({$modules.Language->getString('Seperate_file_extentions_with_spaces')})</span></td>
+			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Forbidden_attachment_types')}:</span></td>
+			<td class="CellAlt"><input class="FormText" type="text" name="p[config][forbidden_attachment_types]" value="{$p.config.forbidden_attachment_types}" size="50"/> <span class="FontSmall">({$modules.Language->getString('Seperate_file_extentions_with_spaces')})</span></td>
 		</tr>
 		<tr>
-		<td class="CellAlt"><span class="FontNorm">{$modules.Language->getString('Maximum_attachments_per_post')}:</span></td>
-		<td class="CellAlt"><input class="FormText" type="text" name="p[config][max_attachments_per_post]" value="{$p.config.max_attachments_per_post}" size="4"/> <span class="FontSmall">({$modules.Language->getString('minus_1_infinite')})</span></td>
+			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Maximum_attachments_per_post')}:</span></td>
+			<td class="CellAlt"><input class="FormText" type="text" name="p[config][max_attachments_per_post]" value="{$p.config.max_attachments_per_post}" size="4"/> <span class="FontSmall">({$modules.Language->getString('minus_1_infinite')})</span></td>
 		</tr>
 		<tr>
-		<td class="CellAlt"><span class="FontNorm">{$modules.Language->getString('Maximum_attachment_size')}:</span></td>
-		<td class="CellAlt"><input class="FormText" type="text" name="p[config][max_attachment_size]" value="{$p.config.max_attachment_size}" size="15"/> <span class="FontSmall">({$modules.Language->getString('minus_1_infinite')}; {$modules.Language->getString('in_bytes')})</span></td>
+			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Maximum_attachment_size')}:</span></td>
+			<td class="CellAlt"><input class="FormText" type="text" name="p[config][max_attachment_size]" value="{$p.config.max_attachment_size}" size="15"/> <span class="FontSmall">({$modules.Language->getString('minus_1_infinite')}; {$modules.Language->getString('in_bytes')})</span></td>
 		</tr>
 		<tr><td class="CellCat" colspan="2"><span class="FontCat">{$modules.Language->getString('Technical_settings')}</span></td></tr>
 		<tr>
-		<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Enable_gzip_compression')}:</span></td>
-		<td class="CellStd"><select class="form_select" name="p[config][enable_gzip]"><option value="1"{$checked.enable_gzip[1]}>{$modules.Language->getString('Yes')}</option><option value="0"{$checked.enable_gzip[0]}>{$modules.Language->getString('No')}</option></select></td>
+			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Enable_gzip_compression')}:</span></td>
+			<td class="CellAlt"><span class="FontNorm"><label><input type="radio" name="p[config][enable_gzip]" value="1"{if $p.config.enable_gzip == 1} checked="checked"{/if}/> {$modules.Language->getString('Yes')}</label>&nbsp;&nbsp;&nbsp;<label><input type="radio" name="p[config][enable_gzip]" value="0"{if $p.config.enable_gzip == 0} checked="checked"{/if}/> {$modules.Language->getString('No')}</label></span></td>
 		</tr>
 		<tr>
-		<td class="CellAlt"><span class="FontNorm">{$modules.Language->getString('Search_garbage_collection_probability')}:</span></td>
-		<td class="CellAlt"><input size="3" class="FormText" type="text" name="p[config][srgc_probability]" value="{$p.config.srgc_probability}" maxlength="3"/> <span class="FontSmall">{$modules.Language->getString('in_percent')}</span></td>
+			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Search_garbage_collection_probability')}:</span></td>
+			<td class="CellAlt"><input size="3" class="FormText" type="text" name="p[config][srgc_probability]" value="{$p.config.srgc_probability}" maxlength="3"/> <span class="FontSmall">{$modules.Language->getString('in_percent')}</span></td>
 		</tr>
 		<tr><td colspan="2" class="CellButtons" align="center"><input type="submit" class="FormBButton" value="{$modules.Language->getString('Update_config')}"/>&nbsp;&nbsp;&nbsp;<input class="FormButton" type="reset" value="{$modules.Language->getString('Reset')}"/></td></tr>
 	</table>

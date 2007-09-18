@@ -165,13 +165,13 @@ class Cache extends ModuleTemplate {
 			}
 
 			$languages[] = array(
-				'Name'=>$curLanguageConfig['language_name'],
-				'NativeName'=>$curLanguageConfig['language_name_native'],
-				'Dir'=>$curObj,
-				'SupportedLanguages'=>$curLanguageConfig['supported_languages']
+				'name'=>$curLanguageConfig['language_name'],
+				'nativeName'=>$curLanguageConfig['language_name_native'],
+				'dir'=>$curObj,
+				'supportedLanguages'=>$curLanguageConfig['supported_languages']
 			);
 
-			$toWrite2[] = "array('Name'=>'".$curLanguageConfig['language_name']."','NativeName'=>'".$curLanguageConfig['language_name_native']."','Dir'=>'".$curObj."','SupportedLanguages'=>'".$curLanguageConfig['supported_languages']."')";
+			$toWrite2[] = "array('name'=>'".$curLanguageConfig['language_name']."','nativeName'=>'".$curLanguageConfig['language_name_native']."','dir'=>'".$curObj."','supportedLanguages'=>'".$curLanguageConfig['supported_languages']."')";
 		}
 		closedir($dP);
 
