@@ -29,19 +29,36 @@ class Language extends ModuleTemplate {
 		return $this->languageDir;
 	}
 
-    //TODO: cache!
 	public function addFile($fileName) {
+        //Wenn die Datei bereits geladen ist, gibt es nichts weiter zu tun
 		if(!isset($this->loadedFiles[$fileName])) {
-			if(!file_exists($this->languageDir.$fileName.'.language')) die('Language file "'.$this->languageDir.$fileName.'.language" does not exist');
+            //Gibt es die Originaldatei nicht, erfolgt der Abbruch
+            if(!file_exists($this->languageDir.$fileName.'.language')) die('Language file "'.$this->languageDir.$fileName.'.language" does not exist');
+            $cacheFile = 'cache/Language-'.$this->languageCode.'-'.$fileName.'.cache.php';
+            //Befindet sie sich im Cache und ist sie auch neuer als die Originaldatei, wird sie einfach inkludiert
+            if(file_exists($cacheFile) && (filemtime($cacheFile) > filemtime($this->languageDir.$fileName.'.language')))
+                include($cacheFile);
+            //Ansonsten muss sie (neu-)geparst werden
+            else {
+                $toWrite = array();
 
-			foreach(explode("\n",file_get_contents($this->languageDir.$fileName.'.language')) AS $curLine) {
-				preg_match('/^([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)[ ]*=[ ]*(.*)$/',rtrim($curLine),$matches);
+                //Datei parsen
+			    foreach(explode("\n",file_get_contents($this->languageDir.$fileName.'.language')) AS $curLine) {
+				    preg_match('/^([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)[ ]*=[ ]*(.*)$/',rtrim($curLine),$matches);
 
-				if(count($matches) == 3)
-					$this->strings[$matches[1]] = $matches[2];
-			}
+                    //Ergebnisse speichern
+				    if(count($matches) == 3) {
+					    $this->strings[$matches[1]] = $matches[2];
+                        $toWrite[] = '$this->strings[\''.$matches[1].'\'] = \''.addslashes($matches[2]).'\'';
+                    }
+			    }
+                //Datei cachen
+                $toWrite = '<?php '.implode(';',$toWrite).' ?>';
+                Functions::FileWrite($cacheFile,$toWrite,'w');
 
-			$this->loadedFiles[$fileName] = TRUE;
+                //Datei geladen
+			    $this->loadedFiles[$fileName] = TRUE;
+            }
 		}
 	}
 
