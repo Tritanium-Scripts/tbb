@@ -8,7 +8,7 @@ class Language extends ModuleTemplate {
 
 	public function initializeMe() {
 		$this->languageCode = $this->getConfigValue('defaultLanguageCode');
-		$this->languageDir = 'languages/'.$this->getConfigValue('defaultLanguageCode').'/';
+		$this->languageDir = 'languages/'.$this->languageCode.'/';
 		foreach($this->getConfigValue('autoloadFiles') AS $curFile)
 			$this->addFile($curFile);
 	}
@@ -29,6 +29,7 @@ class Language extends ModuleTemplate {
 		return $this->languageDir;
 	}
 
+    //TODO: cache!
 	public function addFile($fileName) {
 		if(!isset($this->loadedFiles[$fileName])) {
 			if(!file_exists($this->languageDir.$fileName.'.language')) die('Language file "'.$this->languageDir.$fileName.'.language" does not exist');
