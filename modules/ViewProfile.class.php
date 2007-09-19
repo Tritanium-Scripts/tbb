@@ -215,14 +215,9 @@ class ViewProfile extends ModuleTemplate {
 					else {
 						Functions::myMail($this->modules['Auth']->getValue('userNick').' <'.$this->modules['Auth']->getValue('userEmailAddress').'>',$profileData['userNick'].' <'.$profileData['userEmailAddress'].'>',$p['emailSubject'],$p['emailMessage']);
 
-						// TODO: correct message
-						die('Email sent');
-
-						//add_navbar_items(array($LNG['Email_sent'],''));
-
-						//include_once('pheader.php');
-						//show_message($LNG['Email_sent'],$LNG['message_email_sent'].'<br />'.sprintf($LNG['click_here_back_profile'],"<a href=\"index.php?action=viewprofile&amp;profile_id=$profile_id&amp;$MYSID\">",'</a>'));
-						//include_once('ptail.php'); exit;
+						$this->modules['Navbar']->addElement($this->modules['Language']->getString('Email_sent'));
+						FuncMisc::printMessage('email_sent',array(sprintf($this->modules['Language']->getString('click_here_back_profile'),'<a href="'.INDEXFILE.'?action=ViewProfile&amp;profileID='.$profileID.'&amp;'.MYSID.'">','</a>')));
+						exit;
 					}
 				}
 

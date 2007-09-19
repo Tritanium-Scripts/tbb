@@ -12,13 +12,9 @@ class WhoIsOnline extends ModuleTemplate {
 
 	public function executeMe() {
 		if($this->modules['Config']->getValue('enable_wio') != 1) {
-			// TODO: Richtige Meldung
-			//add_navbar_items(array($lNG['Function_deactivated'],''));
-
-			//include_once('pheader.php');
-			//show_message($lNG['Function_deactivated'],$lNG['message_function_deactivated']);
-			//include_once('ptail.php'); exit;
-			die('Diese Funktion ist nicht verfuegbar');
+			$this->modules['Navbar']->addElement($this->modules['Language']->getString('Function_deactivated'));
+			FuncMisc::printMessage('function_deactivated');
+			exit;
 		}
 
 		$this->modules['Language']->addFile('WhoIsOnline');

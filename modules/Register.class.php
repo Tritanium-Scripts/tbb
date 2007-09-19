@@ -19,12 +19,12 @@ class Register extends ModuleTemplate {
 		if($this->modules['Auth']->isLoggedIn() == 1) Functions::myHeader(INDEXFILE.'?'.MYSID);
 		elseif($this->modules['Config']->getValue('enable_registration') != 1) {
 			$this->modules['Navbar']->addElement($this->modules['Language']->getString('Registration_disabled'),INDEXFILE.'?Action=Register&amp'.MYSID);
-			$this->modules['Template']->printMessage('registration_disabled');
+			FuncMisc::printMessage('registration_disabled');
 			exit;
 		}
 		elseif($this->modules['Config']->getValue('maximum_registrations') != -1 && $this->modules['Config']->getValue('maximum_registrations') <= Functions::getUsersCounter()) { // Gibt es eine Grenze an maximalen Registrierungen/ist diese ueberschritten?
 			$this->modules['Navbar']->addElement($this->modules['Language']->getString('Too_many_registrations'),INDEXFILE.'?Action=Register&amp'.MYSID);
-			$this->modules['Template']->printMessage('too_many_registrations');
+			FuncMisc::printMessage('too_many_registrations');
 			exit;
 		}
 
@@ -188,8 +188,11 @@ class Register extends ModuleTemplate {
 
 						$this->modules['Navbar']->addElement($this->modules['Language']->getString('Registration_successful'),INDEXFILE."?Action=Register&amp;".MYSID);
 
-						// TODO: Richtige Meldung bei Account verification
-						$this->modules['Template']->printMessage('registration_successful',array(sprintf($this->modules['Language']->getString('message_link_click_here_login'),'<a href="'.INDEXFILE.'?action=Login&amp;'.MYSID.'">','</a>')));
+						switch($this->modules['Config']->getValue('verify_email_address')) {
+							case '0': FuncMisc::printMessage('registration_successful',array(sprintf($this->modules['Language']->getString('message_link_click_here_login'),'<a href="'.INDEXFILE.'?action=Login&amp;'.MYSID.'">','</a>'))); break;
+							case '1': FuncMisc::printMessage('registration_successful_verification_password',array(sprintf($this->modules['Language']->getString('message_link_click_here_login'),'<a href="'.INDEXFILE.'?action=Login&amp;'.MYSID.'">','</a>'))); break;
+							case '2': FuncMisc::printMessage('registration_successful_verification_email',array(sprintf($this->modules['Language']->getString('message_link_click_here_login'),'<a href="'.INDEXFILE.'?action=Login&amp;'.MYSID.'">','</a>'))); break;
+						}
 						exit;
 					}
 				}

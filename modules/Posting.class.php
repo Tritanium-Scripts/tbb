@@ -38,8 +38,7 @@ class Posting extends ModuleTemplate {
 
 		$authData = $this->_authenticateUser($mode,$forumData);
 		if($mode == 'Reply' && $topicData['topicIsClosed'] == 1 && $authData['authIsMod'] != 1 && $this->modules['Auth']->getValue('userIsSuperadmin') && $this->modules['Auth']->getValue('userIsSupermod')) {
-			// TODO: Richtige Meldung
-			die('Kein Zugriff/Thema geschlossen');
+			FuncMisc::printMessage('topic_closed'); exit;
 		}
 
 		switch($mode) {
@@ -314,13 +313,8 @@ class Posting extends ModuleTemplate {
 
 			case 'Delete':
 				if($postID == $topicData['topicFirstPostID']) {
-					//add_navbar_items(array($LNG['Cannot_delete_first_post'],''));
-
-					//include_once('pheader.php');
-					//show_message($LNG['Cannot_delete_first_post'],$LNG['message_cannot_delete_first_post']);
-					//include_once('ptail.php'); exit;
-					// TODO: Message
-					die('Cannot delete first post');
+					$this->modules['Navbar']->addElement($this->modules['Language']->getString('Delete_post'));
+					FuncMisc::printMessage('cannot_delete_first_post'); exit;
 				}
 
 				$this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'posts WHERE "postID"=$1',array($postID));

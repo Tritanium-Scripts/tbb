@@ -39,7 +39,7 @@ class SubscribeTopic extends ModuleTemplate {
 				array(Functions::HTMLSpecialChars($topicData['topicTitle']),INDEXFILE."?action=ViewTopic&amp;topicID=$topicID&amp;".MYSID)
 			);
 
-			$this->modules['Template']->printMessage($message); exit;
+			FuncMisc::printMessage($message); exit;
 		}
 
 		Functions::myHeader(INDEXFILE."?action=ViewTopic&topicID=$topicID&page=$returnPage&".MYSID);

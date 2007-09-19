@@ -135,7 +135,7 @@ class Login extends ModuleTemplate {
 
 							$this->modules['Navbar']->addElement($this->modules['Language']->getString('Account_activated'),'');
 
-							$this->modules['Template']->printMessage('account_activated',array(sprintf($this->modules['Language']->getString('message_link_click_here_login'),'<a href="'.INDEXFILE.'?action=Login&amp;'.MYSID.'">','</a>')));
+							FuncMisc::printMessage('account_activated',array(sprintf($this->modules['Language']->getString('message_link_click_here_login'),'<a href="'.INDEXFILE.'?action=Login&amp;'.MYSID.'">','</a>')));
 							exit;
 						}
 					}
@@ -176,13 +176,22 @@ class Login extends ModuleTemplate {
 						");
 
 						if($this->modules['Config']->getValue('enable_email_functions') == 1) {
-							// TODO: Email
-							mymail('"'.$CONFIG['board_name'].'" <'.$CONFIG['board_email_address'].'>',$p_user_data['user_email'],$LNG['email_subject_new_password_requested'],$email_tpl->parseCode());
+							$this->modules['Template']->assign(array(
+								'userNick'=>$userData['userNick'],
+								'newPassword'=>$newPassword
+							));
+
+							Functions::myMail(
+								$this->modules['Config']->getValue('board_name').' <'.$this->modules['Config']->getValue('board_email_address').'>',
+								$userData['userEmailAddress'],
+								$this->modules['Language']->getString('email_subject_new_password_requested'),
+								$this->modules['Template']->fetch('PasswordRequested.mail',$this->modules['Language']->getLD().'mails')
+							);
 						}
 
 						$this->modules['Navbar']->addElement($this->modules['Language']->getString('New_password_sent'),'');
 
-						$this->modules['Template']->printMessage('new_password_sent',array(
+						FuncMisc::printMessage('new_password_sent',array(
 							sprintf($this->modules['Language']->getString('message_link_click_here_login'),'<a href="'.INDEXFILE.'?action=Login&amp;'.MYSID.'">','</a>'),
 							sprintf($this->modules['Language']->getString('message_link_click_here_back_forumindex'),'<a href="'.INDEXFILE.'?'.MYSID.'">','</a>'),
 						));

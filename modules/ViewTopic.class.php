@@ -356,8 +356,7 @@ class ViewTopic extends ModuleTemplate {
 	protected function _authenticateUser(&$forumData) {
 		$authData = Functions::getAuthData($forumData,array('authViewForum','authPostTopic','authPostReply','authEditPosts','authIsMod'));
 		if($authData['authViewForum'] != 1) {
-			// TODO
-			echo 'Kein Zugriff';
+			FuncMisc::printMessage('access_denied');
 			exit;
 		}
 

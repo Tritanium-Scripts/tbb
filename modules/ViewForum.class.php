@@ -202,8 +202,7 @@ class ViewForum extends ModuleTemplate {
 		$authData = Functions::getAuthData($forumData,array('authViewForum','authPostTopic','authIsMod'));
 
 		if($authData['authViewForum'] != 1) {
-			die('Kein Zugriff');
-			// TODO
+			FuncMisc::printMessage('access_denied');
 			exit;
 		}
 

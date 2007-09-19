@@ -130,6 +130,7 @@ languages/de/ViewForum.language -text
 languages/de/ViewProfile.language -text
 languages/de/ViewTopic.language -text
 languages/de/WhoIsOnline.language -text
+languages/de/mails/PasswordRequested.mail -text
 languages/de/mails/RegistrationAccountVerification.mail -text
 languages/de/mails/RegistrationWelcome.mail -text
 modules/AdminAvatars.class.php -text

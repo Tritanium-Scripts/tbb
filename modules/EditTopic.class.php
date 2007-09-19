@@ -194,10 +194,9 @@ class EditTopic extends ModuleTemplate {
 						}
 					}
 
-					if(in_array($forumData['forumLastPostID'],$postIDs)) {
-						// TODO: Neue Funktion
-						update_forum_last_post($forumID);
-					}
+					if(in_array($forumData['forumLastPostID'],$postIDs))
+						FuncForums::updateLastPost($forumID);
+
 					Functions::myHeader(INDEXFILE."?action=ViewForum&forumID=$forumID&".MYSID);
 				break;
 
@@ -226,34 +225,48 @@ class EditTopic extends ModuleTemplate {
 
 							if($c['createReference'] == 1) {
 								$slashedTopicData = Functions::addSlashes($topicData);
-								$this->modules['DB']->query("
+								$this->modules['DB']->queryParams('
 									INSERT INTO
-										".TBLPFX."topics
+										'.TBLPFX.'topics
 									SET
-										forumID='$forumID',
-										posterID='".$slashedTopicData['posterID']."',
-										topicIsClosed='".$slashedTopicData['topicIsClosed']."',
-										topicIsPinned='".$slashedTopicData['topicIsPinned']."',
-										smileyID='".$slashedTopicData['smileyID']."',
-										topicRepliesCounter='".$slashedTopicData['topicRepliesCounter']."',
-										topicViewsCounter='".$slashedTopicData['topicViewsCounter']."',
-										topicHasPoll='".$slashedTopicData['topicHasPoll']."',
-										topicFirstPostID='".$slashedTopicData['topicFirstPostID']."',
-										topicLastPostID='".$slashedTopicData['topicLastPostID']."',
-										topicMovedID='".$slashedTopicData['topicID']."',
-										topicMovedTimestamp='".time()."',
-										topicPostTimestamp='".$slashedTopicData['topicPostTimestamp']."',
-										topicTitle='".$slashedTopicData['topicTitle']."',
-										topicGuestNick='".$slashedTopicData['topicGuestNick']."'
-								");
+										"forumID"=$1,
+										"posterID"=$2,
+										"topicIsClosed"=$3,
+										"topicIsPinned"=$4,
+										"smileyID"=$5,
+										"topicRepliesCounter"=$6,
+										"topicViewsCounter"=$7,
+										"topicHasPoll"=$8,
+										"topicFirstPostID"=$9,
+										"topicLastPostID"=$10,
+										"topicMovedID"=$11,
+										"topicMovedTimestamp"=$12,
+										"topicPostTimestamp"=$13,
+										"topicTitle"=$14,
+										"topicGuestNick"=$15
+								',array(
+									$forumID,
+									$topicData['posterID'],
+									$topicData['topicIsClosed'],
+									$topicData['topicIsPinned'],
+									$topicData['smileyID'],
+									$topicData['topicRepliesCounter'],
+									$topicData['topicViewsCounter'],
+									$topicData['topicHasPoll'],
+									$topicData['topicFirstPostID'],
+									$topicData['topicLastPostID'],
+									$topicData['topicID'],
+									time(),
+									$topicData['topicPostTimestamp'],
+									$topicData['topicTitle'],
+									$topicData['topicGuestNick']
+								));
 							}
 
+							FuncForums::updateLastPost($forumID);
+							FuncForums::updateLastPost($p['targetForumID']);
 
-							// TODO: Letzten Beitrag updaten
-							//update_forum_last_post($forumID);
-							//update_forum_last_post($p_target_forumID);
-
-							$this->modules['Template']->printMessage('topic_moved',array(sprintf($this->modules['Language']->getString('message_link_click_here_moved_topic'),'<a href="'.INDEXFILE."?action=ViewTopic&amp;topicID=$topicID&amp;".MYSID.'">','</a>')));
+							FuncMisc::printMessage('topic_moved',array(sprintf($this->modules['Language']->getString('message_link_click_here_moved_topic'),'<a href="'.INDEXFILE."?action=ViewTopic&amp;topicID=$topicID&amp;".MYSID.'">','</a>')));
 							exit;
 						}
 					}

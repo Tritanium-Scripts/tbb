@@ -56,8 +56,7 @@ class Vote extends ModuleTemplate {
 	protected function _authenticateUser(&$forumData) {
 		$authData = Functions::getAuthData($forumData,array('authViewForum'));
 		if($authData['authViewForum'] != 1) {
-			// TODO
-			echo 'Kein Zugriff';
+			FuncMisc::printMessage('access_denied');
 			exit;
 		}
 

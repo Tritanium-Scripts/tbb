@@ -40,7 +40,7 @@ class PrivateMessages extends ModuleTemplate {
 		if($this->modules['Auth']->isLoggedIn() != 1) die('Kein Zugriff: Nicht eingeloggt');
 		elseif($this->modules['Config']->getValue('enable_pms') != 1) {
 			$this->modules['Navbar']->addElement($this->modules['Language']->getString('Function_deactivated'),'');
-			$this->modules['Template']->printMessage('function_deactivated');
+			FuncMisc::printMessage('function_deactivated');
 			exit;
 		}
 
@@ -552,7 +552,6 @@ class PrivateMessages extends ModuleTemplate {
 
 						$this->modules['DB']->query("DELETE FROM ".TBLPFX."pms_folders WHERE userID='".USERID."' AND folderID='".$folderID."'");
 
-						// TODO: Richtige Meldung ausgeben
 						Functions::myHeader(INDEXFILE."?action=PrivateMessages&mode=ManageFolders&".MYSID);
 					}
 				}

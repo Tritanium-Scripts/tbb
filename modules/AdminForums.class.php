@@ -389,9 +389,7 @@ class AdminForums extends ModuleTemplate {
 						");
 					}
 
-					// TODO: Add link to message
-					// show_message($LNG['Special_rights_updated'],$LNG['message_special_rights_updated'].'<br />'.sprintf($LNG['click_here_back'],"<a href=\"administration.php?action=ad_forums&amp;mode=editforum&amp;forumID=$forumID&amp;$MYSID\">",'</a>'),FALSE);
-					$this->modules['Template']->printMessage('special_rights_updated'); exit;
+					FuncMisc::printMessage('special_rights_updated',array(sprintf($this->modules['Language']->getString('click_here_back'),'<a href="'.INDEXFILE.'?action=AdminForums&amp;mode=EditForum&amp;forumID='.$forumID.'&amp;'.MYSID.'">','</a>'))); exit;
 				}
 
 				$this->modules['DB']->query("

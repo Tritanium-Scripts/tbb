@@ -68,7 +68,7 @@ class EditProfile extends ModuleTemplate {
 						}
 
 						$this->modules['Navbar']->addElements(array($this->modules['Language']->getString('Profile_saved'),''));
-						$this->modules['Template']->printMessage('profile_saved'); exit;
+						FuncMisc::printMessage('profile_saved'); exit;
 					}
 				}
 
@@ -185,7 +185,7 @@ class EditProfile extends ModuleTemplate {
 					");
 
 					$this->modules['Navbar']->addElements(array($this->modules['Language']->getString('Profile_saved'),''));
-					$this->modules['Template']->printMessage('profile_saved'); exit;
+					FuncMisc::printMessage('profile_saved'); exit;
 				}
 
 				$this->modules['Template']->assign(array(
@@ -244,7 +244,7 @@ class EditProfile extends ModuleTemplate {
 
 				if(isset($_GET['doit'])) {
 					$this->modules['DB']->query("UPDATE ".TBLPFX."users SET userMemo='".$p['userMemo']."' WHERE userID='".USERID."'");
-					$this->modules['Template']->printMessage('memo_updated'); exit;
+					FuncMisc::printMessage('memo_updated'); exit;
 				}
 
 				$this->modules['Template']->assign(array(
@@ -255,7 +255,7 @@ class EditProfile extends ModuleTemplate {
 
 			case 'UploadAvatar':
 				if($this->modules['Config']->getValue('enable_avatar_upload') != 1) {
-					$this->modules['Template']->printMessage('avatar_upload_disabled',array(),TRUE);
+					FuncMisc::printMessage('avatar_upload_disabled',array(),TRUE);
 					exit;
 				}
 
@@ -294,16 +294,18 @@ class EditProfile extends ModuleTemplate {
 							$localAvatarFileName = 'uploads/avatars/'.USERID.'.'.$fileExtension;
 							move_uploaded_file($_FILES['avatarFile']['tmp_name'],$localAvatarFileName);
 							chmod($localAvatarFileName,0777);
-							$this->modules['DB']->query("UPDATE ".TBLPFX."users SET userAvatarAddress='$localAvatarFileName' WHERE userID='".USERID."'");
+							$this->modules['DB']->queryParams('
+								UPDATE '.TBLPFX.'users SET
+									"userAvatarAddress"=$1
+								WHERE
+									"userID"=$2
+							',array(
+								$localAvatarFileName,
+								USERID
+							));
 
 							$avatarSelectedText = sprintf($this->modules['Language']->getString('avatar_selected_text'),'<img src="'.$localAvatarFileName.'" width="'.$this->modules['Config']->getValue('avatar_image_width').'" height="'.$this->modules['Config']->getValue('avatar_image_height').'" border="0" alt=""/>');
-
-							// TODO: Correct message
-
-							//include_once('pop_pheader.php');
-							//$tpl->parseCode(TRUE);
-							//include_once('pop_ptail.php'); exit;
-							die($avatarSelectedText);
+							FuncMisc::printMessage(array($this->modules['Language']->getString('Avatar_selected'),$avatarSelectedText),array(),TRUE);
 						}
 					}
 				}

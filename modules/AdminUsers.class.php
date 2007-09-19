@@ -43,29 +43,44 @@ class AdminUsers extends ModuleTemplate {
 						$userPasswordSalt = Functions::getRandomString(10);
 						$userPasswordEncrypted = Functions::getSaltedHash($p['userPassword'],$userPasswordSalt);
 
-						$this->modules['DB']->query("
+						$this->modules['DB']->queryParams('
 							INSERT INTO
-								".TBLPFX."users
+								'.TBLPFX.'users
 							SET
-								userNick='".$p['userNick']."',
-								userEmailAddress='".$p['userEmailAddress']."',
-								userPassword='".$userPasswordEncrypted."',
-								userPasswordSalt='".Functions::addSlashes($userPasswordEncrypted)."',
-								userRegistrationTimestamp='".time()."',
-								userTimeZone='".$this->modules['Config']->getValue('standard_tz')."'
-						");
+								userNick=$1,
+								userEmailAddress=$2,
+								userPassword=$3,
+								userPasswordSalt=$4,
+								userRegistrationTimestamp=$5,
+								userTimeZone=$6
+						',array(
+							$p['userNick'],
+							$p['userEmailAddress'],
+							$userPasswordEncrypted,
+							$userPasswordSalt,
+							time(),
+							$this->modules['Config']->getValue('standard_tz')
+						));
 						$newUserID = $this->modules['DB']->getInsertID();
 
 						FuncConfig::updateLatestUser($newUserID,$p['userNick']);
 
-						// TODO:
-						// Eventuell per Email benachrichtigen
-						if($p_notify_user == 1 && $CONFIG['enable_email_functions'] == 1) {
-							$email_tpl = new Template($LANGUAGE_PATH.'/emails/email_welcome.tpl');
-							mymail($CONFIG['board_name'].' <'.$CONFIG['board_email_address'].'>',$p_user_email,sprintf($LNG['email_subject_welcome'],$CONFIG['board_name']),$email_tpl->parseCode());
+						if($c['notifyUser'] == 1 && $this->modules['Config']->getValue('enable_email_functions') == 1) {
+							$this->modules['Template']->assign(array(
+								'userNick'=>$p['userName'],
+								'userID'=>$userID,
+								'userEmailAddress'=>$p['userEmailAddress'],
+								'userPassword'=>$p['userPassword']
+							));
+							Functions::myMail(
+								$this->modules['Config']->getValue('board_name').' <'.$this->modules['Config']->getValue('board_email_address').'>',
+								$p['userEmailAddress'],
+								sprintf($this->modules['Language']->getString('email_subject_welcome'),$this->modules['Config']->getValue('board_name')),
+								$this->modules['Template']->fetch('RegistrationWelcome.mail',$this->modules['Language']->getLD().'mails')
+							);
 						}
 
-						$this->modules['Template']->printMessage('new_user_added'); exit;
+						FuncMisc::printMessage('new_user_added'); exit;
 					}
 				}
 
@@ -143,7 +158,7 @@ class AdminUsers extends ModuleTemplate {
 							rankID='".$p['rankID']."'
 						WHERE userID='$userID'");
 
-						$this->modules['Template']->printMessage('user_edited'); exit;
+						FuncMisc::printMessage('user_edited'); exit;
 					}
 				}
 
