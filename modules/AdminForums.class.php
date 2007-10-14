@@ -97,9 +97,9 @@ class AdminForums extends ModuleTemplate {
 					else {
 						if(!FuncCats::getCatData($p['catID'])) $p['catID'] = 1;
 
-						$this->modules['DB']->query('
+						$this->modules['DB']->queryParams('
 							INSERT INTO
-								".TBLPFX."forums
+								'.TBLPFX.'forums
 							SET
 								"catID"=$1,
 								"forumName"=$2,
@@ -137,7 +137,7 @@ class AdminForums extends ModuleTemplate {
 							$c['authPostReplyGuests'],
 							$c['authPostPollGuests']
 						));
-						Functions::myHeader(INDEXFILE."?action=AdminForums&".MYSID);
+						Functions::myHeader(INDEXFILE.'?action=AdminForums&'.MYSID);
 					}
 				}
 
@@ -179,7 +179,7 @@ class AdminForums extends ModuleTemplate {
 					else {
 						if(!FuncCats::getCatData($p['catID'])) $p['catID'] = 1;
 
-						$this->modules['DB']->query('
+						$this->modules['DB']->queryParams('
 							UPDATE
 								'.TBLPFX.'forums
 							SET
@@ -222,7 +222,7 @@ class AdminForums extends ModuleTemplate {
 							$c['authPostPollGuests'],
 							$forumID
 						));
-						Functions::myHeader(INDEXFILE."?action=AdminForums&".MYSID);
+						Functions::myHeader(INDEXFILE.'?action=AdminForums&'.MYSID);
 					}
 				}
 
@@ -263,7 +263,7 @@ class AdminForums extends ModuleTemplate {
 					elseif(!FuncCats::getCatData($p['parentCatID'])) $error = $this->modules['Language']->getString('error_invalid_parent_category');
 					else {
 						if($newCatID = FuncCats::addCatData($p['parentCatID'])) {
-							$this->modules['DB']->query('
+							$this->modules['DB']->queryParams('
 								UPDATE
 									'.TBLPFX.'cats
 								SET
@@ -280,7 +280,7 @@ class AdminForums extends ModuleTemplate {
 							));
 						}
 
-						Functions::myHeader(INDEXFILE."?action=AdminForums&".MYSID);
+						Functions::myHeader(INDEXFILE.'?action=AdminForums&'.MYSID);
 					}
 				}
 
@@ -598,7 +598,6 @@ class AdminForums extends ModuleTemplate {
 				Functions::myHeader(INDEXFILE."?action=AdminForums&mode=EditSpecialRights&forumID=$forumID&".MYSID);
 				break;
 		}
-
 	}
 }
 
