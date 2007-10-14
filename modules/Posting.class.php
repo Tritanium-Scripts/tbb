@@ -99,35 +99,51 @@ class Posting extends ModuleTemplate {
 						elseif($mode != 'Edit' && $this->modules['Auth']->isLoggedIn() != 1 && !Functions::verifyEmail($p['guestNick'])) $error = $this->modules['Language']->getString('error_invalid_name');
 						elseif($mode != 'Edit' && $this->modules['Auth']->isLoggedIn() != 1 && !Functions::unifyNick($p['guestNick'])) $error = $this->modules['Language']->getString('error_existing_user_name');
 						elseif($mode == 'Edit') {
-							$this->modules['DB']->query("
-								UPDATE
-									".TBLPFX."posts
-								SET
-									smileyID='".$p['smileyID']."',
-									postEnableBBCode='".$c['enableBBCode']."',
-									postEnableSmilies='".$c['enableSmilies']."',
-									postEnableHtmlCode='".$c['enableHtmlCode']."',
-									postShowSignature='".$c['showSignature']."',
-									postEnableURITransformation='".$c['enableURITransformation']."',
-									postShowEditings='".$c['showEditings']."',
-									postEditedCounter=postEditedCounter+1,
-									postLastEditorNick='".$this->modules['Auth']->getValue('userNick')."',
-									postTitle='".$p['messageTitle']."',
-									postText='".$p['messageText']."'
-								WHERE
-									postID='$postID'
-							");
+                            $this->modules['DB']->queryParams('
+                                UPDATE
+                                    '.TBLPFX.'posts
+                                SET
+                                    "smileyID"=$1,
+                                    "postEnableBBCode"=$2,
+                                    "postEnableSmilies"=$3,
+                                    "postEnableHtmlCode"=$4,
+                                    "postShowSignature"=$5,
+                                    "postEnableURITransformation"=$6,
+                                    "postShowEditings"=$7,
+                                    "postEditedCounter"="postEditedCounter"+1,
+                                    "postLastEditorNick"=$8,
+                                    "postTitle"=$9,
+                                    "postText"=$10
+                                WHERE
+                                    "postID"=$11
+                            ', array(
+                                $p['smileyID'],
+                                $c['enableBBCode'],
+                                $c['enableSmilies'],
+                                $c['enableHtmlCode'],
+                                $c['showSignature'],
+                                $c['enableURITransformation'],
+                                $c['showEditings'],
 
+                                $this->modules['Auth']->getValue('userNick'),
+                                $p['messageTitle'],
+                                $p['messageText'],
+                                $postID
+                            ));
 							if($postID == $topicData['topicFirstPostID']) {
-								$this->modules['DB']->query("
-									UPDATE
-										".TBLPFX."topics
-									SET
-										topicTitle='".$p['messageTitle']."',
-										smileyID='".$p['smileyID']."'
-									WHERE
-										topicID='$topicID'
-								");
+                                $this->modules['DB']->queryParams('
+                                    UPDATE
+                                        '.TBLPFX.'topics
+                                    SET
+                                        "topicTitle"=$1,
+                                        "smileyID"=$2
+                                    WHERE
+                                        "topicID"=$3
+                                ', array(
+                                    $p['messageTitle'],
+                                    $p['smileyID'],
+                                    $topicID
+                                ));
 							}
 
 							Functions::myHeader(INDEXFILE."?p=$postID&".MYSID."#post$postID");
