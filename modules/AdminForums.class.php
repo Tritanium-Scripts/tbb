@@ -320,7 +320,7 @@ class AdminForums extends ModuleTemplate {
 					if(trim($p['catName']) == '') $error = $this->modules['Language']->getStirng('error_no_category_name');
 					elseif(!FuncCats::getCatData($p['parentCatID'])) $error = $this->modules['Language']->getString('error_invalid_parent_category');
 					else {
-						$this->modules['DB']->query('
+						$this->modules['DB']->queryParams('
 							UPDATE
 								'.TBLPFX.'cats
 							SET
@@ -397,8 +397,8 @@ class AdminForums extends ModuleTemplate {
 				$forumID2 = isset($_GET['forumID2']) ? intval($_GET['forumID2']) : 0;
 
 				if(($forumData1 = FuncForums::getForumData($forumID1)) && ($forumData2 = FuncForums::getForumData($forumID2))) {
-					$this->modules['DB']->query("UPDATE ".TBLPFX."forums SET orderID='".$forumData2['orderID']."' WHERE forumID='$forumID1'");
-					$this->modules['DB']->query("UPDATE ".TBLPFX."forums SET orderID='".$forumData1['orderID']."' WHERE forumID='$forumID2'");
+					$this->modules['DB']->queryParams('UPDATE '.TBLPFX.'forums SET "orderID"=$1 WHERE "forumID"=$2',array($forumData2['orderID'],$forumID1));
+					$this->modules['DB']->queryParams('UPDATE '.TBLPFX.'forums SET "orderID"=$1 WHERE "forumID"=$2',array($forumData1['orderID'],$forumID2));
 				}
 				Functions::myHeader(INDEXFILE."?action=AdminForums&".MYSID);
 				break;
@@ -419,56 +419,72 @@ class AdminForums extends ModuleTemplate {
 						$curRight['authPostPoll'] = isset($curRight['authPostPoll']) ? 1 : 0;
 						$curRight['authEditPosts'] = isset($curRight['authEditPosts']) ? 1 : 0;
 
-						$this->modules['DB']->query("
+						$this->modules['DB']->queryParams('
 							UPDATE
-								".TBLPFX."forums_auth
+								'.TBLPFX.'forums_auth
 							SET
-								authIsMod='".$curRight['authIsMod']."',
-								authViewForum='".$curRight['authViewForum']."',
-								authPostTopic='".$curRight['authPostTopic']."',
-								authPostReply='".$curRight['authPostReply']."',
-								authPostPoll='".$curRight['authPostPoll']."',
-								authEditPosts='".$curRight['authEditPosts']."'
+								"authIsMod"=$1,
+								"authViewForum"=$2,
+								"authPostTopic"=$3,
+								"authPostReply"=$4,
+								"authPostPoll"=$5,
+								"authEditPosts"=$6
 							WHERE
-								forumID='$forumID'
-								AND authType='".$curRight['authType']."'
-								AND authID='".$curRight['authID']."'
-						");
+								"forumID"=$7
+								AND "authType"=$8
+								AND "authID"=$9
+						',array(
+							$curRight['authIsMod'],
+							$curRight['authViewForum'],
+							$curRight['authPostTopic'],
+							$curRight['authPostReply'],
+							$curRight['authPostPoll'],
+							$curRight['authEditPosts'],
+							$forumID,
+							$curRight['authType'],
+							$curRight['authID']
+						));
 					}
 
 					FuncMisc::printMessage('special_rights_updated',array(sprintf($this->modules['Language']->getString('click_here_back'),'<a href="'.INDEXFILE.'?action=AdminForums&amp;mode=EditForum&amp;forumID='.$forumID.'&amp;'.MYSID.'">','</a>'))); exit;
 				}
 
-				$this->modules['DB']->query("
+				$this->modules['DB']->queryParams('
 					SELECT
 						t1.*,
-						t2.userNick AS authUserNick
+						t2."userNick" AS "authUserNick"
 					FROM (
-						".TBLPFX."forums_auth AS t1,
-						".TBLPFX."users AS t2
+						'.TBLPFX.'forums_auth t1,
+						'.TBLPFX.'users t2
 					) WHERE
-						forumID='$forumID'
-						AND authType='".AUTH_TYPE_USER."'
-						AND t2.userID=t1.authID
+						t1."forumID"=$1
+						AND t1."authType"=$2
+						AND t2."userID"=t1."authID"
 					ORDER BY
-						t2.userNick ASC
-				");
+						t2."userNick" ASC
+				',array(
+					$forumID,
+					AUTH_TYPE_USER
+				));
 				$rightsDataUsers = $this->modules['DB']->raw2Array();
 
-				$this->modules['DB']->query("
+				$this->modules['DB']->queryParams('
 					SELECT
 						t1.*,
-						t2.groupName AS authGroupName
+						t2."groupName" AS "authGroupName"
 					FROM (
-						".TBLPFX."forums_auth AS t1,
-						".TBLPFX."groups AS t2
+						'.TBLPFX.'forums_auth t1,
+						'.TBLPFX.'groups t2
 					) WHERE
-						forumID='$forumID'
-						AND authType='".AUTH_TYPE_GROUP."'
-						AND t2.groupID=t1.authID
+						t1."forumID"=$1
+						AND t1."authType"=$2
+						AND t2."groupID"=t1."authID"
 					ORDER BY
 						t2.groupName ASC
-				");
+				',array(
+					$forumID,
+					AUTH_TYPE_GROUP
+				));
 				$rightsDataGroups = $this->modules['DB']->raw2Array();
 
 				$this->modules['Template']->assign(array(
@@ -498,26 +514,36 @@ class AdminForums extends ModuleTemplate {
 					$users = explode(',',$p['users']);
 					foreach($users AS &$curUser) {
 						if($curUserID = FuncUsers::getUserID(trim($curUser))) {
-							$this->modules['DB']->query("SELECT authID FROM ".TBLPFX."forums_auth WHERE forumID='$forumID' AND authType='".AUTH_TYPE_USER."' AND authID='$curUserID'");
-							if($this->modules['DB']->getAffectedRows() == 0) {
-								$this->modules['DB']->query("
+							$this->modules['DB']->queryParams('SELECT "authID" FROM '.TBLPFX.'forums_auth WHERE "forumID"=$1 AND "authType"=$2 AND "authID"=$3',array($forumID,AUTH_TYPE_USER,$curUserID));
+							if($this->modules['DB']->numRows() == 0) {
+								$this->modules['DB']->queryParams('
 									INSERT INTO
-										".TBLPFX."forums_auth
+										'.TBLPFX.'forums_auth
 									SET
-										forumID='$forumID',
-										authType='".AUTH_TYPE_USER."',
-										authID='$curUserID',
-										authViewForum='".$c['authViewForumMembers']."',
-										authPostTopic='".$c['authPostTopicMembers']."',
-										authPostReply='".$c['authPostReplyMembers']."',
-										authPostPoll='".$c['authPostPollMembers']."',
-										authEditPosts='".$c['authEditPostsMembers']."',
-										authIsMod='".$c['authIsMod']."'
-								");
+										"forumID"=$1,
+										"authType"=$2,
+										"authID"=$3,
+										"authViewForum"=$4,
+										"authPostTopic"=$5,
+										"authPostReply"=$6,
+										"authPostPoll"=$7,
+										"authEditPosts"=$8,
+										"authIsMod"=$9
+								',array(
+									$forumID,
+									AUTH_TYPE_USER,
+									$curUserID,
+									$c['authViewForumMembers'],
+									$c['authPostTopicMembers'],
+									$c['authPostReplyMembers'],
+									$c['authPostPollMembers'],
+									$c['authEditPostsMembers'],
+									$c['authIsMod']
+								));
 							}
 						}
 					}
-					Functions::myHeader(INDEXFILE."?action=AdminForums&mode=EditSpecialRights&forumID=$forumID&".MYSID);
+					Functions::myHeader(INDEXFILE.'?action=AdminForums&mode=EditSpecialRights&forumID='.$forumID.'&'.MYSID);
 				}
 
 				$this->modules['Template']->assign(array(
@@ -547,29 +573,39 @@ class AdminForums extends ModuleTemplate {
 					$c = Functions::getSGValues($_POST['c'],array('authViewForumMembers','authPostTopicMembers','authPostReplyMembers','authPostPollMembers','authEditPostsMembers','authIsMod'),0);
 
 					if($groupData = FuncGroups::getGroupData($p['groupID'])) {
-						$this->modules['DB']->query("SELECT authID FROM ".TBLPFX."forums_auth WHERE forumID='$forumID' AND authType='".AUTH_TYPE_GROUP."' AND authID='".$groupData['groupID']."'");
-						if($this->modules['DB']->getAffectedRows() == 0) {
-							$this->modules['DB']->query("
+						$this->modules['DB']->queryParams('SELECT "authID" FROM '.TBLPFX.'forums_auth WHERE "forumID"=$1 AND "authType"=$2 AND "authID"=$3',array($forumID,AUTH_TYPE_GROUP,$groupData['groupID']));
+						if($this->modules['DB']->numRows() == 0) {
+							$this->modules['DB']->queryParams('
 								INSERT INTO
-									".TBLPFX."forums_auth
+									'.TBLPFX.'forums_auth
 								SET
-									forumID='$forumID',
-									authType='".AUTH_TYPE_GROUP."',
-									authID='".$groupData['groupID']."',
-									authViewForum='".$c['authViewForumMembers']."',
-									authPostTopic='".$c['authPostTopicMembers']."',
-									authPostReply='".$c['authPostReplyMembers']."',
-									authPostPoll='".$c['authPostPollMembers']."',
-									authEditPosts='".$c['authEditPostsMembers']."',
-									authIsMod='".$c['authIsMod']."'
-							");
+									"forumID"=$1,
+									"authType"=$2,
+									"authID"=$3,
+									"authViewForum"=$4,
+									"authPostTopic"=$5,
+									"authPostReply"=$6,
+									"authPostPoll"=$7,
+									"authEditPosts"=$8,
+									"authIsMod"=$9
+							',array(
+								$forumID,
+								AUTH_TYPE_GROUP,
+								$groupData['groupID'],
+								$c['authViewForumMembers'],
+								$c['authPostTopicMembers'],
+								$c['authPostReplyMembers'],
+								$c['authPostPollMembers'],
+								$c['authEditPostsMembers'],
+								$c['authIsMod']
+							));
 						}
 					}
 
-					Functions::myHeader(INDEXFILE."?action=AdminForums&mode=EditSpecialRights&forumID=$forumID&".MYSID);
+					Functions::myHeader(INDEXFILE.'?action=AdminForums&mode=EditSpecialRights&forumID='.$forumID.'&'.MYSID);
 				}
 
-				$this->modules['DB']->query("SELECT * FROM ".TBLPFX."groups WHERE groupID NOT IN (SELECT authID FROM ".TBLPFX."forums_auth WHERE authType='".AUTH_TYPE_GROUP."' AND forumID='$forumID')");
+				$this->modules['DB']->queryParams('SELECT * FROM '.TBLPFX.'groups WHERE "groupID" NOT IN (SELECT "authID" FROM '.TBLPFX.'forums_auth WHERE "authType"=$1 AND "forumID"=$2)',array(AUTH_TYPE_GROUP,$forumID));
 				$groupsData = $this->modules['DB']->raw2Array();
 
 				$this->modules['Template']->assign(array(
@@ -593,9 +629,9 @@ class AdminForums extends ModuleTemplate {
 				$authType = isset($_GET['authType']) ? intval($_GET['authType']) : 0;
 				$authID = isset($_GET['authID']) ? intval($_GET['authID']) : 0;
 
-				$this->modules['DB']->query("DELETE FROM ".TBLPFX."forums_auth WHERE forumID='$forumID' AND authType='$authType' AND authID='$authID'");
+				$this->modules['DB']->query('DELETE FROM '.TBLPFX.'forums_auth WHERE "forumID"=$1 AND "authType"=$2 AND "authID"=$3',array($forumID,$authType,$authID));
 
-				Functions::myHeader(INDEXFILE."?action=AdminForums&mode=EditSpecialRights&forumID=$forumID&".MYSID);
+				Functions::myHeader(INDEXFILE.'?action=AdminForums&mode=EditSpecialRights&forumID='.$forumID.'&'.MYSID);
 				break;
 		}
 	}
