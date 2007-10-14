@@ -49,19 +49,28 @@ class AdminProfileFields extends ModuleTemplate {
 					if(trim($p['fieldData']) != '')
 						$fieldData = explode("\n",str_replace("\r",'',Functions::stripSlashes(trim($p['fieldData']))));
 
-					$this->modules['DB']->query("
-						INSERT INTO
-							".TBLPFX."profile_fields
-						SET
-							fieldName='".$p['fieldName']."',
-							fieldType='".$p['fieldType']."',
-							fieldIsRequired='".$cp['fieldIsRequired']."',
-							fieldShowRegistration='".$c['fieldShowRegistration']."',
-							fieldShowMemberlist='".$c['fieldShowMemberlist']."',
-							fieldData='".Functions::addSlashes(serialize($fieldData))."',
-							fieldRegexVerification='".$p['fieldRegexVerification']."',
-							fieldLink='".$p['fieldLink']."'
-					");
+                    $this->modules['DB']->queryParams('
+                        INSERT INTO
+                            '.TBLPFX.'profile_fields
+                        SET
+                            "fieldName"=$1,
+                            "fieldType"=$2,
+                            "fieldIsRequired"=$3,
+                            "fieldShowRegistration"=$4,
+                            "fieldShowMemberlist"=$5,
+                            "fieldData"=$6,
+                            "fieldRegexVerification"=$7,
+                            "fieldLink"=$8
+                    ', array(
+                        $p['fieldName'],
+                        $p['fieldType'],
+                        $cp['fieldIsRequired'],
+                        $c['fieldShowRegistration'],
+                        $c['fieldShowMemberlist'],
+                        Functions::addSlashes(serialize($fieldData)),
+                        $p['fieldRegexVerification'],
+                        $p['fieldLink']
+                    ));
 
 					Functions::myHeader(INDEXFILE.'?action=AdminProfileFields&'.MYSID);
 				}
@@ -78,7 +87,7 @@ class AdminProfileFields extends ModuleTemplate {
 			case 'EditField':
 				$fieldID = isset($_GET['fieldID']) ? intval($_GET['fieldID']) : 0;
 
-				$this->modules['DB']->query("SELECT * FROM ".TBLPFX."profile_fields WHERE fieldID='$fieldID'");
+                $this->modules['DB']->queryParams('SELECT * FROM '.TBLPFX.'profile_fields WHERE "fieldID"=$1', array($fieldID));
 				($this->modules['DB']->getAffectedRows() == 0) ? die('Cannot load data: profile field') : $fieldData = $this->modules['DB']->fetchArray();
 
 				$p = Functions::getSGValues($_POST['p'],array('fieldName','fieldRegexVerification','fieldLink','fieldType'),'',Functions::addSlashes($fieldData));
@@ -98,21 +107,31 @@ class AdminProfileFields extends ModuleTemplate {
 					if(trim($p['fieldData']) != '')
 						$fieldData = explode("\n",str_replace("\r",'',Functions::stripSlashes(trim($p['fieldData']))));
 
-					$this->modules['DB']->query("
-						UPDATE
-							".TBLPFX."profile_fields
-						SET
-							fieldName='".$p['fieldName']."',
-							fieldType='".$p['fieldType']."',
-							fieldIsRequired='".$cp['fieldIsRequired']."',
-							fieldShowRegistration='".$c['fieldShowRegistration']."',
-							fieldShowMemberlist='".$c['fieldShowMemberlist']."',
-							fieldData='".Functions::addSlashes(serialize($fieldData))."',
-							fieldRegexVerification='".$p['fieldRegexVerification']."',
-							fieldLink='".$p['fieldLink']."'
-						WHERE
-							fieldID='$fieldID'
-					");
+                    $this->modules['DB']->queryParams('
+                        UPDATE
+                            '.TBLPFX.'profile_fields
+                        SET
+                            "fieldName"=$1,
+                            "fieldType"=$2,
+                            "fieldIsRequired"=$3,
+                            "fieldShowRegistration"=$4,
+                            "fieldShowMemberlist"=$5,
+                            "fieldData"=$6,
+                            "fieldRegexVerification"=$7,
+                            "fieldLink"=$8
+                        WHERE
+                            "fieldID"=$9
+                    ', array(
+                        $p['fieldName'],
+                        $p['fieldType'],
+                        $cp['fieldIsRequired'],
+                        $c['fieldShowRegistration'],
+                        $c['fieldShowMemberlist'],
+                        Functions::addSlashes(serialize($fieldData)),
+                        $p['fieldRegexVerification'],
+                        $p['fieldLink'],
+                        $fieldID
+                    ));
 
 					Functions::myHeader(INDEXFILE.'?action=AdminProfileFields&'.MYSID);
 				}
@@ -130,9 +149,9 @@ class AdminProfileFields extends ModuleTemplate {
 			case 'DeleteField':
 				$fieldID = isset($_GET['fieldID']) ? intval($_GET['fieldID']) : 0;
 
-				$this->modules['DB']->query("DELETE FROM ".TBLPFX."profile_fields WHERE fieldID='$fieldID'");
+                $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'profile_fields WHERE "fieldID"=$1', array($fieldID));
 				if($this->modules['DB']->getAffectedRows() != 0)
-					$this->modules['DB']->query("DELETE FROM ".TBLPFX."profile_fields_data WHERE fieldID='$fieldID'");
+                    $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'profile_fields_data WHERE "fieldID"=$1', array($fieldID));
 
 				Functions::myHeader(INDEXFILE.'?action=AdminProfileFields&'.MYSID);
 				break;
