@@ -7,16 +7,16 @@ class Session extends ModuleTemplate {
 	);
 
 	public function initializeMe() {
-		session_set_save_handler( // Session-Management auf Datenbank umstellen
-			array($this,'DataHandlerOpen'),
-			array($this,'DataHandlerClose'),
-			array($this,'DataHandlerRead'),
-			array($this,'DataHandlerWrite'),
-			array($this,'DataHandlerDestroy'),
-			array($this,'DataHandlerGc')
+		session_set_save_handler(
+			array($this,'dataHandlerOpen'),
+			array($this,'dataHandlerClose'),
+			array($this,'dataHandlerRead'),
+			array($this,'dataHandlerWrite'),
+			array($this,'dataHandlerDestroy'),
+			array($this,'dataHandlerGc')
 		);
-		session_name('sid'); // Name der Session zu "sid" aendern
-		session_start(); // Session starten
+		session_name('sid');
+		session_start();
 
 		if(session_id() == '0') { // Falls eine ungueltige Session-ID existiert...
 			session_unset();
@@ -30,43 +30,41 @@ class Session extends ModuleTemplate {
 		register_shutdown_function('session_write_close');
 	}
 
-	public function DataHandlerOpen($savePath,$sessionName) {
+	public function dataHandlerOpen($savePath,$sessionName) {
 		return TRUE;
 	}
 
-	public function DataHandlerClose() {
+	public function dataHandlerClose() {
 		return TRUE;
 	}
 
-	public function DataHandlerRead($sessionID) {
-		$this->modules['DB']->query("SELECT SessionData FROM ".TBLPFX."sessions WHERE SessionID='$sessionID'");
-		if($this->modules['DB']->getAffectedRows() == 0) {
-			$this->modules['DB']->query("INSERT INTO ".TBLPFX."sessions (SessionID) VALUES ('$sessionID')");
-			return "";
+	public function dataHandlerRead($sessionID) {
+		$this->modules['DB']->queryParams('UPDATE '.TBLPFX.'sessions SET "sessionLastUpdate"=NOW() WHERE "sessionID"=$1',array($sessionID));
+		if($this->modules['DB']->getAffectedRows() == 1) {
+			$this->modules['DB']->queryParams('SELECT "sessionData" FROM '.TBLPFX.'sessions WHERE "sessionID"=$1',array($sessionID));
+			list($sessionData) = $this->modules['DB']->fetchArray();
+			return $sessionData;
 		}
 
-		list($sessionData) = $this->modules['DB']->fetchArray();
-		return $sessionData;
+		$this->modules['DB']->queryParams('INSERT INTO '.TBLPFX.'sessions SET "sessionID"=$1',array($sessionID));
+		return '';
 	}
 
-	public function DataHandlerWrite($sessionID,$sessionData) {
-		$sessionData = $this->modules['DB']->escapeString($sessionData);
-
-		$this->modules['DB']->query("UPDATE ".TBLPFX."sessions SET SessionData='$sessionData', SessionLastUpdate=NOW() WHERE SessionID='$sessionID'");
+	public function dataHandlerWrite($sessionID,$sessionData) {
+		$this->modules['DB']->queryParams('UPDATE '.TBLPFX.'sessions SET "sessionData"=$1 WHERE "sessionID"=$2',array($sessionData,$sessionID));
 		if($this->modules['DB']->getAffectedRows() == 0)
 			return FALSE;
 
 		return TRUE;
 	}
 
-	public function DataHandlerDestroy($sessionID) {
-		$this->modules['DB']->query("DELETE FROM ".TBLPFX."sessions WHERE SessionID='$sessionID'");
+	public function dataHandlerDestroy($sessionID) {
+		$this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'sessions WHERE "sessionID"=$1',array($sessionID));
 		return ($this->modules['DB']->getAffectedRows() == 0) ? FALSE : TRUE;
 	}
 
-	public function DataHandlerGc($sessionMaxLifeTime) {
-		$this->modules['DB']->query("DELETE FROM ".TBLPFX."sessions WHERE SessionLastUpdate<'".$this->modules['DB']->fromUnixTimestamp(time()-$sessionMaxLifeTime)."'");
-
+	public function dataHandlerGc($sessionMaxLifeTime) {
+		$this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'sessions WHERE "sessionLastUpdate"<$1',array($this->modules['DB']->fromUnixTimestamp(time()-$sessionMaxLifeTime)));
 		return TRUE;
 	}
 }
