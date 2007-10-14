@@ -17,29 +17,6 @@ class DB extends ModuleTemplate {
 		$this->query("SET NAMES utf8");
 
 		$this->query("SET sql_mode='ANSI'");
-
-		/*/$this->query("update tbb2_posts set PostText = REPLACE(PostText,'Ã¶','ö')");
-		$this->query("update tbb2_posts set PostText = REPLACE(PostText,'Ã¤','ä')");
-		$this->query("update tbb2_posts set PostText = REPLACE(PostText,'Ã¼','ü')");
-		$this->query("update tbb2_posts set PostText = REPLACE(PostText,'ÃŸ','ß')");
-		$this->query("update tbb2_posts set PostText = REPLACE(PostText,'Ã¶','ö')");
-		$this->query("update tbb2_posts set PostText = REPLACE(PostText,'Ã¶','ö')");
-		$this->query("update tbb2_posts set PostText = REPLACE(PostText,'Ã¶','ö')");
-
-
-		$this->query("update tbb2_posts set PostTitle = REPLACE(PostTitle,'Ã¶','ö')");
-		$this->query("update tbb2_posts set PostTitle = REPLACE(PostTitle,'Ã¤','ä')");
-		$this->query("update tbb2_posts set PostTitle = REPLACE(PostTitle,'Ã¼','ü')");
-		$this->query("update tbb2_posts set PostTitle = REPLACE(PostTitle,'ÃŸ','ß')");
-
-		$this->query("update tbb2_forums set ForumName = REPLACE(ForumName,'Ã¶','ö')");
-		$this->query("update tbb2_forums set ForumName = REPLACE(ForumName,'Ã¤','ä')");
-		$this->query("update tbb2_forums set ForumName = REPLACE(ForumName,'Ã¼','ü')");
-		$this->query("update tbb2_forums set ForumName = REPLACE(ForumName,'ÃŸ','ß')");
-		$this->query("update tbb2_forums set ForumDescription = REPLACE(ForumDescription,'Ã¶','ö')");
-		$this->query("update tbb2_forums set ForumDescription = REPLACE(ForumDescription,'Ã¤','ä')");
-		$this->query("update tbb2_forums set ForumDescription = REPLACE(ForumDescription,'Ã¼','ü')");
-		$this->query("update tbb2_forums set ForumDescription = REPLACE(ForumDescription,'ÃŸ','ß')");/**/
 	}
 
 	public function query($query) {
@@ -66,7 +43,7 @@ class DB extends ModuleTemplate {
 		return $parameter;
 	}
 
-	public function queryParams($query,$parameters) {
+	public function queryParams($query,$parameters = array()) {
 		$this->parameters = array_map(array($this,'parseQueryParam'),$parameters);
 		$query = preg_replace_callback('/\$([0-9]+)/',array($this,'queryParamsCallback'),$query);
 

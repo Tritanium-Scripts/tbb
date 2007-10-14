@@ -9,7 +9,7 @@
 </td></tr>
 </table>
 <br />
-<table class="TableStd" border="0" cellpadding="3" cellspacing="0" width="100%">
+<table class="TableStd" width="100%">
 <tr>
  <td class="CellTitle" colspan="3" align="center"><span class="FontTitleSmall">{$modules.Language->getString('Topic')}</span></td>
  <td class="CellTitle" align="center"><span class="FontTitleSmall">{$modules.Language->getString('Author')}</span></td>
@@ -20,8 +20,8 @@
 {foreach from=$topicsData item=curTopic}
  {if $curTopic.topicMovedID != 0}
    <tr onmouseover="setRowCellsClass(this,'CellHighlight');" onmouseout="restoreRowCellsClass(this);">
-   <td class="CellAlt" width="20" align="center"><img src="{$akt_topic_status}" alt="" /></td>
-   <td class="CellAlt" width="20" align="center"></td>
+   <td class="CellAlt" width="20" align="center">&nbsp;</td>
+   <td class="CellAlt" width="20" align="center">&nbsp;</td>
    <td class="CellStd"><span class="FontNorm">{$curTopic._topicPrefix}</span><span class="topiclink"><a class="topiclink" href="{$indexFile}?action=ViewTopic&amp;topicID={$curTopic.topicID}&amp;{$mySID}">{$curTopic.topicTitle}</a></span></td>
    <td class="CellAlt"><span class="FontNorm">{$curTopic._topicPosterNick}</span></td>
    <td class="CellStd" align="center"><span class="FontSmall">-</span></td>
@@ -30,8 +30,8 @@
   </tr>
  {else}
   <tr onmouseover="setRowCellsClass(this,'CellHighlight');" onmouseout="restoreRowCellsClass(this);">
-   <td class="CellAlt" width="20" align="center"><img src="{$akt_topic_status}" alt="" /></td>
-   <td class="CellAlt" width="20" align="center">{$curTopic._topicPic}</td>
+   <td class="CellAlt" width="20" align="center"><img src="{$modules.Template->getTD()}/images/{if $curTopic._newPostsAvailable == 1}topic_on_open.gif{else}topic_off_open.gif{/if}" alt=""/></td>
+   <td class="CellAlt" width="20" align="center">{if $curTopic._topicPic != ''}{$curTopic._topicPic}{else}&nbsp;{/if}</td>
    <td class="CellStd"><span class="FontNorm">{$curTopic._topicPrefix}</span><span class="topiclink"><a class="topiclink" href="{$indexFile}?action=ViewTopic&amp;topicID={$curTopic.topicID}&amp;{$mySID}">{$curTopic.topicTitle}</a></span></td>
    <td class="CellAlt"><span class="FontNorm">{$curTopic._topicPosterNick}</span></td>
    <td class="CellStd" align="center"><span class="FontSmall">{$curTopic.topicRepliesCounter}</span></td>

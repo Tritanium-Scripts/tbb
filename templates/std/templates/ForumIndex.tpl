@@ -67,7 +67,7 @@ initializeClosedCatIDs();
  {foreach from=$forumsData item=curForum}
   {if $curForum.catID == $curCat.catID}
   <tr class="RowToHighlight" onmouseover="setRowCellsClass(this,'CellHighlight');" onmouseout="restoreRowCellsClass(this);">
-   <td class="CellAlt" align="center"></td>
+   <td class="CellAlt" align="center"><img src="{$modules.Template->getTD()}/images/forum_{if $curForum._newPostsAvailable == 1}on{else}off{/if}.gif" alt=""/></td>
    <td class="CellStd" width="50%">
     <table border="0" cellspacing="0" cellpadding="0">
      <tr><td><span class="ForumLink"><a class="ForumLink" href="{$indexFile}?action=ViewForum&amp;forumID={$curForum.forumID}&amp;{$mySID}">{$curForum.forumName}</a></span></td></tr>

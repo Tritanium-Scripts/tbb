@@ -19,7 +19,7 @@ class AdminForums extends ModuleTemplate {
 			default:
 				$catsData = FuncCats::getCatsData();
 
-				$this->modules['DB']->query("SELECT * FROM ".TBLPFX."forums ORDER BY orderID");
+				$this->modules['DB']->query('SELECT * FROM '.TBLPFX.'forums ORDER BY "orderID"');
 				$forumsData = $this->modules['DB']->raw2Array();
 
 				$forumsCounter = count($forumsData);
@@ -97,28 +97,46 @@ class AdminForums extends ModuleTemplate {
 					else {
 						if(!FuncCats::getCatData($p['catID'])) $p['catID'] = 1;
 
-						$this->modules['DB']->query("
+						$this->modules['DB']->query('
 							INSERT INTO
 								".TBLPFX."forums
 							SET
-								catID='".$p['catID']."',
-								forumName='".$p['forumName']."',
-								forumDescription='".$p['forumDescription']."',
-								forumIsModerated='".$c['forumIsModerated']."',
-								forumEnableBBCode='".$c['forumEnableBBCode']."',
-								forumEnableHtmlCode='".$c['forumEnableHtmlCode']."',
-								forumEnableSmilies='".$c['forumEnableSmilies']."',
-								forumShowLatestPosts='".$c['forumShowLatestPosts']."',
-								authViewForumMembers='".$c['authViewForumMembers']."',
-								authPostTopicMembers='".$c['authPostTopicMembers']."',
-								authPostReplyMembers='".$c['authPostReplyMembers']."',
-								authPostPollMembers='".$c['authPostPollMembers']."',
-								authEditPostsMembers='".$c['authEditPostsMembers']."',
-								authViewForumGuests='".$c['authViewForumGuests']."',
-								authPostTopicGuests='".$c['authPostTopicGuests']."',
-								authPostReplyGuests='".$c['authPostReplyGuests']."',
-								authPostPollGuests='".$c['authPostPollGuests']."'
-						");
+								"catID"=$1,
+								"forumName"=$2,
+								"forumDescription"=$3,
+								"forumIsModerated"=$4,
+								"forumEnableBBCode"=$5,
+								"forumEnableHtmlCode"=$6,
+								"forumEnableSmilies"=$7,
+								"forumShowLatestPosts"=$8,
+								"authViewForumMembers"=$9,
+								"authPostTopicMembers"=$10,
+								"authPostReplyMembers"=$11,
+								"authPostPollMembers"=$12,
+								"authEditPostsMembers"=$13,
+								"authViewForumGuests"=$14,
+								"authPostTopicGuests"=$15,
+								"authPostReplyGuests"=$16,
+								"authPostPollGuests"=$17
+						',array(
+							$p['catID'],
+							$p['forumName'],
+							$p['forumDescription'],
+							$c['forumIsModerated'],
+							$c['forumEnableBBCode'],
+							$c['forumEnableHtmlCode'],
+							$c['forumEnableSmilies'],
+							$c['forumShowLatestPosts'],
+							$c['authViewForumMembers'],
+							$c['authPostTopicMembers'],
+							$c['authPostReplyMembers'],
+							$c['authPostPollMembers'],
+							$c['authEditPostsMembers'],
+							$c['authViewForumGuests'],
+							$c['authPostTopicGuests'],
+							$c['authPostReplyGuests'],
+							$c['authPostPollGuests']
+						));
 						Functions::myHeader(INDEXFILE."?action=AdminForums&".MYSID);
 					}
 				}
@@ -161,30 +179,49 @@ class AdminForums extends ModuleTemplate {
 					else {
 						if(!FuncCats::getCatData($p['catID'])) $p['catID'] = 1;
 
-						$this->modules['DB']->query("
+						$this->modules['DB']->query('
 							UPDATE
-								".TBLPFX."forums
+								'.TBLPFX.'forums
 							SET
-								catID='".$p['catID']."',
-								forumName='".$p['forumName']."',
-								forumDescription='".$p['forumDescription']."',
-								forumIsModerated='".$c['forumIsModerated']."',
-								forumEnableBBCode='".$c['forumEnableBBCode']."',
-								forumEnableHtmlCode='".$c['forumEnableHtmlCode']."',
-								forumEnableSmilies='".$c['forumEnableSmilies']."',
-								forumShowLatestPosts='".$c['forumShowLatestPosts']."',
-								authViewForumMembers='".$c['authViewForumMembers']."',
-								authPostTopicMembers='".$c['authPostTopicMembers']."',
-								authPostReplyMembers='".$c['authPostReplyMembers']."',
-								authPostPollMembers='".$c['authPostPollMembers']."',
-								authEditPostsMembers='".$c['authEditPostsMembers']."',
-								authViewForumGuests='".$c['authViewForumGuests']."',
-								authPostTopicGuests='".$c['authPostTopicGuests']."',
-								authPostReplyGuests='".$c['authPostReplyGuests']."',
-								authPostPollGuests='".$c['authPostPollGuests']."'
+								"catID"=$1,
+								"forumName"=$2,
+								"forumDescription"=$3,
+								"forumIsModerated"=$4,
+								"forumEnableBBCode"=$5,
+								"forumEnableHtmlCode"=$6,
+								"forumEnableSmilies"=$7,
+								"forumShowLatestPosts"=$8,
+								"authViewForumMembers"=$9,
+								"authPostTopicMembers"=$10,
+								"authPostReplyMembers"=$11,
+								"authPostPollMembers"=$12,
+								"authEditPostsMembers"=$13,
+								"authViewForumGuests"=$14,
+								"authPostTopicGuests"=$15,
+								"authPostReplyGuests"=$16,
+								"authPostPollGuests"=$17
 							WHERE
-								forumID='$forumID'
-						");
+								"forumID"=$18
+						',array(
+							$p['catID'],
+							$p['forumName'],
+							$p['forumDescription'],
+							$c['forumIsModerated'],
+							$c['forumEnableBBCode'],
+							$c['forumEnableHtmlCode'],
+							$c['forumEnableSmilies'],
+							$c['forumShowLatestPosts'],
+							$c['authViewForumMembers'],
+							$c['authPostTopicMembers'],
+							$c['authPostReplyMembers'],
+							$c['authPostPollMembers'],
+							$c['authEditPostsMembers'],
+							$c['authViewForumGuests'],
+							$c['authPostTopicGuests'],
+							$c['authPostReplyGuests'],
+							$c['authPostPollGuests'],
+							$forumID
+						));
 						Functions::myHeader(INDEXFILE."?action=AdminForums&".MYSID);
 					}
 				}
@@ -226,16 +263,21 @@ class AdminForums extends ModuleTemplate {
 					elseif(!FuncCats::getCatData($p['parentCatID'])) $error = $this->modules['Language']->getString('error_invalid_parent_category');
 					else {
 						if($newCatID = FuncCats::addCatData($p['parentCatID'])) {
-							$this->modules['DB']->query("
+							$this->modules['DB']->query('
 								UPDATE
-									".TBLPFX."cats
+									'.TBLPFX.'cats
 								SET
-									catName='".$p['catName']."',
-									catDescription='".$p['catDescription']."',
-									catStandardStatus='".$p['catStandardStatus']."'
+									"catName"=$1,
+									"catDescription"=$2,
+									"catStandardStatus"=$3
 								WHERE
-									catID='$newCatID'
-							");
+									"catID"=$4
+							',array(
+								$p['catName'],
+								$p['catDescription'],
+								$p['catStandardStatus'],
+								$newCatID
+							));
 						}
 
 						Functions::myHeader(INDEXFILE."?action=AdminForums&".MYSID);
@@ -278,16 +320,21 @@ class AdminForums extends ModuleTemplate {
 					if(trim($p['catName']) == '') $error = $this->modules['Language']->getStirng('error_no_category_name');
 					elseif(!FuncCats::getCatData($p['parentCatID'])) $error = $this->modules['Language']->getString('error_invalid_parent_category');
 					else {
-						$this->modules['DB']->query("
+						$this->modules['DB']->query('
 							UPDATE
-								".TBLPFX."cats
+								'.TBLPFX.'cats
 							SET
-								catName='".$p['catName']."',
-								catDescription='".$p['catDescription']."',
-								catStandardStatus='".$p['catStandardStatus']."'
+								"catName"=$1,
+								"catDescription"=$2,
+								"catStandardStatus"=$3
 							WHERE
-								catID='$catID'
-						");
+								"catID"=$4
+						',array(
+							$p['catName'],
+							$p['catDescription'],
+							$p['catStandardStatus'],
+							$catID
+						));
 
 						if($p['parentCatID'] != $parentCatData['catID'])
 							FuncCats::moveCat($catID,$p['parentCatID']);

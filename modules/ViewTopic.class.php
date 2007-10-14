@@ -56,13 +56,14 @@ class ViewTopic extends ModuleTemplate {
 		$authData = $this->_authenticateUser($forumData);
 
 
-		// TODO:
-		//update_topic_cookie($forum_id,$topicID,time());
+		// Topic visit
+		$_SESSION['topicVisits'][$topicID] = time();
 
-		if(!isset($_SESSION['topicViews'][$topicID])) { // Falls dieses Thema in dieser Session noch nicht besucht wurde...
-			$this->modules['DB']->query("UPDATE ".TBLPFX."topics SET topicViewsCounter=topicViewsCounter+1 WHERE topicID='$topicID'"); // ...Anzahl der Views um 1 erhoehen...
-			$_SESSION['topicViews'][$topicID] = TRUE; // ...Und Thema in dieser Session vermerken
-		}
+		$tmp = array();
+		foreach($_SESSION['topicVisits'] AS $topicID => $visitTime)
+			$tmp[] = $topicID.'.'.$visitTime;
+
+		Functions::set1YearCookie('topicVisits',implode(',',$tmp));
 
 
 		//

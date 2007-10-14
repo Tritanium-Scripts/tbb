@@ -4,6 +4,7 @@ class Globals extends ModuleTemplate {
 	protected $requiredModules = array(
 		'Auth',
 		'Config',
+		'DB',
 		'Language',
 		'Navbar',
 		'Session',
@@ -13,6 +14,7 @@ class Globals extends ModuleTemplate {
 	public function initializeMe() {
 		$this->modules['Navbar']->addElement($this->modules['Config']->getValue('board_name'),INDEXFILE.'?'.MYSID);
 
+		// some url wrapper
 		if(isset($_GET['t'])) {
 			$_GET['action'] = 'ViewTopic';
 			$_GET['topicID'] = $_GET['t'];
@@ -22,7 +24,62 @@ class Globals extends ModuleTemplate {
 			$_GET['postID'] = $_GET['p'];
 		}
 
+		// global page frame
 		$this->modules['Template']->setGlobalFrame(array($this,'printHeader'),array($this,'printTail'));
+
+		// last visit / last action
+		if($this->modules['Auth']->isLoggedIn()) {
+			// 2419200 seconds = 28 days. perhaps we should use a config value instead
+			if($this->modules['Auth']->getValue('userLastVisit') < time() - 2419200) {
+				$this->modules['DB']->query('UPDATE '.TBLPFX.'users SET "userLastVisit"='.time().', "userLastAction"='.time().' WHERE "userID"='.USERID);
+				$this->modules['Auth']->setValue('userLastVisit',time());
+			}
+			else
+				$this->modules['DB']->query('UPDATE '.TBLPFX.'users SET "userLastAction"='.time().' WHERE "userID"='.USERID);
+			$this->modules['Auth']->setValue('userLastAction',time());
+		} else {
+			if(isset($_COOKIE['tbbLastVisit']) && isset($_COOKIE['tbbLastAction'])) {
+				if(!isset($_SESSION['guestLastVisitDone'])) {
+					$_COOKIE['tbbLastVisit'] = intval($_COOKIE['tbbLastAction']);
+					Functions::set1YearCookie('tbbLastVisit',intval($_COOKIE['tbbLastAction']));
+					$_SESSION['guestLastVisitDone'] = 1;
+				}
+				elseif($_COOKIE['tbbLastVisit'] < time() - 2419200) {
+					$_COOKIE['tbbLastVisit'] = time();
+					Functions::set1YearCookie('tbbLastVisit',time());
+				}
+			} else {
+				$_SESSION['guestLastVisitDone'] = 1;
+				$_COOKIE['tbbLastVisit'] = 0;
+				Functions::set1YearCookie('tbbLastVisit',0);
+			}
+			$_COOKIE['tbbLastAction'] = time();
+			Functions::set1YearCookie('tbbLastAction',time());
+		}
+
+		if(!isset($_SESSION['forumVisits'])) {
+			if(isset($_COOKIE['forumVisits']) && $_COOKIE['forumVisits'] != '') {
+				$tmpVisits = explode(',',$_COOKIE['forumVisits']);
+				foreach($tmpVisits AS $curVisit) {
+					$curVisit = explode('.',$curVisit);
+					$_SESSION['forumVisits'][$curVisit[0]] = $curVisit[1];
+				}
+			}
+			else
+				$_SESSION['forumVisits'] = array();
+		}
+
+		if(!isset($_SESSION['topicVisits'])) {
+			if(isset($_COOKIE['topicVisits']) && $_COOKIE['topicVisits'] != '') {
+				$tmpVisits = explode(',',$_COOKIE['topicVisits']);
+				foreach($tmpVisits AS $curVisit) {
+					$curVisit = explode('.',$curVisit);
+					$_SESSION['topicVisits'][$curVisit[0]] = $curVisit[1];
+				}
+			}
+			else
+				$_SESSION['topicVisits'] = array();
+		}
 	}
 
 	public function printHeader() {

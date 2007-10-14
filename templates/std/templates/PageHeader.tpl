@@ -20,7 +20,7 @@
 <form method="post" action="{$indexFile}?action=login&amp;doit=1&amp;{$mySID}">
 <table style="border-spacing:0px; border:2px #000000 solid; width:100%; padding:1px; background-color:#FFFFFF;">
 <tr><td>
- <table style="width:100%; border-spacing:0px; border:1px #ACACAC solid;">
+ <table style="width:100%; border-spacing:0px; border:1px #ACACAC solid;" cellspacing="0">
  <tr><td style="background-color:#c5e8f9; background-image:url(images/bck.jpg);"><!--<span class="big">{$boardBanner}</span>--><img src="images/test.jpg"/></td></tr>
   <tr><td align="center" style="background-color:#aec9d7; padding-bottom:4px;"><span class="FontSmall">
   {if $modules.Auth->isLoggedIn() == 1}

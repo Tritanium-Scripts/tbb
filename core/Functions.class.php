@@ -204,6 +204,26 @@ class Functions {
 	   return $Value;
 	}
 
+	public static function set1YearCookie($cookieName, $cookieValue) {
+		setcookie($cookieName,$cookieValue,time()+31536000);
+	}
+
+	/*public static function implodeTwice($string1, $string2, $array) {
+		foreach($array AS &$curValue)
+			$curValue = implode($string1,$curValue);
+
+		return implode($string2,$array);
+	}
+
+	public static function explodeTwice($string1, $string2, $array) {
+		$array = explode($string1,$array);
+
+		foreach($array AS &$curValue)
+			$curValue = explode($string2,$curValue);
+
+		return $array;
+	}*/
+
 	public static function getPostPicsBox($checkedID = 0) {
 		$Template = Factory::singleton('Template');
 		$Cache = Factory::singleton('Cache');

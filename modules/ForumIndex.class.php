@@ -39,6 +39,7 @@ class ForumIndex extends ModuleTemplate {
 		$boardStatsData = $this->_loadBoardStatsData();
 
 
+		// Closed categories
 		$closedCatIDs = array();
 		if(!isset($_COOKIE['closedCatIDs'])) {
 			for($i = 0; $i < $catsCounter; $i++) {
@@ -58,106 +59,122 @@ class ForumIndex extends ModuleTemplate {
 			$curCat['catName'] = Functions::HTMLSpecialChars($curCat['catName']);
 		}
 
-		for($i = 0; $i < $forumsCounter; $i++) {
-			$curForum = &$forumsData[$i];
 
-			//
-			// Der Zugriff zu diesem Forum
-			//
+		// Last visit
+		$userLastVisit = $this->modules['Auth']->isLoggedIn() ? $this->modules['Auth']->getValue('userLastVisit') : $_COOKIE['tbbLastVisit'];
+
+
+		// First, check acccess to all forums and get the forum ids of
+		// all forums of which we have to check the on/off status
+		$forumIDsOnOffCheck = array();
+		foreach($forumsData AS &$curForum) {
 			$curAuthViewForum = 1;
 			if($this->modules['Auth']->isLoggedIn() == 0) {
-				if($forumsData[$i]['authViewForumGuests'] == 0) $curAuthViewForum = 0;
+				if($curForum['authViewForumGuests'] == 0) $curAuthViewForum = 0;
 			}
 			elseif($this->modules['Auth']->getValue('userIsAdmin')!= 1 && $this->modules['Auth']->getValue('userIsSupermod') != 1) {
-				if($forumsData[$i]['authViewForumMembers'] == 1) {
-					while(list($curKey,$curData) = each($forumsAuthData)) {
-						if($curData['forumID'] != $forumsData[$i]['forumID']) continue;
-
-						unset($forumsAuthData[$curKey]);
-
-						if($curData['authViewForum'] == 0) {
-							$curAuthViewForum = 0;
-							break;
-						}
-					}
+				if($curForum['authViewForumMembers'] == 1) {
+					if(isset($forumsAuthData[$curForum['forumID']]) && $forumsAuthData[$curForum['forumID']]['authViewForum'] == 0)
+						$curAuthViewForum = 0;
 				}
 				else {
 					$curAuthViewForum = 0;
-					while(list($curKey,$curData) = each($forumsAuthData)) {
-						if($curData['forumID'] != $forumsData[$i]['forumID']) continue;
-
-						unset($forumsAuthData[$curKey]);
-
-						if($curData['authViewForum'] == 1) {
-							$curAuthViewForum = 1;
-							break;
-						}
-					}
+					if(isset($forumsAuthData[$curForum['forumID']]) && $forumsAuthData[$curForum['forumID']]['authViewForum'] == 1)
+						$curAuthViewForum = 1;
 				}
-				reset($forumsAuthData);
 			}
-			$forumsData[$i]['forumIsAccessible'] = $curAuthViewForum;
+			$curForum['forumIsAccessible'] = $curAuthViewForum;
 
-
-			if($curAuthViewForum == 1 || $this->modules['Config']->getValue('hideNotAccessibleForums') == 0) {
-				//
-				// Die Moderatoren (Mitglieder und Gruppen) des aktuellen Forums
-				//
-				$curForumMods = array(); // Array fuer die Moderatoren
-				while(list($curKey) = each($modsUsersData)) { // Erst werden alle Mitglieder-Moderatoren ueberprueft
-					if($modsUsersData[$curKey]['forumID'] != $forumsData[$i]['forumID']) continue;
-
-					$curForumMods[] = '<a href="'.INDEXFILE.'?action=ViewProfile&amp;ProfileID='.$modsUsersData[$curKey]['userID'].'&amp;'.MYSID.'">'.$modsUsersData[$curKey]['userNick'].'</a>'; // Aktuelles Mitglied zu Array mit Moderatoren des aktuellen Forums hinzufuegen
-					unset($modsUsersData[$curKey]); // Mitglied kann aus Array geloescht werden
-				}
-				reset($modsUsersData);
-
-				while(list($curKey) = each($modsGroupsData)) { // Erst werden alle Gruppen-Moderatoren ueberprueft
-					if($modsGroupsData[$curKey]['forumID'] != $forumsData[$i]['forumID']) continue;
-
-					$curForumMods[] = '<a href="'.INDEXFILE.'?action=ViewGroup&amp;groupID='.$modsGroupsData[$curKey]['groupID'].'&amp;'.MYSID.'">'.$modsGroupsData[$curKey]['groupName'].'</a>'; // Aktuelle Gruppe zu Array mit Moderatoren des aktuellen Forums hinzufuegen
-					unset($modsGroupsData[$curKey]); // Mitglied kann aus Array geloescht werden
-				}
-				reset($modsGroupsData); // Array resetten (Pointer auf Position 1 setzen)
-
-				$forumsData[$i]['forumMods'] = implode(', ',$curForumMods);
-
-
-				//
-				// Die Anzeige, ob neue Beitraege vorhanden sind
-				//
-				//$akt_new_post_status = '<img src="'.(($forums_data[$j]['forum_last_post_id'] != 0 && isset($c_forums[$forums_data[$j]['forum_id']]) == TRUE && $c_forums[$forums_data[$j]['forum_id']] < $forums_data[$j]['forum_last_post_time']) ? $tEMPLATE_PATH.'/'.$tCONFIG['images']['forum_on'] : $tEMPLATE_PATH.'/'.$tCONFIG['images']['forum_off']).'" alt="" />';
-
-
-				//
-				// Der neueste Beitrag
-				//
-				$curLastPostPic = $curLastPostText = '';
-				if($forumsData[$i]['forumLastPostID'] != 0) {
-					if($curAuthViewForum == 1) {
-						$curLastPostPic = ($forumsData[$i]['forumLastPostSmileyFileName'] == '') ? '' : '<img src="'.$forumsData[$i]['forumLastPostSmileyFileName'].'" alt="" border="0"/>';
-						if(strlen($forumsData[$i]['forumLastPostTitle']) > 22) $curLastPostLink = '<a href="'.INDEXFILE.'?action=ViewTopic&amp;postID='.$forumsData[$i]['forumLastPostID'].'&amp;'.MYSID.'#post'.$forumsData[$i]['forumLastPostID'].'" title="'.Functions::HTMLSpecialChars(($forumsData[$i]['forumLastPostTitle'])).'">'.Functions::HTMLSpecialChars(substr($forumsData[$i]['forumLastPostTitle'],0,22)).'...</a>';
-						else $curLastPostLink = '<a href="'.INDEXFILE.'?action=ViewTopic&amp;postID='.$forumsData[$i]['forumLastPostID'].'&amp;'.MYSID.'#post'.$forumsData[$i]['forumLastPostID'].'">'.Functions::HTMLSpecialChars($forumsData[$i]['forumLastPostTitle']).'</a>';
-
-						if($forumsData[$i]['forumLastPostPosterID'] == 0) $curLastPostPosterNick = $forumsData[$i]['forumLastPostGuestNick'];
-						else $curLastPostPosterNick = '<a href="index.php?action=ViewProfile&amp;profileID='.$forumsData[$i]['forumLastPostPosterID'].'&amp;'.MYSID.'">'.$forumsData[$i]['forumLastPostPosterNick'].'</a>';
-
-						$curLastPostText = $curLastPostLink.' ('.$this->modules['Language']->getString('by').' '.$curLastPostPosterNick.')<br/>'.Functions::toDateTime($forumsData[$i]['forumLastPostTimestamp']);
-					}
-				}
-				else $curLastPostText = $this->modules['Language']->getString('No_last_post');
-
-				$forumsData[$i]['forumLastPostPic'] = $curLastPostPic;
-				$forumsData[$i]['forumLastPostText'] = $curLastPostText;
-
-
-				//
-				// Sonstiges...
-				//
-				$curForum['forumName'] = Functions::HTMLSpecialChars($curForum['forumName']);
-				$curForum['forumDescription'] = Functions::HTMLSpecialChars($curForum['forumDescription']);
-			}
+			if($curAuthViewForum == 1 && $userLastVisit < $curForum['forumLastPostTimestamp'] && (!isset($_SESSION['forumVisits'][$curForum['forumID']]) || $_SESSION['forumVisits'][$curForum['forumID']] < $curForum['forumLastPostTimestamp']))
+				$forumIDsOnOffCheck[] = $curForum['forumID'];
 		}
+
+
+		// Get all new topics
+		$topicsData = array();
+		$this->modules['DB']->queryParams('
+			SELECT
+				t1."forumID",
+				t1."topicID",
+				t2."postTimestamp" AS "lastPostTimestamp"
+			FROM
+				'.TBLPFX.'topics t1
+			LEFT JOIN '.TBLPFX.'posts t2 ON t1."topicLastPostID"=t2."postID"
+			WHERE
+				t1."forumID" IN $1
+				AND t2."postTimestamp">$2
+		',array(
+			$forumIDsOnOffCheck,
+			$userLastVisit
+		));
+		while($curResult = $this->modules['DB']->fetchArray())
+			$topicsData[$curResult['forumID']][$curResult['topicID']] = $curResult['lastPostTimestamp'];
+
+
+		// Proceed with the forums
+		foreach($forumsData AS &$curForum) {
+			if($curForum['forumIsAccessible'] != 1 && $this->modules['Config']->getValue('hideNotAccessibleForums') != 0) continue;
+
+			$curForumMods = array(); // Array fuer die Moderatoren
+			while(list($curKey) = each($modsUsersData)) { // Erst werden alle Mitglieder-Moderatoren ueberprueft
+				if($modsUsersData[$curKey]['forumID'] != $curForum['forumID']) continue;
+
+				$curForumMods[] = '<a href="'.INDEXFILE.'?action=ViewProfile&amp;ProfileID='.$modsUsersData[$curKey]['userID'].'&amp;'.MYSID.'">'.$modsUsersData[$curKey]['userNick'].'</a>'; // Aktuelles Mitglied zu Array mit Moderatoren des aktuellen Forums hinzufuegen
+				unset($modsUsersData[$curKey]); // Mitglied kann aus Array geloescht werden
+			}
+			reset($modsUsersData);
+
+			while(list($curKey) = each($modsGroupsData)) { // Erst werden alle Gruppen-Moderatoren ueberprueft
+				if($modsGroupsData[$curKey]['forumID'] != $curForum['forumID']) continue;
+
+				$curForumMods[] = '<a href="'.INDEXFILE.'?action=ViewGroup&amp;groupID='.$modsGroupsData[$curKey]['groupID'].'&amp;'.MYSID.'">'.$modsGroupsData[$curKey]['groupName'].'</a>'; // Aktuelle Gruppe zu Array mit Moderatoren des aktuellen Forums hinzufuegen
+				unset($modsGroupsData[$curKey]); // Mitglied kann aus Array geloescht werden
+			}
+			reset($modsGroupsData);
+
+			$curForum['forumMods'] = implode(', ',$curForumMods);
+
+
+			$curForum['_newPostsAvailable'] = 0;
+			if($curForum['forumIsAccessible'] == 1 && $userLastVisit < $curForum['forumLastPostTimestamp'] && (!isset($_SESSION['forumVisits'][$curForum['forumID']]) || $_SESSION['forumVisits'][$curForum['forumID']] < $curForum['forumLastPostTimestamp']) && isset($topicsData[$curForum['forumID']])) {
+				foreach($topicsData[$curForum['forumID']] AS $curTopicID => $curTopicLastPostTimestamp) {
+					if(!isset($_SESSION['topicVisits'][$curTopicID]) || $_SESSION['topicVisits'][$curTopicID] < $curTopicLastPostTimestamp) {
+						$curForum['_newPostsAvailable'] = 1;
+						break;
+					}
+				}
+			}
+
+
+			//
+			// Der neueste Beitrag
+			//
+			$curLastPostPic = $curLastPostText = '';
+			if($curForum['forumLastPostID'] != 0) {
+				if($curAuthViewForum == 1) {
+					$curLastPostPic = ($curForum['forumLastPostSmileyFileName'] == '') ? '' : '<img src="'.$curForum['forumLastPostSmileyFileName'].'" alt="" border="0"/>';
+					if(strlen($curForum['forumLastPostTitle']) > 22) $curLastPostLink = '<a href="'.INDEXFILE.'?action=ViewTopic&amp;postID='.$curForum['forumLastPostID'].'&amp;'.MYSID.'#post'.$curForum['forumLastPostID'].'" title="'.Functions::HTMLSpecialChars(($curForum['forumLastPostTitle'])).'">'.Functions::HTMLSpecialChars(substr($curForum['forumLastPostTitle'],0,22)).'...</a>';
+					else $curLastPostLink = '<a href="'.INDEXFILE.'?action=ViewTopic&amp;postID='.$curForum['forumLastPostID'].'&amp;'.MYSID.'#post'.$curForum['forumLastPostID'].'">'.Functions::HTMLSpecialChars($curForum['forumLastPostTitle']).'</a>';
+
+					if($curForum['forumLastPostPosterID'] == 0) $curLastPostPosterNick = $curForum['forumLastPostGuestNick'];
+					else $curLastPostPosterNick = '<a href="index.php?action=ViewProfile&amp;profileID='.$curForum['forumLastPostPosterID'].'&amp;'.MYSID.'">'.$curForum['forumLastPostPosterNick'].'</a>';
+
+					$curLastPostText = $curLastPostLink.' ('.$this->modules['Language']->getString('by').' '.$curLastPostPosterNick.')<br/>'.Functions::toDateTime($curForum['forumLastPostTimestamp']);
+				}
+			}
+			else $curLastPostText = $this->modules['Language']->getString('No_last_post');
+
+			$curForum['forumLastPostPic'] = $curLastPostPic;
+			$curForum['forumLastPostText'] = $curLastPostText;
+
+
+			//
+			// Sonstiges...
+			//
+			$curForum['forumName'] = Functions::HTMLSpecialChars($curForum['forumName']);
+			$curForum['forumDescription'] = Functions::HTMLSpecialChars($curForum['forumDescription']);
+		}
+
 
 		$catsData = array_merge(array(array('catID'=>$catID,'catIsOpen'=>1)),$catsData);
 
@@ -253,18 +270,8 @@ class ForumIndex extends ModuleTemplate {
 		$forumsAuthData = array();
 
 		if($this->modules['Auth']->isLoggedIn() == 1 && $this->modules['Auth']->getValue('UserIsAdmin') != 1 && $this->modules['Auth']->getValue('UserIsSupermod') != 1) {
-			$this->modules['DB']->query('
-				SELECT
-					t1."forumID",
-					t1."authViewForum"
-				FROM
-					'.TBLPFX.'forums_auth t1
-				WHERE
-					t1."authType"=\'0\'
-					AND t1."authID"=\''.USERID.'\'
-			');
-			$forumsAuthData = $this->modules['DB']->raw2Array();
-
+			// First we check group permissions because
+			// user permissions will probably overwrite them
 			$this->modules['DB']->query('
 				SELECT
 					t1."forumID",
@@ -278,7 +285,21 @@ class ForumIndex extends ModuleTemplate {
 					AND t2."memberID"=\''.USERID.'\'
 			');
 			while($curData = $this->modules['DB']->fetchArray())
-				$forumsAuthData[] = $curData;
+				$forumsAuthData[$curData['forumID']] = $curData;
+
+
+			$this->modules['DB']->query('
+				SELECT
+					t1."forumID",
+					t1."authViewForum"
+				FROM
+					'.TBLPFX.'forums_auth t1
+				WHERE
+					t1."authType"=\'0\'
+					AND t1."authID"=\''.USERID.'\'
+			');
+			while($curData = $this->modules['DB']->fetchArray())
+				$forumsAuthData[$curData['forumID']] = $curData;
 		}
 
 		return $forumsAuthData;

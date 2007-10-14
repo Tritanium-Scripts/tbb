@@ -17,7 +17,7 @@ class AdminAvatars extends ModuleTemplate {
 
 		switch(@$_GET['mode']) {
 			default:
-				$this->modules['DB']->query("SELECT * FROM ".TBLPFX."avatars");
+				$this->modules['DB']->query('SELECT * FROM '.TBLPFX.'avatars');
 				$avatarsData = $this->modules['DB']->raw2Array();
 
 				$this->modules['Template']->assign(array(
@@ -29,7 +29,13 @@ class AdminAvatars extends ModuleTemplate {
 			case 'DeleteAvatar':
 				$avatarID = isset($_GET['avatarID']) ? intval($_GET['avatarID']) : 0;
 
-				$this->modules['DB']->query("DELETE FROM ".TBLPFX."avatars WHERE avatarID='$avatarID'");
+				$this->modules['DB']->queryParams('
+					DELETE FROM '.TBLPFX.'avatars
+					WHERE
+						"avatarID"=$1
+				',array(
+					$avatarID
+				));
 
 				Functions::myHeader(INDEXFILE.'?action=AdminAvatars&'.MYSID);
 				break;
@@ -42,12 +48,14 @@ class AdminAvatars extends ModuleTemplate {
 				if(isset($_GET['doit'])) {
 					if($p['avatarAddress'] == '') $error = $this->modules['Language']->getString('error_no_avatar_address');
 					else {
-						$this->modules['DB']->query("
+						$this->modules['DB']->queryParams('
 							INSERT INTO
-								".TBLPFX."avatars
+								'.TBLPFX.'avatars
 							SET
-								avatarAddress='".$p['avatarAddress']."'
-						");
+								"avatarAddress"=$1
+						',array(
+							$p['avatarAddress']
+						));
 
 						Functions::myHeader(INDEXFILE.'?action=AdminAvatars&'.MYSID);
 					}
@@ -73,14 +81,17 @@ class AdminAvatars extends ModuleTemplate {
 				if(isset($_GET['doit'])) {
 					if($p['avatarAddress'] == '') $error = $this->modules['Language']->getString('error_no_avatar_address');
 					else {
-						$this->modules['DB']->query("
+						$this->modules['DB']->queryParams('
 							UPDATE
-								".TBLPFX."avatars
+								'.TBLPFX.'avatars
 							SET
-								avatarAddress='".$p['avatarAddress']."'
+								"avatarAddress"=$1
 							WHERE
-								avatarID='$avatarID'
-						");
+								"avatarID"=$2
+						',array(
+							$p['avatarAddress'],
+							$avatarID
+						));
 
 						Functions::myHeader(INDEXFILE.'?action=AdminAvatars&'.MYSID);
 					}

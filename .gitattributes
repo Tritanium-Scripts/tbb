@@ -245,7 +245,6 @@ modules/ViewTopic.class.php -text
 modules/Vote.class.php -text
 modules/WhoIsOnline.class.php -text
 templates/std/config/TemplateInfo.ini -text
-templates/std/images/Thumbs.db -text
 templates/std/images/Unbenannt-1.gif -text
 templates/std/images/blank.gif -text
 templates/std/images/button_delete_post.gif -text
