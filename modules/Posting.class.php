@@ -161,16 +161,16 @@ class Posting extends ModuleTemplate {
                                         "forumID"=$2,
                                         "topicIsClosed"=$3,
                                         "topicIsPinned"=$4,
-                                        "posterID"="USERID",
-                                        "smileyID"=$5,
-                                        "topicPostTimestamp"=$6,
-                                        "topicGuestNick"=$7
+                                        "posterID"=$5,
+                                        "smileyID"=$6,
+                                        "topicPostTimestamp"=$7,
+                                        "topicGuestNick"=$8
                                 ', array(
                                     $p['messageTitle'],
                                     $forumID,
                                     $c['closeTopic'],
                                     $c['pinTopic'],
-
+                                    USERID,
                                     $p['smileyID'],
                                     time(),
                                     $p['guestNick']
@@ -191,16 +191,16 @@ class Posting extends ModuleTemplate {
                                                 '.TBLPFX.'polls
                                             SET
                                                 "topicID"=$1,
-                                                "posterID"="USERID",
-                                                "pollTitle"=$2,
-                                                "pollGuestNick"=$3,
-                                                "pollStartTimestamp"=$4,
-                                                "pollEndTimestamp"=$5,
-                                                "pollGuestsVote"=$6,
-                                                "pollGuestsViewResults"=$7
+                                                "posterID"=$2,
+                                                "pollTitle"=$3,
+                                                "pollGuestNick"=$4,
+                                                "pollStartTimestamp"=$5,
+                                                "pollEndTimestamp"=$6,
+                                                "pollGuestsVote"=$7,
+                                                "pollGuestsViewResults"=$8
                                         ', array(
                                             $topicID,
-
+                                            USERID,
                                             $p['pollTitle'],
                                             $p['guestNick'],
                                             time(),
@@ -248,7 +248,7 @@ class Posting extends ModuleTemplate {
                                 SET
                                     "topicID"=$1,
                                     "forumID"=$2,
-                                    "posterID"="USERID",
+                                    "posterID"=$3,
                                     "smileyID"=$4,
                                     "postIP"=$5,
                                     "postEnableBBCode"=$6,
@@ -264,7 +264,7 @@ class Posting extends ModuleTemplate {
                             ', array(
                                 $topicID,
                                 $forumID,
-
+                                USERID,
                                 $p['smileyID'],
                                 $_SERVER['REMOTE_ADDR'],
                                 $c['enableBBCode'],
