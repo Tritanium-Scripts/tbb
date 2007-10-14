@@ -289,8 +289,8 @@ class Posting extends ModuleTemplate {
 
 							// Eventuell Themenabo entfernen oder hinzufuegen
 							if($mode != 'Edit' && $this->modules['Auth']->isLoggedIn() == 1 && $this->modules['Config']->getValue('enable_email_functions') == 1 && $this->modules['Config']->getValue('enable_topic_subscription') == 1 && $c['subscribeTopic'] != $subscriptionStatus) {
-								if($c['subscribeTopic'] == 0) $this->modules['DB']->query("DELETE FROM ".TBLPFX."topics_subscriptions WHERE topicID='$topicID' AND userID='".USERID."'");
-								else $this->modules['DB']->query("INSERT INTO ".TBLPFX."topics_subscriptions SET topicID='$topicID', UserID='".USERID."'");
+								if($c['subscribeTopic'] == 0) $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'topics_subscriptions WHERE "topicID"=$1 AND "userID"=$2', array($topicID, USERID));
+								else $this->modules['DB']->queryParams('INSERT INTO '.TBLPFX.'topics_subscriptions SET "topicID"=$1, "UserID"=$2', array($topicID, USERID));
 							}
 							Functions::myHeader(INDEXFILE."?t=$topicID&".MYSID);
 						}

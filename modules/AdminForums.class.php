@@ -629,7 +629,7 @@ class AdminForums extends ModuleTemplate {
 				$authType = isset($_GET['authType']) ? intval($_GET['authType']) : 0;
 				$authID = isset($_GET['authID']) ? intval($_GET['authID']) : 0;
 
-				$this->modules['DB']->query('DELETE FROM '.TBLPFX.'forums_auth WHERE "forumID"=$1 AND "authType"=$2 AND "authID"=$3',array($forumID,$authType,$authID));
+				$this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'forums_auth WHERE "forumID"=$1 AND "authType"=$2 AND "authID"=$3',array($forumID,$authType,$authID));
 
 				Functions::myHeader(INDEXFILE.'?action=AdminForums&mode=EditSpecialRights&forumID='.$forumID.'&'.MYSID);
 				break;
