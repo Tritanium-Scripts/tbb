@@ -18,7 +18,7 @@ class AdminRanks extends ModuleTemplate {
 
 		switch(@$_GET['mode']) {
 			default:
-				$this->modules['DB']->query("SELECT * FROM ".TBLPFX."ranks WHERE rankType='0' ORDER BY rankPosts");
+				$this->modules['DB']->query('SELECT * FROM '.TBLPFX.'ranks WHERE "rankType"="0" ORDER BY "rankPosts"');
 				$normalRanksData = $this->modules['DB']->raw2Array();
 
 				foreach($normalRanksData AS &$curRank) {
@@ -34,7 +34,7 @@ class AdminRanks extends ModuleTemplate {
 				}
 
 
-				$this->modules['DB']->query("SELECT * FROM ".TBLPFX."ranks WHERE rankType='1' ORDER BY rankName");
+				$this->modules['DB']->query('SELECT * FROM '.TBLPFX.'ranks WHERE "rankType"="1" ORDER BY "rankName"');
 				$specialRanksData = $this->modules['DB']->raw2Array();
 
 				foreach($specialRanksData AS &$curRank) {
@@ -73,15 +73,20 @@ class AdminRanks extends ModuleTemplate {
 						if($p['rankType'] == 1)
 							$p['rankPosts'] = 0;
 
-						$this->modules['DB']->query("
-							INSERT INTO
-								".TBLPFX."ranks
-							SET
-								rankType='".$p['rankType']."',
-								rankName='".$p['rankName']."',
-								rankGfx='".$p['rankGfx']."',
-								rankPosts='".$p['rankPosts']."'
-						");
+                        $this->modules['DB']->queryParams('
+                            INSERT INTO
+                                '.TBLPFX.'ranks
+                            SET
+                                "rankType"=$1,
+                                "rankName"=$2,
+                                "rankGfx"=$3,
+                                "rankPosts"=$4
+                        ', array(
+                            $p['rankType'],
+                            $p['rankName'],
+                            $p['rankGfx'],
+                            $p['rankPosts']
+                        ));
 						$this->modules['Cache']->setRanksData();
 
 						Functions::myHeader(INDEXFILE.'?action=AdminRanks&'.MYSID);
@@ -118,17 +123,23 @@ class AdminRanks extends ModuleTemplate {
 						if($p['rankType'] == 1)
 							$p['rankPosts'] = 0;
 
-						$this->modules['DB']->query("
-							UPDATE
-								".TBLPFX."ranks
-							SET
-								rankType='".$p['rankType']."',
-								rankName='".$p['rankName']."',
-								rankGfx='".$p['rankGfx']."',
-								rankPosts='".$p['rankPosts']."'
-							WHERE
-								rankID='$rankID'
-						");
+                        $this->modules['DB']->queryParams('
+                            UPDATE
+                                '.TBLPFX.'ranks
+                            SET
+                                "rankType"=$1,
+                                "rankName"=$2,
+                                "rankGfx"=$3,
+                                "rankPosts"=$4
+                            WHERE
+                                "rankID"=$5
+                        ', array(
+                            $p['rankType'],
+                            $p['rankName'],
+                            $p['rankGfx'],
+                            $p['rankPosts'],
+                            $rankID
+                        ));
 						$this->modules['Cache']->setRanksData();
 
 						Functions::myHeader(INDEXFILE.'?action=AdminRanks&'.MYSID);
@@ -149,9 +160,9 @@ class AdminRanks extends ModuleTemplate {
 				$rankID = isset($_GET['rankID']) ? $_GET['rankID'] : 0;
 
 				if($rankData = FuncRanks::getRankData($rankID)) {
-					$this->modules['DB']->query("DELETE FROM ".TBLPFX."ranks WHERE rankID='$rankID'");
+                    $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'ranks WHERE "rankID"=$1', array($rankID));
 					if($rankData['rankType'] == 1)
-						$this->modules['DB']->query("UPDATE ".TBLPFX."users SET rankID='0' WHERE rankID='$rankID'");
+                        $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'users SET "rankID"="0" WHERE "rankID"=$1', array($rankID));
 
 					$this->modules['Cache']->setRanksData();
 				}
