@@ -34,7 +34,7 @@ class AdminSmilies extends ModuleTemplate {
 			case 'deleteSmiley':
 				$smileyID = isset($_GET['smileyID']) ? intval($_GET['smileyID']) : 0;
 
-				$this->modules['DB']->query("DELETE FROM ".TBLPFX."smilies WHERE smileyID='$smileyID'");
+                $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'smilies WHERE "smileyID"=$1', array($smileyID));
 				$this->modules['Cache']->setSmiliesData();
 				$this->modules['Cache']->setPostPicsData();
 				$this->modules['Cache']->setAdminSmiliesData();
@@ -54,15 +54,20 @@ class AdminSmilies extends ModuleTemplate {
 					if(trim($p['smileyFileName']) == '') $error = $this->modules['Language']->getString('error_no_path_or_url');
 					elseif(($p['smileyType'] == SMILEY_TYPE_SMILEY || $p['smileyType'] == SMILEY_TYPE_ADMINSMILEY) && trim($p['smileySynonym']) == '') $error = $this->modules['Language']->getString('error_no_synonym');
 					else {
-						$this->modules['DB']->query("
-							INSERT INTO
-								".TBLPFX."smilies
-							SET
-								smileyType='".$p['smileyType']."',
-								smileyFileName='".$p['smileyFileName']."',
-								smileyStatus='".$p['smileyStatus']."',
-								smileySynonym='".$p['smileySynonym']."'
-						");
+                        $this->modules['DB']->queryParams('
+                            INSERT INTO
+                                '.TBLPFX.'smilies
+                            SET
+                                "smileyType"=$1,
+                                "smileyFileName"=$2,
+                                "smileyStatus"=$3,
+                                "smileySynonym"=$4
+                        ', array(
+                            $p['smileyType'],
+                            $p['smileyFileName'],
+                            $p['smileyStatus'],
+                            $p['smileySynonym']
+                        ));
 						$this->modules['Cache']->setSmiliesData();
 						$this->modules['Cache']->setPostPicsData();
 						$this->modules['Cache']->setAdminSmiliesData();
@@ -95,17 +100,23 @@ class AdminSmilies extends ModuleTemplate {
 					if(trim($p['smileyFileName']) == '') $error = $this->modules['Language']->getString('error_no_path_or_url');
 					elseif(($p['smileyType'] == SMILEY_TYPE_SMILEY || $p['smileyType'] == SMILEY_TYPE_ADMINSMILEY) && trim($p['smileySynonym']) == '') $error = $this->modules['Language']->getString('error_no_synonym');
 					else {
-						$this->modules['DB']->query("
-							UPDATE
-								".TBLPFX."smilies
-							SET
-								smileyType='".$p['smileyType']."',
-								smileyFileName='".$p['smileyFileName']."',
-								smileyStatus='".$p['smileyStatus']."',
-								smileySynonym='".$p['smileySynonym']."'
-							WHERE
-								smileyID='$smileyID'
-						");
+                        $this->modules['DB']->queryParams('
+                            UPDATE
+                                '.TBLPFX.'smilies
+                            SET
+                                "smileyType"=$1,
+                                "smileyFileName"=$2,
+                                "smileyStatus"=$3,
+                                "smileySynonym"=$4
+                            WHERE
+                                "smileyID"=$5
+                        ', array(
+                            $p['smileyType'],
+                            $p['smileyFileName'],
+                            $p['smileyStatus'],
+                            $p['smileySynonym'],
+                            $smileyID
+                        ));
 						$this->modules['Cache']->setSmiliesData();
 						$this->modules['Cache']->setPostPicsData();
 						$this->modules['Cache']->setAdminSmiliesData();
