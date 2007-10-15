@@ -17,7 +17,7 @@ class AdminProfileFields extends ModuleTemplate {
 
 		switch(@$_GET['mode']) {
 			default:
-				$this->modules['DB']->query("SELECT fieldID,fieldName,fieldType FROM ".TBLPFX."profile_fields");
+                $this->modules['DB']->query('SELECT "fieldID", "fieldName", "fieldType" FROM '.TBLPFX.'profile_fields');
 				$fieldsData = $this->modules['DB']->raw2Array();
 
 				foreach($fieldsData AS &$curField) {
