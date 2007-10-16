@@ -106,7 +106,8 @@ class AdminUsers extends ModuleTemplate {
 				$usersData = array();
 
 				if(count($query) > 0) {
-					$this->modules['DB']->query("SELECT userID,userNick,userEmailAddress FROM ".TBLPFX."users WHERE ".implode(' AND ',$query));
+                    //TODO implode AND anpassen?!
+					$this->modules['DB']->query('SELECT "userID", "userNick", "userEmailAddress" FROM '.TBLPFX.'users WHERE '.implode(' AND ', $query));
 
 					if($this->modules['DB']->getAffectedRows() == 1) {
 						$result = $this->modules['DB']->fetchArray();
@@ -149,14 +150,27 @@ class AdminUsers extends ModuleTemplate {
 
 						if($p['rankID'] != 0 && !FuncRanks::getRankData($p['rankID'])) $p['rankID'] = 0;
 
-						$this->modules['DB']->query("UPDATE ".TBLPFX."users SET
-							userIsAdmin='".$c['userIsAdmin']."',
-							userIsSupermod='".$c['userIsSupermod']."',
-							userEmailAddress='".$p['userEmailAddress']."',
-							userSignature='".$p['userSignature']."',
-							userAvatarAddress='".$p['userAvatarAddress']."',
-							rankID='".$p['rankID']."'
-						WHERE userID='$userID'");
+                        $this->modules['DB']->queryParams('
+                            UPDATE
+                                '.TBLPFX.'users
+                            SET
+                                "userIsAdmin"=$1,
+                                "userIsSupermod"=$2,
+                                "userEmailAddress"=$3,
+                                "userSignature"=$4,
+                                "userAvatarAddress"=$5,
+                                "rankID"=$6
+                            WHERE
+                                "userID"=$7
+                        ', array(
+                            $c['userIsAdmin'],
+                            $c['userIsSupermod'],
+                            $p['userEmailAddress'],
+                            $p['userSignature'],
+                            $p['userAvatarAddress'],
+                            $p['rankID'],
+                            $userID
+                        ));
 
 						FuncMisc::printMessage('user_edited'); exit;
 					}
@@ -167,7 +181,7 @@ class AdminUsers extends ModuleTemplate {
 				 * Handle user lock
 				 */
 				if($userData['userIsLocked'] != 0 && FuncUsers::checkLockStatus($userID)) {
-					$this->modules['DB']->query("SELECT * FROM ".TBLPFX."users_locks WHERE userID='$userID'");
+                    $this->modules['DB']->queryParams('SELECT * FROM'.TBLPFX.'users_locks WHERE "userID"=$1', array($userID));
 					$lockData = $this->modules['DB']->fetchArray();
 
 					if($lockData['lockStartTimestamp'] == $lockData['lockEndTimestamp'])
@@ -185,7 +199,7 @@ class AdminUsers extends ModuleTemplate {
 					$userData['userIsLocked'] = 0;
 				}
 
-				$this->modules['DB']->query("SELECT rankID,rankName FROM ".TBLPFX."ranks WHERE rankType='1' ORDER BY rankName ASC");
+				$this->modules['DB']->query('SELECT "rankID", "rankName" FROM '.TBLPFX.'ranks WHERE "rankType"="1" ORDER BY "rankName" ASC');
 				$ranksData = $this->modules['DB']->raw2Array();
 
 				$this->modules['Template']->assign(array(
