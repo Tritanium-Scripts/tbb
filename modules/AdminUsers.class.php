@@ -278,41 +278,41 @@ class AdminUsers extends ModuleTemplate {
 					//
 					// Jetzt werden die Themen-Abonnnements, die Themen und die Beitraege geloescht
 					//
-					$this->modules['DB']->query("DELETE FROM ".TBLPFX."topics_subscriptions WHERE topic_id IN ('$topic_idsi')");
-					$this->modules['DB']->query("DELETE FROM ".TBLPFX."posts WHERE topic_id IN ('$topic_idsi')");
-					$this->modules['DB']->query("DELETE FROM ".TBLPFX."topics WHERE topic_id IN ('$topic_idsi')");
+                    $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'topics_subscriptions WHERE "topic_id" IN ($1)', array($topic_idsi));
+                    $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'posts WHERE "topic_id" IN ($1)', array($topic_idsi));
+                    $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'topics WHERE "topic_id" IN ($1)', array($topic_idsi));
 
 
 					//
 					// Jetzt noch die Umfragen, dazu die Umfrageoptionen und die Abstimmungen
 					//
-					$this->modules['DB']->query("SELECT poll_id FROM ".TBLPFX."polls WHERE topic_id IN ('$topic_idsi')");
+                    $this->modules['DB']->queryParams('SELECT "poll_id" FROM '.TBLPFX.'polls WHERE "topic_id" IN ($1)', array($topic_idsi));
 					$poll_ids = $this->modules['DB']->raw2fvarray();
 					$poll_idsi = implode("','",$poll_ids);
 
-					$this->modules['DB']->query("DELETE FROM ".TBLPFX."polls WHERE poll_id IN ('$poll_idsi')");
-					$this->modules['DB']->query("DELETE FROM ".TBLPFX."polls_options WHERE poll_id IN ('$poll_idsi')");
-					$this->modules['DB']->query("DELETE FROM ".TBLPFX."polls_votes WHERE poll_id IN ('$poll_idsi')");
+                    $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'polls WHERE "poll_id" IN ($1)', array($poll_idsi));
+                    $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'polls_options WHERE "poll_id" IN ($1)', array($poll_idsi));
+                    $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'polls_votes WHERE "poll_id" IN ($1)', array($poll_idsi));
 
 
 					//
 					// Als letztes die einzelnen Beitraege des Users, dazu erst die Beitragszahlen der entsprechenden Foren, dann die Beitragszahlen der einzelnen Themen, dann die Beitraege selbst
 					//
-					$this->modules['DB']->query("SELECT COUNT(*) AS posts_counter,forum_id FROM ".TBLPFX."posts WHERE poster_id='$userID' GROUP BY forum_id");
+                    $this->modules['DB']->queryParams('SELECT COUNT(*) AS "posts_counter", "forum_id" FROM '.TBLPFX.'posts WHERE "poster_id"=$1 GROUP BY "forum_id"', array($userID));
 					$forum_posts_counter = $this->modules['DB']->raw2array();
 					while(list(,$akt_posts_counter) = each($forum_posts_counter)) {
-						$this->modules['DB']->query("UPDATE ".TBLPFX."forums SET forum_posts_counter=forum_posts_counter-".$akt_posts_counter['posts_counter']." WHERE forum_id='".$akt_posts_counter['forum_id']."'");
+                        $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'forums SET "forum_posts_counter"="forum_posts_counter"-$1 WHERE "forum_id"=$2', array($akt_posts_counter['posts_counter'], $akt_posts_counter['forum_id']));
 						$affected_forum_ids[] = $akt_posts_counter['forum_id'];
 					}
 
-					$this->modules['DB']->query("SELECT COUNT(*) AS replies_counter,topic_id FROM ".TBLPFX."posts WHERE poster_id='$userID' GROUP BY topic_id");
+                    $this->modules['DB']->queryParams('SELECT COUNT(*) AS "replies_counter", "topic_id" FROM '.TBLPFX.'posts WHERE "poster_id"=$1 GROUP BY "topic_id"', array($userID));
 					$replies_counter = $this->modules['DB']->raw2array();
 					while(list(,$akt_replies_counter) = each($replies_counter)) {
-						$this->modules['DB']->query("UPDATE ".TBLPFX."topics SET topic_replies_counter=topic_replies_counter-".$akt_replies_counter['replies_counter']." WHERE topic_id='".$akt_replies_counter['topic_id']."'");
+                        $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'topics SET "topic_replies_counter"="topic_replies_counter"-$1 WHERE "topic_id"=$2', array($akt_replies_counter['replies_counter'], $akt_replies_counter['topic_id']));
 						$affected_topic_ids[] = $akt_replies_counter['topic_id'];
 					}
 
-					$this->modules['DB']->query("DELETE FROM ".TBLPFX."posts WHERE poster_id='$userID'");
+                    $this->modules['DB']->queryParams('"DELETE FROM '.TBLPFX.'posts WHERE "poster_id"=$1', array($userID));
 
 
 					//
@@ -327,8 +327,8 @@ class AdminUsers extends ModuleTemplate {
 						update_topic_last_post($akt_topic_id);
 				}
 				else { // ...oder auch nicht
-					$this->modules['DB']->query("UPDATE ".TBLPFX."posts SET poster_id='0', post_guest_nick='".$userData['user_nick']."' WHERE poster_id='$userID'");
-					$this->modules['DB']->query("UPDATE ".TBLPFX."topics SET poster_id='0', topic_guest_nick='".$userData['user_nick']."' WHERE poster_id='$userID'");
+                    $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'posts SET "poster_id"="0", "post_guest_nick"=$1 WHERE "poster_id"=$2', array($userData['user_nick'], $userID));
+                    $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'topics SET "poster_id"="0", "topic_guest_nick"=$1 WHERE "poster_id"=$2', array($userData['user_nick'], $userID));
 				}
 			break;
 
@@ -343,16 +343,21 @@ class AdminUsers extends ModuleTemplate {
 					$lockStartTime = time();
 					$lockEndTime = ($p['lockTime'] == -1 ? $lockStartTime : $lockStartTime+$p['lockTime']*3600);
 
-					$this->modules['DB']->query("
-						INSERT INTO
-							".TBLPFX."users_locks
-						SET
-							userID='$userID',
-							lockType='".$p['lockType']."',
-							lockStartTimestamp='$lockStartTime',
-							lockEndTimestamp='$lockEndTime'
-					");
-					$this->modules['DB']->query("UPDATE ".TBLPFX."users SET userIsLocked='".$p['lockType']."' WHERE userID='$userID'");
+                    $this->modules['DB']->queryParams('
+                        INSERT INTO
+                            '.TBLPFX.'users_locks
+                        SET
+                            "userID"=,$1
+                            "lockType"=$2,
+                            "lockStartTimestamp"=$3,
+                            "lockEndTimestamp"=$4
+                    ', array(
+                        $userID,
+                        $p['lockType'],
+                        $lockStartTime,
+                        $lockEndTime
+                    ));
+                    $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'users SET "userIsLocked"=$1 WHERE userID=$2', array($p['lockType'], $userID));
 				}
 
 				Functions::myHeader(INDEXFILE."?action=AdminUsers&mode=EditUser&userID=$userID&".MYSID);
@@ -363,8 +368,8 @@ class AdminUsers extends ModuleTemplate {
 
 				if(!$userData = FuncUsers::getUserData($userID)) die('Cannot load data: user');
 
-				$this->modules['DB']->query("DELETE FROM ".TBLPFX."users_locks WHERE userID='$userID'");
-				$this->modules['DB']->query("UPDATE ".TBLPFX."users SET userIsLocked='0' WHERE userID='$userID'");
+                $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'users_locks WHERE "userID"=$1', array($userID));
+                $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'users SET "userIsLocked"="0" WHERE userID=$1', array($userID));
 
 				Functions::myHeader(INDEXFILE."?action=AdminUsers&mode=EditUser&userID=$userID&".MYSID);
 			break;
