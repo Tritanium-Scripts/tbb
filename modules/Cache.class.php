@@ -13,7 +13,7 @@ class Cache extends ModuleTemplate {
 
 	public function setSmiliesData() {
 		$toWrite1 = $toWrite2 = array();
-		$this->modules['DB']->query("SELECT smileyID,smileyType,smileyFileName,smileySynonym,smileyStatus FROM ".TBLPFX."smilies WHERE smileyType='".SMILEY_TYPE_SMILEY."' OR smileyType='".SMILEY_TYPE_ADMINSMILEY."'");
+        $this->modules['DB']->queryParams('SELECT "smileyID", "smileyType", "smileyFileName", "smileySynonym", "smileyStatus" FROM '.TBLPFX.'smilies WHERE "smileyType"=$1 OR "smileyType"=$2', array(SMILEY_TYPE_SMILEY, SMILEY_TYPE_ADMINSMILEY));
 		while($curSmiley = $this->modules['DB']->fetchArray()) {
 			if($curSmiley['smileyType'] != SMILEY_TYPE_ADMINSMILEY)
 				$toWrite1[] = 'array(\'smileyID\'=>\''.$curSmiley['smileyID'].'\',\'smileyFileName\'=>\''.$curSmiley['smileyFileName'].'\',\'smileySynonym\'=>\''.$curSmiley['smileySynonym'].'\',\'smileyStatus\'=>\''.$curSmiley['smileyStatus'].'\')';
@@ -34,7 +34,7 @@ class Cache extends ModuleTemplate {
 			if(file_exists('cache/SmiliesRead.cache.php') == TRUE)
 				include('cache/SmiliesRead.cache.php');
 			else {
-				$this->modules['DB']->query("SELECT smileyID,smileyFileName,smileySynonym,smileyStatus FROM ".TBLPFX."smilies WHERE smileyType='".SMILEY_TYPE_SMILEY."'");
+                $this->modules['DB']->queryParams('SELECT "smileyID", "smileyFileName", "smileySynonym", "smileyStatus" FROM '.TBLPFX.'smilies WHERE "smileyType"=$1', array(SMILEY_TYPE_SMILEY));
 				$smiliesDataRead = $this->modules['DB']->raw2Array();
 			}
 
@@ -46,7 +46,7 @@ class Cache extends ModuleTemplate {
 			if(file_exists('cache/SmiliesWrite.cache.php') == TRUE)
 				include('cache/SmiliesWrite.cache.php');
 			else {
-				$this->modules['DB']->query("SELECT smileyFileName,smileySynonym FROM ".TBLPFX."smilies WHERE smileyType='".SMILEY_TYPE_SMILEY."' OR smileyType='".SMILEY_TYPE_ADMINSMILEY."'");
+                $this->modules['DB']->queryParams('SELECT "smileyFileName", "smileySynonym" FROM '.TBLPFX.'smilies WHERE "smileyType"=$1 OR "smileyType"=$2', array(SMILEY_TYPE_SMILEY, SMILEY_TYPE_ADMINSMILEY));
 				while($curSmiley = $this->modules['DB']->fetchArray())
 					$smiliesDataWrite[$curSmiley['smileySynonym']] = '<img src="'.$curSmiley['smileyFileName'].'" border="0" alt="'.$curSmiley['smileySynonym'].'"/>';
 			}
@@ -67,7 +67,7 @@ class Cache extends ModuleTemplate {
 	public function setAdminSmiliesData() {
 		$adminSmiliesData = $toWrite = array();
 
-		$this->modules['DB']->query("SELECT smileyID,smileyType,smileyFileName,smileySynonym,smileyStatus FROM ".TBLPFX."smilies WHERE smileyType='".SMILEY_TYPE_ADMINSMILEY."'");
+        $this->modules['DB']->queryParams('SELECT "smileyID", "smileyType", "smileyFileName", "smileySynonym", "smileyStatus" FROM '.TBLPFX.'smilies WHERE "smileyType"=$1', array(SMILEY_TYPE_ADMINSMILEY));
 		while($curSmiley = $this->modules['DB']->fetchArray()) {
 			$adminSmiliesData[] = array(
 				'smileyID'=>$curSmiley['smileyID'],
@@ -86,7 +86,7 @@ class Cache extends ModuleTemplate {
 	public function setPostPicsData() {
 		$toWrite = $postPicsData = array();
 
-		$this->modules['DB']->query("SELECT smileyID,smileyFileName FROM ".TBLPFX."smilies WHERE smileyType='".SMILEY_TYPE_TPIC."'");
+        $this->modules['DB']->queryParams('SELECT "smileyID", "smileyFileName" FROM '.TBLPFX.'smilies WHERE "smileyType"=$1', array(SMILEY_TYPE_TPIC));
 		while($curSmiley = $this->modules['DB']->fetchArray()) {
 			$toWrite[] = 'array(\'smileyID\'=>\''.$curSmiley['smileyID'].'\',\'smileyFileName\'=>\''.$curSmiley['smileyFileName'].'\')';
 			$postPicsData[] = $curSmiley;
@@ -112,7 +112,7 @@ class Cache extends ModuleTemplate {
 	public function setRanksData() {
 		$ranksData1 = $ranksData2 = array();
 
-		$this->modules['DB']->query("SELECT * FROM ".TBLPFX."ranks ORDER BY rankPosts");
+		$this->modules['DB']->query('SELECT * FROM '.TBLPFX.'ranks ORDER BY "rankPosts"');
 		while($curRank = $this->modules['DB']->fetchArray()) {
 			$curRankGfx = '';
 
@@ -195,7 +195,7 @@ class Cache extends ModuleTemplate {
 
 	public function setConfig() {
 		$config = $toWrite = array();
-		$this->modules['DB']->query("SELECT * FROM ".TBLPFX."config");
+		$this->modules['DB']->query('SELECT * FROM '.TBLPFX.'config');
 		while($curRow = $this->modules['DB']->fetchArray()) {
 			$config[$curRow['configName']] = $curRow['configValue'];
 			$toWrite[] = '\''.$curRow['configName'].'\'=>\''.addslashes($curRow['configValue']).'\'';

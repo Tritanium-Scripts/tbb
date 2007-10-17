@@ -11,7 +11,7 @@ class Auth extends ModuleTemplate {
 
 	public function initializeMe() {
 		if(isset($_SESSION['userID'])) {
-			$this->modules['DB']->query("SELECT * FROM ".TBLPFX."users WHERE userID='".$_SESSION['userID']."'");
+            $this->modules['DB']->queryParams('SELECT * FROM '.TBLPFX.'users WHERE "userID"=$1', array($_SESSION['userID']));
 			if($this->modules['DB']->getAffectedRows() == 1) {
 				$tempUserData = $this->modules['DB']->fetchArray();
 				if($tempUserData['userPassword'] == $_SESSION['userPassword']) {
