@@ -30,16 +30,21 @@ class Ajax extends ModuleTemplate {
 					$authData = Functions::getAuthData($forumData,array('authIsMod','authEditPosts'));
 					if($authData['authEditPosts'] != 1) $error = 'Kann Beitrag nicht bearbeiten: Kein Zugriff';
 					else {
-						$this->modules['DB']->query("
-							UPDATE
-								".TBLPFX."posts
-							SET
-								postText='$postText',
-								postEditedCounter=postEditedCounter+1,
-								postLastEditorNick='".addslashes($this->modules['Auth']->getValue('userNick'))."'
-							WHERE
-								postID='$postID'
-						");
+                        $this->modules['DB']->queryParams('
+                            UPDATE
+                                '.TBLPFX.'posts
+                            SET
+                                "postText"=$1,
+                                "postEditedCounter"="postEditedCounter"+1,
+                                "postLastEditorNick"=$2
+                            WHERE
+                                "postID"=$3
+                        ', array(
+                            $postText,
+                            
+                            addslashes($this->modules['Auth']->getValue('userNick')),
+                            $postID
+                        ));
 
 						$postText = Functions::stripSlashes($postText);
 						$postTextHTMLReady = $postText;

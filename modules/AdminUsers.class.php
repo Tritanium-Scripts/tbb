@@ -47,12 +47,12 @@ class AdminUsers extends ModuleTemplate {
 							INSERT INTO
 								'.TBLPFX.'users
 							SET
-								userNick=$1,
-								userEmailAddress=$2,
-								userPassword=$3,
-								userPasswordSalt=$4,
-								userRegistrationTimestamp=$5,
-								userTimeZone=$6
+								"userNick"=$1,
+								"userEmailAddress"=$2,
+								"userPassword"=$3,
+								"userPasswordSalt"=$4,
+								"userRegistrationTimestamp"=$5,
+								"userTimeZone"=$6
 						',array(
 							$p['userNick'],
 							$p['userEmailAddress'],
@@ -357,7 +357,7 @@ class AdminUsers extends ModuleTemplate {
                         $lockStartTime,
                         $lockEndTime
                     ));
-                    $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'users SET "userIsLocked"=$1 WHERE userID=$2', array($p['lockType'], $userID));
+                    $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'users SET "userIsLocked"=$1 WHERE "userID"=$2', array($p['lockType'], $userID));
 				}
 
 				Functions::myHeader(INDEXFILE."?action=AdminUsers&mode=EditUser&userID=$userID&".MYSID);
@@ -369,7 +369,7 @@ class AdminUsers extends ModuleTemplate {
 				if(!$userData = FuncUsers::getUserData($userID)) die('Cannot load data: user');
 
                 $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'users_locks WHERE "userID"=$1', array($userID));
-                $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'users SET "userIsLocked"="0" WHERE userID=$1', array($userID));
+                $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'users SET "userIsLocked"="0" WHERE "userID"=$1', array($userID));
 
 				Functions::myHeader(INDEXFILE."?action=AdminUsers&mode=EditUser&userID=$userID&".MYSID);
 			break;
