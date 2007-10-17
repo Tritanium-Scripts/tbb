@@ -220,14 +220,14 @@ class AdminUsers extends ModuleTemplate {
 
 				if(!$userData = get_userData($userID)) die('Benutzer existiert nicht!');
 
-				$this->modules['DB']->query("DELETE FROM ".TBLPFX."users WHERE userID='$userID'"); // Userdaten
-				$this->modules['DB']->query("DELETE FROM ".TBLPFX."pms_folders WHERE userID='$userID'"); // PMs-Ordner
-				$this->modules['DB']->query("UPDATE ".TBLPFX."pms SET userID='0', pm_guest_nick='".$userData['user_nick']."' WHERE pm_from_id='$userID'"); // PM-Nachrichten in fremden Ordnern
-				$this->modules['DB']->query("DELETE FROM ".TBLPFX."pms WHERE pm_to_id='$userID'"); // Eigene PMs
-				$this->modules['DB']->query("DELETE FROM ".TBLPFX."polls_votes WHERE voter_id='$userID'"); // Umfrageteilnahmen
-				$this->modules['DB']->query("DELETE FROM ".TBLPFX."groups_members WHERE member_id='$userID'"); // Gruppenmitgliedschaften
-				$this->modules['DB']->query("DELETE FROM ".TBLPFX."forums_auth WHERE auth_type='0' AND auth_id='$userID'"); // Forenzugriffe
-				$this->modules['DB']->query("DELETE FROM ".TBLPFX."topics_subscriptions WHERE userID='$userID'"); // Themenabonnements
+                $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'users WHERE "userID"=$1', array($userID)); // Userdaten
+                $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'pms_folders WHERE "userID"=$1', array($userID)); // PMs-Ordner
+                $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'pms SET "userID"="0", "pm_guest_nick"=$1 WHERE "pm_from_id"=$2', array($userData['user_nick'], $userID)); // PM-Nachrichten in fremden Ordnern
+                $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'pms WHERE "pm_to_id"=$1', array($userID)); // Eigene PMs
+                $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'polls_votes WHERE "voter_id"=$1', array($userID)); // Umfrageteilnahmen
+                $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'groups_members WHERE "member_id"=$1', array($userID)); // Gruppenmitgliedschaften
+                $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'forums_auth WHERE "auth_type"="0" AND "auth_id"=$1', array($userID)); // Forenzugriffe
+                $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'topics_subscriptions WHERE "userID"=$1', array($userID)); // Themenabonnements
 
 
 				//
@@ -241,7 +241,7 @@ class AdminUsers extends ModuleTemplate {
 					// Erst muessen die Themen geloescht werden, die der User erstellt hat
 					// Dazu werden erst mal die Themen-IDs bestimmt
 					//
-					$this->modules['DB']->query("SELECT topic_id FROM ".TBLPFX."topics WHERE poster_id='$userID'");
+                    $this->modules['DB']->queryParams('SELECT "topic_id" FROM '.TBLPFX.'topics WHERE "poster_id"=$1', array($userID));
 					$topic_ids = $this->modules['DB']->raw2fvarray();
 					$topic_idsi = implode("','",$topic_ids);
 
@@ -249,19 +249,19 @@ class AdminUsers extends ModuleTemplate {
 					//
 					// Jetzt muessen die Beitragszahlen der User entsprechend gesenkt werden
 					//
-					$this->modules['DB']->query("SELECT COUNT(*) AS posts_counter,poster_id FROM ".TBLPFX."posts WHERE topic_id IN ('$topic_idsi') GROUP BY poster_id");
+                    $this->modules['DB']->queryParams('SELECT COUNT(*) AS "posts_counter", "poster_id" FROM '.TBLPFX.'posts WHERE "topic_id" IN ($1) GROUP BY "poster_id"', array($topic_idsi));
 					$posts_counter = $this->modules['DB']->raw2array();
 					while(list(,$akt_posts_counter) = each($posts_counter))
-						$this->modules['DB']->query("UPDATE ".TBLPFX."users SET user_posts=user_posts-".$akt_posts_counter['posts_counter']." WHERE userID='".$akt_posts_counter['poster_id']."'");
+                        $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'users SET "user_posts"="user_posts"-$1 WHERE "userID"=$2', array($akt_posts_counter['posts_counter'], $akt_posts_counter['poster_id']));
 
 
 					//
 					// Und nun die Beitragszahlen der entsprechenden Foren
 					//
-					$this->modules['DB']->query("SELECT COUNT(*) AS posts_counter,forum_id FROM ".TBLPFX."posts WHERE topic_id IN ('$topic_idsi') GROUP BY forum_id");
+                    $this->modules['DB']->queryParams('SELECT COUNT(*) AS "posts_counter", "forum_id" FROM '.TBLPFX.'posts WHERE "topic_id" IN ($1) GROUP BY "forum_id"', array($topic_ids));
 					$posts_counter = $this->modules['DB']->raw2array();
 					while(list(,$akt_posts_counter) = each($posts_counter)) {
-						$this->modules['DB']->query("UPDATE ".TBLPFX."forums SET forum_posts_counter=forum_posts_counter-".$akt_posts_counter['posts_counter']." WHERE forum_id='".$akt_posts_counter['forum_id']."'");
+                        $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'forums SET "forum_posts_counter"="forum_posts_counter"-$1 WHERE "forum_id"=$2', array($akt_posts_counter['posts_counter'], $akt_posts_counter['forum_id']));
 						$affected_forum_ids = $akt_posts_counter['forum_id'];
 					}
 
@@ -269,10 +269,10 @@ class AdminUsers extends ModuleTemplate {
 					//
 					// Jetzt die Themenzahlen der entsprechenden Foren
 					//
-					$this->modules['DB']->query("SELECT COUNT(*) AS topics_counter,forum_id FROM ".TBLPFX."topics WHERE topic_id IN ('$topic_idsi') GROUP BY forum_id");
+                    $this->modules['DB']->queryParams('SELECT COUNT(*) AS "topics_counter", "forum_id" FROM '.TBLPFX.'topics WHERE "topic_id" IN ($1) GROUP BY "forum_id"', array($topic_ids));
 					$topics_counter = $this->modules['DB']->raw2array();
 					while(list(,$akt_topics_counter) = each($topics_counter))
-						$this->modules['DB']->query("UPDATE ".TBLPFX."forums SET forum_topics_counter=forum_topics_counter-".$akt_topics_counter['topics_counter']." WHERE forum_id='".$akt_topics_counter['forum_id']."'");
+                        $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'forums SET "forum_topics_counter"="forum_topics_counter"-$1 WHERE "forum_id"=$2', array($akt_topics_counter['topics_counter'], $akt_topics_counter['forum_id']));
 
 
 					//
