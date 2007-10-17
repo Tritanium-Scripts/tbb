@@ -104,6 +104,7 @@ images/tsmilies/8.gif -text
 images/tsmilies/9.gif -text
 images/tsmilies/Thumbs.db -text
 /index.php -text
+/install.php -text
 languages/de/AdminAvatars.language -text
 languages/de/AdminConfig.language -text
 languages/de/AdminForums.language -text
@@ -118,6 +119,7 @@ languages/de/BoardRules.language -text
 languages/de/EditProfile.language -text
 languages/de/EditTopic.language -text
 languages/de/ForumIndex.language -text
+languages/de/Install.language -text
 languages/de/Language.config -text
 languages/de/Login.language -text
 languages/de/Main.language -text
