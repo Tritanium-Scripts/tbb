@@ -198,7 +198,7 @@ class AdminUsers extends ModuleTemplate {
 					$userData['userIsLocked'] = 0;
 				}
 
-				$this->modules['DB']->query('SELECT "rankID", "rankName" FROM '.TBLPFX.'ranks WHERE "rankType"="1" ORDER BY "rankName" ASC');
+				$this->modules['DB']->query('SELECT "rankID", "rankName" FROM '.TBLPFX.'ranks WHERE "rankType"=1 ORDER BY "rankName" ASC');
 				$ranksData = $this->modules['DB']->raw2Array();
 
 				$this->modules['Template']->assign(array(
@@ -221,11 +221,11 @@ class AdminUsers extends ModuleTemplate {
 
                 $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'users WHERE "userID"=$1', array($userID)); // Userdaten
                 $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'pms_folders WHERE "userID"=$1', array($userID)); // PMs-Ordner
-                $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'pms SET "userID"="0", "pm_guest_nick"=$1 WHERE "pm_from_id"=$2', array($userData['user_nick'], $userID)); // PM-Nachrichten in fremden Ordnern
+                $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'pms SET "userID"=0, "pm_guest_nick"=$1 WHERE "pm_from_id"=$2', array($userData['user_nick'], $userID)); // PM-Nachrichten in fremden Ordnern
                 $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'pms WHERE "pm_to_id"=$1', array($userID)); // Eigene PMs
                 $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'polls_votes WHERE "voter_id"=$1', array($userID)); // Umfrageteilnahmen
                 $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'groups_members WHERE "member_id"=$1', array($userID)); // Gruppenmitgliedschaften
-                $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'forums_auth WHERE "auth_type"="0" AND "auth_id"=$1', array($userID)); // Forenzugriffe
+                $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'forums_auth WHERE "auth_type"=0 AND "auth_id"=$1', array($userID)); // Forenzugriffe
                 $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'topics_subscriptions WHERE "userID"=$1', array($userID)); // Themenabonnements
 
 
@@ -326,8 +326,8 @@ class AdminUsers extends ModuleTemplate {
 						update_topic_last_post($akt_topic_id);
 				}
 				else { // ...oder auch nicht
-                    $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'posts SET "poster_id"="0", "post_guest_nick"=$1 WHERE "poster_id"=$2', array($userData['user_nick'], $userID));
-                    $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'topics SET "poster_id"="0", "topic_guest_nick"=$1 WHERE "poster_id"=$2', array($userData['user_nick'], $userID));
+                    $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'posts SET "poster_id"=0, "post_guest_nick"=$1 WHERE "poster_id"=$2', array($userData['user_nick'], $userID));
+                    $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'topics SET "poster_id"=0, "topic_guest_nick"=$1 WHERE "poster_id"=$2', array($userData['user_nick'], $userID));
 				}
 			break;
 
@@ -368,7 +368,7 @@ class AdminUsers extends ModuleTemplate {
 				if(!$userData = FuncUsers::getUserData($userID)) die('Cannot load data: user');
 
                 $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'users_locks WHERE "userID"=$1', array($userID));
-                $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'users SET "userIsLocked"="0" WHERE "userID"=$1', array($userID));
+                $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'users SET "userIsLocked"=0 WHERE "userID"=$1', array($userID));
 
 				Functions::myHeader(INDEXFILE."?action=AdminUsers&mode=EditUser&userID=$userID&".MYSID);
 			break;

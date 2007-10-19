@@ -18,7 +18,7 @@ class AdminRanks extends ModuleTemplate {
 
 		switch(@$_GET['mode']) {
 			default:
-				$this->modules['DB']->query('SELECT * FROM '.TBLPFX.'ranks WHERE "rankType"="0" ORDER BY "rankPosts"');
+				$this->modules['DB']->query('SELECT * FROM '.TBLPFX.'ranks WHERE "rankType"=0 ORDER BY "rankPosts"');
 				$normalRanksData = $this->modules['DB']->raw2Array();
 
 				foreach($normalRanksData AS &$curRank) {
@@ -34,7 +34,7 @@ class AdminRanks extends ModuleTemplate {
 				}
 
 
-				$this->modules['DB']->query('SELECT * FROM '.TBLPFX.'ranks WHERE "rankType"="1" ORDER BY "rankName"');
+				$this->modules['DB']->query('SELECT * FROM '.TBLPFX.'ranks WHERE "rankType"=1 ORDER BY "rankName"');
 				$specialRanksData = $this->modules['DB']->raw2Array();
 
 				foreach($specialRanksData AS &$curRank) {
@@ -162,7 +162,7 @@ class AdminRanks extends ModuleTemplate {
 				if($rankData = FuncRanks::getRankData($rankID)) {
                     $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'ranks WHERE "rankID"=$1', array($rankID));
 					if($rankData['rankType'] == 1)
-                        $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'users SET "rankID"="0" WHERE "rankID"=$1', array($rankID));
+                        $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'users SET "rankID"=0 WHERE "rankID"=$1', array($rankID));
 
 					$this->modules['Cache']->setRanksData();
 				}

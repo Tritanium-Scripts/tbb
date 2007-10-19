@@ -227,7 +227,7 @@ class Posting extends ModuleTemplate {
 											$i++;
 										}
 
-                                        $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'topics SET "topicHasPoll"="1" WHERE "topicID"=$1', array($topicID));
+                                        $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'topics SET "topicHasPoll"=1 WHERE "topicID"=$1', array($topicID));
 									}
 								}
 							}
