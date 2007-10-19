@@ -17,7 +17,7 @@ class AdminGroups extends ModuleTemplate {
 
 		switch(@$_GET['mode']) {
 			default:
-				$this->modules['DB']->query("SELECT * FROM ".TBLPFX."groups ORDER BY groupName");
+				$this->modules['DB']->query('SELECT * FROM '.TBLPFX.'groups ORDER BY "groupName"');
 				$groupsData = $this->modules['DB']->raw2Array();
 
 				$this->modules['Template']->assign(array(
@@ -34,12 +34,14 @@ class AdminGroups extends ModuleTemplate {
 				if(isset($_GET['doit'])) {
 					if(trim($p['groupName']) == '') $error = $this->modules['Language']->getString('error_no_group_name');
 					else {
-						$this->modules['DB']->query("
-							INSERT INTO
-								".TBLPFX."groups
-							SET
-								groupName='".$p['groupName']."'
-						");
+                        $this->modules['DB']->queryParams('
+                            INSERT INTO
+                                '.TBLPFX.'groups
+                            SET
+                                "groupName"=$1
+                        ', array(
+                            $p['groupName']
+                        ));
 						Functions::myHeader(INDEXFILE.'?action=AdminGroups&'.MYSID);
 					}
 				}
@@ -64,14 +66,17 @@ class AdminGroups extends ModuleTemplate {
 				if(isset($_GET['doit'])) {
 					if(trim($p['groupName']) == '') $error = $this->modules['Language']->getString('error_no_group_name');
 					else {
-						$this->modules['DB']->query("
-							UPDATE
-								".TBLPFX."groups
-							SET
-								groupName='".$p['groupName']."'
-							WHERE
-								groupID='$groupID'
-						");
+                        $this->modules['DB']->queryParams('
+                            UPDATE
+                                '.TBLPFX.'groups
+                            SET
+                                "groupName"=$1
+                            WHERE
+                                "groupID"=$2
+                        ', array(
+                            $p['groupName'],
+                            $groupID
+                        ));
 						Functions::myHeader(INDEXFILE.'?action=AdminGroups&'.MYSID);
 					}
 				}
@@ -89,10 +94,10 @@ class AdminGroups extends ModuleTemplate {
 			case 'DeleteGroup':
 				$groupID = isset($_GET['groupID']) ? intval($_GET['groupID']) : 0; // ID der Gruppe
 
-				$this->modules['DB']->query("DELETE FROM ".TBLPFX."groups WHERE groupID='$groupID'");
+                $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'groups WHERE "groupID"=$1', array($groupID));
 				if($this->modules['DB']->getAffectedRows() == 1) {
-					$this->modules['DB']->query("DELETE FROM ".TBLPFX."groups_members WHERE groupID='$groupID'");
-					$this->modules['DB']->query("DELETE FROM ".TBLPFX."forums_auth WHERE authType='".AUTH_TYPE_GROUP."' AND authID='$groupID'");
+                    $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'groups_members WHERE "groupID"=$1', array($groupID));
+                    $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'forums_auth WHERE "authType"=$1 AND "authID"=$2', array(AUTH_TYPE_GROUP, $groupID));
 				}
 
 				Functions::myHeader(INDEXFILE.'?action=AdminGroups&'.MYSID);
@@ -104,11 +109,11 @@ class AdminGroups extends ModuleTemplate {
 				if(!$groupData = FuncGroups::getGroupData($groupID)) die('Cannot load data: group');
 
 				// Group admins
-				$this->modules['DB']->query("SELECT t1.memberID, t2.userNick AS memberNick FROM ".TBLPFX."groups_members t1, ".TBLPFX."users t2 WHERE t1.memberID=t2.userID AND t1.groupID='$groupID' AND t1.memberStatus='1' ORDER BY t2.userNick");
+                $this->modules['DB']->queryParams('SELECT t1."memberID", t2."userNick" AS "memberNick" FROM '.TBLPFX.'groups_members t1, '.TBLPFX.'users t2 WHERE t1."memberID"=t2."userID" AND t1."groupID"=$1 AND t1."memberStatus"=1 ORDER BY t2."userNick"', array($groupID));
 				$groupAdminsData = $this->modules['DB']->raw2Array();
 
 				// 'Ordinary' group members
-				$this->modules['DB']->query("SELECT t1.memberID, t2.userNick AS memberNick FROM ".TBLPFX."groups_members t1, ".TBLPFX."users t2 WHERE t1.memberID=t2.userID AND t1.groupID='$groupID' AND t1.memberStatus='0' ORDER BY t2.userNick");
+                $this->modules['DB']->queryParams('SELECT t1."memberID", t2."userNick" AS "memberNick" FROM '.TBLPFX.'groups_members t1, '.TBLPFX.'users t2 WHERE t1."memberID"=t2."userID" AND t1."groupID"=$1 AND t1."memberStatus"=0 ORDER BY t2."userNick"', array($groupID));
 				$groupMembersData = $this->modules['DB']->raw2Array();
 
 				$this->modules['Template']->assign(array(
@@ -141,7 +146,7 @@ class AdminGroups extends ModuleTemplate {
 				// Die IDs der User laden, die schon Mitglied der Gruppe sind
 				//
 				$existingUsers = array();
-				$this->modules['DB']->query("SELECT memberID FROM ".TBLPFX."groups_members WHERE groupID='$groupID' AND memberID IN ('".implode("','",$newMembers)."')");
+                $this->modules['DB']->queryParams('SELECT "memberID" FROM '.TBLPFX.'groups_members WHERE "groupID"=$1 AND "memberID" IN $2', array($groupID, $newMembers));
 				while($curMember = $this->modules['DB']->fetchArray())
 					$existingUsers[$curMember['memberID']] = TRUE;
 
@@ -151,14 +156,18 @@ class AdminGroups extends ModuleTemplate {
 				//
 				foreach($newMembers AS &$curMember) {
 					if(!isset($existingUsers[$curMember]))
-						$this->modules['DB']->query("
-							INSERT INTO
-								".TBLPFX."groups_members
-							SET
-								groupID='$groupID',
-								memberID='$curMember',
-								memberStatus='".$p['membersAreLeader']."'
-						");
+                        $this->modules['DB']->queryParams('
+                            INSERT INTO
+                                '.TBLPFX.'groups_members
+                            SET
+                                "groupID"=$1,
+                                "memberID"=$2,
+                                "memberStatus"=$3
+                        ', array(
+                            $groupID,
+                            $curMember,
+                            $p['membersAreLeader']
+                        ));
 				}
 
 				Functions::myHeader(INDEXFILE."?action=AdminGroups&mode=ManageMembers&groupID=$groupID&".MYSID);
@@ -168,7 +177,7 @@ class AdminGroups extends ModuleTemplate {
 				$memberID = isset($_GET['memberID']) ? intval($_GET['memberID']) : 0;
 				$groupID = isset($_GET['groupID']) ? intval($_GET['groupID']) : 0;
 
-				$this->modules['DB']->query("DELETE FROM ".TBLPFX."groups_members WHERE groupID='$groupID' AND memberID='$memberID'");
+                $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'groups_members WHERE "groupID"=$1 AND "memberID"=$2', array($groupID, $memberID));
 
 				Functions::myHeader(INDEXFILE."?action=AdminGroups&mode=ManageMembers&groupID=$groupID&".MYSID);
 				break;
@@ -177,11 +186,11 @@ class AdminGroups extends ModuleTemplate {
 				$memberID = isset($_GET['memberID']) ? $_GET['memberID'] : 0;
 				$groupID = isset($_GET['groupID']) ? $_GET['groupID'] : 0;
 
-				$this->modules['DB']->query("SELECT memberStatus FROM ".TBLPFX."groups_members WHERE groupID='$groupID' AND memberID='$memberID'");
+                $this->modules['DB']->queryParams('"SELECT "memberStatus" FROM '.TBLPFX.'groups_members WHERE "groupID"=$1 AND "memberID"=$2', array($groupID, $memberID));
 				if($this->modules['DB']->getAffectedRows() == 1) {
 					list($memberStatus) = $this->modules['DB']->fetchArray();
 					$newMemberStatus = ($memberStatus == 1) ? 0 : 1;
-					$this->modules['DB']->query("UPDATE ".TBLPFX."groups_members SET memberStatus='$newMemberStatus' WHERE groupID='$groupID' AND memberID='$memberID'");
+                    $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'groups_members SET "memberStatus"=$1 WHERE "groupID"=$2 AND "memberID"=$3', array($newMemberStatus, $groupID, $memberID));
 				}
 
 				Functions::myHeader(INDEXFILE."?action=AdminGroups&mode=ManageMembers&groupID=$groupID&".MYSID);
