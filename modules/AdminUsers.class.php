@@ -97,16 +97,15 @@ class AdminUsers extends ModuleTemplate {
 
 				$query = array();
 				if(trim($p['userID']) != '')
-					$query[] = "userID LIKE '".str_replace('*','%',$this->modules['DB']->escapeString($p['userID']))."'";
+					$query[] = '"userID" LIKE \''.str_replace('*','%',$this->modules['DB']->escapeString($p['userID'])).'\'';
 				if(trim($p['userNick']) != '')
-					$query[] = "userNick LIKE '".str_replace('*','%',$this->modules['DB']->escapeString($p['userNick']))."'";
+					$query[] = '"userNick" LIKE \''.str_replace('*','%',$this->modules['DB']->escapeString($p['userNick'])).'\'';
 				if(trim($p['userEmailAddress']) != '')
-					$query[] = "userEmailAddress LIKE '".str_replace('*','%',$this->modules['DB']->escapeString($p['userEmailAddress']))."'";
+					$query[] = '"userEmailAddress" LIKE \''.str_replace('*','%',$this->modules['DB']->escapeString($p['userEmailAddress'])).'\'';
 
 				$usersData = array();
 
 				if(count($query) > 0) {
-                    //TODO implode AND anpassen?!
 					$this->modules['DB']->query('SELECT "userID", "userNick", "userEmailAddress" FROM '.TBLPFX.'users WHERE '.implode(' AND ', $query));
 
 					if($this->modules['DB']->getAffectedRows() == 1) {
