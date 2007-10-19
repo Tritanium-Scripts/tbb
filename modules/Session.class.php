@@ -39,10 +39,11 @@ class Session extends ModuleTemplate {
 	}
 
 	public function dataHandlerRead($sessionID) {
-		$this->modules['DB']->queryParams('UPDATE '.TBLPFX.'sessions SET "sessionLastUpdate"=NOW() WHERE "sessionID"=$1',array($sessionID));
-		if($this->modules['DB']->getAffectedRows() == 1) {
-			$this->modules['DB']->queryParams('SELECT "sessionData" FROM '.TBLPFX.'sessions WHERE "sessionID"=$1',array($sessionID));
+		$this->modules['DB']->queryParams('SELECT "sessionData" FROM '.TBLPFX.'sessions WHERE "sessionID"=$1',array($sessionID));
+
+		if($this->modules['DB']->numRows() == 1) {
 			list($sessionData) = $this->modules['DB']->fetchArray();
+			$this->modules['DB']->queryParams('UPDATE '.TBLPFX.'sessions SET "sessionLastUpdate"=NOW() WHERE "sessionID"=$1',array($sessionID));
 			return $sessionData;
 		}
 
