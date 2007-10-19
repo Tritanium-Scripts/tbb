@@ -31,11 +31,11 @@ class Globals extends ModuleTemplate {
 		if($this->modules['Auth']->isLoggedIn()) {
 			// 2419200 seconds = 28 days. perhaps we should use a config value instead
 			if($this->modules['Auth']->getValue('userLastVisit') < time() - 2419200) {
-				$this->modules['DB']->query('UPDATE '.TBLPFX.'users SET "userLastVisit"='.time().', "userLastAction"='.time().' WHERE "userID"='.USERID);
+				$this->modules['DB']->queryParams('UPDATE '.TBLPFX.'users SET "userLastVisit"='.time().', "userLastAction"='.time().' WHERE "userID"=$1',array(USERID));
 				$this->modules['Auth']->setValue('userLastVisit',time());
 			}
 			else
-				$this->modules['DB']->query('UPDATE '.TBLPFX.'users SET "userLastAction"='.time().' WHERE "userID"='.USERID);
+				$this->modules['DB']->queryParams('UPDATE '.TBLPFX.'users SET "userLastAction"='.time().' WHERE "userID"=$1',array(USERID));
 			$this->modules['Auth']->setValue('userLastAction',time());
 		} else {
 			if(isset($_COOKIE['tbbLastVisit']) && isset($_COOKIE['tbbLastAction'])) {

@@ -97,11 +97,11 @@ class AdminUsers extends ModuleTemplate {
 
 				$query = array();
 				if(trim($p['userID']) != '')
-					$query[] = "userID LIKE '".str_replace('*','%',Functions::addSlashes($p['userID']))."'";
+					$query[] = "userID LIKE '".str_replace('*','%',$this->modules['DB']->escapeString($p['userID']))."'";
 				if(trim($p['userNick']) != '')
-					$query[] = "userNick LIKE '".str_replace('*','%',Functions::addSlashes($p['userNick']))."'";
+					$query[] = "userNick LIKE '".str_replace('*','%',$this->modules['DB']->escapeString($p['userNick']))."'";
 				if(trim($p['userEmailAddress']) != '')
-					$query[] = "userEmailAddress LIKE '".str_replace('*','%',Functions::addSlashes($p['userEmailAddress']))."'";
+					$query[] = "userEmailAddress LIKE '".str_replace('*','%',$this->modules['DB']->escapeString($p['userEmailAddress']))."'";
 
 				$usersData = array();
 
@@ -133,7 +133,7 @@ class AdminUsers extends ModuleTemplate {
 				$this->modules['Language']->addFile('EditProfile');
 				$this->modules['Language']->addFile('ViewProfile');
 
-				$p = Functions::getSGValues($_POST['p'],array('userEmailAddress','userSignature','userAvatarAddress','rankID','userAuthProfileNotes'),'',Functions::addSlashes($userData));
+				$p = Functions::getSGValues($_POST['p'],array('userEmailAddress','userSignature','userAvatarAddress','rankID','userAuthProfileNotes'),'',$userData);
 				$c = Functions::getSGValues($_POST['c'],array('userIsAdmin','userIsSupermod'),0,$userData);
 
 				$error = '';
