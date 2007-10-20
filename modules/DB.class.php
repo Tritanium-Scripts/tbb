@@ -1,57 +1,32 @@
 <?php
 
+include('DB/TSMySQL.class.php');
+
 class DB extends ModuleTemplate {
 	protected $queriesCounter = 0;
 	protected $dbObject = NULL;
-	protected $curResult = NULL;
 	protected $queryTime = 0;
-	protected $destructFunctions = array();
 
 	public function initializeMe() {
-		$this->dbObject = new mysqli;
-
-		@$this->dbObject->connect($this->getC('dbServer'),$this->getC('dbUser'),$this->getC('dbPassword'),$this->getC('dbName'));
-		if(mysqli_connect_error() != '') die('Database error: <b>'.mysqli_connect_error().'</b>');
-
+		$this->dbObject = new TSMySQL;
+		$this->dbObject->connect($this->getC('dbServer'),$this->getC('dbUser'),$this->getC('dbPassword'),$this->getC('dbName'));
 		define('TBLPFX',$this->getTablePrefix());
-		$this->query("SET NAMES utf8");
-
-		$this->query("SET sql_mode='ANSI'");
 	}
 
 	public function query($query) {
 		$startTime = Functions::getMicroTime();
-		if(!($this->curResult = $this->dbObject->query($query))) die('Database error: <b>'.$this->dbObject->error.'</b><br/>Query: <b>'.$query.'</b>');
+		$result = $this->dbObject->query($query);
 		$this->queryTime += Functions::getMicroTime()-$startTime;
 		$this->queriesCounter++;
-	}
-
-	protected function queryParamsCallback($at) {
-		return $this->parameters[$at[1]-1];
-	}
-
-	protected function parseQueryParam($parameter) {
-		if(is_array($parameter)) {
-			if(count($parameter) == 0) $parameter = '(NULL)';
-			else $parameter = '('.implode(',',array_map(array($this,'parseQueryParam'),$parameter)).')';
-		}
-		elseif(is_null($parameter))
-			$parameter = 'NULL';
-		elseif(!is_int($parameter))
-			$parameter = "'".$this->escapeString($parameter)."'";
-
-		return $parameter;
+		return $result;
 	}
 
 	public function queryParams($query,$parameters = array()) {
-		$this->parameters = array_map(array($this,'parseQueryParam'),$parameters);
-		$query = preg_replace_callback('/\$([0-9]+)/',array($this,'queryParamsCallback'),$query);
-
 		$startTime = Functions::getMicroTime();
-		if(!($this->curResult = $this->dbObject->query($query))) die('Database error: <b>'.$this->dbObject->error.'</b><br/>Query: <b>'.$query.'</b>');
+		$result = $this->dbObject->queryParams($query,$parameters);
 		$this->queryTime += Functions::getMicroTime()-$startTime;
 		$this->queriesCounter++;
-		return TRUE;
+		return $result;
 	}
 
 	public function getQueryTime() {
@@ -64,7 +39,7 @@ class DB extends ModuleTemplate {
 
 	public function raw2Array() {
 		$temp = array();
-		while($curRow = $this->curResult->fetch_array())
+		while($curRow = $this->dbObject->fetchArray())
 			$temp[] = $curRow;
 
 		return $temp;
@@ -80,15 +55,15 @@ class DB extends ModuleTemplate {
 	}
 
 	public function fetchArray() {
-		return $this->curResult->fetch_array();
+		return $this->dbObject->fetchArray();
 	}
 
 	public function getAffectedRows() {
-		return $this->dbObject->affected_rows;
+		return $this->dbObject->getAffectedRows();
 	}
 
 	public function numRows() {
-		return $this->curResult->num_rows;
+		return $this->dbObject->numRows();
 	}
 
 	public function getTablePrefix() {
@@ -103,16 +78,7 @@ class DB extends ModuleTemplate {
 	}
 
 	public function escapeString($string) {
-		return $this->dbObject->real_escape_string($string);
-	}
-
-	public function registerDestructFunction($function) {
-		$this->destructFunctions[] = $function;
-	}
-
-	public function __destruct() {
-		foreach($this->destructFunctions AS $curFunc)
-			call_user_func($curFunc);
+		return $this->dbObject->escapeString($string);
 	}
 }
 

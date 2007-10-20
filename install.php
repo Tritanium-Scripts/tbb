@@ -69,9 +69,9 @@ class BoardInstall {
 					  </select></td>
 					 </tr>
 					 </table>
-					 <br />
+					 <br/>
 					 <table border="0" cellpadding="2" cellspacing="0" width="100%" style="border:1px black dashed;">
-					 <tr><td align="right"><input class="form_bold_button" type="submit" value="<?php echo $this->strings['Next']; ?>" /></td></tr>
+					 <tr><td align="right"><input class="form_bold_button" type="submit" value="<?php echo $this->strings['Next']; ?>"/></td></tr>
 					 </table>
 					 </form>
 				<?php
@@ -101,9 +101,9 @@ class BoardInstall {
 					 <tr><th colspan="2" class="th1"><span class="th1"><?php echo $this->steps[$this->step-1]; ?></span></th></tr>
 					 <tr><td><span class="fontnorm"><?php echo $this->strings['introduction_text']; ?></span></td></tr>
 					 </table>
-					 <br />
+					 <br/>
 					 <table border="0" cellpadding="2" cellspacing="0" width="100%" style="border:1px black dashed;">
-					 <tr><td align="right"><input class="form_button" type="submit" value="<?php echo $this->strings['Back']; ?>" name="p_button_back" />&nbsp;&nbsp;&nbsp;<input class="form_bold_button" type="submit" value="<?php echo $this->strings['Next']; ?>" /></td></tr>
+					 <tr><td align="right"><input class="form_button" type="submit" value="<?php echo $this->strings['Back']; ?>" name="p_button_back"/>&nbsp;&nbsp;&nbsp;<input class="form_bold_button" type="submit" value="<?php echo $this->strings['Next']; ?>"/></td></tr>
 					 </table>
 					 </form>
 				<?php
@@ -168,7 +168,7 @@ class BoardInstall {
 				//
 				// Zuerst wird geprueft, ob in die Configdatei geschrieben werden kann
 				//
-				if(is_writable('dbconfig.php') == FALSE) $results['filetest']['error'] = $this->strings['error_cannot_write_config_file'];
+				if(!is_writable('config/DB.config.class.php')) $results['filetest']['error'] = $this->strings['error_cannot_write_config_file'];
 				else {
 					$results['filetest']['success'] = TRUE;
 					$results['filetest']['color'] = 'green';
@@ -181,7 +181,7 @@ class BoardInstall {
 					$results['fileuploadtest']['error'] = $this->strings['warning_file_upload_disabled'];
 					$results['fileuploadtest']['color'] = 'orange';
 				}
-				elseif(is_writable('upload/files') == FALSE) {
+				elseif(!is_writable('uploads/files')) {
 					$results['fileuploadtest']['error'] = $this->strings['warning_file_upload_dir_not_writable'];
 					$results['fileuploadtest']['color'] = 'orange';
 				}
@@ -195,8 +195,8 @@ class BoardInstall {
 				// Jetzt wird ueberprueft, ob in die Verzeichnisse "upload/avatars" und "upload/files" geschrieben werden kann
 				//
 				$results['dirtest']['color'] = 'orange';
-				if(is_writable('upload/avatars') == FALSE) $results['dirtest']['error'] = $this->strings['warning_avatar_upload_dir_not_writable'];
-				elseif(is_writable('cache') == FALSE) $results['dirtest']['error'] = $this->strings['warning_cache_dir_not_writable'];
+				if(!is_writable('uploads/avatars')) $results['dirtest']['error'] = $this->strings['warning_avatar_upload_dir_not_writable'];
+				elseif(!is_writable('cache')) $results['dirtest']['error'] = $this->strings['warning_cache_dir_not_writable'];
 				else {
 					$results['dirtest']['color'] = 'green';
 					$results['dirtest']['success'] = TRUE;
@@ -207,7 +207,7 @@ class BoardInstall {
 				// Ueberpruefung der PHP-Version
 				//
 				$results['phptest']['color'] = 'orange';
-				if(phpversion() < '4.3.3') $results['phptest']['error'] = sprintf($this->strings['warning_old_php_version'],phpversion(),'4.3.3');
+				if(phpversion() < 5) $results['phptest']['error'] = sprintf($this->strings['warning_old_php_version'],phpversion(),5);
 				else {
 					$results['phptest']['color'] = 'green';
 					$results['phptest']['success'] = TRUE;
@@ -231,9 +231,9 @@ class BoardInstall {
 					</table>
 				<?php
 
-				if($success == FALSE) {
+				if(!$success) {
 					?>
-						<br />
+						<br/>
 						<table border="0" cellpadding="2" cellspacing="0" width="100%" style="border:1px black dashed">
 						<tr><td><span class="fontnorm"><?php echo $this->strings['there_were_errors']; ?></span></td></tr>
 						</table>
@@ -241,9 +241,9 @@ class BoardInstall {
 				}
 
 				?>
-					<br />
+					<br/>
 					<table border="0" cellpadding="2" cellspacing="0" width="100%" style="border:1px black dashed;">
-					<tr><td align="right"><input class="form_button" type="submit" name="p_button_back" value="<?php echo $this->strings['Back']; ?>" />&nbsp;&nbsp;&nbsp;<input class="form_bold_button" type="submit" name="p_button_again" value="<?php echo $this->strings['Test_again']; ?>" />&nbsp;&nbsp;&nbsp;<input class="form_button" type="submit" name="p_button_next" value="<?php echo $this->strings['Next']; ?>" /></td></tr>
+					<tr><td align="right"><input class="form_button" type="submit" name="p_button_back" value="<?php echo $this->strings['Back']; ?>"/>&nbsp;&nbsp;&nbsp;<input class="form_bold_button" type="submit" name="p_button_again" value="<?php echo $this->strings['Test_again']; ?>"/>&nbsp;&nbsp;&nbsp;<input class="form_button" type="submit" name="p_button_next" value="<?php echo $this->strings['Next']; ?>"/></td></tr>
 					</table>
 					</form>
 				<?php
@@ -277,14 +277,13 @@ class BoardInstall {
 					else{
 						switch($p_dbtype) {
 							case 'mysql':
-								include_once('db/mysql.class.php');
+								include_once('modules/DB/TSMySQL.class.php');
 							break;
 						}
 
-						$DB = new db;
-						if($DB->connect($p_dbserver,$p_dbuser,$p_dbpassword) == FALSE) $error = sprintf($this->strings['error_connecting_database_server'],$DB->error());
-						elseif($DB->select_db($p_dbname) == FALSE) $error = sprintf($this->strings['error_invalid_unknown_database_name'],$DB->error());
-						elseif(preg_match('/^[a-z0-9_]{0,}$/i',$p_tableprefix) == FALSE) $error = $this->strings['error_invalid_table_prefix'];
+						$this->DB = new TSMySQL;
+						if(!$this->DB->connect($p_dbserver,$p_dbuser,$p_dbpassword,$p_dbname)) $error = sprintf($this->strings['error_connecting_database_server'],$this->DB->getConnectError());
+						elseif(!preg_match('/^[a-z0-9_]{0,}$/i',$p_tableprefix)) $error = $this->strings['error_invalid_table_prefix'];
 						else {
 							$_SESSION['dbtype'] = $p_dbtype;
 							$_SESSION['dbserver'] = $p_dbserver;
@@ -312,32 +311,32 @@ class BoardInstall {
 				?>
 					 <tr>
 					  <td width="15%"><span class="fontnorm"><b><?php echo $this->strings['Database_server']; ?>:</b><span></td>
-					  <td width="85%"><input type="text" name="p_dbserver" value="<?php echo $p_dbserver; ?>" size="30" /></td>
+					  <td width="85%"><input type="text" name="p_dbserver" value="<?php echo $p_dbserver; ?>" size="30"/></td>
 					 </tr>
 					 <tr>
 					  <td width="15%"><span class="fontnorm"><b><?php echo $this->strings['Database_user']; ?>:</b><span></td>
-					  <td width="85%"><input type="text" name="p_dbuser" value="<?php echo $p_dbuser; ?>" size="30" /></td>
+					  <td width="85%"><input type="text" name="p_dbuser" value="<?php echo $p_dbuser; ?>" size="30"/></td>
 					 </tr>
 					 <tr>
 					  <td width="15%"><span class="fontnorm"><b><?php echo $this->strings['Database_password']; ?>:</b><span></td>
-					  <td width="85%"><input type="password" name="p_dbpassword" value="<?php echo $p_dbpassword; ?>" size="30" /></td>
+					  <td width="85%"><input type="password" name="p_dbpassword" value="<?php echo $p_dbpassword; ?>" size="30"/></td>
 					 </tr>
 					 <tr>
 					  <td width="15%"><span class="fontnorm"><b><?php echo $this->strings['Database_name']; ?>:</b><span></td>
-					  <td width="85%"><input type="text" name="p_dbname" value="<?php echo $p_dbname; ?>" size="30" /></td>
+					  <td width="85%"><input type="text" name="p_dbname" value="<?php echo $p_dbname; ?>" size="30"/></td>
 					 </tr>
 					 <tr>
 					  <td width="15%"><span class="fontnorm"><b><?php echo $this->strings['Table_prefix']; ?>:</b><span></td>
-					  <td width="85%"><input type="text" name="p_tableprefix" value="<?php echo $p_tableprefix; ?>" size="10" /></td>
+					  <td width="85%"><input type="text" name="p_tableprefix" value="<?php echo $p_tableprefix; ?>" size="10"/></td>
 					 </tr>
 					 </table>
-					 <br />
+					 <br/>
 					 <table border="0" cellpadding="2" cellspacing="0" width="100%" style="border:1px black dashed;">
 					 <tr><td><span class="fontnorm"><?php echo $this->strings['search_for_installation_preinfo']; ?></span></td></tr>
 					 </table>
-					 <br />
+					 <br/>
 					 <table border="0" cellpadding="2" cellspacing="0" width="100%" style="border:1px black dashed;">
-					 <tr><td align="right"><input class="form_button" type="submit" name="p_button_back" value="<?php echo $this->strings['Back']; ?>" />&nbsp;&nbsp;&nbsp;<input class="form_bold_button" type="submit" name="p_button_next" value="<?php echo $this->strings['Next']; ?>" /></td></tr>
+					 <tr><td align="right"><input class="form_button" type="submit" name="p_button_back" value="<?php echo $this->strings['Back']; ?>"/>&nbsp;&nbsp;&nbsp;<input class="form_bold_button" type="submit" name="p_button_next" value="<?php echo $this->strings['Next']; ?>"/></td></tr>
 					 </table>
 					 </form>
 				<?php
@@ -349,12 +348,12 @@ class BoardInstall {
 			case '5':
 				switch($_SESSION['dbtype']) {
 					case 'mysql':
-						include_once('db/mysql.class.php');
+						include_once('modules/DB/TSMySQL.class.php');
 					break;
 				}
 
-				$DB = new db;
-				install_connect_db();
+				$this->DB = new TSMySQL;
+				$this->connect();
 
 				$DATAVERSION = ''; // Beinhaltet spaeter die Version der Daten aus der Datenbank
 				$SCRIPTVERSION = SCRIPTVERSION; // Die Version der Scripte
@@ -363,14 +362,14 @@ class BoardInstall {
 				$existing_installation_text = $this->strings['existing_installation_not_found'];
 				$select_options = array();
 				$tables_data = array(); // Beinhaltet spaeter die Namen der einzelnen Tabellen
-				$DB->query("SHOW TABLES"); // Die Namen der Tabellen aus der Datenbank holen
-				$tables_data = $DB->raw2array(); // Die Daten in ein Array umwandeln
+				$this->DB->query("SHOW TABLES"); // Die Namen der Tabellen aus der Datenbank holen
+				$tables_data = $this->raw2Array(); // Die Daten in ein Array umwandeln
 
 				while(list(,$akt_table) = each($tables_data)) {
 					if(preg_match('/^'.$_SESSION['tableprefix'].'.*$/si',$akt_table[0]) == TRUE) {
-						$DB->query("SELECT config_value FROM ".$_SESSION['tableprefix']."config WHERE config_name='dataversion'");
-						if($DB->affected_rows != 0)
-							list($DATAVERSION) = $DB->fetch_array();
+						$this->DB->query('SELECT "configValue" FROM '.$_SESSION['tableprefix'].'config WHERE "configName"=\'dataversion\'');
+						if($this->DB->numRows() != 0)
+							list($DATAVERSION) = $this->DB->fetchArray();
 
 						if(isset($_GET['doit'])) {
 							if(isset($_POST['p_button_back'])) {
@@ -392,7 +391,7 @@ class BoardInstall {
 									$NEXT_UPDATE_FILE = $DATAVERSION.'.update';
 
 									do {
-										if(file_exists('update/'.$NEXT_UPDATE_FILE) != TRUE) die('Unknown Version!');
+										if(!file_exists('update/'.$NEXT_UPDATE_FILE)) die('Unknown Version!');
 										$fp = fopen('update/'.$NEXT_UPDATE_FILE,'rb'); flock($fp,LOCK_SH);
 										$toeval = fread($fp,filesize('update/'.$NEXT_UPDATE_FILE));
 										flock($fp,LOCK_UN); fclose($fp);
@@ -405,14 +404,14 @@ class BoardInstall {
 
 									?>
 										<form method="post" action="install.php?step=5&amp;doit=1&amp;<?php echo $MYSID; ?>">
-										<input type="hidden" name="p_action" value="2" />
+										<input type="hidden" name="p_action" value="2"/>
 										<table border="0" cellpadding="2" cellspacing="0" width="100%" style="border:1px black dashed;">
 										<tr><th class="th1"><span class="th1"><?php echo $this->steps[$this->step-1]; ?></span></th></tr>
 										<tr><td><span class="fontnorm"><?php echo $this->strings['old_data_successfully_updated']; ?></td></tr>
 										</table>
-										<br />
+										<br/>
 										<table border="0" cellpadding="2" cellspacing="0" width="100%" style="border:1px black dashed;">
-										<tr><td align="right"><input class="form_button" type="submit" name="p_button_back" value="<?php echo $this->strings['Back']; ?>" />&nbsp;&nbsp;&nbsp;<input class="form_bold_button" type="submit" name="p_button_next" value="<?php echo $this->strings['Next']; ?>" /></td></tr>
+										<tr><td align="right"><input class="form_button" type="submit" name="p_button_back" value="<?php echo $this->strings['Back']; ?>"/>&nbsp;&nbsp;&nbsp;<input class="form_bold_button" type="submit" name="p_button_next" value="<?php echo $this->strings['Next']; ?>"/></td></tr>
 										</table>
 									<?php
 
@@ -479,9 +478,9 @@ class BoardInstall {
 
 				?>
 					</table>
-					<br />
+					<br/>
 					<table border="0" cellpadding="2" cellspacing="0" width="100%" style="border:1px black dashed;">
-					<tr><td align="right"><input class="form_button" type="submit" name="p_button_back" value="<?php echo $this->strings['Back']; ?>" />&nbsp;&nbsp;&nbsp;<input class="form_bold_button" type="submit" name="p_button_next" value="<?php echo $this->strings['Next']; ?>" /></td></tr>
+					<tr><td align="right"><input class="form_button" type="submit" name="p_button_back" value="<?php echo $this->strings['Back']; ?>"/>&nbsp;&nbsp;&nbsp;<input class="form_bold_button" type="submit" name="p_button_next" value="<?php echo $this->strings['Next']; ?>"/></td></tr>
 					</table>
 				<?php
 
@@ -502,7 +501,7 @@ class BoardInstall {
 					break;
 				}
 
-				$DB = new db;
+				$this->DB = new db;
 				install_connect_db();
 
 				if(isset($_GET['doit'])) {
@@ -520,7 +519,7 @@ class BoardInstall {
 					<tr><th class="th1" colspan="2"><span class="th1"><?php echo $this->steps[$this->step-1]; ?></span></th></tr>
 					<tr><td colspan="2"><span class="fontnorm"><?php echo $this->strings['basic_data_insertion_info']; ?></span></td></tr>
 					</table>
-					<br />
+					<br/>
 					<table class="standard_table" border="0" cellpadding="2" cellspacing="0" width="100%">
 				<?php
 
@@ -532,8 +531,8 @@ class BoardInstall {
 					<?php
 
 					$drop_file = str_replace('tblprefix.',$_SESSION['tableprefix'],$drop_file);
-					$DB->sql_split($drop_file);
-					if($DB->execute_queries() == FALSE) echo '<span class="fontred">'.$this->strings['error_deleting_old_tables'].'<br /><b>'.$DB->error().'</b></span>';
+					$this->DB->sql_split($drop_file);
+					if($this->DB->execute_queries() == FALSE) echo '<span class="fontred">'.$this->strings['error_deleting_old_tables'].'<br/><b>'.$this->DB->error().'</b></span>';
 					else echo '<span class="fontgreen">'.$this->strings['successful'].'</span>';
 
 					?>
@@ -549,8 +548,8 @@ class BoardInstall {
 				<?php
 
 				$scheme_file = str_replace('tblprefix.',$_SESSION['tableprefix'],$scheme_file);
-				$DB->sql_split($scheme_file);
-				if($DB->execute_queries() == FALSE) echo '<span class="fontred">'.$this->strings['error_creating_tables'].'<br /><b>'.$DB->error().'</b></span>';
+				$this->DB->sql_split($scheme_file);
+				if($this->DB->execute_queries() == FALSE) echo '<span class="fontred">'.$this->strings['error_creating_tables'].'<br/><b>'.$this->DB->error().'</b></span>';
 				else echo '<span class="fontgreen">'.$this->strings['successful'].'</span>';
 
 				?>
@@ -562,11 +561,11 @@ class BoardInstall {
 				<?php
 
 				$basic_file = str_replace('tblprefix.',$_SESSION['tableprefix'],$basic_file);
-				$DB->sql_split($basic_file);
-				if($DB->execute_queries() == FALSE) echo '<span class="fontred">'.$this->strings['error_inserting_basic_data'].'<br /><b>'.$DB->error().'</b></span>';
+				$this->DB->sql_split($basic_file);
+				if($this->DB->execute_queries() == FALSE) echo '<span class="fontred">'.$this->strings['error_inserting_basic_data'].'<br/><b>'.$this->DB->error().'</b></span>';
 				else {
-					$DB->query("UPDATE ".$_SESSION['tableprefix']."config SET config_value='".$_SESSION['language']."' WHERE config_name='standard_language'");
-					$DB->query("UPDATE ".$_SESSION['tableprefix']."config SET config_value='".SCRIPTVERSION."' WHERE config_name='dataversion'");
+					$this->DB->query("UPDATE ".$_SESSION['tableprefix']."config SET config_value='".$_SESSION['language']."' WHERE config_name='standard_language'");
+					$this->DB->query("UPDATE ".$_SESSION['tableprefix']."config SET config_value='".SCRIPTVERSION."' WHERE config_name='dataversion'");
 					echo '<span class="fontgreen">'.$this->strings['successful'].'</span>';
 				}
 
@@ -574,9 +573,9 @@ class BoardInstall {
 					  </span></td>
 					 </tr>
 					</table>
-					<br />
+					<br/>
 					<table class="standard_table" border="0" cellpadding="2" cellspacing="0" width="100%">
-					<tr><td align="right"><input class="form_button" type="submit" name="p_button_back" value="<?php echo $this->strings['Back']; ?>" />&nbsp;&nbsp;&nbsp;<input class="form_bold_button" type="submit" name="p_button_next" value="<?php echo $this->strings['Next']; ?>" /></td></tr>
+					<tr><td align="right"><input class="form_button" type="submit" name="p_button_back" value="<?php echo $this->strings['Back']; ?>"/>&nbsp;&nbsp;&nbsp;<input class="form_bold_button" type="submit" name="p_button_next" value="<?php echo $this->strings['Next']; ?>"/></td></tr>
 					</table>
 					</form>
 				<?php
@@ -591,7 +590,7 @@ class BoardInstall {
 					break;
 				}
 
-				$DB = new db;
+				$this->DB = new db;
 				install_connect_db();
 
 				$p_path_forum = isset($_POST['p_path_forum']) ? $_POST['p_path_forum'] : substr($_SERVER['SCRIPT_FILENAME'],0,strlen($_SERVER['SCRIPT_FILENAME'])-12);
@@ -605,10 +604,10 @@ class BoardInstall {
 				if(isset($_GET['doit'])) {
 					if(file_exists($p_path_forum.'/install.php') == FALSE || file_exists($p_path_forum.'/auth.php') == FALSE || file_exists($p_path_forum.'/version.php') == FALSE) $error = $this->strings['error_wrong_path'];
 					else {
-						$DB->query("UPDATE ".$_SESSION['tableprefix']."config SET config_value='$p_path_forum' WHERE config_name='path_to_forum'");
-						$DB->query("UPDATE ".$_SESSION['tableprefix']."config SET config_value='$p_board_address' WHERE config_name='board_address'");
-						$DB->query("UPDATE ".$_SESSION['tableprefix']."config SET config_value='$p_enable_file_upload' WHERE config_name='enable_file_upload'");
-						$DB->query("UPDATE ".$_SESSION['tableprefix']."config SET config_value='$p_enable_avatar_upload' WHERE config_name='enable_avatar_upload'");
+						$this->DB->query("UPDATE ".$_SESSION['tableprefix']."config SET config_value='$p_path_forum' WHERE config_name='path_to_forum'");
+						$this->DB->query("UPDATE ".$_SESSION['tableprefix']."config SET config_value='$p_board_address' WHERE config_name='board_address'");
+						$this->DB->query("UPDATE ".$_SESSION['tableprefix']."config SET config_value='$p_enable_file_upload' WHERE config_name='enable_file_upload'");
+						$this->DB->query("UPDATE ".$_SESSION['tableprefix']."config SET config_value='$p_enable_avatar_upload' WHERE config_name='enable_avatar_upload'");
 
 						if($_SESSION['keep_data'] == TRUE && $p_create_admin != 1) header("Location: install.php?step=9&$MYSID");
 						else header("Location: install.php?step=8&$MYSID");
@@ -636,23 +635,23 @@ class BoardInstall {
 					<tr><td colspan="2"><span class="fontnorm"><?php echo $this->strings['board_configuration_info']; ?></span></td></tr>
 					<tr><td colspan="2"><span class="fontnorm">&nbsp;</span></td></tr>
 					<tr>
-					 <td width="40%"><span class="fontnorm"><b><?php echo $this->strings['Path_to_forum']; ?></b></span><br /><span class="fontsmall"><?php echo $this->strings['path_to_forum_info']; ?></span></td>
-					 <td width="60%"><input class="form_text" name="p_path_forum" value="<?php echo $p_path_forum; ?>" size="50" /></td>
+					 <td width="40%"><span class="fontnorm"><b><?php echo $this->strings['Path_to_forum']; ?></b></span><br/><span class="fontsmall"><?php echo $this->strings['path_to_forum_info']; ?></span></td>
+					 <td width="60%"><input class="form_text" name="p_path_forum" value="<?php echo $p_path_forum; ?>" size="50"/></td>
 					</tr>
 					<tr>
-					 <td width="40%"><span class="fontnorm"><b><?php echo $this->strings['Board_address']; ?></b></span><br /><span class="fontsmall"><?php echo $this->strings['board_address_info']; ?></span></td>
-					 <td width="60%"><input class="form_text" name="p_board_address" value="<?php echo $p_board_address; ?>" size="50" /></td>
+					 <td width="40%"><span class="fontnorm"><b><?php echo $this->strings['Board_address']; ?></b></span><br/><span class="fontsmall"><?php echo $this->strings['board_address_info']; ?></span></td>
+					 <td width="60%"><input class="form_text" name="p_board_address" value="<?php echo $p_board_address; ?>" size="50"/></td>
 					</tr>
 					<tr>
-					 <td width="40%"><span class="fontnorm"><b><?php echo $this->strings['Enable_file_upload']; ?></b></span><br /><span class="fontsmall"><?php echo $this->strings['enable_file_upload_info']; ?></span></td>
+					 <td width="40%"><span class="fontnorm"><b><?php echo $this->strings['Enable_file_upload']; ?></b></span><br/><span class="fontsmall"><?php echo $this->strings['enable_file_upload_info']; ?></span></td>
 					 <td width="60%"><select name="p_enable_file_upload"><option value="1"<?php echo $checked['enable_file_upload_1']; ?>><?php echo $this->strings['Yes']; ?></option><option value="0"<?php echo $checked['enable_file_upload_0']; ?>><?php echo $this->strings['No']; ?></option></select></td>
 					</tr>
 					<tr>
-					 <td width="40%"><span class="fontnorm"><b><?php echo $this->strings['Enable_avatar_upload']; ?></b></span><br /><span class="fontsmall"><?php echo $this->strings['enable_avatar_upload_info']; ?></span></td>
+					 <td width="40%"><span class="fontnorm"><b><?php echo $this->strings['Enable_avatar_upload']; ?></b></span><br/><span class="fontsmall"><?php echo $this->strings['enable_avatar_upload_info']; ?></span></td>
 					 <td width="60%"><select name="p_enable_avatar_upload"><option value="1"<?php echo $checked['enable_avatar_upload_1']; ?>><?php echo $this->strings['Yes']; ?></option><option value="0"<?php echo $checked['enable_avatar_upload_0']; ?>><?php echo $this->strings['No']; ?></option></select></td>
 					</tr>
 					</table>
-					<br />
+					<br/>
 					<table class="standard_table" border="0" cellpadding="2" cellspacing="0" width="100%">
 					<tr><td><span class="fontnorm">
 				<?php
@@ -660,7 +659,7 @@ class BoardInstall {
 				if($_SESSION['keep_data'] == TRUE) {
 					echo $this->strings['create_admin_keep_data_info'];
 					?>
-						<br />
+						<br/>
 						<b><?php echo $this->strings['Create_another_admin']; ?>: </b> <select name="p_create_admin"><option value="0"<?php echo $checked['create_admin_0']; ?>><?php echo $this->strings['No']; ?></option><option value="1"<?php echo $checked['create_admin_1']; ?>><?php echo $this->strings['Yes']; ?></option></select>
 					<?php
 				}
@@ -669,9 +668,9 @@ class BoardInstall {
 				?>
 					</span></td></tr>
 					</table>
-					<br />
+					<br/>
 					<table class="standard_table" border="0" cellpadding="2" cellspacing="0" width="100%">
-					<tr><td align="right"><input class="form_button" type="submit" name="p_button_back" value="<?php echo $this->strings['Back']; ?>" />&nbsp;&nbsp;&nbsp;<input class="form_bold_button" type="submit" name="p_button_next" value="<?php echo $this->strings['Next']; ?>" /></td></tr>
+					<tr><td align="right"><input class="form_button" type="submit" name="p_button_back" value="<?php echo $this->strings['Back']; ?>"/>&nbsp;&nbsp;&nbsp;<input class="form_bold_button" type="submit" name="p_button_next" value="<?php echo $this->strings['Next']; ?>"/></td></tr>
 					</table>
 					</form>
 				<?php
@@ -686,7 +685,7 @@ class BoardInstall {
 					break;
 				}
 
-				$DB = new db;
+				$this->DB = new db;
 				install_connect_db();
 
 				$p_user_name = isset($_POST['p_user_name']) ? $_POST['p_user_name'] : '';
@@ -705,7 +704,7 @@ class BoardInstall {
 					elseif(trim($p_password) == '') $error = $this->strings['error_invalid_password'];
 					elseif($p_password != $p_password_confirmation) $error = $this->strings['error_pws_no_match'];
 					else {
-						$DB->query("INSERT INTO ".TBLPFX."users (user_status,user_is_admin,user_nick,user_email,user_pw,user_regtime) VALUES ('1','1','$p_user_name','$p_email_address','".mycrypt($p_password)."','".time()."')");
+						$this->DB->query("INSERT INTO ".TBLPFX."users (user_status,user_is_admin,user_nick,user_email,user_pw,user_regtime) VALUES ('1','1','$p_user_name','$p_email_address','".mycrypt($p_password)."','".time()."')");
 						header("Location: install.php?step=9&$MYSID"); exit;
 					}
 
@@ -721,29 +720,29 @@ class BoardInstall {
 					<tr><td colspan="2"><span class="fontnorm">&nbsp;</span></td></tr>
 					<?php if($error != '') echo '<tr><td class="error" colspan="2"><span class="fonterror">'.$error.'</span></td></tr>'; ?>
 					<tr>
-					 <td width="25%"><span class="fontnorm"><b><?php echo $this->strings['User_name']; ?>:</b></span><br /><span class="fontsmall"><?php echo $this->strings['user_name_info']; ?></span></td>
-					 <td width="75%"><input type="text" class="form_text" name="p_user_name" value="<?php echo $p_user_name; ?>" size="16" maxlength="15" /></td>
+					 <td width="25%"><span class="fontnorm"><b><?php echo $this->strings['User_name']; ?>:</b></span><br/><span class="fontsmall"><?php echo $this->strings['user_name_info']; ?></span></td>
+					 <td width="75%"><input type="text" class="form_text" name="p_user_name" value="<?php echo $p_user_name; ?>" size="16" maxlength="15"/></td>
 					</tr>
 					<tr>
 					 <td width="25%"><span class="fontnorm"><b><?php echo $this->strings['Email_address']; ?>:</b></span></td>
-					 <td width="75%"><input type="text" class="form_text" name="p_email_address" value="<?php echo $p_email_address; ?>" size="30" /></td>
+					 <td width="75%"><input type="text" class="form_text" name="p_email_address" value="<?php echo $p_email_address; ?>" size="30"/></td>
 					</tr>
 					<tr>
 					 <td width="25%"><span class="fontnorm"><b><?php echo $this->strings['Email_address_confirmation']; ?>:</b></span></td>
-					 <td width="75%"><input type="text" class="form_text" name="p_email_address_confirmation" value="<?php echo $p_email_address_confirmation; ?>" size="30" /></td>
+					 <td width="75%"><input type="text" class="form_text" name="p_email_address_confirmation" value="<?php echo $p_email_address_confirmation; ?>" size="30"/></td>
 					</tr>
 					<tr>
 					 <td width="25%"><span class="fontnorm"><b><?php echo $this->strings['Password']; ?>:</b></span></td>
-					 <td width="75%"><input type="password" class="form_text" name="p_password" value="" size="20" /></td>
+					 <td width="75%"><input type="password" class="form_text" name="p_password" value="" size="20"/></td>
 					</tr>
 					<tr>
 					 <td width="25%"><span class="fontnorm"><b><?php echo $this->strings['Password_confirmation']; ?>:</b></span></td>
-					 <td width="75%"><input type="password" class="form_text" name="p_password_confirmation" value="" size="20" /></td>
+					 <td width="75%"><input type="password" class="form_text" name="p_password_confirmation" value="" size="20"/></td>
 					</tr>
 					</table>
-					<br />
+					<br/>
 					<table class="standard_table" border="0" cellpadding="2" cellspacing="0" width="100%">
-					<tr><td align="right"><input class="form_button" type="submit" name="p_button_back" value="<?php echo $this->strings['Back']; ?>" />&nbsp;&nbsp;&nbsp;<input class="form_bold_button" type="submit" name="p_button_next" value="<?php echo $this->strings['Next']; ?>" /></td></tr>
+					<tr><td align="right"><input class="form_button" type="submit" name="p_button_back" value="<?php echo $this->strings['Back']; ?>"/>&nbsp;&nbsp;&nbsp;<input class="form_bold_button" type="submit" name="p_button_next" value="<?php echo $this->strings['Next']; ?>"/></td></tr>
 					</table>
 					</form>
 				<?php
@@ -758,7 +757,7 @@ class BoardInstall {
 					break;
 				}
 
-				$DB = new db;
+				$this->DB = new db;
 				install_connect_db();
 
 				$error = '';
@@ -772,7 +771,7 @@ class BoardInstall {
 							flock($fp,LOCK_UN);
 							fclose($fp);
 
-							$message = (chmod('dbconfig.php',0775) == TRUE) ? '' : '<br /><b>'.$this->strings['Cannot_set_chmod'].'</b>';
+							$message = (chmod('dbconfig.php',0775) == TRUE) ? '' : '<br/><b>'.$this->strings['Cannot_set_chmod'].'</b>';
 
 							cache_set_all_data();
 
@@ -816,9 +815,9 @@ class BoardInstall {
 
 				?>
 					</table>
-					<br />
+					<br/>
 					<table class="standard_table" border="0" cellpadding="2" cellspacing="0" width="100%">
-					<tr><td align="right"><input class="form_button" type="submit" name="p_button_back" value="<?php echo $this->strings['Back']; ?>" />&nbsp;&nbsp;&nbsp;<input class="form_bold_button" type="submit" name="p_button_next" value="<?php echo $this->strings['Next']; ?>" /></td></tr>
+					<tr><td align="right"><input class="form_button" type="submit" name="p_button_back" value="<?php echo $this->strings['Back']; ?>"/>&nbsp;&nbsp;&nbsp;<input class="form_bold_button" type="submit" name="p_button_next" value="<?php echo $this->strings['Next']; ?>"/></td></tr>
 					</table>
 					</form>
 				<?php
@@ -830,13 +829,20 @@ class BoardInstall {
 	}
 
 	function connect() {
-		if($DB->connect($_SESSION['dbserver'],$_SESSION['dbuser'],$_SESSION['dbpassword']) == FALSE) die(sprintf($this->strings['error_connecting_database_server'],$DB->error()));
-		elseif($DB->select_db($_SESSION['dbname']) == FALSE) die(sprintf($this->strings['error_invalid_unknown_database_name'],$DB->error()));
-		elseif(preg_match('/^[a-z0-9_]{0,}$/i',$_SESSION['tableprefix']) == FALSE) die($this->strings['error_invalid_table_prefix']);
+		if(!$this->DB->connect($_SESSION['dbserver'],$_SESSION['dbuser'],$_SESSION['dbpassword'],$_SESSION['dbname'])) die(sprintf($this->strings['error_connecting_database_server'],$this->DB->getConnectError()));
+		elseif(!preg_match('/^[a-z0-9_]{0,}$/i',$_SESSION['tableprefix'])) die($this->strings['error_invalid_table_prefix']);
 
 		define('TBLPFX',$_SESSION['tableprefix']);
 
 		return TRUE;
+	}
+
+	public function raw2Array() {
+		$temp = array();
+		while($curRow = $this->DB->fetchArray())
+			$temp[] = $curRow;
+
+		return $temp;
 	}
 
 	protected function loadLanguage() {
@@ -1052,17 +1058,11 @@ class BoardInstall {
 		</table>
 		</td></tr>
 		</table>
-		<br /><br /><div align="center"><table class="tbl" cellspacing="1" cellpadding="3"><tr><td class="tdwhite"><span class="fontsmall">Tritanium Bulletin Board 2 Installation<br />&copy; 2003-2005 <a href="http://www.tritanium-scripts.com" target="_blank">Tritanium Scripts</a></span></td></tr></table></div>
+		<br/><br/><div align="center"><table class="tbl" cellspacing="1" cellpadding="3"><tr><td class="tdwhite"><span class="fontsmall">Tritanium Bulletin Board 2 Installation<br/>&copy; 2003-2005 <a href="http://www.tritanium-scripts.com" target="_blank">Tritanium Scripts</a></span></td></tr></table></div>
 		</body>
 		</html>
 		<?php
 	}
 }
-exit;
-
-
-//
-// Und weiter gehts...
-//
 
 ?>

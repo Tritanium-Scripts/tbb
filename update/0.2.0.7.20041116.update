@@ -1,0 +1,91 @@
+$DB->query("ALTER TABLE ".TBLPFX."users ADD user_memo TEXT DEFAULT '' NOT NULL");
+$DB->query("DROP TABLE IF EXISTS ".TBLPFX."profile_fields");
+$DB->query("DROP TABLE IF EXISTS ".TBLPFX."profile_fields_data");
+$DB->query("CREATE TABLE IF NOT EXISTS ".TBLPFX."profile_fields (
+	field_id SMALLINT(5) UNSIGNED AUTO_INCREMENT,
+	field_name VARCHAR(255) DEFAULT '' NOT NULL,
+	field_type TINYINT(1) UNSIGNED DEFAULT '0' NOT NULL,
+	field_is_required TINYINT(1) UNSIGNED DEFAULT '0' NOT NULL,
+	field_show_registration TINYINT(1) UNSIGNED DEFAULT '0' NOT NULL,
+	field_show_memberlist TINYINT(1) UNSIGNED DEFAULT '0' NOT NULL,
+	field_link VARCHAR(255) DEFAULT '' NOT NULL,
+	field_data TEXT DEFAULT '' NOT NULL,
+	field_regex_verification VARCHAR(255) DEFAULT '' NOT NULL,
+	PRIMARY KEY (field_id)
+)");
+$DB->query("CREATE TABLE IF NOT EXISTS ".TBLPFX."profile_fields_data (
+	field_id SMALLINT(8) UNSIGNED DEFAULT '0' NOT NULL,
+	user_id MEDIUMINT(8) UNSIGNED DEFAULT '0' NOT NULL,
+	field_value TEXT DEFAULT '' NOT NULL,
+	KEY field_id (field_id),
+	KEY user_id_field_id (user_id,field_id)
+)");
+
+$DB->query("SELECT user_id,user_icq,user_aim,user_msn,user_yahoo,user_hp,user_interests,user_realname,user_location FROM ".TBLPFX."users");
+$users_data = $DB->raw2array();
+
+$DB->query("INSERT INTO ".TBLPFX."profile_fields (field_name,field_type) VALUES ('".$LNG['Homepage']."','0')");
+$cur_field_id = $DB->insert_id;
+foreach($users_data AS $cur_user) {
+	if($cur_user['user_hp'] != '')
+		$DB->query("INSERT INTO ".TBLPFX."profile_fields_data (field_id,user_id,field_value) VALUES ('$cur_field_id','".$cur_user['user_id']."','".mysql_escape_string($cur_user['user_hp'])."')");
+}
+$DB->query("ALTER TABLE ".TBLPFX."users DROP user_hp");
+
+$DB->query("INSERT INTO ".TBLPFX."profile_fields (field_name,field_type,field_regex_verification) VALUES ('".$LNG['ICQ']."','0','/^[0-9]{1,}$/si')");
+$cur_field_id = $DB->insert_id;
+foreach($users_data AS $cur_user) {
+	if($cur_user['user_icq'] != '')
+		$DB->query("INSERT INTO ".TBLPFX."profile_fields_data (field_id,user_id,field_value) VALUES ('$cur_field_id','".$cur_user['user_id']."','".mysql_escape_string($cur_user['user_icq'])."')");
+}
+$DB->query("ALTER TABLE ".TBLPFX."users DROP user_icq");
+
+$DB->query("INSERT INTO ".TBLPFX."profile_fields (field_name,field_type) VALUES ('".$LNG['AIM']."','0')");
+$cur_field_id = $DB->insert_id;
+foreach($users_data AS $cur_user) {
+	if($cur_user['user_aim'] != '')
+		$DB->query("INSERT INTO ".TBLPFX."profile_fields_data (field_id,user_id,field_value) VALUES ('$cur_field_id','".$cur_user['user_id']."','".mysql_escape_string($cur_user['user_aim'])."')");
+}
+$DB->query("ALTER TABLE ".TBLPFX."users DROP user_aim");
+
+$DB->query("INSERT INTO ".TBLPFX."profile_fields (field_name,field_type) VALUES ('".$LNG['MSN']."','0')");
+$cur_field_id = $DB->insert_id;
+foreach($users_data AS $cur_user) {
+	if($cur_user['user_msn'] != '')
+		$DB->query("INSERT INTO ".TBLPFX."profile_fields_data (field_id,user_id,field_value) VALUES ('$cur_field_id','".$cur_user['user_id']."','".mysql_escape_string($cur_user['user_msn'])."')");
+}
+$DB->query("ALTER TABLE ".TBLPFX."users DROP user_msn");
+
+$DB->query("INSERT INTO ".TBLPFX."profile_fields (field_name,field_type) VALUES ('".$LNG['Yahoo']."','0')");
+$cur_field_id = $DB->insert_id;
+foreach($users_data AS $cur_user) {
+	if($cur_user['user_yahoo'] != '')
+		$DB->query("INSERT INTO ".TBLPFX."profile_fields_data (field_id,user_id,field_value) VALUES ('$cur_field_id','".$cur_user['user_id']."','".mysql_escape_string($cur_user['user_yahoo'])."')");
+}
+$DB->query("ALTER TABLE ".TBLPFX."users DROP user_yahoo");
+
+$DB->query("INSERT INTO ".TBLPFX."profile_fields (field_name,field_type) VALUES ('".$LNG['Location']."','0')");
+$cur_field_id = $DB->insert_id;
+foreach($users_data AS $cur_user) {
+	if($cur_user['user_location'] != '')
+		$DB->query("INSERT INTO ".TBLPFX."profile_fields_data (field_id,user_id,field_value) VALUES ('$cur_field_id','".$cur_user['user_id']."','".mysql_escape_string($cur_user['user_location'])."')");
+}
+$DB->query("ALTER TABLE ".TBLPFX."users DROP user_location");
+
+$DB->query("INSERT INTO ".TBLPFX."profile_fields (field_name,field_type) VALUES ('".$LNG['Interests']."','1')");
+$cur_field_id = $DB->insert_id;
+foreach($users_data AS $cur_user) {
+	if($cur_user['user_interests'] != '')
+		$DB->query("INSERT INTO ".TBLPFX."profile_fields_data (field_id,user_id,field_value) VALUES ('$cur_field_id','".$cur_user['user_id']."','".mysql_escape_string($cur_user['user_interests'])."')");
+}
+$DB->query("ALTER TABLE ".TBLPFX."users DROP user_interests");
+
+$DB->query("INSERT INTO ".TBLPFX."profile_fields (field_name,field_type) VALUES ('".$LNG['Real_name']."','0')");
+$cur_field_id = $DB->insert_id;
+foreach($users_data AS $cur_user) {
+	if($cur_user['user_realname'] != '')
+		$DB->query("INSERT INTO ".TBLPFX."profile_fields_data (field_id,user_id,field_value) VALUES ('$cur_field_id','".$cur_user['user_id']."','".mysql_escape_string($cur_user['user_realname'])."')");
+}
+$DB->query("ALTER TABLE ".TBLPFX."users DROP user_realname");
+
+$NEXT_UPDATE_FILE = '0.2.0.8.20050121.update';
