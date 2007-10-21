@@ -504,6 +504,9 @@ div.DivInfoBox {
  * Bilder
  *
  */
+img {
+    border:none;
+}
 img.ImageIcon {
 	margin-right:4px;
 	float:left;
