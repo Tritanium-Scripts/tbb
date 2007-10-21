@@ -10,9 +10,9 @@ class TSMySQL {
 	}
 
 	public function connect($dbServer,$dbUser,$dbPassword,$dbName) {
-		$this->dbObject->connect($dbServer,$dbUser,$dbPassword,$dbName);
+		@$this->dbObject->connect($dbServer,$dbUser,$dbPassword,$dbName);
 		if(mysqli_connect_error() != '') {
-			$this->connectError = mysql_connect_error();
+			$this->connectError = mysqli_connect_error();
 			return FALSE;
 		}
 
