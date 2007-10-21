@@ -49,7 +49,7 @@ class Language extends ModuleTemplate {
                     //Ergebnisse speichern
 				    if(count($matches) == 3) {
 					    $this->strings[$matches[1]] = $matches[2];
-                        $toWrite[] = '$this->strings[\''.$matches[1].'\'] = \''.addslashes($matches[2]).'\'';
+                        $toWrite[] = '$this->strings[\''.$matches[1].'\'] = \''.addcslashes($matches[2],'\'').'\'';
                     }
 			    }
                 //Datei cachen
