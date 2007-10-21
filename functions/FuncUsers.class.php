@@ -46,7 +46,7 @@ class FuncUsers {
 
 	public static function updateLatestUser($userID = '',$userNick = '') {
 		$DB = Factory::singleton('DB');
-		$Config = Factory::singleton('CONFIG');
+		$Config = Factory::singleton('Config');
 
 		if($userID == '' || $userNick == '') {
 			$DB->query('
