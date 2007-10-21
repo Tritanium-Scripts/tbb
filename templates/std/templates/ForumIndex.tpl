@@ -1,4 +1,4 @@
-<script>
+<script type="text/javascript"><![CDATA[
 
 templateDir = "{$modules.Template->getTemplateDir()}";
 closedCatIDs = new Array();
@@ -38,7 +38,7 @@ initializeClosedCatIDs();
 
 {/literal}
 
-</script>
+]]></script>
 {if $newsData != FALSE}
  <table class="TableStd" width="100%">
  <tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('Latest_news')}</span></td></tr>
