@@ -22,7 +22,7 @@ class Register extends ModuleTemplate {
 			FuncMisc::printMessage('registration_disabled');
 			exit;
 		}
-		elseif($this->modules['Config']->getValue('maximum_registrations') != -1 && $this->modules['Config']->getValue('maximum_registrations') <= Functions::getUsersCounter()) { // Gibt es eine Grenze an maximalen Registrierungen/ist diese ueberschritten?
+		elseif($this->modules['Config']->getValue('maximum_registrations') != -1 && $this->modules['Config']->getValue('maximum_registrations') <= FuncUsers::getUsersCounter()) { // Gibt es eine Grenze an maximalen Registrierungen/ist diese ueberschritten?
 			$this->modules['Navbar']->addElement($this->modules['Language']->getString('Too_many_registrations'),INDEXFILE.'?Action=Register&amp'.MYSID);
 			FuncMisc::printMessage('too_many_registrations');
 			exit;
@@ -94,7 +94,7 @@ class Register extends ModuleTemplate {
 					elseif($fieldIsInvalid) $error = $this->modules['Language']->getString('error_bad_information');
 					else {
 						// Falls noch kein User existiert, wird man automatisch als Admin registriert
-						$userIsAdmin = (Functions::getUsersCounter() == 0) ? 1 : 0;
+						$userIsAdmin = (FuncUsers::getUsersCounter() == 0) ? 1 : 0;
 
 						// Im Folgenden wird ueberprueft, ob der User Admin ist. Ist er kein Admin,
 						// wird ueberprueft, ob er seine Emailadresse irgendwie verifizieren muss
