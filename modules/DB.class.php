@@ -34,7 +34,7 @@ class DB extends ModuleTemplate {
 	}
 
 	public function getInsertID() {
-		return $this->dbObject->insert_id;
+		return $this->dbObject->getInsertID();
 	}
 
 	public function raw2Array() {
