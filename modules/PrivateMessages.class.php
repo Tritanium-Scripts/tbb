@@ -18,7 +18,7 @@ class PrivateMessages extends ModuleTemplate {
 	}
 
 	public function printHeader() {
-		$this->modules['DB']->query("SELECT folderName,folderID FROM ".TBLPFX."pms_folders WHERE userID='".USERID."' ORDER BY folderName");
+        $this->modules['DB']->queryParams('SELECT "folderName", "folderID" FROM '.TBLPFX.'pms_folders WHERE "userID"=$1 ORDER BY "folderName"', array(USERID));
 		$headerFoldersData = $this->modules['DB']->raw2Array();
 
 		array_unshift($headerFoldersData, // Fuegt an den Anfang die Standardordner hinzu...
@@ -58,7 +58,7 @@ class PrivateMessages extends ModuleTemplate {
 				if($folderID == 0) $folderData = $inboxFolderData;
 				elseif($folderID == 1) $folderData = $outboxFolderData;
 				else {
-					$this->modules['DB']->query("SELECT folderID, folderName FROM ".TBLPFX."pms_folders WHERE userID='".USERID."' AND folderID='$folderID'");
+                    $this->modules['DB']->queryParams('SELECT "folderID", "folderName" FROM '.TBLPFX.'pms_folders WHERE "userID"=$1 AND "folderID"=$2', array(USERID, $folderID));
 					if($this->modules['DB']->getAffectedRows() == 0) {
 						$folderData = $inboxFolderData;
 						$folderID = 0;
@@ -66,7 +66,7 @@ class PrivateMessages extends ModuleTemplate {
 					else $folderData = $this->modules['DB']->fetchArray();
 				}
 
-				$this->modules['DB']->query("SELECT COUNT(*) FROM ".TBLPFX."pms WHERE PMToID='".USERID."' AND FolderID='$folderID'");
+                $this->modules['DB']->queryParams('SELECT COUNT(*) FROM '.TBLPFX.'pms WHERE "PMToID"=$1 AND "FolderID"=$2', array(USERID, $folderID));
 				list($pmsCounter) = $this->modules['DB']->fetchArray();
 
 				$pmsPerPage = 20;
@@ -77,28 +77,33 @@ class PrivateMessages extends ModuleTemplate {
 				$start = $page*$pmsPerPage-$pmsPerPage;
 
 				// PM-Daten laden
-				$this->modules['DB']->query("
-					SELECT
-						t1.pmID,
-						t1.pmSubject,
-						t1.pmMessageText,
-						t1.pmSendTimestamp,
-						t1.pmFromID,
-						t1.pmType,
-						t1.pmIsRead,
-						t1.pmIsReplied,
-						t1.pmGuestNick,
-						t2.userNick AS pmFromNick
-					FROM
-						".TBLPFX."pms AS t1
-					LEFT JOIN ".TBLPFX."users AS t2 ON t1.pmFromID=t2.userID
-					WHERE
-						pmToID='".USERID."'
-						AND folderID='$folderID'
-					ORDER BY
-						pmSendTimestamp DESC
-					LIMIT $start,$pmsPerPage
-				");
+                $this->modules['DB']->queryParams('
+                    SELECT
+                        t1."pmID",
+                        t1."pmSubject",
+                        t1."pmMessageText",
+                        t1."pmSendTimestamp",
+                        t1."pmFromID",
+                        t1."pmType",
+                        t1."pmIsRead",
+                        t1."pmIsReplied",
+                        t1."pmGuestNick",
+                        t2."userNick" AS "pmFromNick"
+                    FROM
+                        '.TBLPFX.'pms AS t1
+                    LEFT JOIN '.TBLPFX.'users AS t2 ON t1."pmFromID"=t2."userID"
+                    WHERE
+                        "pmToID"=$1
+                        AND "folderID"=$2
+                    ORDER BY
+                        "pmSendTimestamp" DESC
+                    LIMIT $3, $4
+                ', array(
+                    USERID,
+                    $folderID,
+                    $start,
+                    $pmsPerPage
+                ));
 
 				$pmsData = array();
 				while($curPM = $this->modules['DB']->fetchArray()) {
@@ -111,7 +116,7 @@ class PrivateMessages extends ModuleTemplate {
 					$pmsData[] = $curPM;
 				}
 
-				$this->modules['DB']->query("SELECT * FROM ".TBLPFX."pms_folders WHERE userID='".USERID."' ORDER BY folderName ASC");
+                $this->modules['DB']->queryParams('SELECT * FROM '.TBLPFX.'pms_folders WHERE "userID"=$1 ORDER BY "folderName" ASC', array(USERID));
 				$foldersData = array_merge(array($inboxFolderData,$outboxFolderData),$this->modules['DB']->raw2Array());
 
 				while(list($curKey) = each($foldersData))
@@ -157,7 +162,7 @@ class PrivateMessages extends ModuleTemplate {
 						else $recipientsID[] = $curRecipient;
 					}
 
-					$this->modules['DB']->query("SELECT userID FROM ".TBLPFX."users WHERE userID IN ('".implode("','",$recipientsID)."') OR userNick IN ('".implode("','",$recipientsNick)."') GROUP BY userID");
+                    $this->modules['DB']->queryParams('SELECT "userID" FROM '.TBLPFX.'users WHERE "userID" IN $1 OR "userNick" IN $2 GROUP BY "userID"', array($recipientsID, $recipientsNick)); //IN ('".implode("','",$recipientsID)."') OR userNick IN ('".implode("','",$recipientsNick)."') GROUP BY userID");
 					$recipients = $this->modules['DB']->raw2FVArray();
 
 					if(count($recipients) == 0) $error = $this->modules['Language']->getString('error_no_recipient');
@@ -165,24 +170,38 @@ class PrivateMessages extends ModuleTemplate {
 					elseif(trim($p['pmMessageText']) == '') $error = $this->modules['Language']->getString('error_no_message');
 					else {
 						foreach($recipients AS $curRecipient) {
-							$this->modules['DB']->query("
-								INSERT INTO
-									".TBLPFX."pms
-								SET
-									folderID='0',
-									pmFromID='".USERID."',
-									pmToID='".$curRecipient."',
-									pmIsRead='0',
-									pmType='0',
-									pmSubject='".$p['pmSubject']."',
-									pmMessageText='".$p['pmMessageText']."',
-									pmSendTimestamp='".time()."',
-									pmEnableBBCode='".$c['enableBBCode']."',
-									pmEnableSmilies='".$c['enableSmilies']."',
-									pmEnableHtmlCode='".$c['enableHtmlCode']."',
-									pmShowSignature='".$c['showSignature']."',
-									pmRequestReadReceipt='".$c['requestReadReceipt']."'
-							");
+                            $this->modules['DB']->queryParams('
+                                INSERT INTO
+                                    '.TBLPFX.'pms
+                                SET
+                                    "folderID"=0,
+                                    "pmFromID"=$1,
+                                    "pmToID"=$2,
+                                    "pmIsRead"=0,
+                                    "pmType"=0,
+                                    "pmSubject"=$3,
+                                    "pmMessageText"=$4,
+                                    "pmSendTimestamp"=$5,
+                                    "pmEnableBBCode"=$6,
+                                    "pmEnableSmilies"=$7,
+                                    "pmEnableHtmlCode"=$8
+                                    "pmShowSignature"=$9,
+                                    "pmRequestReadReceipt"=$10
+                            ', array(
+
+                                USERID,
+                                $curRecipient,
+
+
+                                $p['pmSubject'],
+                                $p['pmMessageText'],
+                                time(),
+                                $c['enableBBCode'],
+                                $c['enableSmilies'],
+                                $c['enableHtmlCode'],
+                                $c['showSignature'],
+                                $c['requestReadReceipt']
+                            ));
 
 							if($c['saveOutbox'] == 1) {
 								$this->modules['DB']->query("
