@@ -36,7 +36,8 @@ class Login extends ModuleTemplate {
 					elseif($userData['userIsActivated'] != 1) $error = sprintf($this->modules['Language']->getString('error_inactive_account'),$userData['userNick']);
 					elseif(Functions::getSaltedHash($p['userPassword'],$userData['userPasswordSalt']) != $userData['userPassword'] && ($userData['userNewPassword'] == '' || Functions::getSaltedHash($p['userPassword'],$userData['userNewPasswordSalt']) != $userData['userNewPassword'])) $error = $this->modules['Language']->getString('error_wrong_password');
 					elseif($userData['userIsLocked'] == 1 && Functions::checkLockStatus($userData['userID'])) { // Falls der Benutzer sich nicht mehr einloggen darf
-						$dB->query("SELECT lock_start_time,lock_dur_time FROM ".TBLPFX."users_locks WHERE user_id='".$p_user_data['user_id']."'");
+                        //$dB oder modules['DB'] ????
+                        $dB->queryParams('SELECT "lock_start_time", "lock_dur_time" FROM '.TBLPFX.'users_locks WHERE "user_id"=$1', array($p_user_data['user_id']));
 						$lock_data = $dB->fetch_array();
 
 						if($lock_data['lock_dur_time'] == 0) $remaining_lock_time = $this->modules['Language']->getString('locked_forever');
@@ -67,7 +68,7 @@ class Login extends ModuleTemplate {
 						//
 						$this->modules['Auth']->setSessionUserID($userData['userID']);
 						$this->modules['Auth']->setSessionUserPassword($userData['userPassword']);
-						$this->modules['DB']->query("UPDATE ".TBLPFX."sessions SET sessionUserID='".$userData['userID']."', sessionIsGhost='".$c['enableGhostMode']."' WHERE sessionID='".session_id()."'");
+                        $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'sessions SET "sessionUserID"=$1, "sessionIsGhost"=$2 WHERE "sessionID"=$3', array($userData['userID'], $c['enableGhostMode'], session_id()));
 
 						//
 						// Jetzt wird (falls im Browser aktiviert) ein Cookie gesetzt. Entweder
@@ -84,9 +85,9 @@ class Login extends ModuleTemplate {
 						// oder um das alte Passwort durch das neue zu ersetzen.
 						//
 						if(Functions::getSaltedHash($p['userPassword'],$userData['userPasswordSalt']) == $userData['userPassword'] && $userData['userNewPassword'] != '')
-							$this->modules['DB']->query("UPDATE ".TBLPFX."users SET userNewPassword='', userNewPasswordSalt='' WHERE userID='".$userData['userID']."'");
+                            $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'users SET "userNewPassword"=\'\', "userNewPasswordSalt"=\'\' WHERE "userID"=$1', array($userData['userID']));
 						elseif($userData['userNewPassword'] != '' && Functions::getSaltedHash($p['userPassword'],$userData['userNewPasswordSalt']) == $userData['userNewPassword'])
-							$this->modules['DB']->query("UPDATE ".TBLPFX."users SET userNewPassword='', userNewPasswordSalt='', userPassword='".$userData['userNewPassword']."', userPasswordSalt='".$userData['userPasswordSalt']."' WHERE userID='".$userData['userID']."'");
+                            $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'users SET "userNewPassword"=\'\', "userNewPasswordSalt"=\'\', "userPassword"=$1, "userPasswordSalt"=$2 WHERE "userID"=$3', array($userData['userNewPassword'], $userData['userPasswordSalt'], $userData['userID']));
 
 						// set userLastVisit
 						$this->modules['DB']->queryParams('UPDATE '.TBLPFX.'users SET "userLastVisit"="userLastAction", "userLastAction"='.time().' WHERE "userID"=$1',array($userData['userID']));
@@ -124,15 +125,17 @@ class Login extends ModuleTemplate {
 						if($accountData['userIsActivated'] != 0 || $accountData['userHash'] == '') $error = $this->modules['Language']->getString('error_no_inactive_account');
 						elseif($accountData['userHash'] != $activationCode) $error = $this->modules['Language']->getString('error_wrong_activationCode');
 						else {
-							$this->modules['DB']->query("
-								UPDATE
-									".TBLPFX."users
-								SET
-									userIsActivated='1',
-									userHash=''
-								WHERE
-									userID='$accountID'
-							");
+                            $this->modules['DB']->queryParams('
+                                UPDATE
+                                    '.TBLPFX.'users
+                                SET
+                                    "userIsActivated"=1,
+                                    "userHash"=\'\'
+                                WHERE
+                                    "userID"=$1
+                            ', array(
+                                $accountID
+                            ));
 
 							$_SESSION['last_place_url'] = INDEXFILE.'?'.MYSID;
 
@@ -168,15 +171,19 @@ class Login extends ModuleTemplate {
 						$newPasswordSalt = Functions::getRandomString(10);
 						$newPasswordEncrypted = Functions::getSaltedHash($newPassword,$newPasswordSalt);
 
-						$this->modules['DB']->query("
-							UPDATE
-								".TBLPFX."users
-							SET
-								userNewPassword='$newPasswordEncrypted',
-								userNewPasswordSalt='$newPasswordSalt'
-							WHERE
-								userID='".$userData['userID']."'
-						");
+                        $this->modules['DB']->queryParams('
+                            UPDATE
+                                '.TBLPFX.'users
+                            SET
+                                "userNewPassword"=$1,
+                                "userNewPasswordSalt"=$2
+                            WHERE
+                                "userID"=$3
+                        ', array(
+                            $newPasswordEncrypted,
+                            $newPasswordSalt,
+                            $userData['userID']
+                        ));
 
 						if($this->modules['Config']->getValue('enable_email_functions') == 1) {
 							$this->modules['Template']->assign(array(
