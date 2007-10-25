@@ -229,8 +229,8 @@ class ForumIndex extends ModuleTemplate {
 				'.TBLPFX.'users t2
 			)
 			WHERE
-				t1."authType"=\'0\'
-				AND t1."authIsMod"=\'1\'
+				t1."authType"=0
+				AND t1."authIsMod"=1
 				AND t2."userID"=t1."authID"
 		');
 		return $this->modules['DB']->raw2Array();
@@ -253,8 +253,8 @@ class ForumIndex extends ModuleTemplate {
 				'.TBLPFX.'groups t2
 			)
 			WHERE
-				t1."authType"=\'1\'
-				AND t1."authIsMod"=\'1\'
+				t1."authType"=1
+				AND t1."authIsMod"=1
 				AND t2."groupID"=t1."authID"
 		');
 		return $this->modules['DB']->raw2Array();
@@ -272,7 +272,7 @@ class ForumIndex extends ModuleTemplate {
 		if($this->modules['Auth']->isLoggedIn() == 1 && $this->modules['Auth']->getValue('UserIsAdmin') != 1 && $this->modules['Auth']->getValue('UserIsSupermod') != 1) {
 			// First we check group permissions because
 			// user permissions will probably overwrite them
-			$this->modules['DB']->query('
+			$this->modules['DB']->queryParams('
 				SELECT
 					t1."forumID",
 					t1."authViewForum"
@@ -280,24 +280,28 @@ class ForumIndex extends ModuleTemplate {
 					'.TBLPFX.'forums_auth t1,
 					'.TBLPFX.'groups_members t2
 				WHERE
-					t1."authType"=\'1\'
+					t1."authType"=1
 					AND t1."authID"=t2."groupID"
-					AND t2."memberID"=\''.USERID.'\'
-			');
+					AND t2."memberID"=$1
+			', array(
+                USERID
+            ));
 			while($curData = $this->modules['DB']->fetchArray())
 				$forumsAuthData[$curData['forumID']] = $curData;
 
 
-			$this->modules['DB']->query('
+			$this->modules['DB']->queryParams('
 				SELECT
 					t1."forumID",
 					t1."authViewForum"
 				FROM
 					'.TBLPFX.'forums_auth t1
 				WHERE
-					t1."authType"=\'0\'
-					AND t1."authID"=\''.USERID.'\'
-			');
+					t1."authType"=0
+					AND t1."authID"=$1
+			', array(
+                USERID
+            ));
 			while($curData = $this->modules['DB']->fetchArray())
 				$forumsAuthData[$curData['forumID']] = $curData;
 		}
@@ -367,15 +371,17 @@ class ForumIndex extends ModuleTemplate {
 			$membersChecks = array();
 			$guests = '';
 
-			$this->modules['DB']->query('
+			$this->modules['DB']->queryParams('
 				SELECT
 					t1.*,
 					t2."userNick" AS "sessionUserNick"
 				FROM '.TBLPFX.'sessions t1
 				LEFT JOIN '.TBLPFX.'users t2 ON t1."sessionUserID"=t2."userID"
 				WHERE
-					"sessionLastUpdate">\''.($this->modules['DB']->fromUnixTimestamp(time()-$this->modules['Config']->getValue('wio_timeout')*60)).'\'
-			');
+					"sessionLastUpdate">$1
+			', array(
+                $this->modules['DB']->fromUnixTimestamp(time()-$this->modules['Config']->getValue('wio_timeout')*60)
+            ));
 			while($curData = $this->modules['DB']->fetchArray()) {
 				if($curData['sessionUserID'] == 0) $onlineGuestsCounter++;
 				elseif($curData['sessionIsGhost'] == 1) $onlineGhostsCounter++;
