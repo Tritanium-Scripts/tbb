@@ -3,7 +3,7 @@
  <table border="0" cellpadding="0" cellspacing="0" width="100%">
  <tr>
   <td><span class="FontNavbar">{$pageListing}</span></td>
-  <td align="right"><span class="FontNavbar"><a href="{$indexFile}?action=Posting&amp;mode=Topic&amp;forumID={$forumID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLC()}/AddTopic.png" border="0" alt="{$modules.Language->getString('Post_new_topic')}"/></a></span></td>
+  <td align="right"><span class="FontNavbar"><a href="{$indexFile}?action=Posting&amp;mode=Topic&amp;forumID={$forumID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLC()}/AddTopic.png" alt="{$modules.Language->getString('Post_new_topic')}"/></a></span></td>
  </tr>
  </table>
 </td></tr>
@@ -49,7 +49,7 @@
  <table border="0" cellpadding="0" cellspacing="0" width="100%">
  <tr>
   <td><span class="FontNavbar">{$pageListing}</span></td>
-  <td align="right"><span class="FontNavbar"><a href="{$indexFile}?action=Posting&amp;mode=Topic&amp;forumID={$forumID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLC()}/AddTopic.png" border="0" alt="{$modules.Language->getString('Post_new_topic')}"/></a></span></td>
+  <td align="right"><span class="FontNavbar"><a href="{$indexFile}?action=Posting&amp;mode=Topic&amp;forumID={$forumID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLC()}/AddTopic.png" alt="{$modules.Language->getString('Post_new_topic')}"/></a></span></td>
  </tr>
  </table>
 </td></tr>

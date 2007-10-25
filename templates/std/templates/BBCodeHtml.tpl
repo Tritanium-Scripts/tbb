@@ -15,7 +15,7 @@
 {elseif $b.bbCodeType == $smarty.const.BBCODE_CENTER}
  <p style="text-align:center;">{$b.centerText}</p>
 {elseif $b.bbCodeType == $smarty.const.BBCODE_IMAGE}
- <img src="{$b.imageAddress}" alt="" border="0"/>
+ <img src="{$b.imageAddress}" alt=""/>
 {elseif $b.bbCodeType == $smarty.const.BBCODE_LINK}
  <a href="{$b.linkAddress}" target="_blank">{$b.linkText}</a>
 {elseif $b.bbCodeType == $smarty.const.BBCODE_COLOR}

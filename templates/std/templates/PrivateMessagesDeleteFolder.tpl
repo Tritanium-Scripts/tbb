@@ -2,7 +2,7 @@
 <table class="TableStd" width="100%">
 <tr><td class="CellCat"><span class="FontCat">{$modules.Language->getString('Delete_folder')}</span></td></tr>
 <tr><td class="CellStd"><div class="DivInfoBox">
- <span class="FontNorm"><img src="{$modules.Template->getTemplateDir()}/images/icons/Attention.png" class="ImageIcon" alt="" border="0"/>{$modules.Language->getString('delete_folder_text')}</span>
+ <span class="FontNorm"><img src="{$modules.Template->getTemplateDir()}/images/icons/Attention.png" class="ImageIcon" alt=""/>{$modules.Language->getString('delete_folder_text')}</span>
  <br/>
  <select class="FormSelect" name="MoveFolderID">
   <option value="-1">{$modules.Language->getString('Delete_messages')}</option>

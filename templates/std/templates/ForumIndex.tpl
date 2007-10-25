@@ -60,7 +60,7 @@ initializeClosedCatIDs();
 {foreach from=$catsData item=curCat}
  {if $curCat.catID != $catID}
   <tbody>
-  <tr><td class="CellCat" colspan="6"><a href="javascript:switchCatStatus({$curCat.catID});"><img border="0" src="{$modules.Template->getTemplateDir()}/images/{if $curCat.catIsOpen == 1}minus{else}plus{/if}.gif" id="CatPic{$curCat.catID}"/></a>&nbsp;<span class="FontCat"><a class="FontCat" href="{$indexFile}?catID={$curCat.catID}&amp;{$mySID}">{$curCat.catName}</a></span></td></tr>
+  <tr><td class="CellCat" colspan="6"><a href="javascript:switchCatStatus({$curCat.catID});"><img src="{$modules.Template->getTemplateDir()}/images/{if $curCat.catIsOpen == 1}minus{else}plus{/if}.gif" id="CatPic{$curCat.catID}"/></a>&nbsp;<span class="FontCat"><a class="FontCat" href="{$indexFile}?catID={$curCat.catID}&amp;{$mySID}">{$curCat.catName}</a></span></td></tr>
   </tbody>
  {/if}
  <tbody id="CatForums{$curCat.catID}" style="{if $curCat.catIsOpen == 1}{else}display:none;{/if}">

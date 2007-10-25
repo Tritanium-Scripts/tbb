@@ -18,7 +18,7 @@
    <table border="0" cellpadding="3" cellspacing="0" width="100%">
     <tr>
     {foreach from=$avatarsData item=curAvatar name=avatarsLoop}
-     <td align="center"><a href="javascript:document.getElementsByName('p[avatarAddress]')[0].value = encodeURI('{$curAvatar.avatarAddress}'); document.forms.myForm.submit();"><img src="{$curAvatar.avatarAddress}" width="{$modules.Config->getValue('avatar_image_width')}" height="{$modules.Config->getValue('avatar_image_height')}" border="0" alt=""/></a></td>
+     <td align="center"><a href="javascript:document.getElementsByName('p[avatarAddress]')[0].value = encodeURI('{$curAvatar.avatarAddress}'); document.forms.myForm.submit();"><img src="{$curAvatar.avatarAddress}" width="{$modules.Config->getValue('avatar_image_width')}" height="{$modules.Config->getValue('avatar_image_height')}" alt=""/></a></td>
      {if $smarty.foreach.avatarsLoop.iteration % 8 == 0 && $smarty.foreach.avatarsLoop.iteration != $smarty.foreach.avatarsLoop.total}</tr><tr>{/if}
     {/foreach}
     </tr>

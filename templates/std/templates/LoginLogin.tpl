@@ -2,7 +2,7 @@
 <table class="TableStd" width="100%">
 <tr><td class="CellTitle" colspan="2"><span class="FontTitle">{$modules.Language->getString('Login')}</span></td></tr>
 <tr><td class="CellCat" colspan="2"><span class="FontCat">{$modules.Language->getString('Logindata')}</span></td></tr>
-{if $error != ''}<tr><td class="CellError" colspan="2"><span class="FontError"><img src="warning.png" class="ImageIcon" border="0" alt=""/>{$error}</span></td></tr>{/if}
+{if $error != ''}<tr><td class="CellError" colspan="2"><span class="FontError"><img src="warning.png" class="ImageIcon" alt=""/>{$error}</span></td></tr>{/if}
 <tr>
  <td class="CellStd" width="25%"><span class="FontNorm">{$modules.Language->getString('User_name')}:</span></td>
  <td class="CellAlt" width="75%"><input class="FormText" type="text" name="userNick" value="{$userNick}" tabindex="1" size="35" maxlength="15"/>&nbsp;<span class="FontSmall">(<a href="{$indexFile}?action=Register&amp;{$mySID}" tabindex="3">{$modules.Language->getString('Register')}</a>)</span></td>

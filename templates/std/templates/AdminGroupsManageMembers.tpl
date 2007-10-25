@@ -4,14 +4,14 @@
 {foreach from=$groupAdminsData item=curMember}
  <tr>
   <td class="CellStd"><span class="FontNorm">{$curMember.memberNick}</span></td>
-  <td class="CellAlt" align="right"><span class="FontSmall"><a href="{$indexFile}?action=AdminGroups&amp;groupID={$groupID}&amp;mode=SwitchMemberStatus&amp;memberID={$curMember.memberID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/icons/MedalGoldDelete.png" border="0" alt="{$modules.Language->getString('Downgrade_member')}" title="{$modules.Language->getString('Downgrade_member')}"/></a> <a href="{$indexFile}?action=AdminGroups&amp;groupID={$groupID}&amp;mode=DeleteMember&amp;memberID={$curMember.memberID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/icons/UserDelete.png" border="0" alt="{$modules.Language->getString('delete')}" title="{$modules.Language->getString('delete')}"/></a></span></td>
+  <td class="CellAlt" align="right"><span class="FontSmall"><a href="{$indexFile}?action=AdminGroups&amp;groupID={$groupID}&amp;mode=SwitchMemberStatus&amp;memberID={$curMember.memberID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/icons/MedalGoldDelete.png" alt="{$modules.Language->getString('Downgrade_member')}" title="{$modules.Language->getString('Downgrade_member')}"/></a> <a href="{$indexFile}?action=AdminGroups&amp;groupID={$groupID}&amp;mode=DeleteMember&amp;memberID={$curMember.memberID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/icons/UserDelete.png" alt="{$modules.Language->getString('delete')}" title="{$modules.Language->getString('delete')}"/></a></span></td>
  </tr>
 {/foreach}
 <tr><td class="CellCat" colspan="2"><span class="FontCat">{$modules.Language->getString('Other_members')}</span></td></tr>
 {foreach from=$groupMembersData item=curMember}
  <tr>
   <td class="CellStd"><span class="FontNorm">{$curMember.memberNick}</span></td>
-  <td class="CellAlt" align="right"><span class="FontSmall"><a href="{$indexFile}?action=AdminGroups&amp;groupID={$groupID}&amp;mode=SwitchMemberStatus&amp;memberID={$curMember.memberID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/icons/MedalGoldAdd.png" border="0" alt="{$modules.Language->getString('Upgrade_member')}" title="{$modules.Language->getString('Upgrade_member')}"/></a> <a href="{$indexFile}?action=AdminGroups&amp;groupID={$groupID}&amp;mode=DeleteMember&amp;memberID={$curMember.memberID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/icons/UserDelete.png" border="0" alt="{$modules.Language->getString('delete')}" title="{$modules.Language->getString('delete')}"/></a></span></td>
+  <td class="CellAlt" align="right"><span class="FontSmall"><a href="{$indexFile}?action=AdminGroups&amp;groupID={$groupID}&amp;mode=SwitchMemberStatus&amp;memberID={$curMember.memberID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/icons/MedalGoldAdd.png" alt="{$modules.Language->getString('Upgrade_member')}" title="{$modules.Language->getString('Upgrade_member')}"/></a> <a href="{$indexFile}?action=AdminGroups&amp;groupID={$groupID}&amp;mode=DeleteMember&amp;memberID={$curMember.memberID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/icons/UserDelete.png" alt="{$modules.Language->getString('delete')}" title="{$modules.Language->getString('delete')}"/></a></span></td>
  </tr>
 {/foreach}
 </table>

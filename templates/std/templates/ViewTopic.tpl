@@ -37,7 +37,7 @@
  <table border="0" cellpadding="0" cellspacing="0" width="100%">
  <tr>
   <td><span class="FontNavbar">{$pageListing}</span></td>
-  <td align="right"><span class="FontNavbar"><a href="{$indexFile}?action=Posting&amp;mode=Reply&amp;topicID={$topicID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLC()}/AddReply.png" class="ImageButton" border="0" alt="{$modules.Language->getString('Post_new_reply')}"/></a><a href="{$indexFile}?action=Posting&amp;mode=Topic&amp;forumID={$forumID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLC()}/AddTopic.png" class="ImageButton" border="0" alt="{$modules.Language->getString('Post_new_topic')}"/></a></span></td>
+  <td align="right"><span class="FontNavbar"><a href="{$indexFile}?action=Posting&amp;mode=Reply&amp;topicID={$topicID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLC()}/AddReply.png" class="ImageButton" alt="{$modules.Language->getString('Post_new_reply')}"/></a><a href="{$indexFile}?action=Posting&amp;mode=Topic&amp;forumID={$forumID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLC()}/AddTopic.png" class="ImageButton" alt="{$modules.Language->getString('Post_new_topic')}"/></a></span></td>
  </tr>
  </table>
 </td></tr>
@@ -60,7 +60,7 @@
     {foreach from=$pollOptionsData item=curOption}
      <tr>
       <td style="padding:3px;"><span class="FontNorm">{$curOption.optionTitle}</span></td>
-      <td style="padding:3px;"><span class="FontNorm"><img src="{$modules.Template->getTD()}/images/poll.gif" alt="" border="0" width="{$curOption._optionPercent}" height="15"/></span></td>
+      <td style="padding:3px;"><span class="FontNorm"><img src="{$modules.Template->getTD()}/images/poll.gif" alt="" width="{$curOption._optionPercent}" height="15"/></span></td>
       <td style="padding:3px;"><span class="FontSmall">({$curOption._optionPercent} %, {$curOption._optionVotesCounterText})</span></td>
      </tr>
     {/foreach}
@@ -92,15 +92,15 @@
   <td class="CellAlt" width="85%" valign="middle">
    <table border="0" cellspacing="0" cellpadding="0" width="100%">
    <tr>
-    <td>{if $curPost.postSmileyFileName != ''}<span style="margin-right:4px;"><img src="{$curPost.postSmileyFileName}" border="0" alt=""/></span>{/if}<span class="FontSmall"><a id="post{$curPost.postID}" name="post{$curPost.postID}"></a><b>{$curPost.postTitle}</b></span></td>
+    <td>{if $curPost.postSmileyFileName != ''}<span style="margin-right:4px;"><img src="{$curPost.postSmileyFileName}" alt=""/></span>{/if}<span class="FontSmall"><a id="post{$curPost.postID}" name="post{$curPost.postID}"></a><b>{$curPost.postTitle}</b></span></td>
     <td align="right">
      <table border="0" cellpadding="0" cellspacing="0">
       <tr>
-       {if $curPost.show.deleteButton}<td><a href="{$indexFile}?action=Posting&amp;mode=Delete&amp;postID={$curPost.postID}&amp;returnPage={$page}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/delete.png" class="ImageButton" alt="" border="0"/></a></td>{/if}
-       {if $curPost.show.editButton}<td><a href="javascript:toggleFastEdit('{$curPost.postID}');"><img src="{$modules.Template->getTD()}/images/buttons/de/test.png" alt="" class="ImageButton" border="0"/></a></td>{/if}
-       {if $curPost.show.editButton}<td><a href="{$indexFile}?action=Posting&amp;mode=Edit&amp;postID={$curPost.postID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/test.png" class="ImageButton" alt="" border="0"/></a></td>{/if}
-       {if $curPost.postPosterHideEmailAddress != 1 && $curPost.postPosterEmailAddress != ''}<td><a href="mailto:{$curPost.postPosterEmailAddress}"><img src="{$modules.Template->getTD()}/images/buttons/de/email.png" class="ImageButton" alt="{$curPost.postPosterEmailAddress}" border="0"/></a>{else}<td>{if $curPost.postPosterReceiveEmails == 1}<a href="{$indexFile}?action=ViewProfile&amp;profileID={$curPost.UserID}&amp;mode=SendMail&amp;{$mySID}"><img src="{$modules.Template->getTemplateDir()}/images/button_user_email.gif" alt="{$modules.Language->getString('Send_email')}" border="0"/></a></td>{/if}{/if}
-       <td><a href="{$indexFile}?action=Posting&amp;mode=Reply&amp;topicID={$topicID}&amp;Quote={$curPost.postID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/quote.png" class="ImageButton" alt="" border="0"/></a></td>
+       {if $curPost.show.deleteButton}<td><a href="{$indexFile}?action=Posting&amp;mode=Delete&amp;postID={$curPost.postID}&amp;returnPage={$page}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/delete.png" class="ImageButton" alt=""/></a></td>{/if}
+       {if $curPost.show.editButton}<td><a href="javascript:toggleFastEdit('{$curPost.postID}');"><img src="{$modules.Template->getTD()}/images/buttons/de/test.png" alt="" class="ImageButton"/></a></td>{/if}
+       {if $curPost.show.editButton}<td><a href="{$indexFile}?action=Posting&amp;mode=Edit&amp;postID={$curPost.postID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/test.png" class="ImageButton" alt=""/></a></td>{/if}
+       {if $curPost.postPosterHideEmailAddress != 1 && $curPost.postPosterEmailAddress != ''}<td><a href="mailto:{$curPost.postPosterEmailAddress}"><img src="{$modules.Template->getTD()}/images/buttons/de/email.png" class="ImageButton" alt="{$curPost.postPosterEmailAddress}"/></a>{else}<td>{if $curPost.postPosterReceiveEmails == 1}<a href="{$indexFile}?action=ViewProfile&amp;profileID={$curPost.UserID}&amp;mode=SendMail&amp;{$mySID}"><img src="{$modules.Template->getTemplateDir()}/images/button_user_email.gif" alt="{$modules.Language->getString('Send_email')}"/></a></td>{/if}{/if}
+       <td><a href="{$indexFile}?action=Posting&amp;mode=Reply&amp;topicID={$topicID}&amp;Quote={$curPost.postID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/quote.png" class="ImageButton" alt=""/></a></td>
       </tr>
      </table>
     </td>
@@ -131,7 +131,7 @@
  <table border="0" cellpadding="0" cellspacing="0" width="100%">
  <tr>
   <td><span class="FontNavbar">{$pageListing}</span></td>
-  <td align="right"><span class="FontNavbar"><a href="{$indexFile}?action=Posting&amp;mode=Reply&amp;topicID={$topicID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLC()}/AddReply.png" class="ImageButton" border="0" alt="{$modules.Language->getString('Post_new_reply')}"/></a><a href="{$indexFile}?action=Posting&amp;mode=Topic&amp;forumID={$forumID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLC()}/AddTopic.png" class="ImageButton" border="0" alt="{$modules.Language->getString('Post_new_topic')}"/></a></span></td>
+  <td align="right"><span class="FontNavbar"><a href="{$indexFile}?action=Posting&amp;mode=Reply&amp;topicID={$topicID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLC()}/AddReply.png" class="ImageButton" alt="{$modules.Language->getString('Post_new_reply')}"/></a><a href="{$indexFile}?action=Posting&amp;mode=Topic&amp;forumID={$forumID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLC()}/AddTopic.png" class="ImageButton" alt="{$modules.Language->getString('Post_new_topic')}"/></a></span></td>
  </tr>
  </table>
 </td></tr>
