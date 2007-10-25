@@ -204,24 +204,38 @@ class PrivateMessages extends ModuleTemplate {
                             ));
 
 							if($c['saveOutbox'] == 1) {
-								$this->modules['DB']->query("
-									INSERT INTO
-										".TBLPFX."pms
-									SET
-										folderID='1',
-										pmFromID='".$curRecipient."',
-										pmToID='".USERID."',
-										pmIsRead='1',
-										pmType='1',
-										pmSubject='".$p['pmSubject']."',
-										pmMessageText='".$p['pmMessageText']."',
-										pmSendTimestamp='".time()."',
-										pmEnableBBCode='".$c['enableBBCode']."',
-										pmEnableSmilies='".$c['enableSmilies']."',
-										pmEnableHtmlCode='".$c['enableHtmlCode']."',
-										pmShowSignature='".$c['showSignature']."',
-										pmRequestReadReceipt='".$c['requestReadReceipt']."'
-								");
+                                $this->modules['DB']->queryParams('
+                                    INSERT INTO
+                                        '.TBLPFX.'pms
+                                    SET
+                                        "folderID"=1,
+                                        "pmFromID"=$1,
+                                        "pmToID"=$2,
+                                        "pmIsRead"=1,
+                                        "pmType"=1,
+                                        "pmSubject"=$3,
+                                        "pmMessageText"=$4,
+                                        "pmSendTimestamp"=$5,
+                                        "pmEnableBBCode"=$6,
+                                        "pmEnableSmilies"=$7,
+                                        "pmEnableHtmlCode"=$8,
+                                        "pmShowSignature"=$9,
+                                        "pmRequestReadReceipt"=$10
+                                ', array(
+
+                                    $curRecipient,
+                                    USERID,
+
+
+                                    $p['pmSubject'],
+                                    $p['pmMessageText'],
+                                    time(),
+                                    $c['enableBBCode'],
+                                    $c['enableSmilies'],
+                                    $c['enableHtmlCode'],
+                                    $c['showSignature'],
+                                    $c['requestReadReceipt']
+                                ));
 							}
 						}
 						Functions::myHeader(INDEXFILE."?action=PrivateMessages&".MYSID);
@@ -269,8 +283,8 @@ class PrivateMessages extends ModuleTemplate {
 				$returnPage = isset($_GET['returnPage']) ? intval($_GET['returnPage']) : 1;
 
 				if(count($pmIDs) != 0) {
-					$pmIDs = implode("','",$pmIDs);
-					$this->modules['DB']->query("UPDATE ".TBLPFX."pms SET pmIsRead='1' WHERE pmID IN ('$pmIDs') AND pmToID='".USERID."' AND pmRequestReadReceipt<>'1'");
+					//$pmIDs = implode("','",$pmIDs); //...WHERE pmID IN ('$pmIDs') AND...
+                    $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'pms SET "pmIsRead"=1 WHERE "pmID" IN $1 AND "pmToID"=$2 AND "pmRequestReadReceipt"<>1', array($pmIDs, USERID));
 				}
 
 				Functions::myHeader(INDEXFILE."?action=PrivateMessages&mode=ViewFolder&folderID=$returnFolderID&page=$returnPage&".MYSID);
@@ -284,11 +298,11 @@ class PrivateMessages extends ModuleTemplate {
 				$returnPage = isset($_GET['returnPage']) ? intval($_GET['returnPage']) : 1;
 
 				if($pmID != 0)
-					$this->modules['DB']->query("DELETE FROM ".TBLPFX."pms WHERE pmID='$pmID' AND pmToID='".USERID."'");
+                    $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'pms WHERE "pmID"=$1 AND "pmToID"=$2', array($pmID, USERID));
 
 				if(count($pmIDs) != 0) {
-					$pmIDs = implode("','",$pmIDs);
-					$this->modules['DB']->query("DELETE FROM ".TBLPFX."pms WHERE pmID IN ('$pmIDs') AND pmToID='".USERID."'");
+					//$pmIDs = implode("','",$pmIDs); //...WHERE pmID IN ('$pmIDs') AND...
+                    $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'pms WHERE "pmID" IN $1 AND "pmToID"=$2', array($pmIDs, USERID));
 				}
 
 				Functions::myHeader(INDEXFILE."?action=PrivateMessages&mode=ViewFolder&folderID=$returnFolderID&page=$returnPage&".MYSID);
@@ -299,51 +313,59 @@ class PrivateMessages extends ModuleTemplate {
 				$returnPage = isset($_GET['returnPage']) ? intval($_GET['returnPage']) : 1;
 
 				// PM-Daten laden
-				$this->modules['DB']->query("
-					SELECT
-						t1.pmSubject,
-						t1.pmRequestReadReceipt,
-						t1.pmSendTimestamp,
-						t1.folderID,
-						t1.pmType,
-						t1.pmToID,
-						t1.pmFromID,
-						t1.pmIsRead,
-						t1.pmIsReplied,
-						t1.pmMessageText,
-						t2.userNick AS pmFromNick,
-						t4.folderName AS pmFolderName
-					FROM ".TBLPFX."pms AS t1
-					LEFT JOIN ".TBLPFX."users AS t2 ON t1.PMFromID=t2.UserID
-					LEFT JOIN ".TBLPFX."pms_folders AS t4 ON (t4.FolderID=t1.FolderID AND t4.UserID='".USERID."')
-					WHERE t1.pmID='$pmID'
-				");
+                $this->modules['DB']->queryParams('
+                    SELECT
+                        t1."pmSubject",
+                        t1."pmRequestReadReceipt",
+                        t1."pmSendTimestamp",
+                        t1."folderID",
+                        t1."pmType",
+                        t1."pmToID",
+                        t1."pmFromID",
+                        t1."pmIsRead",
+                        t1."pmIsReplied",
+                        t1."pmMessageText",
+                        t2."userNick" AS "pmFromNick",
+                        t4."folderName" AS "pmFolderName"
+                    FROM '.TBLPFX.'pms AS t1
+                    LEFT JOIN '.TBLPFX.'users AS t2 ON t1."PMFromID"=t2."UserID"
+                    LEFT JOIN '.TBLPFX.'pms_folders AS t4 ON (t4."FolderID"=t1."FolderID" AND t4."UserID"=$1)
+                    WHERE t1."pmID"=$2
+                ', array(
+                    USERID,
+                    $pmID
+                ));
 				if($this->modules['DB']->getAffectedRows() == 0) die('Kann PM-Daten nicht laden!');
 				$pmData = $this->modules['DB']->fetchArray();
 
 				if($pmData['pmToID'] != USERID) die('Kein Zugriff auf diese Nachricht!'); // ...User Zugriff auf PM hat...
 				if($pmData['pmIsRead'] != 1) {  // ...die PM schon gelesen ist...
-					$this->modules['DB']->query("UPDATE ".TBLPFX."pms SET pmIsRead='1' WHERE pmID='$pmID'");
+                    $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'pms SET "pmIsRead"=1 WHERE "pmID"=$1', array($pmID));
 					if($pmData['pmRequestReadReceipt'] == 1 && $this->modules['Config']->getValue('allow_pms_rconfirmation') == 1 && $pmData['pmFromID'] != 0) // ...und eine Lesebestaetigung angefordert wurde
 						// TODO: Betreff und Nachricht in der Sprache des Empfaengers
-						$this->modules['DB']->query("
-							INSERT INTO
-								".TBLPFX."pms
-							SET
-								folderID='0',
-								pmFromID='".USERID."',
-								pmToID='".$pmData['pmFromID']."',
-								pmIsRead='0',
-								pmType='0',
-								pmSubject='".Functions::addSlashes($this->modules['Language']->getString('read_confirmation_subject'))."',
-								pmSendTimestamp='".time()."',
-								pmEnableBBcode='0',
-								pmEnableSmilies='0',
-								pmEnableHtmlCode='0',
-								pmShowSignature='0',
-								pmRequestReadReceipt='0',
-								pmMessageText='".Functions::addSlashes(sprintf($this->modules['Language']->getString('read_confirmation_message',$pmData['pmFromNick'],$pmData['pmSubject'])))."'
-						");
+                        $this->modules['DB']->queryParams('
+                            INSERT INTO
+                                '.TBLPFX.'pms
+                            SET
+                                "folderID"=0,
+                                "pmFromID"=$1,
+                                "pmToID"=$2,
+                                "pmIsRead"=0,
+                                "pmType"=0,
+                                "pmSubject"=$3,
+                                "pmSendTimestamp"=$4,
+                                "pmEnableBBcode"=0,
+                                "pmEnableSmilies"=0,
+                                "pmEnableHtmlCode"=0,
+                                "pmShowSignature"=0,
+                                "pmRequestReadReceipt"=0,
+                                "pmMessageText"=$5
+                        ', array(
+                            USERID,
+                            Functions::addSlashes($this->modules['Language']->getString('read_confirmation_subject')),
+                            time(),
+                            Functions::addSlashes(sprintf($this->modules['Language']->getString('read_confirmation_message',$pmData['pmFromNick'],$pmData['pmSubject'])))
+                        ));
 				}
 
 				$p = array();
