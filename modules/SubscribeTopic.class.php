@@ -24,13 +24,13 @@ class SubscribeTopic extends ModuleTemplate {
 		if($authData['authViewForum'] != 1) die('Access denied: subscribe topic');
 
 		if($this->modules['Auth']->isLoggedIn() == 1 && $this->modules['Config']->getValue('enable_email_functions') == 1 && $this->modules['Config']->getValue('enable_topic_subscription') == 1) {
-			$this->modules['DB']->query("SELECT userID FROM ".TBLPFX."topics_subscriptions WHERE userID='".USERID."' AND topicID='$topicID'");
+            $this->modules['DB']->queryParams('SELECT "userID" FROM '.TBLPFX.'topics_subscriptions WHERE "userID"=$1 AND "topicID"=$2', array(USERID, $topicID));
 			if($this->modules['DB']->getAffectedRows() == 1) {
-				$this->modules['DB']->query("DELETE FROM ".TBLPFX."topics_subscriptions WHERE userID='".USERID."' AND topicID='$topicID'");
+                $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'topics_subscriptions WHERE "userID"=$1 AND "topicID"=$2', array(USERID, $topicID));
 				$message = 'topic_unsubscription_successful';
 			}
 			else {
-				$this->modules['DB']->query("INSERT INTO ".TBLPFX."topics_subscriptions SET topicID='".$topicID."', userID='".USERID."'");
+                $this->modules['DB']->queryParams('INSERT INTO '.TBLPFX.'topics_subscriptions SET "topicID"=$1, "userID"=$2', array($topicID, USERID));
 				$message = 'topic_subscription_successful';
 			}
 

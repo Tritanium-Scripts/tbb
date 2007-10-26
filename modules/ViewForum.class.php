@@ -135,7 +135,7 @@ class ViewForum extends ModuleTemplate {
 			LEFT JOIN '.TBLPFX.'users t4 ON t2."posterID"=t4."userID"
 			LEFT JOIN '.TBLPFX.'smilies t5 ON t1."smileyID"=t5."smileyID"
 			WHERE
-				t1.forumID=$1
+				t1."forumID"=$1
 				AND t1."topicLastPostID"=t2."postID"
 			ORDER BY
 				t1."topicIsPinned" DESC,
@@ -170,9 +170,11 @@ class ViewForum extends ModuleTemplate {
 				t1."topicIsPinned" DESC,
 				t2."postTimestamp" DESC
 			LIMIT
-				'.$start.','.$this->modules['Config']->getValue('topics_per_page').'
+				$2, $3
 		',array(
-			$forumID
+			$forumID,
+            $start,
+            $this->modules['Config']->getValue('topics_per_page')
 		));
 		return $this->modules['DB']->raw2Array();
 	}
