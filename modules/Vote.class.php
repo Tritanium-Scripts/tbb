@@ -24,12 +24,12 @@ class Vote extends ModuleTemplate {
 		$cPollVotes = (isset($_COOKIE['pollVotes']) && $_COOKIE['pollVotes'] != '') ? explode(',',$_COOKIE['pollVotes']) : array();
 
 		if($this->modules['Auth']->isLoggedIn() == 1) {
-			$this->modules['DB']->query("SELECT voterID FROM ".TBLPFX."polls_votes WHERE pollID='".$pollData['pollID']."' AND voterID='".USERID."'");
+            $this->modules['DB']->queryParams('SELECT "voterID" FROM '.TBLPFX.'polls_votes WHERE "pollID"=$1 AND "voterID"=$2', array($pollData['pollID'], USERID));
 			if($this->modules['DB']->getAffectedRows() == 0) {
-				$this->modules['DB']->query("UPDATE ".TBLPFX."polls_options SET optionVotesCounter=optionVotesCounter+1 WHERE pollID='$pollID' AND optionID='".$p['optionID']."'");
+                $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'polls_options SET "optionVotesCounter"="optionVotesCounter"+1 WHERE "pollID"=$1 AND "optionID"=$2', array($pollID, $p['optionID']));
 				if($this->modules['DB']->getAffectedRows() == 1) {
-					$this->modules['DB']->query("UPDATE ".TBLPFX."polls SET pollVotesCounter=pollVotesCounter+1 WHERE pollID='$pollID'");
-					$this->modules['DB']->query("INSERT INTO ".TBLPFX."polls_votes SET pollID='$pollID', voterID='".USERID."'");
+                    $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'polls SET "pollVotesCounter"="pollVotesCounter"+1 WHERE "pollID"=$1', array($pollID));
+                    $this->modules['DB']->queryParams('INSERT INTO '.TBLPFX.'polls_votes SET "pollID"=$1, "voterID"=$2', array($pollID, USERID));
 					$sPollVotes[] = $pollID;
 					$cPollVotes[] = $pollID;
 					$_SESSION['pollVotes'] = implode(',',$sPollVotes);
@@ -39,9 +39,9 @@ class Vote extends ModuleTemplate {
 
 		} elseif($pollData['pollGuestsVote'] == 1) {
 			if(!in_array($pollID,$sPollVotes) && !in_array($cPollVotes)) {
-				$this->modules['DB']->query("UPDATE ".TBLPFX."polls_options SET optionVotesCounter=optionVotesCounter+1 WHERE pollID='$pollID' AND optionID='".$p['optionID']."'");
+                $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'polls_options SET "optionVotesCounter"="optionVotesCounter"+1 WHERE "pollID"=$1 AND "optionID"=$2', array($pollID, $p['optionID']));
 				if($this->modules['DB']->getAffectedRows() == 1) {
-					$this->modules['DB']->query("UPDATE ".TBLPFX."polls SET pollVotesCounter=pollVotesCounter+1 WHERE pollID='$pollID'");
+                    $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'polls SET "pollVotesCounter"="pollVotesCounter"+1 WHERE "pollID"=$1', array($pollID));
 					$sPollVotes[] = $pollID;
 					$cPollVotes[] = $pollID;
 					$_SESSION['pollVotes'] = implode(',',$sPollVotes);

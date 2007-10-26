@@ -24,11 +24,11 @@ class ViewTopic extends ModuleTemplate {
 
 		// Thema und Seite eventuell ueber Beitrags-ID bestimmen
 		if($topicID == 0) {
-			$this->modules['DB']->query("SELECT topicID FROM ".TBLPFX."posts WHERE postID='$postID'"); // Laedt eventuell die ID des Themas
+            $this->modules['DB']->queryParams('SELECT "topicID" FROM '.TBLPFX.'posts WHERE "postID"=$1', array($postID)); // Laedt eventuell die ID des Themas
 			if($this->modules['DB']->getAffectedRows() != 1) die('Kann Beitragsdaten nicht laden/Beitrag existiert nicht!'); // Falls nicht Meldung ausgeben
 			list($topicID) = $this->modules['DB']->fetchArray(); // ID des Themas verfuegbar machen
 
-			$this->modules['DB']->query("SELECT postID FROM ".TBLPFX."posts WHERE topicID='$topicID' ORDER BY postTimestamp"); // Die IDs aller Beitraege des Themas laden
+            $this->modules['DB']->queryParams('SELECT "postID" FROM '.TBLPFX.'posts WHERE "topicID"=$1 ORDER BY "postTimestamp"', array($topicID)); // Die IDs aller Beitraege des Themas laden
 			$postIDs = $this->modules['DB']->raw2FVArray(); // DB-Daten in Array umwandeln
 			$topicPostsCounter = count($postIDs); // Anzahl der IDs (Beitraege)
 
@@ -98,13 +98,13 @@ class ViewTopic extends ModuleTemplate {
 		 */
 		if($topicData['topicHasPoll'] == 1) {
 			// Get poll data
-			$this->modules['DB']->query("SELECT * FROM ".TBLPFX."polls WHERE topicID='$topicID'");
+            $this->modules['DB']->queryParams('SELECT * FROM '.TBLPFX.'polls WHERE "topicID"=$1', array($topicID));
 			$pollData = $this->modules['DB']->fetchArray();
 			$pollHasEnded = (time()-$pollData['pollEndTimestamp']) > 0;
 
 			// Check if user already voted
 			if($this->modules['Auth']->isLoggedIn() == 1) {
-				$this->modules['DB']->query("SELECT voterID FROM ".TBLPFX."polls_votes WHERE pollID='".$pollData['pollID']."' AND voterID='".USERID."'");
+                $this->modules['DB']->queryParams('SELECT "voterID" FROM '.TBLPFX.'polls_votes WHERE "pollID"=$1 AND "voterID"=$2', array($pollData['pollID'], USERID));
 				$userAlreadyVoted = $this->modules['DB']->getAffectedRows() != 0;
 			}
 			else {
@@ -112,7 +112,7 @@ class ViewTopic extends ModuleTemplate {
 			}
 
 			// Get poll options
-			$this->modules['DB']->query("SELECT optionID,optionTitle,optionVotesCounter FROM ".TBLPFX."polls_options WHERE pollID='".$pollData['pollID']."' ORDER BY optionID");
+            $this->modules['DB']->queryParams('SELECT "optionID", "optionTitle", "optionVotesCounter" FROM '.TBLPFX.'polls_options WHERE "pollID"=$1 ORDER BY "optionID"', array($pollData['pollID']));
 			$pollOptionsData = $this->modules['DB']->raw2Array();
 
 			foreach($pollOptionsData AS &$curOption) {
@@ -266,7 +266,7 @@ class ViewTopic extends ModuleTemplate {
 
 
 		if($this->modules['Auth']->isLoggedIn() == 1 && $this->modules['Config']->getValue('enable_email_functions') == 1 && $this->modules['Config']->getValue('enable_topic_subscription') == 1) {
-			$this->modules['DB']->query("SELECT UserID FROM ".TBLPFX."topics_subscriptions WHERE topicID='$topicID' AND UserID='".USERID."'");
+            $this->modules['DB']->queryParams('SELECT "userID" FROM '.TBLPFX.'topics_subscriptions WHERE "topicID"=$1 AND "userID"=$2', array($topicID, USERID));
 			$subscribeText = ($this->modules['DB']->getAffectedRows() == 0) ? $this->modules['Language']->getString('Subscribe_topic') : $this->modules['Language']->getString('Unsubscribe_topic');
 			$this->modules['Navbar']->setRightArea('<a href="'.INDEXFILE.'?action=SubscribeTopic&amp;topicID='.$topicID.'&amp;'.MYSID.'">'.$subscribeText.'</a>');
 		}
@@ -294,34 +294,40 @@ class ViewTopic extends ModuleTemplate {
 		$forumModIDs = array();
 
 		if($forumID != 0) {
-			$this->modules['DB']->query("
-				SELECT
-					authID
-				FROM
-					".TBLPFX."forums_auth
-				WHERE
-					authType='".AUTH_TYPE_USER."'
-					AND forumID='$forumID'
-					AND authIsMod='1'
-			");
+            $this->modules['DB']->queryParams('
+                SELECT
+                    "authID"
+                FROM
+                    '.TBLPFX.'forums_auth
+                WHERE
+                    "authType"=$1
+                    AND "forumID"=$2
+                    AND "authIsMod"=1
+            ', array(
+                AUTH_TYPE_USER,
+                $forumID
+            ));
 			while(list($curUserID) = $this->modules['DB']->fetchArray())
 				$forumModIDs[intval($curUserID)] = TRUE;
 
-			$this->modules['DB']->query("
-				SELECT
-					t2.memberID
-				FROM (
-					".TBLPFX."forums_auth AS t1,
-					".TBLPFX."groups_members AS t2
-				)
-				WHERE
-					t1.forumID='$forumID'
-					AND t1.authIsMod=1
-					AND t1.authType='".AUTH_TYPE_GROUP."'
-					AND t2.groupID=t1.authID
-				GROUP BY
-					t2.memberID
-			");
+            $this->modules['DB']->queryParams('
+                SELECT
+                    t2."memberID"
+                FROM (
+                    '.TBLPFX.'forums_auth AS t1,
+                    '.TBLPFX.'groups_members AS t2
+                )
+                WHERE
+                    t1."forumID"=$1
+                    AND t1."authIsMod"=1
+                    AND t1."authType"=$2
+                    AND t2."groupID"=t1."authID"
+                GROUP BY
+                    t2."memberID"
+            ', array(
+                $forumID,
+                AUTH_TYPE_GROUP
+            ));
 			while(list($curUserID) = $this->modules['DB']->fetchArray())
 				$forumModIDs[intval($curUserID)] = TRUE;
 		}
@@ -330,26 +336,30 @@ class ViewTopic extends ModuleTemplate {
 	}
 
 	protected function _loadPostsData($topicID,$start) {
-		$this->modules['DB']->query("
-			SELECT
-				t1.*,
-				t2.userEmailAddress AS postPosterEmailAddress,
-				t2.userNick AS postPosterNick,
-				t2.userSignature AS postPosterSignature,
-				t2.userIsAdmin AS postPosterIsAdmin,
-				t2.userIsSupermod AS postPosterIsSupermod,
-				t2.userPostsCounter AS postPosterPosts,
-				t2.rankID AS postPosterRankID,
-				t2.userAvatarAddress AS postPosterAvatarAddress,
-				t2.userHideEmailAddress AS postPosterHideEmailAddress,
-				t2.userReceiveEmails AS postPosterReceiveEmails,
-				t3.smileyFileName AS postSmileyFileName
-			FROM ".TBLPFX."posts AS t1
-			LEFT JOIN ".TBLPFX."users AS t2 ON t1.posterID=t2.userID
-			LEFT JOIN ".TBLPFX."smilies AS t3 ON t3.smileyID=t1.smileyID
-			WHERE t1.topicID='$topicID'
-			ORDER BY t1.postTimestamp LIMIT $start,".$this->modules['Config']->getValue('posts_per_page')
-		);
+        $this->modules['DB']->queryParams('
+            SELECT
+                t1.*,
+                t2."userEmailAddress" AS "postPosterEmailAddress",
+                t2."userNick" AS "postPosterNick",
+                t2."userSignature" AS "postPosterSignature",
+                t2."userIsAdmin" AS "postPosterIsAdmin",
+                t2."userIsSupermod" AS "postPosterIsSupermod",
+                t2."userPostsCounter" AS "postPosterPosts",
+                t2."rankID" AS "postPosterRankID",
+                t2."userAvatarAddress" AS "postPosterAvatarAddress",
+                t2."userHideEmailAddress" AS "postPosterHideEmailAddress",
+                t2."userReceiveEmails" AS "postPosterReceiveEmails",
+                t3."smileyFileName" AS "postSmileyFileName"
+            FROM '.TBLPFX.'posts AS t1
+            LEFT JOIN '.TBLPFX.'users AS t2 ON t1."posterID"=t2."userID"
+            LEFT JOIN '.TBLPFX.'smilies AS t3 ON t3."smileyID"=t1."smileyID"
+            WHERE t1."topicID"=$1
+            ORDER BY t1."postTimestamp" LIMIT $2, $3
+        ', array(
+            $topicID,
+            $start,
+            $this->modules['Config']->getValue('posts_per_page')
+        ));
 
 		return $this->modules['DB']->raw2Array();
 	}
