@@ -65,30 +65,36 @@ class ViewProfile extends ModuleTemplate {
 
 				if($this->modules['Auth']->getValue('userAuthProfileNotes') == 1 || $this->modules['Auth']->getValue('userIsAdmin') == 1 || $this->modules['Auth']->getValue('userIsSupermod') == 1 || $userIsMod) {
 					if($this->modules['Auth']->getValue('userIsAdmin') == 1 || $this->modules['Auth']->getValue('userIsSupermod') == 1 || $userIsMod) {
-						$this->modules['DB']->query("
-							SELECT
-								t1.*,
-								t2.userNick
-							FROM
-								".TBLPFX."profile_notes AS t1
-							LEFT JOIN ".TBLPFX."users AS t2 ON t1.userID=t2.userID
-							WHERE
-								t1.profileID='$profileID'
-								AND (t1.userID='".USERID."' OR t1.noteIsPublic='1')
-							ORDER BY t1.noteTimestamp DESC
-						");
+                        $this->modules['DB']->queryParams('
+                            SELECT
+                                t1.*,
+                                t2."userNick"
+                            FROM
+                                '.TBLPFX.'profile_notes AS t1
+                            LEFT JOIN '.TBLPFX.'users AS t2 ON t1."userID"=t2."userID"
+                            WHERE
+                                t1."profileID"=$1
+                                AND (t1."userID"=$2 OR t1."noteIsPublic"=1)
+                            ORDER BY t1."noteTimestamp" DESC
+                        ', array(
+                            $profileID,
+                            USERID
+                        ));
 					}
 					else {
-						$this->modules['DB']->query("
-							SELECT
-								*
-							FROM
-								".TBLPFX."profile_notes
-							WHERE
-								profileID='$profileID' AND userID='".USERID."'
-							ORDER BY
-								noteTimestamp DESC
-						");
+                        $this->modules['DB']->queryParams('
+                            SELECT
+                                *
+                            FROM
+                                '.TBLPFX.'profile_notes
+                            WHERE
+                                "profileID"=$1 AND "userID"=$2
+                            ORDER BY
+                                "noteTimestamp" DESC
+                        ', array(
+                            $profileID,
+                            USERID
+                        ));
 					}
 
 					$notesData = array();
@@ -122,16 +128,22 @@ class ViewProfile extends ModuleTemplate {
 					if($this->modules['Auth']->getValue('userIsAdmin') != 1 && $this->modules['Auth']->getValue('userIsSupermod') != 1 && !$userIsMod)
 						$c['noteIsPublic'] = 0;
 
-					$this->modules['DB']->query("
-						INSERT INTO
-							".TBLPFX."profile_notes
-						SET
-							userID='".USERID."',
-							profileID='".$profileID."',
-							noteTimestamp='".time()."',
-							noteIsPublic='".$c['noteIsPublic']."',
-							noteText='".$p['noteText']."'
-						");
+                    $this->modules['DB']->queryParams('
+                        INSERT INTO
+                            '.TBLPFX.'profile_notes
+                        SET
+                            "userID"=$1,
+                            "profileID"=$2,
+                            "noteTimestamp"=$3,
+                            "noteIsPublic"=$4,
+                            "noteText"=$5
+                        ', array(
+                            USERID,
+                            $profileID,
+                            time(),
+                            $c['noteIsPublic'],
+                            $p['noteText']
+                        ));
 
 					Functions::myHeader(INDEXFILE."?action=ViewProfile&profileID=$profileID&".MYSID);
 				}
@@ -159,15 +171,19 @@ class ViewProfile extends ModuleTemplate {
 					if($this->modules['Auth']->getValue('userIsAdmin') != 1 && $this->modules['Auth']->getValue('userIsSupermod') != 1 && !$userIsMod)
 						$c['noteIsPublic'] = 0;
 
-					$this->modules['DB']->query("
-						UPDATE
-							".TBLPFX."profile_notes
-						SET
-							noteIsPublic='".$c['noteIsPublic']."',
-							noteText='".$p['noteText']."'
-						WHERE
-							noteID='$noteID'
-					");
+                    $this->modules['DB']->queryParams('
+                        UPDATE
+                            '.TBLPFX.'profile_notes
+                        SET
+                            "noteIsPublic"=$1,
+                            "noteText"=$2,
+                        WHERE
+                            "noteID"=$3
+                        ', array(
+                            $c['noteIsPublic'],
+                            $p['noteText'],
+                            $noteID
+                        ));
 
 					Functions::myHeader(INDEXFILE."?action=ViewProfile&profileID=$profileID&".MYSID);
 				}
@@ -188,12 +204,14 @@ class ViewProfile extends ModuleTemplate {
 				if(!$noteData = Functions::getProfileNoteData($noteID)) die('Cannot load data: profile note');
 				if($this->modules['Auth']->getValue('userIsAdmin') != 1 && $noteData['userID'] != USERID) die('Access denied: delete profile note');
 
-				$this->modules['DB']->query("
-					DELETE FROM
-						".TBLPFX."profile_notes
-					WHERE
-						noteID='$noteID'
-				");
+                $this->modules['DB']->queryParams('
+                    DELETE FROM
+                        '.TBLPFX.'profile_notes
+                    WHERE
+                        "noteID"=$1
+                    ', array(
+                        $noteID
+                    ));
 
 				Functions::myHeader(INDEXFILE."?action=ViewProfile&profileID=$profileID&".MYSID);
 				break;

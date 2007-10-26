@@ -19,18 +19,20 @@ class WhoIsOnline extends ModuleTemplate {
 
 		$this->modules['Language']->addFile('WhoIsOnline');
 
-		$this->modules['DB']->query("
-			SELECT
-				t1.sessionUserID,
-				t1.sessionLastLocation,
-				t1.sessionIsGhost,
-				t2.userNick AS sessionUserNick
-			FROM ".TBLPFX."sessions AS t1
-			LEFT JOIN ".TBLPFX."users AS t2 ON t1.sessionUserID=t2.userID
-			WHERE
-				t1.sessionIsGhost<>'1'
-				AND t1.sessionLastUpdate>'".$this->modules['DB']->fromUnixTimestamp(time()-$this->modules['Config']->getValue('wio_timeout')*60)."'
-		");
+        $this->modules['DB']->queryParams('
+            SELECT
+                t1."sessionUserID",
+                t1."sessionLastLocation",
+                t1."sessionIsGhost",
+                t2."userNick" AS "sessionUserNick"
+            FROM '.TBLPFX.'sessions AS t1
+            LEFT JOIN '.TBLPFX.'users AS t2 ON t1."sessionUserID"=t2."userID"
+            WHERE
+                t1."sessionIsGhost"<>1
+                AND t1."sessionLastUpdate">$1
+            ', array(
+                $this->modules['DB']->fromUnixTimestamp(time()-$this->modules['Config']->getValue('wio_timeout')*60)
+            ));
 		$wioData = $this->modules['DB']->raw2Array();
 		$wioDataCounter = count($wioData);
 
