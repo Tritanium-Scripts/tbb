@@ -17,7 +17,7 @@ class Cache extends ModuleTemplate {
 		while($curSmiley = $this->modules['DB']->fetchArray()) {
 			if($curSmiley['smileyType'] != SMILEY_TYPE_ADMINSMILEY)
 				$toWrite1[] = 'array(\'smileyID\'=>\''.$curSmiley['smileyID'].'\',\'smileyFileName\'=>\''.$curSmiley['smileyFileName'].'\',\'smileySynonym\'=>\''.$curSmiley['smileySynonym'].'\',\'smileyStatus\'=>\''.$curSmiley['smileyStatus'].'\')';
-			$toWrite2[] = '\''.$curSmiley['smileySynonym'].'\'=>\'<img src="'.$curSmiley['smileyFileName'].'" border="0" alt="'.$curSmiley['smileySynonym'].'"/>\'';
+			$toWrite2[] = '\''.$curSmiley['smileySynonym'].'\'=>\'<img src="'.$curSmiley['smileyFileName'].'" alt="'.$curSmiley['smileySynonym'].'"/>\'';
 		}
 
 		$toWrite1 = '<?php $smiliesDataRead = array('.implode(',',$toWrite1).'); ?>';
@@ -48,7 +48,7 @@ class Cache extends ModuleTemplate {
 			else {
                 $this->modules['DB']->queryParams('SELECT "smileyFileName", "smileySynonym" FROM '.TBLPFX.'smilies WHERE "smileyType"=$1 OR "smileyType"=$2', array(SMILEY_TYPE_SMILEY, SMILEY_TYPE_ADMINSMILEY));
 				while($curSmiley = $this->modules['DB']->fetchArray())
-					$smiliesDataWrite[$curSmiley['smileySynonym']] = '<img src="'.$curSmiley['smileyFileName'].'" border="0" alt="'.$curSmiley['smileySynonym'].'"/>';
+					$smiliesDataWrite[$curSmiley['smileySynonym']] = '<img src="'.$curSmiley['smileyFileName'].'" alt="'.$curSmiley['smileySynonym'].'"/>';
 			}
 
 			return $smiliesDataWrite;
@@ -119,7 +119,7 @@ class Cache extends ModuleTemplate {
 			if($curRank['rankGfx'] != '') {
 				$curRankGfx = explode(';',$curRank['rankGfx']);
 				while(list($curKey) = each($curRankGfx))
-					$curRankGfx[$curKey] = '<img src="'.$curRankGfx[$curKey].'" border="0" alt=""/>';
+					$curRankGfx[$curKey] = '<img src="'.$curRankGfx[$curKey].'" alt=""/>';
 				$curRankGfx = implode('',$curRankGfx);
 			}
 

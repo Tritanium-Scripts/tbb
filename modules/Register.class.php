@@ -47,7 +47,7 @@ class Register extends ModuleTemplate {
 				//
 				// Die Profilfelder laden, die bei der Registrierung angezeigt werden sollen
 				//
-				$this->modules['DB']->query("SELECT * FROM ".TBLPFX."profile_fields WHERE fieldShowRegistration='1'");
+				$this->modules['DB']->query('SELECT * FROM '.TBLPFX.'profile_fields WHERE "fieldShowRegistration"=1');
 				$profileFields = $this->modules['DB']->raw2Array();
 				$fieldsCounter = count($profileFields);
 
@@ -140,7 +140,7 @@ class Register extends ModuleTemplate {
 						foreach($profileFields AS $curField) {
 							$curValue = ($curField['fieldType'] == PROFILE_FIELD_TYPE_SELECTMULTI) ? implode(',',$p['fieldsData'][$curField['fieldID']]) : $p['fieldsData'][$curField['fieldID']];
 							$this->modules['DB']->queryParams('
-								INSERT INTO ".TBLPFX."profile_fields_data SET
+								INSERT INTO '.TBLPFX.'profile_fields_data SET
 									"fieldID"=$1,
 									"userID"=$2.
 									"fieldValue"=$3

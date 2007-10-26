@@ -39,7 +39,7 @@
    <table>
    {foreach from=$optionsData item=curOption}
     {assign var=curOptionID value=$curOption.optionID}
-    <tr><td style="padding:3px;"><input type="text" class="FormText" size="30" value="{$p.optionsData.$curOptionID}" name="p[optionsData][{$curOption.optionID}]""/></td></tr>
+    <tr><td style="padding:3px;"><input type="text" class="FormText" size="30" value="{$p.optionsData.$curOptionID}" name="p[optionsData][{$curOption.optionID}]"/></td></tr>
    {/foreach}
    </table>
   </td>

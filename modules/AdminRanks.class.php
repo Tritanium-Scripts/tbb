@@ -26,7 +26,7 @@ class AdminRanks extends ModuleTemplate {
 					if($curRank['rankGfx'] != '') {
 						$curRankGfx = explode(';',$curRank['rankGfx']);
 						foreach($curRankGfx AS &$curGfx)
-							$curGfx = '<img src="'.$curGfx.'" alt="" border="0"/>';
+							$curGfx = '<img src="'.$curGfx.'" alt=""/>';
 
 						$curRankGfx = implode('',$curRankGfx);
 					}
@@ -42,7 +42,7 @@ class AdminRanks extends ModuleTemplate {
 					if($curRank['rankGfx'] != '') {
 						$curRankGfx = explode(';',$curRank['rankGfx']);
 						foreach($curRankGfx AS &$curGfx)
-							$curGfx = '<img src="'.$curGfx.'" alt="" border="0"/>';
+							$curGfx = '<img src="'.$curGfx.'" alt=""/>';
 						$curRankGfx = implode('',$curRankGfx);
 					}
 					$curRank['_rankGfx'] = $curRankGfx;

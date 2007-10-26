@@ -152,7 +152,7 @@ class ForumIndex extends ModuleTemplate {
 			$curLastPostPic = $curLastPostText = '';
 			if($curForum['forumLastPostID'] != 0) {
 				if($curAuthViewForum == 1) {
-					$curLastPostPic = ($curForum['forumLastPostSmileyFileName'] == '') ? '' : '<img src="'.$curForum['forumLastPostSmileyFileName'].'" alt="" border="0"/>';
+					$curLastPostPic = ($curForum['forumLastPostSmileyFileName'] == '') ? '' : '<img src="'.$curForum['forumLastPostSmileyFileName'].'" alt=""/>';
 					if(strlen($curForum['forumLastPostTitle']) > 22) $curLastPostLink = '<a href="'.INDEXFILE.'?action=ViewTopic&amp;postID='.$curForum['forumLastPostID'].'&amp;'.MYSID.'#post'.$curForum['forumLastPostID'].'" title="'.Functions::HTMLSpecialChars(($curForum['forumLastPostTitle'])).'">'.Functions::HTMLSpecialChars(substr($curForum['forumLastPostTitle'],0,22)).'...</a>';
 					else $curLastPostLink = '<a href="'.INDEXFILE.'?action=ViewTopic&amp;postID='.$curForum['forumLastPostID'].'&amp;'.MYSID.'#post'.$curForum['forumLastPostID'].'">'.Functions::HTMLSpecialChars($curForum['forumLastPostTitle']).'</a>';
 

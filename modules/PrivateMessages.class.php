@@ -390,42 +390,76 @@ class PrivateMessages extends ModuleTemplate {
 					if(trim($p['pmSubject']) == '') $error = $this->modules['Language']->getString('error_no_subject');
 					elseif(trim($p['pmMessageText']) == '') $error = $this->modules['Language']->getString('error_no_message');
 					else {
-						$this->modules['DB']->query("INSERT INTO ".TBLPFX."pms SET
-							folderID='0',
-							pmFromID='".USERID."',
-							pmToID='".$pmData['pmFromID']."',
-							pmIsRead='0',
-							pmType='0',
-							pmSubject='".$p['pmSubject']."',
-							pmMessageText='".$p['pmMessageText']."',
-							pmSendTimestamp='".time()."',
-							pmEnableBBCode='".$c['enableBBCode']."',
-							pmEnableSmilies='".$c['enableSmilies']."',
-							pmEnableHtmlCode='".$c['enableHtmlCode']."',
-							pmShowSignature='".$c['showSignature']."',
-							pmRequestReadReceipt='".$c['requestReadReceipt']."'
-						");
+                        $this->modules['DB']->queryParams('
+                            INSERT INTO
+                                '.TBLPFX.'pms
+                            SET
+                                "folderID"=0,
+                                "pmFromID"=$1,
+                                "pmToID"=$2,
+                                "pmIsRead"=0,
+                                "pmType"=0,
+                                "pmSubject"=$3,
+                                "pmMessageText"=$4,
+                                "pmSendTimestamp"=$5,
+                                "pmEnableBBCode"=$6,
+                                "pmEnableSmilies"=$7,
+                                "pmEnableHtmlCode"=$8,
+                                "pmShowSignature"=$9,
+                                "pmRequestReadReceipt"=$10
+                        ', array(
+
+                            USERID,
+                            $pmData['pmFromID'],
+
+
+                            $p['pmSubject'],
+                            $p['pmMessageText'],
+                            time(),
+                            $c['enableBBCode'],
+                            $c['enableSmilies'],
+                            $c['enableHtmlCode'],
+                            $c['showSignature'],
+                            $c['requestReadReceipt']
+                        ));
 
 						if($c['saveOutbox'] == 1) {
-							$this->modules['DB']->query("INSERT INTO ".TBLPFX."pms SET
-								folderID='1',
-								pmFromID='".$pmData['pmFromID']."',
-								pmToID='".USERID."',
-								pmIsRead='1',
-								pmType='1',
-								pmSubject='".$p['pmSubject']."',
-								pmMessageText='".$p['pmMessageText']."',
-								pmSendTimestamp='".time()."',
-								pmEnableBBCode='".$c['enableBBCode']."',
-								pmEnableSmilies='".$c['enableSmilies']."',
-								pmEnableHtmlCode='".$c['enableHtmlCode']."',
-								pmShowSignature='".$c['showSignature']."',
-								pmRequestReadReceipt='".$c['requestReadReceipt']."'
-							");
+                            $this->modules['DB']->queryParams('
+                                INSERT INTO
+                                    '.TBLPFX.'pms
+                                SET
+                                    "folderID"=1,
+                                    "pmFromID"=$1,
+                                    "pmToID"=$2,
+                                    "pmIsRead"=1,
+                                    "pmType"=1,
+                                    "pmSubject"=$3,
+                                    "pmMessageText"=$4,
+                                    "pmSendTimestamp"=$5,
+                                    "pmEnableBBCode"=$6,
+                                    "pmEnableSmilies"=$7,
+                                    "pmEnableHtmlCode"=$8,
+                                    "pmShowSignature"=$9,
+                                    "pmRequestReadReceipt"=$10
+                            ', array(
+
+                                $pmData['pmFromID'],
+                                USERID,
+
+
+                                $p['pmSubject'],
+                                $p['pmMessageText'],
+                                time(),
+                                $c['enableBBCode'],
+                                $c['enableSmilies'],
+                                $c['enableHtmlCode'],
+                                $c['showSignature'],
+                                $c['requestReadReceipt']
+                            ));
 						}
 
 						if($pmData['pmIsReplied'] != 1)
-							$this->modules['DB']->query("UPDATE ".TBLPFX."pms SET pmIsReplied='1' WHERE pmID='$pmID'");
+                            $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'pms SET "pmIsReplied"=1 WHERE "pmID"=$1', array($pmID));
 
 						Functions::myHeader(INDEXFILE."?action=PrivateMessages&".MYSID);
 					}
@@ -481,7 +515,7 @@ class PrivateMessages extends ModuleTemplate {
 				break;
 
 			case 'ManageFolders':
-				$this->modules['DB']->query("SELECT * FROM ".TBLPFX."pms_folders WHERE userID='".USERID."' ORDER BY folderName ASC");
+                $this->modules['DB']->queryParams('SELECT * FROM '.TBLPFX.'pms_folders WHERE "userID"=$1 ORDER BY "folderName" ASC', array(USERID));
 				$foldersData = $this->modules['DB']->raw2Array();
 
 				$this->modules['Template']->assign(array(
@@ -499,19 +533,23 @@ class PrivateMessages extends ModuleTemplate {
 				if(isset($_GET['doit'])) {
 					if($p['folderName'] == '') $error = $this->modules['Language']->getString('error_invalid_folder_name');
 					else {
-						$this->modules['DB']->query("SELECT MAX(folderID) AS maxFolderID FROM ".TBLPFX."pms_folders WHERE userID='".USERID."'");
+                        $this->modules['DB']->queryParams('SELECT MAX("folderID") AS "maxFolderID" FROM '.TBLPFX.'pms_folders WHERE "userID"=$1', array(USERID));
 						list($maxFolderID) = $this->modules['DB']->fetchArray();
 
 						if($maxFolderID < 1) $maxFolderID = 1;
 
-						$this->modules['DB']->query("
-							INSERT INTO
-								".TBLPFX."pms_folders
-							SET
-								folderID='".($maxFolderID+1)."',
-								userID='".USERID."',
-								folderName='".$p['folderName']."'
-						");
+                        $this->modules['DB']->queryParams('
+                            INSERT INTO
+                                '.TBLPFX.'pms_folders
+                            SET
+                                "folderID"=$1,
+                                "userID"=$2,
+                                "folderName"=$3
+                        ', array(
+                            $maxFolderID+1,
+                            USERID,
+                            $p['folderName']
+                        ));
 
 						Functions::myHeader(INDEXFILE."?action=PrivateMessages&mode=ManageFolders&".MYSID);
 					}
@@ -528,7 +566,7 @@ class PrivateMessages extends ModuleTemplate {
 			case 'EditFolder':
 				$folderID = isset($_GET['folderID']) ? intval($_GET['folderID']) : 0;
 
-				$this->modules['DB']->query("SELECT * FROM ".TBLPFX."pms_folders WHERE userID='".USERID."' AND folderID='".$folderID."'");
+                $this->modules['DB']->queryParams('SELECT * FROM '.TBLPFX.'pms_folders WHERE "userID"=$1 AND "folderID"=$2', array(USERID, $folderID));
 				($this->modules['DB']->getAffectedRows() != 1) ? die('Kann Daten nich laden: PM-Ordner') : $folderData = $this->modules['DB']->fetchArray();
 
 				$p = Functions::getSGValues($_POST['p'],array('folderName'),'',Functions::addSlashes($folderData));
@@ -538,15 +576,19 @@ class PrivateMessages extends ModuleTemplate {
 				if(isset($_GET['doit'])) {
 					if($p['folderName'] == '') $error = $this->modules['Language']->getString('error_invalid_folder_name');
 					else {
-						$this->modules['DB']->query("
-							UPDATE
-								".TBLPFX."pms_folders
-							SET
-								FolderName='".$p['folderName']."'
-							WHERE
-								UserID='".USERID."'
-								AND FolderID='".$folderID."'
-						");
+                        $this->modules['DB']->queryParams('
+                            UPDATE
+                                '.TBLPFX.'pms_folders
+                            SET
+                                "FolderName"=$1
+                            WHERE
+                                "UserID"=$2
+                                AND "FolderID"=$3
+                        ', array(
+                            $p['folderName'],
+                            USERID,
+                            $folderID
+                        ));
 
 						Functions::myHeader(INDEXFILE."?action=PrivateMessages&mode=ManageFolders&".MYSID);
 					}
@@ -565,14 +607,14 @@ class PrivateMessages extends ModuleTemplate {
 				$folderID = isset($_GET['folderID']) ? intval($_GET['folderID']) : 0;
 				$moveFolderID = isset($_POST['moveFolderID']) ? intval($_POST['moveFolderID']) : -1;
 
-				$this->modules['DB']->query("SELECT * FROM ".TBLPFX."pms_folders WHERE userID='".USERID."' AND folderID='".$folderID."'");
+                $this->modules['DB']->queryParams('SELECT * FROM '.TBLPFX.'pms_folders WHERE "userID"=$1 AND "folderID"=$2', array(USERID, $folderID));
 				($this->modules['DB']->getAffectedRows() != 1) ? die('Kann Daten nich laden: PM-Ordner') : $folderData = $this->modules['DB']->fetchArray();
 
-				$this->modules['DB']->query("SELECT COUNT(*) AS folderPMsCounter FROM ".TBLPFX."pms WHERE pmToID='".USERID."' AND folderID='$folderID'");
+                $this->modules['DB']->queryParams('SELECT COUNT(*) AS "folderPMsCounter" FROM '.TBLPFX.'pms WHERE "pmToID"=$1 AND "folderID"=$2', array(USERID, $folderID));
 				list($folderPMsCounter) = $this->modules['DB']->fetchArray();
 
 				$foldersData = array($inboxFolderData,$outboxFolderData);
-				$this->modules['DB']->query("SELECT * FROM ".TBLPFX."pms_folders WHERE userID='".USERID."' AND folderID<>'".$folderID."' ORDER BY folderName ASC");
+                $this->modules['DB']->queryParams('SELECT * FROM '.TBLPFX.'pms_folders WHERE "userID"=$1 AND "folderID"<>$2 ORDER BY "folderName" ASC', array(USERID, $folderID));
 				$foldersData = array_merge($foldersData,$this->modules['DB']->raw2Array());
 
 				$error = '';
@@ -588,10 +630,10 @@ class PrivateMessages extends ModuleTemplate {
 
 					if($moveFolderID != -1 && !$validFolder) $error = $this->modules['Language']->getString('Invalid_selection');
 					else {
-						if($moveFolderID == -1) $this->modules['DB']->query("DELETE FROM ".TBLPFX."pms WHERE pmToID='".USERID."' AND folderID='".$folderID."'");
-						else $this->modules['DB']->query("UPDATE ".TBLPFX."pms SET folderID='".$moveFolderID."' WHERE pmToID='".USERID."' AND folderID='".$folderID."'");
+						if($moveFolderID == -1) $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'pms WHERE "pmToID"=$1 AND "folderID"=$2', array(USERID, $folderID));
+						else $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'pms SET "folderID"=$1 WHERE "pmToID"=$2 AND "folderID"=$3', array($moveFolderID, USERID, $folderID));
 
-						$this->modules['DB']->query("DELETE FROM ".TBLPFX."pms_folders WHERE userID='".USERID."' AND folderID='".$folderID."'");
+                        $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'pms_folders WHERE "userID"=$1 AND "folderID"=$2', array(USERID, $folderID));
 
 						Functions::myHeader(INDEXFILE."?action=PrivateMessages&mode=ManageFolders&".MYSID);
 					}
@@ -618,11 +660,11 @@ class PrivateMessages extends ModuleTemplate {
 				 * Check if target folder is valid
 				 */
 				if($targetFolderID != 0 && $targetFolderID != 1) {
-					$this->modules['DB']->query("SELECT folderID FROM ".TBLPFX."pms_folders WHERE folderID='$targetFolderID' AND userID='".USERID."'");
+                    $this->modules['DB']->queryParams('SELECT "folderID" FROM '.TBLPFX.'pms_folders WHERE "folderID"=$1 AND "userID"=$2', array($targetFolderID, USERID));
 					if($this->modules['DB']->getAffectedRows() == 0) Functions::myHeader(INDEXFILE."?action=PrivateMessages&mode=ViewFolder&folderID=$returnFolderID&page=$returnPage&".MYSID);
 				}
 
-				$this->modules['DB']->query("UPDATE ".TBLPFX."pms SET folderID='$targetFolderID' WHERE pmID IN ('".implode("','",$pmIDs)."') AND pmToID='".USERID."'");
+                $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'pms SET "folderID"=$1 WHERE "pmID" IN $2 AND "pmToID"=$3', array($targetFolderID, $pmIDs, USERID)); //WHERE pmID IN ('".implode("','",$pmIDs)."') AND pmToID='".USERID."'");
 
 				Functions::myHeader(INDEXFILE."?action=PrivateMessages&mode=ViewFolder&folderID=$returnFolderID&page=$returnPage&".MYSID);
 				break;

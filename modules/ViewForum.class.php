@@ -96,7 +96,7 @@ class ViewForum extends ModuleTemplate {
 			//
 			$curTopicPic = '';
 			if($curTopic['topicSmileyFileName'] != '')
-				$curTopicPic = '<img src="'.$curTopic['topicSmileyFileName'].'" alt="" border="0"/>';
+				$curTopicPic = '<img src="'.$curTopic['topicSmileyFileName'].'" alt=""/>';
 
 			$curTopic['_topicPrefix'] = $curPrefix;
 			//$curTopic['_topicStatus'] = $curStatus;

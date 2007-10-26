@@ -194,7 +194,7 @@ class ViewTopic extends ModuleTemplate {
 				// Avatar
 				//
 				if($this->modules['Config']->getValue('enable_avatars') == 1 && $curPost['postPosterAvatarAddress'] != '')
-					$curPosterAvatar = '<img src="'.$curPost['postPosterAvatarAddress'].'" alt="" border="0"/>';
+					$curPosterAvatar = '<img src="'.$curPost['postPosterAvatarAddress'].'" alt=""/>';
 
 
 				//
@@ -206,15 +206,15 @@ class ViewTopic extends ModuleTemplate {
 				}
 				elseif($curPost['postPosterIsAdmin'] == 1) { // Falls der User Administrator ist...
 					$curPosterRankText = $this->modules['Language']->getString('rank_administrator'); // ...seinen Rang darauf setzen...
-					$curPosterRankPic = '<img src="'.$this->modules['Config']->getValue('admin_rank_pic').'" alt="" border="0"/>'; // ...und das entsprechende Bild verwenden
+					$curPosterRankPic = '<img src="'.$this->modules['Config']->getValue('admin_rank_pic').'" alt=""/>'; // ...und das entsprechende Bild verwenden
 				}
 				elseif($curPost['postPosterIsSupermod'] == 1) { // Falls der User Supermoderator ist...
 					$curPosterRankText = $this->modules['Language']->getString('rank_supermoderator'); // ...seinen Rang darauf setzen...
-					$curPosterRankPic = '<img src="'.$this->modules['Config']->getValue('supermod_rank_pic').'" alt="" border="0"/>'; // ...und das entsprechende Bild verwenden
+					$curPosterRankPic = '<img src="'.$this->modules['Config']->getValue('supermod_rank_pic').'" alt=""/>'; // ...und das entsprechende Bild verwenden
 				}
 				elseif(isset($forumModIDs[$curPost['posterID']]) == TRUE) { // Falls der User Moderator ist...
 					$curPosterRankText = $this->modules['Language']->getString('rank_moderator'); // ...seinen Rang darauf setzen...
-					$curPosterRankPic = '<img src="'.$this->modules['Config']->getValue('mod_rank_pic').'" alt="" border="0"/>'; // ...und das entsprechende Bild verwenden
+					$curPosterRankPic = '<img src="'.$this->modules['Config']->getValue('mod_rank_pic').'" alt=""/>'; // ...und das entsprechende Bild verwenden
 				}
 				else { // Falls der User ein ganz normaler User ist...
 					foreach($ranksData[0] AS $curRank) { // Die Rangliste durchlaufen

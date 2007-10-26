@@ -319,7 +319,7 @@ class EditProfile extends ModuleTemplate {
 								USERID
 							));
 
-							$avatarSelectedText = sprintf($this->modules['Language']->getString('avatar_selected_text'),'<img src="'.$localAvatarFileName.'" width="'.$this->modules['Config']->getValue('avatar_image_width').'" height="'.$this->modules['Config']->getValue('avatar_image_height').'" border="0" alt=""/>');
+							$avatarSelectedText = sprintf($this->modules['Language']->getString('avatar_selected_text'),'<img src="'.$localAvatarFileName.'" width="'.$this->modules['Config']->getValue('avatar_image_width').'" height="'.$this->modules['Config']->getValue('avatar_image_height').'" alt=""/>');
 							FuncMisc::printMessage(array($this->modules['Language']->getString('Avatar_selected'),$avatarSelectedText),array(),TRUE);
 						}
 					}
