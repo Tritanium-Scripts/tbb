@@ -174,7 +174,8 @@ class ViewForum extends ModuleTemplate {
 		',array(
 			$forumID,
             $start,
-            $this->modules['Config']->getValue('topics_per_page')
+            //Hier ein musste (int) hin, da es sonst SQL fehler gab, da der wert in queryparams als string bejandelt wurde und als '15' anstatt 15 ausgegeben wurde. evtl bug?!
+            (int) $this->modules['Config']->getValue('topics_per_page')
 		));
 		return $this->modules['DB']->raw2Array();
 	}
