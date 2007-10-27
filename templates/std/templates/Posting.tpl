@@ -126,7 +126,7 @@
    <table id="idPollOptionsTable" border="0" cellpadding="1" cellspacing="0">
    {foreach from=$p.pollOptions item=curOption name=pollOptionsLoop}
     <tr id="idOption{$smarty.foreach.pollOptionsLoop.iteration}">
-     <td style="padding:3px;"><input type="text" class="FormText" size="30" value="{$curOption}" name="p[pollOptions][]""/></td>
+     <td style="padding:3px;"><input type="text" class="FormText" size="30" value="{$curOption}" name="p[pollOptions][]"/></td>
      <td style="padding:3px;"><span class="FontSmall"><a href="javascript:deletePollOption('idOption{$smarty.foreach.pollOptionsLoop.iteration}');">l&ouml;schen</a></span></td>
     </tr>
    {/foreach}
