@@ -125,7 +125,7 @@ class FuncCats {
 
 		if($catID == 1) return array();
 
-        $DB->queryParams('SELECT t1.* FROM '.TBLPFX.'cats AS t1, '.TBLPFX.'cats AS t2 WHERE t2."catID"=$1 AND t1."catID"<>1 AND t2."catL" BETWEEN t1."catL" AND t1."catR" '.(!$includeSelf ? 'AND t1."catID"<>$1' : '').' ORDER BY t1."catL"', array($catID, ));
+        $DB->queryParams('SELECT t1.* FROM '.TBLPFX.'cats AS t1, '.TBLPFX.'cats AS t2 WHERE t2."catID"=$1 AND t1."catID"<>1 AND t2."catL" BETWEEN t1."catL" AND t1."catR" '.(!$includeSelf ? 'AND t1."catID"<>$1' : '').' ORDER BY t1."catL"', array($catID));
 
 		return $DB->raw2Array();
 	}
