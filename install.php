@@ -340,7 +340,6 @@ class BoardInstall {
 
 			case '5':
 				$this->selectDBAndConnect();
-				print_r($this->DB->splitQueries(file_get_contents('modules/DB/TSMySQL.scheme.sql.sql')));
 
 				$DATAVERSION = ''; // Beinhaltet spaeter die Version der Daten aus der Datenbank
 				$_SESSION['drop_tables'] = FALSE; // Gibt spaeter an, ob die Tabellen vor der Installation geloescht werden
@@ -469,42 +468,38 @@ class BoardInstall {
 			//* Fuegt die Basisdaten ein
 			//*
 			case '6':
-				switch($_SESSION['dbtype']) {
+				$this->selectDBAndConnect();
+
+				switch($_SESSION['dbType']) {
 					case 'mysql':
-						include_once('db/mysql.class.php');
-						$scheme_file = @fread(@fopen('db/mysql.scheme.sql','rb'),@filesize('db/mysql.scheme.sql'));
-						$basic_file = @fread(@fopen('db/mysql.basic.sql','rb'),@filesize('db/mysql.basic.sql'));
-						$drop_file = @fread(@fopen('db/mysql.drop.sql','rb'),@filesize('db/mysql.drop.sql'));
-					break;
-				}
-
-				$this->DB = new db;
-				install_connect_db();
-
-				if(isset($_GET['doit'])) {
-					if(isset($_POST['p_button_back'])) header("Location: install.php?step=5&$MYSID");
-					else header("Location: install.php?step=7&$MYSID");
-
-					exit;
+						$sqlSchemeFile = file_get_contents('modules/DB/TSMySQL.scheme.sql');
+						$sqlBasicFile = file_get_contents('modules/DB/TSMySQL.basic.sql');
+						$sqlDropFile = file_get_contents('modules/DB/TSMySQL.drop.sql');
+						break;
 				}
 
 				$this->printHeader();
 
 				?>
-					<form method="post" action="install.php?step=6&amp;doit=1&amp;<?php echo $MYSID; ?>">
-					<table class="standard_table" border="0" cellpadding="2" cellspacing="0" width="100%">
-					<tr><td class="th1" colspan="2"><span class="th1"><?php echo $this->steps[$this->step-1]; ?></span></td></tr>
-					<tr><td colspan="2"><span class="FontNorm"><?php echo $this->strings['basic_data_insertion_info']; ?></span></td></tr>
+				<form method="post" action="install.php?step=4&amp;doit=1&amp;<?php echo $MYSID; ?>">
+					<table class="TableStd" width="100%">
+						<colgroup>
+							<col width="15%"/>
+							<col width="85%"/>
+						</colgroup>
+						<tr><td class="CellCat" colspan="2"><span class="FontCat"><?php echo $this->steps[$this->step-1]; ?></span></td></tr>
+						<?php if(count($errors) > 0) { ?> <tr><td colspan="2" class="CellError"><span class="FontNorm"><ul><?php foreach($errors AS $curError) echo '<li><span class="FontError">'.$curError.'</span></li>'; ?></ul></span></td></tr><?php } ?>
+						<tr><td colspan="2"><span class="FontNorm"><?php echo $this->strings['basic_data_insertion_info']; ?></span></td></tr>
 					</table>
 					<br/>
-					<table class="standard_table" border="0" cellpadding="2" cellspacing="0" width="100%">
+					<table class="TableStd" width="100%">
 				<?php
 
-				if($_SESSION['drop_tables'] == TRUE) {
+				if(isset($_SESSION['dropTables']) && $_SESSION['dropTables']) {
 					?>
-						<tr>
-						  <td class="CellWhite" valign="top" width="20%"><span class="FontNorm"><?php echo $this->strings['Deleting_old_tables']; ?></span></td>
-						  <td class="CellWhite" valign="top" width="80%"><span class="FontNorm">
+					<tr>
+						<td class="CellWhite" valign="top"><span class="FontNorm"><?php echo $this->strings['Deleting_old_tables']; ?></span></td>
+						<td class="CellWhite" valign="top"><span class="FontNorm">
 					<?php
 
 					$drop_file = str_replace('tblprefix.',$_SESSION['tableprefix'],$drop_file);
@@ -519,9 +514,10 @@ class BoardInstall {
 				}
 
 				?>
-					<tr>
-					  <td class="CellWhite" valign="top" width="20%"><span class="FontNorm"><?php echo $this->strings['Creating_tables']; ?></span></td>
-					  <td class="CellWhite" valign="top" width="80%"><span class="FontNorm">
+				<tr>
+					<td class="CellWhite" valign="top"><span class="FontNorm"><?php echo $this->strings['Creating_tables']; ?></span></td>
+					<td class="CellWhite" valign="top">
+						<span class="FontNorm">
 				<?php
 
 				$scheme_file = str_replace('tblprefix.',$_SESSION['tableprefix'],$scheme_file);
@@ -530,11 +526,12 @@ class BoardInstall {
 				else echo '<span class="FontGreen">'.$this->strings['successful'].'</span>';
 
 				?>
-					 </span></td>
-					 </tr>
-					 <tr>
-					  <td class="CellWhite" valign="top" width="20%"><span class="FontNorm"><?php echo $this->strings['Inserting_basic_data']; ?></span></td>
-					  <td class="CellWhite" valign="top" width="80%"><span class="FontNorm">
+						</span>
+					</td>
+				</tr>
+				<tr>
+					<td class="CellWhite" valign="top"><span class="FontNorm"><?php echo $this->strings['Inserting_basic_data']; ?></span></td>
+					<td class="CellWhite" valign="top"><span class="FontNorm">
 				<?php
 
 				$basic_file = str_replace('tblprefix.',$_SESSION['tableprefix'],$basic_file);

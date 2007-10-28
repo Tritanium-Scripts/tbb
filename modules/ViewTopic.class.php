@@ -358,7 +358,7 @@ class ViewTopic extends ModuleTemplate {
         ', array(
             $topicID,
             $start,
-            $this->modules['Config']->getValue('posts_per_page')
+            (int) $this->modules['Config']->getValue('posts_per_page')
         ));
 
 		return $this->modules['DB']->raw2Array();
