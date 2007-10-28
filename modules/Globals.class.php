@@ -27,6 +27,10 @@ class Globals extends ModuleTemplate {
 		// global page frame
 		$this->modules['Template']->setGlobalFrame(array($this,'printHeader'),array($this,'printTail'));
 
+        //Siehe Ticket #35
+        // proper content type
+        //if(stristr($_SERVER['HTTP_ACCEPT'],'application/xhtml+xml')) header('Content-Type: application/xhtml+xml');
+
 		// last visit / last action
 		if($this->modules['Auth']->isLoggedIn()) {
 			// 2419200 seconds = 28 days. perhaps we should use a config value instead

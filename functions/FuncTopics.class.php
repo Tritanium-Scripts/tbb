@@ -1,9 +1,9 @@
 <?php
 
 class FuncTopics {
-	public static function getTopicData($TopicID) {
+	public static function getTopicData($topicID) {
 		$DB = Factory::singleton('DB');
-		$DB->query("SELECT * FROM ".TBLPFX."topics WHERE TopicID='$TopicID'");
+        $DB->queryParams('SELECT * FROM '.TBLPFX.'topics WHERE "topicID"=$1', array($topicID));
 		return ($DB->getAffectedRows() == 1) ? $DB->fetchArray() : FALSE;
 	}
 

@@ -1,9 +1,9 @@
 <?php
 
 class FuncForums {
-	public static function getForumData($ForumID) {
+	public static function getForumData($forumID) {
 		$DB = Factory::singleton('DB');
-		$DB->query("SELECT * FROM ".TBLPFX."forums WHERE ForumID='$ForumID'");
+        $DB->queryParams('SELECT * FROM '.TBLPFX.'forums WHERE "forumID"=$1', array($forumID));
 		return ($DB->getAffectedRows() == 1) ? $DB->fetchArray() : FALSE;
 	}
 

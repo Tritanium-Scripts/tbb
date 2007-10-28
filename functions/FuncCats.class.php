@@ -7,17 +7,17 @@ class FuncCats {
 	function addCatData($parentID = 1) {
 		$DB = Factory::singleton('DB');
 
-		$DB->query("LOCK TABLES ".TBLPFX."cats WRITE"); // Die Tabelle sperren
+		$DB->query('LOCK TABLES '.TBLPFX.'cats WRITE'); // Die Tabelle sperren
 
-		$DB->query("SELECT catL,catR FROM ".TBLPFX."cats WHERE catID='$parentID'"); // Die Daten der uebergeordneten Kategorie laden
+        $DB->queryParams('SELECT "catL", "catR" FROM '.TBLPFX.'cats WHERE "catID"=$1', array($parentID)); // Die Daten der uebergeordneten Kategorie laden
 		$parentCatData = $DB->fetchArray();
 
-		$DB->query("UPDATE ".TBLPFX."cats SET catL=catL+2 WHERE catL> '".$parentCatData['catR']."'"); // Platz schaffen
-		$DB->query("UPDATE ".TBLPFX."cats SET catR=catR+2 WHERE catR>='".$parentCatData['catR']."'"); // und nochmal Platz schaffen
-		$DB->query("INSERT INTO ".TBLPFX."cats (catL,catR) VALUES ('".$parentCatData['catR']."','".($parentCatData['catR']+1)."')"); // Daten der neuen Kategorie einfuegen
+        $DB->queryParams('UPDATE '.TBLPFX.'cats SET "catL"="catL"+2 WHERE "catL">$1', array($parentCatData['catR'])); // Platz schaffen
+        $DB->queryParams('UPDATE '.TBLPFX.'cats SET "catR"="catR"+2 WHERE "catR">=$1', array($parentCatData['catR'])); // und nochmal Platz schaffen
+        $DB->queryParams('INSERT INTO '.TBLPFX.'cats ("catL", "catR") VALUES ($1, $2)', array($parentCatData['catR'], $parentCatData['catR']+1)); // Daten der neuen Kategorie einfuegen
 		$newCatID = $DB->getInsertID();
 
-		$DB->query("UNLOCK TABLES"); // Tabelle entsperren
+		$DB->query('UNLOCK TABLES'); // Tabelle entsperren
 
 		return $newCatID;
 	}
@@ -25,81 +25,81 @@ class FuncCats {
 	public static function moveCat($catID,$targetID) {
 		$DB = Factory::singleton('DB');
 
-		$DB->query("LOCK TABLES ".TBLPFX."cats WRITE");
+		$DB->query('LOCK TABLES '.TBLPFX.'cats WRITE');
 
-		$DB->query("SELECT catL,catR,(catR-catL+1) AS catSize FROM ".TBLPFX."cats WHERE catID='$catID'");
+        $DB->queryParams('SELECT "catL", "catR", ("catR"-"catL"+1) AS "catSize" FROM '.TBLPFX.'cats WHERE "catID"=$1', array($catID));
 		$catData = $DB->fetchArray();
 
-		$DB->query("SELECT catL,catR FROM ".TBLPFX."cats WHERE catID='$targetID'");
+        $DB->queryParams('SELECT "catL", "catR" FROM '.TBLPFX.'cats WHERE "catID"=$1', array($targetID));
 		$targetCatData = $DB->fetchArray();
 
 		if($targetCatData['catL'] < $catData['catL'] || $targetCatData['catL'] > $catData['catR']) {
-			$DB->query("UPDATE ".TBLPFX."cats SET catL=catL*-1, catR=catR*-1 WHERE catL BETWEEN '".$catData['catL']."' AND '".$catData['catR']."'"); // Den gewaehlten Ast ins Negative verschieben
+            $DB->queryParams('UPDATE '.TBLPFX.'cats SET "catL"="catL"*-1, "catR"="catR"*-1 WHERE "catL" BETWEEN $1 AND $2', array($catData['catL'], $catData['catR'])); // Den gewaehlten Ast ins Negative verschieben
 
-			$DB->query("UPDATE ".TBLPFX."cats SET catL=catL-".$catData['catSize']." WHERE catL>'".$catData['catR']."'"); // Das entstandene Loch beseitigen
-			$DB->query("UPDATE ".TBLPFX."cats SET catR=catR-".$catData['catSize']." WHERE catR>'".$catData['catR']."'"); // Das entstandene Loch beseitigen
+            $DB->queryParams('UPDATE '.TBLPFX.'cats SET "catL"="catL"-$1 WHERE "catL">$2', array($catData['catSize'], $catData['catR'])); // Das entstandene Loch beseitigen
+            $DB->queryParams('UPDATE '.TBLPFX.'cats SET "catR"="catR"-$1 WHERE "catR">$2', array($catData['catSize'], $catData['catR'])); // Das entstandene Loch beseitigen
 
 			if($targetCatData['catR'] > $catData['catR']) $targetCatData['catR'] -= $catData['catSize'];
 
-			$DB->query("UPDATE ".TBLPFX."cats SET catL=catL+".$catData['catSize']." WHERE catL> '".$targetCatData['catR']."'"); // Platz schaffen am neuen Ort fuer den Ast
-			$DB->query("UPDATE ".TBLPFX."cats SET catR=catR+".$catData['catSize']." WHERE catR>='".$targetCatData['catR']."'"); // Platz schaffen am neuen Ort fuer den Ast
+            $DB->queryParams('UPDATE '.TBLPFX.'cats SET "catL"="catL"+$1 WHERE "catL">$2', array($catData['catSize'], $targetCatData['catR'])); // Platz schaffen am neuen Ort fuer den Ast
+            $DB->queryParams('UPDATE '.TBLPFX.'cats SET "catR"="catR"+$1 WHERE "catR">=$2', array($catData['catSize'], $targetCatData['catR'])); // Platz schaffen am neuen Ort fuer den Ast
 
 			$moveSteps = $targetCatData['catR'] - $catData['catL'];
 
-			$DB->query("UPDATE ".TBLPFX."cats SET catL=catL*-1+$moveSteps, catR=catR*-1+$moveSteps WHERE catL BETWEEN  '".($catData['catR']*-1)."' AND '".($catData['catL']*-1)."'"); // Den Ast aus dem Negativen wieder ins Positive verschieben und direkt an die richtige Stelle machen
+            $DB->queryParams('UPDATE '.TBLPFX.'cats SET "catL"="catL"*-1+$1, "catR"="catR"*-1+$1 WHERE "catL" BETWEEN $2 AND $3', array($moveSteps, $catData['catR']*-1, $catData['catL']*-1)); // Den Ast aus dem Negativen wieder ins Positive verschieben und direkt an die richtige Stelle machen
 		}
 
-		$DB->query("UNLOCK TABLES");
+		$DB->query('UNLOCK TABLES');
 	}
 
 	static public function moveCatDown($catID) {
 		$DB = Factory::singleton('DB');
 
-		$DB->query("LOCK TABLES ".TBLPFX."cats WRITE");
+		$DB->query('LOCK TABLES '.TBLPFX.'cats WRITE');
 
-		$DB->query("SELECT catL,catR,(catR-catL+1) AS catSize FROM ".TBLPFX."cats WHERE catID='$catID'");
+        $DB->queryParams('SELECT "catL", "catR", ("catR"-"catL"+1) AS "catSize" FROM '.TBLPFX.'cats WHERE "catID"=$1', array($catID));
 		$catData = $DB->fetchArray();
 
-		$DB->query("SELECT catL,catR FROM ".TBLPFX."cats WHERE catL='".($catData['catR']+1)."'");
+        $DB->queryParams('SELECT "catL", "catR" FROM '.TBLPFX.'cats WHERE "catL"=$1', array($catData['catR']+1));
 		if($DB->getAffectedRows() == 0) return FALSE;
 		$targetCatData = $DB->fetchArray();
 
 		$moveSteps = $targetCatData['catR'] - $catData['catL'] + 1;
 
-		$DB->query("UPDATE ".TBLPFX."cats SET catL=catL+".$catData['catSize']." WHERE catL>'".$targetCatData['catR']."'");
-		$DB->query("UPDATE ".TBLPFX."cats SET catR=catR+".$catData['catSize']." WHERE catR>'".$targetCatData['catR']."'");
+        $DB->queryParams('UPDATE '.TBLPFX.'cats SET "catL"="catL"+$1 WHERE "catL">$2', array($catData['catSize'], $targetCatData['catR']));
+        $DB->queryParams('UPDATE '.TBLPFX.'cats SET "catR"="catR"+$1 WHERE "catR">$2', array($catData['catSize'], $targetCatData['catR']));
 
-		$DB->query("UPDATE ".TBLPFX."cats SET catL=catL+$moveSteps, catR=catR+$moveSteps WHERE catL BETWEEN '".$catData['catL']."' AND '".$catData['catR']."'");
+        $DB->queryParams('UPDATE '.TBLPFX.'cats SET "catL"="catL"+$1, "catR"="catR"+$1 WHERE "catL" BETWEEN $2 AND $3', array($moveSteps, $catData['catL'], $catData['catR']));
 
-		$DB->query("UPDATE ".TBLPFX."cats SET catL=catL-".$catData['catSize']." WHERE catL>'".$catData['catR']."'");
-		$DB->query("UPDATE ".TBLPFX."cats SET catR=catR-".$catData['catSize']." WHERE catR>'".$catData['catR']."'");
+        $DB->queryParams('UPDATE '.TBLPFX.'cats SET "catL"="catL"-$1 WHERE "catL">$2', array($catData['catSize'], $catData['catR']));
+        $DB->queryParams('UPDATE '.TBLPFX.'cats SET "catR"="catR"-$1 WHERE "catR">$2', array($catData['catSize'], $catData['catR']));
 
-		$DB->query("UNLOCK TABLES");
+		$DB->query('UNLOCK TABLES');
 	}
 
 	static public function moveCatUp($catID) {
 		$DB = Factory::singleton('DB');
 
-		$DB->query("LOCK TABLES ".TBLPFX."cats WRITE");
+		$DB->query('LOCK TABLES '.TBLPFX.'cats WRITE');
 
-		$DB->query("SELECT catL,catR,(catR-catL+1) AS catSize FROM ".TBLPFX."cats WHERE catID='$catID'");
+        $DB->queryParams('SELECT "catL", "catR", ("catR"-"catL"+1) AS "catSize" FROM '.TBLPFX.'cats WHERE "catID"=$1', array($catID));
 		$catData = $DB->fetchArray();
 
-		$DB->query("SELECT catL,catR FROM ".TBLPFX."cats WHERE catR='".($catData['catL']-1)."'");
+        $DB->queryParams('SELECT "catL", "catR" FROM '.TBLPFX.'cats WHERE "catR"=$1', array($catData['catL']-1));
 		if($DB->getAffectedRows() == 0) return FALSE;
 		$targetCatData = $DB->fetchArray();
 
 		$moveSteps = $catData['catR']-$targetCatData['catL']+1;
 
-		$DB->query("UPDATE ".TBLPFX."cats SET catL=catL+".$catData['catSize']." WHERE catL>='".$targetCatData['catL']."'");
-		$DB->query("UPDATE ".TBLPFX."cats SET catR=catR+".$catData['catSize']." WHERE catR> '".$targetCatData['catL']."'");
+        $DB->queryParams('UPDATE '.TBLPFX.'cats SET "catL"="catL"+$1 WHERE "catL">=$2', array($catData['catSize'], $targetCatData['catL']));
+        $DB->queryParams('UPDATE '.TBLPFX.'cats SET "catR"="catR"+$1 WHERE "catR">$2', array($catData['catSize'], $targetCatData['catL']));
 
-		$DB->query("UPDATE ".TBLPFX."cats SET catL=catL-$moveSteps, catR=catR-$moveSteps WHERE catL BETWEEN '".($catData['catL']+$catData['catSize'])."' AND '".($catData['catR']+$catData['catSize'])."'");
+        $DB->queryParams('UPDATE '.TBLPFX.'cats SET "catL"="catL"-$1, "catR"="catR"-$1 WHERE "catL" BETWEEN $2 AND $3', array($moveSteps, $catData['catL']+$catData['catSize'], $catData['catR']+$catData['catSize']));
 
-		$DB->query("UPDATE ".TBLPFX."cats SET catL=catL-".$catData['catSize']." WHERE catL>'".($targetCatData['catR']+$catData['catSize'])."'");
-		$DB->query("UPDATE ".TBLPFX."cats SET catR=catR-".$catData['catSize']." WHERE catR>'".($targetCatData['catR']+$catData['catSize'])."'");
+        $DB->queryParams('UPDATE '.TBLPFX.'cats SET "catL"="catL"-$1 WHERE "catL">$2', array($catData['catSize'], $targetCatData['catR']+$catData['catSize']));
+        $DB->queryParams('UPDATE '.TBLPFX.'cats SET "catR"="catR"-$1 WHERE "catR">$2', array($catData['catSize'], $targetCatData['catR']+$catData['catSize']));
 
-		$DB->query("UNLOCK TABLES");
+		$DB->query('UNLOCK TABLES');
 	}
 
 
@@ -112,7 +112,7 @@ class FuncCats {
 	static public function getParentCatData($catID) {
 		$DB = Factory::singleton('DB');
 
-		$DB->query("SELECT t1.* FROM ".TBLPFX."cats AS t1, ".TBLPFX."cats AS t2 WHERE t2.catID='$catID' AND t1.catID<>'$catID' AND t2.catL BETWEEN t1.catL AND t1.catR ORDER BY t1.catL DESC LIMIT 1");
+        $DB->queryParams('SELECT t1.* FROM '.TBLPFX.'cats AS t1, '.TBLPFX.'cats AS t2 WHERE t2."catID"=$1 AND t1."catID"<>$1 AND t2."catL" BETWEEN t1."catL" AND t1."catR" ORDER BY t1."catL" DESC LIMIT 1', array($catID));
 		return ($DB->getAffectedRows() == 0) ? FALSE : $DB->fetchArray();
 	}
 
@@ -125,7 +125,7 @@ class FuncCats {
 
 		if($catID == 1) return array();
 
-		$DB->query("SELECT t1.* FROM ".TBLPFX."cats AS t1, ".TBLPFX."cats AS t2 WHERE t2.catID='$catID' AND t1.catID<>1 AND t2.catL BETWEEN t1.catL AND t1.catR ".(!$includeSelf ? "AND t1.catID<>'$catID'" : '')." ORDER BY t1.catL");
+        $DB->queryParams('SELECT t1.* FROM '.TBLPFX.'cats AS t1, '.TBLPFX.'cats AS t2 WHERE t2."catID"=$1 AND t1."catID"<>1 AND t2."catL" BETWEEN t1."catL" AND t1."catR" '.(!$includeSelf ? 'AND t1."catID"<>$1' : '').' ORDER BY t1."catL"', array($catID, ));
 
 		return $DB->raw2Array();
 	}
@@ -140,13 +140,13 @@ class FuncCats {
 	static public function getCatsData($catID = 1) {
 		$DB = Factory::singleton('DB');
 
-		if($catID == 1) $DB->query("SELECT t1.*, COUNT(*)-1 AS catDepth, (t1.catR - t1.catL - 1) / 2 AS catChildsCounter FROM (".TBLPFX."cats AS t1, ".TBLPFX."cats AS t2) WHERE t1.catID<>'1' AND t1.catL BETWEEN t2.catL AND t2.catR GROUP BY t1.catL ORDER BY catL");
+		if($catID == 1) $DB->query('SELECT t1.*, COUNT(*)-1 AS "catDepth", (t1."catR" - t1."catL" - 1) / 2 AS "catChildsCounter" FROM ('.TBLPFX.'cats AS t1, '.TBLPFX.'cats AS t2) WHERE t1."catID"<>1 AND t1."catL" BETWEEN t2."catL" AND t2."catR" GROUP BY t1.catL ORDER BY "catL"');
 		else {
-			$DB->query("SELECT catL,catR FROM ".TBLPFX."cats WHERE catID='$catID'");
+            $DB->queryParams('SELECT "catL", "catR" FROM '.TBLPFX.'cats WHERE "catID"=$1', array($catID));
 			if($DB->getAffectedRows() != 1) return FALSE;
 
 			list($catL,$catR) = $DB->fetchArray();
-			$DB->query("SELECT t1.*, COUNT(*)-1 AS catDepth, (t1.catR - t1.catL - 1) / 2 AS catChildsCounter FROM (".TBLPFX."cats AS t1, ".TBLPFX."cats AS t2) WHERE t1.catID<>'$catID' AND t1.catL BETWEEN '$catL' AND '$catR' AND t1.catL BETWEEN t2.catL AND t2.catR GROUP BY t1.catL ORDER BY catL");
+            $DB->queryParams('SELECT t1.*, COUNT(*)-1 AS "catDepth", (t1."catR" - t1."catL" - 1) / 2 AS "catChildsCounter" FROM ('.TBLPFX.'cats AS t1, '.TBLPFX.'cats AS t2) WHERE t1."catID"<>$1 AND t1."catL" BETWEEN $2 AND $3 AND t1."catL" BETWEEN t2."catL" AND t2."catR" GROUP BY t1."catL" ORDER BY "catL"', array($catID, $catL, $catR));
 			if($DB->getAffectedRows() == 0) return array();
 		}
 
@@ -160,7 +160,7 @@ class FuncCats {
 	static public function getCatData($catID) {
 		$DB = Factory::singleton('DB');
 
-		$DB->query("SELECT t1.*, COUNT(*)-1 AS catDepth, (t1.catR - t1.catL - 1) / 2 AS catChildsCounter FROM ".TBLPFX."cats AS t1, ".TBLPFX."cats AS t2 WHERE t1.catID='$catID' AND t1.catL BETWEEN t2.catL AND t2.catR GROUP BY t1.catL");
+        $DB->queryParams('SELECT t1.*, COUNT(*)-1 AS "catDepth", (t1."catR" - t1."catL" - 1) / 2 AS "catChildsCounter" FROM '.TBLPFX.'cats AS t1, '.TBLPFX.'cats AS t2 WHERE t1."catID"=$1 AND t1."catL" BETWEEN t2."catL" AND t2."catR" GROUP BY t1."catL"', array($catID));
 		return ($DB->getAffectedRows() == 0) ? FALSE : $DB->fetchArray();
 	}
 }

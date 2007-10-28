@@ -4,7 +4,7 @@ class FuncConfig {
 	public static function updateLatestUser($userID = '',$userNick = '') {
 		if($userID == '' || $userNick == '') {
 			$DB = Factory::singleton('DB');
-			$DB->query("SELECT userID,userNick FROM ".TBLPFX."users ORDER BY userID DESC LIMIT 1");
+			$DB->query('SELECT "userID", "userNick" FROM '.TBLPFX.'users ORDER BY "userID" DESC LIMIT 1');
 			list($userID,$userNick) = $DB->fetchArray();
 		}
 
