@@ -5,7 +5,7 @@ class DBConfig extends ConfigTemplate {
 		'dbType'=>'Mysql',
 		'dbServer'=>'localhost',
 		'dbUser'=>'root',
-		'dbPassword'=>'',
+		'dbPassword'=>'root',
 		'dbName'=>'tbb2test',
 		'tablePrefix'=>'tbb2_'
 	);

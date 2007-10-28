@@ -339,14 +339,8 @@ class BoardInstall {
 
 
 			case '5':
-				switch($_SESSION['dbType']) {
-					case 'mysql':
-						include_once('modules/DB/TSMySQL.class.php');
-					break;
-				}
-
-				$this->DB = new TSMySQL;
-				$this->connect();
+				$this->selectDBAndConnect();
+				print_r($this->DB->splitQueries(file_get_contents('modules/DB/TSMySQL.scheme.sql.sql')));
 
 				$DATAVERSION = ''; // Beinhaltet spaeter die Version der Daten aus der Datenbank
 				$_SESSION['drop_tables'] = FALSE; // Gibt spaeter an, ob die Tabellen vor der Installation geloescht werden
@@ -811,11 +805,22 @@ class BoardInstall {
 
 	}
 
-	function connect() {
-		if(!$this->DB->connect($_SESSION['dbserver'],$_SESSION['dbuser'],$_SESSION['dbpassword'],$_SESSION['dbname'])) die(sprintf($this->strings['error_connecting_database_server'],$this->DB->getConnectError()));
-		elseif(!preg_match('/^[a-z0-9_]{0,}$/i',$_SESSION['tableprefix'])) die($this->strings['error_invalid_table_prefix']);
+	protected function selectDBAndConnect() {
+		switch($_SESSION['dbType']) {
+			case 'mysql':
+				include_once('modules/DB/TSMySQL.class.php');
+				$this->DB = new TSMySQL;
+			break;
+		}
 
-		define('TBLPFX',$_SESSION['tableprefix']);
+		$this->connect();
+	}
+
+	protected function connect() {
+		if(!$this->DB->connect($_SESSION['dbServer'],$_SESSION['dbUser'],$_SESSION['dbPassword'],$_SESSION['dbName'])) die(sprintf($this->strings['error_connecting_database_server'],$this->DB->getConnectError()));
+		elseif(!preg_match('/^[a-z0-9_]{0,}$/i',$_SESSION['tablePrefix'])) die($this->strings['error_invalid_table_prefix']);
+
+		define('TBLPFX',$_SESSION['tablePrefix']);
 
 		return TRUE;
 	}

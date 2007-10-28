@@ -63,6 +63,58 @@ class TSMySQL {
 		return TRUE;
 	}
 
+	public function splitQueries($data) {
+		$queries = array('');
+		$i = 0;
+		$j = -1;
+
+		$inQuotes = FALSE;
+		$escapeChar = FALSE;
+		$charsCounter = strlen($data);
+		$inComment = '';
+
+		while(++$j < $charsCounter) {
+			if($inComment == '') {
+				if($data[$j] == ';' && !$inQuotes) {
+					$queries[$i] = trim($queries[$i]);
+					if($queries[$i] != '')
+						$queries[++$i] = '';
+					$escapeChar = FALSE;
+				}
+				elseif($data[$j] == '\\') {
+					$queries[$i] .= $data[$j];
+
+					if($inQuotes)
+						$escapeChar = TRUE;
+				}
+				elseif($data[$j] == "'") {
+					$queries[$i] .= $data[$j];
+					if($inQuotes && !$escapeChar) {
+						$inQuotes = FALSE;
+					}
+					elseif(!$inQuotes) {
+						$inQuotes = TRUE;
+					}
+					$escapeChar = FALSE;
+				}
+				elseif($data[$j] == '#') {
+					$inComment = '#';
+				}
+				else {
+					$queries[$i] .= $data[$j];
+				}
+			}
+			elseif($data[$j] == "\n" && $inComment == '#') {
+				$inComment = '';
+			}
+		}
+
+		if(trim($queries[$i]) != '') return FALSE;
+		else unset($queries[$i]);
+
+		return $queries;
+	}
+
 	public function getInsertID() {
 		return $this->dbObject->insert_id;
 	}

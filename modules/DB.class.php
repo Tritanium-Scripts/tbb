@@ -29,6 +29,10 @@ class DB extends ModuleTemplate {
 		return $result;
 	}
 
+	public function splitQueries($data) {
+		return $this->dbObject->splitQueries($data);
+	}
+
 	public function getQueryTime() {
 		return $this->queryTime;
 	}

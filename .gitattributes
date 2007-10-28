@@ -153,7 +153,10 @@ modules/Cache.class.php -text
 modules/Config.class.php -text
 modules/Constants.class.php -text
 modules/DB.class.php -text
+modules/DB/TSMySQL.basic.sql.sql -text
 modules/DB/TSMySQL.class.php -text
+modules/DB/TSMySQL.drop.sql.sql -text
+modules/DB/TSMySQL.scheme.sql.sql -text
 modules/EditProfile.class.php -text
 modules/EditTopic.class.php -text
 modules/ForumIndex.class.php -text
