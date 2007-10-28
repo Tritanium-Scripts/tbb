@@ -139,7 +139,7 @@ class EditProfile extends ModuleTemplate {
 						}
 						reset($profile_fields);
 
-                        $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'profile_fields_data WHERE "user_id"=$1 AND "fieldID" IN $2', array(USERID, $deleteIDs)); //EHEMALS: ('".implode(',',$deleteIDs)."')");
+                        $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'profile_fields_data WHERE "user_id"=$1 AND "fieldID" IN $2', array(USERID, $deleteIDs));
 					}
 				}
 
@@ -219,7 +219,7 @@ class EditProfile extends ModuleTemplate {
                         $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'topics_subscriptions WHERE "userID"=$1 AND "topicID"=$2', array(USERID, $topicID));
 
 					if(count($topicIDs) > 0)
-                        $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'topics_subscriptions WHERE "userID"=$1 AND "topicID" IN $2', array(USERID, $topicIDs)); //EHEMALS: ('".implode("','",$topicIDs)."')");
+                        $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'topics_subscriptions WHERE "userID"=$1 AND "topicID" IN $2', array(USERID, $topicIDs));
 				}
 
                 $this->modules['DB']->queryParams('SELECT t2."topicTitle", t1."topicID" FROM ('.TBLPFX.'topics_subscriptions AS t1, '.TBLPFX.'topics AS t2) WHERE t1."userID"=$1 AND t2."topicID"=t1."topicID"', array(USERID));

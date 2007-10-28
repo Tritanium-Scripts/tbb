@@ -162,7 +162,7 @@ class PrivateMessages extends ModuleTemplate {
 						else $recipientsID[] = $curRecipient;
 					}
 
-                    $this->modules['DB']->queryParams('SELECT "userID" FROM '.TBLPFX.'users WHERE "userID" IN $1 OR "userNick" IN $2 GROUP BY "userID"', array($recipientsID, $recipientsNick)); //IN ('".implode("','",$recipientsID)."') OR userNick IN ('".implode("','",$recipientsNick)."') GROUP BY userID");
+                    $this->modules['DB']->queryParams('SELECT "userID" FROM '.TBLPFX.'users WHERE "userID" IN $1 OR "userNick" IN $2 GROUP BY "userID"', array($recipientsID, $recipientsNick));
 					$recipients = $this->modules['DB']->raw2FVArray();
 
 					if(count($recipients) == 0) $error = $this->modules['Language']->getString('error_no_recipient');
@@ -282,10 +282,8 @@ class PrivateMessages extends ModuleTemplate {
 				$returnFolderID = isset($_GET['returnFolderID']) ? intval($_GET['returnFolderID']) : 0;
 				$returnPage = isset($_GET['returnPage']) ? intval($_GET['returnPage']) : 1;
 
-				if(count($pmIDs) != 0) {
-					//$pmIDs = implode("','",$pmIDs); //...WHERE pmID IN ('$pmIDs') AND...
+				if(count($pmIDs) != 0)
                     $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'pms SET "pmIsRead"=1 WHERE "pmID" IN $1 AND "pmToID"=$2 AND "pmRequestReadReceipt"<>1', array($pmIDs, USERID));
-				}
 
 				Functions::myHeader(INDEXFILE."?action=PrivateMessages&mode=ViewFolder&folderID=$returnFolderID&page=$returnPage&".MYSID);
 			break;
@@ -300,10 +298,8 @@ class PrivateMessages extends ModuleTemplate {
 				if($pmID != 0)
                     $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'pms WHERE "pmID"=$1 AND "pmToID"=$2', array($pmID, USERID));
 
-				if(count($pmIDs) != 0) {
-					//$pmIDs = implode("','",$pmIDs); //...WHERE pmID IN ('$pmIDs') AND...
+				if(count($pmIDs) != 0)
                     $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'pms WHERE "pmID" IN $1 AND "pmToID"=$2', array($pmIDs, USERID));
-				}
 
 				Functions::myHeader(INDEXFILE."?action=PrivateMessages&mode=ViewFolder&folderID=$returnFolderID&page=$returnPage&".MYSID);
 			break;
@@ -664,7 +660,7 @@ class PrivateMessages extends ModuleTemplate {
 					if($this->modules['DB']->getAffectedRows() == 0) Functions::myHeader(INDEXFILE."?action=PrivateMessages&mode=ViewFolder&folderID=$returnFolderID&page=$returnPage&".MYSID);
 				}
 
-                $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'pms SET "folderID"=$1 WHERE "pmID" IN $2 AND "pmToID"=$3', array($targetFolderID, $pmIDs, USERID)); //WHERE pmID IN ('".implode("','",$pmIDs)."') AND pmToID='".USERID."'");
+                $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'pms SET "folderID"=$1 WHERE "pmID" IN $2 AND "pmToID"=$3', array($targetFolderID, $pmIDs, USERID));
 
 				Functions::myHeader(INDEXFILE."?action=PrivateMessages&mode=ViewFolder&folderID=$returnFolderID&page=$returnPage&".MYSID);
 				break;

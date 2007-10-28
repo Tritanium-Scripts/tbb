@@ -136,7 +136,7 @@ class MemberList extends ModuleTemplate {
         ', array(
             $userIDs,
             $fieldIDs
-        )); //IN ('".implode("','",$userIDs)."') AND fieldID IN ('".implode("','",$fieldIDs)."')
+        ));
 		$fieldsValues = $this->modules['DB']->raw2Array();
 
 
