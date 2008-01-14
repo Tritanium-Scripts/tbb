@@ -120,15 +120,12 @@ class BoardInstall {
 				$this->printTail();
 			break;
 
-
-			//*
-			//* Ueberpruft das System
-			//*
+			/**
+			 * Systemueberpruefung
+			 */
 			case '3':
-				if(isset($_GET['doit'])) {
-					if(!isset($_POST['buttonAgain'])) {
-						Functions::myHeader(INSTALLFILE.'?step='.($this->step+1).'&'.MYSID);
-					}
+				if(isset($_GET['doit']) && !isset($_POST['buttonAgain'])) {
+					Functions::myHeader(INSTALLFILE.'?step='.($this->step+1).'&'.MYSID);
 				}
 
 				$results = array(
@@ -262,7 +259,7 @@ class BoardInstall {
 				$p['dbName'] = isset($_POST['p']['dbName']) ? $_POST['p']['dbName'] : (isset($_SESSION['dbname']) ? $_SESSION['dbname'] : '');
 				$p['dbUser'] = isset($_POST['p']['dbUser']) ? $_POST['p']['dbUser'] : (isset($_SESSION['dbuser']) ? $_SESSION['dbuser'] : 'root');
 				$p['dbPassword'] = isset($_POST['p']['dbPassword']) ? $_POST['p']['dbPassword'] : (isset($_SESSION['dbpassword']) ? $_SESSION['dbpassword'] : '');
-				$p['tablePrefix'] = isset($_POST['p']['tablePrefix']) ? $_POST['p']['tablePrefix'] : (isset($_SESSION['tableprefix']) ? $_SESSION['tableprefix'] : 'tbb2_');
+				$p['tablePrefix'] = isset($_POST['p']['tablePrefix']) ? $_POST['p']['tablePrefix'] : (isset($_SESSION['tablePrefix']) ? $_SESSION['tablePrefix'] : 'tbb2_');
 
 				$p['dbType'] = 'mysql';
 				$errors = array();
@@ -306,7 +303,7 @@ class BoardInstall {
 							<col width="85%"/>
 						</colgroup>
 						<tr><td class="CellCat" colspan="2"><span class="FontCat"><?php echo $this->steps[$this->step-1]; ?></span></td></tr>
-						<?php if(count($errors) > 0) { ?> <tr><td colspan="2" class="CellError"><span class="FontNorm"><ul><?php foreach($errors AS $curError) echo '<li><span class="FontError">'.$curError.'</span></li>'; ?></ul></span></td></tr><?php } ?>
+						<?php if(count($errors) > 0) { ?> <tr><td colspan="2" class="CellError"><ul><?php foreach($errors AS $curError) echo '<li><span class="FontError">'.$curError.'</span></li>'; ?></ul></td></tr><?php } ?>
 						<tr><td class="CellWhite" colspan="2"><span class="FontNorm"><?php echo $this->strings['db_access_data_info']; ?></span></tr>
 						<tr>
 							<td class="CellWhite"><span class="FontNorm"><b><?php echo $this->strings['Database_server']; ?>:</b><span></td>
@@ -337,7 +334,9 @@ class BoardInstall {
 				$this->printTail();
 			break;
 
-
+			/**
+			 * Suche nach vorhandener Installation
+			 */
 			case '5':
 				$this->selectDBAndConnect();
 
@@ -354,15 +353,11 @@ class BoardInstall {
 				foreach($tablesData  AS $curTable) {
 					if($curTable[0] != $_SESSION['tablePrefix'].'config') continue;
 
-					$this->DB->query('SELECT "configValue" FROM '.$_SESSION['tableprefix'].'config WHERE "configName"=\'dataversion\'');
+					$this->DB->query('SELECT "configValue" FROM '.$_SESSION['tablePrefix'].'config WHERE "configName"=\'dataversion\'');
 					if($this->DB->numRows() != 0)
 						list($DATAVERSION) = $this->DB->fetchArray();
 
 					if(isset($_GET['doit'])) {
-						if(isset($_POST['p_button_back'])) {
-							header("Location: install.php?step=4&$MYSID");
-						}
-						elseif(isset($_POST['p_action'])) {
 							if($_POST['p_action'] == '0') {
 								$_SESSION['drop_tables'] = TRUE;
 								header("Location: install.php?step=6&$MYSID");
@@ -379,10 +374,7 @@ class BoardInstall {
 
 								do {
 									if(!file_exists('update/'.$NEXT_UPDATE_FILE)) die('Unknown Version!');
-									$fp = fopen('update/'.$NEXT_UPDATE_FILE,'rb'); flock($fp,LOCK_SH);
-									$toeval = fread($fp,filesize('update/'.$NEXT_UPDATE_FILE));
-									flock($fp,LOCK_UN); fclose($fp);
-
+									$toEval = file_get_contents('update/'.$NEXT_UPDATE_FILE);
 									eval($toeval);
 								} while($NEXT_UPDATE_FILE != '');
 
@@ -390,11 +382,11 @@ class BoardInstall {
 								$this->printHeader();
 
 								?>
-									<form method="post" action="install.php?step=5&amp;doit=1&amp;<?php echo $MYSID; ?>">
+									<form method="post" action="<?php echo INSTALLFILE; ?>?step=5&amp;doit=1&amp;<?php echo $MYSID; ?>">
 									<input type="hidden" name="p_action" value="2"/>
 									<table border="0" cellpadding="2" cellspacing="0" width="100%" style="border:1px black dashed;">
 									<tr><td class="th1"><span class="th1"><?php echo $this->steps[$this->step-1]; ?></span></td></tr>
-									<tr><td><span class="FontNorm"><?php echo $this->strings['old_data_successfully_updated']; ?></td></tr>
+									<tr><td><span class="FontNorm"><?php echo $this->strings['old_data_successfully_updated']; ?></span></td></tr>
 									</table>
 									<br/>
 									<table border="0" cellpadding="2" cellspacing="0" width="100%" style="border:1px black dashed;">
@@ -403,9 +395,6 @@ class BoardInstall {
 								<?php
 
 								$this->printTail(); exit;
-							}
-
-							exit;
 						}
 					}
 
@@ -433,7 +422,7 @@ class BoardInstall {
 				$this->printHeader();
 
 				?>
-					<form method="post" action="<?php echo INSTALLFILE; ?>?step=<?php echo $this->step+1; ?>&amp;doit=1&amp;<?php echo MYSID; ?>">
+					<form method="post" action="<?php echo INSTALLFILE; ?>?step=<?php echo $this->step; ?>&amp;doit=1&amp;<?php echo MYSID; ?>">
 					<table class="TableStd" width="100%">
 					<tr><td class="CellCat" colspan="2"><span class="FontCat"><?php echo $this->steps[$this->step-1]; ?></span></td></tr>
 					<tr><td class="CellWhite"><span class="FontNorm"><?php echo $existing_installation_text; ?></td></tr>
@@ -469,6 +458,9 @@ class BoardInstall {
 			//*
 			case '6':
 				$this->selectDBAndConnect();
+				
+				if(isset($_GET['doit']))
+					Functions::myHeader(INSTALLFILE.'?step='.($this->step+1).'&'.MYSID);
 
 				switch($_SESSION['dbType']) {
 					case 'mysql':
@@ -481,18 +473,14 @@ class BoardInstall {
 				$this->printHeader();
 
 				?>
-				<form method="post" action="install.php?step=4&amp;doit=1&amp;<?php echo $MYSID; ?>">
+					<form method="post" action="<?php echo INSTALLFILE; ?>?step=<?php echo $this->step; ?>&amp;doit=1&amp;<?php echo MYSID; ?>">
 					<table class="TableStd" width="100%">
 						<colgroup>
-							<col width="15%"/>
-							<col width="85%"/>
+							<col width="25%"/>
+							<col width="75%"/>
 						</colgroup>
 						<tr><td class="CellCat" colspan="2"><span class="FontCat"><?php echo $this->steps[$this->step-1]; ?></span></td></tr>
-						<?php if(count($errors) > 0) { ?> <tr><td colspan="2" class="CellError"><span class="FontNorm"><ul><?php foreach($errors AS $curError) echo '<li><span class="FontError">'.$curError.'</span></li>'; ?></ul></span></td></tr><?php } ?>
 						<tr><td colspan="2"><span class="FontNorm"><?php echo $this->strings['basic_data_insertion_info']; ?></span></td></tr>
-					</table>
-					<br/>
-					<table class="TableStd" width="100%">
 				<?php
 
 				if(isset($_SESSION['dropTables']) && $_SESSION['dropTables']) {
@@ -502,7 +490,7 @@ class BoardInstall {
 						<td class="CellWhite" valign="top"><span class="FontNorm">
 					<?php
 
-					$drop_file = str_replace('tblprefix.',$_SESSION['tableprefix'],$drop_file);
+					$drop_file = str_replace('tblprefix.',$_SESSION['tablePrefix'],$drop_file);
 					$this->DB->sql_split($drop_file);
 					if($this->DB->execute_queries() == FALSE) echo '<span class="FontRed">'.$this->strings['error_deleting_old_tables'].'<br/><b>'.$this->DB->error().'</b></span>';
 					else echo '<span class="FontGreen">'.$this->strings['successful'].'</span>';
@@ -520,9 +508,17 @@ class BoardInstall {
 						<span class="FontNorm">
 				<?php
 
-				$scheme_file = str_replace('tblprefix.',$_SESSION['tableprefix'],$scheme_file);
-				$this->DB->sql_split($scheme_file);
-				if($this->DB->execute_queries() == FALSE) echo '<span class="FontRed">'.$this->strings['error_creating_tables'].'<br/><b>'.$this->DB->error().'</b></span>';
+				$queryError = '';
+				$sqlSchemeFile = str_replace('/*TABLEPREFIX*/',$_SESSION['tablePrefix'],$sqlSchemeFile);
+				$queries = $this->DB->splitQueries($sqlSchemeFile);
+				foreach($queries AS &$curQuery) {
+					if(!$this->DB->query($curQuery)) {
+						$queryError = $this->DB->getError();
+						break;
+					}
+				}
+				
+				if($queryError != '') echo '<span class="FontRed">'.$this->strings['error_creating_tables'].'<br/><b>'.$queryError.'</b></span>';
 				else echo '<span class="FontGreen">'.$this->strings['successful'].'</span>';
 
 				?>
@@ -534,22 +530,27 @@ class BoardInstall {
 					<td class="CellWhite" valign="top"><span class="FontNorm">
 				<?php
 
-				$basic_file = str_replace('tblprefix.',$_SESSION['tableprefix'],$basic_file);
-				$this->DB->sql_split($basic_file);
-				if($this->DB->execute_queries() == FALSE) echo '<span class="FontRed">'.$this->strings['error_inserting_basic_data'].'<br/><b>'.$this->DB->error().'</b></span>';
+				$queryError = '';
+				$sqlBasicFile = str_replace('/*TABLEPREFIX*/',$_SESSION['tablePrefix'],$sqlBasicFile);
+				$queries = $this->DB->splitQueries($sqlBasicFile);
+				foreach($queries AS &$curQuery) {
+					if(!$this->DB->query($curQuery)) {
+						$queryError = $this->DB->getError();
+						echo $curQuery;
+						break;
+					}
+				}
+				if($queryError != '') echo '<span class="FontRed">'.$this->strings['error_inserting_basic_data'].'<br/><b>'.$queryError.'</b></span>';
 				else {
-					$this->DB->query("UPDATE ".$_SESSION['tableprefix']."config SET config_value='".$_SESSION['language']."' WHERE config_name='standard_language'");
-					$this->DB->query("UPDATE ".$_SESSION['tableprefix']."config SET config_value='".SCRIPTVERSION."' WHERE config_name='dataversion'");
+					$this->DB->queryParams('UPDATE '.$_SESSION['tablePrefix'].'config SET "configValue"=$1 WHERE "configName"=\'standard_language\'',array($_SESSION['language']));
+					$this->DB->queryParams('UPDATE '.$_SESSION['tablePrefix'].'config SET "configValue"=$1 WHERE "configName"=\'dataversion\'',array(SCRIPTVERSION));
 					echo '<span class="FontGreen">'.$this->strings['successful'].'</span>';
 				}
 
 				?>
 					  </span></td>
 					 </tr>
-					</table>
-					<br/>
-					<table class="standard_table" border="0" cellpadding="2" cellspacing="0" width="100%">
-					<tr><td align="right"><input class="form_button" type="submit" name="p_button_back" value="<?php echo $this->strings['Back']; ?>"/>&nbsp;&nbsp;&nbsp;<input class="form_bold_button" type="submit" name="p_button_next" value="<?php echo $this->strings['Next']; ?>"/></td></tr>
+					<tr><td align="right" class="CellButtons" colspan="2"><input class="FormButton" type="submit" name="backButton" value="<?php echo $this->strings['Back']; ?>"/>&nbsp;&nbsp;&nbsp;<input class="FormBButton" type="submit" value="<?php echo $this->strings['Next']; ?>"/></td></tr>
 					</table>
 					</form>
 				<?php
@@ -557,95 +558,81 @@ class BoardInstall {
 				$this->printTail();
 			break;
 
+			/**
+			 * Board configuration
+			 */
 			case '7':
-				switch($_SESSION['dbtype']) {
-					case 'mysql':
-						include_once('db/mysql.class.php');
-					break;
-				}
+				$this->selectDBAndConnect();
 
-				$this->DB = new db;
-				install_connect_db();
+				$p['pathToForum'] = isset($_POST['p']['pathToForum']) ? $_POST['p']['pathToForum'] : substr($_SERVER['SCRIPT_FILENAME'],0,strlen($_SERVER['SCRIPT_FILENAME'])-12);
+				$p['boardAddress'] = isset($_POST['p']['boardAddress']) ? $_POST['p']['boardAddress'] : '';
+				$p['enableFileUpload'] = isset($_POST['p']['enableFileUpload']) ? $_POST['p']['enableFileUpload'] : ($_SESSION['disable_fupload'] ? 0 : 1);
+				$p['enableAvatarUpload'] = isset($_POST['p']['enableAvatarUpload']) ? $_POST['p']['enableAvatarUpload'] : ($_SESSION['disable_aupload'] ? 0 : 1);
+				$p['createAdministrator'] = isset($_POST['p']['createAdministrator']) ? $_POST['p']['createAdministrator'] : 0;
 
-				$p_path_forum = isset($_POST['p_path_forum']) ? $_POST['p_path_forum'] : substr($_SERVER['SCRIPT_FILENAME'],0,strlen($_SERVER['SCRIPT_FILENAME'])-12);
-				$p_board_address = isset($_POST['p_board_address']) ? $_POST['p_board_address'] : '';
-				$p_enable_file_upload = isset($_POST['p_enable_file_upload']) ? $_POST['p_enable_file_upload'] : (($_SESSION['disable_fupload'] == TRUE) ? 0 : 1);
-				$p_enable_avatar_upload = isset($_POST['p_enable_avatar_upload']) ? $_POST['p_enable_avatar_upload'] : (($_SESSION['disable_aupload'] == TRUE) ? 0 : 1);
-				$p_create_admin = isset($_POST['p_create_admin']) ? $_POST['p_create_admin'] : 0;
-
-				$error = '';
+				$errors[] = array();
 
 				if(isset($_GET['doit'])) {
-					if(file_exists($p_path_forum.'/install.php') == FALSE || file_exists($p_path_forum.'/auth.php') == FALSE || file_exists($p_path_forum.'/version.php') == FALSE) $error = $this->strings['error_wrong_path'];
+					if(!file_exists($p['pathToForum'].'/install.php') || !file_exists($p['pathToForum'].'/modules/Auth.class.php') || !file_exists($p['pathToForum'].'/core/Version.php')) $errors[] = $this->strings['error_wrong_path'];
 					else {
-						$this->DB->query("UPDATE ".$_SESSION['tableprefix']."config SET config_value='$p_path_forum' WHERE config_name='path_to_forum'");
-						$this->DB->query("UPDATE ".$_SESSION['tableprefix']."config SET config_value='$p_board_address' WHERE config_name='board_address'");
-						$this->DB->query("UPDATE ".$_SESSION['tableprefix']."config SET config_value='$p_enable_file_upload' WHERE config_name='enable_file_upload'");
-						$this->DB->query("UPDATE ".$_SESSION['tableprefix']."config SET config_value='$p_enable_avatar_upload' WHERE config_name='enable_avatar_upload'");
+						$this->DB->queryParams('UPDATE '.$_SESSION['tablePrefix'].'config SET "configValue"=$1 WHERE "configName"=\'path_to_forum\'',array($p['pathToForum']));
+						$this->DB->queryParams('UPDATE '.$_SESSION['tablePrefix'].'config SET "configValue"=$1 WHERE "configName"=\'board_address\'',array($p['boardAddress']));
+						$this->DB->queryParams('UPDATE '.$_SESSION['tablePrefix'].'config SET "configValue"=$1 WHERE "configName"=\'enable_file_upload\'',array($p['enableFileUpload']));
+						$this->DB->queryParams('UPDATE '.$_SESSION['tablePrefix'].'config SET "configValue"=$1 WHERE "configName"=\'enable_avatar_upload\'',array($p['enableAvatarUpload']));
 
-						if($_SESSION['keep_data'] == TRUE && $p_create_admin != 1) header("Location: install.php?step=9&$MYSID");
-						else header("Location: install.php?step=8&$MYSID");
-
-						exit;
+						if($_SESSION['keep_data'] && $p['createAdministrator'] != 1) Functions::myHeader(INSTALLFILE.'?step=9&'.MYSID);
+						else Functions::myHeader(INSTALLFILE.'?step=8&'.MYSID);
 					}
 				}
-
-				$c = ' selected="selected"';
-				$checked = array(
-					'enable_file_upload_0'=>($p_enable_file_upload == 0) ? $c : '',
-					'enable_file_upload_1'=>($p_enable_file_upload == 1) ? $c : '',
-					'enable_avatar_upload_0'=>($p_enable_avatar_upload == 0) ? $c : '',
-					'enable_avatar_upload_1'=>($p_enable_avatar_upload == 1) ? $c : '',
-					'create_admin_0'=>($p_create_admin == 0) ? $c : '',
-					'create_admin_1'=>($p_create_admin == 1) ? $c : ''
-				);
-
+				
 				$this->printHeader();
 
 				?>
-					<form method="post" action="install.php?step=7&amp;doit=1&amp;<?php echo $MYSID; ?>">
-					<table class="standard_table" border="0" cellpadding="2" cellspacing="0" width="100%">
-					<tr><td class="th1" colspan="2"><span class="th1"><?php echo $this->steps[$this->step-1]; ?></span></td></tr>
-					<tr><td colspan="2"><span class="FontNorm"><?php echo $this->strings['board_configuration_info']; ?></span></td></tr>
-					<tr><td colspan="2"><span class="FontNorm">&nbsp;</span></td></tr>
-					<tr>
-					 <td width="40%"><span class="FontNorm"><b><?php echo $this->strings['Path_to_forum']; ?></b></span><br/><span class="FontSmall"><?php echo $this->strings['path_to_forum_info']; ?></span></td>
-					 <td width="60%"><input class="form_text" name="p_path_forum" value="<?php echo $p_path_forum; ?>" size="50"/></td>
-					</tr>
-					<tr>
-					 <td width="40%"><span class="FontNorm"><b><?php echo $this->strings['Board_address']; ?></b></span><br/><span class="FontSmall"><?php echo $this->strings['board_address_info']; ?></span></td>
-					 <td width="60%"><input class="form_text" name="p_board_address" value="<?php echo $p_board_address; ?>" size="50"/></td>
-					</tr>
-					<tr>
-					 <td width="40%"><span class="FontNorm"><b><?php echo $this->strings['Enable_file_upload']; ?></b></span><br/><span class="FontSmall"><?php echo $this->strings['enable_file_upload_info']; ?></span></td>
-					 <td width="60%"><select name="p_enable_file_upload"><option value="1"<?php echo $checked['enable_file_upload_1']; ?>><?php echo $this->strings['Yes']; ?></option><option value="0"<?php echo $checked['enable_file_upload_0']; ?>><?php echo $this->strings['No']; ?></option></select></td>
-					</tr>
-					<tr>
-					 <td width="40%"><span class="FontNorm"><b><?php echo $this->strings['Enable_avatar_upload']; ?></b></span><br/><span class="FontSmall"><?php echo $this->strings['enable_avatar_upload_info']; ?></span></td>
-					 <td width="60%"><select name="p_enable_avatar_upload"><option value="1"<?php echo $checked['enable_avatar_upload_1']; ?>><?php echo $this->strings['Yes']; ?></option><option value="0"<?php echo $checked['enable_avatar_upload_0']; ?>><?php echo $this->strings['No']; ?></option></select></td>
-					</tr>
-					</table>
-					<br/>
-					<table class="standard_table" border="0" cellpadding="2" cellspacing="0" width="100%">
-					<tr><td><span class="FontNorm">
+					<form method="post" action="<?php echo INSTALLFILE; ?>?step=<? echo $this->step; ?>&amp;doit=1&amp;<?php echo MYSID; ?>">
+					<table class="TableStd" width="100%">
+						<colgroup>
+							<col width="30%"/>
+							<col width="70%"/>
+						</colgroup>
+						<tr><td class="CellCat" colspan="2"><span class="FontCat"><?php echo $this->steps[$this->step-1]; ?></span></td></tr>
+						<tr><td colspan="2"><span class="FontNorm"><?php echo $this->strings['board_configuration_info']; ?></span></td></tr>
+						<tr>
+							<td><span class="FontNorm"><b><?php echo $this->strings['Path_to_forum']; ?></b></span><br/><span class="FontSmall"><?php echo $this->strings['path_to_forum_info']; ?></span></td>
+							<td><input class="FormText" name="p[pathToForum]" value="<?php echo $p['pathToForum']; ?>" size="50"/></td>
+						</tr>
+						<tr>
+							<td><span class="FontNorm"><b><?php echo $this->strings['Board_address']; ?></b></span><br/><span class="FontSmall"><?php echo $this->strings['board_address_info']; ?></span></td>
+							<td><input class="FormText" name="p[boardAddress]" value="<?php echo $p['boardAddress']; ?>" size="50"/></td>
+						</tr>
+						<tr>
+							<td><span class="FontNorm"><b><?php echo $this->strings['Enable_file_upload']; ?></b></span><br/><span class="FontSmall"><?php echo $this->strings['enable_file_upload_info']; ?></span></td>
+							<td><span class="FontNorm"><label><input type="radio" name="p[enableFileUpload]" value="1"<?php if($p['enableFileUpload'] == 1) echo 'checked="checked"'; ?>/> <?php echo $this->strings['Yes']; ?></label>&nbsp;&nbsp;&nbsp;<label><input type="radio" name="p[enableFileUpload]" value="0"<?php if($p['enableFileUpload'] == 0) echo 'checked="checked"'; ?>/> <?php echo $this->strings['No']; ?></label></span></td>
+						</tr>
+						<tr>
+							<td><span class="FontNorm"><b><?php echo $this->strings['Enable_avatar_upload']; ?></b></span><br/><span class="FontSmall"><?php echo $this->strings['enable_avatar_upload_info']; ?></span></td>
+							<td><span class="FontNorm"><label><input type="radio" name="p[enableAvatarUpload]" value="1"<?php if ($p['enableAvatarUpload'] == 1) echo 'checked="checked"'; ?>/> <?php echo $this->strings['Yes']; ?></label>&nbsp;&nbsp;&nbsp;<label><input type="radio" name="p[enableAvatarUpload]" value="0"<?php if($p['enableAvatarUpload'] == 0) echo 'checked="checked"'; ?>/> <?php echo $this->strings['No']; ?></label></span></td>
+						</tr>
 				<?php
 
-				if($_SESSION['keep_data'] == TRUE) {
-					echo $this->strings['create_admin_keep_data_info'];
+				if($_SESSION['keep_data']) {
 					?>
+						<tr>
+							<td><span class="FontNorm"><b><?php echo $this->strings['create_admin_keep_data_info']; ?></b></span><br/><span class="FontSmall"><?php echo $this->strings['enable_avatar_upload_info']; ?></span></td>
+							<td><span class="FontNorm"><label><input type="radio" name="p[enableAvatarUpload]" value="1"<?php if ($p['enableAvatarUpload'] == 1) echo 'checked="checked"'; ?>/> <?php echo $this->strings['Yes']; ?></label>&nbsp;&nbsp;&nbsp;<label><input type="radio" name="p[enableAvatarUpload]" value="0"<?php if($p['enableAvatarUpload'] == 0) echo 'checked="checked"'; ?>/> <?php echo $this->strings['No']; ?></label></span></td>
+						</tr>
 						<br/>
 						<b><?php echo $this->strings['Create_another_admin']; ?>: </b> <select name="p_create_admin"><option value="0"<?php echo $checked['create_admin_0']; ?>><?php echo $this->strings['No']; ?></option><option value="1"<?php echo $checked['create_admin_1']; ?>><?php echo $this->strings['Yes']; ?></option></select>
 					<?php
 				}
-				else echo $this->strings['create_admin_info'];
+				else {
+					?>
+						<tr><td class="CellWhite" colspan="2"><span class="FontNorm"><?php echo $this->strings['create_admin_info']; ?></span></td></tr>
+					<?php
+				}
 
 				?>
-					</span></td></tr>
-					</table>
-					<br/>
-					<table class="standard_table" border="0" cellpadding="2" cellspacing="0" width="100%">
-					<tr><td align="right"><input class="form_button" type="submit" name="p_button_back" value="<?php echo $this->strings['Back']; ?>"/>&nbsp;&nbsp;&nbsp;<input class="form_bold_button" type="submit" name="p_button_next" value="<?php echo $this->strings['Next']; ?>"/></td></tr>
-					</table>
+							<tr><td align="right" class="CellButtons" colspan="2"><input class="FormButton" type="submit" name="buttonBack" value="<?php echo $this->strings['Back']; ?>"/>&nbsp;&nbsp;&nbsp;<input class="FormBButton" type="submit" value="<?php echo $this->strings['Next']; ?>"/></td></tr>
+						</table>
 					</form>
 				<?php
 
@@ -725,45 +712,28 @@ class BoardInstall {
 			break;
 
 			case '9':
-				switch($_SESSION['dbtype']) {
-					case 'mysql':
-						include_once('db/mysql.class.php');
-					break;
-				}
+				$this->selectDBAndConnect();
 
-				$this->DB = new db;
-				install_connect_db();
-
-				$error = '';
+				$errors[] = array();
 
 				if(isset($_GET['doit'])) {
-					if(!$fp = @fopen('dbconfig.php','wb')) $error = $this->strings['Cannot_open_config_file'];
-					else {
-						flock($fp,LOCK_EX);
-						if(!@fwrite($fp,"<?php\n\n/*\n*\n* Automatisch erstellt von TBB. Nicht aendern oder loeschen!\n*\n*/\n\n\$CONFIG['db_type'] = 'mysql';\n\n\$CONFIG['db_server'] = '".$_SESSION['dbserver']."';\n\$CONFIG['db_user'] = '".$_SESSION['dbuser']."';\n\$CONFIG['db_password'] = '".$_SESSION['dbpassword']."';\n\$CONFIG['db_name'] = '".$_SESSION['dbname']."';\n\ndefine('TBLPFX','".TBLPFX."');\n\n?>")) $error = $this->strings['Cannot_write_config_file'];
-						else {
-							flock($fp,LOCK_UN);
-							fclose($fp);
+					if(!@file_put_contents('config/DB.config.class.php','bla',LOCK_EX)) $errors[] = $this->strings['Cannot_open_config_file'];
+					
+					if(count($errors) == 0) {
+						$message = (chmod('config/DB.config.class.php',0775) ? '' : '<br/><b>'.$this->strings['Cannot_set_chmod'].'</b>');
 
-							$message = (chmod('dbconfig.php',0775) == TRUE) ? '' : '<br/><b>'.$this->strings['Cannot_set_chmod'].'</b>';
+						$this->printHeader();
 
-							cache_set_all_data();
+						?>
+							<table class="TableStd" width="100%">
+							<tr><td class="CellCat" colspan="2"><span class="FontCat"><?php echo $this->steps[$this->step-1]; ?></span></td></tr>
+							<tr><td colspan="2"><span class="FontNorm"><?php echo $this->strings['installation_successful'].$message; ?></span></td></tr>
+							</table>
+						<?php
 
-							$this->printHeader();
+						$this->printTail();
 
-							?>
-								<table class="standard_table" border="0" cellpadding="2" cellspacing="0" width="100%">
-								<tr><td class="th1" colspan="2"><span class="th1"><?php echo $this->steps[$this->step-1]; ?></span></td></tr>
-								<tr><td colspan="2"><span class="FontNorm"><?php echo $this->strings['installation_successful'].$message; ?></span></td></tr>
-								</table>
-							<?php
-
-							$this->printTail();
-
-							exit;
-						}
-						flock($fp,LOCK_UN);
-						fclose($fp);
+						exit;
 					}
 				}
 
@@ -799,7 +769,6 @@ class BoardInstall {
 				$this->printTail();
 			break;
 		}
-
 	}
 
 	protected function selectDBAndConnect() {
