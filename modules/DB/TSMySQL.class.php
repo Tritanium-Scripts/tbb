@@ -141,6 +141,13 @@ class TSMySQL {
 	public function escapeString($string) {
 		return $this->dbObject->real_escape_string($string);
 	}
+	
+	public function getTablesData() {
+		$tablesData = array();
+		$this->query('SHOW TABLES');
+		while(list($tablesData[]) = $this->fetchArray()) {}
+		return $tablesData;
+	}
 }
 
 ?>
