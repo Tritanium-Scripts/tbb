@@ -4,7 +4,7 @@ require_once('core/Functions.class.php');
 require_once('core/Version.php');
 
 $installation = new BoardInstall;
-$installation->executeMe();
+$installation->execute();
 
 class BoardInstall {
 	protected $strings = array();
@@ -17,13 +17,13 @@ class BoardInstall {
 		define('INSTALLFILE','install.php');
 	}
 
-	public function executeMe() {
+	public function execute() {
 		$this->loadLanguage();
 
 		session_start();
 		session_name('sid');
-		$MYSID = (SID == '') ? 'sid=0' : 'sid='.session_id();
-		define('MYSID',$MYSID);
+		$mySID = (SID == '') ? 'sid=0' : 'sid='.session_id();
+		define('MYSID',$mySID);
 
 		$this->step = isset($_GET['step']) ? intval($_GET['step']) : 1;
 
@@ -296,7 +296,7 @@ class BoardInstall {
 				$this->printHeader();
 
 				?>
-				<form method="post" action="install.php?step=4&amp;doit=1&amp;<?php echo $MYSID; ?>">
+				<form method="post" action="install.php?step=4&amp;doit=1&amp;<?php echo $mySID; ?>">
 					<table class="TableStd" width="100%">
 						<colgroup>
 							<col width="15%"/>
@@ -575,7 +575,7 @@ class BoardInstall {
 				$p['enableAvatarUpload'] = isset($_POST['p']['enableAvatarUpload']) ? $_POST['p']['enableAvatarUpload'] : ($_SESSION['disable_aupload'] ? 0 : 1);
 				$p['createAdministrator'] = isset($_POST['p']['createAdministrator']) ? $_POST['p']['createAdministrator'] : 0;
 
-				$errors[] = array();
+				$errors = array();
 
 				if(isset($_GET['doit'])) {
 					if(!file_exists($p['pathToForum'].'/install.php') || !file_exists($p['pathToForum'].'/modules/Auth.class.php') || !file_exists($p['pathToForum'].'/core/Version.php')) $errors[] = $this->strings['error_wrong_path'];
@@ -590,7 +590,6 @@ class BoardInstall {
 						else Functions::myHeader(INSTALLFILE.'?step=8&'.MYSID);
 					}
 				}
-				
 				$this->printHeader();
 
 				?>
@@ -601,6 +600,7 @@ class BoardInstall {
 							<col width="70%"/>
 						</colgroup>
 						<tr><td class="CellCat" colspan="2"><span class="FontCat"><?php echo $this->steps[$this->step-1]; ?></span></td></tr>
+						<?php if(count($errors) > 0) { ?> <tr><td colspan="2" class="CellError"><ul><?php foreach($errors AS $curError) echo '<li><span class="FontError">'.$curError.'</span></li>'; ?></ul></td></tr><?php } ?>
 						<tr><td colspan="2"><span class="FontNorm"><?php echo $this->strings['board_configuration_info']; ?></span></td></tr>
 						<tr>
 							<td><span class="FontNorm"><b><?php echo $this->strings['Path_to_forum']; ?></b></span><br/><span class="FontSmall"><?php echo $this->strings['path_to_forum_info']; ?></span></td>
@@ -652,7 +652,7 @@ class BoardInstall {
 
 				if(isset($_GET['doit'])) {
 					if(!Functions::verifyUserName($p['userName'])) $errors[] = $this->strings['error_invalid_user_name'];
-					elseif(!Functions::unifyUserName($p['userName'])) $errors[] = $this->strings['error_existing_user_name'];
+					//elseif(!Functions::unifyUserName($p['userName'])) $errors[] = $this->strings['error_existing_user_name'];
 					if(!Functions::verifyEmailAddress($p['userEmailAddress'])) $errors[] = $this->strings['error_invalid_email_address'];
 					elseif($p['userEmailAddress'] != $p['userEmailAddressConfirmation']) $errors[] = $this->strings['error_email_addresses_no_match'];
 					if(trim($p['userPassword']) == '') $errors[] = $this->strings['error_invalid_password'];
@@ -680,7 +680,7 @@ class BoardInstall {
 							$userPasswordEncrypted,
 							$userPasswordSalt,
 							time(),
-							$this->modules['Config']->getValue('standard_tz')
+							'gmt'
 						));
 						Functions::myHeader(INSTALLFILE.'?step=9&'.MYSID);
 					}
@@ -691,36 +691,36 @@ class BoardInstall {
 
 				?>
 					<form method="post" action="<?php echo INSTALLFILE; ?>?step=8&amp;doit=1&amp;<?php echo MYSID; ?>">
-						<table class="standard_table" border="0" cellpadding="2" cellspacing="0" width="100%">
+						<table class="TableStd" width="100%">
 							<colgroup>
 								<col width="25%"/>
 								<col width="75%"/>
 							</colgroup>
-							<tr><td class="th1" colspan="2"><span class="th1"><?php echo $this->steps[$this->step-1]; ?></span></td></tr>
+							<tr><td class="CellCat" colspan="2"><span class="FontCat"><?php echo $this->steps[$this->step-1]; ?></span></td></tr>
+							<?php if(count($errors) > 0) { ?> <tr><td colspan="2" class="CellError"><ul><?php foreach($errors AS $curError) echo '<li><span class="FontError">'.$curError.'</span></li>'; ?></ul></td></tr><?php } ?>
 							<tr><td colspan="2"><span class="FontNorm"><?php echo $this->strings['administrator_creation_info']; ?></span></td></tr>
 							<tr><td colspan="2"><span class="FontNorm">&nbsp;</span></td></tr>
-							<?php if($error != '') echo '<tr><td class="error" colspan="2"><span class="fonterror">'.$error.'</span></td></tr>'; ?>
 							<tr>
-								<td><span class="FontNorm"><b><?php echo $this->strings['User_name']; ?>:</b></span><br/><span class="FontSmall"><?php echo $this->strings['user_name_info']; ?></span></td>
+								<td><span class="FontNorm"><?php echo $this->strings['User_name']; ?>:</span><br/><span class="FontSmall"><?php echo $this->strings['user_name_info']; ?></span></td>
 								<td><input type="text" class="FormText" name="p[userName]" value="<?php echo $p['userName']; ?>" size="16" maxlength="15"/></td>
 							</tr>
 							<tr>
-								<td><span class="FontNorm"><b><?php echo $this->strings['Email_address']; ?>:</b></span></td>
+								<td><span class="FontNorm"><?php echo $this->strings['Email_address']; ?>:</span></td>
 								<td><input type="text" class="FormText" name="p[userEmailAddress]" value="<?php echo $p['userEmailAddress']; ?>" size="30"/></td>
 							</tr>
 							<tr>
-								<td><span class="FontNorm"><b><?php echo $this->strings['Email_address_confirmation']; ?>:</b></span></td>
+								<td><span class="FontNorm"><?php echo $this->strings['Email_address_confirmation']; ?>:</span></td>
 								<td><input type="text" class="FormText" name="p[userEmailAddressConfirmation]" value="<?php echo $p['userEmailAddressConfirmation']; ?>" size="30"/></td>
 							</tr>
 							<tr>
-								<td><span class="FontNorm"><b><?php echo $this->strings['Password']; ?>:</b></span></td>
+								<td><span class="FontNorm"><?php echo $this->strings['Password']; ?>:</span></td>
 								<td><input type="password" class="FormText" name="p[userPassword]" value="" size="20"/></td>
 							</tr>
 							<tr>
-								<td><span class="FontNorm"><b><?php echo $this->strings['Password_confirmation']; ?>:</b></span></td>
+								<td><span class="FontNorm"><?php echo $this->strings['Password_confirmation']; ?>:</span></td>
 								<td><input type="password" class="FormText" name="p[userPasswordConfirmation]" value="" size="20"/></td>
 							</tr>
-							<tr><td align="right" colspan="2"><input class="FormBButton" type="submit" value="<?php echo $this->strings['Next']; ?>"/></td></tr>
+							<tr><td class="CellButtons" align="right" colspan="2"><input class="FormBButton" type="submit" value="<?php echo $this->strings['Next']; ?>"/></td></tr>
 						</table>
 					</form>
 				<?php
@@ -731,15 +731,15 @@ class BoardInstall {
 			case '9':
 				$this->selectDBAndConnect();
 
-				$errors[] = array();
+				$errors = array();
 
 				if(isset($_GET['doit'])) {
-					$toWrite = "<?php\n\nclass DBConfig extends ConfigTemplate {\n\tprotected \$config = array(\n\t\t'dbType'=>'Mysql',\n\t\t'dbServer'=>'localhost',\n\t\t'dbUser'=>'root',\n\t\t'dbPassword'=>'root',\n\t\t'dbName'=>'tbb2test',\n\t\t'tablePrefix'='tbb2_'\n\t);\n}\n\n?>";
+					$toWrite = "<?php\n\nclass DBConfig extends ConfigTemplate {\n\tprotected \$config = array(\n\t\t'dbType'=>'".$_SESSION['dbType']."',\n\t\t'dbServer'=>'".$_SESSION['dbServer']."',\n\t\t'dbUser'=>'".$_SESSION['dbUser']."',\n\t\t'dbPassword'=>'".$_SESSION['dbPassword']."',\n\t\t'dbName'=>'".$_SESSION['dbName']."',\n\t\t'tablePrefix'=>'".$_SESSION['tablePrefix']."'\n\t);\n}\n\n?>";
 					
-					if(!@file_put_contents('config/DB.config.class.php','bla',LOCK_EX)) $errors[] = $this->strings['Cannot_open_config_file'];
+					if(!@file_put_contents('config/DB.config.class.php',$toWrite,LOCK_EX)) $errors[] = $this->strings['Cannot_open_config_file'];
 					
 					if(count($errors) == 0) {
-						$message = (chmod('config/DB.config.class.php',0775) ? '' : '<br/><b>'.$this->strings['Cannot_set_chmod'].'</b>');
+						$message = (chmod('config/DB.config.class.php',0644) ? '' : '<br/><b>'.$this->strings['Cannot_set_chmod'].'</b>');
 
 						$this->printHeader();
 
@@ -771,13 +771,13 @@ class BoardInstall {
 					?>
 						<tr>
 						 <td width="25%"><span class="FontNorm"><?php echo $this->strings['Creating_config_file']; ?></span></td>
-						 <td width="75%" class="error"><span class="error"><?php echo $error; ?></span></td>
+						 <td width="75%" class="error"><span class="error"><?php echo $errors[1]; ?></span></td>
 						</tr>
 					<?php
 				}
 
 				?>
-					<tr><td align="right"><input class="FormBButton" type="submit" value="<?php echo $this->strings['Next']; ?>"/></td></tr>
+					<tr><td class="CellButtons" colspan="2" align="right"><input class="FormBButton" type="submit" value="<?php echo $this->strings['Next']; ?>"/></td></tr>
 					</table>
 					</form>
 				<?php
@@ -807,7 +807,7 @@ class BoardInstall {
 		return TRUE;
 	}
 
-	public function raw2Array() {
+	protected function raw2Array() {
 		$temp = array();
 		while($curRow = $this->DB->fetchArray())
 			$temp[] = $curRow;
