@@ -29,17 +29,17 @@ class Functions {
 		return preg_match('/^[\.0-9a-z_-]{1,}@[\.0-9a-z-]{1,}\.[a-z]{1,}$/si',$emailAddress);
 	}
 
-	public static function unifyUserName($UserName) {
+	public static function unifyUserName($userName) {
 		$DB = Factory::singleton('DB');
 
-		$DB->query("SELECT UserID FROM ".TBLPFX."users WHERE UserNick='$UserName' LIMIT 1");
+        $DB->queryParams('SELECT "userID" FROM '.TBLPFX.'users WHERE "userNick"=$1 LIMIT 1', array($userName));
 		return ($DB->getAffectedRows() != 1);
 	}
 
 	public static function unifyEmailAddress($emailAddress) {
 		$DB = Factory::singleton('DB');
 
-		$DB->query("SELECT userID FROM ".TBLPFX."users WHERE userEmailAddress='$emailAddress' LIMIT 1");
+        $DB->queryParams('SELECT "userID" FROM '.TBLPFX.'users WHERE "userEmailAddress"=$1 LIMIT 1', array($emailAddress));
 		return ($DB->getAffectedRows() != 1);
 	}
 
@@ -112,26 +112,26 @@ class Functions {
 		return mail($To,$Subject,$Message,$AdditionalHeaders);
 	}
 
-	public static function getPostData($PostID) {
+	public static function getPostData($postID) {
 		$DB = Factory::singleton('DB');
-		$DB->query("SELECT * FROM ".TBLPFX."posts WHERE PostID='$PostID'");
+        $DB->queryParams('SELECT * FROM '.TBLPFX.'posts WHERE "postID"=$1', array($postID));
 		return ($DB->getAffectedRows() == 1) ? $DB->fetchArray() : FALSE;
 	}
 
-	public static function getPostsCounter($TopicID = 0) {
+	public static function getPostsCounter($topicID = 0) {
 		$DB = Factory::singleton('DB');
 
-		if($TopicID == 0) $DB->query("SELECT COUNT(*) FROM ".TBLPFX."posts");
-		else $DB->query("SELECT COUNT(*) FROM ".TBLPFX."posts WHERE TopicID='$TopicID'");
+		if($TopicID == 0) $DB->query('SELECT COUNT(*) FROM '.TBLPFX.'posts');
+		else $DB->query('SELECT COUNT(*) FROM '.TBLPFX.'posts WHERE "topicID"=$1', array($topicID));
 
 		list($Counter) = $DB->fetchArray();
 		return $Counter;
 	}
 
-	public static function getTopicsCounter($ForumID = 0) {
+	public static function getTopicsCounter($forumID = 0) {
 		$DB = Factory::singleton('DB');
-		if($ForumID == 0) $DB->query("SELECT COUNT(*) FROM ".TBLPFX."topics");
-		else $DB->query("SELECT COUNT(*) FROM ".TBLPFX."topics WHERE ForumID='$ForumID'");
+		if($ForumID == 0) $DB->query('SELECT COUNT(*) FROM '.TBLPFX.'topics');
+		else $DB->query('SELECT COUNT(*) FROM '.TBLPFX.'topics WHERE "forumID"=$1', array($forumID));
 		list($Counter) = $DB->fetchArray();
 		return $Counter;
 	}
@@ -143,11 +143,11 @@ class Functions {
 	   return $Value;
 	}
 
-	public static function getSubscriptionStatus($SubscriptionType,$UserID,$SubscriptionID) {
+	public static function getSubscriptionStatus($subscriptionType,$userID,$subscriptionID) {
 		$DB = Factory::singleton('DB');
 
-		if($SubscriptionType == SUBSCRIPTION_TYPE_TOPIC) $DB->query("SELECT * FROM ".TBLPFX."topics_subscriptions WHERE UserID='$UserID' AND TopicID='$SubscriptionID'");
-		else $DB->query("SELECT * FROM ".TBLPFX."forums_subscriptions WHERE UserID='$UserID' AND $ForumID='$SubscriptionID' LIMIT 1");
+		if($subscriptionType == SUBSCRIPTION_TYPE_TOPIC) $DB->queryParams('SELECT * FROM '.TBLPFX.'topics_subscriptions WHERE "userID"=$1 AND "topicID"=$2', array($userID, $subscriptionID));
+		else $DB->queryParams('SELECT * FROM '.TBLPFX.'forums_subscriptions WHERE "userID"=$1 AND $2=$3 LIMIT 1', array($userID, $ForumID, $subscriptionID));
 
 		return ($DB->getAffectedRows() == 1) ? TRUE : FALSE;
 	}
