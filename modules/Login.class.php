@@ -36,25 +36,24 @@ class Login extends ModuleTemplate {
 					elseif($userData['userIsActivated'] != 1) $error = sprintf($this->modules['Language']->getString('error_inactive_account'),$userData['userNick']);
 					elseif(Functions::getSaltedHash($p['userPassword'],$userData['userPasswordSalt']) != $userData['userPassword'] && ($userData['userNewPassword'] == '' || Functions::getSaltedHash($p['userPassword'],$userData['userNewPasswordSalt']) != $userData['userNewPassword'])) $error = $this->modules['Language']->getString('error_wrong_password');
 					elseif($userData['userIsLocked'] == 1 && Functions::checkLockStatus($userData['userID'])) { // Falls der Benutzer sich nicht mehr einloggen darf
-                        //$dB oder modules['DB'] ????
-                        $dB->queryParams('SELECT "lock_start_time", "lock_dur_time" FROM '.TBLPFX.'users_locks WHERE "user_id"=$1', array($p_user_data['user_id']));
-						$lock_data = $dB->fetch_array();
+                        $this->modules['DB']->queryParams('SELECT "lock_start_time", "lock_dur_time" FROM '.TBLPFX.'users_locks WHERE "user_id"=$1', array($p_user_data['user_id']));
+						$lockData = $this->modules['DB']->fetch_array();
 
-						if($lock_data['lock_dur_time'] == 0) $remaining_lock_time = $this->modules['Language']->getString('locked_forever');
+						if($lockData['lock_dur_time'] == 0) $remainingLockTime = $this->modules['Language']->getString('locked_forever');
 						else {
-							$remaining_lock_time = split_time($lock_data['lock_start_time']+$lock_data['lock_dur_time']-time());
+							$remainingLockTime = split_time($lockData['lock_start_time']+$lockData['lock_dur_time']-time());
 
-							$remaining_months = sprintf($this->modules['Language']->getString('x_months'),$remaining_lock_time['months']);
-							$remaining_weeks = sprintf($this->modules['Language']->getString('x_weeks'),$remaining_lock_time['weeks']);
-							$remaining_days = sprintf($this->modules['Language']->getString('x_days'),$remaining_lock_time['days']);
-							$remaining_hours = sprintf($this->modules['Language']->getString('x_hours'),$remaining_lock_time['hours']);
-							$remaining_minutes = sprintf($this->modules['Language']->getString('x_minutes'),$remaining_lock_time['minutes']);
-							$remaining_seconds = sprintf($this->modules['Language']->getString('x_seconds'),$remaining_lock_time['seconds']);
+							$remainingMonths = sprintf($this->modules['Language']->getString('x_months'),$remainingLockTime['months']);
+							$remainingWeeks = sprintf($this->modules['Language']->getString('x_weeks'),$remainingLockTime['weeks']);
+							$remainingDays = sprintf($this->modules['Language']->getString('x_days'),$remainingLockTime['days']);
+							$remainingHours = sprintf($this->modules['Language']->getString('x_hours'),$remainingLockTime['hours']);
+							$remainingMinutes = sprintf($this->modules['Language']->getString('x_minutes'),$remainingLockTime['minutes']);
+							$remainingSeconds = sprintf($this->modules['Language']->getString('x_seconds'),$remainingLockTime['seconds']);
 
-							$remaining_lock_time = "$remaining_months, $remaining_weeks, $remaining_days, $remaining_hours, $remaining_minutes, $remaining_seconds";
+							$remainingLockTime = "$remainingMonths, $remainingWeeks, $remainingDays, $remainingHours, $remainingMinutes, $remainingSeconds";
 						}
 
-						$error = sprintf($this->modules['Language']->getString('error_locked_account'),$remaining_lock_time);
+						$error = sprintf($this->modules['Language']->getString('error_locked_account'),$remainingLockTime);
 					}
 					else {
 						//

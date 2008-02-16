@@ -121,19 +121,19 @@ class Functions {
 	public static function getPostsCounter($topicID = 0) {
 		$DB = Factory::singleton('DB');
 
-		if($TopicID == 0) $DB->query('SELECT COUNT(*) FROM '.TBLPFX.'posts');
-		else $DB->query('SELECT COUNT(*) FROM '.TBLPFX.'posts WHERE "topicID"=$1', array($topicID));
+		if($topicID == 0) $DB->query('SELECT COUNT(*) FROM '.TBLPFX.'posts');
+		else $DB->queryParams('SELECT COUNT(*) FROM '.TBLPFX.'posts WHERE "topicID"=$1', array($topicID));
 
-		list($Counter) = $DB->fetchArray();
-		return $Counter;
+		list($counter) = $DB->fetchArray();
+		return $counter;
 	}
 
 	public static function getTopicsCounter($forumID = 0) {
 		$DB = Factory::singleton('DB');
-		if($ForumID == 0) $DB->query('SELECT COUNT(*) FROM '.TBLPFX.'topics');
-		else $DB->query('SELECT COUNT(*) FROM '.TBLPFX.'topics WHERE "forumID"=$1', array($forumID));
-		list($Counter) = $DB->fetchArray();
-		return $Counter;
+		if($forumID == 0) $DB->query('SELECT COUNT(*) FROM '.TBLPFX.'topics');
+		else $DB->queryParams('SELECT COUNT(*) FROM '.TBLPFX.'topics WHERE "forumID"=$1', array($forumID));
+		list($counter) = $DB->fetchArray();
+		return $counter;
 	}
 
 	public static function addSlashes($Value) {
