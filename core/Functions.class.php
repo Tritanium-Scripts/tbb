@@ -22,7 +22,7 @@ class Functions {
 	}
 
 	public static function verifyUserName($UserName) {
-		return (strlen($UserName) <= 15 && preg_match('/^[a-z_]{1}[a-z0-9_]{1,}$/si',$UserName));
+		return (Functions::strlen($UserName) <= 15 && preg_match('/^[a-z_]{1}[a-z0-9_]{1,}$/si',$UserName));
 	}
 
 	public static function verifyEmailAddress($emailAddress) {
@@ -399,6 +399,10 @@ class Functions {
 
 		return $TimeZones;
 	}
+    
+    public static function strlen($string){
+        return mb_strlen($string);
+    }
 }
 
 ?>

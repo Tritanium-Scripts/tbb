@@ -2,7 +2,7 @@
 
 class DBConfig extends ConfigTemplate {
 	protected $config = array(
-		'dbType'=>'Mysql',
+		'dbType'=>'mysql',
 		'dbServer'=>'localhost',
 		'dbUser'=>'root',
 		'dbPassword'=>'root',

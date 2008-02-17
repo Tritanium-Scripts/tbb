@@ -30,7 +30,7 @@ class FuncUsers {
 	public static function getUserID($userID) {
 		$DB = Factory::singleton('DB');
 
-		if(strlen($userID) > 0) {
+		if(Functions::strlen($userID) > 0) {
 			if(!preg_match('/^[0-9]{1,}$/si',$userID))
                 $DB->queryParams('SELECT "userID" FROM '.TBLPFX.'users WHERE "userNick"=$1 LIMIT 1', array($userID));
 			else $DB->queryParams('SELECT "userID" FROM '.TBLPFX.'users WHERE "userID"=$1 LIMIT 1', array($userID));

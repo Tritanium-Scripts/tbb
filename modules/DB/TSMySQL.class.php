@@ -70,7 +70,7 @@ class TSMySQL {
 
 		$inQuotes = FALSE;
 		$escapeChar = FALSE;
-		$charsCounter = strlen($data);
+		$charsCounter = Functions::strlen($data);
 		$inComment = '';
 
 		while(++$j < $charsCounter) {
