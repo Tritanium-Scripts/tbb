@@ -1,9 +1,9 @@
 #
-# Standardwerte fuer MySQL. /*TABLEPREFIX*/ wird automatisch ersetzt
+# Default values for MySQL. /*TABLEPREFIX*/ is automatically replaced
 #
 
 #
-# Tabelle "config"
+# Table 'config'
 #
 INSERT INTO /*TABLEPREFIX*/config ("configName","configValue") VALUES ('admin_rank_pic','images/rankpics/admin.gif');
 INSERT INTO /*TABLEPREFIX*/config ("configName","configValue") VALUES ('allow_ghost_mode','1');
@@ -81,11 +81,13 @@ INSERT INTO /*TABLEPREFIX*/config ("configName","configValue") VALUES ('use_lang
 INSERT INTO /*TABLEPREFIX*/config ("configName","configValue") VALUES ('verify_email_address','0');
 INSERT INTO /*TABLEPREFIX*/config ("configName","configValue") VALUES ('wio_timeout','10');
 
-
+#
+# Table 'ranks'
+#
 INSERT INTO /*TABLEPREFIX*/ranks ("rankName","rankType","rankPosts") VALUES ('User','0','0');
 
 #
-# Tabelle "smilies"
+# Table 'smilies'
 #
 INSERT INTO /*TABLEPREFIX*/smilies ("smileyType","smileyFileName","smileySynonym","smileyStatus") VALUES ('0','images/smilies/standard_smile.gif',':-)','1');
 INSERT INTO /*TABLEPREFIX*/smilies ("smileyType","smileyFileName","smileySynonym","smileyStatus") VALUES ('0','images/smilies/standard_wink.gif',';-)','1');
@@ -123,3 +125,8 @@ INSERT INTO /*TABLEPREFIX*/smilies ("smileyType","smileyFileName","smileySynonym
 INSERT INTO /*TABLEPREFIX*/smilies ("smileyType","smileyFileName","smileySynonym","smileyStatus") VALUES ('1','images/postpics/smile.gif','','0');
 INSERT INTO /*TABLEPREFIX*/smilies ("smileyType","smileyFileName","smileySynonym","smileyStatus") VALUES ('1','images/postpics/wink.gif','','0');
 INSERT INTO /*TABLEPREFIX*/smilies ("smileyType","smileyFileName","smileySynonym","smileyStatus") VALUES ('1','images/postpics/arrow.gif','','0');
+
+#
+# Table 'cats'
+#
+INSERT INTO /*TABLEPREFIX*/cats ("catID","catL","catR","catName") VALUES (1,1,2,'ROOT');

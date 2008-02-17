@@ -351,7 +351,13 @@ class BoardInstall {
 				foreach($tablesData  AS $curTable) {
 					if($curTable != $_SESSION['tablePrefix'].'config') continue;
 
-					$this->DB->query('SELECT "configValue" FROM '.$_SESSION['tablePrefix'].'config WHERE "configName"=\'dataversion\'');
+					$columnsData = $this->DB->getColumnsData($_SESSION['tablePrefix'].'config');
+					
+					if(in_array('config_value',$columnsData))
+						$this->DB->query('SELECT "config_value" FROM '.$_SESSION['tablePrefix'].'config WHERE "config_name"=\'dataversion\'');
+					else
+						$this->DB->query('SELECT "configValue" FROM '.$_SESSION['tablePrefix'].'config WHERE "configName"=\'dataversion\'');
+					
 					if($this->DB->numRows() != 0)
 						list($DATAVERSION) = $this->DB->fetchArray();
 

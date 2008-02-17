@@ -1,0 +1,100 @@
+<?php
+
+$this->DB->query('
+	ALTER TABLE '.TBLPFX.'avatars
+		DROP PRIMARY KEY,
+		CHANGE "avatar_id" "avatarID" smallint(5) unsigned NOT NULL auto_increment,
+		CHANGE "avatar_address" "avatarAddress" varchar(255) NOT NULL default \'\',
+		ADD PRIMARY KEY (`avatarID`)
+');
+
+$this->DB->query('
+	ALTER TABLE '.TBLPFX.'cats
+		DROP PRIMARY KEY,
+		CHANGE "cat_id" "catID" mediumint(5) unsigned NOT NULL auto_increment,
+		CHANGE "cat_l" "catL" mediumint(5) NOT NULL default \'0\',
+		CHANGE "cat_r" "catR" mediumint(5) NOT NULL default \'0\',
+		CHANGE "cat_standard_status" "catStandardStatus" tinyint(1) unsigned NOT NULL default \'1\',
+		CHANGE "cat_name" "catName" varchar(255) NOT NULL default \'\',
+		CHANGE "cat_description" "catDescription" varchar(255) NOT NULL default \'\',
+		ADD PRIMARY KEY ("catID")
+');
+
+$this->DB->query('
+	ALTER TABLE '.TBLPFX.'config
+		DROP PRIMARY KEY,
+		CHANGE "config_name" "configName" varchar(255) NOT NULL default \'\',
+		CHANGE "config_value" "configValue" varchar(255) NOT NULL default \'\',
+		ADD PRIMARY KEY  ("configName")
+');
+
+$this->DB->query('
+	ALTER TABLE '.TBLPFX.'forums
+		DROP KEY "cat_id",
+		DROP KEY "order_id",
+		DROP PRIMARY KEY,
+		CHANGE "forum_id" "forumID" mediumint(8) unsigned NOT NULL auto_increment,
+		CHANGE "cat_id" "catID" mediumint(8) unsigned NOT NULL default \'0\',
+		CHANGE "order_id" "orderID" mediumint(8) unsigned NOT NULL default \'0\',
+		CHANGE "forum_name" "forumName" varchar(255) NOT NULL default \'\',
+		CHANGE "forum_description" "forumDescription" varchar(255) NOT NULL default \'\',
+		CHANGE "forum_topics_counter" "forumTopicsCounter" mediumint(8) unsigned NOT NULL default \'0\',
+		CHANGE "forum_posts_counter" "forumPostsCounter" mediumint(8) unsigned NOT NULL default \'0\',
+		CHANGE "forum_last_post_id" "forumLastPostID" mediumint(8) unsigned NOT NULL default \'0\',
+		CHANGE "forum_enable_bbcode" "forumEnableBBCode" tinyint(1) unsigned NOT NULL default \'0\',
+		CHANGE "forum_enable_htmlcode" "forumEnableHtmlCode" tinyint(1) unsigned NOT NULL default \'0\',
+		CHANGE "forum_enable_smilies" "forumEnableSmilies" tinyint(1) unsigned NOT NULL default \'0\',
+		ADD "forumEnableURITransformation" tinyint(1) unsigned NOT NULL default \'0\' AFTER "forumEnableSmilies",
+		CHANGE "forum_is_moderated" forumIsModerated" tinyint(1) unsigned NOT NULL default \'0\',
+		CHANGE "forum_show_latest_posts" "forumShowLatestPosts" tinyint(1) unsigned NOT NULL default \'0\',
+		CHANGE "auth_members_view_forum" "authViewForumMembers" tinyint(1) unsigned NOT NULL default \'0\',
+		CHANGE "auth_members_post_topic" "authPostTopicMembers" tinyint(1) unsigned NOT NULL default \'0\',
+		CHANGE "auth_members_post_reply" "authPostReplyMembers" tinyint(1) unsigned NOT NULL default \'0\',
+		CHANGE "auth_members_post_poll" "authPostPollMembers" tinyint(1) unsigned NOT NULL default \'0\',
+		CHANGE "auth_members_edit_posts" "authEditPostsMembers" tinyint(1) unsigned NOT NULL default \'0\',
+		CHANGE "auth_guests_view_forum" "authViewForumGuests" tinyint(1) unsigned NOT NULL default \'0\',
+		CHANGE "auth_guests_post_topic" "authPostTopicGuests" tinyint(1) unsigned NOT NULL default \'0\',
+		CHANGE "auth_guests_post_reply" "authPostReplyGuests" tinyint(1) unsigned NOT NULL default \'0\',
+		CHANGE "auth_guests_post_poll" "authPostPollGuests" tinyint(1) unsigned NOT NULL default \'0\',
+		ADD PRIMARY KEY  ("forumID"),
+		ADD KEY "catID" ("catID"),
+		ADD KEY "orderID" ("orderID")
+');
+
+$this->DB->query('
+	ALTER TABLE '.TBLPFX.'forums_auth
+		DROP KEY "forum_id",
+		CHANGE "forum_id" "forumID" mediumint(8) unsigned NOT NULL default \'0\',
+		CHANGE "auth_type" "authType" tinyint(1) unsigned NOT NULL default \'0\',
+		CHANGE "auth_id" "authID" mediumint(8) unsigned NOT NULL default \'0\',
+		CHANGE "auth_view_forum" "authViewForum" tinyint(1) unsigned NOT NULL default \'0\',
+		CHANGE "auth_post_topic" "authPostTopic" tinyint(1) unsigned NOT NULL default \'0\',
+		CHANGE "auth_post_reply" "authPostReply" tinyint(1) unsigned NOT NULL default \'0\',
+		CHANGE "auth_post_poll" "authPostPoll" tinyint(1) unsigned NOT NULL default \'0\',
+		CHANGE "auth_edit_posts" "authEditPosts" tinyint(1) unsigned NOT NULL default \'0\',
+		CHANGE "auth_is_mod" "authIsMod" tinyint(1) unsigned NOT NULL default \'0\',
+		ADD PRIMARY KEY ("forumID","authType","authID")
+');
+
+$this->DB->query('
+	ALTER TABLE '.TBLPFX.'groups
+		DROP PRIMARY KEY,
+		CHANGE "group_id" "groupID" smallint(5) unsigned NOT NULL auto_increment,
+		CHANGE "group_name" "groupName" varchar(255) NOT NULL default \'\',
+		ADD PRIMARY KEY ("groupID")
+');
+
+$this->DB->query('
+	ALTER TABLE '.TBLPFX.'groups_members
+		DROP KEY "member_id_group_id",
+		DROP KEY "group_id",
+		CHANGE "group_id" "groupID" smallint(5) unsigned NOT NULL default \'0\',
+		CHANGE "member_id" "memberID" mediumint(8) unsigned NOT NULL default \'0\',
+		CHANGE "member_status" "memberStatus" tinyint(1) unsigned NOT NULL default \'0\',
+		ADD PRIMARY KEY ("groupID","memberID"),
+		ADD KEY "memberID" ("memberID")
+');
+
+$this->DB->query('DROP TABLE IF EXISTS '.TBLPFX.'wio');
+
+?>

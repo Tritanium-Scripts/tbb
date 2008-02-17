@@ -148,6 +148,13 @@ class TSMySQL {
 		while(list($tablesData[]) = $this->fetchArray()) {}
 		return $tablesData;
 	}
+	
+	public function getColumnsData($tableName) {
+		$columnsData = array();
+		$this->query('SHOW COLUMNS '.$tableName);	
+		while(list($columnsData[]) = $this->fetchArray()) {}
+		return $columnsData;
+	}
 }
 
 ?>

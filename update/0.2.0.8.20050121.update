@@ -1,65 +1,43 @@
-/**
-*
-* Erst wird ueberprueft, ob user_memo in der Tabelle users vorhanden ist. Falls nicht wird es hinzugefuegt
-*
-**/
-$add_user_memo = TRUE;
-$DB->query("SHOW FIELDS FROM ".TBLPFX."users");
-while($cur_field = $DB->fetch_array()) {
-	if($cur_field['Field'] == 'user_memo') {
-		$add_user_memo = FALSE;
-		break;
-	}
+// Check if column 'user_memo' exists in table 'users' and add if not
+$addUserMemo = TRUE;
+$this->DB->query('SHOW FIELDS FROM '.TBLPFX.'users');
+while($curField = $this->DB->fetchArray()) {
+	if($curField['Field'] != 'user_memo') continue;
+	
+	$addUserMemo = FALSE;
+	break;
 }
-if($add_user_memo == TRUE)
-	$DB->query("ALTER TABLE ".TBLPFX."users ADD user_memo TEXT DEFAULT '' NOT NULL");
+if($addUserMemo)
+	$this->DB->query('ALTER TABLE '.TBLPFX.'users ADD "user_memo" TEXT DEFAULT \'\' NOT NULL');
 
-/**
-*
-* Neue und geupdatete Konfigwerte
-*
-**/
-$DB->query("UPDATE ".TBLPFX."config SET config_value='de' WHERE config_name='standard_language'");
-$DB->query("INSERT INTO ".TBLPFX."config (config_name,config_value) VALUES ('allow_profile_notes','1')");
-$DB->query("INSERT INTO ".TBLPFX."config (config_name,config_value) VALUES ('allow_select_lng_guests','1')");
-$DB->query("INSERT INTO ".TBLPFX."config (config_name,config_value) VALUES ('use_language_detection','1')");
-$DB->query("INSERT INTO ".TBLPFX."config (config_name,config_value) VALUES ('supermod_rank_pic','images/rankpics/supermod.gif')");
+// New and updated config values
+$this->DB->query('UPDATE '.TBLPFX.'config SET "config_value"=\'de\' WHERE "config_name"=\'standard_language\'');
+$this->DB->query('INSERT INTO '.TBLPFX.'config ("config_name","config_value") VALUES (\'allow_profile_notes\',\'1\')');
+$this->DB->query('INSERT INTO '.TBLPFX.'config ("config_name","config_value") VALUES (\'allow_select_lng_guests\',\'1\')');
+$this->DB->query('INSERT INTO '.TBLPFX.'config ("config_name","config_value") VALUES (\'use_language_detection\',\'1\')');
+$this->DB->query('INSERT INTO '.TBLPFX.'config ("config_name","config_value") VALUES (\'supermod_rank_pic\',\'images/rankpics/supermod.gif\')');
 
-/**
-*
-* Eine Korrektur bezueglich profile_fields_data: field_id war smallint(8), richtig ist aber smallint(5)
-*
-**/
-$DB->query("ALTER TABLE ".TBLPFX."profile_fields_data CHANGE field_id field_id SMALLINT(5) UNSIGNED DEFAULT '0' NOT NULL");
+// Column 'field_id' in table 'profile_fields_data' had an invalid definition: smallint(8) instead of smallint(5)
+$this->DB->query('ALTER TABLE '.TBLPFX.'profile_fields_data CHANGE "field_id" "field_id" SMALLINT(5) UNSIGNED DEFAULT \'0\' NOT NULL');
 
-/**
-*
-* Setzt fuer alle variablen Profilfelder in field_link %1$s, damit sie in der Mitgliederliste auch angezeigt werden
-*
-**/
-$DB->query("UPDATE ".TBLPFX."profile_fields SET field_link='%1\$s' where field_link=''");
+// Show all custom profile fields in member list (if wanted) 
+$this->DB->query('UPDATE '.TBLPFX.'profile_fields SET "field_link"=\'%1\$s\' WHERE "field_link"=\'\'');
 
-/**
-*
-* Neue Tabellenspalten
-*
-**/
-$DB->query("ALTER TABLE ".TBLPFX."users ADD user_auth_profile_notes TINYINT(1) UNSIGNED DEFAULT '2' NOT NULL");
+// New column 'user_auth_profile_notes' in table 'users'
+$this->DB->query('ALTER TABLE '.TBLPFX.'users ADD "user_auth_profile_notes" TINYINT(1) UNSIGNED DEFAULT \'2\' NOT NULL');
 
-/**
-*
-* Neue Tabelle erstellen
-*
-**/
-$DB->query("CREATE TABLE IF NOT EXISTS ".TBLPFX."profile_notes (
-	note_id MEDIUMINT(8) UNSIGNED AUTO_INCREMENT,
-	user_id MEDIUMINT(8) UNSIGNED DEFAULT '0' NOT NULL,
-	profile_id MEDIUMINT(8) UNSIGNED DEFAULT '0' NOT NULL,
-	note_time INT(10) UNSIGNED DEFAULT '0' NOT NULL,
-	note_is_public TINYINT(1) UNSIGNED DEFAULT '0' NOT NULL,
-	note_text TEXT DEFAULT '' NOT NULL,
-	PRIMARY KEY (note_id),
-	KEY user_id_profile_id (user_id,profile_id)
-)");
+// Add new table 'profile_notes'
+$this->DB->query('
+	CREATE TABLE IF NOT EXISTS '.TBLPFX.'profile_notes (
+		"note_id" MEDIUMINT(8) UNSIGNED AUTO_INCREMENT,
+		"user_id" MEDIUMINT(8) UNSIGNED DEFAULT \'0\' NOT NULL,
+		"profile_id" MEDIUMINT(8) UNSIGNED DEFAULT \'0\' NOT NULL,
+		"note_time" INT(10) UNSIGNED DEFAULT \'0\' NOT NULL,
+		"note_is_public" TINYINT(1) UNSIGNED DEFAULT \'0\' NOT NULL,
+		"note_text" TEXT DEFAULT \'\' NOT NULL,
+		PRIMARY KEY ("note_id"),
+		KEY "user_id_profile_id" ("user_id","profile_id")
+	)
+');
 
-$NEXT_UPDATE_FILE = '';
+$nextUpdateFile = '0.2.0.9.20050502.update';
