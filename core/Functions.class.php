@@ -416,5 +416,23 @@ class Functions {
     public static function strtolower($str){
         return mb_strtolower($str);
     }
+    
+    public static function splitTime($time) {
+		$array = array();
+	
+		$array['months'] = floor($time/2592000);
+		$time %= 2592000;
+		$array['weeks'] = floor($time/604800);
+		$time %= 604800;
+		$array['days'] = floor($time/86400);
+		$time %= 86400;
+		$array['hours'] = floor($time/3600);
+		$time %= 3600;
+		$array['minutes'] = floor($time/60);
+		$time %= 60;
+		$array['seconds'] = $time;
+	
+		return $array;
+    }
 }
 ?>

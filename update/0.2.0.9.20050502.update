@@ -1,5 +1,3 @@
-<?php
-
 $this->DB->query('
 	ALTER TABLE '.TBLPFX.'avatars
 		DROP PRIMARY KEY,
@@ -30,9 +28,9 @@ $this->DB->query('
 
 $this->DB->query('
 	ALTER TABLE '.TBLPFX.'forums
+		DROP PRIMARY KEY,
 		DROP KEY "cat_id",
 		DROP KEY "order_id",
-		DROP PRIMARY KEY,
 		CHANGE "forum_id" "forumID" mediumint(8) unsigned NOT NULL auto_increment,
 		CHANGE "cat_id" "catID" mediumint(8) unsigned NOT NULL default \'0\',
 		CHANGE "order_id" "orderID" mediumint(8) unsigned NOT NULL default \'0\',
@@ -56,7 +54,7 @@ $this->DB->query('
 		CHANGE "auth_guests_post_topic" "authPostTopicGuests" tinyint(1) unsigned NOT NULL default \'0\',
 		CHANGE "auth_guests_post_reply" "authPostReplyGuests" tinyint(1) unsigned NOT NULL default \'0\',
 		CHANGE "auth_guests_post_poll" "authPostPollGuests" tinyint(1) unsigned NOT NULL default \'0\',
-		ADD PRIMARY KEY  ("forumID"),
+		ADD PRIMARY KEY ("forumID"),
 		ADD KEY "catID" ("catID"),
 		ADD KEY "orderID" ("orderID")
 ');
@@ -95,6 +93,306 @@ $this->DB->query('
 		ADD KEY "memberID" ("memberID")
 ');
 
+$this->DB->query('
+	ALTER TABLE '.TBLPFX.'pms
+		DROP PRIMARY KEY,
+		DROP KEY "folder_id",
+		DROP KEY "pm_from_id",
+		DROP KEY "pm_to_id", 
+		CHANGE "pm_id" "pmID" mediumint(8) unsigned NOT NULL auto_increment,
+		CHANGE "fokder_id" "folderID" smallint(5) unsigned NOT NULL default \'0\',
+		CHANGE "pm_from_id" "pmFromID" mediumint(8) unsigned NOT NULL default \'0\',
+		CHANGE "pm_to_id" "pmToID" mediumint(8) unsigned NOT NULL default \'0\',
+		CHANGE "pm_read_status" "pmIsRead" tinyint(1) unsigned NOT NULL default \'0\',
+		CHANGE "pm_type" "pmType" tinyint(1) unsigned NOT NULL default \'0\',
+		CHANGE "pm_subject" "pmSubject" varchar(255) NOT NULL default \'\',
+		CHANGE "pm_text" "pmMessageText" mediumtext NOT NULL,
+		CHANGE "pm_send_time" "pmSendTimestamp" int(10) unsigned NOT NULL default \'0\',
+		CHANGE "pm_enable_bbcode" "pmEnableBBCode" tinyint(1) unsigned NOT NULL default \'0\',
+		CHANGE "pm_enable_smilies" "pmEnableSmilies" tinyint(1) unsigned NOT NULL default \'0\',
+		CHANGE "pm_enable_htmlcode" "pmEnableHtmlCode" tinyint(1) unsigned NOT NULL default \'0\',
+		CHANGE "pm_show_signature" "pmShowSignature" tinyint(1) unsigned NOT NULL default \'0\',
+		CHANGE "pm_request_rconfirmation" "pmRequestReadReceipt" tinyint(1) unsigned NOT NULL default \'0\',
+		CHANGE "pm_guest_nick" "pmGuestNick" varchar(255) NOT NULL default \'\',
+		ADD "pmIsReplied" tinyint(1) unsigned NOT NULL default \'0\' AFTER "pmGuestNick",
+		ADD PRIMARY KEY  ("pmID"),
+		ADD KEY "folderID" ("folderID"),
+		ADD KEY "pmFromID" ("pmFromID"),
+		ADD KEY "pmToID" ("pmToID")
+');
+
+$this->DB->query('
+	ALTER TABLE '.TBLPFX.'pms_folders
+		DROP KEY "user_id",
+		DROP KEY "folder_id",
+		CHANGE "folder_id" "folderID" smallint(5) unsigned NOT NULL default \'0\',
+		CHANGE "user_id" "userID" mediumint(8) unsigned NOT NULL default \'0\',
+		CHANGE "folder_name" "folderName" varchar(255) NOT NULL default \'\',
+		ADD PRIMARY KEY ("folderID","userID"),
+		ADD KEY "userID" ("userID")
+');
+
+$this->DB->query('
+	ALTER TABLE '.TBLPFX.'polls
+		DROP PRIMARY KEY,
+		DROP KEY "topic_id_poll_id",
+		DROP KEY "poster_id",
+		CHANGE "poll_id" "pollID" mediumint(8) unsigned NOT NULL auto_increment,
+		CHANGE "topic_id" "topicID" mediumint(8) unsigned NOT NULL default \'0\',
+		CHANGE "poster_id" "posterID" mediumint(8) unsigned NOT NULL default \'0\',
+		CHANGE "poll_title" "pollTitle" varchar(255) NOT NULL default \'\',
+		CHANGE "poll_votes" "pollVotesCounter" mediumint(8) unsigned NOT NULL default \'0\',
+		CHANGE "poll_guest_nick" "pollGuestNick" varchar(255) NOT NULL default \'\',
+		CHANGE "poll_start_time" "pollStartTimestamp" int(10) unsigned NOT NULL default \'0\',
+		CHANGE "poll_end_time" "pollEndTimestamp" int(10) unsigned NOT NULL default \'0\',
+		ADD "pollGuestsVote" tinyint(1) unsigned NOT NULL default \'0\',
+		ADD "pollGuestsViewResults" tinyint(1) unsigned NOT NULL default \'1\',
+		ADD "pollShowResultsAfterEnd" tinyint(1) unsigned NOT NULL default \'0\',
+		ADD PRIMARY KEY  ("pollID"),
+		ADD UNIQUE KEY "topicID" ("topicID"),
+		ADD KEY "posterID" ("posterID")
+');
+
+$this->DB->query('
+	ALTER TABLE '.TBLPFX.'polls_options
+		DROP KEY "option_id",
+		DROP KEY "poll_id_option_id",
+		CHANGE "poll_id" "pollID" mediumint(8) unsigned NOT NULL default \'0\',
+		CHANGE "option_id" "optionID" smallint(5) unsigned NOT NULL default \'0\',
+		CHANGE "option_title" "optionTitle" varchar(255) NOT NULL default \'\',
+		CHANGE "option_votes" "optionVotesCounter" mediumint(8) NOT NULL default \'0\',
+		ADD PRIMARY KEY ("pollID","optionID"),
+		ADD KEY "optionID" ("optionID")
+');
+
+$this->DB->query('
+	ALTER TABLE '.TBLPFX.'polls_votes
+		DROP KEY "poll_id",
+		DROP KEY "voter_id_poll_id",
+		CHANGE "poll_id" "pollID" mediumint(8) unsigned NOT NULL default \'0\',
+		CHANGE "voter_id" "voterID" mediumint(8) unsigned NOT NULL default \'0\',
+		ADD PRIMARY KEY ("pollID","voterID"),
+		ADD KEY "voterID" ("voterID")
+');
+
+$this->DB->query('
+	ALTER TABLE '.TBLPFX.'posts
+		DROP PRIMARY KEY,
+		DROP KEY "topic_id",
+		DROP KEY "forum_id",
+		DROP KEY "poster_id",
+		CHANGE "post_id" "postID" mediumint(8) unsigned NOT NULL auto_increment,
+		CHANGE "topic_id" "topicID" mediumint(8) unsigned NOT NULL default \'0\',
+		CHANGE "forum_id" "forumID" mediumint(8) unsigned NOT NULL default \'0\',
+		CHANGE "poster_id" "posterID" mediumint(8) unsigned NOT NULL default \'0\',
+		CHANGE "post_time" "postTimestamp" int(10) unsigned NOT NULL default \'0\',
+		CHANGE "post_ip" "postIP" varchar(15) NOT NULL default \'\',
+		CHANGE "post_pic" "smileyID" smallint(5) unsigned NOT NULL default \'0\',
+		CHANGE "post_enable_bbcode" "postEnableBBCode" tinyint(1) unsigned NOT NULL default \'0\',
+		CHANGE "post_enable_smilies" "postEnableSmilies" tinyint(1) unsigned NOT NULL default \'0\',
+		CHANGE "post_enable_html" "postEnableHtmlCode" tinyint(1) unsigned NOT NULL default \'0\',
+		CHANGE "post_show_sig" "postShowSignature" tinyint(1) unsigned NOT NULL default \'0\',
+		ADD "postEnableURITransformation" tinyint(1) unsigned NOT NULL default \'0\' AFTER "postShowSignature",
+		ADD "postShowEditings" tinyint(1) unsigned NOT NULL default \'0\' AFTER "postEnableURITransformation",
+		CHANGE "post_guest_nick" "postGuestNick" varchar(15) NOT NULL default \'\',
+		CHANGE "post_edited_counter" "postEditedCounter" smallint(5) unsigned NOT NULL default \'0\',
+		ADD "postLastEditorNick" varchar(255) NOT NULL default \'\' AFTER "post_last_editor_id",
+		CHANGE "post_title" "postTitle" varchar(255) NOT NULL default \'\',
+		CHANGE "post_text" "postText" mediumtext NOT NULL,
+		ADD PRIMARY KEY  ("postID"),
+		ADD KEY "topicID" ("topicID"),
+		ADD KEY "forumID" ("forumID"),
+		ADD KEY "posterID" ("posterID")
+');
+
+$this->DB->query('
+	UPDATE
+		'.TBLPFX.'posts t1
+	LEFT JOIN '.TBLPFX.'users t2 ON t1."post_last_editor_id"=t2."user_id"
+	SET
+		t1."postLastEditorNick"=IFNULL(t2."user_nick",\'\')
+');
+
+$this->DB->query('
+	ALTER TABLE '.TBLPFX.'posts
+		DROP "post_last_editor_id"
+');
+
+$this->DB->query('
+	ALTER TABLE '.TBLPFX.'profile_fields
+		DROP PRIMARY KEY,
+		CHANGE "field_id" "fieldID" smallint(5) unsigned NOT NULL auto_increment,
+		CHANGE "field_name" "fieldName" varchar(255) NOT NULL default \'\',
+		CHANGE "field_type" "fieldType" tinyint(1) unsigned NOT NULL default \'0\',
+		CHANGE "field_is_required" "fieldIsRequired" tinyint(1) unsigned NOT NULL default \'0\',
+		CHANGE "field_show_registration" "fieldShowRegistration" tinyint(1) unsigned NOT NULL default \'0\',
+		CHANGE "field_show_memberlist" "fieldShowMemberlist" tinyint(1) unsigned NOT NULL default \'0\',
+		CHANGE "field_link" "fieldLink" varchar(255) NOT NULL default \'\',
+		CHANGE "field_data" "fieldData" mediumtext NOT NULL,
+		CHANGE "field_regex_verification" "fieldRegexVerification" varchar(255) NOT NULL default \'\',
+		ADD PRIMARY KEY ("fieldID")
+');
+
+$this->DB->query('
+	ALTER TABLE  '.TBLPFX.'profile_fields_data
+		DROP KEY "user_id_field_id",
+		DROP KEY "field_id",
+		CHANGE "field_id" "fieldID" smallint(5) unsigned NOT NULL default \'0\',
+		CHANGE "user_id" "userID" mediumint(8) unsigned NOT NULL default \'0\',
+		CHANGE "field_value" "fieldValue" mediumtext NOT NULL,
+		ADD PRIMARY KEY ("fieldID","userID"),
+		ADD KEY "userID" ("userID")
+');
+
+$this->DB->query('
+	ALTER TABLE  '.TBLPFX.'profile_notes
+		DROP PRIMARY KEY,
+		DROP KEY "user_id_profile_id",
+		CHANGE "note_id" "noteID" mediumint(8) unsigned NOT NULL auto_increment,
+		CHANGE "user_id" "userID" mediumint(8) unsigned NOT NULL default \'0\',
+		CHANGE "profile_id" "profileID" mediumint(8) unsigned NOT NULL default \'0\',
+		CHANGE "note_time" "noteTimestamp" int(10) unsigned NOT NULL default \'0\',
+		CHANGE "note_is_public" "noteIsPublic" tinyint(1) unsigned NOT NULL default \'0\',
+		CHANGE "note_text" "noteText" mediumtext NOT NULL,
+		ADD PRIMARY KEY ("noteID"),
+		ADD KEY "userIDProfileID" ("userID","profileID")
+');
+
+$this->DB->query('
+	ALTER TABLE  '.TBLPFX.'ranks
+		DROP PRIMARY KEY,
+		DROP KEY "rank_type",
+		CHANGE "rank_id" "rankID" smallint(5) unsigned NOT NULL auto_increment,
+		CHANGE "rank_type" "rankType" tinyint(1) unsigned NOT NULL default \'0\',
+		CHANGE "rank_name" "rankName" varchar(255) NOT NULL default \'\',
+		CHANGE "rank_gfx" "rankGfx" mediumtext NOT NULL,
+		CHANGE "rank_posts" "rankPosts" mediumint(8) unsigned NOT NULL default \'0\',
+		ADD PRIMARY KEY ("rankID"),
+		ADD KEY "rankType" ("rankType")
+');
+
+$this->DB->query('
+	ALTER TABLE  '.TBLPFX.'search_results
+		DROP PRIMARY KEY,
+		CHANGE "search_id" "searchID" varchar(32) NOT NULL default \'\',
+		CHANGE "session_id" "sessionID" varchar(32) NOT NULL default \'\',
+		CHANGE "search_last_access" "searchLastAccess" timestamp NOT NULL default \'0000-00-00 00:00:00\',
+		CHANGE "search_results" "searchResults" mediumtext NOT NULL,
+		ADD PRIMARY KEY ("searchID")
+');
+
+$this->DB->query('
+	ALTER TABLE  '.TBLPFX.'sessions
+		DROP PRIMARY KEY,
+		DROP KEY "session_last_update",
+		CHANGE "session_id" "sessionID" varchar(32) NOT NULL default \'\',
+		CHANGE "session_last_update" "sessionLastUpdate" timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+		CHANGE "session_data" "sessionData" mediumtext NOT NULL,
+		CHANGE "session_user_id" "sessionUserID" mediumint(8) unsigned NOT NULL default \'0\',
+		CHANGE "session_is_ghost" "sessionIsGhost" tinyint(1) unsigned NOT NULL default \'0\',
+		CHANGE "session_last_location" "sessionLastLocation" varchar(255) NOT NULL default \'forumindex\',
+		ADD PRIMARY KEY ("sessionID"),
+		ADD KEY "sessionLastUpdate" ("sessionLastUpdate")
+');
+
+$this->DB->query('
+	ALTER TABLE  '.TBLPFX.'smilies
+		DROP PRIMARY KEY,
+		CHANGE "smiley_id" "smileyID" smallint(5) unsigned NOT NULL auto_increment,
+		CHANGE "smiley_type" "smileyType" tinyint(1) unsigned NOT NULL default \'0\',
+		CHANGE "smiles_gfx" "smileyFileName" varchar(255) NOT NULL default \'\',
+		CHANGE "smiley_synonym" "smileySynonym" varchar(255) NOT NULL default \'\',
+		CHANGE "smiley_status" "smileyStatus" tinyint(1) unsigned NOT NULL default \'0\',
+		ADD PRIMARY KEY ("smileyID")
+');
+
+$this->DB->query('
+	ALTER TABLE  '.TBLPFX.'topics
+		DROP PRIMARY KEY,
+		DROP KEY "forum_id_topic_id",
+		DROP KEY "poster_id",
+		DROP KEY "topic_moved_id",
+		CHANGE "topic_id" "topicID" mediumint(8) unsigned NOT NULL auto_increment,
+		CHANGE "forum_id" "forumID" mediumint(8) unsigned NOT NULL default \'0\',
+		CHANGE "poster_id" "posterID" mediumint(8) unsigned NOT NULL default \'0\',
+		CHANGE "topic_status" "topicIsClosed" tinyint(1) unsigned NOT NULL default \'0\',
+		CHANGE "topic_is_pinned" "topicIsPinned" tinyint(1) unsigned NOT NULL default \'0\',
+		CHANGE "topic_pic" "smileyID" smallint(5) unsigned NOT NULL default \'0\',
+		CHANGE "topic_replies_counter" "topicRepliesCounter" mediumint(8) unsigned NOT NULL default \'0\',
+		CHANGE "topic_views_counter" "topicViewsCounter" mediumint(8) unsigned NOT NULL default \'0\',
+		CHANGE "topic_poll" "topicHasPoll" tinyint(1) unsigned NOT NULL default \'0\',
+		CHANGE "topic_first_post_id" "topicFirstPostID" mediumint(8) unsigned NOT NULL default \'0\',
+		CHANGE "topic_last_post_id" "topicLastPostID" mediumint(8) unsigned NOT NULL default \'0\',
+		CHANGE "topic_moved_id" "topicMovedID" mediumint(8) unsigned NOT NULL default \'0\',
+		ADD "topicMovedTimestamp" int(10) unsigned NOT NULL default \'0\' AFTER "topicMovedID",
+		CHANGE "topic_post_time" "topicPostTimestamp" int(10) unsigned NOT NULL default \'0\',
+		CHANGE "topic_title" "topicTitle" varchar(255) NOT NULL default \'\',
+		CHANGE "topic_guest_nick" "topicGuestNick" varchar(255) NOT NULL default \'\',
+		ADD ADD PRIMARY KEY ("topicID"),
+		ADD KEY "forumIDTopicID" ("forumID","topicID"),
+		ADD KEY "posterID" ("posterID"),
+		ADD KEY "topicMovedID" ("topicMovedID")
+');
+
+$this->DB->query('
+	ALTER TABLE  '.TBLPFX.'topics_subscriptions
+		DROP KEY "user_id_topic_id",
+		DROP KEY "topic_id",
+		"topicID" mediumint(8) unsigned NOT NULL default \'0\',
+		"userID" mediumint(8) unsigned NOT NULL default \'0\',
+		ADD PRIMARY KEY ("topicID","userID"),
+		ADD KEY "userID" ("userID")
+');
+
+$this->DB->query('
+	CREATE TABLE '.TBLPFX.'users
+		DROP PRIMARY KEY,
+		DROP KEY "user_last_action",
+		DROP KEY "user_rank_id",
+		CHANGE "user_id" "userID" mediumint(8) unsigned NOT NULL auto_increment,
+		CHANGE "user_status" "userIsActivated" tinyint(1) unsigned NOT NULL default \'0\',
+		CHANGE "user_is_admin" "userIsAdmin" tinyint(1) unsigned NOT NULL default \'0\',
+		CHANGE "user_is_supermod" "userIsSupermod" tinyint(1) unsigned NOT NULL default \'0\',
+		CHANGE "user_hash" "userHash" varchar(32) NOT NULL default \'\',
+		CHANGE "user_nick" "userNick" varchar(255) NOT NULL default \'\',
+		CHANGE "user_email" "userEmailAddress" varchar(255) NOT NULL default \'\',
+		CHANGE "user_pw" "userPassword" varchar(255) NOT NULL default \'\',
+		ADD "userPasswordSalt" varchar(255) NOT NULL default \'\' AFTER "userPassword",
+		CHANGE "user_new_pw" "userNewPassword" varchar(255) NOT NULL default \'\',
+		ADD "userNewPasswordSalt" varchar(255) NOT NULL default \'\' AFTER "userNewPassword",
+		CHANGE "user_posts" "userPostsCounter" mediumint(8) unsigned NOT NULL default \'0\',
+		CHANGE "user_regtime" "userRegistrationTimestamp" int(10) unsigned NOT NULL default \'0\',
+		CHANGE "user_signature" "userSignature" mediumtext NOT NULL,
+		CHANGE "user_group_id" "groupID" mediumint(8) unsigned NOT NULL default \'0\',
+		CHANGE "user_last_action" "userLastAction" int(10) unsigned NOT NULL default \'0\',
+		ADD "userLastVisit" int(10) unsigned NOT NULL default \'0\' AFTER "userLastAction",
+		CHANGE "user_rank_id" "rankID" smallint(5) unsigned NOT NULL default \'0\',
+		CHANGE "user_avatar_address" "userAvatarAddress" varchar(255) NOT NULL default \'\',
+		CHANGE "user_tz" "userTimeZone" varchar(255) NOT NULL default \'gmt\',
+		CHANGE "user_receive_emails" "userReceiveEmails" tinyint(1) unsigned NOT NULL default \'1\',
+		CHANGE "user_hide_email" "userHideEmailAddress" tinyint(1) unsigned NOT NULL default \'0\',
+		CHANGE "user_is_locked" "userIsLocked" tinyint(1) unsigned NOT NULL default \'0\',
+		CHANGE "user_memo" "userMemo" mediumtext NOT NULL,
+		CHANGE "user_auth_profile_notes" "userAuthProfileNotes" tinyint(1) unsigned NOT NULL default \'2\',
+		ADD "userLanguage" varchar(255) NOT NULL default \'\' AFTER "userAuthProfileNotes",
+		DROP "user_special_status",
+		ADD PRIMARY KEY ("userID"),
+		ADD KEY "userLastAction" ("userLastAction"),
+		ADD KEY "rankID" ("rankID")
+');
+
+$this->DB->query('
+	ALTER TABLE '.TBLPFX.'users_locks
+		DROP PRIMARY KEY,
+		DROP KEY "lock_type_user_id",
+		CHANGE "user_id" "userID" mediumint(8) unsigned NOT NULL default \'0\',
+		CHANGE "lock_type" "lockType" tinyint(1) unsigned NOT NULL default \'0\',
+		CHANGE "lock_start_time" "lockStartTimestamp" int(10) unsigned NOT NULL default \'0\',
+		CHANGE "lock_dur_time" "lockEndTimestamp" int(10) unsigned NOT NULL default \'0\',
+		ADD PRIMARY KEY ("userID"),
+		ADD KEY "lockTypeUserID" ("lockType","userID")
+');
+
 $this->DB->query('DROP TABLE IF EXISTS '.TBLPFX.'wio');
 
-?>
+$nextUpdateFile = '';
