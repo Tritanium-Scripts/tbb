@@ -116,7 +116,7 @@ class BBCode extends ModuleTemplate {
 	}
 
 	protected function cbImage($elements) {
-		if(substr($elements[1],0,11) == 'javascript:') return $elements[0];
+		if(Functions::substr($elements[1],0,11) == 'javascript:') return $elements[0];
 
 		$this->modules['Template']->assign('b',array(
 			'bbCodeType'=>BBCODE_IMAGE,
@@ -126,7 +126,7 @@ class BBCode extends ModuleTemplate {
 	}
 
 	protected function cbLink($elements) {
-		if(substr($elements[1],0,11) == 'javascript:') return $elements[0];
+		if(Functions::substr($elements[1],0,11) == 'javascript:') return $elements[0];
 
 		if(count($elements) == 3) {
 			$linkAddress = $elements[1];

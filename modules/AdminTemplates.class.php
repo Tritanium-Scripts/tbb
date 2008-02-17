@@ -45,7 +45,7 @@ class AdminTemplates extends ModuleTemplate {
 		$templatesData = array();
 		if(@$dp = opendir('templates')) {
 			while($curObject = readdir($dp)) {
-				if(substr($curObject,0,1) == '.') continue;
+				if(Functions::substr($curObject,0,1) == '.') continue;
 
 				$curTemplateInfo = parse_ini_file('templates/'.$curObject.'/config/TemplateInfo.ini',TRUE);
 				$templatesData[] = array(

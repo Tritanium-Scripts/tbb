@@ -575,7 +575,7 @@ class BoardInstall {
 			case '7':
 				$this->selectDBAndConnect();
 
-				$p['pathToForum'] = isset($_POST['p']['pathToForum']) ? $_POST['p']['pathToForum'] : substr($_SERVER['SCRIPT_FILENAME'],0,strlen($_SERVER['SCRIPT_FILENAME'])-12);
+				$p['pathToForum'] = isset($_POST['p']['pathToForum']) ? $_POST['p']['pathToForum'] : Functions::substr($_SERVER['SCRIPT_FILENAME'],0,Functions::strlen($_SERVER['SCRIPT_FILENAME'])-12);
 				$p['boardAddress'] = isset($_POST['p']['boardAddress']) ? $_POST['p']['boardAddress'] : '';
 				$p['enableFileUpload'] = isset($_POST['p']['enableFileUpload']) ? $_POST['p']['enableFileUpload'] : ($_SESSION['disable_fupload'] ? 0 : 1);
 				$p['enableAvatarUpload'] = isset($_POST['p']['enableAvatarUpload']) ? $_POST['p']['enableAvatarUpload'] : ($_SESSION['disable_aupload'] ? 0 : 1);

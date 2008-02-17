@@ -153,7 +153,7 @@ class ForumIndex extends ModuleTemplate {
 			if($curForum['forumLastPostID'] != 0) {
 				if($curAuthViewForum == 1) {
 					$curLastPostPic = ($curForum['forumLastPostSmileyFileName'] == '') ? '' : '<img src="'.$curForum['forumLastPostSmileyFileName'].'" alt=""/>';
-					if(Functions::strlen($curForum['forumLastPostTitle']) > 22) $curLastPostLink = '<a href="'.INDEXFILE.'?action=ViewTopic&amp;postID='.$curForum['forumLastPostID'].'&amp;'.MYSID.'#post'.$curForum['forumLastPostID'].'" title="'.Functions::HTMLSpecialChars(($curForum['forumLastPostTitle'])).'">'.Functions::HTMLSpecialChars(substr($curForum['forumLastPostTitle'],0,22)).'...</a>';
+					if(Functions::strlen($curForum['forumLastPostTitle']) > 22) $curLastPostLink = '<a href="'.INDEXFILE.'?action=ViewTopic&amp;postID='.$curForum['forumLastPostID'].'&amp;'.MYSID.'#post'.$curForum['forumLastPostID'].'" title="'.Functions::HTMLSpecialChars(($curForum['forumLastPostTitle'])).'">'.Functions::HTMLSpecialChars(Functions::substr($curForum['forumLastPostTitle'],0,22)).'...</a>';
 					else $curLastPostLink = '<a href="'.INDEXFILE.'?action=ViewTopic&amp;postID='.$curForum['forumLastPostID'].'&amp;'.MYSID.'#post'.$curForum['forumLastPostID'].'">'.Functions::HTMLSpecialChars($curForum['forumLastPostTitle']).'</a>';
 
 					if($curForum['forumLastPostPosterID'] == 0) $curLastPostPosterNick = $curForum['forumLastPostGuestNick'];

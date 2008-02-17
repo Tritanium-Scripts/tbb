@@ -51,7 +51,7 @@ class Functions {
 			return $string;
 		}
 		else
-			return substr(md5(uniqid(rand(),1)),0,$length);
+			return Functions::substr(md5(uniqid(rand(),1)),0,$length);
 	}
 
 	public static function getSaltedHash($Value,$Salt) {
@@ -94,7 +94,7 @@ class Functions {
 	}
 
 	public static function addHttp($text) {
-		if(substr($text,0,7) != "http://") $text = "http://".$text;
+		if(Functions::substr($text,0,7) != "http://") $text = "http://".$text;
 		return $text;
 	}
 
@@ -399,10 +399,14 @@ class Functions {
 
 		return $TimeZones;
 	}
-    
+
+    //String wrapper functions, see ticket #3 for details
     public static function strlen($string){
         return mb_strlen($string);
     }
-}
 
+    public static function substr($string, $start, $length=FALSE){
+        return ($length) ? mb_substr($string, $start, $length) : mb_substr($string, $start);
+    }
+}
 ?>
