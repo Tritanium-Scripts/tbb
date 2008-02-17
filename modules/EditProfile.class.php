@@ -280,7 +280,7 @@ class EditProfile extends ModuleTemplate {
 					if(!isset($_FILES['avatarFile']) || $_FILES['avatarFile']['name'] == '') $error = $this->modules['Language']->getString('error_invalid_file');
 					elseif($_FILES['avatarFile']['size'] > $this->modules['Config']->getValue('max_avatar_file_size')*1024) $error = $this->modules['Language']->getString('error_file_too_big');
 					else {
-						preg_match("/^(.*)\.([^.]*)/i",strtolower($_FILES['avatarFile']['name']),$fileExtension);
+						preg_match("/^(.*)\.([^.]*)/i",Functions::strtolower($_FILES['avatarFile']['name']),$fileExtension);
 						$fileExtension = $fileExtension[2];
 
 						$validFileExtensions = array(

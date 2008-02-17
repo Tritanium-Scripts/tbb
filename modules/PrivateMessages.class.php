@@ -368,7 +368,7 @@ class PrivateMessages extends ModuleTemplate {
 				$p['pmSubject'] = isset($_POST['p']['pmSubject']) ? $_POST['p']['pmSubject'] : $pmData['pmSubject'];
 				$p['pmMessageText'] = isset($_POST['p']['pmMessageText']) ? $_POST['p']['pmMessageText'] : '';
 
-				if(!isset($_GET['doit']) && strtolower(Functions::substr($p['pmSubject'],0,3)) != 're:') $p['pmSubject'] = 'Re: '.$p['pmSubject']; // Falls noch kein Re: da ist, anfuegen
+				if(!isset($_GET['doit']) && Functions::strtolower(Functions::substr($p['pmSubject'],0,3)) != 're:') $p['pmSubject'] = 'Re: '.$p['pmSubject']; // Falls noch kein Re: da ist, anfuegen
 
 				$c = array();
 				$c['enableSmilies'] = $c['enableBBCode'] = $c['showSignature'] = $c['saveOutbox'] = 1;

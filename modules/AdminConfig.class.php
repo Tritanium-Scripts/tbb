@@ -40,7 +40,7 @@ class AdminConfig extends ModuleTemplate {
 		foreach($configNames AS &$curName)
 			$p['config'][$curName] = isset($_POST['p']['config'][$curName]) ? $_POST['p']['config'][$curName] : $this->modules['Config']->getValue($curName);
 
-		$p['config']['email_signature'] = str_replace("\r\n","\n",$p['config']['email_signature']);
+		$p['config']['email_signature'] = Functions::str_replace("\r\n","\n",$p['config']['email_signature']);
 
 		if(isset($_GET['doit'])) {
 			foreach($configNames AS $curName)

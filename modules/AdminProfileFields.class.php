@@ -47,7 +47,7 @@ class AdminProfileFields extends ModuleTemplate {
 
 					$fieldData = array();
 					if(trim($p['fieldData']) != '')
-						$fieldData = explode("\n",str_replace("\r",'',Functions::stripSlashes(trim($p['fieldData']))));
+						$fieldData = explode("\n",Functions::str_replace("\r",'',Functions::stripSlashes(trim($p['fieldData']))));
 
                     $this->modules['DB']->queryParams('
                         INSERT INTO
@@ -105,7 +105,7 @@ class AdminProfileFields extends ModuleTemplate {
 
 					$fieldData = array();
 					if(trim($p['fieldData']) != '')
-						$fieldData = explode("\n",str_replace("\r",'',Functions::stripSlashes(trim($p['fieldData']))));
+						$fieldData = explode("\n",Functions::str_replace("\r",'',Functions::stripSlashes(trim($p['fieldData']))));
 
                     $this->modules['DB']->queryParams('
                         UPDATE

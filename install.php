@@ -494,7 +494,7 @@ class BoardInstall {
 					<?php
 
 					$queryError = '';
-					$sqlDropFile = str_replace('/*TABLEPREFIX*/',$_SESSION['tablePrefix'],$sqlDropFile);
+					$sqlDropFile = Functions::str_replace('/*TABLEPREFIX*/',$_SESSION['tablePrefix'],$sqlDropFile);
 					$queries = $this->DB->splitQueries($sqlDropFile);
 					foreach($queries AS &$curQuery) {
 						if(!$this->DB->query($curQuery)) {
@@ -520,7 +520,7 @@ class BoardInstall {
 				<?php
 
 				$queryError = '';
-				$sqlSchemeFile = str_replace('/*TABLEPREFIX*/',$_SESSION['tablePrefix'],$sqlSchemeFile);
+				$sqlSchemeFile = Functions::str_replace('/*TABLEPREFIX*/',$_SESSION['tablePrefix'],$sqlSchemeFile);
 				$queries = $this->DB->splitQueries($sqlSchemeFile);
 				foreach($queries AS &$curQuery) {
 					if(!$this->DB->query($curQuery)) {
@@ -542,7 +542,7 @@ class BoardInstall {
 				<?php
 
 				$queryError = '';
-				$sqlBasicFile = str_replace('/*TABLEPREFIX*/',$_SESSION['tablePrefix'],$sqlBasicFile);
+				$sqlBasicFile = Functions::str_replace('/*TABLEPREFIX*/',$_SESSION['tablePrefix'],$sqlBasicFile);
 				$queries = $this->DB->splitQueries($sqlBasicFile);
 				foreach($queries AS &$curQuery) {
 					if(!$this->DB->query($curQuery)) {
@@ -865,8 +865,8 @@ class BoardInstall {
 			$lang = explode(';',$lang);
 			$matches = NULL;
 
-			if(count($lang) == 1 || !preg_match('/q=([0-9.]+)/i',trim($lang[1]),$matches)) $pref['1.'.rand(0,9999)] = strtolower($lang[0]);
-			else $pref[$matches[1].rand(0,9999)] = strtolower($lang[0]);
+			if(count($lang) == 1 || !preg_match('/q=([0-9.]+)/i',trim($lang[1]),$matches)) $pref['1.'.rand(0,9999)] = Functions::strtolower($lang[0]);
+			else $pref[$matches[1].rand(0,9999)] = Functions::strtolower($lang[0]);
 		}
 		krsort($pref);
 

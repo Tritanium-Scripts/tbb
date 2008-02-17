@@ -99,9 +99,9 @@ class Functions {
 	}
 
 	public static function br2nl($text) {
-		$text = str_replace('<br>',"\n",$text);
-		$text = str_replace('<br/>',"\n",$text);
-		return str_replace('<br />',"\n",$text);
+		$text = Functions::str_replace('<br>',"\n",$text);
+		$text = Functions::str_replace('<br/>',"\n",$text);
+		return Functions::str_replace('<br />',"\n",$text);
 	}
 
 	public static function myMail($From,$To,$Subject,$Message,$AdditionalHeaders = '') {
@@ -407,6 +407,14 @@ class Functions {
 
     public static function substr($string, $start, $length=FALSE){
         return ($length) ? mb_substr($string, $start, $length) : mb_substr($string, $start);
+    }
+
+    public static function str_replace($search, $replace, $subject){
+        return str_replace($search, $replace, $subject); //mb_str_replace() doesn't exist
+    }
+
+    public static function strtolower($str){
+        return mb_strtolower($str);
     }
 }
 ?>

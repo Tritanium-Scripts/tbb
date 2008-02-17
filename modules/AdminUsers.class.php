@@ -97,11 +97,11 @@ class AdminUsers extends ModuleTemplate {
 
 				$query = array();
 				if(trim($p['userID']) != '')
-					$query[] = '"userID" LIKE \''.str_replace('*','%',$this->modules['DB']->escapeString($p['userID'])).'\'';
+					$query[] = '"userID" LIKE \''.Functions::str_replace('*','%',$this->modules['DB']->escapeString($p['userID'])).'\'';
 				if(trim($p['userNick']) != '')
-					$query[] = '"userNick" LIKE \''.str_replace('*','%',$this->modules['DB']->escapeString($p['userNick'])).'\'';
+					$query[] = '"userNick" LIKE \''.Functions::str_replace('*','%',$this->modules['DB']->escapeString($p['userNick'])).'\'';
 				if(trim($p['userEmailAddress']) != '')
-					$query[] = '"userEmailAddress" LIKE \''.str_replace('*','%',$this->modules['DB']->escapeString($p['userEmailAddress'])).'\'';
+					$query[] = '"userEmailAddress" LIKE \''.Functions::str_replace('*','%',$this->modules['DB']->escapeString($p['userEmailAddress'])).'\'';
 
 				$usersData = array();
 
