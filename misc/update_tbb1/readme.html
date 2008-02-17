@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="de" xml:lang="de">
+<head><title>Updatescript TBB 1 -> TBB 2</title></head>
+<body>
+<h1>Updatescript TBB 1 -> TBB 2</h1><br /><br />
+
+<h2>Warnung:</h2>
+<p><u>Es wird dringend empfohlen vor dem Update eine Sicherung der alten Daten anzufertigen. Dieses Updatescript greift zwar nur lesend auf diese Daten zu, Fehler k&ouml;nnen aber auch dort auftreten, wo man sie nicht erwartet. Trotzdem sollte bei einem Fehlschlag des Updatevorgangs das alte Forum noch komplett einsatzf&auml;hig sein.</u></p>
+<br />
+<h2>Allgemeine Hinweise:</h2>
+<p>
+ Folgende Punkte sollten unbedingt beachtet werden:
+ <ul>
+  <li>Dieses Updatescript ist ausschlie&szlig;lich f&uuml;r <b>Tritanium Bulletin Board 1.2.3</b>.</li>
+  <li>Nach dem Updatevorgang muss die Reihenfolge der Foren neu bestimmt werden.</li>
+  <li>Die aktuellen News werden nicht &uuml;bernommen.</li>
+  <li>Die Benutzernamen d&uuml;rfen nicht mehr ausschlie&szlig;lich aus Zahlen bestehen. Solchen Benutzernamen wird w&auml;hrend des Updates ein Unterstrich vorrangestellt. So wird z.B. &quot;112&quot; zu &quot;_112&quot;.</li>
+  <li>Wegen der neuen verschachtelten Kategoriestruktur werden die IDs aller Kategorien automatisch um 1 erh&ouml;ht. Einen direkten Einfluss auf die Arbeit mit dem Forum hat dies allerdings nicht.</li>
+  <li>Falls Hacks verwendet wurden, insbesondere solche, die die Datenstruktur nachhaltig ver&auml;ndert haben, kann ein reibungsloser Updatevorgang nicht mehr sicher gestellt werden!</li>
+  <li>W&auml;hrend des Updatevorgangs muss sichergestellt sein, dass sich kein Benutzer sowohl in dem alten Forum, als auch in dem neuen Forum befindet. Dies kann schon durch ein Versetzen des Forums in den Wartungszustand erreicht werden. Besser und sicherer ist aber ein Verzeichnisschutz, z.B. mit .htaccess.</li>
+  <li>Nach dem Updatevorgang m&uuml;ssen <u>alle</u> Benutzer ein neues Passwort anfordern. Alle alten Passw&ouml;rter funktionieren nicht mehr (technisch bedingt).</li>
+  <li>Alle alten Links zu Themen oder sonstigen Dingen werden nicht mehr funktionieren. Sie m&uuml;ssen aktualisiert werden, ansonsten f&uuml;hren sie ins Nichts.</li>
+  <li>Die Forumeinstellungen werden nicht &uuml;bernommen. Diese m&uuml;ssen nachtr&auml;glich neu eingstellt werden.</li>
+ </ul>
+</p>
+<br />
+<h2>Das Update</h2>
+<p>
+ <ul>
+  <li>Installieren sie das Tritanium Bulletin Board 2 zun&auml;chst ganz normal, wie in der Dokumentation (docs/readme.html) beschrieben. Daten wie z.B. der neu angelegte Administrator werden vom Updatescript sp&auml;ter automatisch gel&ouml;scht. Diese Installation ist notwendig, damit eine fertig eingerichtete Datenbankstruktur vorliegt.</li>
+  <li>Uploaden sie nun das Updatescript (update_tbb1.php) in das Verzeichnis des neu eingerichteten Tritanium Bulletin Board 2 (ASCII-Modus!).</li>
+  <li>Rufen Sie das Updatescript &uuml;ber Ihren Browser auf (z.B. http://www.meinedomain.de/tbb2/update_tbb1.php).</li>
+  <li>Folgen Sie den Anweisungen auf dem Bildschirm.</li>
+  <li>L&ouml;schen sie nach Abschluss des Updatevorgangs unbedingt die Datei &quot;update_tbb1.php&quot; wieder!</li>
+ </ul>
+</p>
+
+<br /><br /><br />
+<small>&copy; 2004-2005 <a target="_blank" href="http://www.tritanium-scripts.com">Tritanium Scripts</a></small>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="de" xml:lang="de">
+<head>
+ <title>Tritanium Bulletin Board 2 - Technische Dokumentation</title>
+ <meta http-equiv="Content-Type" content="text/html; UTF-8" />
+</head>
+<body>
+<h1>Tritanium Bulletin Board 2 - Technische Dokumentation</h1><br /><br />
+
+<h2>Allgemeine Hinweise:</h2>
+<p><b>ACHTUNG: DIESES DOKUMENT IST NOCH SEHR UNVOLLST&Auml;NDIG UND SOLLTE NOCH NICHT ALS INFORMATIONSQUELLE HERANGEZOGEN WERDEN!</b><br />Bei dieser Version handelt es sich um eine <b>Alphaversion</b>!! Das bedeutet, es handelt sich um eine noch sehr sehr
+fr&uuml;he Version, bei der sich im Extremfall noch komplett alles &auml;ndern kann! Des Weiteren sind vorhandene Fehler nicht auszuschlie&szlig;en,
+eher sogar sehr wahrscheinlich! Ich empfehle au&szlig;erdem nicht, diese Version f&uuml;r den Einsatz in einem l&auml;ngeren Zeitraum einzuplanen,
+da es f&uuml;r sp&auml;tere Alpha- und Betaversionen keine Updates geben wird!<br />Diese Version wurde in erster Linie zum testen freigegeben,
+es werden f&uuml;r die Installation allgemein erweiterte Kenntnisse empfohlen.<br />&Uuml;ber Hinweise, Verbesserungsvorschl&auml;ge und Anregungen vor
+allem die Datenstruktur und deren Aufbau betreffend w&uuml;rde ich mich sehr freuen!</p>
+<br />
+<h2>Inhaltsverzeichnis:</h2>
+<ul>
+ <li>Konfigurationsoptionen</li>
+ <li>Addon-System</li>
+ <li>Templatesystem</li>
+ <li>Sprachpakete</li>
+ <li><a href="#1">1. Detaillierte Beschreibung der Datenbankstruktur</a>
+  <ul>
+   <li><a href="#1.1">1.1 avatars</a></li>
+   <li><a href="#1.2">1.2 cats</a></li>
+   <li><a href="#1.3">1.3 config</a></li>
+   <li><a href="#1.4">1.4 forums</a></li>
+   <li><a href="#1.5">1.5 forums_auth</a></li>
+   <li><a href="#1.6">1.6 groups</a></li>
+   <li><a href="#1.7">1.7 groups_members</a></li>
+   <li><a href="#1.8">1.8 pms</a></li>
+   <li><a href="#1.9">1.9 pms_folders</a></li>
+   <li><a href="#1.10">1.10 polls</a></li>
+   <li><a href="#1.11">1.11 polls_options</a></li>
+   <li><a href="#1.12">1.12 polls_votes</a></li>
+   <li><a href="#1.13">1.13 posts</a></li>
+   <li><a href="#1.14">1.14 ranks</a></li>
+   <li><a href="#1.15">1.15 search_results</a></li>
+   <li><a href="#1.16">1.16 sessions</a></li>
+   <li><a href="#1.17">1.17 smilies</a></li>
+   <li><a href="#1.18">1.18 topics</a></li>
+   <li><a href="#1.19">1.19 topics_subscriptions</a></li>
+   <li><a href="#1.20">1.20 users</a></li>
+   <li><a href="#1.21">1.21 users_locks</a></li>
+  </ul>
+ </li>
+</ul>
+<br />
+<br />
+<a name="1"></a>
+<h2>1. Detaillierte Beschreibung der Datenbankstruktur</h2>
+<p>
+ <ul>
+  <li>Tabelle <b>avatars</b>:
+   <ul>
+    <li>avatar_id: Die ID des Avatars</li>
+    <li>avatar_address: Die Adresse zur Avatargrafik. Kann eine komplette http://-Adresse sein, aber auch ein relativer Pfad</li>
+   </ul>
+  </li>
+  <li>Tabelle <b>cats</b>:
+   <ul>
+    <li>cat_id: Die ID der Kategorie</li>
+    <li>cat_l: Die ID der der im Nested-Set-Modell vorangehenden Kategorie</li>
+    <li>cat_r: Die ID der der im Nested-Set-Modell folgenden Kategorie</li>
+    <li>cat_standard_status: Legt fest, ob die Kategorie standardm&auml;&szlig;ig auf- oder zugeklappt sein soll<br />0 = zugeklappt<br />1 = aufgeklappt</li>
+   </ul>
+  </li>
+  <li>Tabelle <b>config</b>:
+   <ul>
+    <li>config_name: Die Bezeichnung f&uuml;r eine Kofigurationsoption</li>
+    <li>config_value: Der Wert einer Konfigurationsoption</li>
+   </ul>
+  </li>
+  <li>Tabelle <b>forums</b>:
+   <ul>
+    <li>forum_id: Die ID des Forums</li>
+    <li>cat_id: Die ID der Kategorie, der das Forum zugeordnet ist<br />0 = Keine Kategorie/Forum wird nicht abgezeigt</li>
+    <li>order_id: Eine Zahl, die die Reihenfolge der Foren festlegt. Wer eine kleinere hat, wird fr&uuml;her angezeigt</li>
+    <li>forum_name: Der Name des Forums, der &uuml;berall angezeigt wird</li>
+    <li>forum_description: Die Beschreibung des Forums, also ein Text, der haupts&auml;chlich in der Foren&uuml;bersicht unter einem Forum angezeigt wird</li>
+    <li>forum_topics_counter: Die Anzahl der Themen in einem Forum</li>
+    <li>forum_posts_counter: Die Anzahl der Beitr&auml;ge in einem Forum</li>
+    <li>forum_last_post_id: Die ID des neuesten Beitrages in einem Forum</li>
+    <li>forum_enable_bbcode: Legt fest, ob in einem Forum BB-Code erlaubt sein soll<br />0 = BB-Code deaktiviert<br />1 = BB-Code aktiviert</li>
+    <li>forum_enable_htmlcode: Legt fest, ob in einem Forum HTML-Code erlaubt sein soll<br />0 = HTML-Code deaktiviert<br />1 = HTML-Code aktiviert</li>
+    <li>forum_enable_smilies: Legt fest, ob in einem Forum Smilies erlaubt sein sollen<br />0 = Smilies deaktiviert<br />1 = Smilies aktiviert</li>
+    <li>forum_is_moderated: Legt fest, ob ein Forum moderiert wird<br />0 = Forum wird nicht moderiert<br />1 = Neue Themen in einem Forum m&uuml;ssen freigeschaltet werden, aber keine Beitr&auml;ge<br />2 = Neue Themen und Beitr&auml;ge m&uuml;ssen freigschaltet werden</li>
+    <li>forum_show_latest_posts: Legt fest, ob Beitr&auml;ge eines Forums unter &quot;Neueste Beitr&auml;ge&quot; erscheinen sollen<br />0 = Beitr&auml;ge werden nicht angezeigt<br />1 = Beitr&auml;ge werden angezeigt</li>
+    <li>auth_members_view_forum: Legt fest, ob Mitglieder ein Forum betreten d&uuml;rfen<br />0 = nicht erlaubt<br />1 = erlaubt</li>
+    <li>auth_members_post_topic: Legt fest, ob Mitglieder Themen in einem Forum erstellen d&uuml;rfen<br />0 = nicht erlaubt<br />1 = erlaubt</li>
+    <li>auth_members_post_reply: Legt fest, ob Mitglieder Antworten in einem Forum erstellen d&uuml;rfen<br />0 = nicht erlaubt<br />1 = erlaubt</li>
+    <li>auth_members_post_poll: Legt fest, ob Mitglieder Umfragen in einem Forum erstellen d&uuml;rfen<br />0 = nicht erlaubt<br />1 = erlaubt</li>
+    <li>auth_members_edit_posts: Legt fest, ob Mitglieder ihre Beitr&uml;ge in einem Forum bearbeiten d&uuml;rfen<br />0 = nicht erlaubt<br />1 = erlaubt</li>
+    <li>auth_guests_view_forum: Legt fest, ob G&auml;ste das Forum betreten d&uuml;rfen<br />0 = nicht erlaubt<br />1 = erlaubt</li>
+    <li>auth_guests_post_topic: Legt fest, ob G&auml;ste Themen in einem Forum erstellen d&uuml;rfen<br />0 = nicht erlaubt<br />1 = erlaubt</li>
+    <li>auth_guests_post_reply: Legt fest, ob G&auml;ste Antworten in einem Forum erstellen d&uuml;rfen<br />0 = nicht erlaubt<br />1 = erlaubt</li>
+    <li>auth_guests_post_poll: Legt fest, ob G&auml;ste Umfragen in einem Forum erstellen d&uuml;rfen<br />0 = nicht erlaubt<br />1 = erlaubt</li>
+   </ul>
+  </li>
+  <li>Tabelle <b>forums_auth</b>:
+   <ul>
+    <li>forum_id: Die ID des Forums</li>
+    <li>auth_type: Legt fest, ob es sich um ein Gruppenrecht oder ein Benutzerrecht handelt<br />0 = Benutzerrecht<br />1 = Gruppenrecht</li>
+    <li>auth_id: Die ID des Benutzers oder entsprechend die ID der Gruppe</li>
+    <li>auth_is_mod: Legt fest, ob der Benutzer oder die Gruppe Moderator des Forums ist<br />0 = ist kein Moderator<br />1 = ist Moderator</li>
+   </ul>
+  </li>
+  <li>Tabelle <b>groups</b>:
+   <ul>
+    <li>group_id: Die ID der Gruppe</li>
+    <li>group_name: Der Name/die Bezeichnung der Gruppe</li>
+   </ul>
+  </li>
+  <li>Tabelle <b>groups_members</b>:
+   <ul>
+    <li>group_id: Die ID der Gruppe</li>
+    <li>member_id: Die User-ID des Mitglieds</li>
+   </ul>
+  </li>
+  <li>Tabelle <b>users_locks</b>:
+   <ul>
+    <li>user_id: Die ID des Users, f&uuml;r den die Sperre gilt</li>
+    <li>lock_type: Die Art der Sperren.<br />0 = User hat sich registriert und muss erst freigeschaltet werden<br />1 = User darf sich nicht mehr einloggen<br />2 = User darf sich noch einloggen, aber keine Beitr&auml;ge mehr verfassen</li>
+    <li>lock_start_time: Die Zeit der Erschaffung der Sperre im Unix Timestamp Format</li>
+    <li>lock_dur_time: Die Dauer der Sperre in Sekunden</li>
+   </ul>
+  </li>
+ </ul>
+</p>
+<br /><br /><br />
+<small>&copy; 2004-2005 <a target="_blank" href="http://www.tritanium-scripts.com">Tritanium Scripts</a></small>
+</body>
+</html>

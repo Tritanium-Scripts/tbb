@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="de" xml:lang="de">
+<head>
+ <title>Tritanium Bulletin Board 2 Dokumentation</title>
+ <style>
+  a:link {
+   color:blue;
+   text-decoration:none;
+  }
+  a:visited {
+   color:blue;
+   text-decoration:none;
+  }
+  a:hover {
+   color:red;
+   text-decoration:underline;
+  }
+
+  h1 {
+   text-align:center;
+   font-family:verdana,arial;
+   font-size:30px;
+   font-weight:normal;
+  }
+
+  h2 {
+   font-family:verdana,arial;
+   font-size:20px;
+   font-weight:normal;
+  }
+
+  .fontnorm {
+   font-family:verdana,arial;
+   font-size:13px;
+  }
+
+  .fontcopyright {
+   font-family:verdana,arial;
+   font-size:10px;
+  }
+
+  p {
+   text-align:justify;
+  }
+ </style>
+</head>
+<body>
+<h1>Tritanium Bulletin Board 2.0 - Alpha 9 (0.2.0.9.20050502)</h1><br /><br />
+
+<h2>Inhaltsverzeichnis</h2>
+<p class="fontnorm">
+<ul class="fontnorm">
+ <li><a href="#importantnotice">Allgemeine Hinweise</a></li>
+ <li><a href="#installation">Installation</a></li>
+ <li><a href="#updatetbb2">Update von einer &auml;lteren Version des Tritanium Bulletin Board 2</a></li>
+ <li><a href="#updatetbb1">Update vom Tritanium Bulletin Board 1</a></li>
+</ul>
+</p>
+
+<br /><br />
+<h2><a name="importantnotice">Allgemeine Hinweise</a></h2>
+<p class="fontnorm">Bei dieser Version handelt es sich um eine <b>Alphaversion</b>!! Das bedeutet, es handelt sich um eine noch sehr sehr
+fr&uuml;he Version, bei der sich im Extremfall noch komplett alles &auml;ndern kann! Des Weiteren sind vorhandene Fehler nicht auszuschließen,
+eher sogar sehr wahrscheinlich! Ich empfehle außerdem nicht, diese Version f&uuml;r den Einsatz in einem l&auml;ngeren Zeitraum einzuplanen,
+da es f&uuml;r sp&auml;tere Alpha- und Betaversionen keine Updates geben wird!<br />Diese Version wurde in erster Linie zum testen freigegeben,
+es werden f&uuml;r die Installation allgemein erweiterte Kenntnisse empfohlen.<br />&Uuml;ber Hinweise, Verbesserungsvorschl&auml;ge und Anregungen vor
+allem die Datenstruktur und deren Aufbau betreffend w&uuml;rde ich mich sehr freuen!</p>
+<br /><br />
+
+<h2><a name="installation">Installation</a></h2>
+<p class="fontnorm">
+<ul class="fontnorm">
+ <li>Alles aus dem Archiv uploaden, die Ordnerstruktur &uuml;bernehmen (die Ordner &quot;docs&quot; und &quot;misc&quot; sollten aber weggelassen werden). Dabei beachten, dass alle .php Dateien im Ascii-Modus, alle restlichen Dateien im Bin&auml;rmodus upgeloaded werden.</li>
+ <li>Folgende Rechte verteilen:
+  <ul>
+   <li>.\*.php 755</li>
+   <li>.\cache 777</li>
+   <li>.\dbconfig.php 777 (<u>nach der Installation wieder &auml;ndern!</u>)</li>
+   <li>.\addons 755</li>
+   <li>.\images 755</li>
+   <li>.\images\postpics 755</li>
+   <li>.\images\postpics\*.* 644</li>
+   <li>.\images\rankpics 755</li>
+   <li>.\images\rankpics\*.* 644</li>
+   <li>.\images\smilies 755</li>
+   <li>.\images\smilies\*.* 644</li>
+   <li>.\db 755</li>
+   <li>.\db\*.php 755</li>
+   <li>.\db\*.sql 644</li>
+   <li>.\language 755</li>
+   <li>.\language\de 755</li>
+   <li>.\language\de\*.php 755</li>
+   <li>.\language\de\emails 755</li>
+   <li>.\language\de\emails\*.tpl 644</li>
+   <li>.\templates 755</li>
+   <li>.\templates\ts_tbb2_standard 755</li>
+   <li>.\templates\ts_tbb2_standard\cache 777</li>
+   <li>.\templates\ts_tbb2_standard\*.* 644</li>
+   <li>.\templates\ts_tbb2_standard\*.php 755</li>
+   <li>.\templates\ts_tbb2_standard\images 755</li>
+   <li>.\templates\ts_tbb2_standard\images\*.* 644</li>
+   <li>.\upload 755</li>
+   <li>.\upload\avatars 777</li>
+   <li>.\upload\files 777</li>
+  </ul>
+ </li>
+ <li>Setzen Sie die Rechte der Datei &quot;dbconfig.php&quot; auf 777 (<u>nach der Installation wieder &auml;ndern!</u>)</li>
+ <li>Die Installation per install.php aufrufen und den Anweisungen folgen</li>
+ <li><u>Nach der Installation <b>die Rechte der Datei &quot;dbconfig.php&quot; auf 755 setzen</b></u> und &quot;install.php&quot; l&ouml;schen</li>
+ <li>Das Forum per index.php aufrufen und ein bisschen rumprobieren...</li>
+ <li>Fehler, Verbesserungsvorschl&auml;ge, Anregungen usw. bitte per Mail an <a href="mailto:julian@tritanium-scripts.com">julian@tritanium-scripts.com</a> oder ins Forum unter <a target="_blank" href="http://www.tritanium-scripts.com">http://www.tritanium-scripts.com</a></li>
+</ul>
+</p>
+<br /><br />
+
+<h2><a name="updatetbb2">Update von einer &auml;lteren Version des Tritanium Bulletin Board 2</a></h2>
+<p class="fontnorm">&Uuml;berschreiben Sie alle vorhandenen Dateien mit den neueren Dateien aus dem Archiv. Rufen Sie nun wie gewohnt das Installationsscript per install.php auf und folgen Sie den ersten Schritten. Bei der Suche nach einer vorhandenen Installation sollte die &auml;ltere Version automatisch gefunden und geupdatet werden. Daraufhin fahren Sie mit dem Installationsvorgang normal fort.<br />Anmerkungen zu verschiedenen Versionen ein Update betreffend:
+<ul class="fontnorm">
+ <li>Version 0.2.0.8.20050121 oder &auml;lter:<br />Der Ordner &quot;language&quot; sollte gelöscht werden, da er nicht mehr ben&ouml;tigt wird. Er wurde durch den Ordner "languages" ersetzt, der auch einen anderen Ordner beinhaltet.</li>
+</ul>
+</p>
+
+<br /><br /><br />
+
+<h2><a name="updatetbb1">Update vom Tritanium Bulletin Board 1</a></h2>
+<p class="fontnorm">Um ein Update vom Tritanium Bulletin Board 1 mit dem beigelegten Updatescript durchzuf&uuml;hren, konsultieren Sie bitte die <a target="_blank" href="../misc/update_tbb1/readme.html">Updatedokumentation &quot;readme.html&quot;</a>, die Sie im Verzeichnis &quot;misc/update_tbb1&quot;.
+</p>
+<br /><br /><br />
+<span class="fontcopyright">&copy; 2004-2005 <a target="_blank" href="http://www.tritanium-scripts.com">Tritanium Scripts</a></span>
+</body>
+</html>

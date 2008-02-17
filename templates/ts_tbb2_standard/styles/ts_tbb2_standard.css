@@ -1,0 +1,312 @@
+.signature {
+	color:black;
+	font-size:13px;
+	font-family:verdana,arial;
+}
+
+.big {
+	font-family:verdana,arial;
+	font-size:50px;
+	color:black;	
+}
+
+.form_textarea {
+	border:1px #000000 solid;
+	font-size:10px;
+	font-family:verdana,arial;
+}
+
+.form_text {
+	border:1px #000000 solid;
+	font-size:10px;
+	font-family:verdana,arial;
+}
+
+.form_bbutton {
+	border:1px #000000 solid;
+	font-size:10px;
+	font-family:verdana,arial;
+	font-weight:bold;
+}
+
+.form_button {
+	border:1px #000000 solid;
+	font-size:10px;
+	font-family:verdana,arial;
+}
+
+.form_bbcode_button {
+	border:1px #000000 solid;
+	font-size:10px;
+	font-family:verdana,arial;
+	padding-left:8px;
+	padding-right:8px;
+}
+
+
+.form_select {
+	border:1px #000000 solid;
+	font-size:10px;
+	font-family:verdana,arial;
+}
+
+a:link { /* Ein normaler Link */
+	color:blue;
+	text-decoration: none;
+}
+a:visited { /* Ein besuchter Link */
+	color:blue;
+	text-decoration: none;
+}
+a:hover { /* Maus über einem Link */
+	text-decoration: underline;
+}
+
+.forumlink {
+	font-family:verdana,arial;
+	font-size:13px;
+	color:black;
+	font-weight:bold;
+}
+a.forumlink { color:blue; }
+a.forumlink:visited { color:#4169E1; }
+
+
+.topiclink {
+	font-family:verdana,arial;
+	font-size:13px;
+	color:black;
+	font-weight:bold;
+}
+a.topiclink { color:0C6B9C; text-decoration:none;}
+a.topiclink:visited { color:014F77; text-decoration:none;}
+a.topiclink:hover { color:014F77; text-decoration:underline; }
+
+
+/* Navigationsleiste */
+.navbar { /* Schriftformatierung */
+	font-family:verdana,arial;
+	font-size:10px;
+	color:black;
+	font-weight:bold;
+}
+td.navbar { /* Hintergrund */
+	padding:2px;
+	height:17px;
+	background-image:url(../images/v3.gif);
+	background-color:#F1FAFF;
+}
+td.navbar2 { /* Hintergrund */
+	padding:2px;
+	height:27px;
+	background-image:url(../images/v4.gif);
+	background-color:#F1FAFF;
+}
+table.navbar { /* Tabelleneigenschaften */
+	background-color:#107AB0;
+	border:#107AB0 1px solid;
+}
+
+.techstats {
+	font-family:verdana,arial;
+	font-size:10px;
+	color:#A9A9A9;
+}
+
+/**
+*
+* Hier beginnt die neue Definition
+*
+**/
+
+
+
+/**
+*
+* Die Standardangaben fuer Tabellen und Tabellenzellen
+*
+**/
+table.tablestd {
+	background-color:#FFFFFF;
+	border-collapse:collapse;
+	border:#ACACAC 1px solid;
+}
+
+td.cellstd {
+	border:#ACACAC 1px solid;
+	/*background-color:#F7F7F7;*/
+	background-color:#EEF0F2;
+}
+
+td.cellalt {
+	border:#ACACAC 1px solid;
+	/*background-color:#DEDFDF;*/
+	background-color:#DFE6EF;
+}
+
+
+/**
+*
+* Die allgemeinen Schriftarten
+*
+**/
+.fontnorm {
+	font-family:verdana,arial;
+	font-size:13px;
+	color:#000000;	
+}
+
+.fontsmall {
+	font-family:verdana,arial;
+	font-size:10px;
+	color:#000000;
+}
+
+
+/**
+*
+* Die Titeltabellenzelle
+*
+**/
+.fonttitle {
+	font-family:verdana,arial;
+	font-size:13px;
+	letter-spacing:1px;
+	color:#FFFFFF;
+	font-weight:bold;
+}
+.fonttitlesmall {
+	font-family:verdana,arial;
+	font-size:11px;
+	color:#FFFFFF;
+	font-weight:bold;
+}
+td.celltitle {
+	padding:3px;
+	height:30px;
+	background-image:url(../images/celltitle.gif);
+	background-color:#107AB0;
+}
+
+
+/**
+*
+* Die Kategorietabellenzelle
+*
+**/
+.fontcat {
+	font-family:verdana,arial;
+	font-size:13px;
+	font-weight:bold;
+	color:#FFFFFF;
+}
+.fontcatsmall {
+	font-family:verdana,arial;
+	font-size:10px;
+	font-weight:bold;
+	color:#FFFFFF;
+}
+a.fontcat:link {
+	color:#FFFFFF;
+	text-decoration:none;
+}
+a.fontcat:visited {
+	color:#FFFFFF;
+	text-decoration:none;
+}
+a.fontcat:hover {
+	color:#FFFFFF;
+	text-decoration:underline;
+}
+
+td.cellcat {
+	height:25px;
+	background-image:url(../images/cellcat.gif);
+	/*border:#107AB0 1px solid;*/
+	/*padding:2px;*/
+}
+
+
+/**
+*
+* Die Navigation z.B. im Profil (nicht die Navigationsleiste!)
+*
+**/
+td.cellnav_hover {
+	background-color:#E5F3FF;
+	border:1px #4169E1 solid;
+	cursor:pointer;
+	padding:2px;
+}
+
+td.cellnav_inactive {
+	background-color:#F7F7F7;
+	padding:3px;
+	cursor:default;
+}
+
+td.cellnav_active {
+	background-color:#F0F8FF;
+	border:1px #6495ED solid;
+}
+table.tablenav {
+	border:#ACACAC 1px solid;
+}
+.fontnav {
+	font-family:verdana,arial;
+	font-size:13px;
+	color:#000000;	
+}
+
+
+/**
+*
+* Die Tabellenzelle fuer die Buttons einer Form
+*
+**/
+td.cellbuttons {
+	background-color:#F0F8FF;
+	border:1px #000000 solid;
+}
+
+
+/**
+*
+* Eine Fehlerbox
+*
+**/
+.fonterror {
+	font-family:verdana;
+	font-size:13px;
+	color:#FF0000;
+}
+td.cellerror {
+	background-color:#FFD1D1;
+	border:1px #FF0000 solid;
+}
+
+/**
+*
+* Eine Infobox
+*
+**/
+td.cellinfobox {
+	background-color:#EEE8AA;
+}
+.fontinfobox {
+	font-family:verdana,arial
+	color:#4169E1;
+	font-size:13px;
+}
+
+
+
+.copyright {
+	font-size:10px;
+	color:#666699;
+	font-family:verdana;
+	font-weight:bold;
+}
+a.copyright:link { color:#a62a2a; }
+a.copyright:visited { color:#a62a2a; }
+a.copyright:active { color:#a62a2a; }
