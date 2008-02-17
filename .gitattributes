@@ -1,5 +1,4 @@
 * text=auto !eol
-/.DS_Store -text svneol=unset#application/octet-stream
 /activateaccount.php -text
 /ad_avatars.php -text
 /ad_config.php -text
