@@ -21,6 +21,15 @@ class BoardInstall {
 	protected $existingInstallationFound = FALSE;
 	
 	/**
+	 * Path to a Tritanium Bulletin Board 1 installation
+	 * 
+	 * This variable is only used if the user wants to convert an old Tritanium Bulletin Board 1 
+	 *
+	 * @var string
+	 */
+	protected $pathToTBB1 = '';
+	
+	/**
 	 * Determines how many files are proceeded per call by the TBB1 conversion script
 	 * 
 	 * This should be decreased if the server is too slow
@@ -29,18 +38,24 @@ class BoardInstall {
 
 	public function __construct() {
 		define('INSTALLFILE','install.php');
-		if(isset($_SESSION['transferTbb1Data']))
+		session_start();
+		session_name('sid');
+		
+		if(isset($_SESSION['transferTBB1Data']))
 			$this->transferTBB1Data = $_SESSION['transferTBB1Data'];
 		if(isset($_SESSION['keepExistingData']))
 			$this->keepExistingData = $_SESSION['keepExistingData'];
 		if(isset($_SESSION['existingInstallationFound']))
 			$this->existingInstallationFound = $_SESSION['existingInstallationFound']; 
+		if(isset($_SESSION['pathToTBB1']))
+			$this->pathToTBB1 = $_SESSION['pathToTBB1']; 
 	}
 	
 	public function __destruct() {
 		$_SESSION['transferTBB1Data'] = $this->transferTBB1Data;
 		$_SESSION['keepExistingData'] = $this->keepExistingData; 
 		$_SESSION['existingInstallationFound'] = $this->existingInstallationFound;
+		$_SESSION['pathToTBB1'] = $this->pathToTBB1;
 	}
 
 	protected function executeSqlFile($fileName) {
@@ -323,8 +338,6 @@ class BoardInstall {
 	public function execute() {
 		$this->loadLanguage();
 
-		session_start();
-		session_name('sid');
 		$mySID = (SID == '') ? 'sid=0' : 'sid='.session_id();
 		define('MYSID',$mySID);
 
@@ -695,7 +708,7 @@ class BoardInstall {
 				
 				if(isset($_GET['doit'])) {
 					if(!isset($_POST['p_action'])) Functions::myHeader(INSTALLFILE.'?step=6'.MYSID);
-					elseif(!$installationFound) {
+					elseif(!$this->existingInstallationFound) {
 						if($_POST['p_action'] == '0') $this->transferTBB1Data = FALSE;
 						else $this->transferTBB1Data = TRUE;
 						Functions::myHeader(INSTALLFILE.'?step=6'.MYSID);
@@ -1032,6 +1045,45 @@ class BoardInstall {
 				break;
 			
 			case '9':
+				$errors = array();
+				
+				$p = Functions::getSGValues($_POST['p'],array('pathToTBB1'),'');
+				
+				if(isset($_GET['doit'])) {
+					if($this->pathToTBB1 == '') {
+						if(!file_exists($p['pathToTBB1'].'/foren') || !file_exists($p['pathToTBB1'].'/members') || !file_exists($p['pathToTBB1'].'/polls') || !file_exists($p['pathToTBB1'].'/vars')) $errors[] = $this->strings['error_no_tbb1_installation_found'];
+						
+						if(count($errors) == 0) {
+							$this->pathToTBB1 = $p['pathToTBB1'];
+							Functions::myHeader(INSTALLFILE.'?step='.$this->step.'&doit=1&'.MYSID);
+						}
+					} else {
+						
+					}
+				}
+				
+				$this->printHeader();
+				
+				?>
+				<form method="post" action="<?php echo INSTALLFILE; ?>?step=<?php echo $this->step; ?>&amp;doit=1&amp;<?php echo MYSID; ?>">
+					<table class="TableStd" width="100%">
+						<colgroup>
+							<col width="25%"/>
+							<col width="75%"/>
+						</colgroup>
+						<tr><td class="CellCat" colspan="2"><span class="FontCat"><?php echo $this->steps[$this->step-1]; ?></span></td></tr>
+						<?php if(count($errors) > 0) { ?> <tr><td colspan="2" class="CellError"><ul><?php foreach($errors AS $curError) echo '<li><span class="FontError">'.$curError.'</span></li>'; ?></ul></td></tr><?php } ?>
+						<tr><td colspan="2"><span class="FontNorm"><?php echo $this->strings['tbb1_conversion_info']; ?></span></td></tr>
+						<tr>
+							<td><span class="FontNorm"><?php echo $this->strings['Path_to_tbb1']; ?>:</span><br/><span class="FontSmall"><?php echo $this->strings['path_to_tbb1_info']; ?></span></td>
+							<td><input type="text" class="FormText" name="p[pathToTBB1]" value="<?php echo $p['pathToTBB1']; ?>" size="50"/></td>
+						</tr>
+						<tr><td class="CellButtons" align="right" colspan="2"><input class="FormBButton" type="submit" value="<?php echo $this->strings['Next']; ?>"/></td></tr>
+					</table>
+				</form>
+				<?php
+				
+				$this->printTail();
 				break; 
 
 			case '10':
@@ -1216,7 +1268,7 @@ class BoardInstall {
 	 * @param string $data
 	 * @return array
 	 */
-	protected static function tbb1ConversionExplodeTab($data) {
+	protected static function tbb1ConversionExplodeByTab($data) {
 		return explode("\t",$data);
 	}
 	
@@ -1226,7 +1278,7 @@ class BoardInstall {
 	 * @param array $data
 	 * @return string
 	 */
-	protected static function tbb1ConversionImplodeTab(array $data = array()) {
+	protected static function tbb1ConversionImplodeByTab(array $data = array()) {
 		return implode("\t",$data);
 	}
 	
