@@ -4,8 +4,9 @@
  * @author Julian Backes <julian@tritanium-scripts.com>
  */
 
-require_once('core/Functions.class.php');
-require_once('core/Version.php');
+include_once('core/Functions.class.php');
+include_once('core/Version.php');
+include_once('functions/FuncCats.class.php');
 
 $installation = new BoardInstall;
 $installation->execute();
@@ -30,6 +31,27 @@ class BoardInstall {
 	protected $pathToTBB1 = '';
 	
 	/**
+	 * Holds all variables required by TBB1 conversion
+	 *
+	 * @var array
+	 */
+	protected $tbb1ConversionProperties = array(
+		'lastPostID'=>1,
+		'lastTopicID'=>1,
+		'lastOptionID'=>1,
+		'membersCounter'=>0,
+		'membersCompleteCounter'=>0,
+		'topicsCounter'=>0,
+		'topicsCompleteCounter'=>0,
+		'statusPre'=>0,
+		'statusMembers'=>0,
+		'statusTopics'=>0,
+		'statusSuf'=>0,
+		'dbIcqID'=>0,
+		'dbHomepageID'=>0
+	);
+	
+	/**
 	 * Determines how many files are proceeded per call by the TBB1 conversion script
 	 * 
 	 * This should be decreased if the server is too slow
@@ -48,7 +70,12 @@ class BoardInstall {
 		if(isset($_SESSION['existingInstallationFound']))
 			$this->existingInstallationFound = $_SESSION['existingInstallationFound']; 
 		if(isset($_SESSION['pathToTBB1']))
-			$this->pathToTBB1 = $_SESSION['pathToTBB1']; 
+			$this->pathToTBB1 = $_SESSION['pathToTBB1'];
+
+		foreach($this->tbb1ConversionProperties AS $key => $value) {
+			if(isset($_SESSION[$key]))
+				$this->tbb1ConversionProperties[$key] = $_SESSION[$key];
+		}
 	}
 	
 	public function __destruct() {
@@ -56,6 +83,10 @@ class BoardInstall {
 		$_SESSION['keepExistingData'] = $this->keepExistingData; 
 		$_SESSION['existingInstallationFound'] = $this->existingInstallationFound;
 		$_SESSION['pathToTBB1'] = $this->pathToTBB1;
+
+		foreach($this->tbb1ConversionProperties AS $key => $value) {
+			$_SESSION[$key] = $this->tbb1ConversionProperties[$key]; 
+		}
 	}
 
 	protected function executeSqlFile($fileName) {
@@ -73,12 +104,15 @@ class BoardInstall {
 		return $queryError;
 	}
 	
-	protected function printHeader() {
+	protected function printHeader($autoLocation = '') {
+		if($autoLocation != '') $autoLocation = '<meta http-equiv="refresh" content="0; URL='.$autoLocation.'" />';
+
 		?>
 		<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 		<html xmlns="http://www.w3.org/1999/xhtml" dir="<?php echo $this->strings['html_direction']; ?>" lang="<?php echo $this->strings['html_language']; ?>" xml:lang="<?php echo $this->strings['html_language']; ?>">
 			<head>
 	 			<title><?php echo $this->strings['Tbb2_installation']; ?></title>
+	 			<?php echo $autoLocation; ?>
  				<style type="text/css">
   					body {
 						background-color:#DCDCDC;
@@ -1045,45 +1079,7 @@ class BoardInstall {
 				break;
 			
 			case '9':
-				$errors = array();
-				
-				$p = Functions::getSGValues($_POST['p'],array('pathToTBB1'),'');
-				
-				if(isset($_GET['doit'])) {
-					if($this->pathToTBB1 == '') {
-						if(!file_exists($p['pathToTBB1'].'/foren') || !file_exists($p['pathToTBB1'].'/members') || !file_exists($p['pathToTBB1'].'/polls') || !file_exists($p['pathToTBB1'].'/vars')) $errors[] = $this->strings['error_no_tbb1_installation_found'];
-						
-						if(count($errors) == 0) {
-							$this->pathToTBB1 = $p['pathToTBB1'];
-							Functions::myHeader(INSTALLFILE.'?step='.$this->step.'&doit=1&'.MYSID);
-						}
-					} else {
-						
-					}
-				}
-				
-				$this->printHeader();
-				
-				?>
-				<form method="post" action="<?php echo INSTALLFILE; ?>?step=<?php echo $this->step; ?>&amp;doit=1&amp;<?php echo MYSID; ?>">
-					<table class="TableStd" width="100%">
-						<colgroup>
-							<col width="25%"/>
-							<col width="75%"/>
-						</colgroup>
-						<tr><td class="CellCat" colspan="2"><span class="FontCat"><?php echo $this->steps[$this->step-1]; ?></span></td></tr>
-						<?php if(count($errors) > 0) { ?> <tr><td colspan="2" class="CellError"><ul><?php foreach($errors AS $curError) echo '<li><span class="FontError">'.$curError.'</span></li>'; ?></ul></td></tr><?php } ?>
-						<tr><td colspan="2"><span class="FontNorm"><?php echo $this->strings['tbb1_conversion_info']; ?></span></td></tr>
-						<tr>
-							<td><span class="FontNorm"><?php echo $this->strings['Path_to_tbb1']; ?>:</span><br/><span class="FontSmall"><?php echo $this->strings['path_to_tbb1_info']; ?></span></td>
-							<td><input type="text" class="FormText" name="p[pathToTBB1]" value="<?php echo $p['pathToTBB1']; ?>" size="50"/></td>
-						</tr>
-						<tr><td class="CellButtons" align="right" colspan="2"><input class="FormBButton" type="submit" value="<?php echo $this->strings['Next']; ?>"/></td></tr>
-					</table>
-				</form>
-				<?php
-				
-				$this->printTail();
+				$this->executeTBB1Conversion();
 				break; 
 
 			case '10':
@@ -1145,6 +1141,353 @@ class BoardInstall {
 		}
 	}
 
+	protected function executeTBB1Conversion() {
+		$this->selectDBAndConnect();
+		
+		$errors = array();
+		
+		$p = Functions::getSGValues($_POST['p'],array('pathToTBB1'),'');
+		
+		if(isset($_GET['doit'])) {
+			if($this->pathToTBB1 == '') {
+				if(!file_exists($p['pathToTBB1'].'/foren') || !file_exists($p['pathToTBB1'].'/members') || !file_exists($p['pathToTBB1'].'/polls') || !file_exists($p['pathToTBB1'].'/vars')) $errors[] = $this->strings['error_no_tbb1_installation_found'];
+				
+				if(count($errors) == 0) {
+					$this->pathToTBB1 = $p['pathToTBB1'];
+					Functions::myHeader(INSTALLFILE.'?step='.$this->step.'&doit=1&subStep=1&'.MYSID);
+				}
+			} else {
+				$subStep = isset($_GET['subStep']) ? intval($_GET['subStep']) : 1;
+				
+				switch($subStep) {
+					case '1':
+						$this->tbb1ConversionProperties['statusPre'] = 0;
+						$this->tbb1ConversionProperties['statusMembers'] = 0;
+						$this->tbb1ConversionProperties['statusTopics'] = 0;
+						$this->tbb1ConversionProperties['statusSuf'] = 0;
+						$this->tbb1ConversionProperties['topicsCounter'] = 0;
+						$this->tbb1ConversionProperties['membersCounter'] = 0;
+						$this->tbb1ConversionProperties['membersCompleteCounter'] = 0;
+						$this->tbb1ConversionProperties['topicsCompleteCounter'] = 0;
+						
+						// groups
+						$groupIDs = array();
+						$groupsData = self::tbb1ConversionFileToArray($this->pathToTBB1.'/vars/groups.var');
+						$this->DB->query('DELETE FROM '.TBLPFX.'groups');
+						$this->DB->query('DELETE FROM '.TBLPFX.'groups_members');
+
+						foreach($groupsData AS $curGroup) {
+							$curGroup = self::tbb1ConversionExplodeByTab($curGroup);
+	
+							$this->DB->queryParams('
+								INSERT INTO '.TBLPFX.'groups SET
+									"groupID"=$1,
+									"groupName"=$2
+							',array(
+								intval($curGroup[0]),
+								self::tbb1ConversionUnmutate(utf8_encode($curGroup[1]))
+							));
+							$groupIDs[] = intval($curGroup[0]);
+	
+							$curGroupMembers = ($curGroup[3] == '') ? array() : explode(',',$curGroup[3]);
+	
+							foreach($curGroupMembers AS &$curMember)
+								if($this->tbb1ConversionUserExists($curMember))
+									$this->DB->queryParams('
+										INSERT INTO '.TBLPFX.'groups_members SET
+											"groupID"=$1,
+											"memberID"=$2
+									',array(
+										intval($curGroup[0]),
+										intval($curMember)
+									));
+						}
+	
+						// forums
+						$forumsData = self::tbb1ConversionFileToArray($this->pathToTBB1.'/vars/foren.var');
+
+						$this->DB->query('DELETE FROM '.TBLPFX.'forums');
+						$this->DB->query('DELETE FROM '.TBLPFX.'forums_auth');
+	
+						$curOrdnerID = 1;
+	
+						foreach($forumsData AS $curForum) {
+							$curForum = self::tbb1ConversionExplodeByTab($curForum);
+	
+							$curForumAuth = explode(',',$curForum[10]);
+							$curForumMods = ($curForum[11] == '') ? array() : explode(',',$curForum[11]);
+							$curForumCodes = explode(',',$curForum[7]);
+	
+							$curForum[5]++;
+	
+							$curForumShowLatestPosts = ($curForumAuth[0] == 1 || $curForumAuth[6] == 1) ? 1 : 0;
+	
+							$this->DB->queryParams('
+								INSERT INTO '.TBLPFX.'forums SET
+									"forumID"=$1,
+									"catID"=$2,
+									"orderID"=$3,
+									"forumName"=$4,
+									"forumDescription"=$5,
+									"forumTopicsCounter"=$6,
+									"forumPostsCounter"=$7,
+									"forumEnableBBCode"=$8,
+									"forumEnableHtmlCode"=$9,
+									"forumEnableSmilies"=$10,
+									"forumShowLatestPosts"=$11,
+									"authViewForumMembers"=$12,
+									"authPostTopicMembers"=$13,
+									"authPostReplyMembers"=$14,
+									"authPostPollMembers"=$15,
+									"authEditPostsMembers"=$16,
+									"authViewForumGuests"=$17,
+									"authPostTopicGuests"=$18,
+									"authPostReplyGuests"=$19,
+									"authPostPollGuests"=$20
+							',array(
+								$curForum[0],
+								$curForum[5],
+								$curOrdnerID++,
+								self::tbb1ConversionUnmutate(utf8_encode($curForum[1])),
+								self::tbb1ConversionUnmutate(utf8_encode($curForum[2])),
+								$curForum[3],
+								$curForum[4],
+								$curForumCodes[0],
+								$curForumCodes[1],
+								1,
+								$curForumShowLatestPosts,
+								$curForumAuth[0],
+								$curForumAuth[1],
+								$curForumAuth[2],
+								$curForumAuth[3],
+								$curForumAuth[4],
+								$curForumAuth[6],
+								$curForumAuth[7],
+								$curForumAuth[8],
+								$curForumAuth[9]
+							));
+	
+							foreach($curForumMods AS $curMod)
+								$this->DB->queryParams('
+									INSERT INTO '.TBLPFX.'forums_auth SET
+										"forumID"=$1,
+										"authType"=$2,
+										"authID"=$3,
+										"authViewForum"=$4,
+										"authPostTopic"=$5,
+										"authPostReply"=$6,
+										"authPostPoll"=$7,
+										"authEditPosts"=$8,
+										"authIsMod"=$9
+								',array(
+									$curForum[0],
+									0,
+									$curMod,
+									1,
+									1,
+									1,
+									1,
+									1,
+									1
+								));
+	
+							if($curForumRights = self::tbb1ConversionFileToArray($this->pathToTBB1.'/foren/'.$curForum[0].'-rights.xbb')) {
+								foreach($curForumRights AS &$curRight) {
+									$curRight = self::tbb1ConversionExplodeByTab($curRight);
+									$curRightType = ($curRight[1] == 1) ? 0 : 1;
+									if($curRightType == 0 && $this->tbb1ConversionUserExists($curRight[2]) || $curRightType == 1 && in_array($curRight[2],$groupIDs))
+										$this->DB->queryParams('
+											INSERT INTO '.TBLPFX.'forums_auth SET
+												"forumID"=$1,
+												"authType"=$2,
+												"authID"=$3,
+												"authViewForum"=$4,
+												"authPostTopic"=$5,
+												"authPostReply"=$6,
+												"authPostPoll"=$7,
+												"authEditPosts"=$8,
+												"authIsMod"=$9
+										',array(
+											$curForum[0],
+											$curRightType,
+											$curRight[2],
+											$curRight[3],
+											$curRight[4],
+											$curRight[5],
+											$curRight[6],
+											$curRight[7],
+											0
+										));
+								}
+							}
+	
+							$this->tbb1ConversionProperties['topicsCounter'] += file_get_contents($this->pathToTBB1.'/foren/'.$curForum[0].'-ltopic.xbb',LOCK_SH);
+						}
+	
+						
+						// categories	
+						$catsData = self::tbb1ConversionFileToArray($this->pathToTBB1.'/vars/kg.var');
+						$this->DB->query('DELETE FROM '.TBLPFX.'cats');
+						$this->DB->queryParams('INSERT INTO '.TBLPFX.'cats SET
+							"catID"=$1,
+							"catL"=$2,
+							"catR"=$3,
+							"catName"=$4
+						',array(
+							1,
+							1,
+							2,
+							'ROOT'
+						));
+	
+						foreach($catsData AS &$curCat) {
+							$curCat = self::tbb1ConversionExplodeByTab($curCat);
+							$curCat[0]++;
+	
+							$newCatID = FuncCats::addCatData(1,$this->DB);
+							$this->DB->queryParams('
+								UPDATE
+									'.TBLPFX.'cats
+								SET
+									"catID"=$1,
+									"catName"=$2
+								WHERE
+									"catID"=$3
+							',array(
+								$curCat[0],
+								self::tbb1ConversionUnmutate(utf8_encode($curCat[1])),
+								$newCatID
+							));
+						}
+
+
+						// ranks
+						$ranksData = self::tbb1ConversionFileToArray($this->pathToTBB1.'/vars/rank.var');
+						$this->DB->query('DELETE FROM '.TBLPFX.'ranks');
+	
+						foreach($ranksData AS &$curRank) {
+							$curRank = self::tbb1ConversionExplodeByTab($curRank);
+	
+							$curRankGfx = array();
+							for($i = 0; $i < $curRank[4]; $i++)
+								$curRankGfx[] = 'images/rankpics/ystar.gif';
+							$curRankGfx = implode(';',$curRankGfx);
+	
+							$this->DB->queryParams('
+								INSERT INTO '.TBLPFX.'ranks SET
+									"rankID"=$1,
+									"rankType"=$2,
+									"rankName"=$3,
+									"rankGfx"=$4,
+									"rankPosts"=$5
+							',array(
+								$curRank[0],
+								0,
+								self::tbb1ConversionUnmutate(utf8_encode($curRank[1])),
+								$curRankGfx,
+								$curRank[2],
+							));
+						}
+
+
+						// smilies/topic pics
+						$smiliesData = self::tbb1ConversionFileToArray($this->pathToTBB1.'/vars/smilies.var');
+						$topicPicsData = self::tbb1ConversionFileToArray($this->pathToTBB1.'/vars/tsmilies.var');
+						$this->DB->query('DELETE FROM '.TBLPFX.'smilies');
+	
+						foreach($topicPicsData AS $curTopicPic) {
+							$curTopicPic = self::tbb1ConversionExplodeByTab($curTopicPic);
+	
+							$this->DB->queryParams('
+								INSERT INTO '.TBLPFX.'smilies SET
+									"smileyID"=$1,
+									"smileyType"=$2,
+									"smileyFileName"=$3
+							',array(
+								$curTopicPic[0],
+								1,
+								$curTopicPic[1]
+							));
+						}
+	
+						foreach($smiliesData AS $curSmiley) {
+							$curSmiley = self::tbb1ConversionExplodeByTab($curSmiley);
+	
+							$this->DB->queryParams('INSERT INTO '.TBLPFX.'smilies SET
+								"smileyType"=$1,
+								"smileyFileName"=$2,
+								"smileySynonym"=$3,
+								"smileyStatus"=$4
+							',array(
+								0,
+								$curSmiley[2],
+								$curSmiley[1],
+								1
+							));
+						}
+	
+	
+						$this->DB->query('DELETE FROM '.TBLPFX.'users');
+						$this->DB->query('DELETE FROM '.TBLPFX.'pms');
+						$this->DB->query('DELETE FROM '.TBLPFX.'profile_fields');
+						$this->DB->query('DELETE FROM '.TBLPFX.'profile_fields_data');
+	
+						$this->DB->queryParams('
+							INSERT INTO '.TBLPFX.'profile_fields SET
+								"fieldName"=$1,
+								"fieldType"=$2,
+								"fieldRegexVerification"=$3
+						',array(
+							$this->strings['ICQ'],
+							0,
+							'/^[0-9]{1,}\$/si'
+						));
+						$this->tbb1ConversionProperties['dbIcqID'] = $this->DB->getInsertID();
+	
+						$this->DB->query('
+							INSERT INTO '.TBLPFX.'profile_fields SET
+								"fieldName"=$1,
+								"fieldType"=$2
+						',array(
+							$this->strings['Homepage'],
+							0
+						));
+						$this->tbb1ConversionProperties['dbHomepageID'] = $this->DB->getInsertID();
+	
+						$this->tbb1ConversionProperties['membersCounter'] = file_get_contents($this->pathToTBB1.'/vars/last_user_id.var',LOCK_SH);
+						$this->tbb1ConversionProperties['statusPre'] = 100;
+	
+						//$this->tbb1ConversionPrintConversionStatus(INSTALLFILE.'?step='.$this->step.'&doit=1&subStep=2&'.MYSID); exit;
+						$this->tbb1ConversionPrintConversionStatus(); exit;
+						break;
+				}
+			}
+		}
+		
+		$this->printHeader();
+		
+		?>
+		<form method="post" action="<?php echo INSTALLFILE; ?>?step=<?php echo $this->step; ?>&amp;doit=1&amp;<?php echo MYSID; ?>">
+			<table class="TableStd" width="100%">
+				<colgroup>
+					<col width="25%"/>
+					<col width="75%"/>
+				</colgroup>
+				<tr><td class="CellCat" colspan="2"><span class="FontCat"><?php echo $this->steps[$this->step-1]; ?></span></td></tr>
+				<?php if(count($errors) > 0) { ?> <tr><td colspan="2" class="CellError"><ul><?php foreach($errors AS $curError) echo '<li><span class="FontError">'.$curError.'</span></li>'; ?></ul></td></tr><?php } ?>
+				<tr><td colspan="2"><span class="FontNorm"><?php echo $this->strings['tbb1_conversion_info']; ?></span></td></tr>
+				<tr>
+					<td><span class="FontNorm"><?php echo $this->strings['Path_to_tbb1']; ?>:</span><br/><span class="FontSmall"><?php echo $this->strings['path_to_tbb1_info']; ?></span></td>
+					<td><input type="text" class="FormText" name="p[pathToTBB1]" value="<?php echo $p['pathToTBB1']; ?>" size="50"/></td>
+				</tr>
+				<tr><td class="CellButtons" align="right" colspan="2"><input class="FormBButton" type="submit" value="<?php echo $this->strings['Next']; ?>"/></td></tr>
+			</table>
+		</form>
+		<?php
+		
+		$this->printTail();
+	}
+	
 	protected function selectDBAndConnect() {
 		switch($_SESSION['dbType']) {
 			case 'mysql':
@@ -1289,14 +1632,14 @@ class BoardInstall {
 	 * @return array
 	 */
 	protected static function tbb1ConversionFileToArray($fileName) {
-		if(file_exists($file) == FALSE) return FALSE;
+		if(!file_exists($fileName)) return FALSE;
 	
 		$fileContents = file_get_contents($fileName,LOCK_SH);	
 		
 		if($fileContents != '') {
 			$fileContents = str_replace("\r\n","\n",$fileContents);
 			$fileContents = explode("\n",$fileContents);
-			$fileContents = array_pop($fileContents);
+			array_pop($fileContents);
 		} else {
 			$fileContents = array();
 		}
@@ -1324,8 +1667,53 @@ class BoardInstall {
 	 * @param integer $userID
 	 * @return boolean
 	 */
-	protected static function tbb1ConversionUserExists($userID) {
-		return file_exists($_SESSION['s_tbb1_path'].'/members/'.$userID.'.xbb');
+	protected function tbb1ConversionUserExists($userID) {
+		return file_exists($this->pathToTBB1.'/members/'.$userID.'.xbb');
+	}
+	
+	/**
+	 * Print the current status of the TBB1 conversion. If $autoLocation is specified,
+	 * the browser will automatically redirect to this location.
+	 *
+	 * @param string $autoLocation
+	 */
+	protected function tbb1ConversionPrintConversionStatus($autoLocation = '') {
+		$this->printHeader($autoLocation);
+	
+		?>
+		<table class="TableStd" width="100%">
+			<colgroup>
+				<col width="25%"/>
+				<col width="75%"/>
+			</colgroup>
+			<tr><td class="CellCat" colspan="2"><span class="FontCat"><?php echo $this->steps[$this->step-1]; ?></span></td></tr>
+			<tr>
+				<td>
+					<span class="FontNorm"><?php echo $this->strings['tbb1_conversion_running_info']; ?></span><br/><br/>
+					<table border="0" cellpadding="0" cellspacing="0">
+						<tr>
+							<td class="CellWhite"><span class="FontNorm"><?php echo $this->strings['General_data'] ?>:</span></td>
+							<td class="CellWhite"><div style="background-color:#000000; padding:0px; margin:0px; height:12px; width:<?php echo $this->tbb1ConversionProperties['statusPre']*2; ?>px; float:left;"></div> <span class="FontNorm"><?php echo $this->tbb1ConversionProperties['statusPre']; ?>%</span></td>
+						</tr>
+						<tr>
+							<td class="CellWhite"><span class="FontNorm"><?php echo $this->strings['Members_data'] ?>:</span></td>
+							<td class="CellWhite"><div style="background-color:#000000; padding:0px; margin:0px; height:12px; width:<?php echo $this->tbb1ConversionProperties['statusMembers']*2; ?>px; float:left;"></div> <span class="FontNorm"><?php echo $this->tbb1ConversionProperties['statusMembers']; ?>%</span></td>
+						</tr>
+						<tr>
+							<td class="CellWhite"><span class="FontNorm"><?php echo $this->strings['Topics_data'] ?>:</span></td>
+							<td class="CellWhite"><div style="background-color:#000000; padding:0px; margin:0px; height:12px; width:<?php echo $this->tbb1ConversionProperties['statusTopics']*2; ?>px; float:left;"></div> <span class="FontNorm"><?php echo $this->tbb1ConversionProperties['statusTopics']; ?>%</span></td>
+						</tr>
+						<tr>
+							<td class="CellWhite"><span class="FontNorm"><?php echo $this->strings['Other_data'] ?> Daten:</span></td>
+							<td class="CellWhite"><div style="background-color:#000000; padding:0px; margin:0px; height:12px; width:<?php echo $this->tbb1ConversionProperties['statusSuf']*2; ?>px; float:left;"></div> <span class="FontNorm"><?php echo $this->tbb1ConversionProperties['statusSuf']; ?>%</span></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		 </table>
+		<?php
+	
+		$this->printTail();
 	}
 }
 

@@ -4,8 +4,8 @@ class FuncCats {
 	//*
 	//* Fuegt eine neue Kategorie hinzu
 	//*
-	function addCatData($parentID = 1) {
-		$DB = Factory::singleton('DB');
+	function addCatData($parentID = 1,$DB = NULL) {
+		if(!$DB) $DB = Factory::singleton('DB');
 
 		$DB->query('LOCK TABLES '.TBLPFX.'cats WRITE'); // Die Tabelle sperren
 
