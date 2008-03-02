@@ -133,7 +133,7 @@ CREATE TABLE /*!32312 IF NOT EXISTS*/ "/*TABLEPREFIX*/polls_options" (
   "optionVotesCounter" mediumint(8) NOT NULL default '0',
   UNIQUE KEY "poll_id_option_id" ("pollID","optionID"),
   KEY "option_id" ("optionID")
-) ENGINE=MyISAM /*!40100 DEFAULT CHARSET=latin1*/;
+) ENGINE=MyISAM /*!40100 DEFAULT CHARSET=utf8*/;
 
 CREATE TABLE /*!32312 IF NOT EXISTS*/ "/*TABLEPREFIX*/polls_votes" (
   "pollID" mediumint(8) unsigned NOT NULL default '0',
