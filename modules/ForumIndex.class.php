@@ -151,7 +151,7 @@ class ForumIndex extends ModuleTemplate {
 			//
 			$curLastPostPic = $curLastPostText = '';
 			if($curForum['forumLastPostID'] != 0) {
-				if($curAuthViewForum == 1) {
+				if($curForum['forumIsAccessible'] == 1) {
 					$curLastPostPic = ($curForum['forumLastPostSmileyFileName'] == '') ? '' : '<img src="'.$curForum['forumLastPostSmileyFileName'].'" alt=""/>';
 					if(Functions::strlen($curForum['forumLastPostTitle']) > 22) $curLastPostLink = '<a href="'.INDEXFILE.'?action=ViewTopic&amp;postID='.$curForum['forumLastPostID'].'&amp;'.MYSID.'#post'.$curForum['forumLastPostID'].'" title="'.Functions::HTMLSpecialChars(($curForum['forumLastPostTitle'])).'">'.Functions::HTMLSpecialChars(Functions::substr($curForum['forumLastPostTitle'],0,22)).'...</a>';
 					else $curLastPostLink = '<a href="'.INDEXFILE.'?action=ViewTopic&amp;postID='.$curForum['forumLastPostID'].'&amp;'.MYSID.'#post'.$curForum['forumLastPostID'].'">'.Functions::HTMLSpecialChars($curForum['forumLastPostTitle']).'</a>';
@@ -269,7 +269,7 @@ class ForumIndex extends ModuleTemplate {
 	protected function _loadForumsAuthData() {
 		$forumsAuthData = array();
 
-		if($this->modules['Auth']->isLoggedIn() == 1 && $this->modules['Auth']->getValue('UserIsAdmin') != 1 && $this->modules['Auth']->getValue('UserIsSupermod') != 1) {
+		if($this->modules['Auth']->isLoggedIn() == 1 && $this->modules['Auth']->getValue('userIsAdmin') != 1 && $this->modules['Auth']->getValue('userIsSupermod') != 1) {
 			// First we check group permissions because
 			// user permissions will probably overwrite them
 			$this->modules['DB']->queryParams('

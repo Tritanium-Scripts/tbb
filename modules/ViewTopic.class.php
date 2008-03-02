@@ -60,8 +60,8 @@ class ViewTopic extends ModuleTemplate {
 		$_SESSION['topicVisits'][$topicID] = time();
 
 		$tmp = array();
-		foreach($_SESSION['topicVisits'] AS $topicID => $visitTime)
-			$tmp[] = $topicID.'.'.$visitTime;
+		foreach($_SESSION['topicVisits'] AS $tmpTopicID => $visitTime)
+			$tmp[] = $tmpTopicID.'.'.$visitTime;
 
 		Functions::set1YearCookie('topicVisits',implode(',',$tmp));
 
@@ -357,7 +357,7 @@ class ViewTopic extends ModuleTemplate {
             ORDER BY t1."postTimestamp" LIMIT $2, $3
         ', array(
             $topicID,
-            $start,
+            (int) $start,
             (int) $this->modules['Config']->getValue('posts_per_page')
         ));
 

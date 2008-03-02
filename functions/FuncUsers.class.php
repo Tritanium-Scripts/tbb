@@ -76,10 +76,12 @@ class FuncUsers {
 	public static function updateUsersCounter() {
 		$DB = Factory::singleton('DB');
 		$Config = Factory::singleton('Config');
+		$Cache = Factory::singleton('Cache');
 
 		$DB->query('BEGIN');
 		$Config->updateValue('usersCounter',self::getUsersCounter());
 		$DB->query('COMMIT');
+		$this->modules['Cache']->setConfig();
 	}
 }
 

@@ -1493,7 +1493,8 @@ class BoardInstall {
 									"userPostsCounter"=$7,
 									"userRegistrationTimestamp"=$8,
 									"userSignature"=$9,
-									"userTimeZone"=$10
+									"userTimeZone"=$10,
+									"userAvatarAddress"=$11
 							',array(
 								$curUserData[1],
 								1,
@@ -1504,7 +1505,9 @@ class BoardInstall {
 								$curUserData[5],
 								$curUserData[6],
 								self::tbb1ConversionUnmutate(utf8_encode(self::tbb1ConversionBr2Nl($curUserData[7]))),
-								'gmt'
+								'gmt',
+								$curUserData[10]
+								
 							));
 	
 							// icq
@@ -1775,6 +1778,7 @@ class BoardInstall {
 	
 	
 								if($curTopicInfo[7] != '' && file_exists($this->pathToTBB1.'/polls/'.$curTopicInfo[7].'-1.xbb')) {
+									if($forumID == 2 && $i == 3) {print_r($curTopicInfo);exit;}
 									$curPollData = $this->tbb1ConversionFileToArray($this->pathToTBB1.'/polls/'.$curTopicInfo[7].'-1.xbb');
 									$curPollCount = count($curPollData);
 									$curPollInfo = $this->tbb1ConversionExplodeByTab($curPollData[0]);
@@ -1815,7 +1819,7 @@ class BoardInstall {
 										SET
 											"topicHasPoll"=$1
 										WHERE
-											"topicID"=$1
+											"topicID"=$2
 									',array(
 										1,
 										$curTopicID
@@ -1916,9 +1920,23 @@ class BoardInstall {
 
 						//$this->DB->query("DELETE FROM ".TBLPFX."config WHERE config_name='dataversion'");
 						//$this->DB->query("INSERT INTO ".TBLPFX."config (config_name,config_value) VALUES ('dataversion','".SCRIPTVERSION."')");
+						
+						$this->DB->query('SELECT COUNT(*) FROM '.TBLPFX.'users');
+						list($usersCounter) = $this->DB->fetchArray();
+						$this->DB->queryParams('
+							UPDATE
+								'.TBLPFX.'config
+							SET
+								"configValue"=$1
+							WHERE
+								"configName"=$2
+						',array(
+							$usersCounter,
+							'usersCounter'
+						));
 	
 						$this->tbb1ConversionProperties['statusPost'] = 100;
-	
+
 						$this->tbb1ConversionPrintConversionStatus(INSTALLFILE.'?step='.$this->step.'&doit=1&subStep=5&'.MYSID); exit;
 						break;
 						

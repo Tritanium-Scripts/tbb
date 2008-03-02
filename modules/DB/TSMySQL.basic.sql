@@ -78,6 +78,7 @@ INSERT INTO /*TABLEPREFIX*/config ("configName","configValue") VALUES ('standard
 INSERT INTO /*TABLEPREFIX*/config ("configName","configValue") VALUES ('supermod_rank_pic','images/rankpics/supermod.gif');
 INSERT INTO /*TABLEPREFIX*/config ("configName","configValue") VALUES ('topics_per_page','15');
 INSERT INTO /*TABLEPREFIX*/config ("configName","configValue") VALUES ('use_language_detection','1');
+INSERT INTO /*TABLEPREFIX*/config ("configName","configValue") VALUES ('usersCounter','0');
 INSERT INTO /*TABLEPREFIX*/config ("configName","configValue") VALUES ('verify_email_address','0');
 INSERT INTO /*TABLEPREFIX*/config ("configName","configValue") VALUES ('wio_timeout','10');
 

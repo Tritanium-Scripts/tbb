@@ -173,7 +173,7 @@ class ViewForum extends ModuleTemplate {
 				$2, $3
 		',array(
 			$forumID,
-            $start,
+            (int) $start,
             //TODO: Siehe Ticket #37
             (int) $this->modules['Config']->getValue('topics_per_page')
 		));
