@@ -1778,7 +1778,6 @@ class BoardInstall {
 	
 	
 								if($curTopicInfo[7] != '' && file_exists($this->pathToTBB1.'/polls/'.$curTopicInfo[7].'-1.xbb')) {
-									if($forumID == 2 && $i == 3) {print_r($curTopicInfo);exit;}
 									$curPollData = $this->tbb1ConversionFileToArray($this->pathToTBB1.'/polls/'.$curTopicInfo[7].'-1.xbb');
 									$curPollCount = count($curPollData);
 									$curPollInfo = $this->tbb1ConversionExplodeByTab($curPollData[0]);
