@@ -1,0 +1,10 @@
+Hi {USERTONAME}!
+Am {DATE} wurde ihnen von {USERFROMNAME} <{USERFROMEMAIL}> eine Nachricht geschickt
+
+----------------------------
+Betreff: {SUBJECT}
+----------------------------
+{MESSAGE}
+----------------------------
+
+Falls sie nicht wünschen solche Mail zu empfangen loggen Sie sich unter {LOGINLINK} ein und deaktivieren in ihrem Profil die Option "Mails vom Forum empfangen"
