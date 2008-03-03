@@ -46,18 +46,12 @@ class Core extends ModuleTemplate {
 				$curValue = 1;
 		}
 
-		/**
-		 * Initialize global stuff if module exists
-		 */
-		if(Factory::moduleExists('Globals'))
-			Factory::singleton('Globals');
-
-		/**
-		 * Check what to do and execute specified module, if allowed and if existing.
-		 * Otherwise execute default module
-		 */
 		$action = (isset($_GET['action']) && in_array($_GET['action'],$this->getC('allowedActions'))) ? $_GET['action'] : $this->getC('defaultAction');
 		define('ACTION',$action);
+
+		if(Factory::moduleExists('Globals'))
+			Factory::singleton('Globals');
+		
 		$this->modules[$action] = Factory::singleton($action);
 		$this->modules[$action]->executeMe();
 	}
