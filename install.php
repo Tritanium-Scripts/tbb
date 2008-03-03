@@ -1896,47 +1896,45 @@ class BoardInstall {
 								t1."forumLastPostID"=t2."postID"
 						');
 	
-						$this->DB->query('SELECT "userID","userNick" FROM '.TBLPFX.'users ORDER BY "userID" DESC LIMIT 1'); 
-						$newestUserData = $this->DB->fetchArray(); 
-						$this->DB->queryParams('
-							UPDATE '.TBLPFX.'config SET
-								"configValue"=$1
-							WHERE
-								"configName"=$2
-						',array(
-							$newestUserData['userID'],
-							'newest_user_id'
-						)); 
-						$this->DB->queryParams('
-							UPDATE '.TBLPFX.'config SET
-								"configValue"=$1
-							WHERE
-								"configName"=$2
-						',array(
-							$newestUserData['userNick'],
-							'newest_user_nick'
-						));
+						$newConfigData = array();
 
-						//$this->DB->query("DELETE FROM ".TBLPFX."config WHERE config_name='dataversion'");
-						//$this->DB->query("INSERT INTO ".TBLPFX."config (config_name,config_value) VALUES ('dataversion','".SCRIPTVERSION."')");
+						$this->DB->query('SELECT "userID","userNick" FROM '.TBLPFX.'users ORDER BY "userID" DESC LIMIT 1'); 
+						$newestUserData = $this->DB->fetchArray();
+						$newConfigData[] = array($newestUserData['userID'],'newest_user_id');
+						$newConfigData[] = array($newestUserData['userNick'],'newest_user_nick');
 						
 						$this->DB->query('SELECT COUNT(*) FROM '.TBLPFX.'users');
 						list($usersCounter) = $this->DB->fetchArray();
-						$this->DB->queryParams('
-							UPDATE
-								'.TBLPFX.'config
-							SET
-								"configValue"=$1
-							WHERE
-								"configName"=$2
-						',array(
-							$usersCounter,
-							'usersCounter'
-						));
+						$newConfigData[] = array($usersCounter,'usersCounter');
+						
+						$settingsFile = self::tbb1ConversionFileToArray($this->pathToTBB1.'/vars/settings.var');
+						$newConfigData[] = array($settingsFile[5],'board_name');
+						$newConfigData[] = array(($settingsFile[25] == 1 ? 0 : 1),'guests_enter_board');
+						$newConfigData[] = array($settingsFile[12],'enable_registration');
+						$newConfigData[] = array($settingsFile[47],'avatar_image_height');
+						$newConfigData[] = array($settingsFile[48],'avatar_image_width');
+						
+						foreach($newConfigData AS $curConfig) {
+							$this->DB->queryParams('
+								UPDATE
+									'.TBLPFX.'config
+								SET
+									"configValue"=$1
+								WHERE
+									"configName"=$2
+							',array(
+								$curConfig[0],
+								$curConfig[1]
+							));
+						}							
+
+						//$this->DB->query("DELETE FROM ".TBLPFX."config WHERE config_name='dataversion'");
+						//$this->DB->query("INSERT INTO ".TBLPFX."config (config_name,config_value) VALUES ('dataversion','".SCRIPTVERSION."')");
 	
 						$this->tbb1ConversionProperties['statusPost'] = 100;
 
-						$this->tbb1ConversionPrintConversionStatus(INSTALLFILE.'?step='.$this->step.'&doit=1&subStep=5&'.MYSID); exit;
+						//$this->tbb1ConversionPrintConversionStatus(INSTALLFILE.'?step='.$this->step.'&doit=1&subStep=5&'.MYSID); exit;
+						exit;
 						break;
 						
 					case '5':
@@ -2208,7 +2206,7 @@ class BoardInstall {
 			</colgroup>
 			<tr><td class="CellCat" colspan="2"><span class="FontCat"><?php echo $this->steps[$this->step-1]; ?></span></td></tr>
 			<tr>
-				<td>
+				<td class="CellWhite">
 					<span class="FontNorm"><?php echo $this->strings['tbb1_conversion_running_info']; ?></span><br/><br/>
 					<table border="0" cellpadding="0" cellspacing="0">
 						<tr>

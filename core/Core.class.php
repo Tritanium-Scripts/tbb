@@ -57,6 +57,7 @@ class Core extends ModuleTemplate {
 		 * Otherwise execute default module
 		 */
 		$action = (isset($_GET['action']) && in_array($_GET['action'],$this->getC('allowedActions'))) ? $_GET['action'] : $this->getC('defaultAction');
+		define('ACTION',$action);
 		$this->modules[$action] = Factory::singleton($action);
 		$this->modules[$action]->executeMe();
 	}

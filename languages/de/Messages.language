@@ -4,7 +4,6 @@ message_text_special_rights_updated = Die Spezialrechte dieses Forums wurden erf
 message_text_function_deactivated = Diese Funktion wurde deaktiviert!
 message_text_forum_not_logged_in = Sie m&uuml;ssen eingeloggt sein um dieses Forum betreten zu k&ouml;nnen!
 message_text_forum_no_access = Sie haben nicht die erforderlichen Rechte dieses Forum zu betreten!
-message_text_enter_board_not_logged_in = Sie m&uuml;ssen eingeloggt sein um dieses Board betreten zu k&ouml;nnen!
 message_text_no_more_folders_allowed = Sie d&uuml;rfen keine weiteren Ordner anlegen!
 message_text_new_private_message_text_received = In Ihrem Posteingang befindet sich mindestens eine neue private Nachricht
 message_text_account_activated = Ihr Account wurde erfolgreich aktiviert! Vielen Dank f&uuml;r Ihr Verst&auml;ndnis!
@@ -14,6 +13,8 @@ message_text_new_user_added = Der neue Benutzer wurde erfolgreich eingerichtet.
 message_text_user_edited = Der Benutzer wurde erfolgreich bearbeitet.
 message_text_settings_successfully_saved = Die Einstellungen wurden erfolgreich gespeichert
 
+message_title_enter_board_not_logged_in = Nicht eingeloggt
+message_text_enter_board_not_logged_in = Sie m&uuml;ssen eingeloggt sein um dieses Board betreten zu k&ouml;nnen!
 message_title_email_sent = Email verschickt
 message_text_email_sent = Ihre Nachricht wurde erfolgreich per Mail verschickt.
 message_title_cannot_delete_first_post = Beitrag l&ouml;schen

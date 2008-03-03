@@ -194,7 +194,7 @@ class ViewTopic extends ModuleTemplate {
 				// Avatar
 				//
 				if($this->modules['Config']->getValue('enable_avatars') == 1 && $curPost['postPosterAvatarAddress'] != '')
-					$curPosterAvatar = '<img src="'.$curPost['postPosterAvatarAddress'].'" alt=""/>';
+					$curPosterAvatar = '<img width="'.$this->modules['Config']->getValue('avatar_image_width').'" height="'.$this->modules['Config']->getValue('avatar_image_height').'" src="'.$curPost['postPosterAvatarAddress'].'" alt=""/>';
 
 
 				//

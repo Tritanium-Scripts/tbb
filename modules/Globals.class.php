@@ -26,6 +26,12 @@ class Globals extends ModuleTemplate {
 
 		// global page frame
 		$this->modules['Template']->setGlobalFrame(array($this,'printHeader'),array($this,'printTail'));
+		
+		// deny guests to enter board
+		if($this->modules['Config']->getValue('guests_enter_board') == 1 && !$this->modules['Auth']->isLoggedIn() && ACTION != 'Register' && ACTION != 'Login') {
+			FuncMisc::printMessage('enter_board_not_logged_in',array(sprintf($this->modules['Language']->getString('message_link_click_here_login','<a href="'.INDEXFILE.'&amp;action=Login&amp;'.MYSID.'">','</a>',sprintf($this->modules['Language']->getString('message_link_click_here_register','<a href="'.INDEXFILE.'&amp;action=Register&amp;'.MYSID.'">','</a>'))));
+			exit;
+		}
 
         //Siehe Ticket #35
         // proper content type
@@ -61,6 +67,7 @@ class Globals extends ModuleTemplate {
 			Functions::set1YearCookie('tbbLastAction',time());
 		}
 
+		// forum visits
 		if(!isset($_SESSION['forumVisits'])) {
 			if(isset($_COOKIE['forumVisits']) && $_COOKIE['forumVisits'] != '') {
 				$tmpVisits = explode(',',$_COOKIE['forumVisits']);
@@ -73,6 +80,7 @@ class Globals extends ModuleTemplate {
 				$_SESSION['forumVisits'] = array();
 		}
 
+		// topic visits
 		if(!isset($_SESSION['topicVisits'])) {
 			if(isset($_COOKIE['topicVisits']) && $_COOKIE['topicVisits'] != '') {
 				$tmpVisits = explode(',',$_COOKIE['topicVisits']);
