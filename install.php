@@ -1933,8 +1933,7 @@ class BoardInstall {
 	
 						$this->tbb1ConversionProperties['statusPost'] = 100;
 
-						//$this->tbb1ConversionPrintConversionStatus(INSTALLFILE.'?step='.$this->step.'&doit=1&subStep=5&'.MYSID); exit;
-						exit;
+						$this->tbb1ConversionPrintConversionStatus(INSTALLFILE.'?step='.$this->step.'&doit=1&subStep=5&'.MYSID); exit;
 						break;
 						
 					case '5':
