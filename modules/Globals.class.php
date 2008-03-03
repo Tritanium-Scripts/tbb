@@ -29,7 +29,7 @@ class Globals extends ModuleTemplate {
 		
 		// deny guests to enter board
 		if($this->modules['Config']->getValue('guests_enter_board') == 1 && !$this->modules['Auth']->isLoggedIn() && ACTION != 'Register' && ACTION != 'Login') {
-			FuncMisc::printMessage('enter_board_not_logged_in',array(sprintf($this->modules['Language']->getString('message_link_click_here_login'),'<a href="'.INDEXFILE.'&amp;action=Login&amp;'.MYSID.'">','</a>'),sprintf($this->modules['Language']->getString('message_link_click_here_register'),'<a href="'.INDEXFILE.'&amp;action=Register&amp;'.MYSID.'">','</a>')));
+			FuncMisc::printMessage('enter_board_not_logged_in',array(sprintf($this->modules['Language']->getString('message_link_click_here_login'),'<a href="'.INDEXFILE.'?action=Login&amp;'.MYSID.'">','</a>'),sprintf($this->modules['Language']->getString('message_link_click_here_register'),'<a href="'.INDEXFILE.'&amp;action=Register&amp;'.MYSID.'">','</a>')));
 			exit;
 		}
 
