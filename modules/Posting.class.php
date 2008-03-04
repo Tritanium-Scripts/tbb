@@ -96,8 +96,6 @@ class Posting extends ModuleTemplate {
 						if(trim($p['messageTitle']) == '') $error = $this->modules['Language']->getString('error_no_title');
 						elseif(Functions::strlen($p['messageTitle']) > 255) $error = $this->modules['Language']->getString('error_title_too_long');
 						elseif(trim($p['messageText']) == '') $error = $this->modules['Language']->getString('error_no_post');
-                        //TODO: MACHT DAS SINN???:
-						elseif($mode != 'Edit' && $this->modules['Auth']->isLoggedIn() != 1 && !Functions::verifyEmailAddress($p['guestNick'])) $error = $this->modules['Language']->getString('error_invalid_name');
 						elseif($mode != 'Edit' && $this->modules['Auth']->isLoggedIn() != 1 && !Functions::unifyUserName($p['guestNick'])) $error = $this->modules['Language']->getString('error_existing_user_name');
 						elseif($mode == 'Edit') {
                             $this->modules['DB']->queryParams('
@@ -284,7 +282,7 @@ class Posting extends ModuleTemplate {
 								if($c['subscribeTopic'] == 0) $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'topics_subscriptions WHERE "topicID"=$1 AND "userID"=$2', array($topicID, USERID));
 								else $this->modules['DB']->queryParams('INSERT INTO '.TBLPFX.'topics_subscriptions SET "topicID"=$1, "userID"=$2', array($topicID, USERID));
 							}
-							Functions::myHeader(INDEXFILE."?t=$topicID&".MYSID);
+							Functions::myHeader(INDEXFILE."?action=ViewTopic&topicID=$topicID&".MYSID);
 						}
 					}
 				}
