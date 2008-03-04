@@ -431,7 +431,7 @@ class ForumIndex extends ModuleTemplate {
 			$topicsCounter = Functions::getTopicsCounter();
 			$postsCounter = Functions::getPostsCounter();
 
-			$boardStatsData['text'] = sprintf($this->modules['Language']->getString('board_stats_text'),$membersCounter,$postsCounter,$topicsCounter,'<a href="index.php?action=viewprofile&amp;profile_id='.$this->modules['Config']->getValue('newest_user_id').'&amp;'.MYSID.'">'.$this->modules['Config']->getValue('newest_user_nick').'</a>');
+			$boardStatsData['text'] = sprintf($this->modules['Language']->getString('board_stats_text'),$membersCounter,$postsCounter,$topicsCounter,'<a href="'.INDEXFILE.'?action=ViewProfile&amp;profileID='.$this->modules['Config']->getValue('newest_user_id').'&amp;'.MYSID.'">'.$this->modules['Config']->getValue('newest_user_nick').'</a>');
 		}
 		return $boardStatsData;
 	}

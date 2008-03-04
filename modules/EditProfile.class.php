@@ -38,7 +38,7 @@ class EditProfile extends ModuleTemplate {
 				$error = '';
 
 				if(isset($_GET['doit'])) {
-					if(!Functions::verifyEmail($p['userEmailAddress'])) $error = $this->modules['Language']->getString('error_bad_email');
+					if(!Functions::verifyEmailAddress($p['userEmailAddress'])) $error = $this->modules['Language']->getString('error_bad_email');
 					elseif(trim($p['userNewPassword']) != '' && Functions::getSaltedHash($p['userOldPassword'],$this->modules['Auth']->getValue('userPasswordSalt')) != $this->modules['Auth']->getValue('user_pw')) $error = $this->modules['Language']->getString('error_wrong_password');
 					elseif(trim($p['userNewPassword']) != '' && $p['userNewPassword'] != $p['userNewPasswordConfirmation']) $error = $this->modules['Language']->getString('error_pws_no_match');
 					else {
