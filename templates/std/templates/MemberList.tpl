@@ -1,5 +1,5 @@
 <form method="post" action="{$indexFile}?action=MemberList&amp;page={$page}&amp;{$mySID}">
-<table class="TableStd" border="0" cellpadding="3" cellspacing="0" width="100%">
+<table class="TableStd" width="100%">
 <tr>
  <td class="CellTitle" align="center"><span class="FontTitleSmall">{$modules.Language->getString('User_id')}</span></td>
  <td class="CellTitle" align="center"><span class="FontTitleSmall">{$modules.Language->getString('User_name')}</span></td>

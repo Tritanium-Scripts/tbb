@@ -106,7 +106,7 @@ class AdminRanks extends ModuleTemplate {
 				$rankID = isset($_GET['rankID']) ? intval($_GET['rankID']) : 0;
 				if(!$rankData = FuncRanks::getRankData($rankID)) die('Cannot load data: rank');
 
-				$p = Functions::getSGValues($_POST['p'],array('rankPosts','rankName','rankType','rankGfx'),'',Functions::addSlashes($rankData));
+				$p = Functions::getSGValues($_POST['p'],array('rankPosts','rankName','rankType','rankGfx'),'',$rankData);
 
 				if(!in_array($p['rankType'],array(0,1))) $p['rankType'] = 0;
 

@@ -32,7 +32,7 @@ class EditProfile extends ModuleTemplate {
 
 		switch(@$_GET['mode']) {
 			default:
-				$p = Functions::getSGValues($_POST['p'],array('userEmailAddress','userSignature'),'',Functions::addSlashes($this->modules['Auth']->getUserData()));
+				$p = Functions::getSGValues($_POST['p'],array('userEmailAddress','userSignature'),'',$this->modules['Auth']->getUserData());
 				$p = array_merge($p,Functions::getSGValues($_POST['p'],array('userOldPassword','userNewPassword','userNewPasswordConfirmation'),''));
 
 				$error = '';
@@ -108,8 +108,8 @@ class EditProfile extends ModuleTemplate {
 				$p = array();
 				foreach($profileFields AS $curField) {
 					switch($curField['fieldType']) {
-						case PROFILE_FIELD_TYPE_TEXT:         $p['fieldsData'][$curField['fieldID']] = isset($_POST['p']['FieldsData'][$curField['fieldID']]) ? $_POST['p']['FieldsData'][$curField['fieldID']] : (isset($fieldsData[$curField['fieldID']]) ? addslashes($fieldsData[$curField['fieldID']]) : ''); break;
-						case PROFILE_FIELD_TYPE_TEXTAREA:     $p['fieldsData'][$curField['fieldID']] = isset($_POST['p']['FieldsData'][$curField['fieldID']]) ? $_POST['p']['FieldsData'][$curField['fieldID']] : (isset($fieldsData[$curField['fieldID']]) ? addslashes($fieldsData[$curField['fieldID']]) : ''); break;
+						case PROFILE_FIELD_TYPE_TEXT:         $p['fieldsData'][$curField['fieldID']] = isset($_POST['p']['FieldsData'][$curField['fieldID']]) ? $_POST['p']['FieldsData'][$curField['fieldID']] : (isset($fieldsData[$curField['fieldID']]) ? $fieldsData[$curField['fieldID']] : ''); break;
+						case PROFILE_FIELD_TYPE_TEXTAREA:     $p['fieldsData'][$curField['fieldID']] = isset($_POST['p']['FieldsData'][$curField['fieldID']]) ? $_POST['p']['FieldsData'][$curField['fieldID']] : (isset($fieldsData[$curField['fieldID']]) ? $fieldsData[$curField['fieldID']] : ''); break;
 						case PROFILE_FIELD_TYPE_SELECTSINGLE: $p['fieldsData'][$curField['fieldID']] = isset($_POST['p']['FieldsData'][$curField['fieldID']]) ? intval($_POST['p']['FieldsData'][$curField['fieldID']]) : (isset($fieldsData[$curField['fieldID']]) ? $fieldsData[$curField['fieldID']] : ''); break;
 						case PROFILE_FIELD_TYPE_SELECTMULTI:  $p['fieldsData'][$curField['fieldID']] = (isset($_POST['p']['FieldsData'][$curField['fieldID']]) == TRUE && is_array($_POST['p']['FieldsData'][$curField['fieldID']]) == TRUE) ? $_POST['p']['FieldsData'][$curField['fieldID']] : (isset($fieldsData[$curField['fieldID']]) ? explode(',',$fieldsData[$curField['fieldID']]) : array()); break;
 					}
@@ -174,7 +174,7 @@ class EditProfile extends ModuleTemplate {
 				break;
 
 			case 'ProfileSettings':
-				$p = Functions::getSGValues($_POST['p'],array('userTimeZone','userHideEmailAddress','userReceiveEmails'),'',Functions::addSlashes($this->modules['Auth']->getUserData()));
+				$p = Functions::getSGValues($_POST['p'],array('userTimeZone','userHideEmailAddress','userReceiveEmails'),'',$this->modules['Auth']->getUserData());
 
 				$timeZones = Functions::getTimeZones(TRUE);
 
@@ -234,7 +234,7 @@ class EditProfile extends ModuleTemplate {
 				break;
 
 			case 'Avatar':
-				$p['avatarAddress'] = isset($_POST['p']['avatarAddress']) ? $_POST['p']['avatarAddress'] : addslashes($this->modules['Auth']->getValue('userAvatarAddress'));
+				$p['avatarAddress'] = isset($_POST['p']['avatarAddress']) ? $_POST['p']['avatarAddress'] : $this->modules['Auth']->getValue('userAvatarAddress');
 
 				if(isset($_GET['Doit']))
                     $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'users SET "userAvatarAddress"=$1 WHERE "userID"=$2', array($p['avatarAddress'], USERID));
@@ -253,7 +253,7 @@ class EditProfile extends ModuleTemplate {
 
 			case 'Memo':
 				$p = array();
-				$p['userMemo'] = isset($_POST['p']['userMemo']) ? $_POST['p']['userMemo'] : addslashes($this->modules['Auth']->getValue('userMemo'));
+				$p['userMemo'] = isset($_POST['p']['userMemo']) ? $_POST['p']['userMemo'] : $this->modules['Auth']->getValue('userMemo');
 
 				$this->modules['Navbar']->addelement($this->modules['Language']->getString('Memo'),INDEXFILE.'?action=EditProfile&amp;mode=Memo&amp;'.MYSID);
 

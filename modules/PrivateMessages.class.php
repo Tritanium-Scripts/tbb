@@ -358,9 +358,9 @@ class PrivateMessages extends ModuleTemplate {
                                 "pmMessageText"=$5
                         ', array(
                             USERID,
-                            Functions::addSlashes($this->modules['Language']->getString('read_confirmation_subject')),
+                            $this->modules['Language']->getString('read_confirmation_subject'),
                             time(),
-                            Functions::addSlashes(sprintf($this->modules['Language']->getString('read_confirmation_message',$pmData['pmFromNick'],$pmData['pmSubject'])))
+                            sprintf($this->modules['Language']->getString('read_confirmation_message',$pmData['pmFromNick'],$pmData['pmSubject']))
                         ));
 				}
 
@@ -565,7 +565,7 @@ class PrivateMessages extends ModuleTemplate {
                 $this->modules['DB']->queryParams('SELECT * FROM '.TBLPFX.'pms_folders WHERE "userID"=$1 AND "folderID"=$2', array(USERID, $folderID));
 				($this->modules['DB']->getAffectedRows() != 1) ? die('Kann Daten nich laden: PM-Ordner') : $folderData = $this->modules['DB']->fetchArray();
 
-				$p = Functions::getSGValues($_POST['p'],array('folderName'),'',Functions::addSlashes($folderData));
+				$p = Functions::getSGValues($_POST['p'],array('folderName'),'',$folderData);
 
 				$error = '';
 

@@ -34,7 +34,7 @@ class EditTopic extends ModuleTemplate {
 
 			$error = '';
 
-			$p = Functions::getSGValues($_POST['p'],array('topicTitle','smileyID'),'',Functions::addSlashes($topicData));
+			$p = Functions::getSGValues($_POST['p'],array('topicTitle','smileyID'),'',$topicData);
 			$c = array();
 
 			if($topicData['topicHasPoll'] == 1) {
@@ -50,11 +50,11 @@ class EditTopic extends ModuleTemplate {
 				$p['optionsData'] = array();
 
 				foreach($optionsData AS $curOption)
-					$p['optionsData'][$curOption['optionID']] = isset($_POST['p']['optionsData'][$curOption['optionID']]) ? $_POST['p']['optionsData'][$curOption['optionID']] : Functions::addSlashes($curOption['optionTitle']);
+					$p['optionsData'][$curOption['optionID']] = isset($_POST['p']['optionsData'][$curOption['optionID']]) ? $_POST['p']['optionsData'][$curOption['optionID']] : $curOption['optionTitle'];
 
 				$p['pollDuration'] = isset($_POST['p']['pollDuration']) ? intval($_POST['p']['pollDuration']) : (($pollData['pollEndTimestamp']-$pollData['pollStartTimestamp'])/86400);
 
-				$p += Functions::getSGValues($_POST['p'],array('pollTitle'),'',Functions::addSlashes($pollData));
+				$p += Functions::getSGValues($_POST['p'],array('pollTitle'),'',$pollData);
 				$c = Functions::getSGValues($pollData,array('pollGuestsVote','pollShowResultsAfterEnd','pollGuestsViewResults'),0);
 
 				$this->modules['Template']->assign('optionsData',$optionsData);
@@ -245,7 +245,7 @@ class EditTopic extends ModuleTemplate {
                             $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'forums SET "forumTopicsCounter"="forumTopicsCounter"+1, "forumPostsCounter"="forumPostsCounter"+$1 WHERE "forumID"=$2', array($topicPostsCounter, $p['targetForumID']));
 
 							if($c['createReference'] == 1) {
-								$slashedTopicData = Functions::addSlashes($topicData);
+								$slashedTopicData = $topicData;
 								$this->modules['DB']->queryParams('
 									INSERT INTO
 										'.TBLPFX.'topics

@@ -163,8 +163,8 @@ class ViewProfile extends ModuleTemplate {
 				if(!$noteData = Functions::getProfileNoteData($noteID)) die('Cannot load data: profile note');
 				if($this->modules['Auth']->getValue('userIsAdmin') != 1 && $noteData['userID'] != USERID) die('Access denied: edit profile note');
 
-				$p = Functions::getSGValues($_POST['p'],array('noteText'),'',Functions::addSlashes($noteData));
-				$c = Functions::getSGValues($_POST['c'],array('noteIsPublic'),'',Functions::addSlashes($noteData));
+				$p = Functions::getSGValues($_POST['p'],array('noteText'),'',$noteData);
+				$c = Functions::getSGValues($_POST['c'],array('noteIsPublic'),'',$noteData);
 
 				if(isset($_GET['doit'])) {
 					// Oeffentlich darf man nur als Admin oder Mod posten...

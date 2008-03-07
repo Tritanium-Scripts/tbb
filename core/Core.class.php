@@ -31,14 +31,15 @@ class Core extends ModuleTemplate {
 
 		/**
 		 * Some GPC-Stuff
-		 * - Add slashes
+		 * - Strip slashes
 		 * - Sets available checkbox variables to 1 if a form was submitted
 		 */
-		/*if(get_magic_quotes_gpc() == 0) {
-			$_POST = Functions::addSlashes($_POST);
-			$_GET = Functions::addSlashes($_GET);
-			$_REQUEST = Functions::addSlashes($_REQUEST);
-		}*/
+		if(get_magic_quotes_gpc() == 1) {
+			$_POST = Functions::stripSlashes($_POST);
+			$_GET = Functions::stripSlashes($_GET);
+			$_COOKIE = Functions::stripSlashes($_COOKIE);
+			$_REQUEST = Functions::stripSlashes($_REQUEST);
+		}
 		if(!isset($_POST['p']) || !is_array($_POST['p'])) $_POST['p'] = array();
 		if(!isset($_POST['c']) || !is_array($_POST['c'])) $_POST['c'] = array();
 		if(isset($_GET['doit'])) {

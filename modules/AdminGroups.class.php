@@ -59,7 +59,7 @@ class AdminGroups extends ModuleTemplate {
 				$groupID = isset($_GET['groupID']) ? intval($_GET['groupID']) : 0;
 				if(!$groupData = FuncGroups::getGroupData($groupID)) die('Cannot load data: group');
 
-				$p = Functions::getSGValues($_POST['p'],array('groupName'),'',Functions::addSlashes($groupData));
+				$p = Functions::getSGValues($_POST['p'],array('groupName'),'',$groupData);
 
 				$error = '';
 

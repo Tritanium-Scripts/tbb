@@ -50,10 +50,10 @@ class Posting extends ModuleTemplate {
 				//
 				$p = array();
 
-				$p['messageText'] = isset($_POST['p']['messageText']) ? $_POST['p']['messageText'] : (($mode == 'Edit') ? addslashes($postData['postText']) : '');
-				$p['messageTitle'] = isset($_POST['p']['messageTitle']) ? $_POST['p']['messageTitle'] : (($mode == 'Edit') ? addslashes($postData['postTitle']) : (($mode == 'Reply') ? 'Re: '.addslashes($topicData['topicTitle']) : ''));
+				$p['messageText'] = isset($_POST['p']['messageText']) ? $_POST['p']['messageText'] : (($mode == 'Edit') ? $postData['postText'] : '');
+				$p['messageTitle'] = isset($_POST['p']['messageTitle']) ? $_POST['p']['messageTitle'] : (($mode == 'Edit') ? $postData['postTitle'] : (($mode == 'Reply') ? 'Re: '.$topicData['topicTitle'] : ''));
 				$p['guestNick'] = isset($_POST['p']['guestNick']) ? $_POST['p']['guestNick'] : '';
-				$p['smileyID'] = isset($_POST['p']['smileyID']) ? intval($_POST['p']['smileyID']) : (($mode == 'Edit') ? addslashes($postData['smileyID']) : '');
+				$p['smileyID'] = isset($_POST['p']['smileyID']) ? intval($_POST['p']['smileyID']) : (($mode == 'Edit') ? $postData['smileyID'] : '');
 				$p['pollTitle'] = isset($_POST['p']['pollTitle']) ? $_POST['p']['pollTitle'] : '';
 				$p['pollOptions'] = (isset($_POST['p']['pollOptions']) && is_array($_POST['p']['pollOptions'])) ? $_POST['p']['pollOptions'] : array();
 
@@ -274,8 +274,10 @@ class Posting extends ModuleTemplate {
 							if($mode == 'Topic') $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'topics SET "topicFirstPostID"=$1, "topicLastPostID"=$2 WHERE "topicID"=$3', array($postID, $postID, $topicID));
 							else $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'topics SET "topicLastPostID"=$1, "topicRepliesCounter"="topicRepliesCounter"+1, "topicIsClosed"=$2, "topicIsPinned"=$3 WHERE "topicID"=$4', array($postID, $c['closeTopic'], $c['pinTopic'], $topicID));
 
-							$this->modules['DB']->queryParams('UPDATE '.TBLPFX.'forums SET "forumLastPostID"=$1, "forumPostsCounter"="forumPostsCounter"+1, "forumTopicsCounter"="forumTopicsCounter"+1 WHERE "forumID"=$2', array($postID, $forumID));
-                            $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'users SET "userPostsCounter"="userPostsCounter"+1 WHERE "userID"=$1', array(USERID));
+							if($mode == 'Reply') $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'forums SET "forumLastPostID"=$1, "forumPostsCounter"="forumPostsCounter"+1 WHERE "forumID"=$2', array($postID, $forumID));
+							else $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'forums SET "forumLastPostID"=$1, "forumPostsCounter"="forumPostsCounter"+1, "forumTopicsCounter"="forumTopicsCounter"+1 WHERE "forumID"=$2', array($postID, $forumID));
+                            
+							$this->modules['DB']->queryParams('UPDATE '.TBLPFX.'users SET "userPostsCounter"="userPostsCounter"+1 WHERE "userID"=$1', array(USERID));
 
 							// Eventuell Themenabo entfernen oder hinzufuegen
 							if($mode != 'Edit' && $this->modules['Auth']->isLoggedIn() == 1 && $this->modules['Config']->getValue('enable_email_functions') == 1 && $this->modules['Config']->getValue('enable_topic_subscription') == 1 && $c['subscribeTopic'] != $subscriptionStatus) {

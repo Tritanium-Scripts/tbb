@@ -197,11 +197,11 @@ class Functions {
 		return TRUE;
 	}
 
-	public static function stripSlashes($Value) {
-	   if(is_array($Value) == TRUE) $Value = array_map(array('Functions','stripSlashes'),$Value);
-	   else $Value = stripslashes($Value);
+	public static function stripSlashes($value) {
+	   if(is_array($value)) $value = array_map(array('Functions','stripSlashes'),$value);
+	   else $value = stripslashes($value);
 
-	   return $Value;
+	   return $value;
 	}
 
 	public static function set1YearCookie($cookieName, $cookieValue) {

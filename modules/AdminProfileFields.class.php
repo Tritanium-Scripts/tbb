@@ -67,7 +67,7 @@ class AdminProfileFields extends ModuleTemplate {
                         $cp['fieldIsRequired'],
                         $c['fieldShowRegistration'],
                         $c['fieldShowMemberlist'],
-                        Functions::addSlashes(serialize($fieldData)),
+                        serialize($fieldData),
                         $p['fieldRegexVerification'],
                         $p['fieldLink']
                     ));
@@ -90,10 +90,10 @@ class AdminProfileFields extends ModuleTemplate {
                 $this->modules['DB']->queryParams('SELECT * FROM '.TBLPFX.'profile_fields WHERE "fieldID"=$1', array($fieldID));
 				($this->modules['DB']->getAffectedRows() == 0) ? die('Cannot load data: profile field') : $fieldData = $this->modules['DB']->fetchArray();
 
-				$p = Functions::getSGValues($_POST['p'],array('fieldName','fieldRegexVerification','fieldLink','fieldType'),'',Functions::addSlashes($fieldData));
-				$c = Functions::getSGValues($_POST['c'],array('fieldIsRequired','fieldShowRegistration','fieldShowMemberlist'),0,Functions::addSlashes($fieldData));
+				$p = Functions::getSGValues($_POST['p'],array('fieldName','fieldRegexVerification','fieldLink','fieldType'),'',$fieldData);
+				$c = Functions::getSGValues($_POST['c'],array('fieldIsRequired','fieldShowRegistration','fieldShowMemberlist'),0,$fieldData);
 
-				$p['fieldData'] = isset($_POST['p']['fieldData']) ? $_POST['p']['fieldData'] : implode("\n",Functions::addSlashes(unserialize($fieldData['fieldData'])));
+				$p['fieldData'] = isset($_POST['p']['fieldData']) ? $_POST['p']['fieldData'] : implode("\n",unserialize($fieldData['fieldData']));
 
 				if(!in_array($p['fieldType'],array(PROFILE_FIELD_TYPE_SELECTMULTI,PROFILE_FIELD_TYPE_SELECTSINGLE,PROFILE_FIELD_TYPE_TEXT,PROFILE_FIELD_TYPE_TEXTAREA)))
 					$p['fieldType'] = PROFILE_FIELD_TYPE_TEXT;
@@ -127,7 +127,7 @@ class AdminProfileFields extends ModuleTemplate {
                         $cp['fieldIsRequired'],
                         $c['fieldShowRegistration'],
                         $c['fieldShowMemberlist'],
-                        Functions::addSlashes(serialize($fieldData)),
+                        serialize($fieldData),
                         $p['fieldRegexVerification'],
                         $p['fieldLink'],
                         $fieldID

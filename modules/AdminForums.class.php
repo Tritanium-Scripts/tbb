@@ -167,7 +167,7 @@ class AdminForums extends ModuleTemplate {
 				$forumID = isset($_GET['forumID']) ? intval($_GET['forumID']) : 0;
 				if(!$forumData = FuncForums::getForumData($forumID)) die('Cannot load data: forum');
 
-				$p = Functions::getSGValues($_POST['p'],array('forumName','forumDescription','catID'),'',Functions::addSlashes($forumData));
+				$p = Functions::getSGValues($_POST['p'],array('forumName','forumDescription','catID'),'',$forumData);
 				$c = Functions::getSGValues($_POST['c'],array('authViewForumMembers','authPostTopicMembers','authPostReplyMembers','authPostPollMembers','authEditPostsMembers','authViewForumGuests','authPostTopicGuests','authPostReplyGuests','authPostPollGuests','forumIsModerated','forumEnableBBCode','forumEnableHtmlCode','forumEnableSmilies','forumShowLatestPosts'),1,$forumData);
 
 				$error = '';
@@ -311,7 +311,7 @@ class AdminForums extends ModuleTemplate {
 
 				$parentCatData = FuncCats::getParentCatData($catID);
 
-				$p = Functions::getSGValues($_POST['p'],array('catName','catDescription','catStandardStatus'),'',Functions::addSlashes($catData));
+				$p = Functions::getSGValues($_POST['p'],array('catName','catDescription','catStandardStatus'),'',$catData);
 				$p['parentCatID'] = isset($_POST['p']['parentCatID']) ? intval($_POST['p']['parentCatID']) : $parentCatData['catID'];
 
 				$error = '';
@@ -505,7 +505,7 @@ class AdminForums extends ModuleTemplate {
 				if(!$forumData = FuncForums::getForumData($forumID)) die('Cannot load date: forum');
 
 				$p = Functions::getSGValues($_POST['p'],array('users'),'');
-				$c = Functions::getSGValues($_POST['c'],array('authViewForumMembers','authPostTopicMembers','authPostReplyMembers','authPostPollMembers','authEditPostsMembers'),0,Functions::addSlashes($forumData));
+				$c = Functions::getSGValues($_POST['c'],array('authViewForumMembers','authPostTopicMembers','authPostReplyMembers','authPostPollMembers','authEditPostsMembers'),0,$forumData);
 				$c += Functions::getSGValues($_POST['c'],array('authIsMod'),0);
 
 				if(isset($_GET['doit'])) {
@@ -566,7 +566,7 @@ class AdminForums extends ModuleTemplate {
 				if(!$forumData = FuncForums::getForumData($forumID)) die('Cannot load date: forum');
 
 				$p = Functions::getSGValues($_POST['p'],array('groupID'),0);
-				$c = Functions::getSGValues($_POST['c'],array('authViewForumMembers','authPostTopicMembers','authPostReplyMembers','authPostPollMembers','authEditPostsMembers'),0,Functions::addSlashes($forumData));
+				$c = Functions::getSGValues($_POST['c'],array('authViewForumMembers','authPostTopicMembers','authPostReplyMembers','authPostPollMembers','authEditPostsMembers'),0,$forumData);
 				$c += Functions::getSGValues($_POST['c'],array('authIsMod'),0);
 
 				if(isset($_GET['doit'])) { // Falls Formular abgeschickt wurde

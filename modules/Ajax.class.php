@@ -41,8 +41,7 @@ class Ajax extends ModuleTemplate {
                                 "postID"=$3
                         ', array(
                             $postText,
-                            
-                            addslashes($this->modules['Auth']->getValue('userNick')),
+                            $this->modules['Auth']->getValue('userNick'),
                             $postID
                         ));
 

@@ -89,7 +89,7 @@ class AdminSmilies extends ModuleTemplate {
 				$smileyID = isset($_GET['smileyID']) ? intval($_GET['smileyID']) : 0;
 				if(!$smileyData = FuncSmilies::getSmileyData($smileyID)) die('Cannot load data: smiley');
 
-				$p = Functions::getSGValues($_POST['p'],array('smileyType','smileyFileName','smileySynonym','smileyStatus'),'',Functions::addSlashes($smileyData));
+				$p = Functions::getSGValues($_POST['p'],array('smileyType','smileyFileName','smileySynonym','smileyStatus'),'',$smileyData);
 				if(isset($_GET['smileyType'])) $p['smileyType'] = $_GET['smileyType'];
 
 				if(!in_array($p['smileyType'],array(SMILEY_TYPE_SMILEY,SMILEY_TYPE_ADMINSMILEY,SMILEY_TYPE_TPIC))) $p['smileyType'] = SMILEY_TYPE_SMILEY;
