@@ -34,11 +34,11 @@ class Core extends ModuleTemplate {
 		 * - Add slashes
 		 * - Sets available checkbox variables to 1 if a form was submitted
 		 */
-		if(get_magic_quotes_gpc() == 0) {
+		/*if(get_magic_quotes_gpc() == 0) {
 			$_POST = Functions::addSlashes($_POST);
 			$_GET = Functions::addSlashes($_GET);
 			$_REQUEST = Functions::addSlashes($_REQUEST);
-		}
+		}*/
 		if(!isset($_POST['p']) || !is_array($_POST['p'])) $_POST['p'] = array();
 		if(!isset($_POST['c']) || !is_array($_POST['c'])) $_POST['c'] = array();
 		if(isset($_GET['doit'])) {

@@ -193,8 +193,8 @@ class EditTopic extends ModuleTemplate {
 					$postsCounter = count($postIDs);
 
                     $this->modules['DB']->queryParams('SELECT COUNT(*) AS "posterPostsCounter", "posterID" FROM '.TBLPFX.'posts WHERE "topicID"=$1 GROUP BY "posterID"', array($topicID));
-					$postsCounter = $this->modules['DB']->raw2Array();
-					foreach($postsCounter AS $curCounter) {
+					$usersPostsCounter = $this->modules['DB']->raw2Array();
+					foreach($usersPostsCounter AS $curCounter) {
                         $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'users SET "userPostsCounter"="userPostsCounter"-$1 WHERE "userID"=$2', array($curCounter['posterPostsCounter'], $curCounter['posterID']));
 					}
 
