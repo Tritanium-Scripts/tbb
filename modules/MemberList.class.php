@@ -27,11 +27,8 @@ class MemberList extends ModuleTemplate {
 			$orderType = 'DESC';
 
 
-		//
 		// Die Seitenanzeige
-		//
-        $this->modules['DB']->query('SELECT COUNT(*) AS "UsersCounter" FROM '.TBLPFX.'users');
-		list($usersCounter) = $this->modules['DB']->fetchArray();
+		$usersCounter = FuncUsers::getUsersCounter();
 
 		$pageListing = Functions::createPageListing($usersCounter,$usersPerPage,$page,'<a href="'.INDEXFILE.'?action=MemberList&amp;orderBy='.$orderBy.'&amp;orderType='.$orderType.'&amp;usersPerPage='.$usersPerPage.'&amp;page=%1$s&amp;'.MYSID.'">%2$s</a>');
 		$start = $page*$usersPerPage-$usersPerPage;
@@ -49,21 +46,34 @@ class MemberList extends ModuleTemplate {
 		else $queryOrderBy = 't1.UserPostsCounter';
 
 
-		//
 		// Rangdaten laden
-		//
 		$ranksData = $this->modules['Cache']->getRanksData();
 
 
-		//
 		// User-IDs aller Moderatoren laden
-		//
 		$modIDs = array();
-        $this->modules['DB']->queryParams('SELECT "AuthID" FROM '.TBLPFX.'forums_auth WHERE "AuthType"=$1 AND "AuthIsMod"=1 GROUP BY "AuthID"', array(AUTH_TYPE_USER));
-		while(list($curUserID) = $this->modules['DB']->fetchArray())
-			$modIDs[] = $curUserID;
-
-        $this->modules['DB']->queryParams('SELECT t2."MemberID" FROM '.TBLPFX.'forums_auth AS t1, '.TBLPFX.'groups_members AS t2 WHERE t1."AuthIsMod"=1 AND t1."AuthType"=$1 AND t2."GroupID"=t1."AuthID" GROUP BY t2."MemberID"', array(AUTH_TYPE_GROUP));
+		$this->modules['DB']->queryParams('
+			SELECT DISTINCT
+				"authID" AS "userID"
+			FROM
+				'.TBLPFX.'forums_auth 
+			WHERE
+				"authType"=$1
+				AND "authIsMod"=1
+			UNION
+			SELECT DISTINCT
+				t2."memberID" AS "userID"
+			FROM (
+				'.TBLPFX.'forums_auth t1,
+				'.TBLPFX.'groups_members t2
+			) WHERE
+				t1."authIsMod"=1
+				AND t1."authType"=$2
+				AND t2."groupID"=t1."authID"
+		',array(
+			AUTH_TYPE_USER,
+			AUTH_TYPE_GROUP
+		));
 		while(list($curUserID) = $this->modules['DB']->fetchArray())
 			$modIDs[] = $curUserID;
 
@@ -88,27 +98,27 @@ class MemberList extends ModuleTemplate {
 		//
 		// Mitgliederdaten laden
 		//
-        $this->modules['DB']->queryParams('
-            SELECT
-                t1."userID",
-                t1."userNick",
-                t1."userEmailAddress",
-                t1."userHideEmailAddress",
-                t1."userPostsCounter",
-                t1."userIsAdmin",
-                t1."userIsSupermod",
-                t2."rankName" AS "userRankName"
-            FROM
-                '.TBLPFX.'users AS t1
-            LEFT JOIN '.TBLPFX.'ranks AS t2 ON t1."rankID"=t2."rankID"
-            ORDER BY $1 $2
-            LIMIT $3, $4
-        ', array(
-            $queryOrderBy,
-            $orderType,
-            $start,
-            $usersPerPage
-        ));
+		$this->modules['DB']->queryParams('
+			SELECT
+				t1."userID",
+				t1."userNick",
+				t1."userEmailAddress",
+				t1."userHideEmailAddress",
+				t1."userPostsCounter",
+				t1."userIsAdmin",
+				t1."userIsSupermod",
+				t2."rankName" AS "userRankName"
+			FROM
+				'.TBLPFX.'users AS t1
+			LEFT JOIN '.TBLPFX.'ranks AS t2 ON t1."rankID"=t2."rankID"
+			ORDER BY $1 $2
+			LIMIT $3, $4
+		', array(
+			$queryOrderBy,
+			$orderType,
+			(int) $start,
+			(int) $usersPerPage
+		));
 		$usersData = $this->modules['DB']->raw2Array();
 
 
@@ -123,26 +133,23 @@ class MemberList extends ModuleTemplate {
 		//
 		// Die Mitgliederdaten der extra-Profilfelder laden
 		//
-        $this->modules['DB']->queryParams('
-            SELECT
-                "userID",
-                "fieldID",
-                "fieldValue"
-            FROM
-                '.TBLPFX.'profile_fields_data
-            WHERE
-                "userID" IN $1
-                AND "fieldID" IN $2
-        ', array(
-            $userIDs,
-            $fieldIDs
-        ));
+		$this->modules['DB']->queryParams('
+			SELECT
+				"userID",
+				"fieldID",
+				"fieldValue"
+			FROM
+				'.TBLPFX.'profile_fields_data
+			WHERE
+				"userID" IN $1
+				AND "fieldID" IN $2
+		', array(
+			$userIDs,
+			$fieldIDs
+		));
 		$fieldsValues = $this->modules['DB']->raw2Array();
 
 
-		//
-		// Daten ausgeben
-		//
 		for($i = 0; $i < count($usersData); $i++) {
 			$curUser = &$usersData[$i];
 
@@ -182,7 +189,7 @@ class MemberList extends ModuleTemplate {
 		}
 
 
-		$this->modules['Navbar']->addElement($this->modules['Language']->getString('Memberlist'),INDEXFILE.'?Action=MemberList&'.MYSID);
+		$this->modules['Navbar']->addElement($this->modules['Language']->getString('Memberlist'),INDEXFILE.'?action=MemberList&'.MYSID);
 
 		// Seite ausgeben
 		$this->modules['Template']->assign(array(

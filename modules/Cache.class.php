@@ -111,6 +111,7 @@ class Cache extends ModuleTemplate {
 
 	public function setRanksData() {
 		$ranksData1 = $ranksData2 = array();
+		$ranksData1ToWrite = $ranksData2ToWrite = array();
 
 		$this->modules['DB']->query('SELECT * FROM '.TBLPFX.'ranks ORDER BY "rankPosts"');
 		while($curRank = $this->modules['DB']->fetchArray()) {
@@ -123,13 +124,17 @@ class Cache extends ModuleTemplate {
 				$curRankGfx = implode('',$curRankGfx);
 			}
 
-			if($curRank['rankType'] == 0)
-				$ranksData1[] = "array('rankName'=>'".$curRank['rankName']."','rankPosts'=>'".$curRank['rankPosts']."','rankGfx'=>'".$curRankGfx."')";
-			else
-				$ranksData2[] = "'".$curRank['rankID']."'=>array('rankName'=>'".$curRank['rankName']."','rankGfx'=>'".$curRankGfx."')";
+			if($curRank['rankType'] == 0) {
+				$ranksData1[] = array('rankName'=>$curRank['rankName'],'rankPosts'=>$curRank['rankPosts'],'rankGfx'=>$curRankGfx);
+				$ranksData1ToWrite[] = "array('rankName'=>'".$curRank['rankName']."','rankPosts'=>'".$curRank['rankPosts']."','rankGfx'=>'".$curRankGfx."')";
+			}
+			else {
+				$ranksData2[$curRank['rankID']] = array('rankName'=>$curRank['rankName'],'rankPosts'=>$curRank['rankPosts'],'rankGfx'=>$curRankGfx);
+				$ranksData2ToWrite[] = "'".$curRank['rankID']."'=>array('rankName'=>'".$curRank['rankName']."','rankGfx'=>'".$curRankGfx."')";
+			}
 		}
 
-		$toWrite = '<?php $ranksData = array(array('.implode(",",$ranksData1).'),array('.implode(",",$ranksData2).')); ?>';
+		$toWrite = '<?php $ranksData = array(array('.implode(",",$ranksData1ToWrite).'),array('.implode(",",$ranksData2ToWrite).')); ?>';
 
 		Functions::FileWrite('cache/Ranks.cache.php',$toWrite,'w');
 
@@ -139,7 +144,7 @@ class Cache extends ModuleTemplate {
 	public function getRanksData() {
 		$ranksData = array(array(),array());
 
-		if(file_exists('cache/Ranks.cache.php') == TRUE)
+		if(file_exists('cache/Ranks.cache.php'))
 			include('cache/Ranks.cache.php');
 		else return $this->setRanksData();
 
