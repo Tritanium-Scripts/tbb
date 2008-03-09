@@ -1,5 +1,12 @@
 {if $b.bbCodeType == $smarty.const.BBCODE_QUOTE}
- <div align="center"><table style="border:1px #000000 solid;" width="90%"><tr><td style="background-color:#000000; padding:10px;"><span style="font:10px verdana; color:#FFFFFF;"><b>{$b.quoteTitle}:</b></span></td></tr><tr><td style="background-color:#FFFFFF; padding:3px;"><span class="FontSmall">{$b.quoteText}</span></td></tr></table></div>
+ 	<div align="center" style="width:100%;">
+	 	<div align="left" style="width:90%;">
+	 		<table style="border:1px #000000 solid;" width="100%">
+	 			<tr><td style="background-color:#000000; padding:6px 3px 6px 3px;"><span style="font:10px verdana; color:#FFFFFF;"><b>{$b.quoteTitle}:</b></span></td></tr>
+	 			<tr><td style="background-color:#FFFFFF; padding:3px;"><span class="FontSmall">{$b.quoteText}</span></td></tr>
+	 		</table>
+	 	</div>
+ 	</div>
 {elseif $b.bbCodeType == $smarty.const.BBCODE_CODE}
  <div style="overflow:auto; width:800px; height:{$b.height}px;"><table style="background-color:#000000; height:100%;" border="0" cellpadding="2" cellspacing="1" width="100%"><tr><td class="cellcat" colspan="2"><span class="fontcat">{$modules.Language->getString('Code')}</span></td></tr><tr><td style="background-color:#FFFFFF;" valign="top"><pre><span style="font-size:12px;">{$b.lines}</span></pre></td><td style="background-color:#FFFFFF;" valign="top"><pre><span style="font-size:12px;">{$b.codeText}</span></pre></td></tr></table></div>
 {elseif $b.bbCodeType == $smarty.const.BBCODE_BOLD}

@@ -7,6 +7,7 @@ class Posting extends ModuleTemplate {
 		'Cache',
 		'Config',
 		'Constants',
+		'BBCode',
 		'Language',
 		'Navbar',
 		'Template'
@@ -50,7 +51,37 @@ class Posting extends ModuleTemplate {
 				//
 				$p = array();
 
-				$p['messageText'] = isset($_POST['p']['messageText']) ? $_POST['p']['messageText'] : (($mode == 'Edit') ? $postData['postText'] : '');
+				$p['messageText'] = '';
+				if(isset($_POST['p']['messageText']))
+					$p['messageText'] = $_POST['p']['messageText'];
+				else {
+					if($mode == 'Edit') $p['messageText'] = $postData['postText'];
+					elseif($mode == 'Reply' && isset($_GET['postIDQuote'])) {
+						$this->modules['DB']->queryParams('
+							SELECT
+								t1."posterID",
+								t1."postGuestNick",
+								t1."postText",
+								t2."userNick"
+							FROM
+								'.TBLPFX.'posts t1
+							LEFT JOIN '.TBLPFX.'users t2 ON t1."posterID"=t2."userID"
+							WHERE
+								t1."postID"=$1
+								AND t1."topicID"=$2
+						',array(
+							$_GET['postIDQuote'],
+							$topicID
+						));
+						if($this->modules['DB']->numRows() == 1) {
+							$postDataQuote = $this->modules['DB']->fetchArray();
+							$quoteNick = ($postDataQuote['posterID'] == 0 ? $postDataQuote['postGuestNick'] : $postDataQuote['userNick']);
+							$p['messageText'] = '[quote='.$quoteNick.']'.$postDataQuote['postText'].'[/quote]';
+						}
+					}
+				}
+				//$p['messageText'] = isset($_POST['p']['messageText']) ? $_POST['p']['messageText'] : (($mode == 'Edit') ? $postData['postText'] : '');
+				
 				$p['messageTitle'] = isset($_POST['p']['messageTitle']) ? $_POST['p']['messageTitle'] : (($mode == 'Edit') ? $postData['postTitle'] : (($mode == 'Reply') ? 'Re: '.$topicData['topicTitle'] : ''));
 				$p['guestNick'] = isset($_POST['p']['guestNick']) ? $_POST['p']['guestNick'] : '';
 				$p['smileyID'] = isset($_POST['p']['smileyID']) ? intval($_POST['p']['smileyID']) : (($mode == 'Edit') ? $postData['smileyID'] : '');
@@ -317,7 +348,7 @@ class Posting extends ModuleTemplate {
 					if($c['enableHtmlCode'] != 1 || $show['enableHtmlCode'] == FALSE) $previewData['messageText'] = Functions::HTMLSpecialChars($p['messageText']);
 					if($c['enableSmilies'] == 1 && $show['enableSmilies'] == TRUE) $previewData['messageText'] = strtr($previewData['messageText'],$smilies);
 					$previewData['messageText'] = nl2br($previewData['messageText']);
-					if($c['enableBBCode'] == 1 && $show['enableBBCode'] == TRUE) $previewData['messageText'] = Functions::BBCode($previewData['messageText']);
+					if($c['enableBBCode'] == 1 && $show['enableBBCode'] == TRUE) $previewData['messageText'] = $this->modules['BBCode']->parse($previewData['messageText']);
 					$previewData['messageTitle'] = Functions::HTMLSpecialChars($p['messageTitle']);
 				}
 
@@ -361,7 +392,8 @@ class Posting extends ModuleTemplate {
 					'mode'=>$mode,
 					'error'=>$error,
 					'postPicsBox'=>$postPicsBox,
-					'smiliesBox'=>$smiliesBox
+					'smiliesBox'=>$smiliesBox,
+					'previewData'=>$previewData
 				));
 				$this->modules['Template']->printPage('Posting.tpl');
 				break;

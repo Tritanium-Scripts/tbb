@@ -100,7 +100,7 @@
        {if $curPost.show.editButton}<td><a href="javascript:toggleFastEdit('{$curPost.postID}');"><img src="{$modules.Template->getTD()}/images/buttons/de/test.png" alt="" class="ImageButton"/></a></td>{/if}
        {if $curPost.show.editButton}<td><a href="{$indexFile}?action=Posting&amp;mode=Edit&amp;postID={$curPost.postID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/test.png" class="ImageButton" alt=""/></a></td>{/if}
        {if $curPost.postPosterHideEmailAddress != 1 && $curPost.postPosterEmailAddress != ''}<td><a href="mailto:{$curPost.postPosterEmailAddress}"><img src="{$modules.Template->getTD()}/images/buttons/de/email.png" class="ImageButton" alt="{$curPost.postPosterEmailAddress}"/></a>{else}<td>{if $curPost.postPosterReceiveEmails == 1}<a href="{$indexFile}?action=ViewProfile&amp;profileID={$curPost.UserID}&amp;mode=SendMail&amp;{$mySID}"><img src="{$modules.Template->getTemplateDir()}/images/button_user_email.gif" alt="{$modules.Language->getString('Send_email')}"/></a></td>{/if}{/if}
-       <td><a href="{$indexFile}?action=Posting&amp;mode=Reply&amp;topicID={$topicID}&amp;Quote={$curPost.postID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/quote.png" class="ImageButton" alt=""/></a></td>
+       <td><a href="{$indexFile}?action=Posting&amp;mode=Reply&amp;topicID={$topicID}&amp;postIDQuote={$curPost.postID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/quote.png" class="ImageButton" alt=""/></a></td>
       </tr>
      </table>
     </td>

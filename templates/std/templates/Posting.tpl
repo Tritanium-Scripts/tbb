@@ -51,7 +51,7 @@
 {if $show.previewBox}
  <table class="TableStd" width="100%">
  <tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('Preview')}</span></td></tr>
- <tr><td class="CellStd"><span class="FontNorm">{$preview_post}</span></td></tr>
+ <tr><td class="CellStd"><span class="FontNorm">{$previewData.messageText}</span></td></tr>
  </table>
  <br/>
 {/if}
@@ -135,7 +135,7 @@
   </td>
  </tr>
 {/if}
-<tr><td class="CellButtons" colspan="2" align="center"><input class="FormButton" type="submit" value="{$actionText}"/>&nbsp;&nbsp;&nbsp;<input class="FormBButton" type="submit" name="ShowPreview" value="{$modules.Language->getString('Preview')}"/>&nbsp;&nbsp;&nbsp;<input class="FormButton" type="reset" value="{$modules.Language->getString('Reset')}"/></td></tr>
+<tr><td class="CellButtons" colspan="2" align="center"><input class="FormButton" type="submit" value="{$actionText}"/>&nbsp;&nbsp;&nbsp;<input class="FormBButton" type="submit" name="showPreview" value="{$modules.Language->getString('Preview')}"/>&nbsp;&nbsp;&nbsp;<input class="FormButton" type="reset" value="{$modules.Language->getString('Reset')}"/></td></tr>
 </table></form>
 <script type="text/javascript">
 	if(RowsCounter == 0) addPollOption();
