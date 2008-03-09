@@ -382,7 +382,7 @@ class Posting extends ModuleTemplate {
 				$title_max_chars = sprintf($this->modules['Language']->getString('Maximum_x_chars'),100);
 
 				$this->modules['Template']->assign(array(
-					'p'=>Functions::HTMLSpecialChars(Functions::StripSlashes($p)),
+					'p'=>Functions::HTMLSpecialChars($p),
 					'c'=>$c,
 					'actionText'=>$actionText,
 					'show'=>$show,

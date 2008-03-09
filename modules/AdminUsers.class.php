@@ -118,7 +118,7 @@ class AdminUsers extends ModuleTemplate {
 
 				$this->modules['Template']->assign(array(
 					'usersData'=>$usersData,
-					'p'=>Functions::stripSlashes(Functions::HTMLSpecialChars($p))
+					'p'=>Functions::HTMLSpecialChars($p)
 				));
 				$this->modules['Template']->printPage('AdminUsersSearchUsers.tpl');
 				break;

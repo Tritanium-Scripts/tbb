@@ -211,7 +211,7 @@ class Register extends ModuleTemplate {
 						switch($curField['fieldType']) {
 							case PROFILE_FIELD_TYPE_TEXT:
 							case PROFILE_FIELD_TYPE_TEXTAREA:
-								$curField['_fieldValue'] = Functions::HTMLSpecialChars(Functions::StripSlashes($p['fieldsData'][$curField['fieldID']]));
+								$curField['_fieldValue'] = Functions::HTMLSpecialChars($p['fieldsData'][$curField['fieldID']]);
 								break;
 
 							case PROFILE_FIELD_TYPE_SELECTSINGLE:

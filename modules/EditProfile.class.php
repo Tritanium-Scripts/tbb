@@ -82,7 +82,7 @@ class EditProfile extends ModuleTemplate {
 				}
 
 				$this->modules['Template']->assign(array(
-					'p'=>Functions::HTMLSpecialChars(Functions::StripSlashes($p)),
+					'p'=>Functions::HTMLSpecialChars($p),
 					'error'=>$error
 				));
 
@@ -261,7 +261,7 @@ class EditProfile extends ModuleTemplate {
 				}
 
 				$this->modules['Template']->assign(array(
-					'p'=>Functions::HTMLSpecialChars(Functions::stripSlashes($p))
+					'p'=>Functions::HTMLSpecialChars($p)
 				));
 				$this->modules['Template']->printPage('EditProfileMemo.tpl');
 				break;

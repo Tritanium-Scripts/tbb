@@ -45,7 +45,6 @@ class Ajax extends ModuleTemplate {
                             $postID
                         ));
 
-						$postText = Functions::stripSlashes($postText);
 						$postTextHTMLReady = $postText;
 						if($postData['postEnableHtmlCode'] != 1 || $forumData['ForumEnableHtmlCode'] != 1) $postTextHTMLReady = Functions::HTMLSpecialChars($postTextHTMLReady);
 						if($postData['postEnableSmilies'] == 1 && $forumData['forumEnableSmilies'] == 1) $postTextHTMLReady = strtr($postTextHTMLReady,$this->modules['Cache']->getSmiliesData('write'));

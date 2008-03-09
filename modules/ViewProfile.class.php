@@ -226,8 +226,6 @@ class ViewProfile extends ModuleTemplate {
 				$error = '';
 
 				if(isset($_GET['doit'])) {
-					$p = Functions::stripSlashes($p);
-
 					if(trim($p['emailSubject']) == '') $error = $this->modules['Language']->getString('error_no_subject');
 					elseif(trim($p['emailMessage']) == '') $error = $this->modules['Language']->getString('error_no_message');
 					else {

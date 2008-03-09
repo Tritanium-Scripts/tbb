@@ -140,7 +140,7 @@ class EditTopic extends ModuleTemplate {
 			$this->modules['Navbar']->addElement($this->modules['Language']->getString('Edit_topic'),'');
 
 			$this->modules['Template']->assign(array(
-				'p'=>Functions::HTMLSpecialChars(Functions::stripSlashes($p)),
+				'p'=>Functions::HTMLSpecialChars($p),
 				'c'=>$c,
 				'error'=>$error,
 				'postPicsBox'=>$postPicsBox,

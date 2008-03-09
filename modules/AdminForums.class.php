@@ -154,7 +154,7 @@ class AdminForums extends ModuleTemplate {
 
 				$this->modules['Template']->assign(array(
 					'catsData'=>$catsData,
-					'p'=>Functions::HTMLSpecialChars(Functions::stripSlashes($p)),
+					'p'=>Functions::HTMLSpecialChars($p),
 					'c'=>$c,
 					'error'=>$error
 				));
@@ -240,7 +240,7 @@ class AdminForums extends ModuleTemplate {
 				$this->modules['Template']->assign(array(
 					'catsData'=>$catsData,
 					'forumData'=>$forumData,
-					'p'=>Functions::HTMLSpecialChars(Functions::stripSlashes($p)),
+					'p'=>Functions::HTMLSpecialChars($p),
 					'c'=>$c,
 					'error'=>$error,
 					'forumID'=>$forumID
@@ -297,7 +297,7 @@ class AdminForums extends ModuleTemplate {
 
 				$this->modules['Template']->assign(array(
 					'catsData'=>$catsData,
-					'p'=>Functions::stripSlashes(Functions::HTMLSpecialChars($p)),
+					'p'=>Functions::HTMLSpecialChars($p),
 					'error'=>$error
 				));
 
@@ -365,7 +365,7 @@ class AdminForums extends ModuleTemplate {
 					'catsData'=>$relevantCatsData,
 					'catData'=>$catData,
 					'catID'=>$catID,
-					'p'=>Functions::stripSlashes(Functions::HTMLSpecialChars($p)),
+					'p'=>Functions::HTMLSpecialChars($p),
 					'error'=>$error,
 					'parentCatData'=>$parentCatData
 				));
