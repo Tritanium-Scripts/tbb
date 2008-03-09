@@ -30,7 +30,7 @@
   </tr>
  {else}
   <tr onmouseover="setRowCellsClass(this,'CellHighlight');" onmouseout="restoreRowCellsClass(this);">
-   <td class="CellAlt" width="20" align="center"><img src="{$modules.Template->getTD()}/images/{if $curTopic._newPostsAvailable == 1}topic_on_open.gif{else}topic_off_open.gif{/if}" alt=""/></td>
+   <td class="CellAlt" width="20" align="center"><img src="{$modules.Template->getTD()}/images/topic_{if $curTopic._newPostsAvailable == 1}on{else}off{/if}_{if $curTopic.topicIsClosed == 1}closed{else}open{/if}.gif" alt=""/></td>
    <td class="CellAlt" width="20" align="center">{if $curTopic._topicPic != ''}{$curTopic._topicPic}{else}&nbsp;{/if}</td>
    <td class="CellStd"><span class="FontNorm">{$curTopic._topicPrefix}</span><span class="topiclink"><a class="topiclink" href="{$indexFile}?action=ViewTopic&amp;topicID={$curTopic.topicID}&amp;{$mySID}">{$curTopic.topicTitle}</a></span></td>
    <td class="CellAlt"><span class="FontNorm">{$curTopic._topicPosterNick}</span></td>
