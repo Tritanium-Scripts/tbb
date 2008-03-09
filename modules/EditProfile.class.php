@@ -108,38 +108,36 @@ class EditProfile extends ModuleTemplate {
 				$p = array();
 				foreach($profileFields AS $curField) {
 					switch($curField['fieldType']) {
-						case PROFILE_FIELD_TYPE_TEXT:         $p['fieldsData'][$curField['fieldID']] = isset($_POST['p']['FieldsData'][$curField['fieldID']]) ? $_POST['p']['FieldsData'][$curField['fieldID']] : (isset($fieldsData[$curField['fieldID']]) ? $fieldsData[$curField['fieldID']] : ''); break;
-						case PROFILE_FIELD_TYPE_TEXTAREA:     $p['fieldsData'][$curField['fieldID']] = isset($_POST['p']['FieldsData'][$curField['fieldID']]) ? $_POST['p']['FieldsData'][$curField['fieldID']] : (isset($fieldsData[$curField['fieldID']]) ? $fieldsData[$curField['fieldID']] : ''); break;
-						case PROFILE_FIELD_TYPE_SELECTSINGLE: $p['fieldsData'][$curField['fieldID']] = isset($_POST['p']['FieldsData'][$curField['fieldID']]) ? intval($_POST['p']['FieldsData'][$curField['fieldID']]) : (isset($fieldsData[$curField['fieldID']]) ? $fieldsData[$curField['fieldID']] : ''); break;
-						case PROFILE_FIELD_TYPE_SELECTMULTI:  $p['fieldsData'][$curField['fieldID']] = (isset($_POST['p']['FieldsData'][$curField['fieldID']]) == TRUE && is_array($_POST['p']['FieldsData'][$curField['fieldID']]) == TRUE) ? $_POST['p']['FieldsData'][$curField['fieldID']] : (isset($fieldsData[$curField['fieldID']]) ? explode(',',$fieldsData[$curField['fieldID']]) : array()); break;
+						case PROFILE_FIELD_TYPE_TEXT:         $p['fieldsData'][$curField['fieldID']] = isset($_POST['p']['fieldsData'][$curField['fieldID']]) ? $_POST['p']['fieldsData'][$curField['fieldID']] : (isset($fieldsData[$curField['fieldID']]) ? $fieldsData[$curField['fieldID']] : ''); break;
+						case PROFILE_FIELD_TYPE_TEXTAREA:     $p['fieldsData'][$curField['fieldID']] = isset($_POST['p']['fieldsData'][$curField['fieldID']]) ? $_POST['p']['fieldsData'][$curField['fieldID']] : (isset($fieldsData[$curField['fieldID']]) ? $fieldsData[$curField['fieldID']] : ''); break;
+						case PROFILE_FIELD_TYPE_SELECTSINGLE: $p['fieldsData'][$curField['fieldID']] = isset($_POST['p']['fieldsData'][$curField['fieldID']]) ? intval($_POST['p']['fieldsData'][$curField['fieldID']]) : (isset($fieldsData[$curField['fieldID']]) ? $fieldsData[$curField['fieldID']] : ''); break;
+						case PROFILE_FIELD_TYPE_SELECTMULTI:  $p['fieldsData'][$curField['fieldID']] = (isset($_POST['p']['fieldsData'][$curField['fieldID']]) && is_array($_POST['p']['fieldsData'][$curField['fieldID']])) ? $_POST['p']['fieldsData'][$curField['fieldID']] : (isset($fieldsData[$curField['fieldID']]) ? explode(',',$fieldsData[$curField['fieldID']]) : array()); break;
 					}
 				}
 
 				if(isset($_GET['doit'])) {
 					$fieldIsMissing = FALSE;
-					while(list(,$cur_field) = each($profile_fields)) {
-						if($cur_field['field_is_required'] == 1 && ($cur_field['field_type'] != 3 && $p_fields_data[$cur_field['field_id']] === '' || $cur_field['field_type'] == 3 && count($p_fields_data[$cur_field['field_id']]) == 0)) {
+					foreach($profileFields AS &$curField) {
+						if($curField['fieldIsRequired'] == 1 && ($curField['fieldType'] != PROFILE_FIELD_TYPE_SELECTMULTI && $_POST['p']['fieldsData'][$curField['fieldID']] === '' || $curField['fieldType'] == PROFILE_FIELD_TYPE_SELECTMULTI && count($_POST['p']['fieldsData'][$curField['fieldID']]) == 0)) {
 							$fieldIsMissing = TRUE;
 							break;
 						}
 					}
-					reset($profile_fields);
 
-					if($field_missing == TRUE) $error = $this->modules['Language']->getString('error_required_fields_missing');
+					if($fieldIsMissing) $error = $this->modules['Language']->getString('error_required_fields_missing');
 					else {
-						$delete_ids = array();
+						$deleteIDs = array();
 
-						while(list(,$cur_field) = each($profile_fields)) {
-							$cur_value = ($cur_field['field_type'] == 3) ? implode(',',$p_fields_data[$cur_field['field_id']]) : $p_fields_data[$cur_field['field_id']];
+						foreach($profileFields AS &$curField) {
+							$curValue = ($curField['fieldType'] == PROFILE_FIELD_TYPE_SELECTMULTI) ? implode(',',$_POST['p']['fieldsData'][$curField['fieldID']]) : $_POST['p']['fieldsData'][$curField['fieldID']];
 
-							if($cur_value === '' && isset($fields_data[$cur_field['field_id']]) == TRUE) $delete_ids[] = $cur_field['field_id'];
-							elseif($cur_value === '' && isset($fields_data[$cur_field['field_id']]) == FALSE) {}
-							elseif(isset($fields_data[$cur_field['field_id']]) == TRUE) $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'profile_fields_data SET "field_value"=$1 WHERE "user_id"=$2 AND "field_id"=$3', array($cur_value, $uSER_ID, $cur_field['field_id']));
-							else $this->modules['DB']->queryParams('INSERT INTO '.TBLPFX.'profile_fields_data ("field_id", "user_id", "field_value") VALUES ($1, $2, $3)', array($cur_field['field_id'], $uSER_ID, $cur_value));
+							if($curValue === '' && isset($fields_data[$curField['fieldID']])) $deleteIDs[] = $curField['fieldID'];
+							elseif($curValue === '' && isset($fields_data[$curField['fieldID']])) {}
+							elseif(isset($fieldsData[$curField['fieldID']])) $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'profile_fields_data SET "fieldValue"=$1 WHERE "userID"=$2 AND "fieldID"=$3', array($curValue, USERID, $curField['fieldID']));
+							else $this->modules['DB']->queryParams('INSERT INTO '.TBLPFX.'profile_fields_data ("fieldID", "userID", "fieldValue") VALUES ($1, $2, $3)', array($curField['fieldID'], USERID, $curValue));
 						}
-						reset($profile_fields);
 
-                        $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'profile_fields_data WHERE "user_id"=$1 AND "fieldID" IN $2', array(USERID, $deleteIDs));
+                        $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'profile_fields_data WHERE "userID"=$1 AND "fieldID" IN $2', array(USERID, $deleteIDs));
 					}
 				}
 
@@ -152,7 +150,7 @@ class EditProfile extends ModuleTemplate {
 					switch($curField['fieldType']) {
 						case PROFILE_FIELD_TYPE_TEXT:
 						case PROFILE_FIELD_TYPE_TEXTAREA:
-							$curField['_fieldValue'] = Functions::HTMLSpecialChars(Functions::StripSlashes($p['fieldsData'][$curField['fieldID']]));
+							$curField['_fieldValue'] = Functions::HTMLSpecialChars($p['fieldsData'][$curField['fieldID']]);
 							break;
 
 						case PROFILE_FIELD_TYPE_SELECTSINGLE:

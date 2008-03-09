@@ -17,12 +17,12 @@
   {elseif $curField.fieldType == $smarty.const.PROFILE_FIELD_TYPE_TEXTAREA}
    <tr>
     <td width="25%" valign="top"><span class="FontNorm">{$curField.fieldName}:</span></td>
-    <td width="75%"><textarea class="FormTextArea" name="p[FieldsData][{$curField.fieldID}]" cols="30" rows="4">{$curField._fieldValue}</textarea></td>
+    <td width="75%"><textarea class="FormTextArea" name="p[fieldsData][{$curField.fieldID}]" cols="30" rows="4">{$curField._fieldValue}</textarea></td>
    </tr>
   {elseif $curField.fieldType == $smarty.const.PROFILE_FIELD_TYPE_SELECTSINGLE}
    <tr>
     <td width="25%"><span class="FontNorm">{$curField.fieldName}:</span></td>
-    <td width="75%"><select class="FormSelect" name="p[FieldsData][{$curField.fieldID}]">
+    <td width="75%"><select class="FormSelect" name="p[fieldsData][{$curField.fieldID}]">
     {foreach from=$curField._FieldOptions item=curOption key=curOptionKey}
      <option value="{$curOptionKey}"{if $curOptionKey == $curField._FieldSelectedIDs} selected="selected"{/if}>{$curOption}</option>
     {/foreach}
@@ -31,7 +31,7 @@
   {elseif $curField.fieldType == $smarty.const.PROFILE_FIELD_TYPE_SELECTMULTI}
    <tr>
     <td width="25%" valign="top"><span class="FontNorm">{$curField.fieldName}:</span></td>
-    <td width="75%"><select class="FormSelect" name="p[FieldsData][{$curField.fieldID}][]" size="5" multiple="multiple">
+    <td width="75%"><select class="FormSelect" name="p[fieldsData][{$curField.fieldID}][]" size="5" multiple="multiple">
     {foreach from=$curField._FieldOptions item=curOption key=curOptionKey}
      <option value="{$curOptionKey}"{if in_array($curOptionKey,$curField._fieldSelectedIDs) == TRUE} selected="selected"{/if}>{$curOption}</option>
     {/foreach}
