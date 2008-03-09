@@ -59,6 +59,13 @@ class BoardInstall {
 	const FILES_PER_ROUND = 200;
 
 	public function __construct() {
+		if(get_magic_quotes_gpc() == 1) {
+			$_POST = Functions::stripSlashes($_POST);
+			$_GET = Functions::stripSlashes($_GET);
+			$_COOKIE = Functions::stripSlashes($_COOKIE);
+			$_REQUEST = Functions::stripSlashes($_REQUEST);
+		}
+
 		define('INSTALLFILE','install.php');
 		session_start();
 		session_name('sid');
