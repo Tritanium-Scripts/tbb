@@ -1436,21 +1436,25 @@ class BoardInstall {
 							INSERT INTO '.TBLPFX.'profile_fields SET
 								"fieldName"=$1,
 								"fieldType"=$2,
-								"fieldRegexVerification"=$3
+								"fieldRegexVerification"=$3,
+								"fieldData"=$4
 						',array(
 							$this->strings['ICQ'],
 							0,
-							'/^[0-9]{1,}\$/si'
+							'/^[0-9]{1,}\$/si',
+							serialize(array())
 						));
 						$this->tbb1ConversionProperties['dbIcqID'] = $this->DB->getInsertID();
 	
 						$this->DB->queryParams('
 							INSERT INTO '.TBLPFX.'profile_fields SET
 								"fieldName"=$1,
-								"fieldType"=$2
+								"fieldType"=$2,
+								"fieldData"=$3
 						',array(
 							$this->strings['Homepage'],
-							0
+							0,
+							serialize(array())
 						));
 						$this->tbb1ConversionProperties['dbHomepageID'] = $this->DB->getInsertID();
 	
