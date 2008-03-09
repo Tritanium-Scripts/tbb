@@ -37,11 +37,12 @@
 		<tr>
 			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Template_standard_style')}</span></td>
 			<td class="CellAlt">
-				<select class="FormSelect" name="p_standard_style">
-			{*			<template:stylerow>
-			 <option value="{$akt_dir}"<if:"{$akt_dir} == {$p_standard_style}"> selected="selected"</if>>{$akt_dir}</option>
-			</template>*}
-			</select></td>
+				<select class="FormSelect" name="p[standardStyle]">
+					{foreach from=$stylesData item=curStyle}
+						<option value="{$curStyle}"{if $curStyle == $p.standardStyle} selected="selected"{/if}>{$curStyle}</option>
+					{/foreach}
+				</select>
+			</td>
 		</tr>
 		<tr>
 			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Allow_select_style')}</span></td>

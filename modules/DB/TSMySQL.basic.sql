@@ -73,7 +73,7 @@ INSERT INTO /*TABLEPREFIX*/config ("configName","configValue") VALUES ('sr_timeo
 INSERT INTO /*TABLEPREFIX*/config ("configName","configValue") VALUES ('srgc_probability','10');
 INSERT INTO /*TABLEPREFIX*/config ("configName","configValue") VALUES ('standard_language','de');
 INSERT INTO /*TABLEPREFIX*/config ("configName","configValue") VALUES ('standard_style','ts_tbb2_standard.css');
-INSERT INTO /*TABLEPREFIX*/config ("configName","configValue") VALUES ('standard_tpl','ts_tbb2_standard');
+INSERT INTO /*TABLEPREFIX*/config ("configName","configValue") VALUES ('standard_tpl','std');
 INSERT INTO /*TABLEPREFIX*/config ("configName","configValue") VALUES ('standard_tz','gmt');
 INSERT INTO /*TABLEPREFIX*/config ("configName","configValue") VALUES ('supermod_rank_pic','images/rankpics/supermod.gif');
 INSERT INTO /*TABLEPREFIX*/config ("configName","configValue") VALUES ('topics_per_page','15');

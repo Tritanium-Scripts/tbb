@@ -56,16 +56,19 @@ class AdminTemplates extends ModuleTemplate {
 			closedir($dp);
 		}
 
-		if(@$fp = opendir('templates/'.$p_standard_tpl.'/styles')) {
-			while($akt_dir = readdir($fp)) {
-				if($akt_dir != '.' && $akt_dir != '..')
-					$adtemplates_tpl->Blocks['stylerow']->parseCode(FALSE,TRUE);
+		$stylesData = array();
+		if(@$dp = opendir('templates/'.$p['standardTemplate'].'/styles')) {
+			while($curObject = readdir($dp)) {
+				if($curObject == '.' || $curObject == '..') continue;
+				
+				$stylesData[] = $curObject;
 			}
-			closedir($fp);
+			closedir($dp);
 		}
 
 		$this->modules['Template']->assign(array(
 			'templatesData'=>$templatesData,
+			'stylesData'=>$stylesData,
 			'p'=>$p
 		));
 		$this->modules['Template']->printPage('AdminTemplates.tpl');
