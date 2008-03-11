@@ -1758,7 +1758,7 @@ class BoardInstall {
 										$curPostPosterID,
 										$curPostTimestamp,
 										$curPostData[4],
-										$curPostData[6],
+                                        ($curPostData[6] > count($topicPicsData)) ? '1' : $curPostData[6], //In case of invalid tsmilie
 										$curPostData[8],
 										$curPostData[7],
 										$curPostData[9],
