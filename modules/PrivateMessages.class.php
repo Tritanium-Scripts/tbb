@@ -184,7 +184,7 @@ class PrivateMessages extends ModuleTemplate {
                                     "pmSendTimestamp"=$5,
                                     "pmEnableBBCode"=$6,
                                     "pmEnableSmilies"=$7,
-                                    "pmEnableHtmlCode"=$8
+                                    "pmEnableHtmlCode"=$8,
                                     "pmShowSignature"=$9,
                                     "pmRequestReadReceipt"=$10
                             ', array(
