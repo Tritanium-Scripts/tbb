@@ -1758,7 +1758,7 @@ class BoardInstall {
 										$curPostPosterID,
 										$curPostTimestamp,
 										$curPostData[4],
-                                        ($curPostData[6] > count($topicPicsData)) ? '1' : $curPostData[6], //In case of invalid tsmilie
+                                        ($curPostData[6] > file_get_contents($this->pathToTBB1.'/vars/tsmiliess.var')) ? '1' : $curPostData[6], //In case of invalid tsmilie
 										$curPostData[8],
 										$curPostData[7],
 										$curPostData[9],
@@ -1924,6 +1924,18 @@ class BoardInstall {
 						$newConfigData[] = array($settingsFile[12],'enable_registration');
 						$newConfigData[] = array($settingsFile[47],'avatar_image_height');
 						$newConfigData[] = array($settingsFile[48],'avatar_image_width');
+                        $newConfigData[] = array($settingsFile[4],'board_email_address');
+                        $newConfigData[] = array($settingsFile[6],'board_logo');
+                        $newConfigData[] = array($settingsFile[13],'maximum_registrations');
+                        $newConfigData[] = array($settingsFile[14],'verify_email_address'); //create_reg_pw
+                        $newConfigData[] = array($settingsFile[16],'topics_per_page');
+                        $newConfigData[] = array($settingsFile[17],'posts_per_page');
+                        $newConfigData[] = array($settingsFile[18],'wio_timeout');
+                        $newConfigData[] = array($settingsFile[19],'enable_wio');
+                        $newConfigData[] = array($settingsFile[21],'show_boardstats_forumindex');
+                        $newConfigData[] = array(($settingsFile[22] > 0 ? 1 : 0),'show_latest_posts_forumindex');
+                        $newConfigData[] = array($settingsFile[43],'enable_gzip');
+                        $newConfigData[] = array($settingsFile[51],'enable_email_functions');
 						
 						foreach($newConfigData AS $curConfig) {
 							$this->DB->queryParams('
