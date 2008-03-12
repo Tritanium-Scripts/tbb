@@ -1,29 +1,64 @@
-<table class="TableStd" border="0" cellpadding="3" cellspacing="0" width="100%">
+<table class="TableStd" border="1" cellpadding="3" cellspacing="0" width="100%">
 <colgroup>
- <col width="15%"/>
- <col width="85%"/>
+ <col width="129"/>
+<!--
+ <col width="20%"/>
+ <col width="40%"/>
+ <col width="40%"/>
+-->
 </colgroup>
-<tr><td class="CellTitle" colspan="2"><span class="FontTitle">{$modules.Language->getString('View_profile')}</span></td></tr>
+<tr>
+ <td class="CellTitle" colspan="2"><span class="FontTitle">{$modules.Language->getString('View_profile')}: {$profileData.userNick}</span></td>
+ <td class="CellTitle" colspan="2" style="text-align:right;"><span class="FontTitle"><a href="{$indexFile}?action=TODO&amp;{$mySID}">{$modules.Language->getString('Download_vcard')}</a></span></td>
+</tr>
+<tr><td rowspan="9"><img src="{$profileData.userAvatarAddress}" width="128" height="128" alt="{$profileData.userNick}'s {$modules.Language->getString('Avatar')}"/></td></tr>
 <tr>
  <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('User_name')}:</span></td>
  <td class="CellAlt"><span class="FontNorm">{$profileData.userNick}</span></td>
+ <td class="CellAlt"><span class="FontNorm">{$modules.Language->getString('User_id')}: #{$profileData.userID}</span></td>
 </tr>
 <tr>
  <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Email_address')}:</span></td>
- <td class="CellAlt"><span class="FontNorm">{if $profileData.userHideEmailAddress} != 1}<a href="mailto:{$profileData.userEmail}">{$profileData.userEmail}</a>{else}{$modules.Language->getString('Email_address_hidden')}{/if}{if $profileData.userReceiveEmails == 1 && $modules.Auth->isLoggedIn() == 1 && $modules.Config->getValue('enable_email_formular') == 1} <a href="{$indexFile}?action=ViewProfile&amp;profileID={$profileID}&amp;mode=SendEmail&amp;{$mySID}">[{$modules.Language->getString('Send_email')}]</a>{/if}</span></td>
+ <td class="CellAlt"><span class="FontNorm">{if $profileData.userHideEmailAddress} != 1}<a href="mailto:{$profileData.userEmail}">{$profileData.userEmail}</a>{else}{$modules.Language->getString('Email_address_hidden')}{/if}</span></td>
+ <td class="CellAlt"><span class="FontNorm">{if $profileData.userReceiveEmails == 1 && $modules.Auth->isLoggedIn() == 1 && $modules.Config->getValue('enable_email_formular') == 1} <a href="{$indexFile}?action=ViewProfile&amp;profileID={$profileID}&amp;mode=SendEmail&amp;{$mySID}">[{$modules.Language->getString('Send_email')}]</a>{/if}{if $modules.Auth->isLoggedIn() == 1} <a href="{$indexFile}?action=PrivateMessages&amp;mode=NewPM&amp;recipients={$profileData.userNick}&amp;{$mySID}">[{$modules.Language->getString('Send_pm')}]</a>{/if}</span></td>
+</tr>
+<tr>
+ <td class="CellStd"><span class="FontNorm">HOMEPAGE:</span></td>
+ <td class="CellAlt" colspan="2"><span class="FontNorm">TODO</span></td>
+</tr>
+<tr>
+ <td class="CellStd"><span class="FontNorm">ECHTER NAME:</span></td>
+ <td class="CellAlt"><span class="FontNorm">TODO</span></td>
+ <td class="CellAlt"><span class="FontNorm"><img src=""/ alt="TODO"></span></td>
 </tr>
 <tr>
  <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Register_date')}:</span></td>
  <td class="CellAlt"><span class="FontNorm">{$profileData._profileRegisterDate}</span></td>
+ <td class="CellAlt"><span class="FontNorm">VOR TODO WOCHEN REGISTRIERT</span></td>
 </tr>
 <tr>
  <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Posts')}:</span></td>
  <td class="CellAlt"><span class="FontNorm">{$profileData.userPostsCounter}</span></td>
+ <td class="CellAlt"><span class="FontNorm">TODO {$modules.Language->getString('Posts_per_day')}</span></td>
 </tr>
 <tr>
  <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('User_rank')}:</span></td>
- <td class="CellAlt"><span class="FontNorm">{$profileData._profileRankText} {$profileData._profileRankPic}</span></td>
+ <td class="CellAlt"><span class="FontNorm">{$profileData._profileRankText}</span></td>
+ <td class="CellAlt"><span class="FontNorm">{$profileData._profileRankPic}</span></td>
 </tr>
+<tr>
+ <td class="CellStd"><span class="FontNorm">ICQ:</span></td>
+ <td class="CellAlt"><span class="FontNorm">TODO</span></td>
+ <td class="CellAlt"><span class="FontNorm"><img src="http://status.icq.com/online.gif?icq=TODO&amp;img=2" alt="ICQ TODO"/></span></td>
+</tr>
+<tr>
+ <td colspan="4">{$profileData.userSignature}</td>
+</tr>
+</table>
+<br/>
+<table class="TableStd" width="100%">
+<tr><td class="CellTitle" colspan="2"><span class="FontTitle">{$modules.Language->getString('Extended')}</span></td></tr>
+<tr><td>TODO</td></tr>
 </table>
 {if $show.notesTable}
  <br/>
@@ -50,5 +85,6 @@
  <table class="TableStd" width="100%">
  <tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('Other_options')}</span></td></tr>
  <tr><td class="CellStd"><span class="FontNorm"><a href="{$indexFile}?action=ViewProfile&amp;profileID={$profileID}&amp;mode=AddNote&amp;{$mySID}">{$modules.Language->getString('Add_note')}</a></span></td></tr>
+ <tr><td class="CellStd"><span class="FontNorm"><a href="{$indexFile}?action=AdminUsers&amp;mode=EditUser&amp;userID={$profileID}&amp;{$mySID}">{$modules.Language->getString('User')} {$modules.Language->getString('Edit')}</a></span></td></tr>
  </table>
 {/if}

@@ -119,7 +119,7 @@ class ForumIndex extends ModuleTemplate {
 			while(list($curKey) = each($modsUsersData)) { // Erst werden alle Mitglieder-Moderatoren ueberprueft
 				if($modsUsersData[$curKey]['forumID'] != $curForum['forumID']) continue;
 
-				$curForumMods[] = '<a href="'.INDEXFILE.'?action=ViewProfile&amp;ProfileID='.$modsUsersData[$curKey]['userID'].'&amp;'.MYSID.'">'.$modsUsersData[$curKey]['userNick'].'</a>'; // Aktuelles Mitglied zu Array mit Moderatoren des aktuellen Forums hinzufuegen
+				$curForumMods[] = '<a href="'.INDEXFILE.'?action=ViewProfile&amp;profileID='.$modsUsersData[$curKey]['userID'].'&amp;'.MYSID.'">'.$modsUsersData[$curKey]['userNick'].'</a>'; // Aktuelles Mitglied zu Array mit Moderatoren des aktuellen Forums hinzufuegen
 				unset($modsUsersData[$curKey]); // Mitglied kann aus Array geloescht werden
 			}
 			reset($modsUsersData);
