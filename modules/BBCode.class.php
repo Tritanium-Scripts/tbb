@@ -22,7 +22,7 @@ class BBCode extends ModuleTemplate {
 		$text = preg_replace_callback("/\[img\](.*?)\[\/img\]/si",array($this,'cbImage'),$text); // [img]xxx[/img]
 		$text = preg_replace_callback("/\[url\](.*?)\[\/url\]/si",array($this,'cbLink'),$text); // [url]xxx[/url]
 		$text = preg_replace_callback("/\[url=(.*?)\](.*?)\[\/url\]/si",array($this,'cbLink'),$text); // [url=xxx]xxx[/url]
-		$text = preg_replace_callback("/\[color=([a-zA-Z0-9#]*)\](.*?)\[\/color\]/si",array($this,'cbColor'),$text); // [url=xxx]xxx[/url]
+		$text = preg_replace_callback("/\[color=([a-zA-Z0-9#]*)\](.*?)\[\/color\]/si",array($this,'cbColor'),$text); // [color=xxx]xxx[/color]
 
 		return $text;
 	}

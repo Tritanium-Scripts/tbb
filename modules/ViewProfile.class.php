@@ -3,6 +3,7 @@
 class ViewProfile extends ModuleTemplate {
 	protected $requiredModules = array(
 		'Auth',
+        'BBCode',
 		'Cache',
 		'Config',
 		'DB',
@@ -16,7 +17,7 @@ class ViewProfile extends ModuleTemplate {
 
 		$profileID = isset($_GET['profileID']) ? intval($_GET['profileID']) : 0;
 
-		if(!$profileData = FuncUsers::getUserData($profileID)) die('Cannot load data: Profile');
+		if(!$profileData = FuncUsers::getUserData($profileID)) die('Cannot load data: Profile '.$profileID);
 
 		$userIsMod = Functions::checkModStatus(USERID);
 
