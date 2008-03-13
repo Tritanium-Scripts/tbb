@@ -1444,12 +1444,14 @@ class BoardInstall {
 								"fieldName"=$1,
 								"fieldType"=$2,
 								"fieldRegexVerification"=$3,
-								"fieldData"=$4
+								"fieldData"=$4,
+                                "fieldLink"=$5
 						',array(
 							$this->strings['ICQ'],
 							0,
 							'/^[0-9]{1,}\$/si',
-							serialize(array())
+							serialize(array()),
+                            '%1$s <img src="http://status.icq.com/online.gif?icq=%1$s&amp;img=2" alt="ICQ"/>'
 						));
 						$this->tbb1ConversionProperties['dbIcqID'] = $this->DB->getInsertID();
 	
