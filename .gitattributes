@@ -10,10 +10,6 @@ core/Factory.class.php -text
 core/Functions.class.php -text
 core/ModuleTemplate.class.php -text
 core/Version.php -text
-docs/dbstructure.sql -text
-docs/farben[!!-~]logo.txt -text
-docs/history.txt -text
-docs/testdata.sql -text
 functions/FuncAvatars.class.php -text
 functions/FuncCats.class.php -text
 functions/FuncConfig.class.php -text
