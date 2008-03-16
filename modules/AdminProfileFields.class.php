@@ -98,7 +98,7 @@ class AdminProfileFields extends ModuleTemplate {
 				if(!in_array($p['fieldType'],array(PROFILE_FIELD_TYPE_SELECTMULTI,PROFILE_FIELD_TYPE_SELECTSINGLE,PROFILE_FIELD_TYPE_TEXT,PROFILE_FIELD_TYPE_TEXTAREA)))
 					$p['fieldType'] = PROFILE_FIELD_TYPE_TEXT;
 
-				if($p['fieldLink'] == '') $p['fieldLink'] = '%1$s';
+				$p['fieldLink'] = ($p['fieldLink'] == '') ? '%1$s' : Functions::HTMLSpecialChars($p['fieldLink']);
 
 				if(isset($_GET['doit'])) {
 					$c = Functions::getSGValues($_POST['c'],array('fieldIsRequired','fieldShowRegistration','fieldShowMemberlist'),0);
@@ -129,7 +129,7 @@ class AdminProfileFields extends ModuleTemplate {
                         $c['fieldShowMemberlist'],
                         serialize($fieldData),
                         $p['fieldRegexVerification'],
-                        $p['fieldLink'],
+                        html_entity_decode($p['fieldLink'], ENT_QUOTES, UTF-8),
                         $fieldID
                     ));
 
