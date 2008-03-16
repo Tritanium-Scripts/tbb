@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="de" xml:lang="de">
+<head>
+ <title>Tritanium Bulletin Board 2 Dokumentation</title>
+ <style>
+  a:link {
+   color:blue;
+   text-decoration:none;
+  }
+  a:visited {
+   color:blue;
+   text-decoration:none;
+  }
+  a:hover {
+   color:red;
+   text-decoration:underline;
+  }
+
+  h1 {
+   text-align:center;
+   font-family:verdana,arial;
+   font-size:30px;
+   font-weight:normal;
+  }
+
+  h2 {
+   font-family:verdana,arial;
+   font-size:20px;
+   font-weight:normal;
+  }
+
+  .fontnorm {
+   font-family:verdana,arial;
+   font-size:13px;
+  }
+
+  .fontcopyright {
+   font-family:verdana,arial;
+   font-size:10px;
+  }
+
+  p {
+   text-align:justify;
+  }
+ </style>
+</head>
+<body>
+<h1>Tritanium Bulletin Board 2.0 - Alpha 10 (0.2.1)</h1><br /><br />
+
+<h2>Inhaltsverzeichnis</h2>
+<ul class="fontnorm">
+ <li><a href="#importantnotice">Allgemeine Hinweise</a></li>
+ <li><a href="#installation">Installation</a></li>
+ <li><a href="#updatetbb2">Update von einer &auml;lteren Version des Tritanium Bulletin Board 2</a></li>
+ <li><a href="#updatetbb1">Update vom Tritanium Bulletin Board 1</a></li>
+</ul>
+
+<br /><br />
+<h2><a name="importantnotice">Allgemeine Hinweise</a></h2>
+<p class="fontnorm">Bei dieser Version handelt es sich um eine <b>Alphaversion</b>! Dies bedeutet, dass noch nicht alle Funktionalit&auml;ten getestet wurden und auch der endg&uuml;ltige Funktionsumfang noch nicht feststeht.</p>
+<br /><br />
+
+<h2><a name="installation">Installation</a></h2>
+<ul class="fontnorm">
+ <li>Alles aus dem Archiv uploaden, die Ordnerstruktur &uuml;bernehmen (der Ordner &quot;docs&quot; sollte aber weggelassen werden).</li>
+ <li>Grundsätzlich sollten alle Ordner die Rechte 0700 und alle Dateien die Rechte 0600 besitzen. Ist der Webserver schlecht konfiguriert, kann es helfen die Rechte auf 0755 f&uuml;r Ordner und auf 0644 f&uuml;r Dateien zu setzen. Sollten damit immernoch Probleme bestehen, k&ouml;nnen noch folgende einzelne Spezialrechte gesetzt werden. Allerdings ist dies sehr sicherheitskritisch und sollte wenn m&ouml;glich vermieden werden!</li>
+ <li> Spezialrechte:
+  <ul>
+   <li>./cache 777</li>
+   <li>./config/DB.config.class.php 777
+   <li>./uploads/avatars 777</li>
+   <li>./uploads/files 777</li>
+  </ul>
+ </li>
+ <li>Die Installation per install.php aufrufen und den Anweisungen folgen</li>
+ <li>Nach der Installation &quot;install.php&quot; l&ouml;schen</li>
+ <li>Das Forum per index.php aufrufen und ein bisschen rumprobieren...</li>
+ <li>Fehler, Verbesserungsvorschl&auml;ge, Anregungen usw. bitte per Mail an <a href="mailto:julian@tritanium-scripts.com">julian@tritanium-scripts.com</a> oder ins Forum unter <a target="_blank" href="http://www.tritanium-scripts.com">http://www.tritanium-scripts.com</a></li>
+</ul>
+<br /><br />
+
+<h2><a name="updatetbb2">Update von einer &auml;lteren Version des Tritanium Bulletin Board 2</a></h2>
+<p class="fontnorm">
+	Erstellen Sie am besten einen neuen Ordner f&uuml;r die neue Forenversion und folgenden Sie der Installation wie oben beschrieben. Bei der Suche nach einer vorhandenen Installation sollte die &auml;ltere Version automatisch gefunden und geupdatet werden. Daraufhin fahren Sie mit dem Installationsvorgang normal fort. Anschlie&szlig;end k&ouml;nnen Sie den Ordner der alten Version l&ouml;schen und den neuen gegebenenfalls umbenennen.
+	<br />Anmerkungen zu verschiedenen Versionen ein Update betreffend:
+</p>
+<ul class="fontnorm">
+ <li>Version 0.2.0.8.20050121 oder &auml;lter:<br />Der Ordner &quot;language&quot; sollte gelöscht werden, da er nicht mehr ben&ouml;tigt wird. Er wurde durch den Ordner "languages" ersetzt, der auch einen anderen Ordner beinhaltet.</li>
+</ul>
+
+<br /><br /><br />
+
+<h2><a name="updatetbb1">Update vom Tritanium Bulletin Board 1</a></h2>
+<p class="fontnorm">Seit dem Tritanium Bulletin Board 2 Version Alpha 10 ist ein Konvertierungsscript im Installationsscript integriert. Folgenden Sie einfach den normalen Installationsschritten, bis Sie gefragt werden, ob Sie Daten einer alten &quot;Tritanium Bulletin Board 1&quot;-Installation &uuml;bernehmen wollen und w&auml;hlen Sie an dieser Stelle &quot;Ja&quot;. 
+</p>
+<br /><br /><br />
+<span class="fontcopyright">&copy; 2004-2008 <a target="_blank" href="http://www.tritanium-scripts.com">Tritanium Scripts</a></span>
+</body>
+</html>
