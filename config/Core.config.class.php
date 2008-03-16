@@ -29,6 +29,7 @@ class CoreConfig extends ConfigTemplate {
 			'ViewTopic',
 			'Posting',
 			'Register',
+			'Search',
 			'SubscribeTopic',
 			'Vote',
 			'WhoIsOnline'

@@ -1,7 +1,6 @@
 message_text_not_logged_in = Sie m&uuml;ssen eingeloggt sein um diese Funktion nutzen zu k&ouml;nnen!
 message_text_template_config_updated = Die Templatekonfiguration wurde erfolgreich geupdated!
 message_text_special_rights_updated = Die Spezialrechte dieses Forums wurden erfolgreich geupdatet!
-message_text_function_deactivated = Diese Funktion wurde deaktiviert!
 message_text_forum_not_logged_in = Sie m&uuml;ssen eingeloggt sein um dieses Forum betreten zu k&ouml;nnen!
 message_text_forum_no_access = Sie haben nicht die erforderlichen Rechte dieses Forum zu betreten!
 message_text_no_more_folders_allowed = Sie d&uuml;rfen keine weiteren Ordner anlegen!
@@ -13,6 +12,10 @@ message_text_new_user_added = Der neue Benutzer wurde erfolgreich eingerichtet.
 message_text_user_edited = Der Benutzer wurde erfolgreich bearbeitet.
 message_text_settings_successfully_saved = Die Einstellungen wurden erfolgreich gespeichert
 
+message_title_not_logged_in = Nicht eingeloggt
+message_text_not_logged_in = Sie m&uuml;ssen eingeloggt sein um diese Funktion nutzen zu k&ouml;nnen
+message_title_function_deactivated = Funktion deaktiviert
+message_text_function_deactivated = Diese Funktion wurde deaktiviert
 message_title_enter_board_not_logged_in = Nicht eingeloggt
 message_text_enter_board_not_logged_in = Sie m&uuml;ssen eingeloggt sein um dieses Board betreten zu k&ouml;nnen!
 message_title_email_sent = Email verschickt

@@ -60,6 +60,51 @@ class Auth extends ModuleTemplate {
 		unset($_SESSION['userID']);
 		unset($_SESSION['userPassword']);
 	}
+	
+	public function getAuthedForumsIDs() {
+		if(!$this->userLoggedIn) {
+			$this->modules['DB']->query('SELECT "forumID" FROM '.TBLPFX.'forums WHERE "authViewForumGuests"=\'1\'');
+			return $this->modules['DB']->raw2FVArray();
+		}
+
+		$authedForumsIDs = array();
+
+		$notAuthedForumsIDs = array();
+		if($this->userData['userIsAdmin'] != 1 && $this->userData['userIsSupermod'] != 1) {
+			$this->modules['DB']->queryParams('
+				SELECT
+					"forumID"
+				FROM
+					'.TBLPFX.'forums_auth
+				WHERE
+					(("authType"=$1 AND "authID"=$2)
+					OR ("authType"=$3 AND "authID" IN (
+						SELECT
+							"groupID"
+						FROM
+							'.TBLPFX.'groups_members
+						WHERE
+							"memberID"=$2
+					)) AND "authIsMod=\'0\' AND "authViewForum"=\'0\'
+			',array(
+				AUTH_TYPE_USER,
+				USERID,
+				AUTH_TYPE_GROUP
+			));
+		}
+
+		$this->modules['DB']->query('
+			SELECT
+				"forumID"
+			FROM
+				'.TBLPFX.'forums
+			WHERE
+				"forumID" NOT IN ($1)
+		',array(
+			$notAuthedForumsIDs)
+		);
+		return $this->modules['DB']->raw2FVArray();
+	}
 }
 
 ?>
