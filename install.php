@@ -49,7 +49,7 @@ class BoardInstall {
 		'statusPost'=>0,
 		'dbIcqID'=>0,
 		'dbHomepageID'=>0
-	);
+	); //TODO: echter name!
 	
 	/**
 	 * Determines how many files are proceeded per call by the TBB1 conversion script
@@ -1451,7 +1451,7 @@ class BoardInstall {
 							0,
 							'/^[0-9]{1,}\$/si',
 							serialize(array()),
-                            '%1$s <img src="http://status.icq.com/online.gif?icq=%1$s&amp;img=2" alt="ICQ"/>'
+                            '%1$s <img src="http://status.icq.com/online.gif?icq=%1$s&img=2" alt="ICQ"/>'
 						));
 						$this->tbb1ConversionProperties['dbIcqID'] = $this->DB->getInsertID();
 	
@@ -1459,11 +1459,13 @@ class BoardInstall {
 							INSERT INTO '.TBLPFX.'profile_fields SET
 								"fieldName"=$1,
 								"fieldType"=$2,
-								"fieldData"=$3
+								"fieldData"=$3,
+                                "fieldLink"=$4
 						',array(
 							$this->strings['Homepage'],
 							0,
-							serialize(array())
+							serialize(array()),
+                            '<a href="%1$s" target="_blank">%1$s</a>'
 						));
 						$this->tbb1ConversionProperties['dbHomepageID'] = $this->DB->getInsertID();
 	
