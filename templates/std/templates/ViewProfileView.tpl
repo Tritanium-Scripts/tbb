@@ -52,7 +52,12 @@
 <br/>
 <table class="TableStd" width="100%">
 <tr><td class="CellTitle" colspan="2"><span class="FontTitle">{$modules.Language->getString('Extended')}</span></td></tr>
-<tr><td>TODO</td></tr>
+{foreach from=$fieldsData item=curField}
+ <tr>
+  <td class="CellStd"><span class="FontNorm">{$curField.fieldName}:</span></td>
+  <td class="CellAlt"><span class="FontNorm"></span></td>
+ </tr>
+{/foreach}
 </table>
 {if $show.notesTable}
  <br/>

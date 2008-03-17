@@ -61,13 +61,14 @@ class ViewProfile extends ModuleTemplate {
 				$profileData['_profileRankText'] = $profileRankText;
 				$profileData['_profileRankPic'] = $profileRankPic;
 				$profileData['_profileRegisterDate'] = Functions::toDateTime($profileData['userRegistrationTimestamp']);
+				//Vor X Wochen registriert
                 $profileData['_userPostsCounterText'] = time()-$profileData['userRegistrationTimestamp'];
                 $profileData['_profileRegisterDateText'] = sprintf($this->modules['Language']->getString('Register_x_weeks_ago'), intval($profileData['_userPostsCounterText']/604800));
-
+                //Beitraege pro Tag
                 $profileData['_userPostsCounterText'] = intval($profileData['_userPostsCounterText']/86400);
-                if ($profileData['_userPostsCounterText'] != 0) $profileData['_userPostsCounterText'] = round($profileData['userPostsCounter']/$profileData['_userPostsCounterText'], 3) . ' ' . $this->modules['Language']->getString('Posts_per_day');
+                $profileData['_userPostsCounterText'] = (($profileData['_userPostsCounterText'] != 0) ? round($profileData['userPostsCounter']/$profileData['_userPostsCounterText'], 3) : "0") . ' ' . $this->modules['Language']->getString('Posts_per_day');
 
-                //Signature
+                //Signatur parsen
                 if ($this->modules['Config']->getValue('enable_sig') == 1)
                 {
                  if ($this->modules['Config']->getValue('allow_sig_html') != 1) $profileData['userSignature'] = Functions::HTMLSpecialChars($profileData['userSignature']);
@@ -75,7 +76,14 @@ class ViewProfile extends ModuleTemplate {
                  $profileData['userSignature'] = nl2br($profileData['userSignature']);
                  if ($this->modules['Config']->getValue('allow_sig_bbcode') == 1) $profileData['userSignature'] = $this->modules['BBCode']->parse($profileData['userSignature']);
                 }
-                
+
+				//Weitere Profilfelder
+				$this->modules['DB']->query('SELECT * FROM '.TBLPFX.'profile_fields');
+				$fieldsData = $this->modules['DB']->raw2Array();
+				//$this->modules['DB']->queryParams('SELECT * FROM '.TBLPFX.'profile_fields_data WHERE "userID"=$1', array(USERID));
+				//$fieldsValues = $this->modules['DB']->raw2Array();
+
+				//Anmerkungen
 				$show = array('notesTable'=>FALSE);
 
 				if($this->modules['Auth']->getValue('userAuthProfileNotes') == 1 || $this->modules['Auth']->getValue('userIsAdmin') == 1 || $this->modules['Auth']->getValue('userIsSupermod') == 1 || $userIsMod) {
@@ -125,6 +133,7 @@ class ViewProfile extends ModuleTemplate {
 				}
 
 				$this->modules['Template']->assign(array(
+					'fieldsData'=>$fieldsData,
 					'profileData'=>$profileData,
 					'show'=>$show
 				));
@@ -262,12 +271,12 @@ class ViewProfile extends ModuleTemplate {
 				break;
 
             case 'vCard':
-                $vCard = "BEGIN:VCARD\nVERSION:3.0\nN:;;;;\nFN:\nNICKNAME:$profileData[userNick]\n"; //TODO: FN = echter name
-                if ($profileData['userHideEmailAddress'] != 1) $vCard .= "EMAIL;TYPE=internet:$profileData[userEmailAddress]\n";
+                $vCard = "BEGIN:VCARD\nVERSION:3.0\nN:;;;;\nFN:\nNICKNAME:" . $profileData['userNick'] . "\n"; //TODO: FN = echter name
+                if ($profileData['userHideEmailAddress'] != 1) $vCard .= "EMAIL;TYPE=internet:" . $profileData['userEmailAddress'] . "\n";
                 $vCard .= "URL:\nCLASS:" . (($this->modules['Config']->getValue('guests_enter_board') != 1) ? "PRIVATE" : "PUBLIC") . "\nX-GENERATOR:Tritanium Bulletin Board 2 " . $this->modules['Config']->getValue('dataversion') . "\nEND:VCARD";
-                header("Content-Disposition: attachment; filename=$profileData[userNick].vcf");
+                header("Content-Disposition: attachment; filename=" . $profileData['userNick'] . ".vcf");
                 header("Content-Length: " . strlen($vCard));
-                header("Content-Type: text/x-vCard; charset=UTF-8; name=$profileData[userNick].vcf");
+                header("Content-Type: text/x-vCard; charset=UTF-8; name=" . $profileData['userNick'] . ".vcf");
                 die($vCard);
 		}
 	}
