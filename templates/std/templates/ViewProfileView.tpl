@@ -1,6 +1,6 @@
 <table class="TableStd" border="0" cellpadding="3" cellspacing="0" width="100%">
 <colgroup>
- {if $modules.Config->getValue('enable_avatars') == 1}<col width="129"/>{/if}
+ {if $modules.Config->getValue('enable_avatars') == 1 && $profileData.userAvatarAddress != ''}<col width="129"/>{/if}
 <!--
  <col width="20%"/>
  <col width="40%"/>
@@ -11,7 +11,7 @@
  <td class="CellTitle" colspan="2"><span class="FontTitle">{$modules.Language->getString('View_profile')}: {$profileData.userNick}</span></td>
  <td class="CellTitle" colspan="2" style="text-align:right;"><span class="FontTitle"><a href="{$indexFile}?action=ViewProfile&amp;profileID={$profileID}&amp;mode=vCard&amp;{$mySID}">{$modules.Language->getString('Download_vcard')}</a></span></td>
 </tr>
-{if $modules.Config->getValue('enable_avatars') == 1}
+{if $modules.Config->getValue('enable_avatars') == 1 && $profileData.userAvatarAddress != ''}
 <tr><td class="CellStd" rowspan="7"><img src="{$profileData.userAvatarAddress}" width="128" height="128" alt="{$profileData.userNick}'s {$modules.Language->getString('Avatar')}"/></td></tr>
 {/if}
 <tr>
@@ -36,7 +36,7 @@
 <tr>
  <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Posts')}:</span></td>
  <td class="CellAlt"><span class="FontNorm">{$profileData.userPostsCounter}</span></td>
- <td class="CellAlt"><span class="FontNorm">{$profileData.userPostsCounterText}</span></td>
+ <td class="CellAlt"><span class="FontNorm">{$profileData._userPostsCounterText}</span></td>
 </tr>
 <tr>
  <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('User_rank')}:</span></td>

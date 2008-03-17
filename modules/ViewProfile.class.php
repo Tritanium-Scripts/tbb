@@ -61,9 +61,11 @@ class ViewProfile extends ModuleTemplate {
 				$profileData['_profileRankText'] = $profileRankText;
 				$profileData['_profileRankPic'] = $profileRankPic;
 				$profileData['_profileRegisterDate'] = Functions::toDateTime($profileData['userRegistrationTimestamp']);
-                $profileData['_profileRegisterDateText'] = sprintf($this->modules['Language']->getString('Register_x_weeks_ago'), intval((time()-$profileData['userRegistrationTimestamp'])/604800));
+                $profileData['_userPostsCounterText'] = time()-$profileData['userRegistrationTimestamp'];
+                $profileData['_profileRegisterDateText'] = sprintf($this->modules['Language']->getString('Register_x_weeks_ago'), intval($profileData['_userPostsCounterText']/604800));
 
-                $profileData['userPostsCounterText'] = round($profileData['userPostsCounter']/(intval((time()-$profileData['userRegistrationTimestamp'])/86400)), 3) . ' ' . $this->modules['Language']->getString('Posts_per_day');
+                $profileData['_userPostsCounterText'] = intval($profileData['_userPostsCounterText']/86400);
+                if ($profileData['_userPostsCounterText'] != 0) $profileData['_userPostsCounterText'] = round($profileData['userPostsCounter']/$profileData['_userPostsCounterText'], 3) . ' ' . $this->modules['Language']->getString('Posts_per_day');
 
                 //Signature
                 if ($this->modules['Config']->getValue('enable_sig') == 1)

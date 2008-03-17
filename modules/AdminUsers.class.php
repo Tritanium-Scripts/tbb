@@ -36,7 +36,7 @@ class AdminUsers extends ModuleTemplate {
 
 					if(trim($p['userNick']) == '' || !Functions::verifyUserName($p['userNick'])) $error = $this->modules['Language']->getString('error_bad_nick');
 					elseif(!Functions::unifyUserName($p['userNick'])) $error = $this->modules['Language']->getString('error_nick_already_in_use');
-					elseif(trim($p['userEmailAddress']) == '' || Functions::verifyEmailAddress($p['userEmailAddress'])) $error = $this->modules['Language']->getString('error_bad_email');
+					elseif(trim($p['userEmailAddress']) == '' || !Functions::verifyEmailAddress($p['userEmailAddress'])) $error = $this->modules['Language']->getString('error_bad_email');
 					elseif(trim($p['userPassword']) == '') $error = $this->modules['Language']->getString('error_no_pw');
 					elseif($p['userPassword'] != $p['userPasswordConfirmation']) $error = $this->modules['Language']->getString('error_pws_no_match');
 					else {
@@ -80,7 +80,7 @@ class AdminUsers extends ModuleTemplate {
 							);
 						}
 
-						FuncMisc::printMessage('new_user_added'); exit;
+						FuncMisc::printMessage('new_user_added'); exit; //TODO message not found!
 					}
 				}
 
