@@ -266,41 +266,70 @@ class Functions {
 			return $authData;
 		}
 
-		$authNamesI = implode(', ',$authNames);
+		$authNamesI = '"'.implode('", "',$authNames).'"';
 
 		$DB = Factory::singleton('DB');
 
-		$DB->query("SELECT $authNamesI FROM ".TBLPFX."forums_auth WHERE forumID='".$forumData['forumID']."' AND authType='".AUTH_TYPE_USER."' AND authID='$userID'");
-		if($DB->getAffectedRows() == 1) return $DB->fetchArray();
+		$DB->queryParams('
+			SELECT
+				'.$authNamesI.'
+			FROM
+				'.TBLPFX.'forums_auth
+			WHERE
+				"forumID"=$1
+				AND "authType"=$2
+				AND "authID"=$3
+		',array(
+			$forumData['forumID'],
+			AUTH_TYPE_USER,
+			USERID
+		));
+		if($DB->numRows() == 1)
+			return $DB->fetchArray();
 
-		$DB->query("SELECT GroupID FROM ".TBLPFX."groups_members WHERE memberID='".USERID."'");
-		if($DB->getAffectedRows() > 0) {
-			$groupIDs = $DB->raw2FVArray();
-
-			$DB->query("SELECT $AuthNamesI FROM ".TBLPFX."forums_auth WHERE forumID='".$forumData['forumID']."' AND authType='".AUTH_TYPE_GROUP."' AND authID IN ('".implode("','",$groupIDs)."')");
-			if($DB->getAffectedRows() > 0) {
-				$groupsAuthData = $DB->raw2Array();
-				foreach($authNames AS $curAuth) {
-					$authData[$curAuth] = $forumData['Members'.$curAuth];
-					foreach($groupsAuthData AS $curGroupAuth) {
-						if($curGroupAuth[$curAuth] == 1 - $authData[$curAuth]) {
-							$authData[$curAuth] = 1 - $authData[$curAuth];
-							break;
-						}
+		$DB->queryParams('
+			SELECT
+				'.$authNamesI.'
+			FROM
+				'.TBLPFX.'forums_auth
+			WHERE
+				"forumID"=$1
+				AND "authType"=$2
+				AND "authID" IN (
+					SELECT 
+						"groupID"
+					FROM
+						'.TBLPFX.'groups_members
+					WHERE
+						"memberID"=$3
+				)
+		',array(
+			$forumData['forumID'],
+			AUTH_TYPE_GROUP,
+			USERID
+		));
+		if($DB->numRows() > 0) {
+			$groupsAuthData = $DB->raw2Array();
+			foreach($authNames AS $curAuth) {
+				$authData[$curAuth] = $forumData[$curAuth.'Members'];
+				foreach($groupsAuthData AS $curGroupAuth) {
+					if($curGroupAuth[$curAuth] == 1 - $authData[$curAuth]) {
+						$authData[$curAuth] = 1 - $authData[$curAuth];
+						break;
 					}
 				}
-
-				if($authData['authIsMod'] == 1) {
-					foreach($authNames AS $curAuth)
-						$authData[$curAuth] = 1;
-				}
-
-				return $authData;
 			}
+
+			if($authData['authIsMod'] == 1) {
+				foreach($authNames AS $curAuth)
+					$authData[$curAuth] = 1;
+			}
+
+			return $authData;
 		}
 
-		foreach($authData AS $curAuth)
-			$auth[$curAuth] = isset($forumData['Guests'.$curAuth]) ? $forumData['Guests'.$curAuth] : 0;
+		foreach($authNames AS $curAuth)
+			$authData[$curAuth] = isset($forumData[$curAuth.'Guests']) ? $forumData[$curAuth.'Guests'] : 0;
 
 		return $authData;
 	}
@@ -315,14 +344,49 @@ class Functions {
 		$DB = Factory::singleton('DB');
 
 		// Erst wird nach einem Mod-Recht des Users gesucht
-		$DB->query("SELECT authID FROM ".TBLPFX."forums_auth WHERE authType='".AUTH_TYPE_GROUP."' AND authID='$userID' AND authIsMod='1' LIMIT 1");
-		if($DB->getAffectedRows() > 0) return TRUE;
+		$DB->queryParams('
+			SELECT
+				1
+			FROM
+				'.TBLPFX.'forums_auth
+			WHERE
+				"authType"=$1
+				AND "authID"=$2
+				AND "authIsMod"=$3
+			LIMIT
+				1
+		',array(
+			AUTH_TYPE_USER,
+			$userID,
+			1
+		));
+		if($DB->numRows() > 0)
+			return TRUE;
 
 		// Nichts gefunden, also muessen die Gruppen ueberprueft werden, in denen der User Mitglied ist
-		$DB->query("SELECT groupID FROM ".TBLPFX."groups_members WHERE memberID='$userID'");
-		$groupIDs = $DB->raw2FVArray();
-		$DB->query("SELECT authID FROM ".TBLPFX."forums_auth WHERE authType='".AUTH_TYPE_GROUP."' AND authID IN ('".implode("','",$groupIDs)."') AND authIsMod='1' LIMIT 1");
-		if($DB->getAffectedRows() > 0) return TRUE;
+		$DB->queryParams('
+			SELECT
+				1
+			FROM
+				'.TBLPFX.'forums_auth
+			WHERE
+				"authType"=$1
+				AND "authID" IN (
+					SELECT 
+						"groupID"
+					FROM
+						'.TBLPFX.'groups_members
+					WHERE
+						"memberID"=$2
+				)
+				AND "authIsMod"=$3
+		',array(
+			AUTH_TYPE_GROUP,
+			$userID,
+			1
+		));
+		if($DB->numRows() > 0)
+			return TRUE;
 
 		return FALSE; // User ist kein Mod
 	}
@@ -331,13 +395,22 @@ class Functions {
 	 * Returns the specified profile note or false on error
 	 *
 	 * @param int $noteID
-	 * @return mixed
+	 * @return array
 	 */
 	static public function getProfileNoteData($noteID) {
 		$DB = Factory::singleton('DB');
 
-		$DB->query("SELECT * FROM ".TBLPFX."profile_notes WHERE noteID='$noteID'");
-		return ($DB->getAffectedRows() == 1) ? $DB->fetchArray() : FALSE;
+		$DB->queryParams('
+			SELECT
+				*
+			FROM
+				'.TBLPFX.'profile_notes
+			WHERE
+				"noteID"=$1
+		',array(
+			$noteID
+		));
+		return ($DB->numRows() == 1) ? $DB->fetchArray() : FALSE;
 	}
 
 	public static function getTimeZones($AssignNames = FALSE) {
