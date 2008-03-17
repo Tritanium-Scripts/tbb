@@ -1,6 +1,6 @@
 <table class="TableStd" border="0" cellpadding="3" cellspacing="0" width="100%">
 <colgroup>
- <col width="129"/>
+ {if $modules.Config->getValue('enable_avatars') == 1}<col width="129"/>{/if}
 <!--
  <col width="20%"/>
  <col width="40%"/>
@@ -9,17 +9,19 @@
 </colgroup>
 <tr>
  <td class="CellTitle" colspan="2"><span class="FontTitle">{$modules.Language->getString('View_profile')}: {$profileData.userNick}</span></td>
- <td class="CellTitle" colspan="2" style="text-align:right;"><span class="FontTitle"><a href="{$indexFile}?action=TODO&amp;{$mySID}">{$modules.Language->getString('Download_vcard')}</a></span></td>
+ <td class="CellTitle" colspan="2" style="text-align:right;"><span class="FontTitle"><a href="{$indexFile}?action=ViewProfile&amp;profileID={$profileID}&amp;mode=vCard&amp;{$mySID}">{$modules.Language->getString('Download_vcard')}</a></span></td>
 </tr>
+{if $modules.Config->getValue('enable_avatars') == 1}
 <tr><td class="CellStd" rowspan="7"><img src="{$profileData.userAvatarAddress}" width="128" height="128" alt="{$profileData.userNick}'s {$modules.Language->getString('Avatar')}"/></td></tr>
+{/if}
 <tr>
  <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('User_name')}:</span></td>
  <td class="CellAlt"><span class="FontNorm">{$profileData.userNick}</span></td>
  <td class="CellAlt"><span class="FontNorm">{$modules.Language->getString('User_id')}: #{$profileData.userID}</span></td>
 </tr>
 <tr>
- <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Email_address')}:</span></td>
- <td class="CellAlt"><span class="FontNorm">{if $profileData.userHideEmailAddress} != 1}<a href="mailto:{$profileData.userEmail}">{$profileData.userEmail}</a>{else}{$modules.Language->getString('Email_address_hidden')}{/if}</span></td>
+ <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Email_address')}:</span></td>                
+ <td class="CellAlt"><span class="FontNorm">{if $profileData.userHideEmailAddress != 1}<a href="mailto:{$profileData.userEmailAddress}">{$profileData.userEmailAddress}</a>{else}{$modules.Language->getString('Email_address_hidden')}{/if}</span></td>
  <td class="CellAlt"><span class="FontNorm">{if $profileData.userReceiveEmails == 1 && $modules.Auth->isLoggedIn() == 1 && $modules.Config->getValue('enable_email_formular') == 1} <a href="{$indexFile}?action=ViewProfile&amp;profileID={$profileID}&amp;mode=SendEmail&amp;{$mySID}">[{$modules.Language->getString('Send_email')}]</a>{/if}{if $modules.Auth->isLoggedIn() == 1} <a href="{$indexFile}?action=PrivateMessages&amp;mode=NewPM&amp;recipients={$profileData.userNick}&amp;{$mySID}">[{$modules.Language->getString('Send_pm')}]</a>{/if}</span></td>
 </tr>
 <tr>
@@ -29,21 +31,23 @@
 <tr>
  <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Register_date')}:</span></td>
  <td class="CellAlt"><span class="FontNorm">{$profileData._profileRegisterDate}</span></td>
- <td class="CellAlt"><span class="FontNorm">VOR TODO WOCHEN REGISTRIERT</span></td>
+ <td class="CellAlt"><span class="FontNorm">{$profileData._profileRegisterDateText}</span></td>
 </tr>
 <tr>
  <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Posts')}:</span></td>
  <td class="CellAlt"><span class="FontNorm">{$profileData.userPostsCounter}</span></td>
- <td class="CellAlt"><span class="FontNorm">TODO {$modules.Language->getString('Posts_per_day')}</span></td>
+ <td class="CellAlt"><span class="FontNorm">{$profileData.userPostsCounterText}</span></td>
 </tr>
 <tr>
  <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('User_rank')}:</span></td>
  <td class="CellAlt"><span class="FontNorm">{$profileData._profileRankText}</span></td>
  <td class="CellAlt"><span class="FontNorm">{$profileData._profileRankPic}</span></td>
 </tr>
+{if $modules.Config->getValue('enable_sig') == 1}
 <tr>
- <td colspan="4">{$modules.BBCode->parse($profileData.userSignature)|nl2br}</td>
+ <td colspan="4">{$profileData.userSignature}</td>
 </tr>
+{/if}
 </table>
 <br/>
 <table class="TableStd" width="100%">

@@ -42,11 +42,11 @@ class ViewProfile extends ModuleTemplate {
 				}
 				elseif($profileData['userIsAdmin'] == 1) {
 					$profileRankText = $this->modules['Language']->getString('Administrator');
-					$profileRankPic = '<img src="'.$this->modules['Config']->getValue('admin_rank_pic').'" alt=""/>';
+					$profileRankPic = '<img src="'.$this->modules['Config']->getValue('admin_rank_pic').'" alt="'.$profileRankText.'"/>';
 				}
 				elseif($profileData['userIsSupermod'] == 1) {
 					$profileRankText = $this->modules['Language']->getString('Supermoderator');
-					$profileRankPic = '<img src="'.$this->modules['Config']->getValue('supermod_rank_pic').'" alt=""/>';
+					$profileRankPic = '<img src="'.$this->modules['Config']->getValue('supermod_rank_pic').'" alt="'.$profileRankText.'"/>';
 				}
 				else {
 					foreach($ranksData[0] AS $curRank) {
@@ -61,7 +61,19 @@ class ViewProfile extends ModuleTemplate {
 				$profileData['_profileRankText'] = $profileRankText;
 				$profileData['_profileRankPic'] = $profileRankPic;
 				$profileData['_profileRegisterDate'] = Functions::toDateTime($profileData['userRegistrationTimestamp']);
+                $profileData['_profileRegisterDateText'] = sprintf($this->modules['Language']->getString('Register_x_weeks_ago'), intval((time()-$profileData['userRegistrationTimestamp'])/604800));
 
+                $profileData['userPostsCounterText'] = round($profileData['userPostsCounter']/(intval((time()-$profileData['userRegistrationTimestamp'])/86400)), 3) . ' ' . $this->modules['Language']->getString('Posts_per_day');
+
+                //Signature
+                if ($this->modules['Config']->getValue('enable_sig') == 1)
+                {
+                 if ($this->modules['Config']->getValue('allow_sig_html') != 1) $profileData['userSignature'] = Functions::HTMLSpecialChars($profileData['userSignature']);
+                 if ($this->modules['Config']->getValue('allow_sig_smilies') == 1) $profileData['userSignature'] = strtr($profileData['userSignature'], $this->modules['Cache']->getSmiliesData('write'));
+                 $profileData['userSignature'] = nl2br($profileData['userSignature']);
+                 if ($this->modules['Config']->getValue('allow_sig_bbcode') == 1) $profileData['userSignature'] = $this->modules['BBCode']->parse($profileData['userSignature']);
+                }
+                
 				$show = array('notesTable'=>FALSE);
 
 				if($this->modules['Auth']->getValue('userAuthProfileNotes') == 1 || $this->modules['Auth']->getValue('userIsAdmin') == 1 || $this->modules['Auth']->getValue('userIsSupermod') == 1 || $userIsMod) {
@@ -246,6 +258,9 @@ class ViewProfile extends ModuleTemplate {
 
 				$this->modules['Template']->printPage('ViewProfileSendEmail.tpl');
 				break;
+
+            case 'vCard':
+                die('Not yet implemented');
 		}
 	}
 }
