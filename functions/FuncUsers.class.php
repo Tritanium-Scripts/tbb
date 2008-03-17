@@ -81,7 +81,7 @@ class FuncUsers {
 		$DB->query('BEGIN');
 		$Config->updateValue('usersCounter',self::getUsersCounter());
 		$DB->query('COMMIT');
-		$this->modules['Cache']->setConfig();
+		$Cache->setConfig();
 	}
 }
 

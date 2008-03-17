@@ -20,7 +20,6 @@ $this->DB->query('
 
 $this->DB->query('
 	ALTER TABLE '.TBLPFX.'config
-		DROP PRIMARY KEY,
 		CHANGE "config_name" "configName" varchar(255) NOT NULL default \'\',
 		CHANGE "config_value" "configValue" varchar(255) NOT NULL default \'\',
 		ADD PRIMARY KEY  ("configName")
@@ -43,7 +42,7 @@ $this->DB->query('
 		CHANGE "forum_enable_htmlcode" "forumEnableHtmlCode" tinyint(1) unsigned NOT NULL default \'0\',
 		CHANGE "forum_enable_smilies" "forumEnableSmilies" tinyint(1) unsigned NOT NULL default \'0\',
 		ADD "forumEnableURITransformation" tinyint(1) unsigned NOT NULL default \'0\' AFTER "forumEnableSmilies",
-		CHANGE "forum_is_moderated" forumIsModerated" tinyint(1) unsigned NOT NULL default \'0\',
+		CHANGE "forum_is_moderated" "forumIsModerated" tinyint(1) unsigned NOT NULL default \'0\',
 		CHANGE "forum_show_latest_posts" "forumShowLatestPosts" tinyint(1) unsigned NOT NULL default \'0\',
 		CHANGE "auth_members_view_forum" "authViewForumMembers" tinyint(1) unsigned NOT NULL default \'0\',
 		CHANGE "auth_members_post_topic" "authPostTopicMembers" tinyint(1) unsigned NOT NULL default \'0\',
@@ -100,7 +99,7 @@ $this->DB->query('
 		DROP KEY "pm_from_id",
 		DROP KEY "pm_to_id", 
 		CHANGE "pm_id" "pmID" mediumint(8) unsigned NOT NULL auto_increment,
-		CHANGE "fokder_id" "folderID" smallint(5) unsigned NOT NULL default \'0\',
+		CHANGE "folder_id" "folderID" smallint(5) unsigned NOT NULL default \'0\',
 		CHANGE "pm_from_id" "pmFromID" mediumint(8) unsigned NOT NULL default \'0\',
 		CHANGE "pm_to_id" "pmToID" mediumint(8) unsigned NOT NULL default \'0\',
 		CHANGE "pm_read_status" "pmIsRead" tinyint(1) unsigned NOT NULL default \'0\',
@@ -111,7 +110,7 @@ $this->DB->query('
 		CHANGE "pm_enable_bbcode" "pmEnableBBCode" tinyint(1) unsigned NOT NULL default \'0\',
 		CHANGE "pm_enable_smilies" "pmEnableSmilies" tinyint(1) unsigned NOT NULL default \'0\',
 		CHANGE "pm_enable_htmlcode" "pmEnableHtmlCode" tinyint(1) unsigned NOT NULL default \'0\',
-		CHANGE "pm_show_signature" "pmShowSignature" tinyint(1) unsigned NOT NULL default \'0\',
+		CHANGE "pm_show_sig" "pmShowSignature" tinyint(1) unsigned NOT NULL default \'0\',
 		CHANGE "pm_request_rconfirmation" "pmRequestReadReceipt" tinyint(1) unsigned NOT NULL default \'0\',
 		CHANGE "pm_guest_nick" "pmGuestNick" varchar(255) NOT NULL default \'\',
 		ADD "pmIsReplied" tinyint(1) unsigned NOT NULL default \'0\' AFTER "pmGuestNick",
@@ -300,7 +299,7 @@ $this->DB->query('
 		DROP PRIMARY KEY,
 		CHANGE "smiley_id" "smileyID" smallint(5) unsigned NOT NULL auto_increment,
 		CHANGE "smiley_type" "smileyType" tinyint(1) unsigned NOT NULL default \'0\',
-		CHANGE "smiles_gfx" "smileyFileName" varchar(255) NOT NULL default \'\',
+		CHANGE "smiley_gfx" "smileyFileName" varchar(255) NOT NULL default \'\',
 		CHANGE "smiley_synonym" "smileySynonym" varchar(255) NOT NULL default \'\',
 		CHANGE "smiley_status" "smileyStatus" tinyint(1) unsigned NOT NULL default \'0\',
 		ADD PRIMARY KEY ("smileyID")
@@ -328,7 +327,7 @@ $this->DB->query('
 		CHANGE "topic_post_time" "topicPostTimestamp" int(10) unsigned NOT NULL default \'0\',
 		CHANGE "topic_title" "topicTitle" varchar(255) NOT NULL default \'\',
 		CHANGE "topic_guest_nick" "topicGuestNick" varchar(255) NOT NULL default \'\',
-		ADD ADD PRIMARY KEY ("topicID"),
+		ADD PRIMARY KEY ("topicID"),
 		ADD KEY "forumIDTopicID" ("forumID","topicID"),
 		ADD KEY "posterID" ("posterID"),
 		ADD KEY "topicMovedID" ("topicMovedID")
@@ -338,14 +337,14 @@ $this->DB->query('
 	ALTER TABLE  '.TBLPFX.'topics_subscriptions
 		DROP KEY "user_id_topic_id",
 		DROP KEY "topic_id",
-		"topicID" mediumint(8) unsigned NOT NULL default \'0\',
-		"userID" mediumint(8) unsigned NOT NULL default \'0\',
+		CHANGE "topic_id" "topicID" mediumint(8) unsigned NOT NULL default \'0\',
+		CHANGE "user_id" "userID" mediumint(8) unsigned NOT NULL default \'0\',
 		ADD PRIMARY KEY ("topicID","userID"),
 		ADD KEY "userID" ("userID")
 ');
 
 $this->DB->query('
-	CREATE TABLE '.TBLPFX.'users
+	ALTER TABLE '.TBLPFX.'users
 		DROP PRIMARY KEY,
 		DROP KEY "user_last_action",
 		DROP KEY "user_rank_id",
@@ -383,7 +382,7 @@ $this->DB->query('
 
 $this->DB->query('
 	ALTER TABLE '.TBLPFX.'users_locks
-		DROP PRIMARY KEY,
+		DROP KEY "user_id",
 		DROP KEY "lock_type_user_id",
 		CHANGE "user_id" "userID" mediumint(8) unsigned NOT NULL default \'0\',
 		CHANGE "lock_type" "lockType" tinyint(1) unsigned NOT NULL default \'0\',

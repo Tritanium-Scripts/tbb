@@ -27,6 +27,8 @@ class EditProfile extends ModuleTemplate {
 		if($this->modules['Auth']->isLoggedIn() != 1) die('Kein Zugriff: Nicht eingeloggt');
 
 		$this->modules['Language']->addFile('EditProfile');
+		$this->modules['Language']->addFile('Login');
+		$this->modules['Language']->addFile('Register');
 
 		$this->modules['Navbar']->addElement($this->modules['Language']->getString('User_administration'),INDEXFILE."?action=EditProfile&amp;".MYSID);
 
@@ -39,40 +41,40 @@ class EditProfile extends ModuleTemplate {
 
 				if(isset($_GET['doit'])) {
 					if(!Functions::verifyEmailAddress($p['userEmailAddress'])) $error = $this->modules['Language']->getString('error_bad_email');
-					elseif(trim($p['userNewPassword']) != '' && Functions::getSaltedHash($p['userOldPassword'],$this->modules['Auth']->getValue('userPasswordSalt')) != $this->modules['Auth']->getValue('user_pw')) $error = $this->modules['Language']->getString('error_wrong_password');
+					elseif(trim($p['userNewPassword']) != '' && Functions::getSaltedHash($p['userOldPassword'],$this->modules['Auth']->getValue('userPasswordSalt')) != $this->modules['Auth']->getValue('userPassword')) $error = $this->modules['Language']->getString('error_wrong_password');
 					elseif(trim($p['userNewPassword']) != '' && $p['userNewPassword'] != $p['userNewPasswordConfirmation']) $error = $this->modules['Language']->getString('error_pws_no_match');
 					else {
-                        $this->modules['DB']->queryParams('
-                            UPDATE
-                                '.TBLPFX.'users
-                            SET
-                                "userEmailAddress"=$1,
-                                "userSignature"=$2
-                            WHERE
-                                "userID"=$3
-                        ', array(
-                            $p['userEmailAddress'],
-                            $p['userSignature'],
-                            USERID
-                        ));
+						$this->modules['DB']->queryParams('
+							UPDATE
+								'.TBLPFX.'users
+							SET
+								"userEmailAddress"=$1,
+								"userSignature"=$2
+							WHERE
+								"userID"=$3
+						', array(
+							$p['userEmailAddress'],
+							$p['userSignature'],
+							USERID
+						));
 
 						if(trim($p['userNewPassword']) != '') {
 							$newPasswordSalt = Functions::getRandomString(10);
 							$newPasswordEncrypted = Functions::getSaltedHash($p['userNewPassword'],$newPasswordSalt);
 
-                            $this->modules['DB']->queryParams('
-                                UPDATE
-                                    '.TBLPFX.'users
-                                SET
-                                    "userPassword"=$1,
-                                    "userPasswordSalt"=$2
-                                WHERE
-                                    "userID"=$3
-                            ', array(
-                                $newPasswordEncrypted,
-                                $newPasswordSalt,
-                                USERID
-                            ));
+							$this->modules['DB']->queryParams('
+								UPDATE
+									'.TBLPFX.'users
+								SET
+									"userPassword"=$1,
+									"userPasswordSalt"=$2
+								WHERE
+									"userID"=$3
+							', array(
+								$newPasswordEncrypted,
+								$newPasswordSalt,
+								USERID
+							));
 							$this->modules['Auth']->setSessionUserPassword($newPasswordEncrypted);
 						}
 
@@ -108,8 +110,8 @@ class EditProfile extends ModuleTemplate {
 				$p = array();
 				foreach($profileFields AS $curField) {
 					switch($curField['fieldType']) {
-						case PROFILE_FIELD_TYPE_TEXT:         $p['fieldsData'][$curField['fieldID']] = isset($_POST['p']['fieldsData'][$curField['fieldID']]) ? $_POST['p']['fieldsData'][$curField['fieldID']] : (isset($fieldsData[$curField['fieldID']]) ? $fieldsData[$curField['fieldID']] : ''); break;
-						case PROFILE_FIELD_TYPE_TEXTAREA:     $p['fieldsData'][$curField['fieldID']] = isset($_POST['p']['fieldsData'][$curField['fieldID']]) ? $_POST['p']['fieldsData'][$curField['fieldID']] : (isset($fieldsData[$curField['fieldID']]) ? $fieldsData[$curField['fieldID']] : ''); break;
+						case PROFILE_FIELD_TYPE_TEXT:		 $p['fieldsData'][$curField['fieldID']] = isset($_POST['p']['fieldsData'][$curField['fieldID']]) ? $_POST['p']['fieldsData'][$curField['fieldID']] : (isset($fieldsData[$curField['fieldID']]) ? $fieldsData[$curField['fieldID']] : ''); break;
+						case PROFILE_FIELD_TYPE_TEXTAREA:	 $p['fieldsData'][$curField['fieldID']] = isset($_POST['p']['fieldsData'][$curField['fieldID']]) ? $_POST['p']['fieldsData'][$curField['fieldID']] : (isset($fieldsData[$curField['fieldID']]) ? $fieldsData[$curField['fieldID']] : ''); break;
 						case PROFILE_FIELD_TYPE_SELECTSINGLE: $p['fieldsData'][$curField['fieldID']] = isset($_POST['p']['fieldsData'][$curField['fieldID']]) ? intval($_POST['p']['fieldsData'][$curField['fieldID']]) : (isset($fieldsData[$curField['fieldID']]) ? $fieldsData[$curField['fieldID']] : ''); break;
 						case PROFILE_FIELD_TYPE_SELECTMULTI:  $p['fieldsData'][$curField['fieldID']] = (isset($_POST['p']['fieldsData'][$curField['fieldID']]) && is_array($_POST['p']['fieldsData'][$curField['fieldID']])) ? $_POST['p']['fieldsData'][$curField['fieldID']] : (isset($fieldsData[$curField['fieldID']]) ? explode(',',$fieldsData[$curField['fieldID']]) : array()); break;
 					}
@@ -137,7 +139,7 @@ class EditProfile extends ModuleTemplate {
 							else $this->modules['DB']->queryParams('INSERT INTO '.TBLPFX.'profile_fields_data ("fieldID", "userID", "fieldValue") VALUES ($1, $2, $3)', array($curField['fieldID'], USERID, $curValue));
 						}
 
-                        $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'profile_fields_data WHERE "userID"=$1 AND "fieldID" IN $2', array(USERID, $deleteIDs));
+						$this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'profile_fields_data WHERE "userID"=$1 AND "fieldID" IN $2', array(USERID, $deleteIDs));
 					}
 				}
 
@@ -181,21 +183,21 @@ class EditProfile extends ModuleTemplate {
 				if(!isset($timeZones[$p['userTimeZone']])) $p['userTimeZone'] = 'gmt';
 
 				if(isset($_GET['doit'])) {
-                    $this->modules['DB']->queryParams('
-                        UPDATE
-                            '.TBLPFX.'users
-                        SET
-                            "userHideEmailAddress"=$1,
-                            "userReceiveEmails"=$2,
-                            "userTimeZone"=$3
-                        WHERE
-                            "userID"=$4
-                    ', array(
-                        $p['userHideEmailAddress'],
-                        $p['userReceiveEmails'],
-                        $p['userTimeZone'],
-                        USERID
-                    ));
+					$this->modules['DB']->queryParams('
+						UPDATE
+							'.TBLPFX.'users
+						SET
+							"userHideEmailAddress"=$1,
+							"userReceiveEmails"=$2,
+							"userTimeZone"=$3
+						WHERE
+							"userID"=$4
+					', array(
+						$p['userHideEmailAddress'],
+						$p['userReceiveEmails'],
+						$p['userTimeZone'],
+						USERID
+					));
 
 					$this->modules['Navbar']->addElements(array($this->modules['Language']->getString('Profile_saved'),''));
 					FuncMisc::printMessage('profile_saved'); exit;
@@ -214,13 +216,13 @@ class EditProfile extends ModuleTemplate {
 
 				if(isset($_GET['doit'])) {
 					if($topicID != 0)
-                        $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'topics_subscriptions WHERE "userID"=$1 AND "topicID"=$2', array(USERID, $topicID));
+						$this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'topics_subscriptions WHERE "userID"=$1 AND "topicID"=$2', array(USERID, $topicID));
 
 					if(count($topicIDs) > 0)
-                        $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'topics_subscriptions WHERE "userID"=$1 AND "topicID" IN $2', array(USERID, $topicIDs));
+						$this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'topics_subscriptions WHERE "userID"=$1 AND "topicID" IN $2', array(USERID, $topicIDs));
 				}
 
-                $this->modules['DB']->queryParams('SELECT t2."topicTitle", t1."topicID" FROM ('.TBLPFX.'topics_subscriptions AS t1, '.TBLPFX.'topics AS t2) WHERE t1."userID"=$1 AND t2."topicID"=t1."topicID"', array(USERID));
+				$this->modules['DB']->queryParams('SELECT t2."topicTitle", t1."topicID" FROM ('.TBLPFX.'topics_subscriptions AS t1, '.TBLPFX.'topics AS t2) WHERE t1."userID"=$1 AND t2."topicID"=t1."topicID"', array(USERID));
 				$subscriptionsData = $this->modules['DB']->raw2Array();
 
 				$this->modules['Navbar']->addElement($this->modules['Language']->getString('Topic_subscriptions'),'');
@@ -235,7 +237,7 @@ class EditProfile extends ModuleTemplate {
 				$p['avatarAddress'] = isset($_POST['p']['avatarAddress']) ? $_POST['p']['avatarAddress'] : $this->modules['Auth']->getValue('userAvatarAddress');
 
 				if(isset($_GET['Doit']))
-                    $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'users SET "userAvatarAddress"=$1 WHERE "userID"=$2', array($p['avatarAddress'], USERID));
+					$this->modules['DB']->queryParams('UPDATE '.TBLPFX.'users SET "userAvatarAddress"=$1 WHERE "userID"=$2', array($p['avatarAddress'], USERID));
 
 				$this->modules['DB']->query('SELECT "avatarAddress" FROM '.TBLPFX.'avatars');
 				$avatarsData = $this->modules['DB']->raw2Array();
@@ -256,7 +258,7 @@ class EditProfile extends ModuleTemplate {
 				$this->modules['Navbar']->addelement($this->modules['Language']->getString('Memo'),INDEXFILE.'?action=EditProfile&amp;mode=Memo&amp;'.MYSID);
 
 				if(isset($_GET['doit'])) {
-                    $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'users SET "userMemo"=$1 WHERE "userID"=$2', array($p['userMemo'], USERID));
+					$this->modules['DB']->queryParams('UPDATE '.TBLPFX.'users SET "userMemo"=$1 WHERE "userID"=$2', array($p['userMemo'], USERID));
 					FuncMisc::printMessage('memo_updated'); exit;
 				}
 

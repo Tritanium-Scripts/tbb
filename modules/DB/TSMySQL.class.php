@@ -151,7 +151,7 @@ class TSMySQL {
 	
 	public function getColumnsData($tableName) {
 		$columnsData = array();
-		$this->query('SHOW COLUMNS '.$tableName);	
+		$this->query('SHOW COLUMNS FROM '.$tableName);	
 		while(list($columnsData[]) = $this->fetchArray()) {}
 		return $columnsData;
 	}
