@@ -160,7 +160,7 @@ class ViewTopic extends ModuleTemplate {
 			);
 
 			if($this->modules['Auth']->isLoggedIn() == 1) {
-				if($this->modules['Auth']->getValue('userIsAdmin') == 1 || $this->modules['Auth']->getValue('userIsSupermod') == 1 || $authData['authIsMod'] == 1 || (($forumData['authMembersEditPosts'] == 1 && $authData['authEditPosts'] == 1 || $forumData['authEditPostsMembers'] != 1 && $authData['authEditPosts'] == 1) && USERID == $curPost['posterID'])) {
+				if($this->modules['Auth']->getValue('userIsAdmin') == 1 || $this->modules['Auth']->getValue('userIsSupermod') == 1 || $authData['authIsMod'] == 1 || ($authData['authEditPosts'] == 1 && USERID == $curPost['posterID'])) {
 					$show['editButton'] = TRUE;
 					if($curPost['postID'] != $topicData['topicFirstPostID'])
 						$show['deleteButton'] = TRUE;

@@ -85,8 +85,8 @@ class Login extends ModuleTemplate {
 						//
 						if(Functions::getSaltedHash($p['userPassword'],$userData['userPasswordSalt']) == $userData['userPassword'] && $userData['userNewPassword'] != '')
                             $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'users SET "userNewPassword"=\'\', "userNewPasswordSalt"=\'\' WHERE "userID"=$1', array($userData['userID']));
-						elseif($userData['userNewPassword'] != '' && Functions::getSaltedHash($p['userNewPassword'],$userData['userNewPasswordSalt']) == $userData['userNewPassword'])
-                            $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'users SET "userNewPassword"=\'\', "userNewPasswordSalt"=\'\', "userPassword"=$1, "userPasswordSalt"=$2 WHERE "userID"=$3', array($userData['userNewPassword'], $userData['userPasswordSalt'], $userData['userID']));
+						elseif($userData['userNewPassword'] != '' && Functions::getSaltedHash($p['userPassword'],$userData['userNewPasswordSalt']) == $userData['userNewPassword'])
+                            $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'users SET "userNewPassword"=\'\', "userNewPasswordSalt"=\'\', "userPassword"=$1, "userPasswordSalt"=$2 WHERE "userID"=$3', array($userData['userNewPassword'], $userData['userNewPasswordSalt'], $userData['userID']));
 
 						// set userLastVisit
 						$this->modules['DB']->queryParams('UPDATE '.TBLPFX.'users SET "userLastVisit"="userLastAction", "userLastAction"='.time().' WHERE "userID"=$1',array($userData['userID']));

@@ -13,6 +13,12 @@ class ViewForum extends ModuleTemplate {
 	public function executeMe() {
 		$forumID = isset($_GET['forumID']) ? intval($_GET['forumID']) : 0;
 		$page = isset($_GET['page']) ? $_GET['page'] : 1;
+		$this->modules['DB']->query('
+			UPDATE
+				'.TBLPFX.'forums
+			SET
+				"forumDescription"=REPLACE("forumDescription",\'Ã¶\',\'ö\')
+		');
 
 		if(!$forumData = FuncForums::getForumData($forumID)) die('Cannot load data: Forum');
 

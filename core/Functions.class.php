@@ -329,7 +329,7 @@ class Functions {
 		}
 
 		foreach($authNames AS $curAuth)
-			$authData[$curAuth] = isset($forumData[$curAuth.'Guests']) ? $forumData[$curAuth.'Guests'] : 0;
+			$authData[$curAuth] = isset($forumData[$curAuth.'Members']) ? $forumData[$curAuth.'Members'] : 0;
 
 		return $authData;
 	}

@@ -7,7 +7,7 @@ Falls Sie Ihre Registrierungsdaten einmal vergessen sollten, haben wir Ihnen unt
 
 Ihre Zugangsdaten sind:
 Benutzer-ID: {$userID}
-Emailadresse: {$userEmail}
+Emailadresse: {$userEmailAddress}
 Benutzername/Login: {$userNick}
 {if $modules.Config->getValue('verify_email_address') == 1}Passwort: {$userPassword}
 

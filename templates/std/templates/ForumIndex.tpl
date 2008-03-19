@@ -106,7 +106,7 @@ initializeClosedCatIDs();
  </table>
  <br/>
 {/if}
-<!--<template:latestpostsbox>
+{*<template:latestpostsbox>
  <table class="TableStd" width="100%">
  <tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('Latest_posts')}</span></td></tr>
  <template:postrow>
@@ -115,4 +115,4 @@ initializeClosedCatIDs();
  </table>
  <br/>
 </template>
--->
+*}

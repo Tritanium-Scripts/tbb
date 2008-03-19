@@ -171,7 +171,7 @@ class Register extends ModuleTemplate {
 							if($this->modules['Config']->getValue('verify_email_address') == 2) {
 								$this->modules['Template']->assign(array(
 									'userNick'=>$p['userName'],
-									'activationLink'=>$this->modules['Config']->getValue('board_address').'/'.INDEXFILE.'?action=Login&mode=ActivateAccount&accountID='.$p['userNick'].'&activationCode='.$userHash.'&doit=1',
+									'activationLink'=>$this->modules['Config']->getValue('board_address').'/'.INDEXFILE.'?action=Login&mode=ActivateAccount&accountID='.$p['userName'].'&activationCode='.$userHash.'&doit=1',
 									'activationCode'=>$userHash
 								));
 								Functions::myMail(
@@ -186,7 +186,7 @@ class Register extends ModuleTemplate {
 						FuncUsers::updateLatestUser($userID,$p['userName']);
 						FuncUsers::updateUsersCounter();
 
-						$this->modules['Navbar']->addElement($this->modules['Language']->getString('Registration_successful'),INDEXFILE."?Action=Register&amp;".MYSID);
+						$this->modules['Navbar']->addElement($this->modules['Language']->getString('Registration_successful'),INDEXFILE."?action=Register&amp;".MYSID);
 
 						switch($this->modules['Config']->getValue('verify_email_address')) {
 							case '0': FuncMisc::printMessage('registration_successful',array(sprintf($this->modules['Language']->getString('message_link_click_here_login'),'<a href="'.INDEXFILE.'?action=Login&amp;'.MYSID.'">','</a>'))); break;

@@ -394,4 +394,19 @@ $this->DB->query('
 
 $this->DB->query('DROP TABLE IF EXISTS '.TBLPFX.'wio');
 
+$this->DB->query('
+	UPDATE
+		'.TBLPFX.'users
+	SET
+		"userAvatarAddress"=REPLACE("userAvatarAddress",\'upload/\',\'uploads/\')
+	WHERE
+		"userAvatarAddress" LIKE \'upload%\'
+');
+
+$this->DB->query('
+	INSERT INTO '.TBLPFX.'config SET
+		"configName"=\'usersCounter\',
+		"configValue"=\'\'
+');
+
 $nextUpdateFile = '';
