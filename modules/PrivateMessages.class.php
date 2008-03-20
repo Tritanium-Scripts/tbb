@@ -377,11 +377,11 @@ class PrivateMessages extends ModuleTemplate {
 				$error = '';
 
 				if(isset($_GET['doit']) && $pmData['pmType'] == 0 && $pmData['pmFromID'] != 0) {
-					$c['enableSmilies'] = (isset($_POST['c']['EnableSmilies']) && $this->modules['Config']->getValue('allow_pms_smilies') == 1) ? 1 : 0;
-					$c['showSignature'] = (isset($_POST['c']['ShowSignature']) && $this->modules['Config']->getValue('enable_sig') == 1) ? 1 : 0;
-					$c['enableBBCode'] = (isset($_POST['c']['EnableBBCode']) && $this->modules['Config']->getValue('allow_pms_bbcode') == 1) ? 1 : 0;
-					$c['saveOutbox'] = (isset($_POST['c']['SaveOutbox']) && $this->modules['Config']->getValue('enable_outbox') == 1) ? 1 : 0;
-					$c['requestReadReceipt'] = (isset($_POST['c']['RequestReadReceipt']) && $this->modules['Config']->getValue('allow_pms_rconfirmation') == 1) ? 1 : 0;
+					$c['enableSmilies'] = (isset($_POST['c']['enableSmilies']) && $this->modules['Config']->getValue('allow_pms_smilies') == 1) ? 1 : 0;
+					$c['showSignature'] = (isset($_POST['c']['showSignature']) && $this->modules['Config']->getValue('enable_sig') == 1) ? 1 : 0;
+					$c['enableBBCode'] = (isset($_POST['c']['enableBBCode']) && $this->modules['Config']->getValue('allow_pms_bbcode') == 1) ? 1 : 0;
+					$c['saveOutbox'] = (isset($_POST['c']['saveOutbox']) && $this->modules['Config']->getValue('enable_outbox') == 1) ? 1 : 0;
+					$c['requestReadReceipt'] = (isset($_POST['c']['requestReadReceipt']) && $this->modules['Config']->getValue('allow_pms_rconfirmation') == 1) ? 1 : 0;
 
 					if(trim($p['pmSubject']) == '') $error = $this->modules['Language']->getString('error_no_subject');
 					elseif(trim($p['pmMessageText']) == '') $error = $this->modules['Language']->getString('error_no_message');
@@ -563,7 +563,7 @@ class PrivateMessages extends ModuleTemplate {
 				$folderID = isset($_GET['folderID']) ? intval($_GET['folderID']) : 0;
 
                 $this->modules['DB']->queryParams('SELECT * FROM '.TBLPFX.'pms_folders WHERE "userID"=$1 AND "folderID"=$2', array(USERID, $folderID));
-				($this->modules['DB']->getAffectedRows() != 1) ? die('Kann Daten nich laden: PM-Ordner') : $folderData = $this->modules['DB']->fetchArray();
+				($this->modules['DB']->numRows() != 1) ? die('Kann Daten nich laden: PM-Ordner') : $folderData = $this->modules['DB']->fetchArray();
 
 				$p = Functions::getSGValues($_POST['p'],array('folderName'),'',$folderData);
 
@@ -576,10 +576,10 @@ class PrivateMessages extends ModuleTemplate {
                             UPDATE
                                 '.TBLPFX.'pms_folders
                             SET
-                                "FolderName"=$1
+                                "folderName"=$1
                             WHERE
-                                "UserID"=$2
-                                AND "FolderID"=$3
+                                "userID"=$2
+                                AND "folderID"=$3
                         ', array(
                             $p['folderName'],
                             USERID,
