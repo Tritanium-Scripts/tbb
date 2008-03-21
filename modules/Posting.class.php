@@ -177,7 +177,7 @@ class Posting extends ModuleTemplate {
                                 ));
 							}
 
-							Functions::myHeader(INDEXFILE."?p=$postID&".MYSID."#post$postID");
+							Functions::myHeader(INDEXFILE."?action=ViewTopic&postID=$postID&".MYSID."#post$postID");
 						}
 						else {
 							if(USERID != 0)
