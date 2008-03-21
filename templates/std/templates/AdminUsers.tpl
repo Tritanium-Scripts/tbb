@@ -1,5 +1,5 @@
 <form method="post" action="{$indexFile}?action=AdminUsers&amp;mode=SearchUsers&amp;doit=1&amp;{$mySID}">
-<table class="TableStd" cellspacing="0" width="100%">
+<table class="TableStd" width="100%">
 <tr><td class="CellTitle" colspan="2"><span class="FontTitle">{$modules.Language->getString('Manage_users')}</span></td></tr>
 <tr><td class="CellInfoBox" colspan="2"><span class="FontInfoBox">{$modules.Language->getString('search_users_info')}</span></td></tr>
 <tr>
@@ -19,7 +19,7 @@
 </form>
 <br/>
 <form method="post" action="{$indexFile}?action=AdminUsers&amp;mode=UnlockUsers&amp;{$mySID}">
-<table class="TableStd" cellspacing="0" width="100%">
+<table class="TableStd" width="100%">
 <tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('Unlock_users')}</span></td></tr>
 <template:nolockedusers>
  <tr><td class="CellStd" align="center"><span class="FontNorm">-- {$modules.Language->getString('No_locked_users')} --</span></td></tr>

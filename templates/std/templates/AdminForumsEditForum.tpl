@@ -1,5 +1,5 @@
 <form method="post" action="{$indexFile}?action=AdminForums&amp;mode=EditForum&amp;forumID={$forumID}&amp;doit=1&amp;{$mySID}">
-<table class="TableStd" cellspacing="0" width="100%">
+<table class="TableStd" width="100%">
 <tr><td class="CellTitle" colspan="2"><span class="FontTitle">{$modules.Language->getString('Edit_forum')}</span></td></tr>
 {if $error != ''}<tr><td class="CellError" colspan="2"><span class="FontError">{$error}</span></td></tr>{/if}
 <tr><td class="CellCat" colspan="2"><span class="FontCat">{$modules.Language->getString('General_information')}</span></td></tr>

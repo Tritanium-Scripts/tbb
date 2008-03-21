@@ -18,7 +18,7 @@ class Session extends ModuleTemplate {
 		session_name('sid');
 		
 		if(stripos($_SERVER['HTTP_USER_AGENT'],'bot') !== FALSE) {
-			file_put_contents('robots-found.txt','found'.$_SERVER['HTTP_USER_AGENT']."\n",LOCK_EX & FILE_APPEND);
+			file_put_contents('robots-found.txt','found'.$_SERVER['HTTP_USER_AGENT']."\n",LOCK_EX | FILE_APPEND);
 			return;
 		}
 		

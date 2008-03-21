@@ -1,5 +1,5 @@
 <form method="post" action="{$indexFile}?action=AdminUsers&amp;mode=AddUser&amp;doit=1&amp;{$mySID}">
-<table class="TableStd" cellspacing="0" width="100%">
+<table class="TableStd" width="100%">
 <colgroup>
  <col width="20%"/>
  <col width="80%"/>

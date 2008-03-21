@@ -1,4 +1,4 @@
-<table class="TableStd" cellspacing="0" width="100%">
+<table class="TableStd" width="100%">
 <tr><td class="CellTitle" colspan="3"><span class="FontTitle">{$modules.Language->getString('Manage_forums')}</span></td></tr>
 {foreach from=$catsData item=curCat}
  <tr>

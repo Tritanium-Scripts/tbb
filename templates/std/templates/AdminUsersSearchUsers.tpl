@@ -1,5 +1,5 @@
 <form method="post" action="{$indexFile}?action=AdminUsers&amp;mode=SearchUsers&amp;doit=1&amp;{$mySID}">
-<table class="TableStd" cellspacing="0" width="100%">
+<table class="TableStd" width="100%">
 <tr><td class="CellTitle" colspan="2"><span class="FontTitle">{$modules.Language->getString('Search_users')}</span></td></tr>
 <tr><td class="CellInfoBox" colspan="2"><span class="FontInfoBox">{$modules.Language->getString('search_users_info')}</span></td></tr>
 <tr>
@@ -18,7 +18,7 @@
 </table>
 </form>
 <br/>
-<table class="TableStd" cellspacing="0" width="100%">
+<table class="TableStd" width="100%">
 <tr><td class="CellTitle" colspan="4"><span class="FontTitle">{$modules.Language->getString('Search_results')}</span></td></tr>
 {foreach from=$usersData item=curUser}
  <tr class="RowToHighlight" onmouseover="setRowCellsClass(this,'CellHighlight');" onmouseout="restoreRowCellsClass(this);">
