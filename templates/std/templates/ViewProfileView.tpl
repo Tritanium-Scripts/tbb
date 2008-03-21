@@ -1,4 +1,4 @@
-<table class="TableStd" border="0" cellpadding="3" cellspacing="0" width="100%">
+<table class="TableStd" width="100%">
 <colgroup>
  {if $modules.Config->getValue('enable_avatars') == 1 && $profileData.userAvatarAddress != ''}<col width="129"/>{/if}
 <!--

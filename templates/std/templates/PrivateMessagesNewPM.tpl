@@ -1,5 +1,5 @@
 <form method="post" action="{$indexFile}?action=PrivateMessages&amp;mode=NewPM&amp;doit=1&amp;{$mySID}" name="myForm">
-<table class="TableStd" border="0" cellpadding="3" cellspacing="0" width="100%">
+<table class="TableStd" width="100%">
 <colgroup>
  <col width="20%"/>
  <col width="80%"/>

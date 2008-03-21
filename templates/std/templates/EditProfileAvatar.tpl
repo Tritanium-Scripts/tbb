@@ -1,5 +1,5 @@
 <form method="post" action="{$indexFile}?action=EditProfile&amp;mode=Avatar&amp;doit=1&amp;{$mySID}" name="myForm">
-<table class="TableStd" border="0" cellpadding="3" cellspacing="0" width="100%">
+<table class="TableStd" width="100%">
 <tr><td class="CellCat"><span class="FontCat">{$modules.Language->getString('Avatar')}</span></td></tr>
 <tr><td class="CellStd">
  <fieldset>

@@ -4,7 +4,7 @@
  <table border="0" cellpadding="0" cellspacing="0" width="100%">
  <tr>
   <td valign="top" width="200">
-   <table class="TableStd" border="0" cellpadding="3" cellspacing="0" width="100%">
+   <table class="TableStd" width="100%">
    <tr><td class="CellCat"><span class="FontCat">{$modules.Language->getString('Navigation')}</span></td></tr>
    <tr><td class="CellNav" onclick="goTo('{$indexFile}?action=PrivateMessages&amp;mode=NewPM&amp;{$mySID}');"><a class="FontNav" href="{$indexFile}?action=PrivateMessages&amp;mode=NewPM&amp;{$mySID}">{$modules.Language->getString('New_private_message')}</a></td></tr>
    <tr><td class="CellNavNone"><hr class="LineNav"/></td></tr>

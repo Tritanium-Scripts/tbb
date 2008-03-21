@@ -1,5 +1,5 @@
 <form method="post" action="{$indexFile}?action=EditProfile&amp;mode=UploadAvatar&amp;doit=1&amp;{$mySID}" enctype="multipart/form-data">
-<table class="TableStd" border="0" cellpadding="3" cellspacing="0" width="100%">
+<table class="TableStd" width="100%">
 <tr><td class="CellTitle" colspan="2"><span class="FontTitle">{$modules.Language->getString('Upload_avatar')}</span></td></tr>
 {if $error != ''}<tr><td class="CellError" colspan="2"><span class="FontError">{$error}</span></td></tr>{/if}
 <tr>

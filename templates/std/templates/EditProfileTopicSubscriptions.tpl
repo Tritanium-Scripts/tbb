@@ -1,5 +1,5 @@
 <form method="post" action="{$indexFile}?action=EditProfile&amp;mode=TopicSubscriptions&amp;doit=1&amp;{$mySID}">
-<table class="TableStd" border="0" cellpadding="3" cellspacing="0" width="100%">
+<table class="TableStd" width="100%">
 <tr><td class="CellCat" colspan="3"><span class="FontCat">{$modules.Language->getString('Topic_subscriptions')}</span></td></tr>
 {foreach from=$subscriptionsData item=curSubscription}
  <tr>

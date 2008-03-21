@@ -18,7 +18,7 @@
 {/foreach}
 </table>
 <br />
-<table class="TableStd" border="0" cellpadding="3" cellspacing="0" width="100%">
+<table class="TableStd" width="100%">
 <tr><td class="CellTitle" colspan="2"><span class="FontTitle">{$modules.Language->getString('Forums_without_category')}</span></td></tr>
 {foreach from=$forumsData item=curForum}
  {if $curForum.catID == 1}
@@ -30,7 +30,7 @@
 {/foreach}
 </table>
 <br />
-<table class="TableStd" border="0" cellpadding="3" cellspacing="0" width="100%">
+<table class="TableStd" width="100%">
 <tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('Other_options')}</span></td></tr>
 <tr><td class="CellStd"><span class="FontNorm"><a href="{$indexFile}?action=AdminForums&amp;mode=AddCat&amp;parentCatID=1&amp;{$mySID}">{$modules.Language->getString('Add_category')}</a><br /><a href="{$indexFile}?action=AdminForums&amp;mode=AddForum&amp;catID=1&amp;{$mySID}">{$modules.Language->getString('Add_forum')}</a></span></td></tr>
 </table>

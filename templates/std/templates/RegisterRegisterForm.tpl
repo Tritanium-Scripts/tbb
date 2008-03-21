@@ -1,5 +1,5 @@
 <form method="post" action="{$indexFile}?action=Register&amp;mode=RegisterForm&amp;doit=1&amp;{$mySID}">
-<table class="TableStd" border="0" cellpadding="3" cellspacing="0" width="100%">
+<table class="TableStd" width="100%">
 <tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('Register')}</span></td></tr>
 {if $error != ''}<tr><td class="CellError"><span class="FontError"><img src="{$modules.Template->getTD()}/images/icons/Warning.png" class="ImageIcon" alt=""/>{$error}</span></td></tr>{/if}
 <tr><td class="CellCat"><span class="FontCat">{$modules.Language->getString('General_information')}</span></td></tr>

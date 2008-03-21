@@ -1,5 +1,5 @@
 <form method="post" action="{$indexFile}?action=EditProfile&amp;mode=ProfileSettings&amp;doit=1&amp;{$mySID}">
-<table class="TableStd" border="0" cellpadding="3" cellspacing="0" width="100%">
+<table class="TableStd" width="100%">
 <tr><td class="CellCat"><span class="FontCat">{$modules.Language->getString('Settings')}</span></td></tr>
 <tr><td class="CellStd">
  <fieldset>

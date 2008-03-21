@@ -1,5 +1,5 @@
 <form method="post" action="{$indexFile}?action=AdminUsers&amp;mode=EditUser&amp;userID={$userData.userID}&amp;doit=1&amp;{$mySID}">
-<table class="TableStd" border="0" cellpadding="3" cellspacing="0" width="100%">
+<table class="TableStd" width="100%">
 <tr><td class="CellTitle" colspan="2"><span class="FontTitle">{$modules.Language->getString('Edit_user')}</span></td></tr>
 {if $error != ''}<tr><td class="CellError" colspan="2"><span class="FontError">{$error}</span></td></tr>{/if}
 <tr>
@@ -54,7 +54,7 @@
 <br/>
 {if $userData.userIsLocked != 0}
  <form method="post" action="{$indexFile}?action=AdminUsers&amp;mode=UnlockUser&amp;userID={$userData.userID}&amp;{$mySID}">
- <table class="TableStd" border="0" cellpadding="3" cellspacing="0" width="100%">
+ <table class="TableStd" width="100%">
  <tr><td class="CellTitle" colspan="2"><span class="FontTitle">{$modules.Language->getString('Unlock_user')}</span></td></tr>
  <tr>
   <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Ban_type')}:</span></td>
@@ -70,7 +70,7 @@
  </form>
 {else}
  <form method="post" action="{$indexFile}?action=AdminUsers&amp;mode=LockUser&amp;userID={$userData.userID}&amp;{$mySID}">
- <table class="TableStd" border="0" cellpadding="3" cellspacing="0" width="100%">
+ <table class="TableStd" width="100%">
  <tr><td class="CellTitle" colspan="2"><span class="FontTitle">{$modules.Language->getString('Lock_user')}</span></td></tr>
  <tr>
   <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Ban_type')}:</span></td>
@@ -86,7 +86,7 @@
  <br/>
 {/if}
 <form method="post" action="administration.php?action=ad_users&amp;mode=deleteuser&amp;user_id={$user_id}&amp;{$MYSID}">
-<table class="TableStd" border="0" cellpadding="3" cellspacing="0" width="100%">
+<table class="TableStd" width="100%">
  <tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('Delete_user')}</span></td></tr>
  <tr><td class="CellStd"><span class="FontNorm"><label><input type="checkbox" name="p_delete_posts" value="1" />&nbsp;{$modules.Language->getString('Delete_users_posts')}</label></span></td></tr>
  <tr><td class="CellStd"><span class="FontNorm"><label><input type="checkbox" name="p_ban_nick_email" value="1" checked="checked" />&nbsp;{$modules.Language->getString('Ban_nick_email')}</label></span></td></tr>

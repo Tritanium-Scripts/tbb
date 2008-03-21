@@ -1,5 +1,5 @@
 <form method="post" action="{$indexFile}?action=AdminForums&amp;mode=EditSpecialRights&amp;forumID={$forumID}&amp;doit=1&amp;{$mySID}">
-<table class="TableStd" border="0" cellpadding="3" cellspacing="0" width="100%">
+<table class="TableStd" width="100%">
 <tr>
  <td class="CellTitle"><span class="FontTitleSmall">{$modules.Language->getString('Name')}</span></td>
  <td class="CellTitle"><span class="FontTitleSmall">{$modules.Language->getString('Auth_is_moderator')}</span></td>
@@ -39,7 +39,7 @@
 <tr><td colspan="8" class="CellButtons" align="center"><input type="submit" class="FormBButton" value="{$modules.Language->getString('Edit_special_rights')}"/>&nbsp;&nbsp;&nbsp;<input class="FormButton" type="reset" value="{$modules.Language->getString('Reset')}"/></td></tr>
 </table>
 <br/>
-<table class="TableStd" border="0" cellpadding="3" cellspacing="0" width="100%">
+<table class="TableStd" width="100%">
 <tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('Other_options')}</span></td></tr>
 <tr><td class="CellStd"><span class="FontNorm">
  <a href="{$indexFile}?action=AdminForums&amp;mode=AddUserRight&amp;forumID={$forumID}&amp;{$mySID}">{$modules.Language->getString('Add_user_right')}</a><br/>

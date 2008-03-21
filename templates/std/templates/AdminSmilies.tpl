@@ -28,7 +28,7 @@
 {/foreach}
 </table>
 <br/>
-<table class="TableStd" border="0" cellpadding="3" cellspacing="0" width="100%">
+<table class="TableStd" width="100%">
 <tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('Other_options')}</span></td></tr>
 <tr><td class="CellStd"><span class="FontNorm"><a href="{$indexFile}?action=AdminSmilies&amp;mode=addSmiley&amp;smileyType={$smarty.const.SMILEY_TYPE_SMILEY}&amp;{$mySID}">{$modules.Language->getString('Add_smiley')}</a><br/><a href="{$indexFile}?action=AdminSmilies&amp;mode=addSmiley&amp;smileyType={$smarty.const.SMILEY_TYPE_TPIC}&amp;{$mySID}">{$modules.Language->getString('Add_topic_pic')}</a><br/><a href="{$indexFile}?action=AdminSmilies&amp;mode=addSmiley&amp;smileyType={$smarty.const.SMILEY_TYPE_ADMINSMILEY}&amp;{$mySID}">{$modules.Language->getString('Add_adminsmiley')}</a></span></td></tr>
 </table>
