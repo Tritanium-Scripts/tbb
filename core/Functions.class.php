@@ -83,9 +83,26 @@ class Functions {
 	   return $Value;
 	}
 
-	public static function toDateTime($Timestamp) {
-		$Lng = Factory::singleton('Language');
-		return date($Lng->getString('date_time_format'),$Timestamp);
+	public static function toDateTime($timestamp, $returnRawDate = FALSE) {
+		$Language = Factory::singleton('Language');
+		$Config = Factory::singleton('Config');
+		$Auth = Factory::singleton('Auth');
+		
+		$compareDate = gmdate('d.m.Y',$timestamp);
+		$timeZones = self::getTimeZones();
+		
+		if($Auth->isLoggedIn()) 
+			$timestamp += $timeZones[$Auth->getValue('userTimeZone')]; 
+		else
+			$timestamp += $timeZones[$Config->getValue('standard_tz')]; 
+
+		if($returnRawDate) 
+			return gmdate($Language->getString('date_time_format'),$timestamp); 
+
+		if(gmdate('d.m.Y') == $compareDate) return gmdate($Language->getString('today_date_format'),$timestamp); 
+		if(gmdate('d.m.Y',time()-86400) == $compareDate) return gmdate($Language->getString('yesterday_date_format'),$timestamp); 
+		return gmdate($Language->getString('date_time_format'),$timestamp); 
+		//return date($Lanugage->getString('date_time_format'),$Timestamp);
 	}
 
 	public static function toTime($Timestamp) {
@@ -463,7 +480,7 @@ class Functions {
 			'nzdt'=>+46800
 		);
 
-		if($AssignNames == TRUE) {
+		if($AssignNames) {
 			$Language = Factory::singleton('Language');
 			$Language->addFile('TimeZones');
 			while(list($curKey) = each($TimeZones))

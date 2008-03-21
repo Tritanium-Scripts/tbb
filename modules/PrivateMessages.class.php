@@ -404,11 +404,8 @@ class PrivateMessages extends ModuleTemplate {
                                 "pmShowSignature"=$9,
                                 "pmRequestReadReceipt"=$10
                         ', array(
-
                             USERID,
                             $pmData['pmFromID'],
-
-
                             $p['pmSubject'],
                             $p['pmMessageText'],
                             time(),
