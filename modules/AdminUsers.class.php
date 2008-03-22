@@ -52,7 +52,8 @@ class AdminUsers extends ModuleTemplate {
 								"userPassword"=$3,
 								"userPasswordSalt"=$4,
 								"userRegistrationTimestamp"=$5,
-								"userTimeZone"=$6
+								"userTimeZone"=$6,
+								"userIsActivated"=1
 						',array(
 							$p['userNick'],
 							$p['userEmailAddress'],
@@ -330,6 +331,7 @@ class AdminUsers extends ModuleTemplate {
                     $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'posts SET "posterID"=0, "postGuestNick"=$1 WHERE "posterID"=$2', array($userData['userNick'], $userID));
                     $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'topics SET "posterID"=0, "topicGuestNick"=$1 WHERE "posterID"=$2', array($userData['userNick'], $userID));
 				}
+				FuncUsers::updateLatestUser();
 				FuncMisc::printMessage('user_deleted');
 			break;
 

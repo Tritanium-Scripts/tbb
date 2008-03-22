@@ -85,7 +85,7 @@ INSERT INTO /*TABLEPREFIX*/config ("configName","configValue") VALUES ('wio_time
 #
 # Table 'ranks'
 #
-INSERT INTO /*TABLEPREFIX*/ranks ("rankName","rankType","rankPosts") VALUES ('User','0','0');
+INSERT INTO /*TABLEPREFIX*/ranks ("rankName","rankType","rankPosts","rankGfx") VALUES ('User','0','0','images/rankpics/ystar.gif');
 
 #
 # Table 'smilies'

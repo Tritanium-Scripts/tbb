@@ -236,7 +236,7 @@ class EditProfile extends ModuleTemplate {
 			case 'Avatar':
 				$p['avatarAddress'] = isset($_POST['p']['avatarAddress']) ? $_POST['p']['avatarAddress'] : $this->modules['Auth']->getValue('userAvatarAddress');
 
-				if(isset($_GET['Doit']))
+				if(isset($_GET['doit']))
 					$this->modules['DB']->queryParams('UPDATE '.TBLPFX.'users SET "userAvatarAddress"=$1 WHERE "userID"=$2', array($p['avatarAddress'], USERID));
 
 				$this->modules['DB']->query('SELECT "avatarAddress" FROM '.TBLPFX.'avatars');

@@ -487,7 +487,7 @@ class PrivateMessages extends ModuleTemplate {
 				}
 
 				$pmData['_pmSendDateTime'] = Functions::toDateTime($pmData['pmSendTimestamp']);
-				$pmData['_pmSender'] = ($pmData['pmType'] == 0) ? sprintf($this->modules['Language']->getString('from_x'),$pmData['pmFromNick']) : sprintf($this->modules['Language']->getString('to_x'),$pmData['PMFromNick']);
+				$pmData['_pmSender'] = ($pmData['pmType'] == 0) ? sprintf($this->modules['Language']->getString('from_x'),$pmData['pmFromNick']) : sprintf($this->modules['Language']->getString('to_x'),$pmData['pmFromNick']);
 
 				if($pmData['folderID'] == 0) $pmData['pmFolderName'] = $this->modules['Language']->getString('Inbox');
 				elseif($pmData['folderID'] == 1) $pmData['pmFolderName'] = $this->modules['Language']->getString('Outbox');
