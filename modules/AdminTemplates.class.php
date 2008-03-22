@@ -31,15 +31,13 @@ class AdminTemplates extends ModuleTemplate {
 				Functions::myHeader(INDEXFILE.'?action=AdminTemplates&'.MYSID);
 			}
 			elseif(file_exists('templates/'.$p['standardTemplate'].'/styles/'.$p['standardStyle']))
-				update_config_value('standard_style',$p['standardStyle'],FALSE);
+				$this->modules['Config']->updateValue('standard_style',$p['standardStyle'],FALSE);
 
 			$this->modules['Config']->updateValue('allow_select_tpl',$p['allowSelectTemplate'],FALSE);
 			$this->modules['Config']->updateValue('allow_select_style',$p['allowSelectStyle']);
 
 
-			include_once('pheader.php');
-			show_message($LNG['Template_config_updated'],$LNG['message_template_config_updated'],FALSE);
-			include_once('ptail.php'); exit;
+			FuncMisc::printMessage('template_config_updated'); exit;
 		}
 
 		$templatesData = array();

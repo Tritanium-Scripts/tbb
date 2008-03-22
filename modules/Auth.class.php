@@ -2,6 +2,7 @@
 
 class Auth extends ModuleTemplate {
 	protected $requiredModules = array(
+		'Constants',
 		'Session',
 		'DB'
 	);
@@ -14,7 +15,7 @@ class Auth extends ModuleTemplate {
 			$this->modules['DB']->queryParams('SELECT * FROM '.TBLPFX.'users WHERE "userID"=$1', array($_SESSION['userID']));
 			if($this->modules['DB']->numRows() == 1) {
 				$tempUserData = $this->modules['DB']->fetchArray();
-				if(($tempUserData['userIsLocked'] == 0 || !FuncUsers::checkLockStatus($tempUserData['userID'])) && $tempUserData['userPassword'] == $_SESSION['userPassword']) {
+				if(($tempUserData['userIsLocked'] == 0 || $tempUserData['userIsLocked'] == LOCK_TYPE_NO_POSTING || !FuncUsers::checkLockStatus($tempUserData['userID'])) && $tempUserData['userPassword'] == $_SESSION['userPassword']) {
 					$this->userID = $tempUserData['userID'];
 					$this->userLoggedIn = 1;
 					$this->userData = $tempUserData;
@@ -57,8 +58,9 @@ class Auth extends ModuleTemplate {
 	}
 
 	public function destroySessionData() {
-		unset($_SESSION['userID']);
-		unset($_SESSION['userPassword']);
+		//unset($_SESSION['userID']);
+		//unset($_SESSION['userPassword']);
+		session_destroy();
 	}
 	
 	public function getAuthedForumsIDs() {

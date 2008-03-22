@@ -40,10 +40,10 @@ class MemberList extends ModuleTemplate {
 		// Nach welchem Aspekt sortiert werden soll...
 		//
 		$queryOrderBy = '';
-		if($orderBy == 'id') $queryOrderBy = 't1.UserID';
-		elseif($orderBy == 'nick') $queryOrderBy = 't1.UserNick';
-		elseif($orderBy == 'rank') $queryOrderBy = "t1.UserIsAdmin $orderType,t1.UserIsSupermod $orderType,t1.RankID $orderType,t1.UserPostsCounter";
-		else $queryOrderBy = 't1.UserPostsCounter';
+		if($orderBy == 'id') $queryOrderBy = 't1."userID"';
+		elseif($orderBy == 'nick') $queryOrderBy = 't1."userNick"';
+		elseif($orderBy == 'rank') $queryOrderBy = 't1."userIsAdmin" '.$orderType.',t1."userIsSupermod" '.$orderType.',t1."rankID" '.$orderType.',t1."userPostsCounter"';
+		else $queryOrderBy = 't1."userPostsCounter"';
 
 
 		// Rangdaten laden
@@ -98,7 +98,7 @@ class MemberList extends ModuleTemplate {
 		//
 		// Mitgliederdaten laden
 		//
-		$this->modules['DB']->queryParams('
+		$this->modules['DB']->query('
 			SELECT
 				t1."userID",
 				t1."userNick",
@@ -111,14 +111,9 @@ class MemberList extends ModuleTemplate {
 			FROM
 				'.TBLPFX.'users AS t1
 			LEFT JOIN '.TBLPFX.'ranks AS t2 ON t1."rankID"=t2."rankID"
-			ORDER BY $1 $2
-			LIMIT $3, $4
-		', array(
-			$queryOrderBy,
-			$orderType,
-			(int) $start,
-			(int) $usersPerPage
-		));
+			ORDER BY '.$queryOrderBy.' '.$orderType.'
+			LIMIT '.intval($start).', '.intval($usersPerPage).'
+		');
 		$usersData = $this->modules['DB']->raw2Array();
 
 
@@ -197,7 +192,8 @@ class MemberList extends ModuleTemplate {
 			'usersData'=>$usersData,
 			'page'=>$page,
 			'orderBy'=>$orderBy,
-			'orderType'=>$orderType
+			'orderType'=>$orderType,
+			'usersPerPage'=>$usersPerPage
 		));
 
 		$this->modules['Template']->printPage('MemberList.tpl');

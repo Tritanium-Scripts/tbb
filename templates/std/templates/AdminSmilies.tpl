@@ -5,7 +5,7 @@
   <td class="CellStd" align="center"><img src="{$curSmiley.smileyFileName}" alt=""/></td>
   <td class="CellAlt"><span class="FontSmall">{$curSmiley.smileyFileName}</span></td>
   <td class="CellStd"><span class="FontSmall">{$curSmiley.smileySynonym}</span></td>
-  <td class="CellAlt" align="center"><span class="FontSmall">{if $curSmiley.smileyStatus == 1}{$modules.Language->getString('visible')}{else}{$modules.Language->getString('unsichtbar')}{/if}</span></td>
+  <td class="CellAlt" align="center"><span class="FontSmall">{if $curSmiley.smileyStatus == 1}{$modules.Language->getString('visible')}{else}{$modules.Language->getString('invisible')}{/if}</span></td>
   <td class="CellStd" align="right"><span class="FontSmall"><a href="{$indexFile}?action=AdminSmilies&amp;mode=deleteSmiley&amp;smileyID={$curSmiley.smileyID}&amp;{$mySID}">{$modules.Language->getString('delete')}</a> | <a href="{$indexFile}?action=AdminSmilies&amp;mode=editSmiley&amp;smileyID={$curSmiley.smileyID}&amp;{$mySID}">{$modules.Language->getString('edit')}</a></span></td>
  </tr>
 {/foreach}

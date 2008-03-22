@@ -1039,6 +1039,25 @@ class BoardInstall {
 							time(),
 							'gmt'
 						));
+						
+						$this->DB->query('SELECT "userID","userNick" FROM '.TBLPFX.'users ORDER BY "userID" DESC LIMIT 1'); 
+						$newestUserData = $this->DB->fetchArray();
+						$newConfigData[] = array($newestUserData['userID'],'newest_user_id');
+						$newConfigData[] = array($newestUserData['userNick'],'newest_user_nick');
+						foreach($newConfigData AS $curConfig) {
+							$this->DB->queryParams('
+								UPDATE
+									'.TBLPFX.'config
+								SET
+									"configValue"=$1
+								WHERE
+									"configName"=$2
+							',array(
+								$curConfig[0],
+								$curConfig[1]
+							));
+						}		
+						
 						Functions::myHeader(INSTALLFILE.'?step=10&'.MYSID);
 					}
 

@@ -88,7 +88,7 @@
 <form method="post" action="{$indexFile}?action=AdminUsers&amp;mode=DeleteUser&amp;userID={$userData.userID}&amp;{$mySID}">
 <table class="TableStd" width="100%">
  <tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('Delete_user')}</span></td></tr>
- <tr><td class="CellStd"><span class="FontNorm"><label><input type="checkbox" name="p_delete_posts" value="1" />&nbsp;{$modules.Language->getString('Delete_users_posts')}</label></span></td></tr>
+ {*<tr><td class="CellStd"><span class="FontNorm"><label><input type="checkbox" name="p_delete_posts" value="1" />&nbsp;{$modules.Language->getString('Delete_users_posts')}</label></span></td></tr>*}
  <tr><td class="CellStd"><span class="FontNorm"><label><input type="checkbox" name="p_ban_nick_email" value="1" checked="checked" />&nbsp;{$modules.Language->getString('Ban_nick_email')}</label></span></td></tr>
  <tr><td class="CellButtons" align="center"><input class="FormBButton" type="submit" value="{$modules.Language->getString('Delete_user')}"/>&nbsp;&nbsp;&nbsp;<input class="FormButton" type="reset" value="{$modules.Language->getString('Reset')}"/></td></tr>
 </table>

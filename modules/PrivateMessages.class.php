@@ -601,7 +601,7 @@ class PrivateMessages extends ModuleTemplate {
 				$moveFolderID = isset($_POST['moveFolderID']) ? intval($_POST['moveFolderID']) : -1;
 
                 $this->modules['DB']->queryParams('SELECT * FROM '.TBLPFX.'pms_folders WHERE "userID"=$1 AND "folderID"=$2', array(USERID, $folderID));
-				($this->modules['DB']->getAffectedRows() != 1) ? die('Kann Daten nich laden: PM-Ordner') : $folderData = $this->modules['DB']->fetchArray();
+				($this->modules['DB']->numRows() != 1) ? die('Kann Daten nich laden: PM-Ordner') : $folderData = $this->modules['DB']->fetchArray();
 
                 $this->modules['DB']->queryParams('SELECT COUNT(*) AS "folderPMsCounter" FROM '.TBLPFX.'pms WHERE "pmToID"=$1 AND "folderID"=$2', array(USERID, $folderID));
 				list($folderPMsCounter) = $this->modules['DB']->fetchArray();
@@ -620,7 +620,7 @@ class PrivateMessages extends ModuleTemplate {
 							break;
 						}
 					}
-
+					
 					if($moveFolderID != -1 && !$validFolder) $error = $this->modules['Language']->getString('Invalid_selection');
 					else {
 						if($moveFolderID == -1) $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'pms WHERE "pmToID"=$1 AND "folderID"=$2', array(USERID, $folderID));

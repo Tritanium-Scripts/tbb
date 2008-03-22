@@ -35,13 +35,13 @@ class Login extends ModuleTemplate {
 					if(trim($userNick) == '' || ($userData = FuncUsers::getUserData($userNick)) == FALSE) $error = $this->modules['Language']->getString('error_unknown_user');
 					elseif($userData['userIsActivated'] != 1) $error = sprintf($this->modules['Language']->getString('error_inactive_account'),$userData['userNick']);
 					elseif(Functions::getSaltedHash($p['userPassword'],$userData['userPasswordSalt']) != $userData['userPassword'] && ($userData['userNewPassword'] == '' || Functions::getSaltedHash($p['userPassword'],$userData['userNewPasswordSalt']) != $userData['userNewPassword'])) $error = $this->modules['Language']->getString('error_wrong_password');
-					elseif($userData['userIsLocked'] == 1 && FuncUsers::checkLockStatus($userData['userID'])) { // Falls der Benutzer sich nicht mehr einloggen darf
+					elseif($userData['userIsLocked'] == LOCK_TYPE_NO_LOGIN && FuncUsers::checkLockStatus($userData['userID'])) { // Falls der Benutzer sich nicht mehr einloggen darf
                         $this->modules['DB']->queryParams('SELECT "lockStartTimestamp", "lockEndTimestamp" FROM '.TBLPFX.'users_locks WHERE "userID"=$1', array($userData['userID']));
 						$lockData = $this->modules['DB']->fetchArray();
 
 						if($lockData['lockStartTimestamp'] == $lockData['lockEndTimestamp']) $remainingLockTime = $this->modules['Language']->getString('locked_forever');
 						else {
-							$remainingLockTime = Functions::splitTime($lockData['lockEndTimestamp']-$lockData['lockStartTimeStamp']);
+							$remainingLockTime = Functions::splitTime($lockData['lockEndTimestamp']-$lockData['lockStartTimestamp']);
 
 							$remainingMonths = sprintf($this->modules['Language']->getString('x_months'),$remainingLockTime['months']);
 							$remainingWeeks = sprintf($this->modules['Language']->getString('x_weeks'),$remainingLockTime['weeks']);

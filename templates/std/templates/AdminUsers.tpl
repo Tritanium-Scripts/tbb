@@ -21,7 +21,7 @@
 <form method="post" action="{$indexFile}?action=AdminUsers&amp;mode=UnlockUsers&amp;{$mySID}">
 <table class="TableStd" width="100%">
 <tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('Unlock_users')}</span></td></tr>
-<template:nolockedusers>
+{*<template:nolockedusers>
  <tr><td class="CellStd" align="center"><span class="FontNorm">-- {$modules.Language->getString('No_locked_users')} --</span></td></tr>
 </template>
 <template:lockeduserrow>
@@ -30,7 +30,7 @@
   <td></td>
   <td></td>
  </tr>
-</template>
+</template>*}
 <tr><td class="CellButtons" align="center"><input class="FormBButton" type="submit" value="{$modules.Language->getString('Unlock_selected_users')}" />&nbsp;&nbsp;&nbsp;<input class="FormButton" type="reset" value="{$modules.Language->getString('Reset')}" /></td></tr>
 </table>
 </form>

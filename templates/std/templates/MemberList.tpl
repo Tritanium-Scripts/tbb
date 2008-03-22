@@ -32,10 +32,10 @@
   <option value="ASC"{if $orderType == 'ASC'} selected="selected"{/if}>{$modules.Language->getString('Ascending')}</option>
  </select>; {$modules.Language->getString('Users_per_page')}
  <select class="FormSelect" name="usersPerPage">
-  <option value="10">10</option>
-  <option value="20">20</option>
-  <option value="50">50</option>
-  <option value="100">100</option>
+  <option value="10"{if $usersPerPage == 10} selected="selected"{/if}>10</option>
+  <option value="20"{if $usersPerPage == 20} selected="selected"{/if}>20</option>
+  <option value="50"{if $usersPerPage == 50} selected="selected"{/if}>50</option>
+  <option value="100"{if $usersPerPage == 100} selected="selected"{/if}>100</option>
  </select>&nbsp;&nbsp;&nbsp;<input class="FormBButton" type="submit" value="{$modules.Language->getString('Go')}"/>
 </td></tr>
 </table>

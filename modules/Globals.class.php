@@ -4,6 +4,7 @@ class Globals extends ModuleTemplate {
 	protected $requiredModules = array(
 		'Auth',
 		'Config',
+		'Constants',
 		'DB',
 		'Language',
 		'Navbar',

@@ -161,6 +161,7 @@ modules/Navbar.class.php -text
 modules/Posting.class.php -text
 modules/PrivateMessages.class.php -text
 modules/Register.class.php -text
+modules/Search.class.php -text
 modules/Session.class.php -text
 modules/SubscribeTopic.class.php -text
 modules/Template.class.php -text

@@ -252,10 +252,9 @@ class Posting extends ModuleTemplate {
                                                     "optionTitle"=$3
                                             ', array(
                                                 $pollID,
-                                                $i,
+                                                $i++,
                                                 $curOption
                                             ));
-											$i++;
 										}
 
                                         $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'topics SET "topicHasPoll"=1 WHERE "topicID"=$1', array($topicID));
