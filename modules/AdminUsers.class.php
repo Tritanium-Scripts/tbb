@@ -180,7 +180,7 @@ class AdminUsers extends ModuleTemplate {
 				 * Handle user lock
 				 */
 				if($userData['userIsLocked'] != 0 && FuncUsers::checkLockStatus($userID)) {
-                    $this->modules['DB']->queryParams('SELECT * FROM'.TBLPFX.'users_locks WHERE "userID"=$1', array($userID));
+                    $this->modules['DB']->queryParams('SELECT * FROM '.TBLPFX.'users_locks WHERE "userID"=$1', array($userID));
 					$lockData = $this->modules['DB']->fetchArray();
 
 					if($lockData['lockStartTimestamp'] == $lockData['lockEndTimestamp'])
@@ -212,12 +212,12 @@ class AdminUsers extends ModuleTemplate {
 				$this->modules['Template']->printPage('AdminUsersEditUser.tpl');
 			break;
 
-			case 'deleteuser':
+			case 'DeleteUser':
 				$userID = isset($_GET['userID']) ? intval($_GET['userID']) : 0;
 				$p_delete_posts = isset($_POST['p_delete_posts']) ? 1 : 0;
 				$p_ban_nick_email = isset($_POST['p_ban_nick_email']) ? 1 : 0;
 
-				if(!$userData = get_userData($userID)) die('Benutzer existiert nicht!');
+				if(!$userData = FuncUsers::getUserData($userID)) die('Cannot load data: user ' . $userID);
 
                 $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'users WHERE "userID"=$1', array($userID)); // Userdaten
                 $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'pms_folders WHERE "userID"=$1', array($userID)); // PMs-Ordner
@@ -346,7 +346,7 @@ class AdminUsers extends ModuleTemplate {
                         INSERT INTO
                             '.TBLPFX.'users_locks
                         SET
-                            "userID"=,$1
+                            "userID"=$1,
                             "lockType"=$2,
                             "lockStartTimestamp"=$3,
                             "lockEndTimestamp"=$4

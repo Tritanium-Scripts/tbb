@@ -85,7 +85,7 @@
  </form>
  <br/>
 {/if}
-<form method="post" action="administration.php?action=ad_users&amp;mode=deleteuser&amp;user_id={$user_id}&amp;{$MYSID}">
+<form method="post" action="{$indexFile}?action=AdminUsers&amp;mode=DeleteUser&amp;userID={$userData.userID}&amp;{$mySID}">
 <table class="TableStd" width="100%">
  <tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('Delete_user')}</span></td></tr>
  <tr><td class="CellStd"><span class="FontNorm"><label><input type="checkbox" name="p_delete_posts" value="1" />&nbsp;{$modules.Language->getString('Delete_users_posts')}</label></span></td></tr>

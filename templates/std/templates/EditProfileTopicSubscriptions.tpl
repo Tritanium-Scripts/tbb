@@ -4,7 +4,7 @@
 {foreach from=$subscriptionsData item=curSubscription}
  <tr>
   <td class="CellAlt" align="center" width="50"><input type="checkbox" name="topicIDs[]" value="{$curSubscription.topicID}"/></td>
-  <td class="CellStd"><span class="FontNorm"><a href="{$indexFile}?action=ViewTopic&amp;TopicID={$curSubscription.topicID}&amp;{$mySID}">{$curSubscription.topicTitle}</a></span></td>
+  <td class="CellStd"><span class="FontNorm"><a href="{$indexFile}?action=ViewTopic&amp;topicID={$curSubscription.topicID}&amp;{$mySID}">{$curSubscription.topicTitle}</a></span></td>
   <td class="CellAlt" align="right"><span class="FontSmall"><a href="{$indexFile}?action=EditProfile&amp;mode=TopicSubscriptions&amp;doit=1&amp;topicID={$curSubscription.topicID}&amp;{$mySID}">{$modules.Language->getString('delete')}</a></span></td>
  </tr>
 {foreachelse}

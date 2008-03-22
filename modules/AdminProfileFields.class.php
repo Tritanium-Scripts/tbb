@@ -64,7 +64,7 @@ class AdminProfileFields extends ModuleTemplate {
                     ', array(
                         $p['fieldName'],
                         $p['fieldType'],
-                        $cp['fieldIsRequired'],
+                        $c['fieldIsRequired'],
                         $c['fieldShowRegistration'],
                         $c['fieldShowMemberlist'],
                         serialize($fieldData),
