@@ -9,7 +9,7 @@
    <td><span class="FontNorm">{$modules.Language->getString('Avatar')}:</span>{if $p.avatarAddress != ''}<br/><img src="{$p.avatarAddress}" width="{$modules.Config->getValue('avatar_image_width')}" height="{$modules.Config->getValue('avatar_image_height')}"/>{/if}</td>
    <td valign="top"><input class="FormText" type="text" size="60" name="p[avatarAddress]" value="{$p.avatarAddress}"/></td>
   </tr>
-  <tr><td colspan="2"><span class="FontNorm"><a href="javascript:popup('{$indexFile}?action=EditProfile&amp;mode=UploadAvatar&amp;{$mySID}','uploadavatarwindow','width=500,height=250,scrollbars=yes,toolbar=no,status=yes')">{$modules.Language->getString('Upload_avatar')}</a></span></td></tr>
+  <tr><td colspan="2"><span class="FontNorm"><a href="{$indexFile}?action=EditProfile&amp;mode=UploadAvatar&amp;{$mySID}{*javascript:popup('{$indexFile}?action=EditProfile&amp;mode=UploadAvatar&amp;{$mySID}','uploadavatarwindow','width=500,height=250,scrollbars=yes,toolbar=no,status=yes')*}">{$modules.Language->getString('Upload_avatar')}</a></span></td></tr>
   </table>
  </fieldset>
  {if $avatarsCounter > 0}

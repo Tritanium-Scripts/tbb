@@ -7,6 +7,7 @@ class Template extends ModuleTemplate {
 	protected $globalFrame = array();
 	protected $subFrames = array();
 	protected $templateDir = '';
+	protected $inPopup = FALSE;
 
 	public function setDirs($dirName) {
 		$this->smarty->template_dir = 'templates/'.$dirName.'/templates';
@@ -15,6 +16,10 @@ class Template extends ModuleTemplate {
 		$this->templateDir = 'templates/'.$dirName;
 	}
 
+	public function setInPopup($newInPopup = FALSE) {
+		$this->inPopup = $newInPopup;
+	}
+	
 	public function getTemplateDir() {
 		return $this->getTD();
 	}
@@ -80,7 +85,7 @@ class Template extends ModuleTemplate {
 			'pageInPage'=>(count($this->subFrames) > 0)
 		));
 
-		if($inPopup) $this->printPopupPage('Message.tpl');
+		if($inPopup) $this->printPage('Message.tpl');
 		else $this->printPage('Message.tpl');
 	}
 
@@ -92,13 +97,18 @@ class Template extends ModuleTemplate {
 
 	public function printHeader() {
 		call_user_func($this->globalFrame[0]);
-		foreach($this->subFrames AS $curFrame)
-			call_user_func($curFrame[0]);
+		
+		if(!$this->inPopup) {
+			foreach($this->subFrames AS $curFrame)
+				call_user_func($curFrame[0]);
+		}
 	}
 
 	public function printTail() {
-		foreach($this->subFrames AS $curFrame)
-			call_user_func($curFrame[1]);
+		if(!$this->inPopup) {
+			foreach($this->subFrames AS $curFrame)
+				call_user_func($curFrame[1]);
+		}
 		call_user_func($this->globalFrame[1]);
 	}
 }

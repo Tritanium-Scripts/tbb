@@ -25,8 +25,9 @@ class Globals extends ModuleTemplate {
 			$_GET['postID'] = $_GET['p'];
 		}
 
-		// global page frame
+		// global page frame / popup
 		$this->modules['Template']->setGlobalFrame(array($this,'printHeader'),array($this,'printTail'));
+		if(isset($_GET['inPopup'])) $this->modules['Template']->setInPopup(TRUE);
 		
 		// deny guests to enter board
 		if($this->modules['Config']->getValue('guests_enter_board') != 1 && !$this->modules['Auth']->isLoggedIn() && ACTION != 'Register' && ACTION != 'Login') {
@@ -96,22 +97,30 @@ class Globals extends ModuleTemplate {
 	}
 
 	public function printHeader() {
-		if($this->modules['Config']->getValue('board_logo') != '') $boardBanner = '<img src="'.$this->modules['Config']->getValue('board_logo').'" alt="'.$this->modules['Config']->getValue('board_name').'" />';
-		else $boardBanner = $this->modules['Config']->getValue('board_name');
-
-		if($this->modules['Auth']->isLoggedIn() == 1) $welcomeText = sprintf($this->modules['Language']->getString('welcome_logged_in'),$this->modules['Auth']->getValue('userNick'),Functions::toTime(time()),INDEXFILE,MYSID);
-		else $welcomeText = sprintf($this->modules['Language']->getString('welcome_not_logged_in'),$this->modules['Config']->getValue('board_name'),INDEXFILE,MYSID);
-
-		$this->modules['Template']->assign(array(
-			'boardBanner'=>$boardBanner,
-			'welcomeText'=>$welcomeText
-		));
-
-		$this->modules['Template']->display('PageHeader.tpl');
+		if(isset($_GET['inPopup'])) {
+			$this->modules['Template']->display('PopupHeader.tpl');
+		} else {
+			if($this->modules['Config']->getValue('board_logo') != '') $boardBanner = '<img src="'.$this->modules['Config']->getValue('board_logo').'" alt="'.$this->modules['Config']->getValue('board_name').'" />';
+			else $boardBanner = $this->modules['Config']->getValue('board_name');
+	
+			if($this->modules['Auth']->isLoggedIn() == 1) $welcomeText = sprintf($this->modules['Language']->getString('welcome_logged_in'),$this->modules['Auth']->getValue('userNick'),Functions::toTime(time()),INDEXFILE,MYSID);
+			else $welcomeText = sprintf($this->modules['Language']->getString('welcome_not_logged_in'),$this->modules['Config']->getValue('board_name'),INDEXFILE,MYSID);
+	
+			$this->modules['Template']->assign(array(
+				'boardBanner'=>$boardBanner,
+				'welcomeText'=>$welcomeText
+			));
+	
+			$this->modules['Template']->display('PageHeader.tpl');
+		}
 	}
 
 	public function printTail() {
-		$this->modules['Template']->display('PageTail.tpl');
+		if(isset($_GET['inPopup'])) {
+			$this->modules['Template']->display('PopupTail.tpl');
+		} else {
+			$this->modules['Template']->display('PageTail.tpl');
+		}
 	}
 }
 

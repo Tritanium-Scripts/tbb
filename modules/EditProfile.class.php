@@ -320,7 +320,7 @@ class EditProfile extends ModuleTemplate {
 							));
 
 							$avatarSelectedText = sprintf($this->modules['Language']->getString('avatar_selected_text'),'<img src="'.$localAvatarFileName.'" width="'.$this->modules['Config']->getValue('avatar_image_width').'" height="'.$this->modules['Config']->getValue('avatar_image_height').'" alt=""/>');
-							FuncMisc::printMessage(array($this->modules['Language']->getString('Avatar_selected'),$avatarSelectedText),array(),TRUE);
+							FuncMisc::printMessage(array($this->modules['Language']->getString('Avatar_selected'),$avatarSelectedText),array(),TRUE); exit;
 						}
 					}
 				}
@@ -328,8 +328,7 @@ class EditProfile extends ModuleTemplate {
 				$this->modules['Template']->assign(array(
 					'error'=>$error
 				));
-
-				$this->modules['Template']->printPopupPage('EditProfileUploadAvatar.tpl');
+				$this->modules['Template']->printPage('EditProfileUploadAvatar.tpl');
 				break;
 		}
 	}

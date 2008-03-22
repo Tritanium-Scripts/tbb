@@ -71,10 +71,10 @@ class AdminAvatars extends ModuleTemplate {
 				break;
 
 			case 'EditAvatar':
-				$avatarID = isset($_GET['avatarID']) ? $_GET['avatarID'] : 0;
+				$avatarID = isset($_GET['avatarID']) ? intval($_GET['avatarID']) : 0;
 				if(!$avatarData = FuncAvatars::getAvatarData($avatarID)) die('Cannot load data: avatar');
 
-				$p = Functions::getSGValues($_POST['p'],array('avatarAddress'),'');
+				$p = Functions::getSGValues($_POST['p'],array('avatarAddress'),'',$avatarData);
 
 				$error = '';
 
