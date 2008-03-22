@@ -31,6 +31,7 @@ class CoreConfig extends ConfigTemplate {
 			'Register',
 			'Search',
 			'SubscribeTopic',
+			'ViewHelp',
 			'Vote',
 			'WhoIsOnline'
 		)
