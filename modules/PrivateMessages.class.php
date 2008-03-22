@@ -324,14 +324,14 @@ class PrivateMessages extends ModuleTemplate {
                         t2."userNick" AS "pmFromNick",
                         t4."folderName" AS "pmFolderName"
                     FROM '.TBLPFX.'pms AS t1
-                    LEFT JOIN '.TBLPFX.'users AS t2 ON t1."PMFromID"=t2."UserID"
-                    LEFT JOIN '.TBLPFX.'pms_folders AS t4 ON (t4."FolderID"=t1."FolderID" AND t4."UserID"=$1)
+                    LEFT JOIN '.TBLPFX.'users AS t2 ON t1."pmFromID"=t2."userID"
+                    LEFT JOIN '.TBLPFX.'pms_folders AS t4 ON (t4."folderID"=t1."folderID" AND t4."userID"=$1)
                     WHERE t1."pmID"=$2
                 ', array(
                     USERID,
                     $pmID
                 ));
-				if($this->modules['DB']->getAffectedRows() == 0) die('Kann PM-Daten nicht laden!');
+				if($this->modules['DB']->numRows() == 0) die('Kann PM-Daten nicht laden!');
 				$pmData = $this->modules['DB']->fetchArray();
 
 				if($pmData['pmToID'] != USERID) die('Kein Zugriff auf diese Nachricht!'); // ...User Zugriff auf PM hat...
@@ -358,9 +358,10 @@ class PrivateMessages extends ModuleTemplate {
                                 "pmMessageText"=$5
                         ', array(
                             USERID,
+                            $pmData['pmFromID'],
                             $this->modules['Language']->getString('read_confirmation_subject'),
                             time(),
-                            sprintf($this->modules['Language']->getString('read_confirmation_message',$pmData['pmFromNick'],$pmData['pmSubject']))
+                            sprintf($this->modules['Language']->getString('read_confirmation_message'),$pmData['pmFromNick'],$pmData['pmSubject'])
                         ));
 				}
 
