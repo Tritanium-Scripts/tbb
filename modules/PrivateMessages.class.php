@@ -361,7 +361,7 @@ class PrivateMessages extends ModuleTemplate {
                             $pmData['pmFromID'],
                             $this->modules['Language']->getString('read_confirmation_subject'),
                             time(),
-                            sprintf($this->modules['Language']->getString('read_confirmation_message'),$pmData['pmFromNick'],$pmData['pmSubject'])
+                            sprintf(str_replace("\\n", "\n", $this->modules['Language']->getString('read_confirmation_message')),$pmData['pmFromNick'],$pmData['pmSubject'],$this->modules['Auth']->getValue('userNick'))
                         ));
 				}
 
