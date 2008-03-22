@@ -53,7 +53,7 @@
    {if $show.requestReadReceipt}<label><input type="checkbox" name="c[requestReadReceipt]" value="1"{if $c.requestReadReceipt == 1} checked="checked"{/if}/>&nbsp;{$modules.Language->getString('Request_read_confirmation')}</label><br/>{/if}
   </span></td>
  </tr>
- <tr><td class="CellButtons" colspan="2" align="center"><input class="FormButton" type="submit" value="{$modules.Language->getString('Send_private_message')}"/>&nbsp;&nbsp;&nbsp;<input class="FormBButton" type="submit" name="ShowPreview" value="{$modules.Language->getString('Preview')}"/>&nbsp;&nbsp;&nbsp;<input class="FormButton" type="reset" value="{$modules.Language->getString('Reset')}"/></td></tr>
+ <tr><td class="CellButtons" colspan="2" align="center"><input class="FormButton" type="submit" value="{$modules.Language->getString('Send_private_message')}"/>{*&nbsp;&nbsp;&nbsp;<input class="FormBButton" type="submit" name="ShowPreview" value="{$modules.Language->getString('Preview')}"/>*}&nbsp;&nbsp;&nbsp;<input class="FormButton" type="reset" value="{$modules.Language->getString('Reset')}"/></td></tr>
  </table>
  </form>
 {/if}
