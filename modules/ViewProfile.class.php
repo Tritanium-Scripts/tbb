@@ -273,7 +273,7 @@ class ViewProfile extends ModuleTemplate {
             case 'vCard':
                 $vCard = "BEGIN:VCARD\nVERSION:3.0\nN:;;;;\nFN:\nNICKNAME:" . $profileData['userNick'] . "\n"; //TODO: FN = echter name
                 if ($profileData['userHideEmailAddress'] != 1) $vCard .= "EMAIL;TYPE=internet:" . $profileData['userEmailAddress'] . "\n";
-                $vCard .= "URL:\nCLASS:" . (($this->modules['Config']->getValue('guests_enter_board') != 1) ? "PRIVATE" : "PUBLIC") . "\nX-GENERATOR:Tritanium Bulletin Board 2 " . $this->modules['Config']->getValue('dataversion') . "\nEND:VCARD";
+                $vCard .= "URL:\nCLASS:" . (($this->modules['Config']->getValue('guests_enter_board') != 1) ? "PRIVATE" : "PUBLIC") . "\nX-GENERATOR:Tritanium Bulletin Board 2\nEND:VCARD";
                 header("Content-Disposition: attachment; filename=" . $profileData['userNick'] . ".vcf");
                 header("Content-Length: " . strlen($vCard));
                 header("Content-Type: text/x-vCard; charset=UTF-8; name=" . $profileData['userNick'] . ".vcf");
