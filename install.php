@@ -48,8 +48,9 @@ class BoardInstall {
 		'statusTopics'=>0,
 		'statusPost'=>0,
 		'dbIcqID'=>0,
-		'dbHomepageID'=>0
-	); //TODO: echter name!
+		'dbHomepageID'=>0,
+		'dbRealNameID'=>0
+	);
 	
 	/**
 	 * Determines how many files are proceeded per call by the TBB1 conversion script
@@ -1488,6 +1489,20 @@ class BoardInstall {
 						));
 						$this->tbb1ConversionProperties['dbHomepageID'] = $this->DB->getInsertID();
 	
+						$this->DB->queryParams('
+							INSERT INTO '.TBLPFX.'profile_fields SET
+								"fieldName"=$1,
+								"fieldType"=$2,
+								"fieldData"=$3,
+                                "fieldLink"=$4
+						',array(
+							$this->strings['Real_name'],
+							0,
+							serialize(array()),
+                            '%1$s'
+						));
+						$this->tbb1ConversionProperties['dbRealNameID'] = $this->DB->getInsertID();
+						
 						$this->tbb1ConversionProperties['membersCounter'] = file_get_contents($this->pathToTBB1.'/vars/last_user_id.var',LOCK_SH);
 						$this->tbb1ConversionProperties['statusPre'] = 100;
 	
@@ -1558,7 +1573,7 @@ class BoardInstall {
 								));
 							}
 							
-							//homepage
+							// homepage
 							if($curUserData[9] != '') {
 								$this->DB->queryParams('
 									INSERT INTO '.TBLPFX.'profile_fields_data SET
@@ -1572,6 +1587,20 @@ class BoardInstall {
 								));
 							}
 	
+							// real name
+							if($curUserData[12] != '') {
+								$this->DB->queryParams('
+									INSERT INTO '.TBLPFX.'profile_fields_data SET
+										"fieldID"=$1,
+										"userID"=$2,
+										"fieldValue"=$3
+								',array(
+									$this->tbb1ConversionProperties['dbRealNameID'],
+									$curUserData[1],
+									$curUserData[12]
+								));
+							}
+							
 							if($curUserPMsData = self::tbb1ConversionFileToArray($this->pathToTBB1.'/members/'.$i.'.pm')) {
 								foreach($curUserPMsData AS $curPM) {
 									$curPM = self::tbb1ConversionExplodeByTab($curPM);
@@ -1942,6 +1971,15 @@ class BoardInstall {
 						$newConfigData[] = array($usersCounter,'usersCounter');
 						
 						$settingsFile = self::tbb1ConversionFileToArray($this->pathToTBB1.'/vars/settings.var');
+						
+						$settingsTimeZone = 'gmt';
+						$timeZones = Functions::getTimeZones();
+						foreach($timeZones AS $tzName => $tzValue) {
+							if($tzValue != $settingsFile[8]) continue;
+							$settingsTimeZone = $tzName;
+							break;
+						}
+						
 						$newConfigData[] = array($settingsFile[5],'board_name');
 						$newConfigData[] = array(($settingsFile[25] == 1 ? 0 : 1),'guests_enter_board');
 						$newConfigData[] = array($settingsFile[12],'enable_registration');
@@ -1959,6 +1997,7 @@ class BoardInstall {
                         $newConfigData[] = array(($settingsFile[22] > 0 ? 1 : 0),'show_latest_posts_forumindex');
                         $newConfigData[] = array($settingsFile[43],'enable_gzip');
                         $newConfigData[] = array($settingsFile[51],'enable_email_functions');
+                        $newConfigData[] = array($settingsTimeZone,'standard_tz');
 						
 						foreach($newConfigData AS $curConfig) {
 							$this->DB->queryParams('
