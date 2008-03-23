@@ -173,7 +173,7 @@ class MemberList extends ModuleTemplate {
 					break;
 				}
 
-				if($curFieldValue != '') $curFieldValue = sprintf($curField['fieldLink'],$curFieldValue);
+				if($curFieldValue != '') $curFieldValue = sprintf($curField['fieldLink'],Functions::HTMLSpecialChars($curFieldValue));
 				$curUserFieldsValues[$curField['fieldID']] = $curFieldValue;
 			}
 
