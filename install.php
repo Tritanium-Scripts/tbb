@@ -1973,6 +1973,7 @@ class BoardInstall {
 						$settingsFile = self::tbb1ConversionFileToArray($this->pathToTBB1.'/vars/settings.var');
 						
 						$settingsTimeZone = 'gmt';
+						$settingsFile[8] = substr($settingsFile[8], 0, 1) . ((substr($settingsFile[8], 1, 2)*60)*60); //convert hours to minutes
 						$timeZones = Functions::getTimeZones();
 						foreach($timeZones AS $tzName => $tzValue) {
 							if($tzValue != $settingsFile[8]) continue;

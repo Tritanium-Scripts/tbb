@@ -26,7 +26,7 @@
 </tr>
 <tr>
  <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Homepage')}:</span></td>
- <td class="CellAlt" colspan="2"><span class="FontNorm">TODO</span></td>
+ <td class="CellAlt" colspan="2"><span class="FontNorm"><!-- TODO --></span></td>
 </tr>
 <tr>
  <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Register_date')}:</span></td>
@@ -49,7 +49,7 @@
 </tr>
 {/if}
 </table>
-<br/>
+{*<br/>
 <table class="TableStd" width="100%">
 <tr><td class="CellTitle" colspan="2"><span class="FontTitle">{$modules.Language->getString('Extended')}</span></td></tr>
 {foreach from=$fieldsData item=curField}
@@ -58,7 +58,7 @@
   <td class="CellAlt"><span class="FontNorm"></span></td>
  </tr>
 {/foreach}
-</table>
+</table>*}
 {if $show.notesTable}
  <br/>
  <table class="TableStd" width="100%">
