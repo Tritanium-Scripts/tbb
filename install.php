@@ -774,7 +774,8 @@ class BoardInstall {
 								$toEval = file_get_contents('update/'.$nextUpdateFile);
 								eval($toEval);
 							} while($nextUpdateFile != '');
-	
+							
+							$this->DB->queryParams('UPDATE '.$_SESSION['tablePrefix'].'config SET "configValue"=$1 WHERE "configName"=\'dataversion\'',array(SCRIPTVERSION));
 	
 							$this->printHeader();
 	
