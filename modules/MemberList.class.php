@@ -144,10 +144,7 @@ class MemberList extends ModuleTemplate {
 		));
 		$fieldsValues = $this->modules['DB']->raw2Array();
 
-
-		for($i = 0; $i < count($usersData); $i++) {
-			$curUser = &$usersData[$i];
-
+		foreach($usersData AS &$curUser) {
 			$curUserRank = '';
 			if($curUser['userIsAdmin'] == 1) $curUserRank = $this->modules['Language']->getString('Administrator');
 			elseif($curUser['userIsSupermod'] == 1) $curUserRank = $this->modules['Language']->getString('Supermoderator');
@@ -169,7 +166,7 @@ class MemberList extends ModuleTemplate {
 			foreach($fieldsData AS $curField) {
 				$curFieldValue = '';
 
-				while(list($curKey,$curValue) = each($fieldsValues)) {
+				foreach($fieldsValues AS $curKey => $curValue) {
 					if($curValue['userID'] != $curUser['userID'] || $curValue['fieldID'] != $curField['fieldID']) continue;
 					$curFieldValue = $curValue['fieldValue'];
 					unset($fieldsValues[$curKey]);
