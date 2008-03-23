@@ -200,7 +200,7 @@ class ViewProfile extends ModuleTemplate {
                             '.TBLPFX.'profile_notes
                         SET
                             "noteIsPublic"=$1,
-                            "noteText"=$2,
+                            "noteText"=$2
                         WHERE
                             "noteID"=$3
                         ', array(
