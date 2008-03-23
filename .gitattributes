@@ -10,6 +10,8 @@ core/Factory.class.php -text
 core/Functions.class.php -text
 core/ModuleTemplate.class.php -text
 core/Version.php -text
+docs/license-images.txt -text
+docs/license-tbb2.txt -text
 docs/readme.html -text
 functions/FuncAvatars.class.php -text
 functions/FuncCats.class.php -text
