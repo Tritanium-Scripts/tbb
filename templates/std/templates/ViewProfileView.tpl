@@ -45,7 +45,7 @@
 </tr>
 {if $modules.Config->getValue('enable_sig') == 1}
 <tr>
- <td colspan="4">{$profileData.userSignature}</td>
+ <td colspan="4" class="CellAlt"><span class="FontNorm">{$profileData.userSignature}</span></td>
 </tr>
 {/if}
 </table>
