@@ -1421,6 +1421,7 @@ class BoardInstall {
 						// smilies/topic pics
 						$smiliesData = self::tbb1ConversionFileToArray($this->pathToTBB1.'/vars/smilies.var');
 						$topicPicsData = self::tbb1ConversionFileToArray($this->pathToTBB1.'/vars/tsmilies.var');
+						$asmiliesData = self::tbb1ConversionFileToArray($this->pathToTBB1.'/vars/adminsmilies.var'); //adminsmilies hack
 						$this->DB->query('DELETE FROM '.TBLPFX.'smilies');
 	
 						foreach($topicPicsData AS $curTopicPic) {
@@ -1454,6 +1455,22 @@ class BoardInstall {
 							));
 						}
 	
+						//adminsmilies hack
+						if($asmiliesData) {
+							foreach($asmiliesData AS $curASmiley) {
+								$curASmiley = self::tbb1ConversionExplodeByTab($curASmiley);
+								
+								$this->DB->queryParams('INSERT INTO '.TBLPFX.'smilies SET
+										"smileyType"=$1,
+										"smileyFileName"=$2,
+										"smileySynonym"=$3
+									',array(
+										2,
+										$curASmiley[2],
+										$curASmiley[1]
+									));
+							}
+						}
 	
 						$this->DB->query('DELETE FROM '.TBLPFX.'users');
 						$this->DB->query('DELETE FROM '.TBLPFX.'pms');
@@ -1996,7 +2013,11 @@ class BoardInstall {
                         $newConfigData[] = array($settingsFile[18],'wio_timeout');
                         $newConfigData[] = array($settingsFile[19],'enable_wio');
                         $newConfigData[] = array($settingsFile[21],'show_boardstats_forumindex');
-                        $newConfigData[] = array(($settingsFile[22] > 0 ? 1 : 0),'show_latest_posts_forumindex');
+                        if($settingsFile[22] > 1) { //last posts hack
+                        	$newConfigData[] = array(1,'show_latest_posts_forumindex');
+                        	$newConfigData[] = array($settingsFile[22],'max_latest_posts');
+                        }
+                        else $newConfigData[] = array($settingsFile[22],'show_latest_posts_forumindex');
                         $newConfigData[] = array($settingsFile[43],'enable_gzip');
                         $newConfigData[] = array($settingsFile[51],'enable_email_functions');
                         $newConfigData[] = array($settingsTimeZone,'standard_tz');
