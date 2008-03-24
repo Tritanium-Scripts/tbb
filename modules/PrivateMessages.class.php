@@ -101,7 +101,7 @@ class PrivateMessages extends ModuleTemplate {
                 ', array(
                     USERID,
                     $folderID,
-                    $start,
+                    (int) $start,
                     $pmsPerPage
                 ));
 
