@@ -1,0 +1,101 @@
+Einige Bilder unterliegen nicht der in license-tbb2.txt beschriebenen Lizenz, da sie aus anderen Bildern entstanden sind,
+die anderen Lizenzen unterliegen. Diese Ausnahmen sind im Folgenden detailliert beschrieben:
+
+templates/std/images/buttons/de/AddReply.png:
+- Original entnommen aus "Mini Icons": page_new.gif
+- Autor: Mark James
+- Homepage: http://www.famfam.com
+- Lizenz: Keine
+
+templates/std/images/buttons/de/AddTopic.png:
+- Original entnommen aus "Mini Icons": folder_new.gif
+- Autor: Mark James
+- Homepage: http://www.famfam.com
+- Lizenz: Keine
+
+templates/std/images/buttons/de/Delete.png:
+- Original entnommen aus "Mini Icons": page_delete.gif
+- Autor: Mark James
+- Homepage: http://www.famfam.com
+- Lizenz: Keine
+
+templates/std/images/buttons/de/Edit.png:
+- Original entnommen aus "Sweetie Icon Set": 24-tools.png
+- Autor: Joseph North
+- Homepage: http://sublink.ca/north/
+- Lizenz: Creative Commons Attribution-ShareAlike 2.0
+  (http://creativecommons.org/licenses/by-sa/2.0/)
+  
+templates/std/images/buttons/de/Email.png:
+- Original entnommen aus "Mini Icons": icon_email.gif
+- Autor: Mark James
+- Homepage: http://www.famfam.com
+- Lizenz: Keine
+
+templates/std/images/buttons/de/Help.png
+- Original entnommen aus "Silk icon set 1.3": help.png
+- Autor: Mark James
+- Homepage: http://www.famfam.com
+- Lizenz: Creative Commons Attribution 2.5 License
+  (http://creativecommons.org/licenses/by/2.5/)
+
+templates/std/images/buttons/de/Login.png:
+- Original entnommen aus "Silk icon set 1.3": key_go.png
+- Autor: Mark James
+- Homepage: http://www.famfam.com
+- Lizenz: Creative Commons Attribution 2.5 License
+  (http://creativecommons.org/licenses/by/2.5/)
+
+templates/std/images/buttons/de/Logout.png:
+- Original entnommen aus "Silk icon set 1.3": key_delete.png
+- Autor: Mark James
+- Homepage: http://www.famfam.com
+- Lizenz: Creative Commons Attribution 2.5 License
+  (http://creativecommons.org/licenses/by/2.5/)
+
+templates/std/images/buttons/de/MemberList.png:
+- Original entnommen aus "Silk icon set 1.3": group.png
+- Autor: Mark James
+- Homepage: http://www.famfam.com
+- Lizenz: Creative Commons Attribution 2.5 License
+  (http://creativecommons.org/licenses/by/2.5/)
+
+templates/std/images/buttons/de/MyProfile.png:
+- Original entnommen aus "Sweetie Icon Set": 16-member-profile.png
+- Autor: Joseph North
+- Homepage: http://sublink.ca/north/
+- Lizenz: Creative Commons Attribution-ShareAlike 2.0
+  (http://creativecommons.org/licenses/by-sa/2.0/)
+
+templates/std/images/buttons/de/PrivateMessages.png:
+- Original entnommen aus "Silk icon set 1.3": email.png
+- Autor: Mark James
+- Homepage: http://www.famfam.com
+- Lizenz: Creative Commons Attribution 2.5 License
+  (http://creativecommons.org/licenses/by/2.5/)
+
+templates/std/images/buttons/de/Quote.png
+- Original entnommen aus "Mini Icons": comment.gif
+- Autor: Mark James
+- Homepage: http://www.famfam.com
+- Lizenz: Keine
+
+templates/std/images/buttons/de/Register.png:
+- Original entnommen aus "Silk icon set 1.3": vcard_add.png
+- Autor: Mark James
+- Homepage: http://www.famfam.com
+- Lizenz: Creative Commons Attribution 2.5 License
+  (http://creativecommons.org/licenses/by/2.5/)
+
+templates/std/images/buttons/de/Search.png
+- Original entnommen aus "Mini Icons": page_find.gif
+- Autor: Mark James
+- Homepage: http://www.famfam.com
+- Lizenz: Keine
+
+templates/std/images/buttons/de/WhoIsOnline.png:
+- Original entnommen aus "Silk icon set 1.3": group.png
+- Autor: Mark James
+- Homepage: http://www.famfam.com
+- Lizenz: Creative Commons Attribution 2.5 License
+  (http://creativecommons.org/licenses/by/2.5/)

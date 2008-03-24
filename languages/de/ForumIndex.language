@@ -1,0 +1,18 @@
+No_last_post = --Keine Beitr&auml;ge vorhanden--
+No_forums_cats = Keine Foren/Kategorien
+Mark_forums_read = Alle Foren als gelesen markieren
+no_guests = keine G&auml;ste
+one_guest = ein Gast
+x_guests = %s G&auml;ste
+no_members = keine Mitglieder
+one_member = ein Mitglied
+x_members = %s Mitglieder
+no_ghosts = keine Geister
+one_ghost = ein Geist
+x_ghosts = %s Geister
+wio_text = Momentan sind im Forum <b>%4$s Benutzer</b> unterwegs: <b>%1$s</b>, <b>%2$s</b> und <b>%3$s</b>. Rekord war am %5$s mit %6$s Besucher(n).
+Board_statistics = Boardstatistiken
+board_stats_text = In unserer Community sind <b>%1$s Mitglieder</b> registriert, die ingesamt bereits <b>%2$s Beitr&auml;ge</b> in <b>%3$s Themen</b> erstellt haben. Unser neuestes Mitglied hei&szlig;t <b>%4$s</b>.
+Latest_posts = Die neuesten Beitr&auml;ge
+latest_post_text = %3$s: <a href=index.php?faction=viewtopic&amp;post_id=%4$s&amp;.$MYSID.#post%4$s>%1$s</a> von %2$s
+Latest_news = Aktuelle Neuigkeiten

@@ -1,0 +1,22 @@
+Hallo {$userNick},
+
+herzlich willkomen in unserer Community! Wir bedanken und für Ihre Registrierung und würden und sehr über eine rege Beteiligung an den Diskussionen freuen.
+
+Falls Sie Ihre Registrierungsdaten einmal vergessen sollten, haben wir Ihnen unten eine kleine Zusammenfassung aufgestellt.
+{if $modules.Config->getValue('verify_email_address') != 1}Aus Sicherheitsgründen wird Ihr Passwort allerdings nicht aufgeführt. Sollten Sie dieses vergessen, ist es aber problemlos möglich, mit den unten aufgeführten Daten ein neues anzufordern.{/if}
+
+Ihre Zugangsdaten sind:
+Benutzer-ID: {$userID}
+Emailadresse: {$userEmailAddress}
+Benutzername/Login: {$userNick}
+{if $modules.Config->getValue('verify_email_address') == 1}Passwort: {$userPassword}
+
+Bitte ändern Sie dieses Passwort umgehend, da diese Mail unverschlüsselt an Sie übermittelt wurde!{/if}
+
+{if $modules.Config->getValue('verify_email_address') == 2}Um einen Missbrauch des Systems zu verhindern, müssen Sie leider noch Ihr Benutzerkonto bzw. Ihre Emailadresse verifizieren, bevor Sie sich einloggen können. Dazu sollten Sie schon eine zweite Email erhalten haben, in der Sie alle weiteren Informationen dazu finden.{/if}
+
+Wir empfehlen Ihnen, diese Email nicht zu löschen, da Sie uns dadurch im Fall der Fälle eine Menge Arbeit ersparen können.
+
+Abschließend möchten wir Sie noch darauf hinweisen, dass Sie niemals in keinster Weise von uns nach Ihrem Passwort gefragt werden. Sollten Sie dennoch in diese Richtung angesprochen werden, bitten wir Sie, uns umgehen darüber zu informieren.
+
+{$modules.Config->getValue('email_signature')}
