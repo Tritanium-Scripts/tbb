@@ -95,6 +95,7 @@ languages/de/Messages.language -text
 languages/de/Posting.language -text
 languages/de/PrivateMessages.language -text
 languages/de/Register.language -text
+languages/de/Search.language -text
 languages/de/TimeZones.language -text
 languages/de/ViewForum.language -text
 languages/de/ViewProfile.language -text
@@ -189,6 +190,7 @@ modules/Template/plugins/function.mailto.php -text
 modules/Template/plugins/function.math.php -text
 modules/Template/plugins/function.popup.php -text
 modules/Template/plugins/function.popup_init.php -text
+modules/Template/plugins/function.repeat.php -text
 modules/Template/plugins/modifier.capitalize.php -text
 modules/Template/plugins/modifier.cat.php -text
 modules/Template/plugins/modifier.count_characters.php -text
@@ -353,6 +355,9 @@ templates/std/templates/PrivateMessagesViewFolder.tpl -text
 templates/std/templates/PrivateMessagesViewPM.tpl -text
 templates/std/templates/RegisterBoardRules.tpl -text
 templates/std/templates/RegisterRegisterForm.tpl -text
+templates/std/templates/Search.tpl -text
+templates/std/templates/SearchViewResultsPosts.tpl -text
+templates/std/templates/SearchViewResultsTopics.tpl -text
 templates/std/templates/SmiliesBox.tpl -text
 templates/std/templates/ViewForum.tpl -text
 templates/std/templates/ViewProfileAddNote.tpl -text

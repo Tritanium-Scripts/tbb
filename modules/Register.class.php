@@ -18,17 +18,16 @@ class Register extends ModuleTemplate {
 		// Zuerst einige Ueberpruefungen...
 		if($this->modules['Auth']->isLoggedIn() == 1) Functions::myHeader(INDEXFILE.'?'.MYSID);
 		elseif($this->modules['Config']->getValue('enable_registration') != 1) {
-			$this->modules['Navbar']->addElement($this->modules['Language']->getString('Registration_disabled'),INDEXFILE.'?Action=Register&amp'.MYSID);
 			FuncMisc::printMessage('registration_disabled');
 			exit;
 		}
-		elseif($this->modules['Config']->getValue('maximum_registrations') != -1 && $this->modules['Config']->getValue('maximum_registrations') <= FuncUsers::getUsersCounter()) { // Gibt es eine Grenze an maximalen Registrierungen/ist diese ueberschritten?
-			$this->modules['Navbar']->addElement($this->modules['Language']->getString('Too_many_registrations'),INDEXFILE.'?Action=Register&amp'.MYSID);
+		// Gibt es eine Grenze an maximalen Registrierungen/ist diese ueberschritten?
+		elseif($this->modules['Config']->getValue('maximum_registrations') != -1 && $this->modules['Config']->getValue('maximum_registrations') <= FuncUsers::getUsersCounter()) {
 			FuncMisc::printMessage('too_many_registrations');
 			exit;
 		}
 
-		$this->modules['Navbar']->addElement($this->modules['Language']->getString('Register'),INDEXFILE."?Action=Register&amp;".MYSID);
+		$this->modules['Navbar']->addElement($this->modules['Language']->getString('Register'),INDEXFILE."?action=Register&amp;".MYSID);
 
 		switch(@$_GET['mode']) {
 			default:
