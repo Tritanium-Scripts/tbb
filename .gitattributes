@@ -1,5 +1,4 @@
 * text=auto !eol
-cache/dummy -text
 config/Core.config.class.php -text
 config/DB.config.class.php -text
 config/Language.config.class.php -text
@@ -366,9 +365,7 @@ templates/std/templates/ViewProfileSendEmail.tpl -text
 templates/std/templates/ViewProfileView.tpl -text
 templates/std/templates/ViewTopic.tpl -text
 templates/std/templates/WhoIsOnline.tpl -text
+templates/std/templates/_Copyright.tpl -text
 update/0.2.0.7.20041116.update -text
 update/0.2.0.8.20050121.update -text
 update/0.2.0.9.20050502.update -text
-uploads/avatars/dummy -text
-uploads/dummy -text
-uploads/files/dummy -text

@@ -1,5 +1,5 @@
 <?php
 
-define('SCRIPTVERSION','0.2.1');
+define('SCRIPTVERSION','0.2.2');
 
 ?>
