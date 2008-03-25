@@ -25,10 +25,10 @@ class ViewTopic extends ModuleTemplate {
 		// Thema und Seite eventuell ueber Beitrags-ID bestimmen
 		if($topicID == 0) {
             $this->modules['DB']->queryParams('SELECT "topicID" FROM '.TBLPFX.'posts WHERE "postID"=$1', array($postID)); // Laedt eventuell die ID des Themas
-			if($this->modules['DB']->getAffectedRows() != 1) die('Kann Beitragsdaten nicht laden/Beitrag existiert nicht!'); // Falls nicht Meldung ausgeben
+			if($this->modules['DB']->numRows() != 1) die('Kann Beitragsdaten nicht laden/Beitrag existiert nicht!'); // Falls nicht Meldung ausgeben
 			list($topicID) = $this->modules['DB']->fetchArray(); // ID des Themas verfuegbar machen
 
-            $this->modules['DB']->queryParams('SELECT "postID" FROM '.TBLPFX.'posts WHERE "topicID"=$1 ORDER BY "postTimestamp"', array($topicID)); // Die IDs aller Beitraege des Themas laden
+            $this->modules['DB']->queryParams('SELECT "postID" FROM '.TBLPFX.'posts WHERE "topicID"=$1 ORDER BY "postID"', array($topicID)); // Die IDs aller Beitraege des Themas laden
 			$postIDs = $this->modules['DB']->raw2FVArray(); // DB-Daten in Array umwandeln
 			$topicPostsCounter = count($postIDs); // Anzahl der IDs (Beitraege)
 
@@ -354,7 +354,7 @@ class ViewTopic extends ModuleTemplate {
             LEFT JOIN '.TBLPFX.'users AS t2 ON t1."posterID"=t2."userID"
             LEFT JOIN '.TBLPFX.'smilies AS t3 ON t3."smileyID"=t1."smileyID"
             WHERE t1."topicID"=$1
-            ORDER BY t1."postTimestamp" LIMIT $2, $3
+            ORDER BY t1."postID" LIMIT $2, $3
         ', array(
             $topicID,
             (int) $start,

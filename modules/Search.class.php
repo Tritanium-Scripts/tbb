@@ -170,17 +170,25 @@ class Search extends ModuleTemplate {
 				$displayResults = isset($_REQUEST['displayResults']) ? $_REQUEST['displayResults'] : 'topics';
 				$sortMethod = isset($_REQUEST['sortMethod']) ? $_REQUEST['sortMethod'] : 'DESC';
 				$sortType = isset($_REQUEST['sortType']) ? $_REQUEST['sortType'] : 'time';
-				$resultsPerPage = isset($_REQUEST['results_per_page']) ? intval($_REQUEST['results_per_page']) : 20;
+				$resultsPerPage = isset($_REQUEST['resultsPerPage']) ? intval($_REQUEST['resultsPerPage']) : 20;
 		
 				if(!in_array($sortType,array('time','author','title'))) $sortType = 'time';
 				if(!in_array($displayResults,array('topics','posts'))) $displayResults = 'topics';
 				if(!in_array($sortMethod,array('ASC','DESC'))) $sortMethod = 'DESC';
 
 				$this->modules['Navbar']->addElement($this->modules['Language']->getString('View_search_results'),INDEXFILE.'?action=Search&amp;mode=ViewResults&amp;searchID='.$searchID.'&amp;'.MYSID);
+				
+				$this->modules['Template']->assign(array(
+					'displayResults'=>$displayResults,
+					'sortMethod'=>$sortMethod,
+					'sortType'=>$sortType,
+					'resultsPerPage'=>$resultsPerPage,
+					'searchID'=>$searchID
+				));
 
 				if($displayResults == 'topics') {
 					$querySortType = '';
-					if($sortType == 'time') $querySortType = 't2."postTimestamp"';
+					if($sortType == 'time') $querySortType = 't2."postID"';
 					elseif($sortType == 'title') $querySortType = 't1."topicTitle"';
 					else $querySortType = 't1."posterID"';
 
@@ -226,16 +234,21 @@ class Search extends ModuleTemplate {
 						$curTopicPrefix = '';
 						if($curTopic['topicIsPinned'] == 1) $curTopicPrefix .= $this->modules['Language']->getString('Important').': ';
 						if($curTopic['topicHasPoll'] == 1) $curTopicPrefix .= $this->modules['Language']->getString('Poll').': ';
+						$curTopic['_topicPrefix'] = $curTopicPrefix;
 		
-						$curTopicPoster = ($curTopic['posterID'] == 0) ? $curTopic['topicGuestNick'] : '<a href="'.INDEXFILE.'?action=ViewProfile&amp;profileID='.$curTopic['posterID'].'&amp;'.MYSID.'">'.$curTopic['posterNick'].'</a>';
+						$curTopic['_topicPoster'] = ($curTopic['posterID'] == 0) ? $curTopic['topicGuestNick'] : '<a href="'.INDEXFILE.'?action=ViewProfile&amp;profileID='.$curTopic['posterID'].'&amp;'.MYSID.'">'.$curTopic['posterNick'].'</a>';
 		
 						if($curTopic['topicLastPostPosterID'] == 0)
 							$curTopicLastPostPoster = $curTopic['topicLastPostGuestNick'];
 						else $curTopicLastPostPoster = '<a href="'.INDEXFILE.'?action=ViewProfile&amp;profileID='.$curTopic['topicLastPostPosterID'].'&amp;'.MYSID.'">'.$curTopic['topicLastPostPosterNick'].'</a>';
-						$topicLastPost = Functions::toDateTime($curTopic['topicLastPostTimestamp']).'<br/>'.$this->modules['Language']->getString('by').' '.$curTopicLastPostPoster.' <a href="'.INDEXFILE.'?action=ViewTopic&amp;topicID='.$curTopic['topicID'].'&amp;z=last&amp;'.MYSID.'#post'.$curTopic['topicLastPostID'].'">&#187;</a>';
+						$curTopic['_topicLastPost'] = Functions::toDateTime($curTopic['topicLastPostTimestamp']).'<br/>'.$this->modules['Language']->getString('by').' '.$curTopicLastPostPoster.' <a href="'.INDEXFILE.'?action=ViewTopic&amp;topicID='.$curTopic['topicID'].'&amp;z=last&amp;'.MYSID.'#post'.$curTopic['topicLastPostID'].'">&#187;</a>';
 						
 						$topicsData[] = $curTopic;
 					}
+					
+					$this->modules['Template']->assign(array(
+						'topicsData'=>$topicsData
+					));
 					$this->modules['Template']->printPage('SearchViewResultsTopics.tpl');		
 				}
 				elseif($displayResults == 'posts') {

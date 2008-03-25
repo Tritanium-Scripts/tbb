@@ -139,7 +139,7 @@ class ViewForum extends ModuleTemplate {
 				AND t1."topicLastPostID"=t2."postID"
 			ORDER BY
 				t1."topicIsPinned" DESC,
-				t2."postTimestamp" DESC
+				t2."postID" DESC
 		',array(
 			$forumID
 		));
@@ -168,7 +168,7 @@ class ViewForum extends ModuleTemplate {
 				AND t1."topicLastPostID"=t2."postID"
 			ORDER BY
 				t1."topicIsPinned" DESC,
-				t2."postTimestamp" DESC
+				t2."postID" DESC
 			LIMIT
 				$2, $3
 		',array(
