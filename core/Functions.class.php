@@ -492,19 +492,22 @@ class Functions {
 
     //String wrapper functions, see ticket #3 for details
     public static function strlen($string){
-        return mb_strlen($string);
+        return (function_exists('mb_strlen') ? mb_strlen($string) : strlen($string));
     }
 
-    public static function substr($string, $start, $length=FALSE){
-        return ($length) ? mb_substr($string, $start, $length) : mb_substr($string, $start);
+    public static function substr($string, $start, $length = NULL){
+    	if(is_null($length)) 
+    		return (function_exists('mb_substr') ? mb_substr($string,$start) : substr($string,$start));
+    	else
+    		return (function_exists('mb_substr') ? mb_substr($string,$start,$length) : substr($string,$start,$length));
     }
 
     public static function str_replace($search, $replace, $subject){
-        return str_replace($search, $replace, $subject); //mb_str_replace() doesn't exist
+        return str_replace($search, $replace, $subject);
     }
 
     public static function strtolower($str){
-        return mb_strtolower($str);
+        return (function_exists('mb_strtolower') ? mb_strtolower($str) : strtolower($str));
     }
     
     public static function splitTime($time) {
