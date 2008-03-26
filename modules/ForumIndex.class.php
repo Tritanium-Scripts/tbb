@@ -67,6 +67,7 @@ class ForumIndex extends ModuleTemplate {
 		// First, check acccess to all forums and get the forum ids of
 		// all forums of which we have to check the on/off status
 		$forumIDsOnOffCheck = array();
+		$forumIDsAccessible = array();
 		foreach($forumsData AS &$curForum) {
 			$curAuthViewForum = 1;
 			if($this->modules['Auth']->isLoggedIn() == 0) {
@@ -85,8 +86,13 @@ class ForumIndex extends ModuleTemplate {
 			}
 			$curForum['forumIsAccessible'] = $curAuthViewForum;
 
-			if($curAuthViewForum == 1 && $userLastVisit < $curForum['forumLastPostTimestamp'] && (!isset($_SESSION['forumVisits'][$curForum['forumID']]) || $_SESSION['forumVisits'][$curForum['forumID']] < $curForum['forumLastPostTimestamp']))
-				$forumIDsOnOffCheck[] = $curForum['forumID'];
+			if($curAuthViewForum == 1) {
+				$forumIDsAccessible[] = $curForum['forumID'];
+				
+				if($userLastVisit < $curForum['forumLastPostTimestamp'] && (!isset($_SESSION['forumVisits'][$curForum['forumID']]) || $_SESSION['forumVisits'][$curForum['forumID']] < $curForum['forumLastPostTimestamp']))
+					$forumIDsOnOffCheck[] = $curForum['forumID'];
+			}
+				
 		}
 
 
@@ -186,7 +192,8 @@ class ForumIndex extends ModuleTemplate {
 			'forumsData'=>$forumsData,
 			'newsData'=>$newsData,
 			'wioData'=>$wioData,
-			'boardStatsData'=>$boardStatsData
+			'boardStatsData'=>$boardStatsData,
+			'latestPostsData'=>$this->getLatestPostsData($forumIDsAccessible)
 		));
 		$this->modules['Template']->printPage('ForumIndex.tpl');
 	}
@@ -434,6 +441,42 @@ class ForumIndex extends ModuleTemplate {
 			$boardStatsData['text'] = sprintf($this->modules['Language']->getString('board_stats_text'),$membersCounter,$postsCounter,$topicsCounter,'<a href="'.INDEXFILE.'?action=ViewProfile&amp;profileID='.$this->modules['Config']->getValue('newest_user_id').'&amp;'.MYSID.'">'.$this->modules['Config']->getValue('newest_user_nick').'</a>');
 		}
 		return $boardStatsData;
+	}
+	
+	protected function getLatestPostsData(&$forumIDsAccessible) {
+		if($this->modules['Config']->getValue('show_latest_posts_forumindex') != 1)
+			return NULL;
+		
+		$latestPostsData = array();
+		$this->modules['DB']->queryParams('
+			SELECT
+				t1."postID",
+				t1."postGuestNick",
+				t1."posterID",
+				t1."postTimestamp",
+				t1."postTitle",
+				t2."userNick" AS "posterNick"
+			FROM
+				'.TBLPFX.'posts t1
+			LEFT JOIN '.TBLPFX.'users t2 ON t1."posterID"=t2."userID"
+			WHERE
+				t1."forumID" IN $1
+			ORDER BY
+				t1."postID" DESC
+			LIMIT $2 
+		',array(
+			$forumIDsAccessible,
+			(int) $this->modules['Config']->getValue('max_latest_posts')
+		));
+		while($curPost = $this->modules['DB']->fetchArray()) {
+			if($curPost['posterID'] == 0)
+				$curPostPoster = $curPost['postGuestNick'];
+			else
+				$curPostPoster = '<a href="'.INDEXFILE.'"?action=ViewProfile&amp;profileID='.$curPost['posterID'].'&amp;'.MYSID.'">'.$curPost['posterNick'].'</a>';
+			$latestPostsData[] = sprintf($this->modules['Language']->getString('latest_post_text'),Functions::HTMLSpecialChars($curPost['postTitle']),$curPostPoster,Functions::toDateTime($curPost['postTimestamp']),$curPost['postID'],MYSID,INDEXFILE);
+		}
+		
+		return $latestPostsData;
 	}
 }
 

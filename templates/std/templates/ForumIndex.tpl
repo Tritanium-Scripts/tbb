@@ -92,6 +92,15 @@ initializeClosedCatIDs();
 {/foreach}
 </table>
 <br/>
+{if !is_null($latestPostsData)}
+	<table class="TableStd" width="100%">
+		<tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('Latest_posts')}</span></td></tr>
+		{foreach from=$latestPostsData item=curPost}
+			<tr><td class="CellStd"><span class="FontSmall">{$curPost}</span></td></tr>
+		{/foreach}
+	</table>
+	<br/>
+{/if}
 {if $boardStatsData != FALSE}
  <table class="TableStd" width="100%">
  <tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('Board_statistics')}</span></td></tr>
@@ -106,13 +115,3 @@ initializeClosedCatIDs();
  </table>
  <br/>
 {/if}
-{*<template:latestpostsbox>
- <table class="TableStd" width="100%">
- <tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('Latest_posts')}</span></td></tr>
- <template:postrow>
-  <tr><td class="CellStd"><span class="FontSmall">{$akt_latest_post_text}</span></td></tr>
- </template>
- </table>
- <br/>
-</template>
-*}
