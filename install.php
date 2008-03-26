@@ -511,6 +511,12 @@ class BoardInstall {
 						'success'=>FALSE,
 						'error'=>$this->strings['successful'],
 						'color'=>'Red'
+					),
+					'mbstringtest'=>array(
+						'name'=>$this->strings['Mb_string_test'],
+						'success'=>FALSE,
+						'error'=>$this->strings['successful'],
+						'color'=>'Orange'
 					)
 				);
 
@@ -575,6 +581,15 @@ class BoardInstall {
 				else {
 					$results['phptest']['color'] = 'Green';
 					$results['phptest']['success'] = TRUE;
+				}
+                                                                
+				//
+				// Ueberpruefung von Multibyte String Erweiterung
+				//
+				if(!in_array('mbstring', get_loaded_extensions())) $results['mbstringtest']['error'] = $this->strings['warning_no_mbstring'];
+				else {
+					$results['mbstringtest']['color'] = 'Green';
+					$results['mbstringtest']['success'] = TRUE;
 				}
 
 				$success = TRUE;
