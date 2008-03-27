@@ -49,16 +49,15 @@
 </tr>
 {/if}
 </table>
-{*<br/>
+<br/>
 <table class="TableStd" width="100%">
 <tr><td class="CellTitle" colspan="2"><span class="FontTitle">{$modules.Language->getString('Extended')}</span></td></tr>
 {foreach from=$fieldsData item=curField}
- <tr>
-  <td class="CellStd"><span class="FontNorm">{$curField.fieldName}:</span></td>
-  <td class="CellAlt"><span class="FontNorm"></span></td>
- </tr>
+<tr><td class="CellStd"><span class="FontNorm">{$curField.fieldName}:</span></td><td class="CellAlt"><span class="FontNorm"></span></td></tr>
 {/foreach}
-</table>*}
+<tr><td class="CellAlt" colspan="2"><span class="FontNorm">[<a href="{$indexFile}?action=Search&amp;mode=">{$profileData._SearchPostsText}</a>]</span></td></tr>
+<tr><td class="CellAlt" colspan="2"><span class="FontNorm">[<a href="{$indexFile}?action=Search&amp;mode=">{$profileData._SearchTopicsText}</a>]</span></td></tr>
+</table>
 {if $show.notesTable}
  <br/>
  <table class="TableStd" width="100%">

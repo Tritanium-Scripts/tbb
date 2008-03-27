@@ -80,8 +80,11 @@ class ViewProfile extends ModuleTemplate {
 				//Weitere Profilfelder
 				$this->modules['DB']->query('SELECT * FROM '.TBLPFX.'profile_fields');
 				$fieldsData = $this->modules['DB']->raw2Array();
+				//TODO
 				//$this->modules['DB']->queryParams('SELECT * FROM '.TBLPFX.'profile_fields_data WHERE "userID"=$1', array(USERID));
 				//$fieldsValues = $this->modules['DB']->raw2Array();
+				$profileData['_SearchPostsText'] = sprintf($this->modules['Language']->getString('Search_all_posts_by_x'), $profileData['userNick']);
+				$profileData['_SearchTopicsText'] = sprintf($this->modules['Language']->getString('Search_all_topics_by_x'), $profileData['userNick']);
 
 				//Anmerkungen
 				$show = array('notesTable'=>FALSE);
@@ -272,11 +275,11 @@ class ViewProfile extends ModuleTemplate {
 
             case 'vCard':
                 $vCard = "BEGIN:VCARD\nVERSION:3.0\nN:;;;;\nFN:\nNICKNAME:" . $profileData['userNick'] . "\n"; //TODO: FN = echter name
-                if ($profileData['userHideEmailAddress'] != 1) $vCard .= "EMAIL;TYPE=internet:" . $profileData['userEmailAddress'] . "\n";
-                $vCard .= "URL:\nCLASS:" . (($this->modules['Config']->getValue('guests_enter_board') != 1) ? "PRIVATE" : "PUBLIC") . "\nX-GENERATOR:Tritanium Bulletin Board 2\nEND:VCARD";
-                header("Content-Disposition: attachment; filename=" . $profileData['userNick'] . ".vcf");
-                header("Content-Length: " . strlen($vCard));
-                header("Content-Type: text/x-vCard; charset=UTF-8; name=" . $profileData['userNick'] . ".vcf");
+                if ($profileData['userHideEmailAddress'] != 1) $vCard .= 'EMAIL;TYPE=internet:' . $profileData['userEmailAddress'] . "\n";
+                $vCard .= "URL:\nCLASS:" . (($this->modules['Config']->getValue('guests_enter_board') != 1) ? 'PRIVATE' : 'PUBLIC') . "\nX-GENERATOR:Tritanium Bulletin Board 2\nEND:VCARD";
+                header('Content-Disposition: attachment; filename=' . $profileData['userNick'] . '.vcf');
+                header('Content-Length: ' . strlen($vCard));
+                header('Content-Type: text/x-vCard; charset=UTF-8; name=' . $profileData['userNick'] . '.vcf');
                 die($vCard);
 		}
 	}
