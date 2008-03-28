@@ -316,7 +316,7 @@ templates/std/templates/AdminUsers.tpl -text
 templates/std/templates/AdminUsersAddUser.tpl -text
 templates/std/templates/AdminUsersEditUser.tpl -text
 templates/std/templates/AdminUsersSearchUsers.tpl -text
-templates/std/templates/AjaxResult.xml -text
+templates/std/templates/AjaxResult.tpl -text
 templates/std/templates/BBCodeBox.tpl -text
 templates/std/templates/BBCodeHtml.tpl -text
 templates/std/templates/EditProfileAvatar.tpl -text
@@ -369,3 +369,4 @@ templates/std/templates/_Copyright.tpl -text
 update/0.2.0.7.20041116.update -text
 update/0.2.0.8.20050121.update -text
 update/0.2.0.9.20050502.update -text
+update/0.2.1.update -text

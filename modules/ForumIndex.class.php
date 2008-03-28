@@ -447,32 +447,36 @@ class ForumIndex extends ModuleTemplate {
 		if($this->modules['Config']->getValue('show_latest_posts_forumindex') != 1)
 			return NULL;
 		
-		$latestPostsData = array();
-		$this->modules['DB']->queryParams('
-			SELECT
-				t1."postID",
-				t1."postGuestNick",
-				t1."posterID",
-				t1."postTimestamp",
-				t1."postTitle",
-				t2."userNick" AS "posterNick"
-			FROM
-				'.TBLPFX.'posts t1
-			LEFT JOIN '.TBLPFX.'users t2 ON t1."posterID"=t2."userID"
-			WHERE
-				t1."forumID" IN $1
-			ORDER BY
-				t1."postID" DESC
-			LIMIT $2 
-		',array(
-			$forumIDsAccessible,
-			(int) $this->modules['Config']->getValue('max_latest_posts')
-		));
+		// The following ugly query is just because you can forget mysql query optimization beyond "select bla from blub"
+		$queryParts = array();
+		foreach($forumIDsAccessible AS $curForum) {
+			$queryParts[] = '
+				SELECT
+					t1."postID",
+					t1."postGuestNick",
+					t1."posterID",
+					t1."postTimestamp",
+					t1."postTitle",
+					t2."userNick" AS "posterNick"
+				FROM
+					'.TBLPFX.'posts t1
+				LEFT JOIN '.TBLPFX.'users t2 ON t1."posterID"=t2."userID"
+				WHERE
+					t1."forumID"='.$this->modules['DB']->escapeString($curForum).'
+				ORDER BY
+					t1."postID"
+				LIMIT '.intval($this->modules['Config']->getValue('max_latest_posts')).'
+			';
+		}
+		$query = '('.implode(') UNION (',$queryParts).') ORDER BY "postID" LIMIT '.intval($this->modules['Config']->getValue('max_latest_posts'));
+
+			$latestPostsData = array();
+		$this->modules['DB']->query($query);
 		while($curPost = $this->modules['DB']->fetchArray()) {
 			if($curPost['posterID'] == 0)
 				$curPostPoster = $curPost['postGuestNick'];
 			else
-				$curPostPoster = '<a href="'.INDEXFILE.'"?action=ViewProfile&amp;profileID='.$curPost['posterID'].'&amp;'.MYSID.'">'.$curPost['posterNick'].'</a>';
+				$curPostPoster = '<a href="'.INDEXFILE.'?action=ViewProfile&amp;profileID='.$curPost['posterID'].'&amp;'.MYSID.'">'.$curPost['posterNick'].'</a>';
 			$latestPostsData[] = sprintf($this->modules['Language']->getString('latest_post_text'),Functions::HTMLSpecialChars($curPost['postTitle']),$curPostPoster,Functions::toDateTime($curPost['postTimestamp']),$curPost['postID'],MYSID,INDEXFILE);
 		}
 		

@@ -1,0 +1,7 @@
+$this->DB->query('
+	ALTER TABLE '.TBLPFX.'posts
+		DROP KEY "forumID",
+		ADD KEY "forumID_postID" ("forumID","postID")
+');
+
+$nextUpdateFile = '';

@@ -74,7 +74,7 @@ class Ajax extends ModuleTemplate {
 			'mode'=>$mode,
 			'values'=>$values
 		));
-		$this->modules['Template']->display('AjaxResult.xml');
+		$this->modules['Template']->display('AjaxResult.tpl');
 	}
 }
 
