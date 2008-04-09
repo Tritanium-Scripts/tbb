@@ -1,7 +1,11 @@
 $this->DB->query('
 	ALTER TABLE '.TBLPFX.'posts
 		DROP KEY "forumID",
-		ADD KEY "forumID_postID" ("forumID","postID")
+		ADD KEY "forumIDPostID" ("forumID","postID")
+');
+$this->DB->query('
+	ALTER TABLE '.TBLPFX.'users
+		ADD "userNotifyNewPM" TINYINT(1) UNSIGNED DEFAULT \'0\' NOT NULL
 ');
 
 $nextUpdateFile = '';

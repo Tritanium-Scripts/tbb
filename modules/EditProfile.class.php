@@ -174,12 +174,13 @@ class EditProfile extends ModuleTemplate {
 				break;
 
 			case 'ProfileSettings':
-				$p = Functions::getSGValues($_POST['p'],array('userTimeZone','userHideEmailAddress','userReceiveEmails'),'',$this->modules['Auth']->getUserData());
+				$p = Functions::getSGValues($_POST['p'],array('userTimeZone','userHideEmailAddress','userReceiveEmails','userNotifyNewPM'),'',$this->modules['Auth']->getUserData());
 
 				$timeZones = Functions::getTimeZones(TRUE);
 
 				if(!in_array($p['userHideEmailAddress'],array(0,1))) $p['userHideEmailAddress'] = 0;
 				if(!in_array($p['userReceiveEmails'],array(0,1))) $p['userReceiveEmails'] = 1;
+				if(!in_array($p['userNotifyNewPM'],array(0,1))) $p['userNotifyNewPM'] = 1;
 				if(!isset($timeZones[$p['userTimeZone']])) $p['userTimeZone'] = 'gmt';
 
 				if(isset($_GET['doit'])) {
@@ -189,14 +190,16 @@ class EditProfile extends ModuleTemplate {
 						SET
 							"userHideEmailAddress"=$1,
 							"userReceiveEmails"=$2,
-							"userTimeZone"=$3
+							"userTimeZone"=$3,
+							"userNotifyNewPM"=$5
 						WHERE
 							"userID"=$4
 					', array(
 						$p['userHideEmailAddress'],
 						$p['userReceiveEmails'],
 						$p['userTimeZone'],
-						USERID
+						USERID,
+						$p['userNotifyNewPM']
 					));
 
 					$this->modules['Navbar']->addElements(array($this->modules['Language']->getString('Profile_saved'),''));

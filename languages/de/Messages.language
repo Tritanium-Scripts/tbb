@@ -4,12 +4,13 @@ message_text_special_rights_updated = Die Spezialrechte dieses Forums wurden erf
 message_text_forum_not_logged_in = Sie m&uuml;ssen eingeloggt sein um dieses Forum betreten zu k&ouml;nnen!
 message_text_forum_no_access = Sie haben nicht die erforderlichen Rechte dieses Forum zu betreten!
 message_text_no_more_folders_allowed = Sie d&uuml;rfen keine weiteren Ordner anlegen!
-message_text_new_private_message_text_received = In Ihrem Posteingang befindet sich mindestens eine neue private Nachricht
 message_text_account_activated = Ihr Account wurde erfolgreich aktiviert! Vielen Dank f&uuml;r Ihr Verst&auml;ndnis!
 message_text_board_rules_not_accepted = Sie haben die Boardregeln nicht akzeptiert! Da wir dies f&uuml;r unser Board vorraussetzen, k&ouml;nnen wir eine Registrierung leider nicht zulassen!
 message_text_user_edited = Der Benutzer wurde erfolgreich bearbeitet.
 message_text_settings_successfully_saved = Die Einstellungen wurden erfolgreich gespeichert
 
+message_title_new_private_message_received = Neue private Nachricht
+message_text_new_private_message_received = In Ihrem Posteingang befindet sich mindestens eine neue private Nachricht
 message_title_new_password_sent = Neues Passwort verschickt
 message_text_new_password_sent = Ein neues Passwort wurde an die angegebene Emailaddresse verschickt. Bis zum ersten Einloggen mit diesem ist das alte Passwort weiterhin g&uuml;ltig.
 message_title_template_config_updated = Templatekonfiguration aktualisiert

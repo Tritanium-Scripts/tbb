@@ -47,8 +47,8 @@ CREATE TABLE /*!32312 IF NOT EXISTS*/ "/*TABLEPREFIX*/forums" (
   "authPostReplyGuests" tinyint(1) unsigned NOT NULL default '0',
   "authPostPollGuests" tinyint(1) unsigned NOT NULL default '0',
   PRIMARY KEY  ("forumID"),
-  KEY "cat_id" ("catID"),
-  KEY "order_id" ("orderID")
+  KEY "catID" ("catID"),
+  KEY "orderID" ("orderID")
 ) ENGINE=MyISAM /*!40100 DEFAULT CHARSET=utf8*/;
 
 CREATE TABLE /*!32312 IF NOT EXISTS*/ "/*TABLEPREFIX*/forums_auth" (
@@ -61,7 +61,7 @@ CREATE TABLE /*!32312 IF NOT EXISTS*/ "/*TABLEPREFIX*/forums_auth" (
   "authPostPoll" tinyint(1) unsigned NOT NULL default '0',
   "authEditPosts" tinyint(1) unsigned NOT NULL default '0',
   "authIsMod" tinyint(1) unsigned NOT NULL default '0',
-  KEY "forum_id" ("forumID")
+  KEY "forumID" ("forumID")
 ) ENGINE=MyISAM /*!40100 DEFAULT CHARSET=utf8*/;
 
 CREATE TABLE /*!32312 IF NOT EXISTS*/ "/*TABLEPREFIX*/groups" (
@@ -74,8 +74,8 @@ CREATE TABLE /*!32312 IF NOT EXISTS*/ "/*TABLEPREFIX*/groups_members" (
   "groupID" smallint(5) unsigned NOT NULL default '0',
   "memberID" mediumint(8) unsigned NOT NULL default '0',
   "memberStatus" tinyint(1) unsigned NOT NULL default '0',
-  UNIQUE KEY "member_id_group_id" ("memberID","groupID"),
-  KEY "group_id" ("groupID")
+  UNIQUE KEY "memberIDGroupID" ("memberID","groupID"),
+  KEY "groupID" ("groupID")
 ) ENGINE=MyISAM /*!40100 DEFAULT CHARSET=utf8*/;
 
 CREATE TABLE /*!32312 IF NOT EXISTS*/ "/*TABLEPREFIX*/pms" (
@@ -96,9 +96,9 @@ CREATE TABLE /*!32312 IF NOT EXISTS*/ "/*TABLEPREFIX*/pms" (
   "pmGuestNick" varchar(255) NOT NULL default '',
   "pmIsReplied" tinyint(1) unsigned NOT NULL default '0',
   PRIMARY KEY  ("pmID"),
-  KEY "folder_id" ("folderID"),
-  KEY "pm_from_id" ("pmFromID"),
-  KEY "pm_to_id" ("pmToID")
+  KEY "folderID" ("folderID"),
+  KEY "pmFromID" ("pmFromID"),
+  KEY "pmToID" ("pmToID")
 ) ENGINE=MyISAM /*!40100 DEFAULT CHARSET=utf8*/;
 
 CREATE TABLE /*!32312 IF NOT EXISTS*/ "/*TABLEPREFIX*/pms_folders" (
@@ -123,7 +123,7 @@ CREATE TABLE /*!32312 IF NOT EXISTS*/ "/*TABLEPREFIX*/polls" (
   "pollShowResultsAfterEnd" tinyint(1) unsigned NOT NULL default '0',
   PRIMARY KEY  ("pollID"),
   UNIQUE KEY "topicID" ("topicID"),
-  KEY "poster_id" ("posterID")
+  KEY "posterID" ("posterID")
 ) ENGINE=MyISAM /*!40100 DEFAULT CHARSET=utf8*/;
 
 CREATE TABLE /*!32312 IF NOT EXISTS*/ "/*TABLEPREFIX*/polls_options" (
@@ -131,15 +131,15 @@ CREATE TABLE /*!32312 IF NOT EXISTS*/ "/*TABLEPREFIX*/polls_options" (
   "optionID" smallint(5) unsigned NOT NULL default '0',
   "optionTitle" varchar(255) NOT NULL default '',
   "optionVotesCounter" mediumint(8) NOT NULL default '0',
-  UNIQUE KEY "poll_id_option_id" ("pollID","optionID"),
-  KEY "option_id" ("optionID")
+  UNIQUE KEY "pollIDOptionID" ("pollID","optionID"),
+  KEY "optionID" ("optionID")
 ) ENGINE=MyISAM /*!40100 DEFAULT CHARSET=utf8*/;
 
 CREATE TABLE /*!32312 IF NOT EXISTS*/ "/*TABLEPREFIX*/polls_votes" (
   "pollID" mediumint(8) unsigned NOT NULL default '0',
   "voterID" mediumint(8) unsigned NOT NULL default '0',
-  UNIQUE KEY "voter_id_poll_id" ("voterID","pollID"),
-  KEY "poll_id" ("pollID")
+  UNIQUE KEY "voterIDPollID" ("voterID","pollID"),
+  KEY "pollID" ("pollID")
 ) ENGINE=MyISAM /*!40100 DEFAULT CHARSET=utf8*/;
 
 CREATE TABLE /*!32312 IF NOT EXISTS*/ "/*TABLEPREFIX*/posts" (
@@ -162,9 +162,9 @@ CREATE TABLE /*!32312 IF NOT EXISTS*/ "/*TABLEPREFIX*/posts" (
   "postTitle" varchar(255) NOT NULL default '',
   "postText" mediumtext NOT NULL,
   PRIMARY KEY  ("postID"),
-  KEY "topic_id" ("topicID"),
-  KEY "forum_id" ("forumID"),
-  KEY "poster_id" ("posterID")
+  KEY "topicID" ("topicID"),
+  KEY "forumIDPostID" ("forumID","postID")
+  KEY "posterID" ("posterID")
 ) ENGINE=MyISAM /*!40100 DEFAULT CHARSET=utf8*/;
 
 CREATE TABLE /*!32312 IF NOT EXISTS*/ "/*TABLEPREFIX*/profile_fields" (
@@ -184,8 +184,8 @@ CREATE TABLE /*!32312 IF NOT EXISTS*/ "/*TABLEPREFIX*/profile_fields_data" (
   "fieldID" smallint(5) unsigned NOT NULL default '0',
   "userID" mediumint(8) unsigned NOT NULL default '0',
   "fieldValue" mediumtext NOT NULL,
-  UNIQUE KEY "user_id_field_id" ("userID","fieldID"),
-  KEY "field_id" ("fieldID")
+  UNIQUE KEY "userIDFieldID" ("userID","fieldID"),
+  KEY "fieldID" ("fieldID")
 ) ENGINE=MyISAM /*!40100 DEFAULT CHARSET=utf8*/;
 
 CREATE TABLE /*!32312 IF NOT EXISTS*/ "/*TABLEPREFIX*/profile_notes" (
@@ -196,7 +196,7 @@ CREATE TABLE /*!32312 IF NOT EXISTS*/ "/*TABLEPREFIX*/profile_notes" (
   "noteIsPublic" tinyint(1) unsigned NOT NULL default '0',
   "noteText" mediumtext NOT NULL,
   PRIMARY KEY  ("noteID"),
-  KEY "user_id_profile_id" ("userID","profileID")
+  KEY "userIDProfileID" ("userID","profileID")
 ) ENGINE=MyISAM /*!40100 DEFAULT CHARSET=utf8*/;
 
 CREATE TABLE /*!32312 IF NOT EXISTS*/ "/*TABLEPREFIX*/ranks" (
@@ -206,7 +206,7 @@ CREATE TABLE /*!32312 IF NOT EXISTS*/ "/*TABLEPREFIX*/ranks" (
   "rankGfx" mediumtext NOT NULL,
   "rankPosts" mediumint(8) unsigned NOT NULL default '0',
   PRIMARY KEY  ("rankID"),
-  KEY "rank_type" ("rankType")
+  KEY "rankType" ("rankType")
 ) ENGINE=MyISAM /*!40100 DEFAULT CHARSET=utf8*/;
 
 CREATE TABLE /*!32312 IF NOT EXISTS*/ "/*TABLEPREFIX*/search_results" (
@@ -225,7 +225,7 @@ CREATE TABLE /*!32312 IF NOT EXISTS*/ "/*TABLEPREFIX*/sessions" (
   "sessionIsGhost" tinyint(1) unsigned NOT NULL default '0',
   "sessionLastLocation" varchar(255) NOT NULL default 'forumindex',
   PRIMARY KEY  ("sessionID"),
-  KEY "session_last_update" ("sessionLastUpdate")
+  KEY "sessionLastUpdate" ("sessionLastUpdate")
 ) ENGINE=MyISAM /*!40100 DEFAULT CHARSET=utf8*/;
 
 CREATE TABLE /*!32312 IF NOT EXISTS*/ "/*TABLEPREFIX*/smilies" (
@@ -255,16 +255,16 @@ CREATE TABLE /*!32312 IF NOT EXISTS*/ "/*TABLEPREFIX*/topics" (
   "topicTitle" varchar(255) NOT NULL default '',
   "topicGuestNick" varchar(255) NOT NULL default '',
   PRIMARY KEY  ("topicID"),
-  KEY "forum_id_topic_id" ("forumID","topicID"),
-  KEY "poster_id" ("posterID"),
-  KEY "topic_moved_id" ("topicMovedID")
+  KEY "forumIDTopicID" ("forumID","topicID"),
+  KEY "posterID" ("posterID"),
+  KEY "topicMovedID" ("topicMovedID")
 ) ENGINE=MyISAM /*!40100 DEFAULT CHARSET=utf8*/;
 
 CREATE TABLE /*!32312 IF NOT EXISTS*/ "/*TABLEPREFIX*/topics_subscriptions" (
   "topicID" mediumint(8) unsigned NOT NULL default '0',
   "userID" mediumint(8) unsigned NOT NULL default '0',
-  UNIQUE KEY "user_id_topic_id" ("userID","topicID"),
-  KEY "topic_id" ("topicID")
+  UNIQUE KEY "userIDTopicID" ("userID","topicID"),
+  KEY "topicID" ("topicID")
 ) ENGINE=MyISAM /*!40100 DEFAULT CHARSET=utf8*/;
 
 CREATE TABLE /*!32312 IF NOT EXISTS*/ "/*TABLEPREFIX*/users" (
@@ -305,7 +305,7 @@ CREATE TABLE /*!32312 IF NOT EXISTS*/ "/*TABLEPREFIX*/users_locks" (
   "lockStartTimestamp" int(10) unsigned NOT NULL default '0',
   "lockEndTimestamp" int(10) unsigned NOT NULL default '0',
   PRIMARY KEY  ("userID"),
-  KEY "lock_type_user_id" ("lockType","userID")
+  KEY "lockTypeUserID" ("lockType","userID")
 ) ENGINE=MyISAM /*!40100 DEFAULT CHARSET=utf8*/;
 
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS*/;

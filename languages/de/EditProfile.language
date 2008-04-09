@@ -36,6 +36,7 @@ Receive_board_emails = Emails vom Board empfangen
 receive_board_emails_info = Wenn Sie hier &quot;nein&quot; w&auml;hlen, erhalten Sie keine Emails mehr vom Board, d.h. keine Newsletter, keine Benachrichtigungen und keine Nachrichten von anderen Benutzern.
 Save_changes = &Auml;nderungen speichern
 Signature = Signatur
+Notify_new_pms_by_email = &Uuml;ber private Nachrichten per Email informieren 
 error_invalid_file = Bitte geben Sie eine g&uuml;ltige Datei an!
 error_file_too_big = Die Datei &uuml;berschreitet die maximal erlaubte Dateigr&ouml;&szlig;e!
 error_invalid_file_extension = Ung&uuml;ltiger Dateityp (erlaubt sind bmp, jpg, jpeg, gif und png)

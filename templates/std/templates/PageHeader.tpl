@@ -2,20 +2,19 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" dir="{$modules.Language->getString('html_direction')}" lang="{$modules.Language->getString('html_language')}" xml:lang="{$modules.Language->getString('html_language')}">
 <head>
- <title>{$modules.Navbar->parseElements(0)}</title>
- <link rel="stylesheet" href="{$modules.Template->getTD()}/styles/ts_tbb2_standard.css" type="text/css"></link>
- <meta http-equiv="Content-Type" content="application/xhtml+xml; charset={$modules.Language->getString('html_encoding')}"/>
- <meta http-equiv="Content-Script-Type" content="text/javascript"/>
- <meta http-equiv="Content-Style-Type" content="text/css"/>
- <script src="{$modules.Template->getTD()}/scripts/jscripts.js" type="text/javascript"></script>
- <script src="{$modules.Template->getTD()}/scripts/ajax.js" type="text/javascript"></script>
- <script src="{$modules.Template->getTD()}/scripts/posting.js" type="text/javascript"></script>
- <script type="text/javascript">
- <!--
-  if(0 == 1)
- 	popup('{$indexFile}?action=PrivateMessages&mode=newpmreceived&{$mySID}','newpmreceived','width=400,height=200,scrollbars=yes,toolbar=no');
- //-->
- </script>
+	<title>{$modules.Navbar->parseElements(0)}</title>
+	<link rel="stylesheet" href="{$modules.Template->getTD()}/styles/ts_tbb2_standard.css" type="text/css"></link>
+	<meta http-equiv="Content-Type" content="application/xhtml+xml; charset={$modules.Language->getString('html_encoding')}"/>
+	<meta http-equiv="Content-Script-Type" content="text/javascript"/>
+	<meta http-equiv="Content-Style-Type" content="text/css"/>
+	<script src="{$modules.Template->getTD()}/scripts/jscripts.js" type="text/javascript"></script>
+	<script src="{$modules.Template->getTD()}/scripts/ajax.js" type="text/javascript"></script>
+	<script src="{$modules.Template->getTD()}/scripts/posting.js" type="text/javascript"></script>
+	{if $newPrivateMessageReceived}
+		<script type="text/javascript">
+			popUp('{$indexFile}?action=PrivateMessages&mode=NewPMReceived&inPopup=1&{$mySID}','newpmreceived',400,200);
+		</script>
+	{/if}
 </head>
 <body>
 <div align="center"><div align="left" style="width:1024px;">

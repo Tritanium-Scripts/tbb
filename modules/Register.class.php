@@ -121,7 +121,8 @@ class Register extends ModuleTemplate {
 								"userPassword"=$6,
 								"userPasswordSalt"=$7,
 								"userRegistrationTimestamp"=$8,
-								"userTimeZone"=$9
+								"userTimeZone"=$9,
+								"userNotifyNewPM"=1
 						',array(
 							$userIsActivated,
 							$userIsAdmin,

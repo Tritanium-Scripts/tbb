@@ -22,8 +22,8 @@ function insertatcaret(text) {
 	else document.forms['tbb_form'].elements['p_message_text'].value += text;
 }
 
-function popup(url,name,features) {
-	window.open(url,name,features);
+function popUp(url,windowName,width,height) {
+	window.open(url,windowName,"width="+width+", height="+height+", resizable=no, location=no, menubar=no, scrollbars=yes, status=no, toolbar=no");
 }
 
 function setClass(element,newClassName) {

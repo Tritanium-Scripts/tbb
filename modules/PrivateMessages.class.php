@@ -178,7 +178,7 @@ class PrivateMessages extends ModuleTemplate {
 							$previewData = array();
 							
 							$previewData['pmMessageText'] = Functions::HTMLSpecialChars($p['pmMessageText']);
-							if($c['enableSmilies'] == 1) $previewData['pmMessageText'] = strtr($previewData['pmMessageText'],$this->modules['Cache']->getSmiliesData('read'));
+							if($c['enableSmilies'] == 1) $previewData['pmMessageText'] = strtr($previewData['pmMessageText'],$this->modules['Cache']->getSmiliesData('write'));
 							$previewData['pmMessageText'] = nl2br($previewData['pmMessageText']);
 							if($c['enableBBCode'] == 1) $previewData['pmMessageText'] = $this->modules['BBCode']->parse($previewData['pmMessageText']);
 							
@@ -303,12 +303,9 @@ class PrivateMessages extends ModuleTemplate {
 				$this->modules['Template']->printPage('PrivateMessagesNewPM.tpl');
 			break;
 
-			case 'popNewPMReceived':
-				// TODO: Alles
-				include_once('pop_pheader.php');
-				$pms_tpl->parseCode(TRUE);
-				include_once('pop_ptail.php');
-			break;
+			case 'NewPMReceived':
+				FuncMisc::printMessage('new_private_message_received'); exit;
+				break;
 
 			case 'MarkPMsRead':
 				$pmIDs = (isset($_POST['pmIDs']) && is_array($_POST['pmIDs'])) ? $_POST['pmIDs'] : array();
@@ -429,7 +426,7 @@ class PrivateMessages extends ModuleTemplate {
 							$previewData = array();
 							
 							$previewData['pmMessageText'] = Functions::HTMLSpecialChars($p['pmMessageText']);
-							if($c['enableSmilies'] == 1) $previewData['pmMessageText'] = strtr($previewData['pmMessageText'],$this->modules['Cache']->getSmiliesData('read'));
+							if($c['enableSmilies'] == 1) $previewData['pmMessageText'] = strtr($previewData['pmMessageText'],$this->modules['Cache']->getSmiliesData('write'));
 							$previewData['pmMessageText'] = nl2br($previewData['pmMessageText']);
 							if($c['enableBBCode'] == 1) $previewData['pmMessageText'] = $this->modules['BBCode']->parse($previewData['pmMessageText']);
 							

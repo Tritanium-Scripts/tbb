@@ -105,10 +105,39 @@ class Globals extends ModuleTemplate {
 	
 			if($this->modules['Auth']->isLoggedIn() == 1) $welcomeText = sprintf($this->modules['Language']->getString('welcome_logged_in'),$this->modules['Auth']->getValue('userNick'),Functions::toTime(time()),INDEXFILE,MYSID);
 			else $welcomeText = sprintf($this->modules['Language']->getString('welcome_not_logged_in'),$this->modules['Config']->getValue('board_name'),INDEXFILE,MYSID);
+			
+			$newPrivateMessageReceived = FALSE;
+			if($this->modules['Config']->getValue('enable_pms') == 1 && $this->modules['Auth']->isLoggedIn()) {
+				if(!isset($_SESSION['lastPrivateMessageTimestamp']))
+					$_SESSION['lastPrivateMessageTimestamp'] = 0;
+				
+				$this->modules['DB']->queryParams('
+					SELECT
+						"pmSendTimestamp"
+					FROM
+						'.TBLPFX.'pms
+					WHERE
+						"pmToID"=$1
+						AND "pmIsRead"=0
+						AND "pmSendTimestamp">$2
+					ORDER BY
+						"pmSendTimestamp" DESC
+					LIMIT 1
+				',array(
+					USERID,
+					$_SESSION['lastPrivateMessageTimestamp']
+				));
+				if($this->modules['DB']->numRows() != 0) {
+					list($timestamp) = $this->modules['DB']->fetchArray();
+					$_SESSION['lastPrivateMessageTimestamp'] = $timestamp;
+					$newPrivateMessageReceived = TRUE;
+				}
+			}
 	
 			$this->modules['Template']->assign(array(
 				'boardBanner'=>$boardBanner,
-				'welcomeText'=>$welcomeText
+				'welcomeText'=>$welcomeText,
+				'newPrivateMessageReceived'=>$newPrivateMessageReceived
 			));
 	
 			$this->modules['Template']->display('PageHeader.tpl');
