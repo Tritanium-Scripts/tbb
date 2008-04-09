@@ -1677,7 +1677,7 @@ class BoardInstall {
 							}
 	
 	
-							if(++$j * 2 >= self::FILES_PER_ROUND) {
+							if(++$filesCounter * 2 >= self::FILES_PER_ROUND) {
 								$this->tbb1ConversionProperties['statusMembers'] = round($this->tbb1ConversionProperties['membersCompleteCounter']/$this->tbb1ConversionProperties['membersCounter'],2)*100;
 								$this->tbb1ConversionPrintConversionStatus(INSTALLFILE.'?step='.$this->step.'&doit=1&subStep=2&currentUserID='.($i+1).'&'.MYSID); exit;
 							}
@@ -2322,10 +2322,6 @@ class BoardInstall {
 	
 		?>
 		<table class="TableStd" width="100%">
-			<colgroup>
-				<col width="25%"/>
-				<col width="75%"/>
-			</colgroup>
 			<tr><td class="CellCat" colspan="2"><span class="FontCat"><?php echo $this->steps[$this->step-1]; ?></span></td></tr>
 			<tr>
 				<td class="CellWhite">

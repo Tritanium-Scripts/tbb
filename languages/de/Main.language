@@ -115,6 +115,7 @@ Group = Gruppe
 Smilies = Smilies
 Profile_notes = Profilnotizen
 locked_forever = (f&uuml;r immer gesperrt)
+Following_errors_occured = Die folgenden Fehler sind aufgetreten:
 
 Display_options = Darstellungsoptionen
 Ascending = Aufsteigend
@@ -139,6 +140,7 @@ email_subject_welcome = Willkommen bei %s
 email_subject_account_activation = Accountaktivierung bei %s
 email_subject_new_reply_posted = Neue Antwort erstellt
 email_subject_new_password_requested = Neues Passwort angefordert
+email_subject_new_pm_received = Neue private Nachricht erhalten
 
 message_link_click_here_back_profile = %sHier%s geht's zur&uuml;ck zum Profil
 message_link_click_here_back_forumindex = %sHier%s geht's zur&uuml;ck zur Foren&uuml;bersicht

@@ -101,6 +101,7 @@ languages/de/ViewProfile.language -text
 languages/de/ViewTopic.language -text
 languages/de/WhoIsOnline.language -text
 languages/de/mails/PasswordRequested.mail -text
+languages/de/mails/PrivateMessageReceived.mail -text
 languages/de/mails/RegistrationAccountVerification.mail -text
 languages/de/mails/RegistrationWelcome.mail -text
 modules/AdminAvatars.class.php -text
@@ -366,6 +367,7 @@ templates/std/templates/ViewProfileView.tpl -text
 templates/std/templates/ViewTopic.tpl -text
 templates/std/templates/WhoIsOnline.tpl -text
 templates/std/templates/_Copyright.tpl -text
+templates/std/templates/_ErrorRow.tpl -text
 update/0.2.0.7.20041116.update -text
 update/0.2.0.8.20050121.update -text
 update/0.2.0.9.20050502.update -text

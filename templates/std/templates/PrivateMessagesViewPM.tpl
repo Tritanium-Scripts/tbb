@@ -15,6 +15,21 @@
 <tr><td class="CellStd" colspan="2"><span class="FontNorm">{$pmData._pmMessageText}</span></td></tr>
 </table>
 {if $pmData.pmType == 0 && $pmData.pmFromID != 0}
+	{if !is_null($previewData)}
+		<br/>
+		<table class="TableStd" width="100%">
+			<tr><td class="CellCat" colspan="2"><span class="FontCat">{$modules.Language->getString('Preview')}</span></td></tr>
+			<colgroup>
+				<col width="20%"/>
+				<col width="80%"/>
+			</colgroup>
+			<tr>
+				<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Subject')}:</span></td>
+				<td class="CellAlt"><span class="FontNorm">{$previewData.pmSubject}</span></td>
+			</tr>
+			<tr><td class="CellAlt" colspan="2"><span class="FontNorm">{$previewData.pmMessageText}</span></td></tr>
+		</table>
+	{/if}
  <br/>
  <form method="post" action="{$indexFile}?action=PrivateMessages&amp;mode=ViewPM&amp;pmID={$pmID}&amp;doit=1&amp;{$mySID}" name="tbb_form">
  <table class="TableStd" width="100%">
@@ -23,7 +38,7 @@
   <col width="80%"/>
  </colgroup>
  <tr><td class="CellCat" colspan="2"><a name="Reply" id="Reply"></a><span class="FontCat">{$modules.Language->getString('Reply')}</span></td></tr>
- {if $error != ''}<tr><td class="CellError" colspan="2"><span class="FontError">{$error}</span></td></tr>{/if}
+ {include file=_ErrorRow.tpl colSpan=2}
  <tr>
   <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Recipient')}:</span></td>
   <td class="CellAlt"><span class="FontNorm">{$pmData.pmFromNick}</span></td>
@@ -53,7 +68,7 @@
    {if $show.requestReadReceipt}<label><input type="checkbox" name="c[requestReadReceipt]" value="1"{if $c.requestReadReceipt == 1} checked="checked"{/if}/>&nbsp;{$modules.Language->getString('Request_read_confirmation')}</label><br/>{/if}
   </span></td>
  </tr>
- <tr><td class="CellButtons" colspan="2" align="center"><input class="FormButton" type="submit" value="{$modules.Language->getString('Send_private_message')}"/>{*&nbsp;&nbsp;&nbsp;<input class="FormBButton" type="submit" name="ShowPreview" value="{$modules.Language->getString('Preview')}"/>*}&nbsp;&nbsp;&nbsp;<input class="FormButton" type="reset" value="{$modules.Language->getString('Reset')}"/></td></tr>
+ <tr><td class="CellButtons" colspan="2" align="center"><input class="FormButton" type="submit" value="{$modules.Language->getString('Send_private_message')}"/>&nbsp;&nbsp;&nbsp;<input class="FormBButton" type="submit" name="showPreview" value="{$modules.Language->getString('Preview')}"/>&nbsp;&nbsp;&nbsp;<input class="FormButton" type="reset" value="{$modules.Language->getString('Reset')}"/></td></tr>
  </table>
  </form>
 {/if}

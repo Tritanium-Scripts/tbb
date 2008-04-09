@@ -1,0 +1,9 @@
+Hallo {$recipientNick},
+
+Sie haben von {$senderNick} eine neue private Nachricht mit dem Betreff "{$messageTitle}" erhalten:
+{$messageText}
+
+Um auf die Nachricht zu antworten oder sie soch nochmal anzusehen, klicken Sie bitte auf folgenden Link:
+{$pmLink}
+
+{$modules.Config->getValue('email_signature')}

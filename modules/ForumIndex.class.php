@@ -42,17 +42,16 @@ class ForumIndex extends ModuleTemplate {
 		// Closed categories
 		$closedCatIDs = array();
 		if(!isset($_COOKIE['closedCatIDs'])) {
-			for($i = 0; $i < $catsCounter; $i++) {
-				if($catsData[$i]['catStandardStatus'] != 1) $closedCatIDs[] = $catsData[$i]['catID'];
+			foreach($catsData AS &$curCat) {
+				if($curCat['catStandardStatus'] != 1)
+					$closedCatIDs[] = $curCat['catID'];
 			}
 			setcookie('closedCatIDs',implode('.',$closedCatIDs),time()+31536000);
 		}
 		else
 			$closedCatIDs = explode('.',$_COOKIE['closedCatIDs']);
 
-		for($i = 0; $i < $catsCounter; $i++) {
-			$curCat = &$catsData[$i];
-
+		foreach($catsData AS &$curCat) {
 			if(in_array($curCat['catID'],$closedCatIDs)) $curCat['catIsOpen'] = 0;
 			else $curCat['catIsOpen'] = 1;
 
