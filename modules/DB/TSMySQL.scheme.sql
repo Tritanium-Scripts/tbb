@@ -163,7 +163,7 @@ CREATE TABLE /*!32312 IF NOT EXISTS*/ "/*TABLEPREFIX*/posts" (
   "postText" mediumtext NOT NULL,
   PRIMARY KEY  ("postID"),
   KEY "topicID" ("topicID"),
-  KEY "forumIDPostID" ("forumID","postID")
+  KEY "forumIDPostID" ("forumID","postID"),
   KEY "posterID" ("posterID")
 ) ENGINE=MyISAM /*!40100 DEFAULT CHARSET=utf8*/;
 
