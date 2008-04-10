@@ -517,6 +517,12 @@ class BoardInstall {
 						'success'=>FALSE,
 						'error'=>$this->strings['successful'],
 						'color'=>'Orange'
+					),
+					'mysqlitest'=>array(
+						'name'=>$this->strings['Mysqli_test'],
+						'success'=>FALSE,
+						'error'=>$this->strings['successful'],
+						'color'=>'Red'
 					)
 				);
 
@@ -590,6 +596,15 @@ class BoardInstall {
 				else {
 					$results['mbstringtest']['color'] = 'Green';
 					$results['mbstringtest']['success'] = TRUE;
+				}
+
+				//
+				// Ueberpruefung von MySQLi Erweiterung
+				//
+				if(!in_array('mysqli', get_loaded_extensions())) $results['mysqlitest']['error'] = $this->strings['warning_no_mysqli'];
+				else {
+					$results['mysqlitest']['color'] = 'Green';
+					$results['mysqlitest']['success'] = TRUE;
 				}
 
 				$success = TRUE;
