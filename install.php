@@ -1725,7 +1725,10 @@ class BoardInstall {
 	
 							$currentTopicID = isset($_GET['currentTopicID']) ? intval($_GET['currentTopicID']) : 1;
 							$lastTopicID = file_get_contents($this->pathToTBB1.'/foren/'.$forumID.'-ltopic.xbb',LOCK_SH) + 1;
-	
+
+							//sticker hack
+							$curSticker = (file_exists($this->pathToTBB1.'/foren/'.$forumID.'-sticker.xbb')) ? explode("\n",str_replace("\r\n","\n",file_get_contents($this->pathToTBB1.'/foren/'.$forumID.'-sticker.xbb',LOCK_SH))) : FALSE;
+
 							$filesCounter = 1;
 							for($j = $currentTopicID; $j < $lastTopicID; $j++) {
 								$this->tbb1ConversionProperties['topicsCompleteCounter']++;
@@ -1767,7 +1770,8 @@ class BoardInstall {
 										"topicRepliesCounter"=$5,
 										"topicViewsCounter"=$6,
 										"topicTitle"=$7,
-										"topicGuestNick"=$8
+										"topicGuestNick"=$8,
+										"topicIsPinned"=$9
 								',array(
 									$curTopicID,
 									$forumID,
@@ -1776,7 +1780,8 @@ class BoardInstall {
 									$curTopicRepliesCounter,
 									$curTopicInfo[6],
 									$curTopicTitle,
-									$curTopicGuestNick
+									$curTopicGuestNick,
+									(($curSticker && (in_array($j,$curSticker))) ? 1 : 0) //sticker hack
 								));
 	
 								if($curTopicInfo[4] == 1 && $curTopicPosterID != 0) {
@@ -2234,7 +2239,7 @@ class BoardInstall {
 	protected static function tbb1ConversionConvertRegdate2Time($date) {
 		$year = substr($date,0,4);
 		$month = substr($date,4,2);
-		return mktime(0,0,0,$month,0,$year);
+		return mktime(0,0,0,$month,0,$year,-1);
 	}
 	
 	/**
@@ -2244,7 +2249,7 @@ class BoardInstall {
 	 * @return integer
 	 */
 	protected static function tbb1ConversionConvertDate2Time($date) {
-		return mktime(substr($date,8,2),substr($date,10,2),0,substr($date,4,2),substr($date,6,2),substr($date,0,4));
+		return mktime(substr($date,8,2),substr($date,10,2),0,substr($date,4,2),substr($date,6,2),substr($date,0,4),-1);
 	}
 	
 	/**

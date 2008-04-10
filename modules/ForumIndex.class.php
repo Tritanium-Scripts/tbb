@@ -463,11 +463,11 @@ class ForumIndex extends ModuleTemplate {
 				WHERE
 					t1."forumID"='.$this->modules['DB']->escapeString($curForum).'
 				ORDER BY
-					t1."postID"
+					t1."postID" DESC
 				LIMIT '.intval($this->modules['Config']->getValue('max_latest_posts')).'
 			';
 		}
-		$query = '('.implode(') UNION (',$queryParts).') ORDER BY "postID" LIMIT '.intval($this->modules['Config']->getValue('max_latest_posts'));
+		$query = '('.implode(') UNION (',$queryParts).') ORDER BY "postID" DESC LIMIT '.intval($this->modules['Config']->getValue('max_latest_posts'));
 
 			$latestPostsData = array();
 		$this->modules['DB']->query($query);
