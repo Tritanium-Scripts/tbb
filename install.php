@@ -2237,9 +2237,7 @@ class BoardInstall {
 	 * @return integer
 	 */
 	protected static function tbb1ConversionConvertRegdate2Time($date) {
-		$year = substr($date,0,4);
-		$month = substr($date,4,2);
-		return mktime(0,0,0,$month,0,$year,-1);
+		return mktime(0,0,0,substr($date,4,2),1,substr($date,0,4));
 	}
 	
 	/**
@@ -2249,7 +2247,7 @@ class BoardInstall {
 	 * @return integer
 	 */
 	protected static function tbb1ConversionConvertDate2Time($date) {
-		return mktime(substr($date,8,2),substr($date,10,2),0,substr($date,4,2),substr($date,6,2),substr($date,0,4),-1);
+		return mktime(substr($date,8,2),substr($date,10,2),0,substr($date,4,2),substr($date,6,2),substr($date,0,4));
 	}
 	
 	/**
