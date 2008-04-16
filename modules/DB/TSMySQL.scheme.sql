@@ -294,6 +294,7 @@ CREATE TABLE /*!32312 IF NOT EXISTS*/ "/*TABLEPREFIX*/users" (
   "userMemo" mediumtext NOT NULL,
   "userAuthProfileNotes" tinyint(1) unsigned NOT NULL default '2',
   "userLanguage" varchar(255) NOT NULL default '',
+  "userNotifyNewPM" tinyint(1) unsigned NOT NULL default '0',
   PRIMARY KEY  ("userID"),
   KEY "userLastAction" ("userLastAction"),
   KEY "rankID" ("rankID")

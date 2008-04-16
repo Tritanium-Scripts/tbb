@@ -12,4 +12,5 @@ error_wrong_activation_code = Falscher Aktivierungscode!
 error_locked_account = Diese Account wurde gesperrt. Die verbleibende Sperrzeit betr&auml;gt: %s
 error_unknown_user = Unbekannter User!
 error_wrong_password = Falsches Passwort!
-error_inactive_account = Dieser Account ist inaktiv! (<a href=index.php?faction=activateaccount&amp;account_id=%s&amp;.$MYSID.>Account nicht aktiviert?</a>)
+error_inactive_account = Dieser Account ist inaktiv! (<a href=index.php?action=Login&mode=ActivateAccount&accountID=%s&amp;.$MYSID.>Account nicht aktiviert?</a>)
+error_already_activated = Dieser Account wurde bereits aktiviert!

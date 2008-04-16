@@ -186,8 +186,6 @@ class Register extends ModuleTemplate {
 						FuncUsers::updateLatestUser($userID,$p['userName']);
 						FuncUsers::updateUsersCounter();
 
-						$this->modules['Navbar']->addElement($this->modules['Language']->getString('Registration_successful'),INDEXFILE."?action=Register&amp;".MYSID);
-
 						switch($this->modules['Config']->getValue('verify_email_address')) {
 							case '0': FuncMisc::printMessage('registration_successful',array(sprintf($this->modules['Language']->getString('message_link_click_here_login'),'<a href="'.INDEXFILE.'?action=Login&amp;'.MYSID.'">','</a>'))); break;
 							case '1': FuncMisc::printMessage('registration_successful_verification_password',array(sprintf($this->modules['Language']->getString('message_link_click_here_login'),'<a href="'.INDEXFILE.'?action=Login&amp;'.MYSID.'">','</a>'))); break;

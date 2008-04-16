@@ -124,8 +124,8 @@ class Login extends ModuleTemplate {
 					if(!$accountID = FuncUsers::getUserID($accountID)) $error = $this->modules['Language']->getString('error_unknown_user');
 					else {
 						$accountData = FuncUsers::getUserData($accountID);
-						if($accountData['userIsActivated'] != 0 || $accountData['userHash'] == '') $error = $this->modules['Language']->getString('error_no_inactive_account');
-						elseif($accountData['userHash'] != $activationCode) $error = $this->modules['Language']->getString('error_wrong_activationCode');
+						if($accountData['userIsActivated'] != 0 || $accountData['userHash'] == '') $error = $this->modules['Language']->getString('error_already_activated');
+						elseif($accountData['userHash'] != $activationCode) $error = $this->modules['Language']->getString('error_wrong_activation_code');
 						else {
                             $this->modules['DB']->queryParams('
                                 UPDATE
@@ -140,8 +140,6 @@ class Login extends ModuleTemplate {
                             ));
 
 							$_SESSION['last_place_url'] = INDEXFILE.'?'.MYSID;
-
-							$this->modules['Navbar']->addElement($this->modules['Language']->getString('Account_activated'),'');
 
 							FuncMisc::printMessage('account_activated',array(sprintf($this->modules['Language']->getString('message_link_click_here_login'),'<a href="'.INDEXFILE.'?action=Login&amp;'.MYSID.'">','</a>')));
 							exit;
