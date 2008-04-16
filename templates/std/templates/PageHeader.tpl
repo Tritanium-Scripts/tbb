@@ -1,24 +1,34 @@
-<?xml version="1.0" encoding="{$modules.Language->getString('html_encoding')}" ?>
+<?xml version="1.0" encoding="{$modules.Language->getString('html_encoding')}" standalone="no" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" dir="{$modules.Language->getString('html_direction')}" lang="{$modules.Language->getString('html_language')}" xml:lang="{$modules.Language->getString('html_language')}">
 <head>
-	<title>{$modules.Navbar->parseElements(0)}</title>
-	<link rel="stylesheet" href="{$modules.Template->getTD()}/styles/ts_tbb2_standard.css" type="text/css"></link>
-	<meta http-equiv="Content-Type" content="application/xhtml+xml; charset={$modules.Language->getString('html_encoding')}"/>
-	<meta http-equiv="Content-Script-Type" content="text/javascript"/>
-	<meta http-equiv="Content-Style-Type" content="text/css"/>
-	<script src="{$modules.Template->getTD()}/scripts/jscripts.js" type="text/javascript"></script>
-	<script src="{$modules.Template->getTD()}/scripts/ajax.js" type="text/javascript"></script>
-	<script src="{$modules.Template->getTD()}/scripts/posting.js" type="text/javascript"></script>
-	{if $newPrivateMessageReceived}
-		<script type="text/javascript">
-			popUp('{$indexFile}?action=PrivateMessages&mode=NewPMReceived&inPopup=1&{$mySID}','newpmreceived',400,200);
-		</script>
-	{/if}
+ <title>{$modules.Navbar->parseElements(0)}</title>
+ <meta name="author" content="Tritanium Scripts"/>
+ <meta name="copyright" content="Tritanium Scripts"/>
+ <!--
+ <meta name="keywords" content="{$modules.Navbar->parseElements(0)}"/>
+ <meta name="description" content="{$modules.Navbar->parseElements(0)}"/>
+ -->
+ <meta name="robots" content="all"/>
+ <meta name="revisit-after" content="7 days"/>
+ <meta http-equiv="content-language" content="{$modules.Language->getString('html_language')}"/>
+ <meta http-equiv="content-type" content="application/xhtml+xml; charset={$modules.Language->getString('html_encoding')}"/>
+ <meta http-equiv="content-style-type" content="text/css"/>
+ <meta http-equiv="content-script-type" content="text/javascript"/>
+ <link rel="stylesheet" media="all" href="{$modules.Template->getTD()}/styles/ts_tbb2_standard.css"/>
+ <!--<link rel="shortcut icon" type="image/x-icon" href="{$modules.Template->getTD()}/favicon.ico"/>-->
+ <script src="{$modules.Template->getTD()}/scripts/jscripts.js" type="text/javascript"></script>
+ <script src="{$modules.Template->getTD()}/scripts/ajax.js" type="text/javascript"></script>
+ <script src="{$modules.Template->getTD()}/scripts/posting.js" type="text/javascript"></script>
+ {if $newPrivateMessageReceived}
+ <script type="text/javascript">
+  popUp('{$indexFile}?action=PrivateMessages&mode=NewPMReceived&inPopup=1&{$mySID}','newpmreceived',400,200);
+ </script>
+ {/if}
 </head>
 <body>
 <div align="center"><div align="left" style="width:1024px;">
-<form method="post" action="{$indexFile}?action=login&amp;doit=1&amp;{$mySID}">
+<!--<form method="post" action="{$indexFile}?action=Login&amp;doit=1&amp;{$mySID}">-->
 <table style="border-spacing:0px; border:2px #000000 solid; width:100%; padding:1px; background-color:#FFFFFF;">
 <tr><td>
  <table style="width:100%; border-spacing:0px; border:1px #ACACAC solid;" cellspacing="0">
@@ -44,7 +54,7 @@
  </table>
 </td></tr>
 </table>
-</form>
+<!--</form>-->
 
 <br/>
 <div class="DivInfoBox"><span class="FontInfoBox"><img src="{$modules.Template->getTemplateDir()}/images/icons/Info.png" class="ImageIcon" alt=""/>{$welcomeText}</span></div>
