@@ -12,5 +12,5 @@
 <br/>
 <table class="TableStd" width="100%">
 <tr><td class="CellCat"><span class="FontCat">{$modules.Language->getString('Other_options')}</span></td></tr>
-<tr><td class="CellStd"><span class="FontNorm"><a href="{$indexFile}?action=PrivateMessages&amp;mode=AddFolder&amp;{$mySID}">Ordner hinzuf&uuml;gen</a></span></span></td></tr>
+<tr><td class="CellStd"><span class="FontNorm"><a href="{$indexFile}?action=PrivateMessages&amp;mode=AddFolder&amp;{$mySID}">Ordner hinzuf&uuml;gen</a></span></td></tr>
 </table>

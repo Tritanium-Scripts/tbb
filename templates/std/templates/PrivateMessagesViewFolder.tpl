@@ -1,4 +1,4 @@
-<script type="text/javascript">
+<script type="text/javascript">/* <![CDATA[ */
 {literal}
 	function submitMyForm() {
 		if(document.forms.myForm.elements.selectAction.options[document.forms.myForm.elements.selectAction.selectedIndex].value != '') {
@@ -13,7 +13,7 @@
 		}
 	}
 {/literal}
-</script>
+/* ]]> */</script>
 <form method="post" action="{$indexFile}?action=PrivateMessages&amp;folderID={$folderID}&amp;page={$page}&amp;{$mySID}" name="myForm">
 <table class="TableStd" width="100%">
 <tr>

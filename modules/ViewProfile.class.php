@@ -21,7 +21,7 @@ class ViewProfile extends ModuleTemplate {
 
 		$userIsMod = Functions::checkModStatus(USERID);
 
-		$this->modules['Navbar']->addElements(array($this->modules['Language']->getString('View_profile'),INDEXFILE."?action=ViewProfile&amp;profileID=$profileID&amp".MYSID));
+		$this->modules['Navbar']->addElements(array($this->modules['Language']->getString('View_profile'),INDEXFILE."?action=ViewProfile&amp;profileID=$profileID&amp;".MYSID));
 		$this->modules['Template']->assign(array(
 			'userIsMod'=>$userIsMod,
 			'profileID'=>$profileID

@@ -37,5 +37,5 @@
 <br/>
 <table class="TableStd" width="100%">
 <tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('Other_options')}</span></td></tr>
-<tr><td class="CellStd"><span class="FontNorm"><a href="{$indexFile}?action=AdminUsers&amp;mode=AddUser&amp;{$mySID}">{$modules.Language->getString('Add_user')}</span></td></tr>
+<tr><td class="CellStd"><span class="FontNorm"><a href="{$indexFile}?action=AdminUsers&amp;mode=AddUser&amp;{$mySID}">{$modules.Language->getString('Add_user')}</a></span></td></tr>
 </table>

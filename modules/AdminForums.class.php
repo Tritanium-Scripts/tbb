@@ -38,9 +38,12 @@ class AdminForums extends ModuleTemplate {
 
 					$curCat['_catPrefix'] = $curPrefix;
 
+					$curCat['catName'] = Functions::HTMLSpecialChars($curCat['catName']);
+
 					$curForumsData = array();
 					foreach($forumsData AS &$curForum) {
 						if($curForum['catID'] != $curCat['catID']) continue;
+						$curForum['forumName'] = Functions::HTMLSpecialChars($curForum['forumName']);
 						$curForumsData[] = &$curForum;
 					}
 
@@ -68,7 +71,7 @@ class AdminForums extends ModuleTemplate {
 						else $curCatsData[$j]['_catUp'] = '<a href="'.INDEXFILE.'?action=AdminForums&amp;mode=MoveCatUp&amp;catID='.$curCatsData[$j]['catID'].'&amp;'.MYSID.'">'.$this->modules['Language']->getString('moveup').'</a>';
 
 						if($j == $curCatsCounter-1) $curCatsData[$j]['_catDown'] = $this->modules['Language']->getString('movedown');
-						else $curCatsData[$j]['_catDown'] = '<a href="'.INDEXFILE.'?action=AdminForums&amp;mode=MoveCatDown&amp;catID='.$curCatsData[$j]['catID'].'&amp'.MYSID.'">'.$this->modules['Language']->getString('movedown').'</a>';
+						else $curCatsData[$j]['_catDown'] = '<a href="'.INDEXFILE.'?action=AdminForums&amp;mode=MoveCatDown&amp;catID='.$curCatsData[$j]['catID'].'&amp;'.MYSID.'">'.$this->modules['Language']->getString('movedown').'</a>';
 					}
 				}
 
@@ -235,6 +238,7 @@ class AdminForums extends ModuleTemplate {
 						$curPrefix .= '--';
 
 					$curCat['_catPrefix'] = $curPrefix;
+					$curCat['catName'] = Functions::HTMLSpecialChars($curCat['catName']);
 				}
 
 				$this->modules['Template']->assign(array(

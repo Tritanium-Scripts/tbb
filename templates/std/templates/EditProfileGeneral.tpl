@@ -5,7 +5,7 @@
 <tr><td class="CellStd">
  <fieldset>
  <legend><span class="FontSmall"><b>{$modules.Language->getString('General_information')}</b></span></legend>
- <table border="0" cellpadding="2" cellspacing="0" border="0" width="100%">
+ <table border="0" cellpadding="2" cellspacing="0" width="100%">
  <tr>
   <td width="20%" style="padding:3px;"><span class="FontNorm">{$modules.Language->getString('Email_address')}:</span></td>
   <td width="80%" style="padding:3px;"><input class="FormText" type="text" size="40" name="p[userEmailAddress]" value="{$p.userEmailAddress}"/></td>
@@ -19,8 +19,8 @@
  <br/>
  <fieldset>
  <legend><span class="FontSmall"><b>{$modules.Language->getString('Change_password')}</b></span></legend>
- <div class="DivInfoBox"><span class="FontInfoBox"><img src="{$modules.Template->getTD()}/images/icons/Info.png" class="ImageIcon"/>{$modules.Language->getString('change_password_info')}</span></div>
- <table border="0" cellpadding="0" cellspacing="0" border="0" width="100%">
+ <div class="DivInfoBox"><span class="FontInfoBox"><img src="{$modules.Template->getTD()}/images/icons/Info.png" alt="" class="ImageIcon"/>{$modules.Language->getString('change_password_info')}</span></div>
+ <table border="0" cellpadding="0" cellspacing="0" width="100%">
  <tr>
   <td width="20%" style="padding:3px;"><span class="FontNorm">{$modules.Language->getString('Current_password')}:</span></td>
   <td width="80%" style="padding:3px;"><input class="FormText" type="password" size="30" name="p[userOldPassword]"/></td>

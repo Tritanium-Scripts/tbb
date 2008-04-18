@@ -10,5 +10,5 @@
 <br/>
 <table class="TableStd" width="100%">
 <tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('Other_options')}</span></td></tr>
-<tr><td class="CellStd"><span class="FontNorm"><a href="{$indexFile}?action=AdminAvatars&amp;mode=AddAvatar&amp;{$mySID}">{$modules.Language->getString('Add_avatar')}</a></td></tr>
+<tr><td class="CellStd"><span class="FontNorm"><a href="{$indexFile}?action=AdminAvatars&amp;mode=AddAvatar&amp;{$mySID}">{$modules.Language->getString('Add_avatar')}</a></span></td></tr>
 </table>

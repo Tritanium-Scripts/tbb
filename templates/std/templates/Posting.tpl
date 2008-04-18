@@ -93,7 +93,7 @@
  <td class="CellAlt"><span class="FontNorm">
   {if $show.enableSmilies}<label><input type="checkbox" name="c[enableSmilies]" value="1"{if $c.enableSmilies == 1} checked="checked"{/if}/> {$modules.Language->getString('Enable_smilies')}</label><br/>{/if}
   {if $show.showSignature}<label><input type="checkbox" name="c[showSignature]" value="1"{if $c.showSignature == 1} checked="checked"{/if}/> {$modules.Language->getString('Show_signature')}</label><br/>{/if}
-  {if $show.enableBBCode}<label><input type="checkbox" name="c[enableBBCode]" value="1"{if $c.enableBBCode} == 1} checked="checked"{/if}/> {$modules.Language->getString('Enable_bbcode')}</label><br/>{/if}
+  {if $show.enableBBCode}<label><input type="checkbox" name="c[enableBBCode]" value="1"{if $c.enableBBCode == 1} checked="checked"{/if}/> {$modules.Language->getString('Enable_bbcode')}</label><br/>{/if}
   {if $show.enableHtmlCode}<label><input type="checkbox" name="c[enableHtmlCode]" value="1"{if $c.enableHtmlCode == 1} checked="checked"{/if}/> {$modules.Language->getString('Enable_html_code')}</label><br/>{/if}
   {if $show.enableURITransformation}<label><input type="checkbox" name="c[enableURITransformation]" value="1"{if $c.enableURITransformation == 1} checked="checked"{/if}/> {$modules.Language->getString('Enable_url_transformation')}</label><br/>{/if}
   {if $show.showEditings}<label><input type="checkbox" name="c[showEditings]" value="1"{if $c.showEditings == 1} checked="checked"{/if}/> {$modules.Language->getString('Show_post_editings')}</label><br/>{/if}

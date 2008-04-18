@@ -138,8 +138,12 @@ class Search extends ModuleTemplate {
 			$authedForumsIDs
 		));
 		$authedForumsData = $this->modules['DB']->raw2Array();
+		foreach($authedForumsData AS &$curForum)
+			$curForum['forumName'] = Functions::HTMLSpecialChars($curForum['forumName']);
 		
 		$catsData = FuncCats::getCatsData();
+		foreach($catsData AS &$curCat)
+			$curCat['catName'] = Functions::HTMLSpecialChars($curCat['catName']);
 
 		$this->modules['Template']->assign(array(
 			'error'=>$error,

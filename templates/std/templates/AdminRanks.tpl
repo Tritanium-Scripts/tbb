@@ -22,6 +22,6 @@
 </table>
 <br/>
 <table class="TableStd" width="100%">
-<tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('Other_options')}</span></tr></tr>
+<tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('Other_options')}</span></td></tr>
 <tr><td class="CellStd"><span class="FontNorm"><a href="{$indexFile}?action=AdminRanks&amp;mode=AddRank&amp;{$mySID}"><img class="ImageIcon" src="{$modules.Template->getTD()}/images/icons/AwardStarAdd.png" alt=""/>{$modules.Language->getString('Add_rank')}</a></span></td></tr>
 </table>

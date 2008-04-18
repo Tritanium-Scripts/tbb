@@ -28,7 +28,7 @@
 {include file=_ErrorRow.tpl colSpan=2}
 <tr>
  <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Recipient')}:</span><br/><span class="FontSmall">{$modules.Language->getString('recipient_info')}</span></td>
- <td class="CellAlt" valign="top"><input size=25" class="FormText" type="text" name="p[recipients]" value="{$p.recipients}"/></td>
+ <td class="CellAlt" valign="top"><input size="25" class="FormText" type="text" name="p[recipients]" value="{$p.recipients}"/></td>
 </tr>
 <tr>
  <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Subject')}:</span></td>

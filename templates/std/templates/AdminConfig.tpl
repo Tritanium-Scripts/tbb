@@ -176,7 +176,7 @@
 		</tr>
 		<tr>
 			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Verify_email_address')}:</span></td>
-			<td class="CellAlt"><select class="FormSelect" name="p[config][verify_email_address]"><option value="0"{if $p.config.verify_email_address == 0} selected="selected"{/if}>{$modules.Language->getString('No')}</option><option value="1"{if $p.config.verify_email_address == 1} selected="selected"{/if}}>{$modules.Language->getString('Create_random_password')}</option><option value="2"{if $p.config.verify_email_address == 2} selected="selected"{/if}>{$modules.Language->getString('Send_activation_code')}</option></select></td>
+			<td class="CellAlt"><select class="FormSelect" name="p[config][verify_email_address]"><option value="0"{if $p.config.verify_email_address == 0} selected="selected"{/if}>{$modules.Language->getString('No')}</option><option value="1"{if $p.config.verify_email_address == 1} selected="selected"{/if}>{$modules.Language->getString('Create_random_password')}</option><option value="2"{if $p.config.verify_email_address == 2} selected="selected"{/if}>{$modules.Language->getString('Send_activation_code')}</option></select></td>
 		</tr>
 		<tr>
 			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Maximum_registrations')}:</span></td>
@@ -254,7 +254,7 @@
 		</tr>
 		<tr>
 			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Who_is_online_timeout')}:</span></td>
-			<td class="CellAlt"><input size="6" class="FormText" type="text" value="{$p.config.wio_timeout}" name="p[config][wio_timeout]"/> <span class="FontSmall">{$modules.Language->getString('in_minutes')}</small></td>
+			<td class="CellAlt"><input size="6" class="FormText" type="text" value="{$p.config.wio_timeout}" name="p[config][wio_timeout]"/> <span class="FontSmall">{$modules.Language->getString('in_minutes')}</span></td>
 		</tr>
 		<tr>
 			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Show_who_is_online_box_forumindex')}:</span></td>

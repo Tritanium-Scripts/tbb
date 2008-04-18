@@ -19,7 +19,7 @@
  </select></td>
 </tr>
 <tr>
- <td class="CellStd" valign="top"><span class="FontNorm">{$modules.Language->getString('Field_data')}:</span><br/><span class="FontSmall">{$modules.Language->getString('field_data_info')}</td>
+ <td class="CellStd" valign="top"><span class="FontNorm">{$modules.Language->getString('Field_data')}:</span><br/><span class="FontSmall">{$modules.Language->getString('field_data_info')}</span></td>
  <td class="CellAlt"><textarea class="FormTextArea" cols="40" rows="8" name="p[fieldData]">{$p.fieldData}</textarea></td>
 </tr>
 <tr>

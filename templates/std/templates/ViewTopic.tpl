@@ -1,4 +1,4 @@
-<script>
+<script type="text/javascript">/* <![CDATA[ */
 	indexFile = "{$indexFile}";
 	mySID = "{$mySID}";
 {literal}
@@ -31,7 +31,7 @@
 		}
 	}
 {/literal}
-</script>
+/* ]]> */</script>
 <table class="TableNavbar" width="100%">
 <tr><td class="CellNavbarBig">
  <table border="0" cellpadding="0" cellspacing="0" width="100%">
@@ -99,7 +99,7 @@
        {if $curPost.show.deleteButton}<td><a href="{$indexFile}?action=Posting&amp;mode=Delete&amp;postID={$curPost.postID}&amp;returnPage={$page}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/delete.png" class="ImageButton" alt=""/></a></td>{/if}
        {if $curPost.show.editButton}<td><a href="javascript:toggleFastEdit('{$curPost.postID}');"><img src="{$modules.Template->getTD()}/images/buttons/de/test.png" alt="" class="ImageButton"/></a></td>{/if}
        {if $curPost.show.editButton}<td><a href="{$indexFile}?action=Posting&amp;mode=Edit&amp;postID={$curPost.postID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/test.png" class="ImageButton" alt=""/></a></td>{/if}
-       {if $curPost.postPosterHideEmailAddress != 1 && $curPost.postPosterEmailAddress != ''}<td><a href="mailto:{$curPost.postPosterEmailAddress}"><img src="{$modules.Template->getTD()}/images/buttons/de/email.png" class="ImageButton" alt="{$curPost.postPosterEmailAddress}"/></a>{else}<td>{if $curPost.postPosterReceiveEmails == 1}<a href="{$indexFile}?action=ViewProfile&amp;profileID={$curPost.posterID}&amp;mode=SendMail&amp;{$mySID}"><img src="{$modules.Template->getTemplateDir()}/images/buttons/de/email.png" alt="{$modules.Language->getString('Send_email')}"/></a></td>{/if}{/if}
+       {if $curPost.postPosterHideEmailAddress != 1 && $curPost.postPosterEmailAddress != ''}<td><a href="mailto:{$curPost.postPosterEmailAddress}"><img src="{$modules.Template->getTD()}/images/buttons/de/email.png" class="ImageButton" alt="{$curPost.postPosterEmailAddress}"/></a></td>{else}{if $curPost.postPosterReceiveEmails == 1}<td><a href="{$indexFile}?action=ViewProfile&amp;profileID={$curPost.posterID}&amp;mode=SendMail&amp;{$mySID}"><img src="{$modules.Template->getTemplateDir()}/images/buttons/de/email.png" alt="{$modules.Language->getString('Send_email')}"/></a></td>{/if}{/if}
        <td><a href="{$indexFile}?action=Posting&amp;mode=Reply&amp;topicID={$topicID}&amp;postIDQuote={$curPost.postID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/quote.png" class="ImageButton" alt=""/></a></td>
       </tr>
      </table>
@@ -112,9 +112,9 @@
   <td class="CellStd">
    <div id="post{$curPost.postID}Text" class="FontNorm"{if $curPost.show.editButton} ondblclick="toggleFastEdit('{$curPost.postID}');"{/if}>{$curPost._postText}</div>
    <div id="post{$curPost.postID}EditBox" style="display:none;">
-    <table class="TableStd" cellpadding="0"width="100%">
+    <table class="TableStd" cellpadding="0" width="100%">
     <tr><td class="CellCat"><span class="FontCat">Fast Edit</span></td></tr>
-    <tr><td class="CellNone" align="center"><textarea class="FormTextArea" rows="14" style="width:99%;" name="postData{$curPost.postID}">{$curPost._postEditBoxText}</textarea></td></tr>
+    <tr><td class="CellNone" align="center"><textarea class="FormTextArea" rows="14" cols="" style="width:99%;" name="postData{$curPost.postID}">{$curPost._postEditBoxText}</textarea></td></tr>
     <tr><td class="CellButtons" align="center"><input class="FormBButton" type="button" value="{$modules.Language->getString('Edit_post')}" onclick="ajaxUpdatePost({$curPost.postID});"/></td></tr>
     </table>
    </div>

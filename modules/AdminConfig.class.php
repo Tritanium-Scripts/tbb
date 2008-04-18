@@ -53,6 +53,8 @@ class AdminConfig extends ModuleTemplate {
 
 		$this->modules['DB']->query('SELECT "forumID","forumName" FROM '.TBLPFX.'forums ORDER BY "orderID"');
 		$forumsData = $this->modules['DB']->raw2Array();
+		foreach($forumsData AS &$curForum)
+			$curForum['forumName'] = Functions::HTMLSpecialChars($curForum['forumName']);
 
 		list(,$languages) = $this->modules['Cache']->getLanguages();
 

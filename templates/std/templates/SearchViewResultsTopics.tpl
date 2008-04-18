@@ -10,7 +10,7 @@
 		{foreach from=$topicsData item=curTopic}
 			<tr>
 				<td class="CellStd"><span class="FontNorm">{$curTopic._topicPrefix}</span><span class="FontNorm"><a class="TopicLink" href="{$indexFile}?action=ViewTopic&amp;topicID={$curTopic.topicID}&amp;{$mySID}">{$curTopic.topicTitle}</a></span></td>
-				<td class="CellAlt" align="center"><span class="FontNorm"><a href="{$indexFile}?action=ViewProfile&amp;profileID={$curTopic.posterID}&amp;{$mySID}">{$curTopic._topicPoster}</a></span></td>
+				<td class="CellAlt" align="center"><span class="FontNorm">{$curTopic._topicPoster}</span></td>
 				<td class="CellStd" align="center"><span class="FontSmall">{$curTopic.topicRepliesCounter}</span></td>
 				<td class="CellAlt" align="center"><span class="FontSmall">{$curTopic.topicViewsCounter}</span></td>
 				<td class="CellStd" align="right"><span class="FontSmall">{$curTopic._topicLastPost}</span></td>

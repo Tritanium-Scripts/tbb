@@ -37,6 +37,6 @@
   <option value="50"{if $usersPerPage == 50} selected="selected"{/if}>50</option>
   <option value="100"{if $usersPerPage == 100} selected="selected"{/if}>100</option>
  </select>&nbsp;&nbsp;&nbsp;<input class="FormBButton" type="submit" value="{$modules.Language->getString('Go')}"/>
-</td></tr>
+</span></td></tr>
 </table>
 </form>

@@ -12,7 +12,7 @@
  </tr>
  <tr>
   <td style="padding:10px;"><span class="FontBig"><a href="{$indexFile}?action=AdminForums&amp;{$mySID}">{$modules.Language->getString('Manage_forums')}</a></span><br/><span class="FontSmall">- <a href="{$indexFile}?action=AdminForums&amp;mode=AddCat&amp;{$mySID}">{$modules.Language->getString('Add_category')}</a><br/>- <a href="{$indexFile}?action=AdminForums&amp;mode=AddForum&amp;{$mySID}">{$modules.Language->getString('Add_forum')}</a></span></td>
-  <td style="padding:10px;"><span class="FontBig"><a href="{$indexFile}?action=AdminSmilies&amp;{$mySID}">Smilies verwalten</a></span><br/><span class="FontSmall">- <a href="{$indexFile}?action=AdminForums&amp;mode=AddSmiley&amp;{$mySID}">Smiley hinzuf&uuml;gen</a><br/>- <a href="{$indexFile}?action=AdminForums&amp;mode=AddPostPic&amp;{$mySID}">Themenbild hinzuf&uuml;gen</a></span></td>
+  <td style="padding:10px;"><span class="FontBig"><a href="{$indexFile}?action=AdminSmilies&amp;{$mySID}">Smilies verwalten</a></span><br/><span class="FontSmall">- <a href="{$indexFile}?action=AdminSmilies&amp;mode=addSmiley&amp;smileyType=0&amp;{$mySID}">Smiley hinzuf&uuml;gen</a><br/>- <a href="{$indexFile}?action=AdminSmilies&amp;mode=addSmiley&amp;smileyType=1&amp;{$mySID}">Themenbild hinzuf&uuml;gen</a></span></td>
  </tr>
  </table>
 </td></tr>

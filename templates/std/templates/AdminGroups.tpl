@@ -10,5 +10,5 @@
 <br/>
 <table class="TableStd" width="100%">
 <tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('Other_options')}</span></td></tr>
-<tr><td class="CellStd"><span class="FontNorm"><a href="{$indexFile}?action=AdminGroups&amp;mode=AddGroup&amp;{$mySID}"><img class="ImageIcon" src="{$modules.Template->getTD()}/images/icons/GroupAdd.png" alt="{$modules.Language->getString('Add_group')}"/> {$modules.Language->getString('Add_group')}</span></td></tr>
+<tr><td class="CellStd"><span class="FontNorm"><a href="{$indexFile}?action=AdminGroups&amp;mode=AddGroup&amp;{$mySID}"><img class="ImageIcon" src="{$modules.Template->getTD()}/images/icons/GroupAdd.png" alt="{$modules.Language->getString('Add_group')}"/> {$modules.Language->getString('Add_group')}</a></span></td></tr>
 </table>

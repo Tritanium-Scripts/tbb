@@ -6,20 +6,20 @@
 <tr><td class="CellStd">
  <fieldset>
   <legend><span class="FontSmall">{$modules.Language->getString('User_name')}</span></legend>
-  <div class="DivInfoBox"><img src="{$modules.Template->getTD()}/images/icons/Info.png" class="ImageIcon"/><span class="FontInfoBox">{$modules.Language->getString('user_name_info')}</span></div>
+  <div class="DivInfoBox"><img src="{$modules.Template->getTD()}/images/icons/Info.png" alt="" class="ImageIcon"/><span class="FontInfoBox">{$modules.Language->getString('user_name_info')}</span></div>
   <span class="FontNorm"><b>{$modules.Language->getString('User_name')}:</b> <input class="FormText" type="text" name="p[userName]" value="{$p.userName}" size="30"/></span>
  </fieldset>
  <br/>
  <fieldset>
   <legend><span class="FontSmall">{$modules.Language->getString('Email_address')}</span></legend>
-  <div class="DivInfoBox"><img src="{$modules.Template->getTD()}/images/icons/Info.png" class="ImageIcon"/><span class="FontInfoBox">{$modules.Language->getString('email_address_info')}</span></div>
+  <div class="DivInfoBox"><img src="{$modules.Template->getTD()}/images/icons/Info.png" alt="" class="ImageIcon"/><span class="FontInfoBox">{$modules.Language->getString('email_address_info')}</span></div>
   <span class="FontNorm"><b>{$modules.Language->getString('Email_address')}:</b> <input class="FormText" type="text" name="p[userEmailAddress]" value="{$p.userEmailAddress}" size="40"/>&nbsp;&nbsp;&nbsp;<b>{$modules.Language->getString('Email_address_confirmation')}:</b> <input class="FormText" type="text" name="p[userEmailAddressConfirmation]" value="{$p.userEmailAddressConfirmation}" size="40"/></span>
  </fieldset>
  {if $modules.Config->getValue('verify_email_address') != 1}
  <br/>
   <fieldset>
    <legend><span class="FontSmall">{$modules.Language->getString('Password')}</span></legend>
-   <div class="DivInfoBox"><img src="{$modules.Template->getTD()}/images/icons/Info.png" class="ImageIcon"/><span class="FontInfoBox">{$modules.Language->getString('password_info')}</span></div>
+   <div class="DivInfoBox"><img src="{$modules.Template->getTD()}/images/icons/Info.png" alt="" class="ImageIcon"/><span class="FontInfoBox">{$modules.Language->getString('password_info')}</span></div>
    <span class="FontNorm"><b>{$modules.Language->getString('Password')}:</b> <input class="FormText" type="password" name="p[userPassword]" value="" size="40"/>&nbsp;&nbsp;&nbsp;<b>{$modules.Language->getString('Password_confirmation')}:</b> <input class="FormText" type="password" name="p[userPasswordConfirmation]" value="" size="40"/></span>
   </fieldset>
  {/if}
