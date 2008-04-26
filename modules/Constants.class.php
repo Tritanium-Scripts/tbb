@@ -32,6 +32,8 @@ class Constants extends ModuleTemplate {
 		define('BBCODE_LINK',9);
 		define('BBCODE_COLOR',10);
 		define('BBCODE_SIZE', 11);
+		define('BBCODE_GLOW', 12);
+		define('BBCODE_SHADOW', 13);
 	}
 }
 

@@ -26,7 +26,11 @@
 {elseif $b.bbCodeType == $smarty.const.BBCODE_LINK}
  <a href="{$b.linkAddress}" target="_blank">{$b.linkText}</a>
 {elseif $b.bbCodeType == $smarty.const.BBCODE_COLOR}
- <span style="color:{$b.colorCode}">{$b.colorText}</span>
+ <span style="color:{$b.colorCode};">{$b.colorText}</span>
 {elseif $b.bbCodeType == $smarty.const.BBCODE_SIZE}
  <span style="font-size:{$b.sizeFont};">{$b.sizeText}</span>
+{elseif $b.bbCodeType == $smarty.const.BBCODE_GLOW}
+ <div style="width:100%; filter:Glow(color={$b.glowColor}, strength=4);">{$b.glowText}</div>{* <span> doesn't work?! *}
+{elseif $b.bbCodeType == $smarty.const.BBCODE_SHADOW}
+ <div style="width:100%; filter:DropShadow(color={$b.shadowColor}, offx=2, offy=2);">{$b.shadowText}</div>{* <span> doesn't work?! *}
 {/if}
