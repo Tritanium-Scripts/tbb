@@ -80,7 +80,7 @@
 </tr>
 {if $show.enableBBCode}
  <tr>
-  <td class="CellStd" valign="top">&nbsp;</td>
+  <td class="CellStd" valign="top"><span class="FontNorm">{$modules.Language->getString('Bbcode')}:</span></td>
   <td class="CellAlt">{include file=BBCodeBox.tpl}</td>
  </tr>
 {/if}

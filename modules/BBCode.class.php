@@ -20,7 +20,7 @@ class BBCode extends ModuleTemplate {
 		$text = preg_replace_callback("/\[color=([a-zA-Z0-9#]*)\](.*?)\[\/color\]/si",array($this,'cbColor'),$text); // [color=xxx]xxx[/color]
 		$text = preg_replace("/\[marquee\](.*?)\[\/marquee\]/si", '<marquee>\1</marquee>', $text); //[marquee]xxx[/marquee] - Es wird keine Option geboten per Button eine Laufschrift zu erstellen (nicht HTML konform), parsen es aber trotzdem weil das TBB1 dies anbot
 		//TBB1 BBCode hack support
-		$text = preg_replace_callback("/\[size=([+-][1-4])\](.*?)\[\/size\]/si", array($this, 'cbSize'), $text); //[size=xxx]xxx[/size]
+		$text = preg_replace_callback("/\[size=(\-[1-2]|\+[1-4])\](.*?)\[\/size\]/si", array($this, 'cbSize'), $text); //[size=xxx]xxx[/size]
 
 		//Zitate am Ende damit URLs als Quellenangaben funktionieren
 		while(preg_match("/\[quote\](.*?)\[\/quote\]/si",$text))
