@@ -7,11 +7,6 @@ class BBCode extends ModuleTemplate {
 	);
 
 	public function parse($text) {
-		while(preg_match("/\[quote\](.*?)\[\/quote\]/si",$text))
-			$text = preg_replace_callback("/\[quote\](.*?)\[\/quote\][\r\n]*/si",array($this,'cbQuote'),$text); // [quote]xxx[/quote]
-		while(preg_match("/\[quote=(.*?)\](.*?)\[\/quote\]/si",$text))
-			$text = preg_replace_callback("/\[quote=(.*?)\](.*?)\[\/quote\][\r\n]*/si",array($this,'cbQuote'),$text); // [quote="xxx"]xxx[/quote]
-
 		$text = preg_replace_callback("/\[code\](.*?)\[\/code\]/si",array($this,'cbCode'),$text); // [code]xxx[/code]
 		$text = preg_replace_callback("/\[b\](.*?)\[\/b\]/si",array($this,'cbBold'),$text); // [b]xxx[/b]
 		$text = preg_replace_callback("/\[i\](.*?)\[\/i\]/si",array($this,'cbItalic'),$text); // [i]xxx[/i]
@@ -23,6 +18,15 @@ class BBCode extends ModuleTemplate {
 		$text = preg_replace_callback("/\[url\](.*?)\[\/url\]/si",array($this,'cbLink'),$text); // [url]xxx[/url]
 		$text = preg_replace_callback("/\[url=(.*?)\](.*?)\[\/url\]/si",array($this,'cbLink'),$text); // [url=xxx]xxx[/url]
 		$text = preg_replace_callback("/\[color=([a-zA-Z0-9#]*)\](.*?)\[\/color\]/si",array($this,'cbColor'),$text); // [color=xxx]xxx[/color]
+		$text = preg_replace("/\[marquee\](.*?)\[\/marquee\]/si", '<marquee>\1</marquee>', $text); //[marquee]xxx[/marquee] - Es wird keine Option geboten per Button eine Laufschrift zu erstellen (nicht HTML konform), parsen es aber trotzdem weil das TBB1 dies anbot
+		//TBB1 BBCode hack support
+		$text = preg_replace_callback("/\[size=([+-][1-4])\](.*?)\[\/size\]/si", array($this, 'cbSize'), $text); //[size=xxx]xxx[/size]
+
+		//Zitate am Ende damit URLs als Quellenangaben funktionieren
+		while(preg_match("/\[quote\](.*?)\[\/quote\]/si",$text))
+			$text = preg_replace_callback("/\[quote\](.*?)\[\/quote\][\r\n]*/si",array($this,'cbQuote'),$text); // [quote]xxx[/quote]
+		while(preg_match("/\[quote=(.*?)\](.*?)\[\/quote\]/si",$text))
+			$text = preg_replace_callback("/\[quote=(.*?)\](.*?)\[\/quote\][\r\n]*/si",array($this,'cbQuote'),$text); // [quote="xxx"]xxx[/quote]
 
 		return $text;
 	}
@@ -152,6 +156,25 @@ class BBCode extends ModuleTemplate {
 			'colorCode'=>$elements[1],
 			'colorText'=>$elements[2]
 		));
+		return $this->modules['Template']->fetch('BBCodeHtml.tpl');
+	}
+
+	//TBB1 BBCode hack support
+	protected function cbSize($elements) {
+		//convert relative <font size="xx"> to absolute CSS
+		switch($elements[1]) {
+			case '+4': $elements[1] = '300%'; break;
+			case '+3': $elements[1] = 'xx-large'; break;
+			case '+2': $elements[1] = 'x-large'; break;
+			case '+1': $elements[1] = 'large'; break;
+			case '-1': $elements[1] = 'x-small'; break;
+			case '-2': $elements[1] = 'xx-small'; break;
+		}
+		$this->modules['Template']->assign('b', array(
+			'bbCodeType'=>BBCODE_SIZE,
+			'sizeFont'=>$elements[1],
+			'sizeText'=>$elements[2]
+			));
 		return $this->modules['Template']->fetch('BBCodeHtml.tpl');
 	}
 }

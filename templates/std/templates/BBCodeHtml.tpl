@@ -27,4 +27,6 @@
  <a href="{$b.linkAddress}" target="_blank">{$b.linkText}</a>
 {elseif $b.bbCodeType == $smarty.const.BBCODE_COLOR}
  <span style="color:{$b.colorCode}">{$b.colorText}</span>
+{elseif $b.bbCodeType == $smarty.const.BBCODE_SIZE}
+ <span style="font-size:{$b.sizeFont};">{$b.sizeText}</span>
 {/if}
