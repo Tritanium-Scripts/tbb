@@ -8,6 +8,7 @@ class BBCode extends ModuleTemplate {
 
 	public function parse($text) {
 		$text = preg_replace_callback("/\[code\](.*?)\[\/code\]/si",array($this,'cbCode'),$text); // [code]xxx[/code]
+		$text = preg_replace_callback("/\[php\](.*?)\[\/php\]/si", array($this, 'cbPHP'), $text); //[php]xxx[/php]
 		$text = preg_replace_callback("/\[b\](.*?)\[\/b\]/si",array($this,'cbBold'),$text); // [b]xxx[/b]
 		$text = preg_replace_callback("/\[i\](.*?)\[\/i\]/si",array($this,'cbItalic'),$text); // [i]xxx[/i]
 		$text = preg_replace_callback("/\[u\](.*?)\[\/u\]/si",array($this,'cbUnderline'),$text); // [u]xxx[/u]
@@ -53,11 +54,33 @@ class BBCode extends ModuleTemplate {
 	}
 
 	protected function cbCode($elements) {
-		$codeText = Functions::br2nl($elements[1]); // <br> und <br /> und neue zeilen (\n) umwandeln, da nur das im Textfeld neue Zeilen erzeugt
+		$codeText = Functions::str_replace(array('<br>', '<br/>', '<br />'), '', $elements[1]); // <br> und <br /> entfernen, da das im Textfeld zuviele neue Zeilen erzeugt
 
 		$linesCounter = substr_count($codeText,"\n")+1; // Anzahl der Zeilen
 		$lines = '';
 
+		for($i = 1; $i <= $linesCounter; $i++)
+			$lines .= $i."\n";
+
+		$height = 150;
+		if($linesCounter > 12) $height += $linesCounter*3;
+
+		$this->modules['Template']->assign('b',array(
+			'bbCodeType'=>BBCODE_CODE,
+			'codeText'=>$codeText,
+			'lines'=>$lines,
+			'height'=>$height
+		));
+		return $this->modules['Template']->fetch('BBCodeHtml.tpl');
+	}
+
+	protected function cbPHP($elements) {
+		$codeText = Functions::str_replace(array('<br>', '<br/>', '<br />'), '', $elements[1]); // <br> und <br /> entfernen, da das im Textfeld zuviele neue Zeilen erzeugt
+		$codeText = Functions::str_replace(array('<code>', '</code>'), '', highlight_string(htmlspecialchars_decode($codeText), true)); //Highlight PHP Syntax + Nacharbeit
+		$codeText[strpos($codeText, "\n")] = ''; //Ersten von highlight_string() erzeugten Zeilenumbruch entfernen, da sonst eine Leerzeile am Anfang erscheint
+
+		$linesCounter = substr_count($codeText,'<br />')+1; // Anzahl der Zeilen
+		$lines = '';
 		for($i = 1; $i <= $linesCounter; $i++)
 			$lines .= $i."\n";
 

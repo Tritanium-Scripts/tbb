@@ -8,7 +8,12 @@
 	 	</div>
  	</div>
 {elseif $b.bbCodeType == $smarty.const.BBCODE_CODE}
- <div style="overflow:auto; width:800px; height:{$b.height}px;"><table style="background-color:#000000; height:100%;" border="0" cellpadding="2" cellspacing="1" width="100%"><tr><td class="cellcat" colspan="2"><span class="fontcat">{$modules.Language->getString('Code')}</span></td></tr><tr><td style="background-color:#FFFFFF;" valign="top"><pre><span style="font-size:12px;">{$b.lines}</span></pre></td><td style="background-color:#FFFFFF;" valign="top"><pre><span style="font-size:12px;">{$b.codeText}</span></pre></td></tr></table></div>
+ <div style="overflow:auto; width:800px; height:{$b.height}px;">
+ 	<table style="background-color:#000000; height:100%;" border="0" cellpadding="2" cellspacing="1" width="100%">
+ 		<tr><td class="CellCat" colspan="2"><span class="FontCat">{$modules.Language->getString('Code')}</span></td></tr>
+ 		<tr><td style="background-color:#FFFFFF;" valign="top"><pre><span style="font-size:12px;">{$b.lines}</span></pre></td><td style="background-color:#FFFFFF;" valign="top"><pre><span style="font-size:12px;">{$b.codeText}</span></pre></td></tr>
+ 	</table>
+ </div>
 {elseif $b.bbCodeType == $smarty.const.BBCODE_BOLD}
  <span style="font-weight:bold;">{$b.boldText}</span>
 {elseif $b.bbCodeType == $smarty.const.BBCODE_ITALIC}

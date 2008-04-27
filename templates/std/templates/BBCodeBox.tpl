@@ -34,6 +34,7 @@
 </select><br />
 <input class="FormBBCodeButton" type="button" value="{$modules.Language->getString('Quote')}" onclick="insert('[quote]','[/quote]');"/>
 <input class="FormBBCodeButton" type="button" value="Code" onclick="insert('[code]','[/code]');"/>
+<input class="FormBBCodeButton" type="button" value="PHP" onclick="insert('[php]','[/php]');"/>
 <input class="FormBBCodeButton" type="button" value="Center" onclick="insert('[center]','[/center]');"/>
 <input class="FormBBCodeButton" type="button" value="E-Mail" onclick="insert('[email]','[/email]');"/>
 <select class="FormSelect" onchange="if(this.options[this.options.selectedIndex].value != '') insert('[glow=' + this.options[this.options.selectedIndex].value + ']', '[/glow]');">
