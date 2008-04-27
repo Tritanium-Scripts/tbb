@@ -2,7 +2,7 @@
  	<div align="center" style="width:100%;">
 	 	<div align="left" style="width:90%;">
 	 		<table style="border:1px #000000 solid;" width="100%">
-	 			<tr><td style="background-color:#000000; padding:6px 3px 6px 3px;"><span style="font:10px verdana; color:#FFFFFF;"><b>{$b.quoteTitle}:</b></span></td></tr>
+	 			<tr><td style="background-color:#000000; padding:6px 3px 6px 3px;"><span style="font:10px verdana; color:#FFFFFF; font-weight:bold;">{$b.quoteTitle}:</span></td></tr>
 	 			<tr><td style="background-color:#FFFFFF; padding:3px;"><span class="FontSmall">{$b.quoteText}</span></td></tr>
 	 		</table>
 	 	</div>
@@ -14,6 +14,12 @@
  		<tr><td style="background-color:#FFFFFF;" valign="top"><pre><span style="font-size:12px;">{$b.lines}</span></pre></td><td style="background-color:#FFFFFF;" valign="top"><pre><span style="font-size:12px;">{$b.codeText}</span></pre></td></tr>
  	</table>
  </div>
+{elseif $b.bbCodeType == $smarty.const.BBCODE_LIST}
+ <ul>
+ {foreach from=$b.listElements item=curElem}
+  <li>{$curElem}</li>
+ {/foreach}
+ </ul>
 {elseif $b.bbCodeType == $smarty.const.BBCODE_BOLD}
  <span style="font-weight:bold;">{$b.boldText}</span>
 {elseif $b.bbCodeType == $smarty.const.BBCODE_ITALIC}

@@ -9,6 +9,7 @@ class BBCode extends ModuleTemplate {
 	public function parse($text) {
 		$text = preg_replace_callback("/\[code\](.*?)\[\/code\]/si",array($this,'cbCode'),$text); // [code]xxx[/code]
 		$text = preg_replace_callback("/\[php\](.*?)\[\/php\]/si", array($this, 'cbPHP'), $text); //[php]xxx[/php]
+		$text = preg_replace_callback("/\[list\](.*?)\[\/list\]/si", array($this, 'cbList'), $text); //[list][*]xxx[/list]
 		$text = preg_replace_callback("/\[b\](.*?)\[\/b\]/si",array($this,'cbBold'),$text); // [b]xxx[/b]
 		$text = preg_replace_callback("/\[i\](.*?)\[\/i\]/si",array($this,'cbItalic'),$text); // [i]xxx[/i]
 		$text = preg_replace_callback("/\[u\](.*?)\[\/u\]/si",array($this,'cbUnderline'),$text); // [u]xxx[/u]
@@ -92,6 +93,17 @@ class BBCode extends ModuleTemplate {
 			'codeText'=>$codeText,
 			'lines'=>$lines,
 			'height'=>$height
+		));
+		return $this->modules['Template']->fetch('BBCodeHtml.tpl');
+	}
+
+	protected function cbList($elements) {
+		$listElements = trim(Functions::br2nl($elements[1]));
+		$listElements = preg_split("/\[\*\](.*?)/si", $listElements, -1, PREG_SPLIT_NO_EMPTY);
+
+		$this->modules['Template']->assign('b',array(
+			'bbCodeType'=>BBCODE_LIST,
+			'listElements'=>$listElements
 		));
 		return $this->modules['Template']->fetch('BBCodeHtml.tpl');
 	}

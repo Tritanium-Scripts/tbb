@@ -34,6 +34,7 @@ class Constants extends ModuleTemplate {
 		define('BBCODE_SIZE', 11);
 		define('BBCODE_GLOW', 12);
 		define('BBCODE_SHADOW', 13);
+		define('BBCODE_LIST', 14);
 	}
 }
 

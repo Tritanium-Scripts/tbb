@@ -4,6 +4,7 @@
 <input class="FormBBCodeButton" style="text-decoration:line-through;" type="button" value="S" onclick="insert('[s]','[/s]');"/>
 <input class="FormBBCodeButton" type="button" value="URL" onclick="insert('[url]','[/url]');"/>
 <input class="FormBBCodeButton" type="button" value="IMG" onclick="insert('[img]','[/img]');"/>
+<input class="FormBBCodeButton" type="button" value="E-Mail" onclick="insert('[email]','[/email]');"/>
 <select class="FormSelect" onchange="if(this.options[this.options.selectedIndex].value != '') insert('[color=' + this.options[this.options.selectedIndex].value + ']', '[/color]');">
  <option value="">{$modules.Language->getString('Font_color')}</option>
  <option value="#000000" style="background-color:#000000; color:#000000;">{$modules.Language->getString('Black')}</option>
@@ -36,7 +37,7 @@
 <input class="FormBBCodeButton" type="button" value="Code" onclick="insert('[code]','[/code]');"/>
 <input class="FormBBCodeButton" type="button" value="PHP" onclick="insert('[php]','[/php]');"/>
 <input class="FormBBCodeButton" type="button" value="Center" onclick="insert('[center]','[/center]');"/>
-<input class="FormBBCodeButton" type="button" value="E-Mail" onclick="insert('[email]','[/email]');"/>
+<input class="FormBBCodeButton" type="button" value="{$modules.Language->getString('List')}" onclick="insert('[list]\n[*]','\n[/list]');"/>
 <select class="FormSelect" onchange="if(this.options[this.options.selectedIndex].value != '') insert('[glow=' + this.options[this.options.selectedIndex].value + ']', '[/glow]');">
  <option value="">{$modules.Language->getString('Font_glow')}</option>
  <option value="#FF0000" style="background-color:#FF0000; color:#FF0000;">{$modules.Language->getString('Red')}</option>
