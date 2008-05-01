@@ -22,9 +22,11 @@ class BBCode extends ModuleTemplate {
 		$text = preg_replace_callback("/\[color=(\#[a-fA-F0-9]{6}|[a-zA-Z]+)\](.*?)\[\/color\]/si",array($this,'cbColor'),$text); // [color=xxx]xxx[/color]
 		$text = preg_replace("/\[marquee\](.*?)\[\/marquee\]/si", '<marquee>\1</marquee>', $text); //[marquee]xxx[/marquee] - Es wird keine Option geboten per Button eine Laufschrift zu erstellen (nicht HTML konform), parsen es aber trotzdem weil das TBB1 dies anbot
 		//TBB1 BBCode hack support
-		$text = preg_replace_callback("/\[size=(\-[1-2]+|\+[1-4]+)\](.*?)\[\/size\]/si", array($this, 'cbSize'), $text); //[size=xxx]xxx[/size]
+		$text = preg_replace_callback("/\[size=(\-[12]{1}|\+[1-4]{1})\](.*?)\[\/size\]/si", array($this, 'cbSize'), $text); //[size=xxx]xxx[/size]
 		$text = preg_replace_callback("/\[glow=(\#[a-fA-F0-9]{6}|[a-zA-Z]+)\](.*?)\[\/glow\]/si", array($this, 'cbGlow'), $text); //[glow=xxx]xxx[/glow]
 		$text = preg_replace_callback("/\[shadow=(\#[a-fA-F0-9]{6}|[a-zA-Z]+)\](.*?)\[\/shadow\]/si", array($this, 'cbShadow'), $text); //[shadow=xxx]xxx[/shadow]
+		$text = preg_replace_callback("/\[flash\](.*?)\[\/flash\]/si", array($this, 'cbFlash'), $text); //[flash]xxx[/flash]
+		$text = preg_replace_callback("/\[flash[=| ]([0-9]+),([0-9]+)\](.*?)\[\/flash\]/si", array($this, 'cbFlash'), $text); //[flash=xxx]xxx[/flash] oder [flash xxx]xxx[/flash]
 
 		//Zitate am Ende damit URLs als Quellenangaben funktionieren
 		while(preg_match("/\[quote\](.*?)\[\/quote\]/si",$text))
@@ -229,6 +231,26 @@ class BBCode extends ModuleTemplate {
 			'bbCodeType'=>BBCODE_SHADOW,
 			'shadowColor'=>$elements[1],
 			'shadowText'=>$elements[2]
+			));
+		return $this->modules['Template']->fetch('BBCodeHtml.tpl');
+	}
+
+	protected function cbFlash($elements) {
+		if(count($elements) == 4) {
+			$flashWidth = $elements[1];
+			$flashHeight = $elements[2];
+			$flashLink = $elements[3];
+		}
+		else {
+			$flashWidth = 425; //standard YouTube sizes
+			$flashHeight = 355;
+			$flashLink = $elements[1];
+		}
+		$this->modules['Template']->assign('b', array(
+			'bbCodeType'=>BBCODE_FLASH,
+			'flashWidth'=>$flashWidth,
+			'flashHeight'=>$flashHeight,
+			'flashLink'=>$flashLink
 			));
 		return $this->modules['Template']->fetch('BBCodeHtml.tpl');
 	}
