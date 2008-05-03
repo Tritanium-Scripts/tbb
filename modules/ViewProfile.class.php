@@ -70,12 +70,7 @@ class ViewProfile extends ModuleTemplate {
 
                 //Signatur parsen
                 if ($this->modules['Config']->getValue('enable_sig') == 1)
-                {
-                 if ($this->modules['Config']->getValue('allow_sig_html') != 1) $profileData['userSignature'] = Functions::HTMLSpecialChars($profileData['userSignature']);
-                 if ($this->modules['Config']->getValue('allow_sig_smilies') == 1) $profileData['userSignature'] = strtr($profileData['userSignature'], $this->modules['Cache']->getSmiliesData('write'));
-                 $profileData['userSignature'] = nl2br($profileData['userSignature']);
-                 if ($this->modules['Config']->getValue('allow_sig_bbcode') == 1) $profileData['userSignature'] = $this->modules['BBCode']->parse($profileData['userSignature']);
-                }
+                	$profileData['userSignature'] = $this->modules['BBCode']->format($profileData['userSignature'], ($this->modules['Config']->getValue('allow_sig_html') == 1), ($this->modules['Config']->getValue('allow_sig_smilies') == 1), ($this->modules['Config']->getValue('allow_sig_bbcode')));
 
 				//Weitere Profilfelder
 				$this->modules['DB']->query('SELECT * FROM '.TBLPFX.'profile_fields');

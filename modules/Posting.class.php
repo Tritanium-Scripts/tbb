@@ -337,36 +337,16 @@ class Posting extends ModuleTemplate {
 				$show['pollBox'] = $mode == 'Topic' && ($this->modules['Auth']->getValue('userIsAdmin') == 1 || $this->modules['Auth']->getValue('userIsSupermod') == 1 || $authData['authIsMod'] == 1 || $authData['authPostPoll'] == 1);
 				$show['previewBox'] = isset($_POST['showPreview']);
 
-				// Smilies und Beitragsbilder laden
-				$smilies = array(); $smiliesBox = '';
-				if($show['enableSmilies']) {
-					$smilies = $this->modules['Cache']->getSmiliesData('write');
+				// Beitragsbilder laden
+				$smiliesBox = '';
+				if($show['enableSmilies'])
 					$smiliesBox = Functions::getSmiliesBox();
-				}
 				$postPicsBox = Functions::getPostPicsBox($p['smileyID']);
 
 				// Die Vorschau
 				$previewData = array();
-				if($show['previewBox'] == TRUE) {
-					if($c['enableHtmlCode'] != 1 || $show['enableHtmlCode'] == FALSE) $previewData['messageText'] = Functions::HTMLSpecialChars($p['messageText']);
-					if($c['enableBBCode'] == 1 && $show['enableBBCode'] && (stristr($previewData['messageText'], '[code]') || stristr($previewData['messageText'], '[php]'))) {
-						# Um zu verhindern, dass &quot;) in den Zwinker-Smilie umgewandelt wird, ist etwas mehr Aufwand noetig. Zunaechst werden erstmal alle [php] und [code] Tags gesucht...
-						preg_match_all("/\[(code|php)\].*?\[\/\\1\]/si", $previewData['messageText'], $codephp);
-						# ...und das Ergebnis in $codephp gespeichert. Hier wird nur der erste Eintrag benoetigt...
-						$codephp = array_shift($codephp);
-						# ...welcher dann abgearbeitet wird. Alle Code Tags werden so durch einen Platzhalter [codephp]x[/codephp] ersetzt.
-						foreach($codephp as $key => $value)
-							$previewData['messageText'] = preg_replace('/' . preg_quote($value, '/#') . '/', '[codephp]' . $key . '[/codephp]', $previewData['messageText']);
-						# Danach koennen erstmal Smilies etc. geparst werden.
-					}
-					if($c['enableSmilies'] == 1 && $show['enableSmilies'] == TRUE) $previewData['messageText'] = strtr($previewData['messageText'],$smilies);
-					$previewData['messageText'] = nl2br($previewData['messageText']);
-					if(isset($codephp))
-						# Wurde Code zwischengespeichert, so muss dieser nach allen anderen Parsevorgaengen wieder eingesetzt werden, anhand der Platzhalter.
-						foreach($codephp as $key => $value)
-							$previewData['messageText'] = preg_replace("/\[codephp\]$key\[\/codephp\]/si", $value, $previewData['messageText']);
-						# Jetzt kann der Code ansich geparst werden, ohne verfaelscht zu werden. :)
-					if($c['enableBBCode'] == 1 && $show['enableBBCode'] == TRUE) $previewData['messageText'] = $this->modules['BBCode']->parse($previewData['messageText']);
+				if($show['previewBox']) {
+					$previewData['messageText'] = $this->modules['BBCode']->format($p['messageText'], ($c['enableHtmlCode'] == 1 || $show['enableHtmlCode']), ($c['enableSmilies'] == 1 && $show['enableSmilies']), ($c['enableBBCode'] == 1 && $show['enableBBCode']));
 					$previewData['messageTitle'] = Functions::HTMLSpecialChars($p['messageTitle']);
 				}
 

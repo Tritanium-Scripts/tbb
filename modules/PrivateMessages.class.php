@@ -176,12 +176,7 @@ class PrivateMessages extends ModuleTemplate {
 					if(count($errors) == 0) {
 						if(isset($_POST['showPreview'])) {
 							$previewData = array();
-							
-							$previewData['pmMessageText'] = Functions::HTMLSpecialChars($p['pmMessageText']);
-							if($c['enableSmilies'] == 1) $previewData['pmMessageText'] = strtr($previewData['pmMessageText'],$this->modules['Cache']->getSmiliesData('write'));
-							$previewData['pmMessageText'] = nl2br($previewData['pmMessageText']);
-							if($c['enableBBCode'] == 1) $previewData['pmMessageText'] = $this->modules['BBCode']->parse($previewData['pmMessageText']);
-							
+							$previewData['pmMessageText'] = $this->modules['BBCode']->format($p['pmMessageText'], FALSE, ($c['enableSmilies'] == 1), ($c['enableBBCode'] == 1));
 							$previewData['pmSubject'] = Functions::HTMLSpecialChars($p['pmSubject']);							
 							$previewData['pmRecipients'] = $recipients;
 						} else {
@@ -424,13 +419,8 @@ class PrivateMessages extends ModuleTemplate {
 					if(count($errors) == 0) {
 						if(isset($_POST['showPreview'])) {
 							$previewData = array();
-							
-							$previewData['pmMessageText'] = Functions::HTMLSpecialChars($p['pmMessageText']);
-							if($c['enableSmilies'] == 1) $previewData['pmMessageText'] = strtr($previewData['pmMessageText'],$this->modules['Cache']->getSmiliesData('write'));
-							$previewData['pmMessageText'] = nl2br($previewData['pmMessageText']);
-							if($c['enableBBCode'] == 1) $previewData['pmMessageText'] = $this->modules['BBCode']->parse($previewData['pmMessageText']);
-							
-							$previewData['pmSubject'] = Functions::HTMLSpecialChars($p['pmSubject']);							
+							$previewData['pmMessageText'] = $this->modules['BBCode']->format($p['pmMessageText'], FALSE, ($c['enableSmilies'] == 1), ($c['enableBBCode'] == 1));
+ 							$previewData['pmSubject'] = Functions::HTMLSpecialChars($p['pmSubject']);							
 						} else {
 							$this->modules['DB']->queryParams('
 								INSERT INTO
@@ -557,7 +547,7 @@ class PrivateMessages extends ModuleTemplate {
 				elseif($pmData['folderID'] == 1) $pmData['pmFolderName'] = $this->modules['Language']->getString('Outbox');
 
 				$pmData['_pmSubject'] = Functions::HTMLSpecialChars($pmData['pmSubject']);
-				$pmData['_pmMessageText'] = nl2br(Functions::HTMLSpecialChars($pmData['pmMessageText']));
+				$pmData['_pmMessageText'] = $this->modules['BBCode']->format($pmData['pmMessageText'], FALSE, FALSE, FALSE); //TOODO no parse?
 
 				$this->modules['Template']->assign(array(
 					'pmID'=>$pmID,

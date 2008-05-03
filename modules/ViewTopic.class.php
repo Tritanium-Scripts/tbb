@@ -130,12 +130,6 @@ class ViewTopic extends ModuleTemplate {
 		}
 
 
-		// Smilies laden
-		$smiliesData = array();
-		if($forumData['forumEnableSmilies'] == 1 || $this->Modules['Config']->getValue('enable_sig') == 1 && $this->Modules['Config']->getValue('allow_sig_smilies') == 1)
-			$smiliesData = $this->modules['Cache']->getSmiliesData('write');
-
-
 		// Rangdaten laden
 		$ranksData = $this->modules['Cache']->getRanksData();
 
@@ -230,27 +224,7 @@ class ViewTopic extends ModuleTemplate {
 			//
 			// Den Beitrag entsprechend formatieren
 			//
-			$curPost['_postText'] = $curPost['postText'];
-			if($curPost['postEnableHtmlCode'] != 1 || $forumData['forumEnableHtmlCode'] != 1) $curPost['_postText'] = Functions::HTMLSpecialChars($curPost['_postText']);
-			if($curPost['postEnableBBCode'] == 1 && $forumData['forumEnableBBCode'] == 1 && (stristr($curPost['_postText'], '[code]') || stristr($curPost['_postText'], '[php]'))) {
-				# Um zu verhindern, dass &quot;) in den Zwinker-Smilie umgewandelt wird, ist etwas mehr Aufwand noetig. Zunaechst werden erstmal alle [php] und [code] Tags gesucht...
-				preg_match_all("/\[(code|php)\].*?\[\/\\1\]/si", $curPost['_postText'], $codephp);
-				# ...und das Ergebnis in $codephp gespeichert. Hier wird nur der erste Eintrag benoetigt...
-				$codephp = array_shift($codephp);
-				# ...welcher dann abgearbeitet wird. Alle Code Tags werden so durch einen Platzhalter [codephp]x[/codephp] ersetzt.
-				foreach($codephp as $key => $value)
-					$curPost['_postText'] = preg_replace('/' . preg_quote($value, '/#') . '/', '[codephp]' . $key . '[/codephp]', $curPost['_postText']);
-				# Danach koennen erstmal Smilies etc. geparst werden.
-			}
-			if($curPost['postEnableSmilies'] == 1 && $forumData['forumEnableSmilies'] == 1) $curPost['_postText'] = strtr($curPost['_postText'],$smiliesData);
-			$curPost['_postText'] = nl2br($curPost['_postText']);
-			//if($curPost['post_enable_urltransformation'] == 1  && ($forum_id == 0 || $forumData['forum_enable_urltransformation'] == 1)) $curPost['post_text'] = transform_urls($curPost['post_text']);
-			if(isset($codephp))
-				# Wurde Code zwischengespeichert, so muss dieser nach allen anderen Parsevorgaengen wieder eingesetzt werden, anhand der Platzhalter.
-				foreach($codephp as $key => $value)
-					$curPost['_postText'] = preg_replace("/\[codephp\]$key\[\/codephp\]/si", $value, $curPost['_postText']);
-				# Jetzt kann der Code ansich geparst werden, ohne verfaelscht zu werden. :)
-			if($curPost['postEnableBBCode'] == 1 && $forumData['forumEnableBBCode'] == 1) $curPost['_postText'] = $this->modules['BBCode']->parse($curPost['_postText']);
+			$curPost['_postText'] = $this->modules['BBCode']->format($curPost['postText'], ($curPost['postEnableHtmlCode'] == 1 || $forumData['forumEnableHtmlCode'] == 1), ($curPost['postEnableSmilies'] == 1 && $forumData['forumEnableSmilies'] == 1), ($curPost['postEnableBBCode'] == 1 && $forumData['forumEnableBBCode'] == 1));
 
 
 			//
@@ -258,12 +232,8 @@ class ViewTopic extends ModuleTemplate {
 			//
 			$curSignature = '';
 			if($curPost['postShowSignature'] == 1 && $this->modules['Config']->getValue('enable_sig') == 1 && $curPost['postPosterSignature'] != '') {
-				if(!isset($parsedSignatures[$curPost['posterID']])) { // Falls die Signatur nicht schonmal formatiert wurde
-					if($this->modules['Config']->getValue('allow_sig_html') != 1) $parsedSignatures[$curPost['posterID']] = Functions::HTMLSpecialChars($curPost['postPosterSignature']);
-					if($this->modules['Config']->getValue('allow_sig_smilies') == 1) $parsedSignatures[$curPost['posterID']] = strtr($parsedSignatures[$curPost['posterID']],$smiliesData);
-					$parsedSignatures[$curPost['posterID']] = nl2br($parsedSignatures[$curPost['posterID']]);
-					if($this->modules['Config']->getValue('allow_sig_bbcode') == 1) $parsedSignatures[$curPost['posterID']] = $this->modules['BBCode']->parse($parsedSignatures[$curPost['posterID']]);
-				}
+				if(!isset($parsedSignatures[$curPost['posterID']])) // Falls die Signatur nicht schonmal formatiert wurde
+					$parsedSignatures[$curPost['posterID']] = $this->modules['BBCode']->format($curPost['postPosterSignature'], ($this->modules['Config']->getValue('allow_sig_html') == 1), ($this->modules['Config']->getValue('allow_sig_smilies') == 1), ($this->modules['Config']->getValue('allow_sig_bbcode') == 1));
 				$curSignature = $parsedSignatures[$curPost['posterID']];
 			}
 

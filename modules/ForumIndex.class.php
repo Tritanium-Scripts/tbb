@@ -352,11 +352,7 @@ class ForumIndex extends ModuleTemplate {
 				//$news_comments_link = "<a href=\"index.php?action=viewtopic&amp;post_id=".$news_data['post_id']."&amp;$mYSID\">".sprintf($lNG['x_comments'],$news_data['news_comments_counter']).'</a>';
 
 				$newsData['newsTitle'] = Functions::HTMLSpecialChars($newsData['newsTitle']);
-
-				if($newsData['postEnableHtmlCode'] != 1) $newsData['newsText'] = Functions::HTMLSpecialChars($newsData['newsText']);
-				if($newsData['postEnableSmilies'] == 1 && $forumData['forumEnableSmilies'] == 1) $newsData['newsText'] = strtr($newsData['newsText']);
-				$newsData['newsText'] = nl2br($newsData['newsText']);
-				if($newsData['postEnableBBCode'] == 1) $newsData['newsText'] = $this->modules['BBCode']->parse($newsData['newsText']);
+				$newsData['newsText'] = $this->modules['BBCode']->format($newsData['newsText'], ($newsData['postEnableHtmlCode'] == 1), ($newsData['postEnableSmilies'] == 1 && $forumData['forumEnableSmilies'] == 1), ($newsData['postEnableBBCode'] == 1));
 			}
 		}
 

@@ -2,11 +2,35 @@
 
 class BBCode extends ModuleTemplate {
 	protected $requiredModules = array(
+		'Cache',
 		'Language',
 		'Template'
 	);
 
-	public function parse($text) {
+	public function format($text, $enableHTMLCode=FALSE, $enableSmilies=TRUE, $enableBBCode=TRUE) {
+		if(!$enableHTMLCode) $text = Functions::HTMLSpecialChars($text);
+		if($enableBBCode && (stristr($text, '[code]') || stristr($text, '[php]'))) {
+			# Um zu verhindern, dass &quot;) in den Zwinker-Smilie umgewandelt wird, ist etwas mehr Aufwand noetig. Zunaechst werden erstmal alle [php] und [code] Tags gesucht...
+			preg_match_all("/\[(code|php)\].*?\[\/\\1\]/si", $text, $codephp);
+			# ...und das Ergebnis in $codephp gespeichert. Hier wird nur der erste Eintrag benoetigt...
+			$codephp = array_shift($codephp);
+			# ...welcher dann abgearbeitet wird. Alle Code Tags werden so durch einen Platzhalter [codephp]x[/codephp] ersetzt.
+			foreach($codephp as $key => $value)
+				$text = preg_replace('/' . preg_quote($value, '/#') . '/', '[codephp]' . $key . '[/codephp]', $text);
+			# Danach koennen erstmal Smilies etc. geparst werden.
+		}
+		if($enableSmilies) $text = strtr($text, $this->modules['Cache']->getSmiliesData('write'));
+		$text = nl2br($text);
+		if(isset($codephp))
+			# Wurde Code zwischengespeichert, so muss dieser nach allen anderen Parsevorgaengen wieder eingesetzt werden, anhand der Platzhalter.
+			foreach($codephp as $key => $value)
+				$text = preg_replace("/\[codephp\]$key\[\/codephp\]/si", $value, $text);
+			# Jetzt kann der Code ansich geparst werden, ohne verfaelscht zu werden. :)
+		if($enableBBCode) $text = $this->parse($text);
+		return $text;
+	}
+
+	protected function parse($text) {
 		$text = preg_replace_callback("/\[code\](.*?)\[\/code\]/si",array($this,'cbCode'),$text); // [code]xxx[/code]
 		$text = preg_replace_callback("/\[php\](.*?)\[\/php\]/si", array($this, 'cbPHP'), $text); //[php]xxx[/php]
 		$text = preg_replace_callback("/\[list\](.*?)\[\/list\]/si", array($this, 'cbList'), $text); //[list][*]xxx[/list]
@@ -57,7 +81,7 @@ class BBCode extends ModuleTemplate {
 	}
 
 	protected function cbCode($elements) {
-		$codeText = Functions::str_replace(array('<br>', '<br/>', '<br />'), '', $elements[1]); // <br> und <br /> entfernen, da das im Textfeld zuviele neue Zeilen erzeugt
+		$codeText = $elements[1]; #Functions::HTMLSpecialChars($elements[1]);
 
 		$linesCounter = substr_count($codeText,"\n")+1; // Anzahl der Zeilen
 		$lines = '';
@@ -78,8 +102,8 @@ class BBCode extends ModuleTemplate {
 	}
 
 	protected function cbPHP($elements) {
-		$codeText = Functions::str_replace(array('<br>', '<br/>', '<br />'), '', $elements[1]); // <br> und <br /> entfernen, da das im Textfeld zuviele neue Zeilen erzeugt
-		$codeText = Functions::str_replace(array('<code>', '</code>'), '', highlight_string(htmlspecialchars_decode($codeText), true)); //Highlight PHP Syntax + Nacharbeit
+		#$codeText = Functions::str_replace(array('<code>', '</code>'), '', highlight_string($elements[1], true)); //Highlight PHP Syntax + Nacharbeit
+		$codeText = Functions::str_replace(array('<code>', '</code>'), '', highlight_string(htmlspecialchars_decode($elements[1]), true)); //Highlight PHP Syntax + Nacharbeit
 		$codeText[strpos($codeText, "\n")] = ''; //Ersten von highlight_string() erzeugten Zeilenumbruch entfernen, da sonst eine Leerzeile am Anfang erscheint
 
 		$linesCounter = substr_count($codeText,'<br />')+1; // Anzahl der Zeilen
