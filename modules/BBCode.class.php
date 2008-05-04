@@ -124,8 +124,7 @@ class BBCode extends ModuleTemplate {
 	}
 
 	protected function cbList($elements) {
-		$listElements = trim(Functions::br2nl($elements[1]));
-		$listElements = preg_split("/\[\*\](.*?)/si", $listElements, -1, PREG_SPLIT_NO_EMPTY);
+		$listElements = preg_split("/<br \/>\r\n\[\*\](.*?)/si", $elements[1], -1, PREG_SPLIT_NO_EMPTY);
 
 		$this->modules['Template']->assign('b',array(
 			'bbCodeType'=>BBCODE_LIST,
