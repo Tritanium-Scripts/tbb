@@ -1645,10 +1645,31 @@ class BoardInstall {
 								',array(
 									$this->tbb1ConversionProperties['dbRealNameID'],
 									$curUserData[1],
-									$curUserData[12]
+									self::tbb1ConversionUnmutate(utf8_encode($curUserData[12]))
 								));
 							}
-							
+
+							//Evtl. weitere (inoffizielle) Profilfelder importieren, die aber nicht eindeutig einem Hack zuordbar sind
+							$this->DB->query('SELECT COUNT(*) AS "insertID" FROM '.TBLPFX.'profile_fields');
+							$insertID = $this->DB->fetchArray(); //Aktuelle insertID rausfinden / TODO das geht evtl auch besser
+							$insertID = $insertID[0];
+							for($j=16; ; $j++)
+							{
+								if($curUserData[$j] != '') {
+									$this->DB->queryParams('
+										INSERT INTO '.TBLPFX.'profile_fields_data SET
+											"fieldID"=$1,
+											"userID"=$2,
+											"fieldValue"=$3
+									', array(
+										++$insertID,
+										$curUserData[1],
+										self::tbb1ConversionUnmutate(utf8_encode($curUserData[$j]))
+									));
+								}
+								else break;
+							}
+
 							if($curUserPMsData = self::tbb1ConversionFileToArray($this->pathToTBB1.'/members/'.$i.'.pm')) {
 								foreach($curUserPMsData AS $curPM) {
 									$curPM = self::tbb1ConversionExplodeByTab($curPM);
@@ -1996,6 +2017,25 @@ class BoardInstall {
 						break;
 	
 					case '4':
+						//Falls weitere Profilfelderdaten importiert wurden, brauchen diese noch passende Felder.
+						$this->DB->query('SELECT MAX("fieldID") AS "fieldID" FROM ' . TBLPFX . 'profile_fields_data');
+						$fieldID = $this->DB->fetchArray(); //Anzahl Profilfelder rausfinden / TODO evtl geht das auch besser
+						$fieldID = $fieldID[0];
+						if($fieldID > 3)
+							for($i=4; $i<=$fieldID; $i++)
+								$this->DB->queryParams('
+									INSERT INTO '.TBLPFX.'profile_fields SET
+										"fieldName"=$1,
+										"fieldType"=$2,
+										"fieldData"=$3,
+                                		"fieldLink"=$4
+								',array(
+									$this->strings['Unknown'] . ($i-3),
+									0,
+									serialize(array()),
+                            		'%1$s'
+								));
+
 						$this->DB->query('
 							UPDATE
 								'.TBLPFX.'forums t1
