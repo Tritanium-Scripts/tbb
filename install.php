@@ -1578,6 +1578,7 @@ class BoardInstall {
 							$curUserData[6] = self::tbb1ConversionConvertRegdate2Time($curUserData[6]);
 							$curUserData[2] = md5(Functions::getRandomString(8));
 							$curUserIsAdmin = ($curUserData[4] == 1) ? 1 : 0;
+							$curUserMailOpt = explode(',', $curUserData[14]);
 	
 							$this->DB->queryParams('
 								INSERT INTO '.TBLPFX.'users SET
@@ -1591,7 +1592,9 @@ class BoardInstall {
 									"userRegistrationTimestamp"=$8,
 									"userSignature"=$9,
 									"userTimeZone"=$10,
-									"userAvatarAddress"=$11
+									"userAvatarAddress"=$11,
+									"userReceiveEmails"=$12,
+									"userHideEmailAddress"=$13
 							',array(
 								$curUserData[1],
 								1,
@@ -1603,8 +1606,9 @@ class BoardInstall {
 								$curUserData[6],
 								self::tbb1ConversionUnmutate(utf8_encode(self::tbb1ConversionBr2Nl($curUserData[7]))),
 								'gmt',
-								$curUserData[10]
-								
+								$curUserData[10],
+								$curUserMailOpt[0],
+								(($curUserMailOpt[1] == 1) ? 0 : 1)
 							));
 	
 							// icq
