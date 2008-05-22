@@ -310,11 +310,11 @@ class EditTopic extends ModuleTemplate {
 						for($i = 1; $i < $curCat['catDepth']; $i++)
 							$curPrefix .= '--';
 
-						$selectOptions[] = array('',$curPrefix.' ('.$curCat['catName'].')');
+						$selectOptions[] = array('',$curPrefix.' ('.Functions::HTMLSpecialChars($curCat['catName']).')');
 
 						while(list($curKey,$curForum) = each($forumsData)) {
 							if($curForum['catID'] == $curCat['catID']) {
-								$selectOptions[] = array($curForum['forumID'],$curPrefix.'-- '.$curForum['forumName']);
+								$selectOptions[] = array($curForum['forumID'],$curPrefix.'-- '.Functions::HTMLSpecialChars($curForum['forumName']));
 								unset($forumsData[$curKey]);
 							}
 						}

@@ -186,7 +186,7 @@ class AdminGroups extends ModuleTemplate {
 				$memberID = isset($_GET['memberID']) ? $_GET['memberID'] : 0;
 				$groupID = isset($_GET['groupID']) ? $_GET['groupID'] : 0;
 
-                $this->modules['DB']->queryParams('"SELECT "memberStatus" FROM '.TBLPFX.'groups_members WHERE "groupID"=$1 AND "memberID"=$2', array($groupID, $memberID));
+                $this->modules['DB']->queryParams('SELECT "memberStatus" FROM '.TBLPFX.'groups_members WHERE "groupID"=$1 AND "memberID"=$2', array($groupID, $memberID));
 				if($this->modules['DB']->getAffectedRows() == 1) {
 					list($memberStatus) = $this->modules['DB']->fetchArray();
 					$newMemberStatus = ($memberStatus == 1) ? 0 : 1;

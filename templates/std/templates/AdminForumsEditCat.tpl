@@ -20,7 +20,7 @@
 </tr>
 <tr>
  <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Parent_category')}:</span></td>
- <td class="CellAlt"><select class="FormSelect" name="p[parentCatID]">´
+ <td class="CellAlt"><select class="FormSelect" name="p[parentCatID]">
  {foreach from=$catsData item=curCat}
   <option value="{$curCat.catID}"{if $curCat.catID == $p.parentCatID} selected="selected"{/if}>{$curCat._catPrefix} {$curCat.catName}</option>
  {/foreach}

@@ -151,8 +151,8 @@ class AdminForums extends ModuleTemplate {
 					$curPrefix = '';
 					for($i = 0; $i < $curCat['catDepth']; $i++)
 						$curPrefix .= '--';
-
 					$curCat['_catPrefix'] = $curPrefix;
+					$curCat['catName'] = Functions::HTMLSpecialChars($curCat['catName']);
 				}
 
 				$this->modules['Template']->assign(array(
@@ -295,8 +295,8 @@ class AdminForums extends ModuleTemplate {
 					$curPrefix = '';
 					for($i = 0; $i < $curCat['catDepth']; $i++)
 						$curPrefix .= '--';
-
 					$curCat['_catPrefix'] = $curPrefix;
+					if($i > 0) $curCat['catName'] = Functions::HTMLSpecialChars($curCat['catName']); //i > 0, weil sonst das &Uuml; das der Language-Datei ebenfalls escaped wird
 				}
 
 				$this->modules['Template']->assign(array(

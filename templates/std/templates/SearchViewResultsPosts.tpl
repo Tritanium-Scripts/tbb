@@ -1,6 +1,6 @@
 <form method="post" action="{$indexFile}?action=Search&amp;mode=ViewResults&amp;searchID={$searchID}&amp;{$mySID}">
 	<table class="TableStd" width="100%">
-		<olgroup>
+		<colgroup>
 			<col width="15%"/>
 			<col width="85%"/>
 		</colgroup>

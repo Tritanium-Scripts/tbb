@@ -23,8 +23,8 @@
    <tr>
     <td width="25%"><span class="FontNorm">{$curField.fieldName}:</span></td>
     <td width="75%"><select class="FormSelect" name="p[fieldsData][{$curField.fieldID}]">
-    {foreach from=$curField._FieldOptions item=curOption key=curOptionKey}
-     <option value="{$curOptionKey}"{if $curOptionKey == $curField._FieldSelectedIDs} selected="selected"{/if}>{$curOption}</option>
+    {foreach from=$curField._fieldOptions item=curOption key=curOptionKey}
+     <option value="{$curOptionKey}"{if $curOptionKey == $curField._fieldSelectedIDs} selected="selected"{/if}>{$curOption}</option>
     {/foreach}
     </select></td>
    </tr>
@@ -32,7 +32,7 @@
    <tr>
     <td width="25%" valign="top"><span class="FontNorm">{$curField.fieldName}:</span></td>
     <td width="75%"><select class="FormSelect" name="p[fieldsData][{$curField.fieldID}][]" size="5" multiple="multiple">
-    {foreach from=$curField._FieldOptions item=curOption key=curOptionKey}
+    {foreach from=$curField._fieldOptions item=curOption key=curOptionKey}
      <option value="{$curOptionKey}"{if in_array($curOptionKey,$curField._fieldSelectedIDs) == TRUE} selected="selected"{/if}>{$curOption}</option>
     {/foreach}
     </select></td>
