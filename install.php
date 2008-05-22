@@ -1480,7 +1480,7 @@ class BoardInstall {
 							',array(
 								0,
 								$curSmiley[2],
-								$curSmiley[1],
+								utf8_encode($curSmiley[1]),
 								1
 							));
 						}
@@ -2267,7 +2267,7 @@ class BoardInstall {
 						</td>
 					</tr>
 				</table>
-				<br/><br/><div align="center"><table class="TableCopyright"><tr><td class="CellCopyright" align="center"><span class="FontCopyright">Tritanium Bulletin Board 2 Installation<br/>&copy; 2003-2007 <a class="FontCopyright" href="http://www.tritanium-scripts.com" target="_blank">Tritanium Scripts</a></span></td></tr></table></div>
+				<br/><br/><div align="center"><table class="TableCopyright"><tr><td class="CellCopyright" align="center"><span class="FontCopyright">Tritanium Bulletin Board 2 Installation<br/>&copy; 2003-2008 <a class="FontCopyright" href="http://www.tritanium-scripts.com" target="_blank">Tritanium Scripts</a></span></td></tr></table></div>
 				</div></div>
 			</body>
 		</html>
