@@ -45,7 +45,7 @@
 {elseif $b.bbCodeType == $smarty.const.BBCODE_SHADOW}
  <div style="width:100%; filter:DropShadow(color={$b.shadowColor}, offx=2, offy=2);">{$b.shadowText}</div>{* <span> doesn't work?! *}
 {elseif $b.bbCodeType == $smarty.const.BBCODE_FLASH}
- <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.adobe.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" width="{$b.flashWidth}" height="{$b.flashHeight}">
+ <object data="{$b.flashLink}" type="application/x-shockwave-flash" width="{$b.flashWidth}" height="{$b.flashHeight}">
   <param name="allowscriptaccess" value="samedomain"/>
   <param name="movie" value="{$b.flashLink}"/>
   <param name="quality" value="autohigh"/>
