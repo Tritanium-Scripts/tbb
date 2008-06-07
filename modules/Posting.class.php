@@ -318,6 +318,53 @@ class Posting extends ModuleTemplate {
 								if($c['subscribeTopic'] == 0) $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'topics_subscriptions WHERE "topicID"=$1 AND "userID"=$2', array($topicID, USERID));
 								else $this->modules['DB']->queryParams('INSERT INTO '.TBLPFX.'topics_subscriptions SET "topicID"=$1, "userID"=$2', array($topicID, USERID));
 							}
+							
+							// User ueber neuen Beitrag informieren
+							$this->modules['DB']->queryParams('
+								SELECT
+									t1."userNick",
+									t1."userEmailAddress",
+									t1."userLanguage"
+								FROM (
+									'.TBLPFX.'topics_subscriptions t2,
+									'.TBLPFX.'users t1
+								) WHERE
+									t2."topicID"=$1
+									AND t1."userID"=t2."userID"
+							',array(
+								$topicID
+							));
+							$subscriptionsData = $this->modules['DB']->raw2Array();
+							$emailsToSend = array();
+							$this->modules['Template']->assign(array(
+								'topicTitle'=>$topicData['topicTitle'],
+								'linkToPost'=>$this->modules['Config']->getValue('board_address').'/'.INDEXFILE.'?action=ViewTopic&postID='.$postID.'#postID='.$postID
+							));
+							foreach($subscriptionsData AS &$curSubscription) {
+								$curLanguageString = $this->modules['Language']->getLS($curSubscription['userLanguage']);
+								if(!isset($emailsToSend[$curLanguageString])) {
+									// Add main language file (contains email subjects)
+									$this->modules['Language']->addFile('Main',$curLanguageString);
+									
+									$emailsToSend[$curLanguageString] = array(
+										array(),
+										$this->modules['Language']->getString('email_subject_new_reply_posted',$curLanguageString),
+										$this->modules['Template']->fetch('TopicSubscriptionNotification.mail',$this->modules['Language']->getLD($curLanguageString).'mails')
+									);
+								}
+								$emailsToSend[$curLanguageString][0][] = $curSubscription['userEmailAddress'];
+							}
+							
+							foreach($emailsToSend AS &$curEmail) {
+								Functions::myMail(
+									$this->modules['Config']->getValue('board_name').' <'.$this->modules['Config']->getValue('board_email_address').'>',
+									'undisclosed-recipients: ;',
+									$curEmail[1],
+									$curEmail[2],
+									'Bcc: '.implode(', ',$curEmail[0])
+								);
+							}
+							
 							Functions::myHeader(INDEXFILE."?action=ViewTopic&topicID=$topicID&".MYSID);
 						}
 					}

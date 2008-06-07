@@ -37,7 +37,7 @@
  <table border="0" cellpadding="0" cellspacing="0" width="100%">
  <tr>
   <td><span class="FontNavbar">{$pageListing}</span></td>
-  <td align="right"><span class="FontNavbar"><a href="{$indexFile}?action=Posting&amp;mode=Reply&amp;topicID={$topicID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLC()}/AddReply.png" class="ImageButton" alt="{$modules.Language->getString('Post_new_reply')}"/></a><a href="{$indexFile}?action=Posting&amp;mode=Topic&amp;forumID={$forumID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLC()}/AddTopic.png" class="ImageButton" alt="{$modules.Language->getString('Post_new_topic')}"/></a></span></td>
+  <td align="right"><span class="FontNavbar"><a href="{$indexFile}?action=Posting&amp;mode=Reply&amp;topicID={$topicID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLS()}/AddReply.png" class="ImageButton" alt="{$modules.Language->getString('Post_new_reply')}"/></a><a href="{$indexFile}?action=Posting&amp;mode=Topic&amp;forumID={$forumID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLS()}/AddTopic.png" class="ImageButton" alt="{$modules.Language->getString('Post_new_topic')}"/></a></span></td>
  </tr>
  </table>
 </td></tr>
@@ -131,7 +131,7 @@
  <table border="0" cellpadding="0" cellspacing="0" width="100%">
  <tr>
   <td><span class="FontNavbar">{$pageListing}</span></td>
-  <td align="right"><span class="FontNavbar"><a href="{$indexFile}?action=Posting&amp;mode=Reply&amp;topicID={$topicID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLC()}/AddReply.png" class="ImageButton" alt="{$modules.Language->getString('Post_new_reply')}"/></a><a href="{$indexFile}?action=Posting&amp;mode=Topic&amp;forumID={$forumID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLC()}/AddTopic.png" class="ImageButton" alt="{$modules.Language->getString('Post_new_topic')}"/></a></span></td>
+  <td align="right"><span class="FontNavbar"><a href="{$indexFile}?action=Posting&amp;mode=Reply&amp;topicID={$topicID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLS()}/AddReply.png" class="ImageButton" alt="{$modules.Language->getString('Post_new_reply')}"/></a><a href="{$indexFile}?action=Posting&amp;mode=Topic&amp;forumID={$forumID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLS()}/AddTopic.png" class="ImageButton" alt="{$modules.Language->getString('Post_new_topic')}"/></a></span></td>
  </tr>
  </table>
 </td></tr>

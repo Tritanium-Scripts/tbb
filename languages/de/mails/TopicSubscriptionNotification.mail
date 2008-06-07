@@ -1,0 +1,6 @@
+Hallo,
+ 	
+in dem von Ihnen abonnierten Thema "{$topicTitle}" wurde eine neue Antwort erstellt. Sie erreichen das Thema über folgenden Link:
+{$linkToPost}
+
+{$modules.Config->getValue('email_signature')}

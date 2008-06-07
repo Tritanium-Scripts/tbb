@@ -104,6 +104,7 @@ languages/de/mails/PasswordRequested.mail -text
 languages/de/mails/PrivateMessageReceived.mail -text
 languages/de/mails/RegistrationAccountVerification.mail -text
 languages/de/mails/RegistrationWelcome.mail -text
+languages/de/mails/TopicSubscriptionNotification.mail -text
 modules/AdminAvatars.class.php -text
 modules/AdminConfig.class.php -text
 modules/AdminForums.class.php -text
