@@ -125,59 +125,67 @@ class Posting extends ModuleTemplate {
 						$c['pinTopic'] = isset($_POST['c']['pinTopic']) ? 1 : 0;
 						$c['closeTopic'] = isset($_POST['c']['closeTopic']) ? 1 : 0;
 					}
+					
+					while(list($curKey) = each($p['pollOptions'])) {
+						if(trim($p['pollOptions'][$curKey]) == '')
+							unset($p['pollOptions'][$curKey]);
+					}
+					reset($p['pollOptions']);
 
 					if(!isset($_POST['showPreview'])) {
 						if(trim($p['messageTitle']) == '') $error = $this->modules['Language']->getString('error_no_title');
 						elseif(Functions::strlen($p['messageTitle']) > 255) $error = $this->modules['Language']->getString('error_title_too_long');
 						elseif(trim($p['messageText']) == '') $error = $this->modules['Language']->getString('error_no_post');
-                        elseif($mode != 'Edit' && $this->modules['Auth']->isLoggedIn() != 1 && !Functions::verifyUserName($p['guestNick'])) $error = $this->modules['Language']->getString('error_invalid_name');
+						elseif($mode != 'Edit' && $this->modules['Auth']->isLoggedIn() != 1 && !Functions::verifyUserName($p['guestNick'])) $error = $this->modules['Language']->getString('error_invalid_name');
 						elseif($mode != 'Edit' && $this->modules['Auth']->isLoggedIn() != 1 && !Functions::unifyUserName($p['guestNick'])) $error = $this->modules['Language']->getString('error_existing_user_name');
+						elseif($mode == 'Topic' && trim($p['pollTitle']) != '' && $p['pollDuration'] <= 0)$error = $this->modules['Language']->getString('error_invalid_poll_duration');
+						elseif($mode == 'Topic' && trim($p['pollTitle']) != '' && count($p['pollOptions']) <= 1) $error = $this->modules['Language']->getString('error_no_poll_options');
 						elseif($mode == 'Edit') {
-                            $this->modules['DB']->queryParams('
-                                UPDATE
-                                    '.TBLPFX.'posts
-                                SET
-                                    "smileyID"=$1,
-                                    "postEnableBBCode"=$2,
-                                    "postEnableSmilies"=$3,
-                                    "postEnableHtmlCode"=$4,
-                                    "postShowSignature"=$5,
-                                    "postEnableURITransformation"=$6,
-                                    "postShowEditings"=$7,
-                                    "postEditedCounter"="postEditedCounter"+1,
-                                    "postLastEditorNick"=$8,
-                                    "postTitle"=$9,
-                                    "postText"=$10
-                                WHERE
-                                    "postID"=$11
-                            ', array(
-                                $p['smileyID'],
-                                $c['enableBBCode'],
-                                $c['enableSmilies'],
-                                $c['enableHtmlCode'],
-                                $c['showSignature'],
-                                $c['enableURITransformation'],
-                                $c['showEditings'],
+							$this->modules['DB']->queryParams('
+								UPDATE
+									'.TBLPFX.'posts
+								SET
+									"smileyID"=$1,
+									"postEnableBBCode"=$2,
+									"postEnableSmilies"=$3,
+									"postEnableHtmlCode"=$4,
+									"postShowSignature"=$5,
+									"postEnableURITransformation"=$6,
+									"postShowEditings"=$7,
+									"postEditedCounter"="postEditedCounter"+1,
+									"postLastEditorNick"=$8,
+									"postTitle"=$9,
+									"postText"=$10
+								WHERE
+									"postID"=$11
+							', array(
+								$p['smileyID'],
+								$c['enableBBCode'],
+								$c['enableSmilies'],
+								$c['enableHtmlCode'],
+								$c['showSignature'],
+								$c['enableURITransformation'],
+								$c['showEditings'],
 
-                                $this->modules['Auth']->getValue('userNick'),
-                                $p['messageTitle'],
-                                $p['messageText'],
-                                $postID
-                            ));
+								$this->modules['Auth']->getValue('userNick'),
+								$p['messageTitle'],
+								$p['messageText'],
+								$postID
+							));
 							if($postID == $topicData['topicFirstPostID']) {
-                                $this->modules['DB']->queryParams('
-                                    UPDATE
-                                        '.TBLPFX.'topics
-                                    SET
-                                        "topicTitle"=$1,
-                                        "smileyID"=$2
-                                    WHERE
-                                        "topicID"=$3
-                                ', array(
-                                    $p['messageTitle'],
-                                    $p['smileyID'],
-                                    $topicID
-                                ));
+								$this->modules['DB']->queryParams('
+									UPDATE
+										'.TBLPFX.'topics
+									SET
+										"topicTitle"=$1,
+										"smileyID"=$2
+									WHERE
+										"topicID"=$3
+								', array(
+									$p['messageTitle'],
+									$p['smileyID'],
+									$topicID
+								));
 							}
 
 							Functions::myHeader(INDEXFILE."?action=ViewTopic&postID=$postID&".MYSID."#post$postID");
@@ -187,121 +195,113 @@ class Posting extends ModuleTemplate {
 								$p['guestNick'] = '';
 
 							if($mode == 'Topic') {
-                                $this->modules['DB']->queryParams('
-                                    INSERT INTO
-                                        '.TBLPFX.'topics
-                                    SET
-                                        "topicTitle"=$1,
-                                        "forumID"=$2,
-                                        "topicIsClosed"=$3,
-                                        "topicIsPinned"=$4,
-                                        "posterID"=$5,
-                                        "smileyID"=$6,
-                                        "topicPostTimestamp"=$7,
-                                        "topicGuestNick"=$8
-                                ', array(
-                                    $p['messageTitle'],
-                                    $forumID,
-                                    $c['closeTopic'],
-                                    $c['pinTopic'],
-                                    USERID,
-                                    $p['smileyID'],
-                                    time(),
-                                    $p['guestNick']
-                                ));
+								$this->modules['DB']->queryParams('
+									INSERT INTO
+										'.TBLPFX.'topics
+									SET
+										"topicTitle"=$1,
+										"forumID"=$2,
+										"topicIsClosed"=$3,
+										"topicIsPinned"=$4,
+										"posterID"=$5,
+										"smileyID"=$6,
+										"topicPostTimestamp"=$7,
+										"topicGuestNick"=$8
+								', array(
+									$p['messageTitle'],
+									$forumID,
+									$c['closeTopic'],
+									$c['pinTopic'],
+									USERID,
+									$p['smileyID'],
+									time(),
+									$p['guestNick']
+								));
 								$topicID = $this->modules['DB']->getInsertID();
 
 								// Eventuell die Umfrage zum Thema hinzufuegen
-								if(($this->modules['Auth']->getValue('userIsAdmin') == 1 || $this->modules['Auth']->getValue('userIsSupermod') == 1 || $authData['authIsMod'] == 1 || $authData['authPostPoll'] == 1) && trim($p['pollTitle']) != '' && $p['pollDuration'] > 0) {
-									while(list($curKey) = each($p['pollOptions'])) {
-										if(trim($p['pollOptions'][$curKey]) == '')
-											unset($p['pollOptions'][$curKey]);
+								if(($this->modules['Auth']->getValue('userIsAdmin') == 1 || $this->modules['Auth']->getValue('userIsSupermod') == 1 || $authData['authIsMod'] == 1 || $authData['authPostPoll'] == 1) && trim($p['pollTitle']) != '' && $p['pollDuration'] > 0 && count($p['pollOptions']) > 1) {
+									$this->modules['DB']->queryParams('
+										INSERT INTO
+											'.TBLPFX.'polls
+										SET
+											"topicID"=$1,
+											"posterID"=$2,
+											"pollTitle"=$3,
+											"pollGuestNick"=$4,
+											"pollStartTimestamp"=$5,
+											"pollEndTimestamp"=$6,
+											"pollGuestsVote"=$7,
+											"pollGuestsViewResults"=$8
+									', array(
+										$topicID,
+										USERID,
+										$p['pollTitle'],
+										$p['guestNick'],
+										time(),
+										time()+86400*$p['pollDuration'],
+										$c['pollGuestsVote'],
+										$c['pollGuestsViewResults']
+									));
+									$pollID = $this->modules['DB']->getInsertID();
+
+									$i = 1;
+									foreach($p['pollOptions'] AS $curOption) {
+										$this->modules['DB']->queryParams('
+											INSERT INTO
+												'.TBLPFX.'polls_options
+											SET
+												"pollID"=$1,
+												"optionID"=$2,
+												"optionTitle"=$3
+										', array(
+											$pollID,
+											$i++,
+											$curOption
+										));
 									}
-									reset($p['pollOptions']);
 
-									if(count($p['pollOptions']) > 1) {
-                                        $this->modules['DB']->queryParams('
-                                            INSERT INTO
-                                                '.TBLPFX.'polls
-                                            SET
-                                                "topicID"=$1,
-                                                "posterID"=$2,
-                                                "pollTitle"=$3,
-                                                "pollGuestNick"=$4,
-                                                "pollStartTimestamp"=$5,
-                                                "pollEndTimestamp"=$6,
-                                                "pollGuestsVote"=$7,
-                                                "pollGuestsViewResults"=$8
-                                        ', array(
-                                            $topicID,
-                                            USERID,
-                                            $p['pollTitle'],
-                                            $p['guestNick'],
-                                            time(),
-                                            time()+86400*$p['pollDuration'],
-                                            $c['pollGuestsVote'],
-                                            $c['pollGuestsViewResults']
-                                        ));
-										$pollID = $this->modules['DB']->getInsertID();
-
-										$i = 1;
-										foreach($p['pollOptions'] AS $curOption) {
-                                            $this->modules['DB']->queryParams('
-                                                INSERT INTO
-                                                    '.TBLPFX.'polls_options
-                                                SET
-                                                    "pollID"=$1,
-                                                    "optionID"=$2,
-                                                    "optionTitle"=$3
-                                            ', array(
-                                                $pollID,
-                                                $i++,
-                                                $curOption
-                                            ));
-										}
-
-                                        $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'topics SET "topicHasPoll"=1 WHERE "topicID"=$1', array($topicID));
-									}
+									$this->modules['DB']->queryParams('UPDATE '.TBLPFX.'topics SET "topicHasPoll"=1 WHERE "topicID"=$1', array($topicID));
 								}
 							}
 
 							// Den Beitrag in die Datenbank eintragen
-                            $this->modules['DB']->queryParams('
-                                INSERT INTO
-                                    '.TBLPFX.'posts
-                                SET
-                                    "topicID"=$1,
-                                    "forumID"=$2,
-                                    "posterID"=$3,
-                                    "smileyID"=$4,
-                                    "postIP"=$5,
-                                    "postEnableBBCode"=$6,
-                                    "postEnableSmilies"=$7,
-                                    "postEnableHtmlCode"=$8,
-                                    "postShowSignature"=$9,
-                                    "postEnableURITransformation"=$10,
-                                    "postShowEditings"=$11,
-                                    "postTimestamp"=$12,
-                                    "postTitle"=$13,
-                                    "postText"=$14,
-                                    "postGuestNick"=$15
-                            ', array(
-                                $topicID,
-                                $forumID,
-                                USERID,
-                                $p['smileyID'],
-                                $_SERVER['REMOTE_ADDR'],
-                                $c['enableBBCode'],
-                                $c['enableSmilies'],
-                                $c['enableHtmlCode'],
-                                $c['showSignature'],
-                                $c['enableURITransformation'],
-                                $c['showEditings'],
-                                time(),
-                                $p['messageTitle'],
-                                $p['messageText'],
-                                $p['guestNick']
-                            ));
+							$this->modules['DB']->queryParams('
+								INSERT INTO
+									'.TBLPFX.'posts
+								SET
+									"topicID"=$1,
+									"forumID"=$2,
+									"posterID"=$3,
+									"smileyID"=$4,
+									"postIP"=$5,
+									"postEnableBBCode"=$6,
+									"postEnableSmilies"=$7,
+									"postEnableHtmlCode"=$8,
+									"postShowSignature"=$9,
+									"postEnableURITransformation"=$10,
+									"postShowEditings"=$11,
+									"postTimestamp"=$12,
+									"postTitle"=$13,
+									"postText"=$14,
+									"postGuestNick"=$15
+							', array(
+								$topicID,
+								$forumID,
+								USERID,
+								$p['smileyID'],
+								$_SERVER['REMOTE_ADDR'],
+								$c['enableBBCode'],
+								$c['enableSmilies'],
+								$c['enableHtmlCode'],
+								$c['showSignature'],
+								$c['enableURITransformation'],
+								$c['showEditings'],
+								time(),
+								$p['messageTitle'],
+								$p['messageText'],
+								$p['guestNick']
+							));
 							$postID = $this->modules['DB']->getInsertID();
 
 							// Verschiedene Dinge updaten (Beitragszahl, erster/letzter Beitrag usw.)
@@ -310,7 +310,7 @@ class Posting extends ModuleTemplate {
 
 							if($mode == 'Reply') $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'forums SET "forumLastPostID"=$1, "forumPostsCounter"="forumPostsCounter"+1 WHERE "forumID"=$2', array($postID, $forumID));
 							else $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'forums SET "forumLastPostID"=$1, "forumPostsCounter"="forumPostsCounter"+1, "forumTopicsCounter"="forumTopicsCounter"+1 WHERE "forumID"=$2', array($postID, $forumID));
-                            
+							
 							$this->modules['DB']->queryParams('UPDATE '.TBLPFX.'users SET "userPostsCounter"="userPostsCounter"+1 WHERE "userID"=$1', array(USERID));
 
 							// Eventuell Themenabo entfernen oder hinzufuegen
