@@ -38,7 +38,9 @@ class Posting extends ModuleTemplate {
 		$this->modules['Language']->addFile('Posting');
 
 		$authData = $this->_authenticateUser($mode,$forumData);
-		if($this->modules['Auth']->getValue('userIsLocked') == LOCK_TYPE_NO_POSTING && FuncUsers::checkLockStatus(USERID)) {
+		
+		// You don't need to check if the user is still locked because if so the lock was removed in Auth.class.php
+		if($this->modules['Auth']->getValue('userIsLocked') == LOCK_TYPE_NO_POSTING) {
 			FuncMisc::printMessage('access_denied'); exit;
 		}
 		if($mode == 'Reply' && $topicData['topicIsClosed'] == 1 && $authData['authIsMod'] != 1 && $this->modules['Auth']->getValue('userIsSuperadmin') && $this->modules['Auth']->getValue('userIsSupermod')) {

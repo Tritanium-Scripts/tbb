@@ -38,7 +38,7 @@ class Login extends ModuleTemplate {
 						Functions::myHeader(INDEXFILE.'?action=Login&mode=ActivateAccount&accountID='.$userData['userNick'].'&'.MYSID);
 					}
 					elseif(Functions::getSaltedHash($p['userPassword'],$userData['userPasswordSalt']) != $userData['userPassword'] && ($userData['userNewPassword'] == '' || Functions::getSaltedHash($p['userPassword'],$userData['userNewPasswordSalt']) != $userData['userNewPassword'])) $error = $this->modules['Language']->getString('error_wrong_password');
-					elseif($userData['userIsLocked'] == LOCK_TYPE_NO_LOGIN && FuncUsers::checkLockStatus($userData['userID'])) { // Falls der Benutzer sich nicht mehr einloggen darf
+					elseif($userData['userIsLocked'] == LOCK_TYPE_NO_LOGIN && FuncUsers::checkLockStatus($userData)) { // Falls der Benutzer sich nicht mehr einloggen darf
                         $this->modules['DB']->queryParams('SELECT "lockStartTimestamp", "lockEndTimestamp" FROM '.TBLPFX.'users_locks WHERE "userID"=$1', array($userData['userID']));
 						$lockData = $this->modules['DB']->fetchArray();
 

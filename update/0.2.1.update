@@ -1,3 +1,5 @@
+<?php
+
 $this->DB->query('
 	ALTER TABLE '.TBLPFX.'posts
 		DROP KEY "forumID",
@@ -5,7 +7,23 @@ $this->DB->query('
 ');
 $this->DB->query('
 	ALTER TABLE '.TBLPFX.'users
-		ADD "userNotifyNewPM" TINYINT(1) UNSIGNED DEFAULT \'0\' NOT NULL
+		ADD "userNotifyNewPM" TINYINT(1) UNSIGNED DEFAULT \'0\' NOT NULL,
+		ADD "userLockStartTimestamp" INT(10) UNSIGNED DEFAULT \'0\' NOT NULL,
+		ADD "userLockEndTimestamp" INT(10) UNSIGNED DEFAULT \'0\' NOT NULL
 ');
+
+$this->DB->query('
+	UPDATE (
+		'.TBLPFX.'users t1,
+		'.TBLPFX.'users_locks t2
+	) SET
+		t1."userIsLocked"=t2."lockType",
+		t1."userLockStartTimestamp"=t2."lockStartTimestamp",
+		t1."userLockEndTimestamp"=t2."lockEndTimestamp"
+	WHERE
+		t1."userID"=t2."userID"
+');
+
+$this->DB->query('DROP TABLE '.TBLPFX.'users_locks');
 
 $nextUpdateFile = '';

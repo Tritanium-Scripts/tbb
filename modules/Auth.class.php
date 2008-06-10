@@ -15,7 +15,10 @@ class Auth extends ModuleTemplate {
 			$this->modules['DB']->queryParams('SELECT * FROM '.TBLPFX.'users WHERE "userID"=$1', array($_SESSION['userID']));
 			if($this->modules['DB']->numRows() == 1) {
 				$tempUserData = $this->modules['DB']->fetchArray();
-				if(($tempUserData['userIsLocked'] == 0 || $tempUserData['userIsLocked'] == LOCK_TYPE_NO_POSTING || !FuncUsers::checkLockStatus($tempUserData['userID'])) && $tempUserData['userPassword'] == $_SESSION['userPassword']) {
+				if(($tempUserData['userIsLocked'] != LOCK_TYPE_NO_LOGIN || !FuncUsers::checkLockStatus($tempUserData)) && $tempUserData['userPassword'] == $_SESSION['userPassword']) {
+					if($tempUserData['userIsLocked'] == LOCK_TYPE_NO_LOGIN)
+						$tempUserData['userIsLocked'] = LOCK_TYPE_NO_LOCK;
+						
 					$this->userID = $tempUserData['userID'];
 					$this->userLoggedIn = 1;
 					$this->userData = $tempUserData;

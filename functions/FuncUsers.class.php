@@ -10,20 +10,16 @@ class FuncUsers {
 		return ($DB->getAffectedRows() == 1) ? $DB->fetchArray() : FALSE;
 	}
 
-	public static function checkLockStatus($userID) {
-		$DB = Factory::singleton('DB');
-
-        $DB->queryParams('SELECT "lockStartTimestamp", "lockEndTimestamp" FROM '.TBLPFX.'users_locks WHERE "userID"=$1', array($userID));
-		if($DB->getAffectedRows() == 1) {
-			$lockData = $DB->fetchArray();
-			if($lockData['lockStartTimestamp'] == $lockData['lockEndTimestamp'] || time() < $lockData['lockEndTimestamp'])
-				return TRUE; // Benutzer ist gesperrt
+	public static function checkLockStatus($userData) {
+		if($userData['userIsLocked'] != LOCK_TYPE_NO_LOCK) {
+			if($userData['userLockStartTimestamp'] == $userData['userLockEndTimestamp'] || time() < $userData['userLockEndTimestamp'])
+				return TRUE;
+			
+			// Benutzer entsperren
+			$DB = Factory::singleton('DB');
+			$DB->queryParams('UPDATE '.TBLPFX.'users SET "userIsLocked"=0 WHERE "userID"=$1', array($userData['userID']));
 		}
-
-		// Benutzer ist nicht (mehr) gesperrt
-        $DB->queryParams('DELETE FROM '.TBLPFX.'users_locks WHERE "userID"=$1', array($userID));
-        $DB->queryParams('UPDATE '.TBLPFX.'users SET "userIsLocked"=0 WHERE "userID"=$1', array($userID));
-
+		
 		return FALSE;
 	}
 

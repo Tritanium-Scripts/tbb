@@ -180,7 +180,7 @@ class AdminUsers extends ModuleTemplate {
 				/**
 				 * Handle user lock
 				 */
-				if($userData['userIsLocked'] != 0 && FuncUsers::checkLockStatus($userID)) {
+				if($userData['userIsLocked'] != LOCK_TYPE_NO_LOCK && FuncUsers::checkLockStatus($userData)) {
                     $this->modules['DB']->queryParams('SELECT * FROM '.TBLPFX.'users_locks WHERE "userID"=$1', array($userID));
 					$lockData = $this->modules['DB']->fetchArray();
 
@@ -196,7 +196,7 @@ class AdminUsers extends ModuleTemplate {
 						'remainingLockTime'=>$remainingLockTime
 					));
 				} else {
-					$userData['userIsLocked'] = 0;
+					$userData['userIsLocked'] = LOCK_TYPE_NO_LOCK;
 				}
 
 				$this->modules['DB']->query('SELECT "rankID", "rankName" FROM '.TBLPFX.'ranks WHERE "rankType"=1 ORDER BY "rankName" ASC');
@@ -342,7 +342,7 @@ class AdminUsers extends ModuleTemplate {
 
 				$p = Functions::getSGValues($_POST['p'],array('lockType','lockTime'),0);
 
-				if(($userData['userIsLocked'] == 0 || !FuncUsers::checkLockStatus($userData['userID'])) && in_array($p['lockType'],array(LOCK_TYPE_NO_LOGIN,LOCK_TYPE_NO_POSTING)) && $p['lockTime'] >= -1) {
+				if(($userData['userIsLocked'] == LOCK_TYPE_NO_LOCK || !FuncUsers::checkLockStatus($userData)) && in_array($p['lockType'],array(LOCK_TYPE_NO_LOGIN,LOCK_TYPE_NO_POSTING)) && $p['lockTime'] >= -1) {
 					$lockStartTime = time();
 					$lockEndTime = ($p['lockTime'] == -1 ? $lockStartTime : $lockStartTime+$p['lockTime']*3600);
 

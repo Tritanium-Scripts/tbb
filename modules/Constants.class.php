@@ -17,6 +17,7 @@ class Constants extends ModuleTemplate {
 		define('PROFILE_FIELD_TYPE_SELECTSINGLE',2);
 		define('PROFILE_FIELD_TYPE_SELECTMULTI',3);
 
+		define('LOCK_TYPE_NO_LOCK',0);
 		define('LOCK_TYPE_NO_LOGIN',1);
 		define('LOCK_TYPE_NO_POSTING',2);
 
