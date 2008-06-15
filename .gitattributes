@@ -19,7 +19,6 @@ functions/FuncDate.class.php -text
 functions/FuncForums.class.php -text
 functions/FuncGroups.class.php -text
 functions/FuncMisc.class.php -text
-functions/FuncPolls.class.php -text
 functions/FuncRanks.class.php -text
 functions/FuncSmilies.class.php -text
 functions/FuncTopics.class.php -text

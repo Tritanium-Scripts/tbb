@@ -40,11 +40,7 @@ class EditTopic extends ModuleTemplate {
 			if($topicData['topicHasPoll'] == 1) {
 				$this->modules['Language']->addFile('Posting');
 
-                $this->modules['DB']->queryParams('SELECT * FROM '.TBLPFX.'polls WHERE "topicID"=$1', array($topicID));
-				$pollData = $this->modules['DB']->fetchArray();
-				$pollID = &$pollData['pollID'];
-
-                $this->modules['DB']->queryParams('SELECT * FROM '.TBLPFX.'polls_options WHERE "pollID"=$1 ORDER BY "optionID" ASC', array($pollID));
+                $this->modules['DB']->queryParams('SELECT * FROM '.TBLPFX.'polls_options WHERE "topicID"=$1 ORDER BY "optionID" ASC', array($topicID));
 				$optionsData = $this->modules['DB']->raw2Array();
 
 				$p['optionsData'] = array();
@@ -52,10 +48,10 @@ class EditTopic extends ModuleTemplate {
 				foreach($optionsData AS $curOption)
 					$p['optionsData'][$curOption['optionID']] = isset($_POST['p']['optionsData'][$curOption['optionID']]) ? $_POST['p']['optionsData'][$curOption['optionID']] : $curOption['optionTitle'];
 
-				$p['pollDuration'] = isset($_POST['p']['pollDuration']) ? intval($_POST['p']['pollDuration']) : (($pollData['pollEndTimestamp']-$pollData['pollStartTimestamp'])/86400);
+				$p['pollDuration'] = isset($_POST['p']['pollDuration']) ? intval($_POST['p']['pollDuration']) : (($topicData['topicPollEndTimestamp']-$topicData['topicPollStartTimestamp'])/86400);
 
-				$p += Functions::getSGValues($_POST['p'],array('pollTitle'),'',$pollData);
-				$c = Functions::getSGValues($pollData,array('pollGuestsVote','pollShowResultsAfterEnd','pollGuestsViewResults'),0);
+				$p += Functions::getSGValues($_POST['p'],array('topicPollTitle'),'',$topicDataData);
+				$c = Functions::getSGValues($topicData,array('topicPollGuestsVote','topicPollShowResultsAfterEnd','topicPollGuestsViewResults'),0);
 
 				$this->modules['Template']->assign('optionsData',$optionsData);
 			}
@@ -63,7 +59,7 @@ class EditTopic extends ModuleTemplate {
 			if(isset($_GET['doit'])) {
 				if($topicData['topicHasPoll'] == 1) {
 					$optionTitleMissing = FALSE;
-					foreach($p['optionsData'] AS $curOption) {
+					foreach($p['optionsData'] AS &$curOption) {
 						if(trim($curOption) == '') {
 							$optionTitleMissing = TRUE;
 							break;
@@ -109,26 +105,26 @@ class EditTopic extends ModuleTemplate {
 					if($topicData['topicHasPoll'] == 1) {
                         $this->modules['DB']->queryParams('
                             UPDATE
-                                '.TBLPFX.'polls
+                                '.TBLPFX.'topics
                             SET
-                                "pollTitle"=$1,
-                                "pollEndTimestamp"=$2,
-                                "pollGuestsVote"=$3,
-                                "pollGuestsViewResults"=$4,
-                                "pollShowResultsAfterEnd"=$5
+                                "topicPollTitle"=$1,
+                                "topicPollEndTimestamp"=$2,
+                                "topicPollGuestsVote"=$3,
+                                "topicPollGuestsViewResults"=$4,
+                                "topicPollShowResultsAfterEnd"=$5
                             WHERE
-                                "pollID"=$6
+                                "topicID"=$6
                         ', array(
-                            $p['pollTitle'],
-                            $pollData['pollStartTimestamp']+$p['pollDuration']*86400,
-                            $c['pollGuestsVote'],
-                            $c['pollGuestsViewResults'],
-                            $c['pollShowResultsAfterEnd'],
-                            $pollID
+                            $p['topicPollTitle'],
+                            $topicData['topicPollStartTimestamp']+$p['topicPollDuration']*86400,
+                            $c['topicPollGuestsVote'],
+                            $c['topicPollGuestsViewResults'],
+                            $c['topicPollShowResultsAfterEnd'],
+                            $topicID
                         ));
 
 						foreach($p['optionsData'] AS $curKey => $curValue)
-                            $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'polls_options SET "optionTitle"=$1 WHERE "pollID"=$2 AND "optionID"=$3', array($curValue, $pollID, $curKey));
+                            $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'polls_options SET "optionTitle"=$1 WHERE "topicID"=$2 AND "optionID"=$3', array($curValue, $topicID, $curKey));
 					}
 
 					Functions::myHeader(INDEXFILE."?action=ViewTopic&topicID=$topicID&".MYSID);
@@ -234,9 +230,6 @@ class EditTopic extends ModuleTemplate {
 						else {
                             $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'topics SET "forumID"=$1 WHERE "topicID"=$2', array($p['targetForumID'], $topicID));
                             $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'posts SET "forumID"=$1 WHERE "topicID"=$2', array($p['targetForumID'], $topicID));
-
-							if($topicData['topicHasPoll'] == 1)
-                                $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'polls SET "forumID"=$1 WHERE "topicID"=$2', array($p['targetForumID'], $topicID));
 
                             $this->modules['DB']->queryParams('SELECT COUNT(*) AS "topicPostsCounter" FROM '.TBLPFX.'posts WHERE "topicID"=$1', array($topicID));
 							list($topicPostsCounter) = $this->modules['DB']->fetchArray();

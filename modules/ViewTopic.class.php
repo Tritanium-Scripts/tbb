@@ -97,32 +97,28 @@ class ViewTopic extends ModuleTemplate {
 		 * Poll
 		 */
 		if($topicData['topicHasPoll'] == 1) {
-			// Get poll data
-            $this->modules['DB']->queryParams('SELECT * FROM '.TBLPFX.'polls WHERE "topicID"=$1', array($topicID));
-			$pollData = $this->modules['DB']->fetchArray();
-			$pollHasEnded = (time()-$pollData['pollEndTimestamp']) > 0;
+			$pollHasEnded = (time()-$topicData['topicPollEndTimestamp']) > 0;
 
 			// Check if user already voted
 			if($this->modules['Auth']->isLoggedIn() == 1) {
-                $this->modules['DB']->queryParams('SELECT "voterID" FROM '.TBLPFX.'polls_votes WHERE "pollID"=$1 AND "voterID"=$2', array($pollData['pollID'], USERID));
-				$userAlreadyVoted = $this->modules['DB']->getAffectedRows() != 0;
+                $this->modules['DB']->queryParams('SELECT "voterID" FROM '.TBLPFX.'polls_votes WHERE "topicID"=$1 AND "voterID"=$2', array($topicID, USERID));
+				$userAlreadyVoted = $this->modules['DB']->numRows() != 0;
 			}
 			else {
-				$userAlreadyVoted = isset($_SESSION['pollVotes']) && in_array($pollData['pollID'],explode(',',$_SESSION['pollVotes'])) || isset($_COOKIE['pollVotes']) && in_array($pollData['pollID'],explode(',',$_COOKIE['pollVotes']));
+				$userAlreadyVoted = isset($_SESSION['pollVotes']) && in_array($topicID,explode(',',$_SESSION['pollVotes'])) || isset($_COOKIE['pollVotes']) && in_array($topicID,explode(',',$_COOKIE['pollVotes']));
 			}
 
 			// Get poll options
-            $this->modules['DB']->queryParams('SELECT "optionID", "optionTitle", "optionVotesCounter" FROM '.TBLPFX.'polls_options WHERE "pollID"=$1 ORDER BY "optionID"', array($pollData['pollID']));
+            $this->modules['DB']->queryParams('SELECT "optionID", "optionTitle", "optionVotesCounter" FROM '.TBLPFX.'polls_options WHERE "topicID"=$1 ORDER BY "optionID"', array($topicID));
 			$pollOptionsData = $this->modules['DB']->raw2Array();
 
 			foreach($pollOptionsData AS &$curOption) {
-				$curFraction = ($pollData['pollVotesCounter'] == 0) ? 0 : round($curOption['optionVotesCounter']/$pollData['pollVotesCounter'],2);
+				$curFraction = ($topicData['topicPollVotesCounter'] == 0) ? 0 : round($curOption['optionVotesCounter']/$topicData['topicPollVotesCounter'],2);
 				$curOption['_optionPercent'] = $curFraction*100;
 				$curOption['_optionVotesCounterText'] = ($curOption['optionVotesCounter'] == 1) ? $this->modules['Language']->getString('one_vote') : sprintf($this->modules['Language']->getString('x_votes'),$curOption['optionVotesCounter']);
 			}
 
 			$this->modules['Template']->assign(array(
-				'pollData'=>$pollData,
 				'pollOptionsData'=>$pollOptionsData,
 				'userAlreadyVoted'=>$userAlreadyVoted,
 				'pollHasEnded'=>$pollHasEnded

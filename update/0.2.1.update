@@ -1,5 +1,3 @@
-<?php
-
 $this->DB->query('
 	ALTER TABLE '.TBLPFX.'posts
 		DROP KEY "forumID",
@@ -25,5 +23,71 @@ $this->DB->query('
 ');
 
 $this->DB->query('DROP TABLE '.TBLPFX.'users_locks');
+
+$this->DB->query('
+	ALTER TABLE '.TBLPFX.'topics
+		ADD "topicPollTitle" VARCHAR(255) DEFAULT \'\' NOT NULL,
+		ADD "topicPollVotesCounter" MEDIUMINT(8) UNSIGNED DEFAULT \'0\' NOT NULL,
+		ADD "topicPollStartTimestamp" INT(10) UNSIGNED DEFAULT \'0\' NOT NULL,
+		ADD "topicPollEndTimestamp" INT(10) UNSIGNED DEFAULT \'0\' NOT NULL,
+		ADD "topicPollGuestsVote" TINYINT(1) UNSIGNED DEFAULT \'0\' NOT NULL,
+		ADD "topicPollGuestsViewResults" TINYINT(1) UNSIGNED DEFAULT \'1\' NOT NULL,
+		ADD "topicPollShowResultsAfterEnd" TINYINT(1) UNSIGNED DEFAULT \'0\' NOT NULL
+');
+$this->DB->query('
+	UPDATE (
+		'.TBLPFX.'topics t1,
+		'.TBLPFX.'polls t2
+	) SET
+		t1."topicPollTitle"=t2."pollTitle",
+		t1."topicPollVotesCounter"=t2."pollVotesCounter",
+		t1."topicPollStartTimestamp"=t2."pollStartTimestamp",
+		t1."topicPollEndTimestamp"=t2."pollEndTimestamp",
+		t1."topicPollGuestsVote"=t2."pollGuestsVote",
+		t1."topicPollGuestsViewResults"=t2."pollGuestsViewResults",
+		t1."topicPollShowResultsAfterEnd"=t2."pollShowResultsAfterEnd"
+	WHERE
+		t1."topicID"=t2."topicID"
+');
+
+$this->DB->query('
+	ALTER TABLE '.TBLPFX.'polls_options
+		ADD "topicID" MEDIUMINT(8) UNSIGNED DEFAULT \'0\' NOT NULL		 
+');
+$this->DB->query('
+	ALTER TABLE '.TBLPFX.'polls_votes
+		ADD "topicID" MEDIUMINT(8) UNSIGNED DEFAULT \'0\' NOT NULL		 
+');
+$this->DB->query('
+	UPDATE (
+		'.TBLPFX.'polls t1,
+		'.TBLPFX.'polls_options t2
+	) SET
+		t2."topicID=t1."topicID"
+	WHERE
+		t1."pollID"=t2."pollID"
+');
+$this->DB->query('
+	UPDATE (
+		'.TBLPFX.'polls t1,
+		'.TBLPFX.'polls_votes t2
+	) SET
+		t2."topicID=t1."topicID"
+	WHERE
+		t1."pollID"=t2."pollID"
+');
+$this->DB->query('
+	ALTER TABLE '.TBLPFX.'polls_options
+		DROP PRIMARY KEY,
+		DROP "pollID",
+		ADD PRIMARY KEY ("topicID,"optionID")		 
+');
+$this->DB->query('
+	ALTER TABLE '.TBLPFX.'polls_votes
+		DROP PRIMARY KEY,
+		DROP "pollID",
+		ADD PRIMARY KEY ("topicID","voterID")		 
+');
+$this->DB->query('DROP TABLE '.TBLPFX.'polls');
 
 $nextUpdateFile = '';

@@ -19,7 +19,7 @@
  <tr><td class="CellCat" colspan="2"><span class="FontCat">{$modules.Language->getString('Poll')}</span></td></tr>
  <tr>
   <td class="CellStd" valign="top"><span class="FontNorm">{$modules.Language->getString('Poll_title')}:</span><br/><span class="FontSmall">{$modules.Language->getString('add_poll_info')}</span></td>
-  <td class="CellAlt" valign="top"><input class="FormText" type="text" name="p[pollTitle]" maxlength="255" size="60" value="{$p.pollTitle}"/></td>
+  <td class="CellAlt" valign="top"><input class="FormText" type="text" name="p[topicPollTitle]" maxlength="255" size="60" value="{$p.topicPollTitle}"/></td>
  </tr>
  <tr>
   <td class="CellStd" valign="top"><span class="FontNorm">{$modules.Language->getString('Poll_duration')}:</span></td>
@@ -28,9 +28,9 @@
  <tr>
   <td class="CellStd" valign="top"><span class="FontNorm">{$modules.Language->getString('Options')}:</span></td>
   <td class="CellAlt" valign="top"><span class="FontNorm">
-   <label><input class="FormCheckbox" type="checkbox" name="c[pollShowResultsAfterEnd]"{if $c.pollShowResultsAfterEnd == 1} checked="checked"{/if}/>&nbsp;{$modules.Language->getString('Show_results_after_end')}</label>
-   <br/><label><input class="FormCheckbox" type="checkbox" name="c[pollGuestsVote]"{if $c.pollGuestsVote == 1} checked="checked"{/if}/>&nbsp;{$modules.Language->getString('Guests_allowed_vote')}</label>
-   <br/><label><input class="FormCheckbox" type="checkbox" name="c[pollGuestsViewResults]"{if $c.pollGuestsViewResults == 1} checked="checked"{/if}/>&nbsp;{$modules.Language->getString('Guests_allowed_view_results')}</label>
+   <label><input class="FormCheckbox" type="checkbox" name="c[topicPollShowResultsAfterEnd]"{if $c.topicPollShowResultsAfterEnd == 1} checked="checked"{/if}/>&nbsp;{$modules.Language->getString('Show_results_after_end')}</label>
+   <br/><label><input class="FormCheckbox" type="checkbox" name="c[topicPollGuestsVote]"{if $c.topicPollGuestsVote == 1} checked="checked"{/if}/>&nbsp;{$modules.Language->getString('Guests_allowed_vote')}</label>
+   <br/><label><input class="FormCheckbox" type="checkbox" name="c[topicPollGuestsViewResults]"{if $c.topicPollGuestsViewResults == 1} checked="checked"{/if}/>&nbsp;{$modules.Language->getString('Guests_allowed_view_results')}</label>
   </span></td>
  </tr>
  <tr>

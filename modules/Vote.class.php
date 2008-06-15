@@ -7,12 +7,12 @@ class Vote extends ModuleTemplate {
 	);
 
 	public function executeMe() {
-		$pollID = isset($_GET['pollID']) ? intval($_GET['pollID']) : 0;
+		$topicID = isset($_GET['topicID']) ? intval($_GET['topicID']) : 0;
 		$p['optionID'] = isset($_POST['p']['optionID']) ? intval($_POST['p']['optionID']) : 0;
 		$returnPage = isset($_GET['returnPage']) ? $_GET['returnPage'] : 1;
 
-		if(!$pollData = FuncPolls::getPollData($pollID)) die('Cannot load data: poll');
-		if(!$topicData = FuncTopics::getTopicData($pollData['topicID'])) die('Cannot load data: topic');
+		if(!$topicData = FuncTopics::getTopicData($topicID)) die('Cannot load data: topic');
+		if($topicData['topicHasPoll'] != 1) die('Topic has no poll');
 		if(!$forumData = FuncForums::getForumData($topicData['forumID'])) die('Cannot load data: forum');
 
 		$forumID = &$topicData['forumID'];
@@ -24,26 +24,26 @@ class Vote extends ModuleTemplate {
 		$cPollVotes = (isset($_COOKIE['pollVotes']) && $_COOKIE['pollVotes'] != '') ? explode(',',$_COOKIE['pollVotes']) : array();
 
 		if($this->modules['Auth']->isLoggedIn() == 1) {
-            $this->modules['DB']->queryParams('SELECT "voterID" FROM '.TBLPFX.'polls_votes WHERE "pollID"=$1 AND "voterID"=$2', array($pollData['pollID'], USERID));
-			if($this->modules['DB']->getAffectedRows() == 0) {
-                $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'polls_options SET "optionVotesCounter"="optionVotesCounter"+1 WHERE "pollID"=$1 AND "optionID"=$2', array($pollID, $p['optionID']));
+            $this->modules['DB']->queryParams('SELECT "voterID" FROM '.TBLPFX.'polls_votes WHERE "topicID"=$1 AND "voterID"=$2', array($topicData['topicID'], USERID));
+			if($this->modules['DB']->numRows() == 0) {
+                $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'polls_options SET "optionVotesCounter"="optionVotesCounter"+1 WHERE "topicID"=$1 AND "optionID"=$2', array($topicID, $p['optionID']));
 				if($this->modules['DB']->getAffectedRows() == 1) {
-                    $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'polls SET "pollVotesCounter"="pollVotesCounter"+1 WHERE "pollID"=$1', array($pollID));
-                    $this->modules['DB']->queryParams('INSERT INTO '.TBLPFX.'polls_votes SET "pollID"=$1, "voterID"=$2', array($pollID, USERID));
-					$sPollVotes[] = $pollID;
-					$cPollVotes[] = $pollID;
+                    $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'topics SET "topicPollVotesCounter"="topicPollVotesCounter"+1 WHERE "topicID"=$1', array($topicID));
+                    $this->modules['DB']->queryParams('INSERT INTO '.TBLPFX.'polls_votes SET "topicID"=$1, "voterID"=$2', array($topicID, USERID));
+					$sPollVotes[] = $topicID;
+					$cPollVotes[] = $topicID;
 					$_SESSION['pollVotes'] = implode(',',$sPollVotes);
 					$_COOKIE['pollVotes'] = implode(',',$cPollVotes);
 				}
 			}
 
-		} elseif($pollData['pollGuestsVote'] == 1) {
-			if(!in_array($pollID,$sPollVotes) && !in_array($cPollVotes)) {
-                $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'polls_options SET "optionVotesCounter"="optionVotesCounter"+1 WHERE "pollID"=$1 AND "optionID"=$2', array($pollID, $p['optionID']));
+		} elseif($topicData['topicPollGuestsVote'] == 1) {
+			if(!in_array($topicID,$sPollVotes) && !in_array($cPollVotes)) {
+                $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'polls_options SET "optionVotesCounter"="optionVotesCounter"+1 WHERE "topicID"=$1 AND "optionID"=$2', array($topicID, $p['optionID']));
 				if($this->modules['DB']->getAffectedRows() == 1) {
-                    $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'polls SET "pollVotesCounter"="pollVotesCounter"+1 WHERE "pollID"=$1', array($pollID));
-					$sPollVotes[] = $pollID;
-					$cPollVotes[] = $pollID;
+                    $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'topics SET "topicPollVotesCounter"="topicPollVotesCounter"+1 WHERE "topicID"=$1', array($topicID));
+					$sPollVotes[] = $topicID;
+					$cPollVotes[] = $topicID;
 					$_SESSION['pollVotes'] = implode(',',$sPollVotes);
 					$_COOKIE['pollVotes'] = implode(',',$cPollVotes);
 				}

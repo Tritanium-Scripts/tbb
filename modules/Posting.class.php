@@ -224,28 +224,26 @@ class Posting extends ModuleTemplate {
 								// Eventuell die Umfrage zum Thema hinzufuegen
 								if(($this->modules['Auth']->getValue('userIsAdmin') == 1 || $this->modules['Auth']->getValue('userIsSupermod') == 1 || $authData['authIsMod'] == 1 || $authData['authPostPoll'] == 1) && trim($p['pollTitle']) != '' && $p['pollDuration'] > 0 && count($p['pollOptions']) > 1) {
 									$this->modules['DB']->queryParams('
-										INSERT INTO
-											'.TBLPFX.'polls
+										UPDATE
+											'.TBLPFX.'topics
 										SET
-											"topicID"=$1,
-											"posterID"=$2,
-											"pollTitle"=$3,
-											"pollGuestNick"=$4,
-											"pollStartTimestamp"=$5,
-											"pollEndTimestamp"=$6,
-											"pollGuestsVote"=$7,
-											"pollGuestsViewResults"=$8
+											"topicHasPoll"=$1,
+											"topicPollTitle"=$2,
+											"topicPollStartTimestamp"=$3,
+											"topicPollEndTimestamp"=$4,
+											"topicPollGuestsVote"=$5,
+											"topicPollGuestsViewResults"=$6
+										WHERE
+											"topicID"=$7
 									', array(
-										$topicID,
-										USERID,
+										1,
 										$p['pollTitle'],
-										$p['guestNick'],
 										time(),
 										time()+86400*$p['pollDuration'],
 										$c['pollGuestsVote'],
-										$c['pollGuestsViewResults']
+										$c['pollGuestsViewResults'],
+										$topicID
 									));
-									$pollID = $this->modules['DB']->getInsertID();
 
 									$i = 1;
 									foreach($p['pollOptions'] AS $curOption) {
@@ -253,17 +251,15 @@ class Posting extends ModuleTemplate {
 											INSERT INTO
 												'.TBLPFX.'polls_options
 											SET
-												"pollID"=$1,
+												"topicID"=$1,
 												"optionID"=$2,
 												"optionTitle"=$3
 										', array(
-											$pollID,
+											$topicID,
 											$i++,
 											$curOption
 										));
 									}
-
-									$this->modules['DB']->queryParams('UPDATE '.TBLPFX.'topics SET "topicHasPoll"=1 WHERE "topicID"=$1', array($topicID));
 								}
 							}
 

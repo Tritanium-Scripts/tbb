@@ -4,6 +4,7 @@ class TSMySQL {
 	protected $dbObject = NULL;
 	protected $curResult = NULL;
 	protected $connectError = '';
+	const DEBUG = TRUE;
 
 	public function __construct() {
 		$this->dbObject = new mysqli;
@@ -27,7 +28,11 @@ class TSMySQL {
 	}
 
 	public function query($query) {
-		if(!($this->curResult = $this->dbObject->query($query))) return FALSE;
+		if(!($this->curResult = $this->dbObject->query($query))) {
+			if(self::DEBUG)
+				die('Database error: <b>'.$this->dbObject->error.'</b><br/>Query: <b>'.$query.'</b>');
+			return FALSE;
+		}
 		return TRUE;
 	}
 
@@ -57,7 +62,11 @@ class TSMySQL {
 		$query = preg_replace_callback('/\$([0-9]+)/',array($this,'queryParamsCallback'),$query);
 
 		$startTime = Functions::getMicroTime();
-		if(!($this->curResult = $this->dbObject->query($query))) die('Database error: <b>'.$this->dbObject->error.'</b><br/>Query: <b>'.$query.'</b>');
+		if(!($this->curResult = $this->dbObject->query($query))) {
+			if(self::DEBUG)
+				die('Database error: <b>'.$this->dbObject->error.'</b><br/>Query: <b>'.$query.'</b>');
+			return FALSE;
+		}
 		$this->queryTime += Functions::getMicroTime()-$startTime;
 		$this->queriesCounter++;
 		return TRUE;

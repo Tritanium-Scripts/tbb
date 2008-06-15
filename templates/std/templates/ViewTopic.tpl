@@ -44,15 +44,15 @@
 </table>
 <br/>
 {if $topicData.topicHasPoll == 1}
-<form method="post" action="{$indexFile}?action=Vote&amp;pollID={$pollData.pollID}&amp;{$mySID}">
+<form method="post" action="{$indexFile}?action=Vote&amp;topicID={$topicID}&amp;{$mySID}">
 <table class="TableStd" width="100%">
- <tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('Poll')}: {$pollData.pollTitle}</td></tr>
-  {if $userAlreadyVoted || $modules.Auth->isloggedIn() != 1 && $pollData.pollGuestsVote != 1 || $pollHasEnded}
-   {if $modules.Auth->isloggedIn() != 1 && $pollData.pollGuestsVote != 1 && !$userAlreadyVoted && !$pollHasEnded}
+ <tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('Poll')}: {$topicData.topicPollTitle}</td></tr>
+  {if $userAlreadyVoted || $modules.Auth->isloggedIn() != 1 && $topicData.topicPollGuestsVote != 1 || $pollHasEnded}
+   {if $modules.Auth->isloggedIn() != 1 && $topicData.topicPollGuestsVote != 1 && !$userAlreadyVoted && !$pollHasEnded}
     <tr><td class="CellMessageBox"><span class="FontNorm">{$modules.Language->getString('Must_be_logged_in_vote')}</span></td></tr>
-   {elseif $modules.Auth->isloggedIn() != 1 && $pollData.pollGuestsViewResults == 0}
+   {elseif $modules.Auth->isloggedIn() != 1 && $topicData.topicPollGuestsViewResults == 0}
     <tr><td class="CellMessageBox"><span class="FontNorm">{$modules.Language->getString('Must_be_logged_in_view_results')}</span></td></tr>
-   {elseif $pollData.pollShowResultsAfterEnd && !$pollHasEnded}
+   {elseif $topicData.topicPollShowResultsAfterEnd && !$pollHasEnded}
     <tr><td class="CellMessageBox"><span class="FontNorm">{$modules.Language->getString('Results_after_end_of_poll')}</span></td></tr>
    {else}
     <tr><td class="CellStd">

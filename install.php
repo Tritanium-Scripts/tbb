@@ -1728,7 +1728,6 @@ class BoardInstall {
 						$this->DB->query('DELETE FROM '.TBLPFX.'posts');
 						$this->DB->query('DELETE FROM '.TBLPFX.'topics');
 						$this->DB->query('DELETE FROM '.TBLPFX.'topics_subscriptions');
-						$this->DB->query('DELETE FROM '.TBLPFX.'polls');
 						$this->DB->query('DELETE FROM '.TBLPFX.'polls_options');
 	
 						$this->tbb1ConversionProperties['lastPostID'] = 1;
@@ -1923,60 +1922,39 @@ class BoardInstall {
 									$curPollCount = count($curPollData);
 									$curPollInfo = $this->tbb1ConversionExplodeByTab($curPollData[0]);
 	
-									$curPollGuestNick = '';
-									$curPollPosterID = 0;
 									$curPollStartTimestamp = $this->tbb1ConversionConvertDate2Time($curPollInfo[2]);
 									$curPollEndTimestamp = $curPollStartTimestamp + 604800;
 	
-									if($curPollInfo[1] == 0 || !file_exists($this->pathToTBB1.'/members/'.$curPollInfo[1].'.xbb'))
-										$curPollGuestNick = $this->strings['Unknown_user'];
-									else
-										$curPollPosterID = $curPollInfo[1];
-	
 									$this->DB->queryParams('
-										INSERT INTO '.TBLPFX.'polls SET
-											"topicID"=$1,
-											"posterID"=$2,
-											"pollTitle"=$3,
-											"pollVotesCounter"=$4,
-											"pollGuestNick"=$5,
-											"pollStartTimestamp"=$6,
-											"pollEndTimestamp"=$7
-									',array(
-										$curTopicID,
-										$curPollPosterID,
-										$this->tbb1ConversionUnmutate(utf8_encode($curPollInfo[3])),
-										$curPollInfo[4],
-										$curPollGuestNick,
-										$curPollStartTimestamp,
-										$curPollEndTimestamp
-									));
-									$newPollID = $this->DB->getInsertID();
-									
-									$this->DB->queryParams('
-										UPDATE
-											'.TBLPFX.'topics
-										SET
-											"topicHasPoll"=$1
+										UPDATE '.TBLPFX.'topics SET
+											"topicHasPoll"=$1,
+											"topicPollTitle"=$2,
+											"topicPollVotesCounter"=$3,
+											"topicPollStartTimestamp"=$4,
+											"topicPollEndTimestamp"=$5
 										WHERE
-											"topicID"=$2
+											"topicID"=$6
 									',array(
 										1,
+										$this->tbb1ConversionUnmutate(utf8_encode($curPollInfo[3])),
+										$curPollInfo[4],
+										$curPollStartTimestamp,
+										$curPollEndTimestamp,
 										$curTopicID
 									));
-	
+									
 									for($k = 1; $k < $curPollCount; $k++) {
 										$curOptionData = $this->tbb1ConversionExplodeByTab($curPollData[$k]);
 										$curOptionID = $this->tbb1ConversionProperties['lastOptionID']++;
 										$this->DB->queryParams('
 											INSERT INTO '.TBLPFX.'polls_options SET
 												"optionID"=$1,
-												"pollID"=$2,
+												"topicID"=$2,
 												"optionTitle"=$3,
 												"optionVotesCounter"=$4
 										',array(
 											$curOptionID,
-											$newPollID,
+											$curTopicID,
 											$this->tbb1ConversionUnmutate(utf8_encode($curOptionData[1])),
 											$curOptionData[2]
 										));
@@ -1989,10 +1967,10 @@ class BoardInstall {
 											if(file_exists($this->pathToTBB1.'/members/'.$curPollVote.'.xbb')) {
 												$this->DB->queryParams('
 													INSERT INTO '.TBLPFX.'polls_votes SET
-														"pollID"=$1,
+														"topicID"=$1,
 														"voterID"=$2
 												',array(
-													$newPollID,
+													$curTopicID,
 													$curPollVote
 												));
 											}
