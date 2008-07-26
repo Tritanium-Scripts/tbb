@@ -164,6 +164,13 @@ class TSMySQL {
 		while(list($columnsData[]) = $this->fetchArray()) {}
 		return $columnsData;
 	}
+
+	public function getKeysFromTable($tableName) {
+		$keysData = array();
+		$this->query('SHOW INDEX FROM '.$tableName);
+		while($curResult = $this->fetchArray())
+			$keysData[] = $curResult['Key_name'];
+	}
 }
 
 ?>
