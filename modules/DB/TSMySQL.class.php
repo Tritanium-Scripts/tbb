@@ -170,6 +170,8 @@ class TSMySQL {
 		$this->query('SHOW INDEX FROM '.$tableName);
 		while($curResult = $this->fetchArray())
 			$keysData[] = $curResult['Key_name'];
+			
+		return $keysData;
 	}
 }
 

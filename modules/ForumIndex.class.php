@@ -439,7 +439,7 @@ class ForumIndex extends ModuleTemplate {
 	}
 	
 	protected function getLatestPostsData(&$forumIDsAccessible) {
-		if($this->modules['Config']->getValue('show_latest_posts_forumindex') != 1)
+		if($this->modules['Config']->getValue('show_latest_posts_forumindex') != 1 || count($forumIDsAccessible) == 0)
 			return NULL;
 		
 		// The following ugly query is just because you can forget mysql query optimization beyond "select bla from blub"
