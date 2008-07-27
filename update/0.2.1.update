@@ -1,7 +1,7 @@
 // test wether we have wrong key names
 $keysData = $this->DB->getKeysFromTable(TBLPFX.'forums');
 if(in_array('cat_id',$keysData)) {
-	$this->modules['DB']->query('
+	$this->DB->query('
 		ALTER TABLE '.TBLPFX.'forums
 			DROP KEY "cat_id",
 			DROP KEY "order_id",
@@ -9,13 +9,13 @@ if(in_array('cat_id',$keysData)) {
 			ADD KEY "orderID" ("orderID")
 	');
 	
-	$this->modules['DB']->query('
+	$this->DB->query('
 		ALTER TABLE '.TBLPFX.'forums_auth
 			DROP KEY "forum_id",
 			ADD PRIMARY KEY ("forumID","authType","authID")
 	');
 
-	$this->modules['DB']->query('
+	$this->DB->query('
 		ALTER TABLE '.TBLPFX.'groups_members
 			DROP KEY "member_id_group_id",
 			DROP KEY "group_id",
@@ -23,7 +23,7 @@ if(in_array('cat_id',$keysData)) {
 			ADD KEY "memberID" ("memberID")
 	');
 	
-	$this->modules['DB']->query('
+	$this->DB->query('
 		ALTER TABLE '.TBLPFX.'pms
 			DROP KEY "folder_id",
 			DROP KEY "pm_from_id",
@@ -33,25 +33,25 @@ if(in_array('cat_id',$keysData)) {
 			ADD KEY "pmToID" ("pmToID")
 	');
 
-	$this->modules['DB']->query('
+	$this->DB->query('
 		ALTER TABLE '.TBLPFX.'pms_folders
 			DROP KEY "folderIDUserID",
 			ADD PRIMARY KEY ("folderID","userID")
 	');
 
-	$this->modules['DB']->query('
+	$this->DB->query('
 		ALTER TABLE '.TBLPFX.'pms_folders
 			DROP KEY "folderIDUserID",
 			ADD PRIMARY KEY ("folderID","userID")
 	');
 
-	$this->modules['DB']->query('
+	$this->DB->query('
 		ALTER TABLE '.TBLPFX.'polls
 			DROP KEY "poster_id",
 			ADD KEY "posterID" ("posterID")
 	');
 
-	$this->modules['DB']->query('
+	$this->DB->query('
 		ALTER TABLE '.TBLPFX.'polls_options
 			DROP KEY "poll_id_option_id",
 			DROP KEY "option_id",
@@ -59,7 +59,7 @@ if(in_array('cat_id',$keysData)) {
 			ADD PRIMARY KEY ("pollID","optionID")
 	');
 
-	$this->modules['DB']->query('
+	$this->DB->query('
 		ALTER TABLE '.TBLPFX.'polls_votes
 			DROP KEY "voter_id_poll_id",
 			DROP KEY "poll_id",
@@ -67,7 +67,7 @@ if(in_array('cat_id',$keysData)) {
 			ADD KEY "voterID" ("voterID")
 	');
 
-	$this->modules['DB']->query('
+	$this->DB->query('
 		ALTER TABLE '.TBLPFX.'polls_votes
 			DROP KEY "topic_id",
 			DROP KEY "forum_id",
@@ -77,7 +77,7 @@ if(in_array('cat_id',$keysData)) {
 			ADD KEY "posterID" ("posterID")
 	');
 
-	$this->modules['DB']->query('
+	$this->DB->query('
 		ALTER TABLE '.TBLPFX.'profile_fields_data
 			DROP KEY "user_id_field_id",
 			DROP KEY "field_id",
@@ -85,25 +85,25 @@ if(in_array('cat_id',$keysData)) {
 			ADD KEY "userID" ("userID")
 	');
 
-	$this->modules['DB']->query('
+	$this->DB->query('
 		ALTER TABLE '.TBLPFX.'profile_notes
 			DROP KEY "user_id_profile_id",
 			ADD KEY "userIDProfileID" ("userID","profileID")
 	');
 
-	$this->modules['DB']->query('
+	$this->DB->query('
 		ALTER TABLE '.TBLPFX.'ranks
 			DROP KEY "rank_type",
 			ADD KEY "rankType" ("rankType")
 	');
 	
-	$this->modules['DB']->query('
+	$this->DB->query('
 		ALTER TABLE '.TBLPFX.'sessions
 			DROP KEY "session_last_update",
 			ADD KEY "sessionLastUpdate" ("sessionLastUpdate")
 	');
 
-	$this->modules['DB']->query('
+	$this->DB->query('
 		ALTER TABLE '.TBLPFX.'topics
 			DROP KEY "topic_id_topic_id",
 			DROP KEY "poster_id",
@@ -113,7 +113,7 @@ if(in_array('cat_id',$keysData)) {
 			ADD KEY "topicMovedID" ("topicMovedID")
 	');
 
-	$this->modules['DB']->query('
+	$this->DB->query('
 		ALTER TABLE '.TBLPFX.'topics_subscriptions
 			DROP KEY "user_id_topic_id",
 			DROP KEY "topic_id",
@@ -121,7 +121,7 @@ if(in_array('cat_id',$keysData)) {
 			ADD KEY "userID" ("userID")
 	');
 
-	$this->modules['DB']->query('
+	$this->DB->query('
 		ALTER TABLE '.TBLPFX.'users_locks
 			DROP KEY "lock_type_user_id",
 			ADD KEY "lockTypeUserID" ("lockType","userID")
