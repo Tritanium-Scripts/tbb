@@ -2,7 +2,7 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ANSI'*/;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0*/;
 
-CREATE TABLE /*!32312 IF N OT EXISTS*/ "/*TABLEPREFIX*/avatars" (
+CREATE TABLE /*!32312 IF NOT EXISTS*/ "/*TABLEPREFIX*/avatars" (
   "avatarID" smallint(5) unsigned NOT NULL auto_increment,
   "avatarAddress" varchar(255) NOT NULL default '',
   PRIMARY KEY  ("avatarID")
