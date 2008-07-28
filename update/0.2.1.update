@@ -205,7 +205,7 @@ $this->DB->query('
 	ALTER TABLE '.TBLPFX.'polls_options
 		DROP PRIMARY KEY,
 		DROP "pollID",
-		ADD PRIMARY KEY ("topicID,"optionID")		 
+		ADD PRIMARY KEY ("topicID","optionID")		 
 ');
 $this->DB->query('
 	ALTER TABLE '.TBLPFX.'polls_votes
