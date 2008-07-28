@@ -157,7 +157,8 @@ $this->DB->query('
 		ADD "topicPollEndTimestamp" INT(10) UNSIGNED DEFAULT \'0\' NOT NULL,
 		ADD "topicPollGuestsVote" TINYINT(1) UNSIGNED DEFAULT \'0\' NOT NULL,
 		ADD "topicPollGuestsViewResults" TINYINT(1) UNSIGNED DEFAULT \'1\' NOT NULL,
-		ADD "topicPollShowResultsAfterEnd" TINYINT(1) UNSIGNED DEFAULT \'0\' NOT NULL
+		ADD "topicPollShowResultsAfterEnd" TINYINT(1) UNSIGNED DEFAULT \'0\' NOT NULL,
+		ADD KEY "topicLastPostID" ("topicLastPostID")
 ');
 $this->DB->query('
 	UPDATE (
@@ -214,5 +215,10 @@ $this->DB->query('
 		ADD PRIMARY KEY ("topicID","voterID")		 
 ');
 $this->DB->query('DROP TABLE '.TBLPFX.'polls');
+$this->DB->query('
+	ALTER TABLE '.TBLPFX.'posts
+		ADD KEY "postTimestamp" ("postTimestamp")		 
+');
+
 
 $nextUpdateFile = '';
