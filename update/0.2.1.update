@@ -188,7 +188,7 @@ $this->DB->query('
 		'.TBLPFX.'polls t1,
 		'.TBLPFX.'polls_options t2
 	) SET
-		t2."topicID=t1."topicID"
+		t2."topicID"=t1."topicID"
 	WHERE
 		t1."pollID"=t2."pollID"
 ');
@@ -197,7 +197,7 @@ $this->DB->query('
 		'.TBLPFX.'polls t1,
 		'.TBLPFX.'polls_votes t2
 	) SET
-		t2."topicID=t1."topicID"
+		t2."topicID"=t1."topicID"
 	WHERE
 		t1."pollID"=t2."pollID"
 ');
