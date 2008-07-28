@@ -40,12 +40,6 @@ if(in_array('cat_id',$keysData)) {
 	');
 
 	$this->DB->query('
-		ALTER TABLE '.TBLPFX.'pms_folders
-			DROP KEY "folderIDUserID",
-			ADD PRIMARY KEY ("folderID","userID")
-	');
-
-	$this->DB->query('
 		ALTER TABLE '.TBLPFX.'polls
 			DROP KEY "poster_id",
 			ADD KEY "posterID" ("posterID")
