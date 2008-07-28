@@ -99,7 +99,7 @@ if(in_array('cat_id',$keysData)) {
 
 	$this->DB->query('
 		ALTER TABLE '.TBLPFX.'topics
-			DROP KEY "topic_id_topic_id",
+			DROP KEY "forum_id_topic_id",
 			DROP KEY "poster_id",
 			DROP KEY "topic_moved_id",
 			ADD KEY "forumIDTopicID" ("forumID","topicID"),
