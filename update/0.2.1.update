@@ -62,7 +62,7 @@ if(in_array('cat_id',$keysData)) {
 	');
 
 	$this->DB->query('
-		ALTER TABLE '.TBLPFX.'polls_votes
+		ALTER TABLE '.TBLPFX.'posts
 			DROP KEY "topic_id",
 			DROP KEY "forum_id",
 			DROP KEY "poster_id",
