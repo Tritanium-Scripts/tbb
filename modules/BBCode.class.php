@@ -10,14 +10,14 @@ class BBCode extends ModuleTemplate {
 	public function format($text, $enableHTMLCode=FALSE, $enableSmilies=TRUE, $enableBBCode=TRUE) {
 		if(!$enableHTMLCode) $text = Functions::HTMLSpecialChars($text);
 		if($enableBBCode && (stristr($text, '[code]') || stristr($text, '[php]'))) {
-			# Um zu verhindern, dass &quot;) in den Zwinker-Smilie umgewandelt wird, ist etwas mehr Aufwand noetig. Zunaechst werden erstmal alle [php] und [code] Tags gesucht...
+			// Um zu verhindern, dass &quot;) in den Zwinker-Smilie umgewandelt wird, ist etwas mehr Aufwand noetig. Zunaechst werden erstmal alle [php] und [code] Tags gesucht...
 			preg_match_all("/\[(code|php)\].*?\[\/\\1\]/si", $text, $codephp);
-			# ...und das Ergebnis in $codephp gespeichert. Hier wird nur der erste Eintrag benoetigt...
+			// ...und das Ergebnis in $codephp gespeichert. Hier wird nur der erste Eintrag benoetigt...
 			$codephp = array_shift($codephp);
-			# ...welcher dann abgearbeitet wird. Alle Code Tags werden so durch einen Platzhalter [codephp]x[/codephp] ersetzt.
+			// ...welcher dann abgearbeitet wird. Alle Code Tags werden so durch einen Platzhalter [codephp]x[/codephp] ersetzt.
 			foreach($codephp as $key => $value)
 				$text = preg_replace('/' . preg_quote($value, '/#') . '/', '[codephp]' . $key . '[/codephp]', $text);
-			# Danach koennen erstmal Smilies etc. geparst werden.
+			// Danach koennen erstmal Smilies etc. geparst werden.
 		}
 		if($enableSmilies) $text = strtr($text, $this->modules['Cache']->getSmiliesData('write'));
 		$text = nl2br($text);
@@ -32,6 +32,7 @@ class BBCode extends ModuleTemplate {
 
 	protected function parse($text) {
 		$text = preg_replace_callback("/\[code\](.*?)\[\/code\]/si",array($this,'cbCode'),$text); // [code]xxx[/code]
+		$text = preg_replace_callback("/\[code:(.*?)\](.*?)\[\/code\]/si",array($this,'cbCode'),$text); // [code:integer]xxx[/code]
 		$text = preg_replace_callback("/\[php\](.*?)\[\/php\]/si", array($this, 'cbPHP'), $text); //[php]xxx[/php]
 		$text = preg_replace_callback("/\[list\](.*?)\[\/list\]/si", array($this, 'cbList'), $text); //[list][*]xxx[/list]
 		$text = preg_replace_callback("/\[b\](.*?)\[\/b\]/si",array($this,'cbBold'),$text); // [b]xxx[/b]
@@ -81,22 +82,18 @@ class BBCode extends ModuleTemplate {
 	}
 
 	protected function cbCode($elements) {
-		$codeText = $elements[1]; #Functions::HTMLSpecialChars($elements[1]);
-
-		$linesCounter = substr_count($codeText,"\n")+1; // Anzahl der Zeilen
-		$lines = '';
-
-		for($i = 1; $i <= $linesCounter; $i++)
-			$lines .= $i."\n";
-
-		$height = 150;
-		if($linesCounter > 12) $height += $linesCounter*3;
+		if(isset($elements[2])) {
+			$codeLines = str_replace('<br />','',explode("\n",$elements[2])); //Functions::HTMLSpecialChars($elements[1]);
+			$startLine = $elements[1]-1;
+		} else {
+			$codeLines = str_replace('<br />','',explode("\n",$elements[1])); //Functions::HTMLSpecialChars($elements[1]);
+			$startLine = 0;
+		}
 
 		$this->modules['Template']->assign('b',array(
 			'bbCodeType'=>BBCODE_CODE,
-			'codeText'=>$codeText,
-			'lines'=>$lines,
-			'height'=>$height
+			'codeLines'=>$codeLines,
+			'startLine'=>$startLine
 		));
 		return $this->modules['Template']->fetch('BBCodeHtml.tpl');
 	}

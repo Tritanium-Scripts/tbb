@@ -8,12 +8,22 @@
 	 	</div>
  	</div>
 {elseif $b.bbCodeType == $smarty.const.BBCODE_CODE}
- <div style="overflow:auto; width:800px; height:{$b.height}px;">
- 	<table style="background-color:#000000; height:100%;" border="0" cellpadding="2" cellspacing="1" width="100%">
- 		<tr><td class="CellCat" colspan="2"><span class="FontCat">{$modules.Language->getString('Code')}</span></td></tr>
- 		<tr><td style="background-color:#FFFFFF;" valign="top"><pre><span style="font-size:12px;">{$b.lines}</span></pre></td><td style="background-color:#FFFFFF;" valign="top"><pre><span style="font-size:12px;">{$b.codeText}</span></pre></td></tr>
- 	</table>
- </div>
+	<table class="TableStd" width="100%">
+		<tr><td class="CellCat" colspan="2"><span class="FontCat">{$modules.Language->getString('Code')}</span></td></tr>
+		<td class="CellBlank">
+			<div style="overflow:auto; width:100%; max-height:500px; padding:2px;">
+				<table style="height:100%;">
+					{counter start=$b.startLine print=false}
+					{foreach from=$b.codeLines item=curCodeLine}
+						<tr onmouseover="setRowBackground(this,'lightblue');" onmouseout="restoreRowBackground(this);">
+							<td style="background-color:#FFFFFF; border-right:1px black dotted;"><pre style="padding:1px; margin:0px;"><span style="font-size:12px;">{counter}</span></pre></td>
+							<td style="background-color:#FFFFFF;" valign="top"><pre style="padding:1px; margin:0px;"><span style="font-size:12px;">{$curCodeLine}</span></pre></td>
+						</tr>
+					{/foreach}
+				</table>
+			</div>
+		</td>
+	</table>
 {elseif $b.bbCodeType == $smarty.const.BBCODE_LIST}
  <ul>
  {foreach from=$b.listElements item=curElem}

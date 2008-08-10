@@ -69,6 +69,21 @@ function EntitiesToUnicode(Text) {
 	return Text;
 }
 
+
+function setRowBackground(row,newColor) {
+	for(var i = 0; i < row.cells.length; i++) {
+		row.cells[i].setAttribute("tbbOldBackground",row.cells[i].style.backgroundColor);
+		row.cells[i].style.backgroundColor = newColor;
+	}
+}
+
+function restoreRowBackground(row,newClass) {
+	for(var i = 0; i < row.cells.length; i++) {
+		row.cells[i].style.backgroundColor = row.cells[i].getAttribute("tbbOldBackground");
+		row.cells[i].removeAttribute("tbbOldBackground");
+	}
+}
+
 function setRowCellsClass(row,newClass) {
 	for(var i = 0; i < row.cells.length; i++) {
 		row.cells[i].setAttribute("tbbOldClassName",row.cells[i].className);
