@@ -35,7 +35,7 @@ class Login extends ModuleTemplate {
 					if(trim($userNick) == '' || ($userData = FuncUsers::getUserData($userNick)) == FALSE) $error = $this->modules['Language']->getString('error_unknown_user');
 					elseif($userData['userIsActivated'] != 1) {
 						//$error = sprintf($this->modules['Language']->getString('error_inactive_account'),$userData['userNick']);
-						Functions::myHeader(INDEXFILE.'?action=Login&mode=ActivateAccount&accountID='.$userData['userNick'].'&'.MYSID);
+						Functions::myHeader(INDEXFILE.'?action=Login&mode=ActivateAccount&accountID='.$userData['userNick'].'&showMessage=1&'.MYSID);
 					}
 					elseif(Functions::getSaltedHash($p['userPassword'],$userData['userPasswordSalt']) != $userData['userPassword'] && ($userData['userNewPassword'] == '' || Functions::getSaltedHash($p['userPassword'],$userData['userNewPasswordSalt']) != $userData['userNewPassword'])) $error = $this->modules['Language']->getString('error_wrong_password');
 					elseif($userData['userIsLocked'] == LOCK_TYPE_NO_LOGIN && FuncUsers::checkLockStatus($userData)) { // Falls der Benutzer sich nicht mehr einloggen darf

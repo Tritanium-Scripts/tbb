@@ -7,10 +7,10 @@ Activation_code = Aktivierungscode
 Account_activated = Account aktiviert
 Request_new_password = Neues Passwort anfordern
 New_password_sent = Neues Passwort verschickt
+info_inactive_account = Der Account, unter dem Sie versucht haben sich einzuloggen, ist leider noch inaktiv. Sie sollten wenige Minuten nach der Registrierung eine Email erhalten haben, in der Sie einen Aktivierungscode finden, den Sie unten eingeben müssen. Sollten Sie die Email nicht erhalten haben, haben Sie unten die Möglichkeit, diese erneut anzufordern. 
 error_wrong_email_address = Falsche Emailadresse
 error_wrong_activation_code = Falscher Aktivierungscode!
 error_locked_account = Diese Account wurde gesperrt. Die verbleibende Sperrzeit betr&auml;gt: %s
 error_unknown_user = Unbekannter User!
 error_wrong_password = Falsches Passwort!
-error_inactive_account = Dieser Account ist inaktiv! (<a href=index.php?action=Login&mode=ActivateAccount&accountID=%s&amp;.$MYSID.>Account nicht aktiviert?</a>)
 error_already_activated = Dieser Account wurde bereits aktiviert!
