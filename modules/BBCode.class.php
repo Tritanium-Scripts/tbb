@@ -22,10 +22,10 @@ class BBCode extends ModuleTemplate {
 		if($enableSmilies) $text = strtr($text, $this->modules['Cache']->getSmiliesData('write'));
 		$text = nl2br($text);
 		if(isset($codephp))
-			# Wurde Code zwischengespeichert, so muss dieser nach allen anderen Parsevorgaengen wieder eingesetzt werden, anhand der Platzhalter.
+			// Wurde Code zwischengespeichert, so muss dieser nach allen anderen Parsevorgaengen wieder eingesetzt werden, anhand der Platzhalter.
 			foreach($codephp as $key => $value)
 				$text = preg_replace("/\[codephp\]$key\[\/codephp\]/si", $value, $text);
-			# Jetzt kann der Code ansich geparst werden, ohne verfaelscht zu werden. :)
+			// Jetzt kann der Code ansich geparst werden, ohne verfaelscht zu werden. :)
 		if($enableBBCode) $text = $this->parse($text);
 		return $text;
 	}
@@ -83,10 +83,10 @@ class BBCode extends ModuleTemplate {
 
 	protected function cbCode($elements) {
 		if(isset($elements[2])) {
-			$codeLines = str_replace('<br />','',explode("\n",$elements[2])); //Functions::HTMLSpecialChars($elements[1]);
+			$codeLines = Functions::str_replace('<br />','',explode("\n",$elements[2])); //Functions::HTMLSpecialChars($elements[1]);
 			$startLine = $elements[1]-1;
 		} else {
-			$codeLines = str_replace('<br />','',explode("\n",$elements[1])); //Functions::HTMLSpecialChars($elements[1]);
+			$codeLines = Functions::str_replace('<br />','',explode("\n",$elements[1])); //Functions::HTMLSpecialChars($elements[1]);
 			$startLine = 0;
 		}
 
@@ -99,23 +99,18 @@ class BBCode extends ModuleTemplate {
 	}
 
 	protected function cbPHP($elements) {
-		#$codeText = Functions::str_replace(array('<code>', '</code>'), '', highlight_string($elements[1], true)); //Highlight PHP Syntax + Nacharbeit
-		$codeText = Functions::str_replace(array('<code>', '</code>'), '', highlight_string(htmlspecialchars_decode($elements[1]), true)); //Highlight PHP Syntax + Nacharbeit
-		$codeText[strpos($codeText, "\n")] = ''; //Ersten von highlight_string() erzeugten Zeilenumbruch entfernen, da sonst eine Leerzeile am Anfang erscheint
-
-		$linesCounter = substr_count($codeText,'<br />')+1; // Anzahl der Zeilen
-		$lines = '';
-		for($i = 1; $i <= $linesCounter; $i++)
-			$lines .= $i."\n";
-
-		$height = 150;
-		if($linesCounter > 12) $height += $linesCounter*3;
+		$codeLines = Functions::str_replace(array('<code>', '</code>'), '', Functions::br2nl(highlight_string(htmlspecialchars_decode($elements[1]), true))); //Highlight PHP Syntax + Nacharbeit
+		//Ersten und letzten von highlight_string() erzeugten Zeilenumbruch entfernen, da sonst Leerzeilen erscheinen
+		$codeLines[strpos($codeLines, "\n")] = '';
+		$codeLines[strrpos($codeLines, "\n")] = '';
+		//Keine <br />s ersetzen, da dies bereits mit br2nl() erledigt wurde
+		$codeLines = explode("\n", $codeLines); //TODO: Erzeugte <span>s funktionieren nicht über Tabellenreihen hinaus! Zur Not kann man BBCODE_CODE dafür nicht nutzen...
+		$startLine = 0;
 
 		$this->modules['Template']->assign('b',array(
 			'bbCodeType'=>BBCODE_CODE,
-			'codeText'=>$codeText,
-			'lines'=>$lines,
-			'height'=>$height
+			'codeLines'=>$codeLines,
+			'startLine'=>$startLine
 		));
 		return $this->modules['Template']->fetch('BBCodeHtml.tpl');
 	}
