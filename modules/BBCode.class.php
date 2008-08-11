@@ -32,8 +32,9 @@ class BBCode extends ModuleTemplate {
 
 	protected function parse($text) {
 		$text = preg_replace_callback("/\[code\](.*?)\[\/code\]/si",array($this,'cbCode'),$text); // [code]xxx[/code]
-		$text = preg_replace_callback("/\[code:(.*?)\](.*?)\[\/code\]/si",array($this,'cbCode'),$text); // [code:integer]xxx[/code]
+		$text = preg_replace_callback("/\[code=(\d*?)\](.*?)\[\/code\]/si",array($this,'cbCode'),$text); // [code=integer]xxx[/code]
 		$text = preg_replace_callback("/\[php\](.*?)\[\/php\]/si", array($this, 'cbPHP'), $text); //[php]xxx[/php]
+		$text = preg_replace_callback("/\[php=(\d*?)\](.*?)\[\/php\]/si", array($this, 'cbPHP'), $text); //[php=integer]xxx[/php]
 		$text = preg_replace_callback("/\[list\](.*?)\[\/list\]/si", array($this, 'cbList'), $text); //[list][*]xxx[/list]
 		$text = preg_replace_callback("/\[b\](.*?)\[\/b\]/si",array($this,'cbBold'),$text); // [b]xxx[/b]
 		$text = preg_replace_callback("/\[i\](.*?)\[\/i\]/si",array($this,'cbItalic'),$text); // [i]xxx[/i]
@@ -99,13 +100,16 @@ class BBCode extends ModuleTemplate {
 	}
 
 	protected function cbPHP($elements) {
-		$codeLines = Functions::str_replace(array('<code>', '</code>'), '', Functions::br2nl(highlight_string(htmlspecialchars_decode($elements[1]), true))); //Highlight PHP Syntax + Nacharbeit
-		//Ersten und letzten von highlight_string() erzeugten Zeilenumbruch entfernen, da sonst Leerzeilen erscheinen
-		$codeLines[strpos($codeLines, "\n")] = '';
-		$codeLines[strrpos($codeLines, "\n")] = '';
-		//Keine <br />s ersetzen, da dies bereits mit br2nl() erledigt wurde
-		$codeLines = explode("\n", $codeLines); //TODO: Erzeugte <span>s funktionieren nicht über Tabellenreihen hinaus! Zur Not kann man BBCODE_CODE dafür nicht nutzen...
-		$startLine = 0;
+		if(isset($elements[2])) {
+			$codeLines = Functions::str_replace('<br />', '', explode("\n", htmlspecialchars_decode($elements[2])));
+			$startLine = $elements[1]-1;
+		} else {
+			$codeLines = Functions::str_replace('<br />', '', explode("\n", htmlspecialchars_decode($elements[1])));
+			$startLine = 0;
+		}
+		//Highlight PHP Syntax + Nacharbeit
+		foreach($codeLines as &$codeLine)
+			$codeLine = Functions::str_replace(array('<code>', '</code>', "\n", "\r"), '', (preg_match("/<\?[php]?/si", $codeLine)) ? highlight_string($codeLine, true) : preg_replace("/&lt;\?php/si", '', highlight_string('<?php' . $codeLine, true)));
 
 		$this->modules['Template']->assign('b',array(
 			'bbCodeType'=>BBCODE_CODE,
