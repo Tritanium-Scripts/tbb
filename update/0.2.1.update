@@ -221,4 +221,19 @@ $this->DB->query('
 ');
 
 
+$this->DB->query('
+	ALTER TABLE '.TBLPFX.'profile_fields
+		ADD "fieldVarName" VARCHAR(255) DEFAULT \'\' NOT NULL,
+		ADD "fieldIsLocked" TINYINT(1) UNSIGNED DEFAULT \'0\' NOT NULL
+');
+
+$this->DB->query('SELECT "fieldID" FROM '.TBLPFX.'profile_fields');
+$profileFieldIDs = $this->DB->raw2FVArray();
+foreach($profileFieldIDs AS &$curProfileFieldID)
+	$this->DB->queryParams('UPDATE '.TBLPFX.'profile_fields SET "fieldVarName"=$1 WHERE "fieldID"=$2',array('a'.Functions::getRandomString(5,TRUE),$curProfileFieldID));
+
+$this->DB->query('
+	ALTER TABLE '.TBLPFX.'profile_fields
+		ADD UNIQUE "fieldVarName" ("fieldVarName")
+');
 $nextUpdateFile = '';

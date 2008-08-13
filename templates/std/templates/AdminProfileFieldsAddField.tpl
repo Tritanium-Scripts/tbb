@@ -5,9 +5,14 @@
  <col width="80%"/>
 </colgroup>
 <tr><td class="CellTitle" colspan="2"><span class="FontTitle">{$modules.Language->getString('Add_profile_field')}</span></td></tr>
+{include file=_ErrorRow.tpl colSpan=2}
 <tr>
  <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Field_name')}:</span></td>
  <td class="CellAlt"><input class="FormText" type="text" size="40" name="p[fieldName]" value="{$p.fieldName}"/></td>
+</tr>
+<tr>
+ <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Field_variable_name')}:</span><br/><span class="FontSmall">{$modules.Language->getString('field_variable_name_info')}</span></td>
+ <td class="CellAlt"><input class="FormText" type="text" size="40" name="p[fieldVarName]" value="{$p.fieldVarName}"/></td>
 </tr>
 <tr>
  <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Field_type')}:</span></td>

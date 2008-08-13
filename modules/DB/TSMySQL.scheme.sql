@@ -163,7 +163,10 @@ CREATE TABLE /*!32312 IF NOT EXISTS*/ "/*TABLEPREFIX*/profile_fields" (
   "fieldLink" varchar(255) NOT NULL default '',
   "fieldData" mediumtext NOT NULL,
   "fieldRegexVerification" varchar(255) NOT NULL default '',
-  PRIMARY KEY  ("fieldID")
+  "fieldVarName" varchar(255) NOT NULL default '',
+  "fieldIsLocked" tinyint(1) unsigned NOT NULL default '0',
+  PRIMARY KEY  ("fieldID"),
+  UNIQUE "fieldVarName" ("fieldVarName")
 ) /*!40100 DEFAULT CHARSET=utf8*/;
 
 CREATE TABLE /*!32312 IF NOT EXISTS*/ "/*TABLEPREFIX*/profile_fields_data" (
