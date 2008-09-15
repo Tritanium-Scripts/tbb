@@ -1513,13 +1513,15 @@ class BoardInstall {
 								"fieldType"=$2,
 								"fieldRegexVerification"=$3,
 								"fieldData"=$4,
-                                "fieldLink"=$5
+                                "fieldLink"=$5,
+                                "fieldVarName"=$6
 						',array(
 							$this->strings['ICQ'],
 							0,
 							'/^[0-9]{1,}\$/si',
 							serialize(array()),
-                            '%1$s <img src="http://status.icq.com/online.gif?icq=%1$s&img=2" alt="ICQ"/>'
+                            '%1$s <img src="http://status.icq.com/online.gif?icq=%1$s&img=2" alt="ICQ"/>',
+                            'icq'
 						));
 						$this->tbb1ConversionProperties['dbIcqID'] = $this->DB->getInsertID();
 	
@@ -1528,12 +1530,14 @@ class BoardInstall {
 								"fieldName"=$1,
 								"fieldType"=$2,
 								"fieldData"=$3,
-                                "fieldLink"=$4
+                                "fieldLink"=$4,
+                                "fieldVarName"=$5
 						',array(
 							$this->strings['Homepage'],
 							0,
 							serialize(array()),
-                            '<a href="%1$s" target="_blank">%1$s</a>'
+                            '<a href="%1$s" target="_blank">%1$s</a>',
+                            'homepage'
 						));
 						$this->tbb1ConversionProperties['dbHomepageID'] = $this->DB->getInsertID();
 	
@@ -1542,12 +1546,14 @@ class BoardInstall {
 								"fieldName"=$1,
 								"fieldType"=$2,
 								"fieldData"=$3,
-                                "fieldLink"=$4
+                                "fieldLink"=$4,
+                                "fieldVarName"=$5
 						',array(
 							$this->strings['Real_name'],
 							0,
 							serialize(array()),
-                            '%1$s'
+                            '%1$s',
+                            'realName'
 						));
 						$this->tbb1ConversionProperties['dbRealNameID'] = $this->DB->getInsertID();
 						
@@ -2010,12 +2016,14 @@ class BoardInstall {
 										"fieldName"=$1,
 										"fieldType"=$2,
 										"fieldData"=$3,
-                                		"fieldLink"=$4
+                                		"fieldLink"=$4,
+                                		"fieldVarName"=$5
 								',array(
 									$this->strings['Unknown'] . ($i-3),
 									0,
 									serialize(array()),
-                            		'%1$s'
+                            		'%1$s',
+                            		'unknown' . ($i-3)
 								));
 
 						$this->DB->query('
