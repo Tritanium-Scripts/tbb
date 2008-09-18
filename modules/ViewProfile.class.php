@@ -74,11 +74,10 @@ class ViewProfile extends ModuleTemplate {
 
 				
                 // custom profile fields
-                $fieldsData = $fieldsValues = array();
+                $fieldsData = array();
 				$this->modules['DB']->queryParams('SELECT t1.*, t2."fieldValue" FROM '.TBLPFX.'profile_fields t1 LEFT JOIN '.TBLPFX.'profile_fields_data t2 ON t1."fieldID"=t2."fieldID" AND t2."userID"=$1',array($profileID));
 				while($curResult = $this->modules['DB']->fetchArray()) {
-					$fieldsData[] = $curResult;
-					$fieldsValues[$curResult['fieldVarName']] = $curResult['fieldValue'];
+					$fieldsData[$curResult['fieldVarName']] = $curResult;
 				}
 				
 				$profileData['_SearchPostsText'] = sprintf($this->modules['Language']->getString('Search_all_posts_by_x'), $profileData['userNick']);
@@ -135,7 +134,6 @@ class ViewProfile extends ModuleTemplate {
 
 				$this->modules['Template']->assign(array(
 					'fieldsData'=>$fieldsData,
-					'fieldsValues'=>$fieldsValues,
 					'profileData'=>$profileData,
 					'show'=>$show
 				));
