@@ -10,6 +10,7 @@
  <meta http-equiv="content-style-type" content="text/css"/>
  <meta http-equiv="content-script-type" content="text/javascript"/>
  <link rel="stylesheet" media="all" href="{$modules.Template->getTD()}/styles/ts_tbb2_standard.css"/>
+ <link rel="shortcut icon" type="image/x-icon" href="{$modules.Template->getTD()}/images/favicon.ico"/>
  <script src="{$modules.Template->getTD()}/scripts/jscripts.js" type="text/javascript"></script>
  <script src="{$modules.Template->getTD()}/scripts/ajax.js" type="text/javascript"></script>
 </head>
