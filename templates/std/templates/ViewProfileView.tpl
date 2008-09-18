@@ -26,7 +26,7 @@
 </tr>
 <tr>
  <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Homepage')}:</span></td>
- <td class="CellAlt" colspan="2"><span class="FontNorm"><!-- TODO --></span></td>
+ <td class="CellAlt" colspan="2"><span class="FontNorm">{$fieldsData.homepage._fieldValue}</span></td>
 </tr>
 <tr>
  <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Register_date')}:</span></td>
@@ -53,7 +53,9 @@
 <table class="TableStd" width="100%">
 <tr><td class="CellTitle" colspan="2"><span class="FontTitle">{$modules.Language->getString('Extended')}</span></td></tr>
 {foreach from=$fieldsData item=curField}
-<tr><td class="CellStd"><span class="FontNorm">{$curField.fieldName}:</span></td><td class="CellAlt"><span class="FontNorm"></span></td></tr>
+{if $curField.fieldIsLocked != 1}
+<tr><td class="CellStd"><span class="FontNorm">{$curField.fieldName}:</span></td><td class="CellAlt"><span class="FontNorm">{$curField._fieldValue}</span></td></tr>
+{/if}
 {/foreach}
 <tr><td class="CellAlt" colspan="2"><span class="FontNorm">[<a href="{$indexFile}?action=Search&amp;mode=">{$profileData._SearchPostsText}</a>]</span></td></tr>
 <tr><td class="CellAlt" colspan="2"><span class="FontNorm">[<a href="{$indexFile}?action=Search&amp;mode=">{$profileData._SearchTopicsText}</a>]</span></td></tr>

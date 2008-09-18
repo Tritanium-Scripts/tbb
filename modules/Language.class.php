@@ -42,14 +42,14 @@ class Language extends ModuleTemplate {
 
 	public function addFile($fileName,$languageString = '') {
 		$languageString = ($languageString == '' ? $this->languageString : $languageString);
-		
+		// Wurde die Datei während der Ausführung schon gechachet, gibt es nichts mehr zu tun
 		if(isset($this->loadedFiles[$languageString][$fileName])) return;
 		$languageDir = $this->getLD($languageString);
 
 		// Gibt es die Originaldatei nicht, erfolgt der Abbruch
 		if(!file_exists($languageDir.$fileName.'.language'))
 			die('Language file "'.$languageDir.$fileName.'.language" does not exist');
-		
+
 		$cacheFile = 'cache/Language-'.$languageString.'-'.$fileName.'.cache.php';
 		// Befindet sie sich im Cache und ist sie auch neuer als die Originaldatei, wird sie einfach inkludiert
 		if(file_exists($cacheFile) && (filemtime($cacheFile) > filemtime($languageDir.$fileName.'.language'))) {

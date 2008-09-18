@@ -52,7 +52,7 @@ class BBCode extends ModuleTemplate {
 		$text = preg_replace_callback("/\[glow=(\#[a-fA-F0-9]{6}|[a-zA-Z]+)\](.*?)\[\/glow\]/si", array($this, 'cbGlow'), $text); //[glow=xxx]xxx[/glow]
 		$text = preg_replace_callback("/\[shadow=(\#[a-fA-F0-9]{6}|[a-zA-Z]+)\](.*?)\[\/shadow\]/si", array($this, 'cbShadow'), $text); //[shadow=xxx]xxx[/shadow]
 		$text = preg_replace_callback("/\[flash\](.*?)\[\/flash\]/si", array($this, 'cbFlash'), $text); //[flash]xxx[/flash]
-		$text = preg_replace_callback("/\[flash[=| ]([0-9]+),([0-9]+)\](.*?)\[\/flash\]/si", array($this, 'cbFlash'), $text); //[flash=xxx]xxx[/flash] oder [flash xxx]xxx[/flash]
+		$text = preg_replace_callback("/\[flash[=| ](\d+),(\d+)\](.*?)\[\/flash\]/si", array($this, 'cbFlash'), $text); //[flash=xxx]xxx[/flash] oder [flash xxx]xxx[/flash]
 
 		//Zitate am Ende damit URLs als Quellenangaben funktionieren
 		while(preg_match("/\[quote\](.*?)\[\/quote\]/si",$text))

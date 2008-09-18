@@ -72,14 +72,14 @@ class ViewProfile extends ModuleTemplate {
                 if ($this->modules['Config']->getValue('enable_sig') == 1)
                 	$profileData['userSignature'] = $this->modules['BBCode']->format($profileData['userSignature'], ($this->modules['Config']->getValue('allow_sig_html') == 1), ($this->modules['Config']->getValue('allow_sig_smilies') == 1), ($this->modules['Config']->getValue('allow_sig_bbcode')));
 
-				
                 // custom profile fields
                 $fieldsData = array();
 				$this->modules['DB']->queryParams('SELECT t1.*, t2."fieldValue" FROM '.TBLPFX.'profile_fields t1 LEFT JOIN '.TBLPFX.'profile_fields_data t2 ON t1."fieldID"=t2."fieldID" AND t2."userID"=$1',array($profileID));
 				while($curResult = $this->modules['DB']->fetchArray()) {
+					$curResult['_fieldValue'] = sprintf($curResult['fieldLink'], $curResult['fieldValue']);
 					$fieldsData[$curResult['fieldVarName']] = $curResult;
 				}
-				
+
 				$profileData['_SearchPostsText'] = sprintf($this->modules['Language']->getString('Search_all_posts_by_x'), $profileData['userNick']);
 				$profileData['_SearchTopicsText'] = sprintf($this->modules['Language']->getString('Search_all_topics_by_x'), $profileData['userNick']);
 
