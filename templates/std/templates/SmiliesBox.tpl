@@ -1,3 +1,4 @@
+<div style="overflow:auto; width:190px; max-height:170px; padding:0px;">
 <table border="0" cellpadding="0" cellspacing="0" width="100%">
  <tr><td align="center">
   <table border="0" cellpadding="0" cellspacing="4">
@@ -10,3 +11,4 @@
   </table>
  </td></tr>
 </table>
+</div>

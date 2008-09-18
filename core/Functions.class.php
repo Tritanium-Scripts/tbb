@@ -259,7 +259,7 @@ class Functions {
 		$Cache = Factory::singleton('Cache');
 		$Template = Factory::singleton('Template');
 
-		$smiliesData = array_slice($Cache->getSmiliesData('read'),0,24);
+		$smiliesData = $Cache->getSmiliesData('read');
 
 		$Template->assign('smiliesData',$smiliesData);
 
