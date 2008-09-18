@@ -88,6 +88,11 @@ INSERT INTO /*TABLEPREFIX*/config ("configName","configValue") VALUES ('wio_time
 INSERT INTO /*TABLEPREFIX*/ranks ("rankName","rankType","rankPosts","rankGfx") VALUES ('User','0','0','images/rankpics/ystar.gif');
 
 #
+# Table 'profile_fields
+#
+INSERT INTO /*TABLEPREFIX*/profile_fields ("fieldName","fieldType","fieldData","fieldLink","fieldVarName","fieldIsLocked") VALUES ('Homepage','0','a:0:{}','<a href="%1$s" target="_blank">%1$s</a>','homepage','1');
+
+#
 # Table 'smilies'
 #
 INSERT INTO /*TABLEPREFIX*/smilies ("smileyType","smileyFileName","smileySynonym","smileyStatus") VALUES ('0','images/smilies/standard_smile.gif',':-)','1');

@@ -72,12 +72,13 @@ class ViewProfile extends ModuleTemplate {
                 if ($this->modules['Config']->getValue('enable_sig') == 1)
                 	$profileData['userSignature'] = $this->modules['BBCode']->format($profileData['userSignature'], ($this->modules['Config']->getValue('allow_sig_html') == 1), ($this->modules['Config']->getValue('allow_sig_smilies') == 1), ($this->modules['Config']->getValue('allow_sig_bbcode')));
 
-				//Weitere Profilfelder
-				$this->modules['DB']->query('SELECT * FROM '.TBLPFX.'profile_fields');
+				// custom profile fields
+				$this->modules['DB']->query('SELECT * FROM '.TBLPFX.'profile_fields WHERE fieldIsLocked="0"');
 				$fieldsData = $this->modules['DB']->raw2Array();
-				//TODO
-				//$this->modules['DB']->queryParams('SELECT * FROM '.TBLPFX.'profile_fields_data WHERE "userID"=$1', array(USERID));
-				//$fieldsValues = $this->modules['DB']->raw2Array();
+
+				$this->modules['DB']->queryParams('SELECT t1.*, t2."fieldVarName" FROM ('.TBLPFX.'profile_fields_data t1, '.TBLPFX.'profile_fields t2) WHERE t1."fieldID"=t2."fieldID" AND "userID"=$1', array(USERID));
+				$fieldsValues = $this->modules['DB']->raw2Array();
+				
 				$profileData['_SearchPostsText'] = sprintf($this->modules['Language']->getString('Search_all_posts_by_x'), $profileData['userNick']);
 				$profileData['_SearchTopicsText'] = sprintf($this->modules['Language']->getString('Search_all_topics_by_x'), $profileData['userNick']);
 
@@ -132,6 +133,7 @@ class ViewProfile extends ModuleTemplate {
 
 				$this->modules['Template']->assign(array(
 					'fieldsData'=>$fieldsData,
+					'fieldsValues'=>$fieldsValues,
 					'profileData'=>$profileData,
 					'show'=>$show
 				));

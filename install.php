@@ -1531,13 +1531,15 @@ class BoardInstall {
 								"fieldType"=$2,
 								"fieldData"=$3,
                                 "fieldLink"=$4,
-                                "fieldVarName"=$5
+                                "fieldVarName"=$5,
+                                "fieldIsLocked"=$6
 						',array(
 							$this->strings['Homepage'],
 							0,
 							serialize(array()),
                             '<a href="%1$s" target="_blank">%1$s</a>',
-                            'homepage'
+                            'homepage',
+							1
 						));
 						$this->tbb1ConversionProperties['dbHomepageID'] = $this->DB->getInsertID();
 	
