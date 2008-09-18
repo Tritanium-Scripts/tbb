@@ -42,7 +42,7 @@ class Language extends ModuleTemplate {
 
 	public function addFile($fileName,$languageString = '') {
 		$languageString = ($languageString == '' ? $this->languageString : $languageString);
-		// Wurde die Datei während der Ausführung schon gechachet, gibt es nichts mehr zu tun
+		// Wurde die Datei waehrend der Ausfuehrung schon gechachet, gibt es nichts mehr zu tun
 		if(isset($this->loadedFiles[$languageString][$fileName])) return;
 		$languageDir = $this->getLD($languageString);
 

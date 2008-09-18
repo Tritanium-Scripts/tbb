@@ -80,8 +80,8 @@ class ViewProfile extends ModuleTemplate {
 					$fieldsData[$curResult['fieldVarName']] = $curResult;
 				}
 
-				$profileData['_SearchPostsText'] = sprintf($this->modules['Language']->getString('Search_all_posts_by_x'), $profileData['userNick']);
-				$profileData['_SearchTopicsText'] = sprintf($this->modules['Language']->getString('Search_all_topics_by_x'), $profileData['userNick']);
+				$profileData['_searchPostsText'] = sprintf($this->modules['Language']->getString('Search_all_posts_by_x'), $profileData['userNick']);
+				$profileData['_searchTopicsText'] = sprintf($this->modules['Language']->getString('Search_all_topics_by_x'), $profileData['userNick']);
 
 				//Anmerkungen
 				$show = array('notesTable'=>FALSE);
