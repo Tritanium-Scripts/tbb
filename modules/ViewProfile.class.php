@@ -72,14 +72,14 @@ class ViewProfile extends ModuleTemplate {
                 if ($this->modules['Config']->getValue('enable_sig') == 1)
                 	$profileData['userSignature'] = $this->modules['BBCode']->format($profileData['userSignature'], ($this->modules['Config']->getValue('allow_sig_html') == 1), ($this->modules['Config']->getValue('allow_sig_smilies') == 1), ($this->modules['Config']->getValue('allow_sig_bbcode')));
 
-				// custom profile fields
-				$this->modules['DB']->query('SELECT * FROM '.TBLPFX.'profile_fields WHERE fieldIsLocked=\'0\'');
-				$fieldsData = $this->modules['DB']->raw2Array();
-
-				$fieldsValues = array();
-				$this->modules['DB']->queryParams('SELECT t1."fieldValue", t2."fieldVarName" FROM ('.TBLPFX.'profile_fields_data t1, '.TBLPFX.'profile_fields t2) WHERE t1."fieldID"=t2."fieldID" AND "userID"=$1', array(USERID));
-				while($curResult = $this->modules['DB']->fetchArray())
+				
+                // custom profile fields
+                $fieldsData = $fieldsValues = array();
+				$this->modules['DB']->query('SELECT t1.*, t2."fieldValue" FROM '.TBLPFX.'profile_fields t1 LEFT JOIN '.TBLPFX.'profile_fields_data t2 ON t1."fieldID"=t2."fieldID"');
+				while($curResult = $this->modules['DB']->fetchArray()) {
+					$fieldsData[] = $curResult;
 					$fieldsValues[$curResult['fieldVarName']] = $curResult['fieldValue'];
+				}
 				
 				$profileData['_SearchPostsText'] = sprintf($this->modules['Language']->getString('Search_all_posts_by_x'), $profileData['userNick']);
 				$profileData['_SearchTopicsText'] = sprintf($this->modules['Language']->getString('Search_all_topics_by_x'), $profileData['userNick']);
