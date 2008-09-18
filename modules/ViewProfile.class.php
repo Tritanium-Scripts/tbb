@@ -73,7 +73,7 @@ class ViewProfile extends ModuleTemplate {
                 	$profileData['userSignature'] = $this->modules['BBCode']->format($profileData['userSignature'], ($this->modules['Config']->getValue('allow_sig_html') == 1), ($this->modules['Config']->getValue('allow_sig_smilies') == 1), ($this->modules['Config']->getValue('allow_sig_bbcode')));
 
 				// custom profile fields
-				$this->modules['DB']->query('SELECT * FROM '.TBLPFX.'profile_fields WHERE fieldIsLocked="0"');
+				$this->modules['DB']->query('SELECT * FROM '.TBLPFX.'profile_fields WHERE fieldIsLocked=\'0\'');
 				$fieldsData = $this->modules['DB']->raw2Array();
 
 				$fieldsValues = array();
