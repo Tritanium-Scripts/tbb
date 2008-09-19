@@ -179,7 +179,7 @@ class MemberList extends ModuleTemplate {
 							break;
 							
 						case PROFILE_FIELD_TYPE_TEXTAREA:
-							$curFieldValue = sprintf($curField['fieldLink'],Functions::HTMLSpecialChars(nl2br($curValue['fieldValue'])));
+							$curFieldValue = sprintf($curField['fieldLink'],nl2br(Functions::HTMLSpecialChars($curValue['fieldValue'])));
 							break;
 							
 						case PROFILE_FIELD_TYPE_SELECTSINGLE:
