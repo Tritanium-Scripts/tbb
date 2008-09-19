@@ -190,7 +190,7 @@ class MemberList extends ModuleTemplate {
 							$curFieldValue = array();
 							$curValue['fieldValue'] = explode(',',$curValue['fieldValue']);
 							foreach($curValue['fieldValue'] AS &$tmp)
-								$curFieldValue[] = sprintf($curField['fieldLink'],Functions::HTMLSpecialChars($curField['fieldData'][$tmp]));
+								$curFieldValue[] = sprintf($curField['fieldLink'],Functions::HTMLSpecialChars($curField['_fieldData'][$tmp]));
 								
 							$curFieldValue = implode(', ',$curFieldValue);
 							break;
