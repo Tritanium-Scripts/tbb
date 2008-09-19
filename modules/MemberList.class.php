@@ -83,8 +83,12 @@ class MemberList extends ModuleTemplate {
 		//
 		// Die Daten der Profilfelder laden, die in der Mitgliederliste zusaetzlich angezeigt werden sollen
 		//
+		$fieldsData = array();
 		$this->modules['DB']->query('SELECT * FROM '.TBLPFX.'profile_fields WHERE "fieldShowMemberList"=1');
-		$fieldsData = $this->modules['DB']->raw2Array();
+		while($curResult = $this->modules['DB']->fetchArray()) {
+			$curResult['_fieldData'] = unserialize($curResult['fieldData']);
+			$fieldsData[] = $curResult;
+		}
 
 
 		//
@@ -163,12 +167,34 @@ class MemberList extends ModuleTemplate {
 
 			// Die extra-Profilefelder
 			$curUserFieldsValues = array();
-			foreach($fieldsData AS $curField) {
+			foreach($fieldsData AS &$curField) {
 				$curFieldValue = '';
 
 				foreach($fieldsValues AS $curKey => $curValue) {
 					if($curValue['userID'] != $curUser['userID'] || $curValue['fieldID'] != $curField['fieldID']) continue;
-					$curFieldValue = $curValue['fieldValue'];
+					
+					switch($curField['fieldType']) {
+						case PROFILE_FIELD_TYPE_TEXT:
+							$curFieldValue = sprintf($curField['fieldLink'],Functions::HTMLSpecialChars($curValue['fieldValue']));
+							break;
+							
+						case PROFILE_FIELD_TYPE_TEXTAREA:
+							$curFieldValue = sprintf($curField['fieldLink'],Functions::HTMLSpecialChars(nl2br($curValue['fieldValue'])));
+							break;
+							
+						case PROFILE_FIELD_TYPE_SELECTSINGLE:
+							$curFieldValue = sprintf($curField['fieldLink'],Functions::HTMLSpecialChars($curField['_fieldData'][$curValue['fieldValue']]));
+							break;
+							
+						case PROFILE_FIELD_TYPE_SELECTMULTI:
+							$curFieldValue = array();
+							$curValue['fieldValue'] = explode(',',$curValue['fieldValue']);
+							foreach($curValue['fieldValue'] AS &$tmp)
+								$curFieldValue[] = sprintf($curField['fieldLink'],Functions::HTMLSpecialChars($curField['fieldData'][$tmp]));
+								
+							$curFieldValue = implode(', ',$curFieldValue);
+							break;
+					}					
 					unset($fieldsValues[$curKey]);
 					break;
 				}
