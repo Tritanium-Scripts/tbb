@@ -249,7 +249,7 @@ class AdminUsers extends ModuleTemplate {
 	
 						$this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'posts WHERE "postID" IN $1', array($postIDs));
 	
-						$affectedForumIDs = array_unique($affectedForumIDss);
+						$affectedForumIDs = array_unique($affectedForumIDs);
 						foreach($affectedForumIDs AS &$curForumID)
 							FuncForums::updateLastPost($curForumID);
 	
@@ -299,7 +299,7 @@ class AdminUsers extends ModuleTemplate {
 						$this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'posts WHERE "topicID" IN $1', array($topicIDs));
 						$this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'topics WHERE "topicID" IN $1', array($topicIDs));
 
-						$affectedForumIDs = array_unique($affectedForumIDss);
+						$affectedForumIDs = array_unique($affectedForumIDs);
 						foreach($affectedForumIDs AS &$curForumID)
 							FuncForums::updateLastPost($curForumID);
 					}
