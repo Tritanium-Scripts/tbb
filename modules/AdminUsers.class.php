@@ -291,8 +291,8 @@ class AdminUsers extends ModuleTemplate {
 							$this->modules['DB']->queryParams('UPDATE '.TBLPFX.'forums SET "forumTopicsCounter"="forumTopicsCounter"-$1 WHERE "forumID"=$2', array($curCounter['topicsCounter'], $curCounter['forumID']));
 	
 						// polls
-						$this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'polls_options WHERE "topicID" IN ($1)', array($topicIDs));
-						$this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'polls_votes WHERE "topicID" IN ($1)', array($topicIDs));
+						$this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'polls_options WHERE "topicID" IN $1', array($topicIDs));
+						$this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'polls_votes WHERE "topicID" IN $1', array($topicIDs));
 							
 						// topic subscriptions, posts, topics
 						$this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'topics_subscriptions WHERE "topicID" IN $1', array($topicIDs));
