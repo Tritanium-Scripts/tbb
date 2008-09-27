@@ -243,7 +243,7 @@ class AdminUsers extends ModuleTemplate {
 						$affectedTopicIDs[] = $curCounter['topicID'];
 					}
 
-					$this->modules['DB']->queryParams('DELETE FROM ('.TBLPFX.'posts t1, '.TBLPFX.'topics t2) WHERE t1."posterID"=$1 AND t1."topicID"=t2."topicID" AND t1."postID"<>t2."topicFirstPostID"', array($userID));
+					$this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'posts t1 USING '.TBLPFX.'topics t2 WHERE t1."posterID"=$1 AND t1."topicID"=t2."topicID" AND t1."postID"<>t2."topicFirstPostID"', array($userID));
 
 					$affectedForumIDs = array_unique($affectedForumIDss);
 					foreach($affectedForumIDs AS &$curForumID)
