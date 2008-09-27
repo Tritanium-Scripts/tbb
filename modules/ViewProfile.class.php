@@ -66,7 +66,7 @@ class ViewProfile extends ModuleTemplate {
                 $profileData['_profileRegisterDateText'] = sprintf($this->modules['Language']->getString('Register_x_weeks_ago'), intval($profileData['_userPostsCounterText']/604800));
                 //Beitraege pro Tag
                 $profileData['_userPostsCounterText'] = intval($profileData['_userPostsCounterText']/86400);
-                $profileData['_userPostsCounterText'] = (($profileData['_userPostsCounterText'] != 0) ? round($profileData['userPostsCounter']/$profileData['_userPostsCounterText'], 3) : $profileData['userPostsCounter']) . ' ' . $this->modules['Language']->getString('Posts_per_day');
+                $profileData['_userPostsCounterText'] = (($profileData['_userPostsCounterText'] != 0) ? number_format(round($profileData['userPostsCounter']/$profileData['_userPostsCounterText'], 3), 3, $this->modules['Language']->getString('dec_point'), $this->modules['Language']->getString('thousands_sep')) : $profileData['userPostsCounter']) . ' ' . $this->modules['Language']->getString('Posts_per_day');
 
                 //Signatur parsen
                 if ($this->modules['Config']->getValue('enable_sig') == 1)
