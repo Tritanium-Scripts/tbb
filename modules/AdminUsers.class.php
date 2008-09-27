@@ -281,7 +281,7 @@ class AdminUsers extends ModuleTemplate {
 						$countersData = $this->modules['DB']->raw2Array();
 						foreach($countersData AS &$curCounter) {
 							$this->modules['DB']->queryParams('UPDATE '.TBLPFX.'forums SET "forumPostsCounter"="forumPostsCounter"-$1 WHERE "forumID"=$2', array($curCounter['postsCounter'], $curCounter['forumID']));
-							$affectedForumIDs = $curCounter['forumID'];
+							$affectedForumIDs[] = $curCounter['forumID'];
 						}
 
 						// forums topic counters
