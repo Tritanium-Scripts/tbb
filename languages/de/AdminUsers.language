@@ -12,6 +12,8 @@ Edit_user = Benutzer bearbeiten
 Delete_user = Benutzer l&ouml;schen
 Lock_user = Benutzer sperren
 Delete_users_posts = Beitr&auml;ge des Benutzers l&ouml;schen
+Delete_users_topics = Themen/Umfragen des Benutzers l&ouml;schen
+Delete_users_sent_pms = Gesendete private Nachrichten des Benutzers l&ouml;schen
 Ban_nick_email = Benutzername und E-Mailadresse sperren
 Ban_time = Sperrzeit
 ban_time_info = in Stunden; -1 = f&uuml;r immer
