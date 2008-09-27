@@ -229,29 +229,34 @@ class AdminUsers extends ModuleTemplate {
 				if($c['deleteUsersPosts'] == 1) {
 					$affectedForumIDs = $affectedTopicIDs = array();
 					
-					$this->modules['DB']->queryParams('SELECT COUNT(*) AS "postsCounter", t1."forumID" FROM ('.TBLPFX.'posts t1, '.TBLPFX.'topics t2) WHERE t1."topicID"=t2."topicID" AND t1."postID"<>t2."topicFirstPostID" AND t1."posterID"=$1 GROUP BY t1."forumID"', array($userID));
-					$countersData = $this->modules['DB']->raw2Array();
-					foreach($countersData AS &$curCounter) {
-						$this->modules['DB']->queryParams('UPDATE '.TBLPFX.'forums SET "forumPostsCounter"="forumPostsCounter"-$1 WHERE "forumID"=$2', array($curCounter['postsCounter'], $curCounter['forumID']));
-						$affectedForumIDs[] = $curCounter['forumID'];
+					$this->modules['DB']->query('SELECT t1."postID" FROM ('.TBLPFX.'posts t1, '.TBLPFX.'topics t2) WHERE t1."topicID"=t2."topicID" AND t1."postID"<>t2."topicFirstPostID" AND t1."postID"=$1',array($userID));
+					$postIDs = $this->modules['DB']->raw2FVArray();
+					
+					if(count($postIDs) > 0) {
+						$this->modules['DB']->queryParams('SELECT COUNT(*) AS "postsCounter", "forumID" FROM '.TBLPFX.'posts WHERE "postID" IN $1 GROUP BY "forumID"', array($postIDs));
+						$countersData = $this->modules['DB']->raw2Array();
+						foreach($countersData AS &$curCounter) {
+							$this->modules['DB']->queryParams('UPDATE '.TBLPFX.'forums SET "forumPostsCounter"="forumPostsCounter"-$1 WHERE "forumID"=$2', array($curCounter['postsCounter'], $curCounter['forumID']));
+							$affectedForumIDs[] = $curCounter['forumID'];
+						}
+	
+						$this->modules['DB']->queryParams('SELECT COUNT(*) AS "repliesCounter", "topicID" FROM '.TBLPFX.'posts WHERE "postID" IN $1 GROUP BY "topicID"', array($postIDs));
+						$countersData = $this->modules['DB']->raw2Array();
+						foreach($countersData AS &$curCounter) {
+							$this->modules['DB']->queryParams('UPDATE '.TBLPFX.'topics SET "topicRepliesCounter"="topicRepliesCounter"-$1 WHERE "topicID"=$2', array($curCounter['repliesCounter'], $curCounter['topicID']));
+							$affectedTopicIDs[] = $curCounter['topicID'];
+						}
+	
+						$this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'posts WHERE "postID" IN $1', array($postIDs));
+	
+						$affectedForumIDs = array_unique($affectedForumIDss);
+						foreach($affectedForumIDs AS &$curForumID)
+							FuncForums::updateLastPost($curForumID);
+	
+						$affectedTopicIDs = array_unique($affectedTopicIDs);
+						foreach($affectedTopicIDs AS &$curTopicID)
+							FuncTopics::updateLastPost($curTopicID);
 					}
-
-					$this->modules['DB']->queryParams('SELECT COUNT(*) AS "repliesCounter", t1."topicID" FROM ('.TBLPFX.'posts t1, '.TBLPFX.'topics t2) WHERE t1."topicID"=t2."topicID" AND t1."postID"<>t2."topicFirstPostID" AND t1."posterID"=$1 GROUP BY t1."topicID"', array($userID));
-					$countersData = $this->modules['DB']->raw2Array();
-					foreach($countersData AS &$curCounter) {
-						$this->modules['DB']->queryParams('UPDATE '.TBLPFX.'topics SET "topicRepliesCounter"="topicRepliesCounter"-$1 WHERE "topicID"=$2', array($curCounter['repliesCounter'], $curCounter['topicID']));
-						$affectedTopicIDs[] = $curCounter['topicID'];
-					}
-
-					$this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'posts WHERE "postID" IN (SELECT t1."postID" FROM ('.TBLPFX.'posts t1, '.TBLPFX.'topics t2) WHERE t1."topicID"=t2."topicID" AND t1."postID"<>t2."topicFirstPostID" AND t1."postID"=$1)', array($userID));
-
-					$affectedForumIDs = array_unique($affectedForumIDss);
-					foreach($affectedForumIDs AS &$curForumID)
-						FuncForums::updateLastPost($curForumID);
-
-					$affectedTopicIDs = array_unique($affectedTopicIDs);
-					foreach($affectedTopicIDs AS &$curTopicID)
-						FuncTopics::updateLastPost($curTopicID);
 				} else {
 					$this->modules['DB']->queryParams('UPDATE ('.TBLPFX.'posts t1, '.TBLPFX.'topics t2) SET t1."posterID"=0, t1."postGuestNick"=$1 WHERE t1."posterID"=$2 AND t1."topicID"=t2."topicID" AND t1."postID"=t2."topicFirstPostID"', array($userData['userNick'], $userID));					
 				}
