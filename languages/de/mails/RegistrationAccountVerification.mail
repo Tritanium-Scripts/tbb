@@ -17,6 +17,6 @@ Sollten sie dennoch Probleme haben, stehen wir Ihnen bei Fragen jederzeit gerne 
 
 Abschließend möchten wir uns noch bei Ihnen für diese zusätzlichen Mühen bedanken, da Sie uns damit aktiv z.B. gegen die massenhafte Verbreitung unerwünschter Werbung unterstützen.
 
-Nach erfolgreicher Aktivierung Ihres Benutzerkontos, können Sie diese Email bedenkenlos löschen.
+Nach erfolgreicher Aktivierung Ihres Benutzerkontos, können Sie diese E-Mail bedenkenlos löschen.
 
 {$modules.Config->getValue('email_signature')}

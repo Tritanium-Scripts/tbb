@@ -13,9 +13,9 @@ Benutzername/Login: {$userNick}
 
 Bitte ändern Sie dieses Passwort umgehend, da diese Mail unverschlüsselt an Sie übermittelt wurde!{/if}
 
-{if $modules.Config->getValue('verify_email_address') == 2}Um einen Missbrauch des Systems zu verhindern, müssen Sie leider noch Ihr Benutzerkonto bzw. Ihre E-Mailadresse verifizieren, bevor Sie sich einloggen können. Dazu sollten Sie schon eine zweite Email erhalten haben, in der Sie alle weiteren Informationen dazu finden.{/if}
+{if $modules.Config->getValue('verify_email_address') == 2}Um einen Missbrauch des Systems zu verhindern, müssen Sie leider noch Ihr Benutzerkonto bzw. Ihre E-Mailadresse verifizieren, bevor Sie sich einloggen können. Dazu sollten Sie schon eine zweite E-Mail erhalten haben, in der Sie alle weiteren Informationen dazu finden.{/if}
 
-Wir empfehlen Ihnen, diese Email nicht zu löschen, da Sie uns dadurch im Fall der Fälle eine Menge Arbeit ersparen können.
+Wir empfehlen Ihnen, diese E-Mail nicht zu löschen, da Sie uns dadurch im Fall der Fälle eine Menge Arbeit ersparen können.
 
 Abschließend möchten wir Sie noch darauf hinweisen, dass Sie niemals in keinster Weise von uns nach Ihrem Passwort gefragt werden. Sollten Sie dennoch in diese Richtung angesprochen werden, bitten wir Sie, uns umgehen darüber zu informieren.
 
