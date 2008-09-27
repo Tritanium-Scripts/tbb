@@ -229,7 +229,7 @@ class AdminUsers extends ModuleTemplate {
 				if($c['deleteUsersPosts'] == 1) {
 					$affectedForumIDs = $affectedTopicIDs = array();
 					
-					$this->modules['DB']->query('SELECT t1."postID" FROM ('.TBLPFX.'posts t1, '.TBLPFX.'topics t2) WHERE t1."topicID"=t2."topicID" AND t1."postID"<>t2."topicFirstPostID" AND t1."postID"=$1',array($userID));
+					$this->modules['DB']->queryParams('SELECT t1."postID" FROM ('.TBLPFX.'posts t1, '.TBLPFX.'topics t2) WHERE t1."topicID"=t2."topicID" AND t1."postID"<>t2."topicFirstPostID" AND t1."postID"=$1',array($userID));
 					$postIDs = $this->modules['DB']->raw2FVArray();
 					
 					if(count($postIDs) > 0) {
