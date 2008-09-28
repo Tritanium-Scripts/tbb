@@ -258,7 +258,7 @@ class AdminUsers extends ModuleTemplate {
 							FuncTopics::updateLastPost($curTopicID);
 					}
 				} else {
-					$this->modules['DB']->queryParams('UPDATE ('.TBLPFX.'posts t1, '.TBLPFX.'topics t2) SET t1."posterID"=0, t1."postGuestNick"=$1 WHERE t1."posterID"=$2 AND t1."topicID"=t2."topicID" AND t1."postID"=t2."topicFirstPostID"', array($userData['userNick'], $userID));					
+					$this->modules['DB']->queryParams('UPDATE ('.TBLPFX.'posts t1, '.TBLPFX.'topics t2) SET t1."posterID"=0, t1."postGuestNick"=$1 WHERE t1."posterID"=$2 AND t1."topicID"=t2."topicID" AND t1."postID"<>t2."topicFirstPostID"', array($userData['userNick'], $userID));					
 				}
 				
 				if($c['deleteUsersTopics'] == 1) {
