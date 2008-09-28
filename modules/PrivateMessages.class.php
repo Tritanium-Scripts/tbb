@@ -347,6 +347,7 @@ class PrivateMessages extends ModuleTemplate {
 						t1."pmIsRead",
 						t1."pmIsReplied",
 						t1."pmMessageText",
+						t1."pmGuestNick",
 						t2."userNick" AS "pmFromNick",
 						t2."userEmailAddress" AS "pmFromEmailAddress",
 						t4."folderName" AS "pmFolderName"
@@ -360,8 +361,8 @@ class PrivateMessages extends ModuleTemplate {
 				));
 				if($this->modules['DB']->numRows() == 0) die('Kann PM-Daten nicht laden!');
 				$pmData = $this->modules['DB']->fetchArray();
-
-				if($pmData['pmToID'] != USERID) die('Kein Zugriff auf diese Nachricht!'); // ...User Zugriff auf PM hat...
+				
+				if($pmData['pmToID'] != USERID) die('Kann PM-Daten nicht laden!'); // ...User Zugriff auf PM hat...
 				if($pmData['pmIsRead'] != 1) {  // ...die PM schon gelesen ist...
 					$this->modules['DB']->queryParams('UPDATE '.TBLPFX.'pms SET "pmIsRead"=1 WHERE "pmID"=$1', array($pmID));
 					if($pmData['pmRequestReadReceipt'] == 1 && $this->modules['Config']->getValue('allow_pms_rconfirmation') == 1 && $pmData['pmFromID'] != 0) // ...und eine Lesebestaetigung angefordert wurde
@@ -392,6 +393,9 @@ class PrivateMessages extends ModuleTemplate {
 						));
 				}
 
+				if($pmData['pmFromID'] == 0)
+					$pmData['pmFromNick'] = $pmData['pmGuestNick'];
+			
 				$p = array();
 				$p['pmSubject'] = isset($_POST['p']['pmSubject']) ? $_POST['p']['pmSubject'] : $pmData['pmSubject'];
 				$p['pmMessageText'] = isset($_POST['p']['pmMessageText']) ? $_POST['p']['pmMessageText'] : '';
