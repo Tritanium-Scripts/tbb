@@ -66,7 +66,7 @@ class PrivateMessages extends ModuleTemplate {
 					else $folderData = $this->modules['DB']->fetchArray();
 				}
 
-				$this->modules['DB']->queryParams('SELECT COUNT(*) FROM '.TBLPFX.'pms WHERE "PMToID"=$1 AND "FolderID"=$2', array(USERID, $folderID));
+				$this->modules['DB']->queryParams('SELECT COUNT(*) FROM '.TBLPFX.'pms WHERE "pmToID"=$1 AND "folderID"=$2', array(USERID, $folderID));
 				list($pmsCounter) = $this->modules['DB']->fetchArray();
 
 				$pmsPerPage = 20;

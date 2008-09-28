@@ -217,7 +217,7 @@ class AdminUsers extends ModuleTemplate {
 				$userID = isset($_GET['userID']) ? intval($_GET['userID']) : 0;
 				//$p_ban_nick_email = isset($_POST['p_ban_nick_email']) ? 1 : 0;
 				
-				$c = Functions::getSGValues($_POST['c'], array('deleteUsersPosts','deleteUsersTopics','deleteUsersSentPMs'), 1);
+				$c = Functions::getSGValues($_POST['c'], array('deleteUsersPosts','deleteUsersTopics','deleteUsersSentPMs'), 0);
 
 				if(!$userData = FuncUsers::getUserData($userID)) die('Cannot load data: user '.$userID);
 
