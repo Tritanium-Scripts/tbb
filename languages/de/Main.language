@@ -145,6 +145,7 @@ email_subject_new_pm_received = Neue private Nachricht erhalten
 
 message_link_click_here_back_profile = %sHier%s geht's zur&uuml;ck zum Profil
 message_link_click_here_back_forumindex = %sHier%s geht's zur&uuml;ck zur Foren&uuml;bersicht
+message_link_click_here_account_activation = %sHier%s k&ouml;nnen Sie Ihren Account aktivieren
 message_link_click_here_login = %sHier%s k&ouml;nnen Sie sich einloggen
 message_link_click_here_register = %sHier%s k&ouml;nnen Sie sich registrieren
 message_link_click_here_back = %sHier%s geht's zur&uuml;ck

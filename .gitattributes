@@ -336,6 +336,7 @@ templates/std/templates/FatalError.tpl -text
 templates/std/templates/ForumIndex.tpl -text
 templates/std/templates/LoginActivateAccount.tpl -text
 templates/std/templates/LoginLogin.tpl -text
+templates/std/templates/LoginRequestActivationCode.tpl -text
 templates/std/templates/LoginRequestPassword.tpl -text
 templates/std/templates/MemberList.tpl -text
 templates/std/templates/Message.tpl -text

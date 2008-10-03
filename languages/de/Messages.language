@@ -8,6 +8,8 @@ message_text_board_rules_not_accepted = Sie haben die Boardregeln nicht akzeptie
 message_text_user_edited = Der Benutzer wurde erfolgreich bearbeitet.
 message_text_settings_successfully_saved = Die Einstellungen wurden erfolgreich gespeichert
 
+message_title_activation_code_sent = Aktivierungscode verschickt
+message_text_activation_code_sent = Ihr Aktivierungscode wurde erneut an Ihre Emailadresse verschickt. Sollten Sie Probleme haben diesen zu empfangen, bitten wir Sie einen eventuell vorhandenen Spamordner auf eine entsprechende Email zu durchsuchen. Ansonsten wenden Sie sich bitte an einen Administrator dieses Systems.
 message_title_new_private_message_received = Neue private Nachricht
 message_text_new_private_message_received = In Ihrem Posteingang befindet sich mindestens eine neue private Nachricht
 message_title_new_password_sent = Neues Passwort verschickt

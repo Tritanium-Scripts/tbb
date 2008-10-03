@@ -215,6 +215,49 @@ class Login extends ModuleTemplate {
 				));
 				$this->modules['Template']->printPage('LoginRequestPassword.tpl');
 				break;
+
+			case 'ActivateAccount':
+				$p = Functions::getSGValues($_POST['p'],array('userName','emailAddress'));
+
+				$errors = array();
+
+				$this->modules['Navbar']->addElement($this->modules['Language']->getString('Request_activation_code'),INDEXFILE."?action=Login&amp;mode=RequestActivationCode&amp;".MYSID);
+
+				if(isset($_GET['doit'])) {
+					if(!$userData = FuncUsers::getUserData($p['userName'])) $errors[] = $this->modules['Language']->getString('error_unknown_user');
+					elseif($userData['userEmailAddress'] != $p['emailAddress']) $errors[] = $this->modules['Language']->getString('error_wrong_email_address');
+					elseif($userData['userIsActivated'] == 1) $errors[] = $this->modules['Language']->getString('error_already_activated');
+
+					if(count($errors) == 0) {
+						$this->modules['Template']->assign(array(
+							'userNick'=>$userData['userName'],
+							'activationLink'=>$this->modules['Config']->getValue('board_address').'/'.INDEXFILE.'?action=Login&mode=ActivateAccount&accountID='.$p['userName'].'&activationCode='.$userHash.'&doit=1',
+							'activationCode'=>$userData['userHash']
+						));
+						Functions::myMail(
+							$this->modules['Config']->getValue('board_name').' <'.$this->modules['Config']->getValue('board_email_address').'>',
+							$userData['userEmailAddress'],
+							sprintf($this->modules['Language']->getString('email_subject_account_activation'),$this->modules['Config']->getValue('board_name')),
+							$this->modules['Template']->fetch('RegistrationAccountVerification.mail',$this->modules['Language']->getLD().'mails')
+						);
+
+						$this->modules['Navbar']->addElement($this->modules['Language']->getString('Activation_code_sent'),'');
+
+						FuncMisc::printMessage('activation_code_sent',array(
+							sprintf($this->modules['Language']->getString('message_link_click_here_account_activation'),'<a href="'.INDEXFILE.'?action=ActivateAccount&amp;'.MYSID.'">','</a>'),
+							sprintf($this->modules['Language']->getString('message_link_click_here_login'),'<a href="'.INDEXFILE.'?action=Login&amp;'.MYSID.'">','</a>'),
+							sprintf($this->modules['Language']->getString('message_link_click_here_back_forumindex'),'<a href="'.INDEXFILE.'?'.MYSID.'">','</a>'),
+						));
+						exit;
+					}
+				}
+
+				$this->modules['Template']->assign(array(
+					'errors'=>$errors,
+					'p'=>$p
+				));
+				$this->modules['Template']->printPage('LoginRequestPassword.tpl');
+				break;
 		}
 	}
 }
