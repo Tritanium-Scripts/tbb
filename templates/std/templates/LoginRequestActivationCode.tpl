@@ -5,7 +5,7 @@
 			<col width="85%"/>
 		</colgroup>
 		<tr><td class="CellTitle" colspan="2"><span class="FontTitle">{$modules.Language->getString('Request_activation_code')}</span></td></tr>
-		{if $error != ''}<tr><td class="CellError" colspan="2"><span class="FontError">{$error}</span></td></tr>{/if}
+		{include file=_ErrorRow.tpl colSpan=2}
 		<tr>
 			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('User_name')}:</span></td>
 			<td class="CellAlt"><input class="FormText" type="text" name="p[userName]" value="{$p.userName}" size="20"/></td>
