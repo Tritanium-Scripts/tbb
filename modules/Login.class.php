@@ -216,7 +216,7 @@ class Login extends ModuleTemplate {
 				$this->modules['Template']->printPage('LoginRequestPassword.tpl');
 				break;
 
-			case 'ActivateAccount':
+			case 'RequestActivationCode':
 				$p = Functions::getSGValues($_POST['p'],array('userName','emailAddress'));
 
 				$errors = array();
@@ -230,8 +230,8 @@ class Login extends ModuleTemplate {
 
 					if(count($errors) == 0) {
 						$this->modules['Template']->assign(array(
-							'userNick'=>$userData['userName'],
-							'activationLink'=>$this->modules['Config']->getValue('board_address').'/'.INDEXFILE.'?action=Login&mode=ActivateAccount&accountID='.$p['userName'].'&activationCode='.$userHash.'&doit=1',
+							'userNick'=>$userData['userNick'],
+							'activationLink'=>$this->modules['Config']->getValue('board_address').'/'.INDEXFILE.'?action=Login&mode=ActivateAccount&accountID='.$p['userName'].'&activationCode='.$userData['userHash'].'&doit=1',
 							'activationCode'=>$userData['userHash']
 						));
 						Functions::myMail(
@@ -256,7 +256,7 @@ class Login extends ModuleTemplate {
 					'errors'=>$errors,
 					'p'=>$p
 				));
-				$this->modules['Template']->printPage('LoginRequestPassword.tpl');
+				$this->modules['Template']->printPage('LoginRequestActivationCode.tpl');
 				break;
 		}
 	}
