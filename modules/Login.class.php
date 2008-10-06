@@ -121,9 +121,9 @@ class Login extends ModuleTemplate {
 				$this->modules['Navbar']->addElement($this->modules['Language']->getString('Account_activation'),INDEXFILE."?action=Login&amp;mode=ActivateAccount&amp;".MYSID);
 
 				if(isset($_GET['doit'])) {
-					if(!$accountID = FuncUsers::getUserID($accountID)) $error = $this->modules['Language']->getString('error_unknown_user');
+					if(!$accountIDReal = FuncUsers::getUserID($accountID)) $error = $this->modules['Language']->getString('error_unknown_user');
 					else {
-						$accountData = FuncUsers::getUserData($accountID);
+						$accountData = FuncUsers::getUserData($accountIDReal);
 						if($accountData['userIsActivated'] != 0 || $accountData['userHash'] == '') $error = $this->modules['Language']->getString('error_already_activated');
 						elseif($accountData['userHash'] != $activationCode) $error = $this->modules['Language']->getString('error_wrong_activation_code');
 						else {
@@ -136,7 +136,7 @@ class Login extends ModuleTemplate {
                                 WHERE
                                     "userID"=$1
                             ', array(
-                                $accountID
+                                $accountIDReal
                             ));
 
 							$_SESSION['last_place_url'] = INDEXFILE.'?'.MYSID;
@@ -198,8 +198,6 @@ class Login extends ModuleTemplate {
 								$this->modules['Template']->fetch('PasswordRequested.mail',$this->modules['Language']->getLD().'mails')
 							);
 						}
-
-						$this->modules['Navbar']->addElement($this->modules['Language']->getString('New_password_sent'),'');
 
 						FuncMisc::printMessage('new_password_sent',array(
 							sprintf($this->modules['Language']->getString('message_link_click_here_login'),'<a href="'.INDEXFILE.'?action=Login&amp;'.MYSID.'">','</a>'),
