@@ -241,8 +241,6 @@ class Login extends ModuleTemplate {
 							$this->modules['Template']->fetch('RegistrationAccountVerification.mail',$this->modules['Language']->getLD().'mails')
 						);
 
-						$this->modules['Navbar']->addElement($this->modules['Language']->getString('Activation_code_sent'),'');
-
 						FuncMisc::printMessage('activation_code_sent',array(
 							sprintf($this->modules['Language']->getString('message_link_click_here_account_activation'),'<a href="'.INDEXFILE.'?action=ActivateAccount&amp;'.MYSID.'">','</a>'),
 							sprintf($this->modules['Language']->getString('message_link_click_here_login'),'<a href="'.INDEXFILE.'?action=Login&amp;'.MYSID.'">','</a>'),
