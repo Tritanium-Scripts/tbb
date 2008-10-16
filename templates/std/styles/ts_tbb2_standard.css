@@ -239,6 +239,11 @@ td.CellAlt {
 	border:#ACACAC 1px solid;
 	background-color:#DFE6EF;
 }
+td.CellHotTopic {
+	padding:3px;
+	border:#FF4500 1px solid;
+	background-color:#EEF0F2;
+}
 
 td.CellHighlight {
 	padding:3px;

@@ -93,3 +93,5 @@ Maximum_attachment_size = Maximale Gr&ouml;&szlig;e eines Dateianhangs
 Allowed_attachment_types = Erlaubte Dateianhangstypen
 Forbidden_attachment_types = Verbotene Dateianhangstypen
 Maximum_attachments_per_post = Maximale Dateianh&auml;nge pro Beitrag
+Hot_status_posts_last_hour = Beitr&auml;ge f&uuml;r Hot-Status
+hot_status_posts_last_hour_description = Geben Sie hier an, ab wievielen Beitr&auml;gen in der letzten Stunde ein Beitrag als &quot;hot&quot; gilt; -1 deaktiviert die Funktion

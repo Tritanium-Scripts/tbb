@@ -47,6 +47,7 @@ INSERT INTO /*TABLEPREFIX*/config ("configName","configValue") VALUES ('enable_t
 INSERT INTO /*TABLEPREFIX*/config ("configName","configValue") VALUES ('enable_wio','1');
 INSERT INTO /*TABLEPREFIX*/config ("configName","configValue") VALUES ('forbidden_attachment_types','');
 INSERT INTO /*TABLEPREFIX*/config ("configName","configValue") VALUES ('guests_enter_board','1');
+INSERT INTO /*TABLEPREFIX*/config ("configName","configValue") VALUES ('hot_status_posts_last_hour','10');
 INSERT INTO /*TABLEPREFIX*/config ("configName","configValue") VALUES ('max_attachment_size','512000');
 INSERT INTO /*TABLEPREFIX*/config ("configName","configValue") VALUES ('max_attachments_per_post','-1');
 INSERT INTO /*TABLEPREFIX*/config ("configName","configValue") VALUES ('max_avatar_file_size','10');

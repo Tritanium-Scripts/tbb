@@ -236,4 +236,14 @@ $this->DB->query('
 	ALTER TABLE '.TBLPFX.'profile_fields
 		ADD UNIQUE "fieldVarName" ("fieldVarName")
 ');
+
+$this->DB->queryParams('
+	INSERT INTO '.TBLPFX.'config SET
+		"configName"=$1,
+		"configValue"=$2
+',array(
+	'hot_status_posts_last_hour',
+	'10'
+));
+
 $nextUpdateFile = '';

@@ -12,7 +12,10 @@ class Config extends ModuleTemplate {
 	}
 
 	public function getValue($configName) {
-		return (isset($this->myConfig[$configName]) == FALSE) ? FALSE : $this->myConfig[$configName];
+		if(!isset($this->myConfig[$configName]))
+			throw new Exception('Unknown config name: '.$configName);
+		
+		return $this->myConfig[$configName];
 	}
 
 	public function updateValue($configName,$configValue,$updateCache = TRUE) {
