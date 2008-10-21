@@ -32,7 +32,7 @@ class AdminConfig extends ModuleTemplate {
 			'show_latest_posts_forumindex','show_news_forumindex','show_techstats','show_wio_forumindex','srgc_probability',
 			'sr_timeout','standard_language','standard_style','standard_tpl','standard_tz',
 			'supermod_rank_pic','topics_per_page','usersCounter','use_language_detection','verify_email_address',
-			'wio_timeout','hot_status_posts_last_hour'
+			'wio_timeout','hot_status_posts_last_hour','hide_not_accessible_forums'
 		);
 
 		$p = array();
@@ -43,7 +43,7 @@ class AdminConfig extends ModuleTemplate {
 		$p['config']['email_signature'] = Functions::str_replace("\r\n","\n",$p['config']['email_signature']);
 
 		if(isset($_GET['doit'])) {
-			foreach($configNames AS $curName)
+			foreach($configNames AS &$curName)
 				$this->modules['Config']->updateValue($curName,$p['config'][$curName],FALSE);
 
 			$this->modules['Cache']->setConfig();

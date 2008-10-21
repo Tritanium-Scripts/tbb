@@ -65,7 +65,7 @@ initializeClosedCatIDs();
  {/if}
  <tbody id="CatForums{$curCat.catID}" style="{if $curCat.catIsOpen == 1}{else}display:none;{/if}">
  {foreach from=$forumsData item=curForum}
-  {if $curForum.catID == $curCat.catID}
+  {if $curForum.catID == $curCat.catID && ($curForum.forumIsAccessible == 1 || $modules.Config->getValue('hide_not_accessible_forums') == 0)}
   <tr class="RowToHighlight" onmouseover="setRowCellsClass(this,'CellHighlight');" onmouseout="restoreRowCellsClass(this);">
    <td class="CellAlt" align="center"><img src="{$modules.Template->getTD()}/images/forum_{if $curForum._newPostsAvailable == 1}on{else}off{/if}.gif" alt=""/></td>
    <td class="CellStd" width="50%">

@@ -118,7 +118,7 @@ class ForumIndex extends ModuleTemplate {
 
 		// Proceed with the forums
 		foreach($forumsData AS &$curForum) {
-			if($curForum['forumIsAccessible'] != 1 && $this->modules['Config']->getValue('hideNotAccessibleForums') != 0) continue;
+			if($curForum['forumIsAccessible'] != 1 && $this->modules['Config']->getValue('hide_not_accessible_forums') != 0) continue;
 
 			$curForumMods = array(); // Array fuer die Moderatoren
 			while(list($curKey) = each($modsUsersData)) { // Erst werden alle Mitglieder-Moderatoren ueberprueft

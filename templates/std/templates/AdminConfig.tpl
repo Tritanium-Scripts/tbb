@@ -124,6 +124,10 @@
 			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Hot_status_posts_last_hour')}:</span><br/><span class="FontSmall">{$modules.Language->getString('hot_status_posts_last_hour_description')}</span></td>
 			<td class="CellAlt"><input size="5" class="FormText" type="text" value="{$p.config.hot_status_posts_last_hour}" name="p[config][hot_status_posts_last_hour]" maxlength="255"/></td>
 		</tr>
+		<tr>
+			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Hide_not_accessible_forums')}:</span></td>
+			<td class="CellAlt"><span class="FontNorm"><label><input type="radio" name="p[config][hide_not_accessible_forums]" value="1"{if $p.config.hide_not_accessible_forums == 1} checked="checked"{/if}/> {$modules.Language->getString('Yes')}</label>&nbsp;&nbsp;&nbsp;<label><input type="radio" name="p[config][hide_not_accessible_forums]" value="0"{if $p.config.hide_not_accessible_forums == 0} checked="checked"{/if}/> {$modules.Language->getString('No')}</label></span></td>
+		</tr>
 		<tr><td class="CellCat" colspan="2"><span class="FontCat">{$modules.Language->getString('Email_settings')}</span></td></tr>
 		<tr>
 			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Enable_email_functions')}:</span></td>

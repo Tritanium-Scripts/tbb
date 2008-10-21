@@ -246,4 +246,13 @@ $this->DB->queryParams('
 	'10'
 ));
 
+$this->DB->queryParams('
+	INSERT INTO '.TBLPFX.'config SET
+		"configName"=$1,
+		"configValue"=$2
+',array(
+	'hide_not_accessible_forums',
+	'0'
+));
+
 $nextUpdateFile = '';
