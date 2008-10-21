@@ -21,6 +21,7 @@ INSERT INTO /*TABLEPREFIX*/config ("configName","configValue") VALUES ('allow_si
 INSERT INTO /*TABLEPREFIX*/config ("configName","configValue") VALUES ('allow_sig_html','0');
 INSERT INTO /*TABLEPREFIX*/config ("configName","configValue") VALUES ('allow_sig_smilies','1');
 INSERT INTO /*TABLEPREFIX*/config ("configName","configValue") VALUES ('allowed_attachment_types','');
+INSERT INTO /*TABLEPREFIX*/config ("configName","configValue") VALUES ('announcements_forum_id','0');
 INSERT INTO /*TABLEPREFIX*/config ("configName","configValue") VALUES ('avatar_image_height','64');
 INSERT INTO /*TABLEPREFIX*/config ("configName","configValue") VALUES ('avatar_image_width','64');
 INSERT INTO /*TABLEPREFIX*/config ("configName","configValue") VALUES ('auth_global_smilies','1');

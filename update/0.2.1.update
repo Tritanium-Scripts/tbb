@@ -255,4 +255,13 @@ $this->DB->queryParams('
 	'0'
 ));
 
+$this->DB->queryParams('
+	INSERT INTO '.TBLPFX.'config SET
+		"configName"=$1,
+		"configValue"=$2
+',array(
+	'announcements_forum_id',
+	'0'
+));
+
 $nextUpdateFile = '';

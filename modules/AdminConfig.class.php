@@ -32,7 +32,7 @@ class AdminConfig extends ModuleTemplate {
 			'show_latest_posts_forumindex','show_news_forumindex','show_techstats','show_wio_forumindex','srgc_probability',
 			'sr_timeout','standard_language','standard_style','standard_tpl','standard_tz',
 			'supermod_rank_pic','topics_per_page','usersCounter','use_language_detection','verify_email_address',
-			'wio_timeout','hot_status_posts_last_hour','hide_not_accessible_forums'
+			'wio_timeout','hot_status_posts_last_hour','hide_not_accessible_forums','announcements_forum_id'
 		);
 
 		$p = array();

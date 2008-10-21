@@ -46,9 +46,8 @@ class ViewForum extends ModuleTemplate {
 		$pageListing = Functions::createPageListing($topicsCounter,$this->modules['Config']->getValue('topics_per_page'),$page,"<a href=\"".INDEXFILE."?action=ViewForum&amp;forumID=$forumID&amp;page=%1\$s&amp;".MYSID."\">%2\$s</a>");
 		$start = $page*$this->modules['Config']->getValue('topics_per_page')-$this->modules['Config']->getValue('topics_per_page');
 
-		// TODO: announcements
-		//$announcementsForumID = $this->modules['Config']->getValue('announcementsForumID');
-		$announcementsForumID = 0;
+		// Announcements forum
+		$announcementsForumID = $this->modules['Config']->getValue('announcements_forum_id');
 
 		// Die Ankuendigungen laden
 		$topicsData = array();
@@ -130,7 +129,8 @@ class ViewForum extends ModuleTemplate {
 				t3."userNick" AS "topicPosterNick",
 				t2."postGuestNick" AS "topicLastPostGuestNick",
 				t4."userNick" AS "topicLastPostPosterNick",
-				t5."smileyFileName" AS "topicSmileyFileName"
+				t5."smileyFileName" AS "topicSmileyFileName",
+				IFNULL(t6."topicPostsLastHour",0) AS "topicPostsLastHour"
 			FROM (
 				'.TBLPFX.'posts t2,
 				'.TBLPFX.'topics t1
@@ -138,11 +138,21 @@ class ViewForum extends ModuleTemplate {
 			LEFT JOIN '.TBLPFX.'users t3 ON t1."posterID"=t3."userID"
 			LEFT JOIN '.TBLPFX.'users t4 ON t2."posterID"=t4."userID"
 			LEFT JOIN '.TBLPFX.'smilies t5 ON t1."smileyID"=t5."smileyID"
+			LEFT JOIN (
+					SELECT
+						t7."topicID",
+						COUNT(*) AS "topicPostsLastHour"
+					FROM
+						'.TBLPFX.'posts t7
+					WHERE
+						UNIX_TIMESTAMP()-t7."postTimestamp"<3600
+					GROUP BY
+						t7."topicID"
+			) t6 ON t6."topicID"=t1."topicID"
 			WHERE
 				t1."forumID"=$1
 				AND t1."topicLastPostID"=t2."postID"
 			ORDER BY
-				t1."topicIsPinned" DESC,
 				t2."postID" DESC
 		',array(
 			$forumID
