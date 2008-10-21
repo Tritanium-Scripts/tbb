@@ -806,7 +806,10 @@ class BoardInstall {
 							} while($nextUpdateFile != '');
 							
 							$this->DB->queryParams('UPDATE '.$_SESSION['tablePrefix'].'config SET "configValue"=$1 WHERE "configName"=\'dataversion\'',array(SCRIPTVERSION));
-	
+
+							//Delete cache
+							foreach(glob('cache/*.*') as $cacheFile) unlink($cacheFile);
+
 							$this->printHeader();
 	
 							?>
