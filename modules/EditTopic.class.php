@@ -40,7 +40,7 @@ class EditTopic extends ModuleTemplate {
 			if($topicData['topicHasPoll'] == 1) {
 				$this->modules['Language']->addFile('Posting');
 
-                $this->modules['DB']->queryParams('SELECT * FROM '.TBLPFX.'polls_options WHERE "topicID"=$1 ORDER BY "optionID" ASC', array($topicID));
+				$this->modules['DB']->queryParams('SELECT * FROM '.TBLPFX.'polls_options WHERE "topicID"=$1 ORDER BY "optionID" ASC', array($topicID));
 				$optionsData = $this->modules['DB']->raw2Array();
 
 				$p['optionsData'] = array();
@@ -74,57 +74,57 @@ class EditTopic extends ModuleTemplate {
 				elseif($topicData['topicHasPoll'] == 1 && $optionTitleMissing) $error = $this->modules['Language']->getString('error_poll_option_missing');
 				elseif($topicData['topicHasPoll'] == 1 && $p['pollDuration'] <= 0) $error = $this->modules['Language']->getString('error_invalid_poll_duration');
 				else {
-                    $this->modules['DB']->queryParams('
-                        UPDATE
-                            '.TBLPFX.'topics
-                        SET
-                            "topicTitle"=$1,
-                            "smileyID"=$2
-                        WHERE
-                            "topicID"=$3
-                    ', array(
-                        $p['topicTitle'],
-                        $p['smileyID'],
-                        $topicID
-                    ));
+					$this->modules['DB']->queryParams('
+						UPDATE
+							'.TBLPFX.'topics
+						SET
+							"topicTitle"=$1,
+							"smileyID"=$2
+						WHERE
+							"topicID"=$3
+					', array(
+						$p['topicTitle'],
+						$p['smileyID'],
+						$topicID
+					));
 
-                    $this->modules['DB']->queryParams('
-                        UPDATE
-                            '.TBLPFX.'posts
-                        SET
-                            "postTitle"=$1,
-                            "smileyID"=$2
-                        WHERE
-                            "postID"=$3
-                    ', array(
-                        $p['topicTitle'],
-                        $p['smileyID'],
-                        $topicData['topicFirstPostID']
-                    ));
+					$this->modules['DB']->queryParams('
+						UPDATE
+							'.TBLPFX.'posts
+						SET
+							"postTitle"=$1,
+							"smileyID"=$2
+						WHERE
+							"postID"=$3
+					', array(
+						$p['topicTitle'],
+						$p['smileyID'],
+						$topicData['topicFirstPostID']
+					));
 
 					if($topicData['topicHasPoll'] == 1) {
-                        $this->modules['DB']->queryParams('
-                            UPDATE
-                                '.TBLPFX.'topics
-                            SET
-                                "topicPollTitle"=$1,
-                                "topicPollEndTimestamp"=$2,
-                                "topicPollGuestsVote"=$3,
-                                "topicPollGuestsViewResults"=$4,
-                                "topicPollShowResultsAfterEnd"=$5
-                            WHERE
-                                "topicID"=$6
-                        ', array(
-                            $p['topicPollTitle'],
-                            $topicData['topicPollStartTimestamp']+$p['topicPollDuration']*86400,
-                            $c['topicPollGuestsVote'],
-                            $c['topicPollGuestsViewResults'],
-                            $c['topicPollShowResultsAfterEnd'],
-                            $topicID
-                        ));
+						$this->modules['DB']->queryParams('
+							UPDATE
+								'.TBLPFX.'topics
+							SET
+								"topicPollTitle"=$1,
+								"topicPollEndTimestamp"=$2,
+								"topicPollGuestsVote"=$3,
+								"topicPollGuestsViewResults"=$4,
+								"topicPollShowResultsAfterEnd"=$5
+							WHERE
+								"topicID"=$6
+						', array(
+							$p['topicPollTitle'],
+							$topicData['topicPollStartTimestamp']+$p['topicPollDuration']*86400,
+							$c['topicPollGuestsVote'],
+							$c['topicPollGuestsViewResults'],
+							$c['topicPollShowResultsAfterEnd'],
+							$topicID
+						));
 
 						foreach($p['optionsData'] AS $curKey => $curValue)
-                            $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'polls_options SET "optionTitle"=$1 WHERE "topicID"=$2 AND "optionID"=$3', array($curValue, $topicID, $curKey));
+							$this->modules['DB']->queryParams('UPDATE '.TBLPFX.'polls_options SET "optionTitle"=$1 WHERE "topicID"=$2 AND "optionID"=$3', array($curValue, $topicID, $curKey));
 					}
 
 					Functions::myHeader(INDEXFILE."?action=ViewTopic&topicID=$topicID&".MYSID);
@@ -149,17 +149,17 @@ class EditTopic extends ModuleTemplate {
 			if($this->modules['Auth']->getValue('userIsAdmin') != 1 && $authData['authIsMod'] != 1 && $this->modules['Auth']->getValue('userIsSupermod') != 1) die('Access denied: insufficient rights');
 			switch(@$_GET['mode']) {
 				case 'Pinn':
-                    $this->modules['DB']->queryParams('
-                        UPDATE
-                            '.TBLPFX.'topics
-                        SET
-                            "topicIsPinned"=$1
-                        WHERE
-                            "topicID"=$2
-                    ', array(
-                        ($topicData['topicIsPinned'] == 1) ? 0 : 1,
-                        $topicID
-                    ));
+					$this->modules['DB']->queryParams('
+						UPDATE
+							'.TBLPFX.'topics
+						SET
+							"topicIsPinned"=$1
+						WHERE
+							"topicID"=$2
+					', array(
+						($topicData['topicIsPinned'] == 1) ? 0 : 1,
+						$topicID
+					));
 
 					Functions::myHeader(INDEXFILE."?action=ViewTopic&topicID=$topicID&".MYSID);
 				break;
@@ -167,48 +167,41 @@ class EditTopic extends ModuleTemplate {
 				case 'OpenClose':
 					$topicIsClosed = ($topicData['topicIsClosed'] == 1) ? 0 : 1;
 
-                    $this->modules['DB']->queryParams('
-                        UPDATE
-                            '.TBLPFX.'topics
-                        SET
-                            "topicIsClosed"=$1
-                        WHERE
-                            "topicID"=$2
-                    ', array(
-                        $topicIsClosed,
-                        $topicID
-                    ));
+					$this->modules['DB']->queryParams('
+						UPDATE
+							'.TBLPFX.'topics
+						SET
+							"topicIsClosed"=$1
+						WHERE
+							"topicID"=$2
+					', array(
+						$topicIsClosed,
+						$topicID
+					));
 
 					Functions::myHeader(INDEXFILE."?action=ViewTopic&topicID=$topicID&".MYSID);
 				break;
 
 				case 'Delete':
-                    $this->modules['DB']->queryParams('SELECT "postID" FROM '.TBLPFX.'posts WHERE "topicID"=$1', array($topicID));
+					$this->modules['DB']->queryParams('SELECT "postID" FROM '.TBLPFX.'posts WHERE "topicID"=$1', array($topicID));
 					$postIDs = $this->modules['DB']->raw2FVArray();
-
 					$postsCounter = count($postIDs);
 
-                    $this->modules['DB']->queryParams('SELECT COUNT(*) AS "posterPostsCounter", "posterID" FROM '.TBLPFX.'posts WHERE "topicID"=$1 GROUP BY "posterID"', array($topicID));
+					/*$this->modules['DB']->queryParams('SELECT COUNT(*) AS "posterPostsCounter", "posterID" FROM '.TBLPFX.'posts WHERE "topicID"=$1 GROUP BY "posterID"', array($topicID));
 					$usersPostsCounter = $this->modules['DB']->raw2Array();
 					foreach($usersPostsCounter AS $curCounter) {
-                        $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'users SET "userPostsCounter"="userPostsCounter"-$1 WHERE "userID"=$2', array($curCounter['posterPostsCounter'], $curCounter['posterID']));
-					}
+						$this->modules['DB']->queryParams('UPDATE '.TBLPFX.'users SET "userPostsCounter"="userPostsCounter"-$1 WHERE "userID"=$2', array($curCounter['posterPostsCounter'], $curCounter['posterID']));
+					}*/
 
-                    $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'forums SET "forumPostsCounter"="forumPostsCounter"-$1, "forumTopicsCounter"="forumTopicsCounter"-1 WHERE "forumID"=$2', array($postsCounter, $forumID));
-                    $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'topics WHERE "topicID"=$1', array($topicID));
-                    $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'topics WHERE "topicMovedID"=$1', array($topicID));
-                    $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'posts WHERE "postID" IN $1', array($postIDs));
-                    $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'topics_subscriptions WHERE "topicID"=$1', array($topicID));
+					$this->modules['DB']->queryParams('UPDATE '.TBLPFX.'forums SET "forumPostsCounter"="forumPostsCounter"-$1, "forumTopicsCounter"="forumTopicsCounter"-1 WHERE "forumID"=$2', array($postsCounter, $forumID));
+					$this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'topics WHERE "topicID"=$1', array($topicID));
+					$this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'topics WHERE "topicMovedID"=$1', array($topicID));
+					$this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'posts WHERE "topicID"=$1', array($topicID));
+					$this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'topics_subscriptions WHERE "topicID"=$1', array($topicID));
 
 					if($topicData['topicHasPoll'] == 1) {
-                        $this->modules['DB']->queryParams('SELECT "pollID" FROM '.TBLPFX.'polls WHERE "topicID"=$1', array($topicID));
-						if($this->modules['DB']->getAffectedRows() == 1) {
-							list($topicPollID) = $this->modules['DB']->fetchArray();
-
-                            $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'polls WHERE "pollID"=$1', array($topicPollID));
-                            $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'polls_options WHERE "pollID"=$1', array($topicPollID));
-                            $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'polls_votes WHERE "pollID"=$1', array($topicPollID));
-						}
+						$this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'polls_options WHERE "topicID"=$1', array($topicID));
+						$this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'polls_votes WHERE "topicID"=$1', array($topicID));
 					}
 
 					if(in_array($forumData['forumLastPostID'],$postIDs))
@@ -228,14 +221,14 @@ class EditTopic extends ModuleTemplate {
 					if(isset($_GET['doit'])) {
 						if(!$targetForumData = FuncForums::getForumData($p['targetForumID'])) $error = $this->modules['Language']->getString('error_invalid_forum');
 						else {
-                            $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'topics SET "forumID"=$1 WHERE "topicID"=$2', array($p['targetForumID'], $topicID));
-                            $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'posts SET "forumID"=$1 WHERE "topicID"=$2', array($p['targetForumID'], $topicID));
+							$this->modules['DB']->queryParams('UPDATE '.TBLPFX.'topics SET "forumID"=$1 WHERE "topicID"=$2', array($p['targetForumID'], $topicID));
+							$this->modules['DB']->queryParams('UPDATE '.TBLPFX.'posts SET "forumID"=$1 WHERE "topicID"=$2', array($p['targetForumID'], $topicID));
 
-                            $this->modules['DB']->queryParams('SELECT COUNT(*) AS "topicPostsCounter" FROM '.TBLPFX.'posts WHERE "topicID"=$1', array($topicID));
+							$this->modules['DB']->queryParams('SELECT COUNT(*) AS "topicPostsCounter" FROM '.TBLPFX.'posts WHERE "topicID"=$1', array($topicID));
 							list($topicPostsCounter) = $this->modules['DB']->fetchArray();
 
-                            $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'forums SET "forumTopicsCounter"="forumTopicsCounter"-1, "forumPostsCounter"="forumPostsCounter"-$1 WHERE "forumID"=$2', array($topicPostsCounter, $forumID));
-                            $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'forums SET "forumTopicsCounter"="forumTopicsCounter"+1, "forumPostsCounter"="forumPostsCounter"+$1 WHERE "forumID"=$2', array($topicPostsCounter, $p['targetForumID']));
+							$this->modules['DB']->queryParams('UPDATE '.TBLPFX.'forums SET "forumTopicsCounter"="forumTopicsCounter"-1, "forumPostsCounter"="forumPostsCounter"-$1 WHERE "forumID"=$2', array($topicPostsCounter, $forumID));
+							$this->modules['DB']->queryParams('UPDATE '.TBLPFX.'forums SET "forumTopicsCounter"="forumTopicsCounter"+1, "forumPostsCounter"="forumPostsCounter"+$1 WHERE "forumID"=$2', array($topicPostsCounter, $p['targetForumID']));
 
 							if($c['createReference'] == 1) {
 								$slashedTopicData = $topicData;
@@ -290,7 +283,7 @@ class EditTopic extends ModuleTemplate {
 					// Kategorie- und Forendaten laden
 					//
 					$catsData = FuncCats::getCatsData();
-                    $this->modules['DB']->queryParams('SELECT "forumID", "forumName", "catID" FROM '.TBLPFX.'forums WHERE "forumID"<>$1', array($forumID));
+					$this->modules['DB']->queryParams('SELECT "forumID", "forumName", "catID" FROM '.TBLPFX.'forums WHERE "forumID"<>$1', array($forumID));
 					$forumsData = $this->modules['DB']->raw2Array();
 
 
