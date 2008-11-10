@@ -30,7 +30,7 @@ class TSMySQL {
 	public function query($query) {
 		if(!($this->curResult = $this->dbObject->query($query))) {
 			if(self::DEBUG)
-				die('Database error: <b>'.$this->dbObject->error.'</b><br/>Query: <b>'.$query.'</b>');
+				throw new Exception('Database error: <b>'.$this->dbObject->error.'</b><br/>Query: <b>'.$query.'</b>');
 			return FALSE;
 		}
 		return TRUE;

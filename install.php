@@ -1664,11 +1664,10 @@ class BoardInstall {
 								));
 							}
 
-							//Evtl. weitere (inoffizielle) Profilfelder importieren, die aber nicht eindeutig einem Hack zuordbar sind
-							$this->DB->query('SELECT COUNT(*) AS "insertID" FROM '.TBLPFX.'profile_fields');
-							$insertID = $this->DB->fetchArray(); //Aktuelle insertID rausfinden / TODO das geht evtl auch besser
-							$insertID = $insertID[0];
-							for($j=16; ; $j++)
+							// Evtl. weitere (inoffizielle) Profilfelder importieren, die aber nicht eindeutig einem Hack zuordbar sind
+							$this->DB->query('SELECT MAX("fieldID") AS "insertID" FROM '.TBLPFX.'profile_fields');
+							list($insertID) = $this->DB->fetchArray(); //Aktuelle insertID rausfinden / TODO das geht evtl auch besser
+							for($j = 16; $j < count($curUserData); $j++)
 							{
 								if($curUserData[$j] != '') {
 									$this->DB->queryParams('
@@ -2010,12 +2009,11 @@ class BoardInstall {
 						break;
 	
 					case '4':
-						//Falls weitere Profilfelderdaten importiert wurden, brauchen diese noch passende Felder.
+						// Falls weitere Profilfelderdaten importiert wurden, brauchen diese noch passende Felder.
 						$this->DB->query('SELECT MAX("fieldID") AS "fieldID" FROM ' . TBLPFX . 'profile_fields_data');
-						$fieldID = $this->DB->fetchArray(); //Anzahl Profilfelder rausfinden / TODO evtl geht das auch besser
-						$fieldID = $fieldID[0];
-						if($fieldID > 3)
-							for($i=4; $i<=$fieldID; $i++)
+						list($fieldID) = $this->DB->fetchArray(); //Anzahl Profilfelder rausfinden / TODO evtl geht das auch besser
+						if($fieldID > 3) {
+							for($i = 4; $i <= $fieldID; $i++) {
 								$this->DB->queryParams('
 									INSERT INTO '.TBLPFX.'profile_fields SET
 										"fieldName"=$1,
@@ -2030,6 +2028,8 @@ class BoardInstall {
                             		'%1$s',
                             		'unknown' . ($i-3)
 								));
+                            }
+                        }
 
 						$this->DB->query('
 							UPDATE
