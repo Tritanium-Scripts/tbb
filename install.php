@@ -1666,8 +1666,9 @@ class BoardInstall {
 
 							// Evtl. weitere (inoffizielle) Profilfelder importieren, die aber nicht eindeutig einem Hack zuordbar sind
 							$this->DB->query('SELECT MAX("fieldID") AS "insertID" FROM '.TBLPFX.'profile_fields');
-							list($insertID) = $this->DB->fetchArray(); //Aktuelle insertID rausfinden / TODO das geht evtl auch besser
-							for($j = 16; $j < count($curUserData); $j++)
+							list($insertID) = $this->DB->fetchArray(); //Aktuelle insertID rausfinden
+							#$size = count($curUserData);
+							for($j = 16; ; $j++) //TODO $size needed?!
 							{
 								if($curUserData[$j] != '') {
 									$this->DB->queryParams('
@@ -2011,9 +2012,12 @@ class BoardInstall {
 					case '4':
 						// Falls weitere Profilfelderdaten importiert wurden, brauchen diese noch passende Felder.
 						$this->DB->query('SELECT MAX("fieldID") AS "fieldID" FROM ' . TBLPFX . 'profile_fields_data');
-						list($fieldID) = $this->DB->fetchArray(); //Anzahl Profilfelder rausfinden / TODO evtl geht das auch besser
-						if($fieldID > 3) {
-							for($i = 4; $i <= $fieldID; $i++) {
+						list($fieldID) = $this->DB->fetchArray(); //Anzahl weiterer Profilfelder rausfinden
+						$this->DB->query('SELECT MAX("fieldID") AS "insertID" FROM '.TBLPFX.'profile_fields');
+						list($insertID) = $this->DB->fetchArray(); //Anzahl momentaner Profilfelder rausfinden
+						$j = 1;
+						if($fieldID > $insertID) {
+							for($i = ++$insertID; $i <= $fieldID; $i++) {
 								$this->DB->queryParams('
 									INSERT INTO '.TBLPFX.'profile_fields SET
 										"fieldName"=$1,
@@ -2022,12 +2026,13 @@ class BoardInstall {
                                 		"fieldLink"=$4,
                                 		"fieldVarName"=$5
 								',array(
-									$this->strings['Unknown'] . ($i-3),
+									$this->strings['Unknown'] . $j,
 									0,
 									serialize(array()),
                             		'%1$s',
-                            		'unknown' . ($i-3)
+                            		'unknown' . $j
 								));
+								$j++;
                             }
                         }
 
