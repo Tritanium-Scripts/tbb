@@ -1667,8 +1667,8 @@ class BoardInstall {
 							// Evtl. weitere (inoffizielle) Profilfelder importieren, die aber nicht eindeutig einem Hack zuordbar sind
 							$this->DB->query('SELECT MAX("fieldID") AS "insertID" FROM '.TBLPFX.'profile_fields');
 							list($insertID) = $this->DB->fetchArray(); //Aktuelle insertID rausfinden
-							#$size = count($curUserData);
-							for($j = 16; ; $j++) //TODO $size needed?!
+							$size = count($curUserData);
+							for($j = 16; $j < $size; $j++)
 							{
 								if($curUserData[$j] != '') {
 									$this->DB->queryParams('
