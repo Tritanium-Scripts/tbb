@@ -311,7 +311,7 @@ class Search extends ModuleTemplate {
 	
 			while($curPost = $this->modules['DB']->fetchArray()) {
 				$curPost['_postDateTime'] = Functions::toDateTime($curPost['postTimestamp']);
-				$curPost['_postPoster'] = ($curPost['posterID'] == 0 ? $curPost['postGuestNick'] : '<a href="'.INDEXFILE.'&amp;mode=ViewProfile&amp;profileID='.$curPost['posterID'].'&amp;'.MYSID.'">'.$curPost['posterNick'].'</a>');
+				$curPost['_postPoster'] = ($curPost['posterID'] == 0 ? $curPost['postGuestNick'] : '<a href="'.INDEXFILE.'?action=ViewProfile&amp;profileID='.$curPost['posterID'].'&amp;'.MYSID.'">'.$curPost['posterNick'].'</a>');
 				
 				$curPost['_postText'] = $this->modules['BBCode']->format($curPost['postText'], ($curPost['postEnableHtmlCode'] == 1 || $curPost['forumEnableHtmlCode'] == 1), ($curPost['postEnableSmilies'] == 1 && $curPost['forumEnableSmilies'] == 1), ($curPost['postEnableBBCode'] == 1 && $curPost['forumEnableBBCode'] == 1));
 				//if($curPost['post_enable_urltransformation'] == 1  && ($forum_id == 0 || $forumData['forum_enable_urltransformation'] == 1)) $curPost['post_text'] = transform_urls($curPost['post_text']);

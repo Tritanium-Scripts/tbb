@@ -57,8 +57,8 @@
 <tr><td class="CellStd"><span class="FontNorm">{$curField.fieldName}:</span></td><td class="CellAlt"><span class="FontNorm">{$curField._fieldValue}</span></td></tr>
 {/if}
 {/foreach}
-<tr><td class="CellAlt" colspan="2"><span class="FontNorm">[<a href="{$indexFile}?action=Search&amp;mode=">{$profileData._searchPostsText}</a>]</span></td></tr>
-<tr><td class="CellAlt" colspan="2"><span class="FontNorm">[<a href="{$indexFile}?action=Search&amp;mode=">{$profileData._searchTopicsText}</a>]</span></td></tr>
+<tr><td class="CellAlt" colspan="2"><span class="FontNorm">[<a href="{$indexFile}?action=Search&amp;p[searchAuthor]={$profileData.userID}&amp;doit=1&amp;p[displayResults]=posts">{$profileData._searchPostsText}</a>]</span></td></tr>
+<tr><td class="CellAlt" colspan="2"><span class="FontNorm">[<a href="{$indexFile}?action=Search&amp;p[searchAuthor]={$profileData.userID}&amp;doit=1">{$profileData._searchTopicsText}</a>]</span></td></tr>
 </table>
 {if $show.notesTable}
  <br/>
