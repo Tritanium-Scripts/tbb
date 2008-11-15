@@ -12,7 +12,12 @@
  <td class="CellTitle" colspan="2" style="text-align:right;"><span class="FontTitle"><a href="{$indexFile}?action=ViewProfile&amp;profileID={$profileID}&amp;mode=vCard&amp;{$mySID}">{$modules.Language->getString('Download_vcard')}</a></span></td>
 </tr>
 {if $modules.Config->getValue('enable_avatars') == 1 && $profileData.userAvatarAddress != ''}
-<tr><td class="CellStd" rowspan="7"><img src="{$profileData.userAvatarAddress}" width="128" height="128" alt="{$profileData.userNick}'s {$modules.Language->getString('Avatar')}"/></td></tr>
+<tr>
+ <td class="CellStd" rowspan="7">
+  <div id="Avatar" style="position:fixed; left:0; top:0; width:100%; height:100%; background-image:url({$profileData.userAvatarAddress}); background-repeat:no-repeat; background-position:center; background-color:#000000; cursor:pointer; z-index:1; visibility:hidden; opacity:0.9;" onclick="this.style.visibility='hidden';"></div>
+  <img src="{$profileData.userAvatarAddress}" alt="{$profileData.userNick}'s {$modules.Language->getString('Avatar')}" style="width:128px; height:128px; cursor:pointer;" onclick="document.getElementById('Avatar').style.visibility='visible';"/>
+ </td>
+</tr>
 {/if}
 <tr>
  <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('User_name')}:</span></td>
