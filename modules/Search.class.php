@@ -37,12 +37,10 @@ class Search extends ModuleTemplate {
 	}
 	
 	protected function modeDefault() {
-		$p = Functions::getSGValues($_POST['p'],array('searchWords','displayResults'),'');
+		$p = Functions::getSGValues($_REQUEST['p'],array('searchWords','displayResults','searchAuthor'),'');
 		$p['searchForums'] = isset($_POST['p']['searchForums']) && is_array($_POST['p']['searchForums']) ? $_POST['p']['searchForums'] : array('all');
 		$p['searchMethod'] = isset($_POST['p']['searchMethod']) ? $_POST['p']['searchMethod'] : 2;
 		$p += Functions::getSGValues($_POST['p'],array('searchWordsExact','searchSortMethod'),0);
-
-        $p['searchAuthor'] = isset($_REQUEST['p']['searchAuthor']) ? $_REQUEST['p']['searchAuthor'] : '';
 
 		// 0: nur titel
 		// 1: nur Beitraege
@@ -123,7 +121,7 @@ class Search extends ModuleTemplate {
 					session_id(),
 					implode(',',$foundPostsIDs)
 				));
-				Functions::myHeader(INDEXFILE.'?action=Search&mode=ViewResults&searchID='.$newSearchID.'&'.MYSID); exit;
+				Functions::myHeader(INDEXFILE.'?action=Search&mode=ViewResults&searchID='.$newSearchID.'&displayResults='.$p['displayResults'].'&'.MYSID); exit;
 			}
 		}
 
