@@ -37,10 +37,12 @@ class Search extends ModuleTemplate {
 	}
 	
 	protected function modeDefault() {
-		$p = Functions::getSGValues($_POST['p'],array('searchWords','searchAuthor','displayResults'),'');
+		$p = Functions::getSGValues($_POST['p'],array('searchWords','displayResults'),'');
 		$p['searchForums'] = isset($_POST['p']['searchForums']) && is_array($_POST['p']['searchForums']) ? $_POST['p']['searchForums'] : array('all');
 		$p['searchMethod'] = isset($_POST['p']['searchMethod']) ? $_POST['p']['searchMethod'] : 2;
 		$p += Functions::getSGValues($_POST['p'],array('searchWordsExact','searchSortMethod'),0);
+
+        $p['searchAuthor'] = isset($_REQUEST['p']['searchAuthor']) ? $_REQUEST['p']['searchAuthor'] : '';
 
 		// 0: nur titel
 		// 1: nur Beitraege
