@@ -93,7 +93,7 @@ class Auth extends ModuleTemplate {
 										'.TBLPFX.'groups_members
 									WHERE
 										"memberID"=$2
-								))) AND "authIsMod=\'0\' AND "authViewForum"=\'0\'
+								))) AND "authIsMod"=\'0\' AND "authViewForum"=\'0\'
 					)
 			',array(
 				AUTH_TYPE_USER,
