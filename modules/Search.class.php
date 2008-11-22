@@ -215,7 +215,7 @@ class Search extends ModuleTemplate {
 			if($sortType == 'time') $querySortType = 't2."postTimestamp"';
 			elseif($sortType == 'timeCreation') $querySortType = 't1."topicPostTimestamp"';
 			elseif($sortType == 'title') $querySortType = 't1."topicTitle"';
-			else $querySortType = 't1."posterID"';
+			else $querySortType = 't3."userNick"'.' '.$sortMethod.', t1."topicGuestNick"';
 	
 			$topicsData = array();
 			$this->modules['DB']->queryParams('
