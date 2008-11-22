@@ -1,7 +1,9 @@
 Search_for_keywords = Suche nach Schl&uuml;sselw&ouml;rtern
 search_keywords_info = Hier k&ouml;nnen Sie Suchbegriffe eingeben, nach denen gesucht werden soll
-Search_for_author = Suche nach Autor
-search_author_info = Falls Sie nur nach Beitr&auml;gen eines bestimmten Mitglieds suchen wollen, geben Sie hier bitte dessen Benutzernamen oder ID an
+Search_for_posts_author = Suche nach Beitragsautor
+search_posts_author_info = Falls Sie nur nach Beitr&auml;gen eines bestimmten Mitglieds suchen wollen, geben Sie hier bitte dessen Benutzernamen oder ID an
+Search_for_topics_author = Suche nach Themenautor
+search_topics_author_info = Falls Sie nur nach Beitr&auml;gen in Themen eines bestimmten Mitglieds suchen wollen, geben Sie hier bitte dessen Benutzernamen oder ID an
 Exact_search = Genaue Suche
 Advanced_search_options = Erweiterte Sucheinstellungen
 Search_entire_post = Gesamten Beitrag durchsuchen

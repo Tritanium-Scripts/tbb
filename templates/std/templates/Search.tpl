@@ -11,8 +11,12 @@
 			<td class="CellAlt" valign="top"><input class="FormText" type="text" name="p[searchWords]" value="{$p.searchWords}" size="50"/><br/><span class="FontSmall"><label><input type="checkbox" name="p[searchWordsExact]" value="1"{if $p.searchWordsExact == 1} checked="checked"{/if}/>&nbsp;{$modules.Language->getString('Exact_search')}</label></span></td>
 		</tr>
 		<tr>
-			<td class="CellStd" valign="top"><span class="FontNorm"><b>{$modules.Language->getString('Search_for_author')}:</b></span><br/><span class="FontSmall">{$modules.Language->getString('search_author_info')}</span></td>
-			<td class="CellAlt" valign="top"><input class="FormText" type="text" name="p[searchAuthor]" value="{$p.searchAuthor}" size="20"/></td>
+			<td class="CellStd" valign="top"><span class="FontNorm"><b>{$modules.Language->getString('Search_for_posts_author')}:</b></span><br/><span class="FontSmall">{$modules.Language->getString('search_posts_author_info')}</span></td>
+			<td class="CellAlt" valign="top"><input class="FormText" type="text" name="p[searchAuthorPosts]" value="{$p.searchAuthorPosts}" size="20"/></td>
+		</tr>
+		<tr>
+			<td class="CellStd" valign="top"><span class="FontNorm"><b>{$modules.Language->getString('Search_for_topics_author')}:</b></span><br/><span class="FontSmall">{$modules.Language->getString('search_topics_author_info')}</span></td>
+			<td class="CellAlt" valign="top"><input class="FormText" type="text" name="p[searchAuthorTopics]" value="{$p.searchAuthorTopics}" size="20"/></td>
 		</tr>
 		<tr><td class="CellCat" colspan="2"><span class="FontCat">{$modules.Language->getString('Advanced_search_options')}</span></td></tr>
 		<tr>

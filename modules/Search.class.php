@@ -37,7 +37,7 @@ class Search extends ModuleTemplate {
 	}
 	
 	protected function modeDefault() {
-		$p = Functions::getSGValues($_REQUEST['p'],array('searchWords','displayResults','searchAuthor'),'');
+		$p = Functions::getSGValues($_REQUEST['p'],array('searchWords','displayResults','searchAuthorPosts','searchAuthorTopics'),'');
 		$p['searchForums'] = isset($_POST['p']['searchForums']) && is_array($_POST['p']['searchForums']) ? $_POST['p']['searchForums'] : array('all');
 		$p['searchMethod'] = isset($_POST['p']['searchMethod']) ? $_POST['p']['searchMethod'] : 2;
 		$p += Functions::getSGValues($_POST['p'],array('searchWordsExact','searchSortMethod'),0);
@@ -78,32 +78,39 @@ class Search extends ModuleTemplate {
 			if(count($searchWords) != 0) {
 				$queryWords = array();
 				foreach($searchWords AS &$curWord) {
-					if($p['searchMethod'] == 0 || $p['searchMethod'] == 2) $queryWords[] = '"postTitle" LIKE \''.$curWord.'\'';
-					if($p['searchMethod'] == 1 || $p['searchMethod'] == 2) $queryWords[] = '"postText" LIKE \''.$curWord.'\'';
+					if($p['searchMethod'] == 0 || $p['searchMethod'] == 2) $queryWords[] = 't1."postTitle" LIKE \''.$curWord.'\'';
+					if($p['searchMethod'] == 1 || $p['searchMethod'] == 2) $queryWords[] = 't1."postText" LIKE \''.$curWord.'\'';
 				}
-
-				$queryWords = implode(' OR ',$queryWords);
-
-				$this->modules['DB']->query('SELECT "postID" FROM '.TBLPFX.'posts WHERE '.$queryWords);
-				$foundPostsIDs = $this->modules['DB']->raw2FVArray();
-
-				$queryWords = ' AND "postID" IN (\''.implode("','",$foundPostsIDs).'\')';
+				$queryWords = ' AND ('.implode(' OR ',$queryWords).')';
 			}
 
 			$queryAuthor = '';
-			if($p['searchAuthor'] != '') {
-				if($authorID = FuncUsers::getUserID($p['searchAuthor']))
-					$queryAuthor = ' AND "posterID"=\''.$authorID.'\'';
+			if($p['searchAuthorPosts'] != '' && ($authorIDPosts = FuncUsers::getUserID($p['searchAuthorPosts']))) {
+				$queryAuthor = ' AND t1."posterID"=\''.$authorIDPosts.'\'';
 			}
 
-			$this->modules['DB']->query('
-				SELECT
-					"postID"
-				FROM
-					'.TBLPFX.'posts
-				WHERE
-					"forumID" IN (\''.implode("','",$targetForumsIDs).'\')'.$queryAuthor.$queryWords
-			);
+			if($p['searchAuthorTopics'] != '' && ($authorIDTopics = FuncUsers::getUserID($p['searchAuthorTopics']))) {
+				$this->modules['DB']->query('
+					SELECT
+						t1."postID"
+					FROM (
+						'.TBLPFX.'posts t1,
+						'.TBLPFX.'topics t2
+					) WHERE
+						t1."forumID" IN (\''.implode("','",$targetForumsIDs).'\')'.$queryAuthor.$queryWords.'
+						AND t1."topicID"=t2."topicID"
+						AND t2."posterID"=\''.$authorIDTopics.'\'
+				');
+			} else {
+				$this->modules['DB']->query('
+					SELECT
+						t1."postID"
+					FROM
+						'.TBLPFX.'posts t1
+					WHERE
+						t1."forumID" IN (\''.implode("','",$targetForumsIDs).'\')'.$queryAuthor.$queryWords
+				);
+			}
 			$foundPostsIDs = $this->modules['DB']->raw2FVArray();
 
 
@@ -168,7 +175,7 @@ class Search extends ModuleTemplate {
 			$searchID
 		));
 		($this->modules['DB']->numRows() == 0) ? die('Cannot load data: search results') : $searchData = $this->modules['DB']->fetchArray();
-		//if($search_data['session_id'] != session_id()) die('Sie sind nicht berechtigt diese Suchergebnisse zu sehen!'); // ...und ueberpruefen, ob die Session die Suchergebnisse auswerten darf
+
 		$this->modules['DB']->queryParams('
 			UPDATE
 				'.TBLPFX.'search_results
@@ -203,7 +210,7 @@ class Search extends ModuleTemplate {
 	
 		if($displayResults == 'topics') {
 			$querySortType = '';
-			if($sortType == 'time') $querySortType = 't2."postID"';
+			if($sortType == 'time') $querySortType = 't2."postTimestamp"';
 			elseif($sortType == 'title') $querySortType = 't1."topicTitle"';
 			else $querySortType = 't1."posterID"';
 	
@@ -272,7 +279,7 @@ class Search extends ModuleTemplate {
 			$this->modules['Language']->addFile('ViewTopic');
 			
 			$querySortType = '';
-			if($sortType == 'time') $querySortType = 't1."postID"';
+			if($sortType == 'time') $querySortType = 't1."postTimestamp"';
 			elseif($sortType == 'title') $querySortType = 't1."postTitle"';
 			else $querySortType = 't1."posterID"';
 			
@@ -308,17 +315,16 @@ class Search extends ModuleTemplate {
 				explode(',',$searchData['searchResults']),
 				$authedForumsIDs
 			));
-	
-			while($curPost = $this->modules['DB']->fetchArray()) {
+			$postsData = $this->modules['DB']->raw2Array();
+
+			foreach($postsData AS &$curPost) {
 				$curPost['_postDateTime'] = Functions::toDateTime($curPost['postTimestamp']);
 				$curPost['_postPoster'] = ($curPost['posterID'] == 0 ? $curPost['postGuestNick'] : '<a href="'.INDEXFILE.'?action=ViewProfile&amp;profileID='.$curPost['posterID'].'&amp;'.MYSID.'">'.$curPost['posterNick'].'</a>');
 				
 				$curPost['_postText'] = $this->modules['BBCode']->format($curPost['postText'], ($curPost['postEnableHtmlCode'] == 1 || $curPost['forumEnableHtmlCode'] == 1), ($curPost['postEnableSmilies'] == 1 && $curPost['forumEnableSmilies'] == 1), ($curPost['postEnableBBCode'] == 1 && $curPost['forumEnableBBCode'] == 1));
 				//if($curPost['post_enable_urltransformation'] == 1  && ($forum_id == 0 || $forumData['forum_enable_urltransformation'] == 1)) $curPost['post_text'] = transform_urls($curPost['post_text']);
-				
-				$postsData[] = $curPost;
 			}
-			
+
 			$this->modules['Template']->assign(array(
 				'postsData'=>$postsData
 			));
