@@ -43,6 +43,7 @@ class BBCode extends ModuleTemplate {
 		$text = preg_replace_callback("/\[center\](.*?)\[\/center\]/si",array($this,'cbCenter'),$text); // [center]xxx[/center]
 		$text = preg_replace_callback("/\[email\](.*?)\[\/email\]/si",array($this,'cbEmail'),$text); // [email]xxx[/email]
 		$text = preg_replace_callback("/\[img\](.*?)\[\/img\]/si",array($this,'cbImage'),$text); // [img]xxx[/img]
+		$text = preg_replace_callback("/\[img=(.*?)\](.*?)\[\/img\]/si", array($this,'cbImage'), $text); //[img=xxx]xxx[/img]
 		$text = preg_replace_callback("/\[url\](.*?)\[\/url\]/si",array($this,'cbLink'),$text); // [url]xxx[/url]
 		$text = preg_replace_callback("/\[url=(.*?)\](.*?)\[\/url\]/si",array($this,'cbLink'),$text); // [url=xxx]xxx[/url]
 		$text = preg_replace_callback("/\[color=(\#[a-fA-F0-9]{6}|[a-zA-Z]+)\](.*?)\[\/color\]/si",array($this,'cbColor'),$text); // [color=xxx]xxx[/color]
@@ -180,9 +181,10 @@ class BBCode extends ModuleTemplate {
 	protected function cbImage($elements) {
 		if(Functions::substr($elements[1],0,11) == 'javascript:') return $elements[0];
 
-		$this->modules['Template']->assign('b',array(
+		$this->modules['Template']->assign('b',array(        
 			'bbCodeType'=>BBCODE_IMAGE,
-			'imageAddress'=>$elements[1]
+			'imageAddress'=>$elements[1],
+			'imageText'=>count($elements) == 3 ? $elements[2] : ''
 		));
 		return $this->modules['Template']->fetch('BBCodeHtml.tpl');
 	}
@@ -274,5 +276,4 @@ class BBCode extends ModuleTemplate {
 		return $this->modules['Template']->fetch('BBCodeHtml.tpl');
 	}
 }
-
 ?>
