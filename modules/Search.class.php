@@ -258,8 +258,8 @@ class Search extends ModuleTemplate {
 	
 			while($curTopic = $this->modules['DB']->fetchArray()) {
 				$curTopicPrefix = '';
-				if($curTopic['topicIsPinned'] == 1) $curTopicPrefix .= $this->modules['Language']->getString('Important').': ';
-				if($curTopic['topicHasPoll'] == 1) $curTopicPrefix .= $this->modules['Language']->getString('Poll').': ';
+				if($curTopic['topicIsPinned'] == 1) $curTopicPrefix .= $this->modules['Language']->getString('Prefix_important').': ';
+				if($curTopic['topicHasPoll'] == 1) $curTopicPrefix .= $this->modules['Language']->getString('Prefix_poll').': ';
 				$curTopic['_topicPrefix'] = $curTopicPrefix;
 	
 				$curTopic['_topicPoster'] = ($curTopic['posterID'] == 0) ? $curTopic['topicGuestNick'] : '<a href="'.INDEXFILE.'?action=ViewProfile&amp;profileID='.$curTopic['posterID'].'&amp;'.MYSID.'">'.$curTopic['posterNick'].'</a>';
