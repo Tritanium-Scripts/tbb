@@ -23,6 +23,8 @@ class Search extends ModuleTemplate {
 		}
 
 		$this->modules['Language']->addFile('Search');
+		$this->modules['Language']->addFile('ViewForum');
+
 		$this->modules['Navbar']->addElement($this->modules['Language']->getString('Search'),INDEXFILE.'?action=Search&amp;'.MYSID);
 
 		switch(@$_GET['mode']) {
