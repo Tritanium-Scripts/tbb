@@ -284,7 +284,7 @@ class Search extends ModuleTemplate {
 			$querySortType = '';
 			if($sortType == 'time' || $sortType == 'timeCreation') $querySortType = 't1."postTimestamp"';
 			elseif($sortType == 'title') $querySortType = 't1."postTitle"';
-			else $querySortType = 't1."posterID"';
+			else $querySortType = 't2."userNick"'.' '.$sortMethod.', t1."postGuestNick"';
 			
 			$smiliesData = $this->modules['Cache']->getSmiliesData('write');
 	
