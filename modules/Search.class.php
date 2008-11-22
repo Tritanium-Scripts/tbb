@@ -194,7 +194,7 @@ class Search extends ModuleTemplate {
 		$sortType = isset($_REQUEST['sortType']) ? $_REQUEST['sortType'] : 'time';
 		$resultsPerPage = isset($_REQUEST['resultsPerPage']) ? intval($_REQUEST['resultsPerPage']) : 20;
 	
-		if(!in_array($sortType,array('time','author','title'))) $sortType = 'time';
+		if(!in_array($sortType,array('time','timeCreation','author','title'))) $sortType = 'time';
 		if(!in_array($displayResults,array('topics','posts'))) $displayResults = 'topics';
 		if(!in_array($sortMethod,array('ASC','DESC'))) $sortMethod = 'DESC';
 		
@@ -213,6 +213,7 @@ class Search extends ModuleTemplate {
 		if($displayResults == 'topics') {
 			$querySortType = '';
 			if($sortType == 'time') $querySortType = 't2."postTimestamp"';
+			elseif($sortType == 'timeCreation') $querySortType = 't1."topicPostTimestamp"';
 			elseif($sortType == 'title') $querySortType = 't1."topicTitle"';
 			else $querySortType = 't1."posterID"';
 	
@@ -258,8 +259,8 @@ class Search extends ModuleTemplate {
 	
 			while($curTopic = $this->modules['DB']->fetchArray()) {
 				$curTopicPrefix = '';
-				if($curTopic['topicIsPinned'] == 1) $curTopicPrefix .= $this->modules['Language']->getString('Prefix_important').': ';
-				if($curTopic['topicHasPoll'] == 1) $curTopicPrefix .= $this->modules['Language']->getString('Prefix_poll').': ';
+				if($curTopic['topicIsPinned'] == 1) $curTopicPrefix .= $this->modules['Language']->getString('Prefix_important');
+				if($curTopic['topicHasPoll'] == 1) $curTopicPrefix .= $this->modules['Language']->getString('Prefix_poll');
 				$curTopic['_topicPrefix'] = $curTopicPrefix;
 	
 				$curTopic['_topicPoster'] = ($curTopic['posterID'] == 0) ? $curTopic['topicGuestNick'] : '<a href="'.INDEXFILE.'?action=ViewProfile&amp;profileID='.$curTopic['posterID'].'&amp;'.MYSID.'">'.$curTopic['posterNick'].'</a>';
@@ -281,7 +282,7 @@ class Search extends ModuleTemplate {
 			$this->modules['Language']->addFile('ViewTopic');
 			
 			$querySortType = '';
-			if($sortType == 'time') $querySortType = 't1."postTimestamp"';
+			if($sortType == 'time' || $sortType == 'timeCreation') $querySortType = 't1."postTimestamp"';
 			elseif($sortType == 'title') $querySortType = 't1."postTitle"';
 			else $querySortType = 't1."posterID"';
 			
