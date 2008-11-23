@@ -39,6 +39,8 @@
 <input class="FormBBCodeButton" type="button" value="Center" onclick="insert('[center]','[/center]');"/>
 <input class="FormBBCodeButton" type="button" value="{$modules.Language->getString('List')}" onclick="insert('[list]\n[*]','\n[/list]');"/>
 <input class="FormBBCodeButton" type="button" value="Flash" onclick="insert('[flash]','[/flash]');"/>
+<input class="FormBBCodeButton" type="button" value="SUP" onclick="insert('[sup]','[/sup]');"/>
+<input class="FormBBCodeButton" type="button" value="SUB" onclick="insert('[sub]','[/sub]');"/>
 {*<select class="FormSelect" onchange="if(this.options[this.options.selectedIndex].value != '') insert('[glow=' + this.options[this.options.selectedIndex].value + ']', '[/glow]');">
  <option value="">{$modules.Language->getString('Font_glow')}</option>
  <option value="#FF0000" style="background-color:#FF0000; color:#FF0000;">{$modules.Language->getString('Red')}</option>

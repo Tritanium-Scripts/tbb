@@ -40,6 +40,8 @@ class BBCode extends ModuleTemplate {
 		$text = preg_replace_callback("/\[i\](.*?)\[\/i\]/si",array($this,'cbItalic'),$text); // [i]xxx[/i]
 		$text = preg_replace_callback("/\[u\](.*?)\[\/u\]/si",array($this,'cbUnderline'),$text); // [u]xxx[/u]
 		$text = preg_replace_callback("/\[s\](.*?)\[\/s\]/si",array($this,'cbStrike'),$text); // [s]xxx[/s]
+		$text = preg_replace_callback("/\[sup\](.*?)\[\/sup\]/si", array($this, 'cbSuperscript'), $text); //[sup]xxx[/sup]
+		$text = preg_replace_callback("/\[sub\](.*?)\[\/sub\]/si", array($this, 'cbSubscript'), $text); //[sub]xxx[/sub]
 		$text = preg_replace_callback("/\[center\](.*?)\[\/center\]/si",array($this,'cbCenter'),$text); // [center]xxx[/center]
 		$text = preg_replace_callback("/\[email\](.*?)\[\/email\]/si",array($this,'cbEmail'),$text); // [email]xxx[/email]
 		$text = preg_replace_callback("/\[img\](.*?)\[\/img\]/si",array($this,'cbImage'),$text); // [img]xxx[/img]
@@ -162,6 +164,22 @@ class BBCode extends ModuleTemplate {
 		return $this->modules['Template']->fetch('BBCodeHtml.tpl');
 	}
 
+	protected function cbSuperscript($elements) {
+		$this->modules['Template']->assign('b', array(
+			'bbCodeType'=>BBCODE_SUPERSCRIPT,
+			'superText'=>$elements[1]
+		));
+		return $this->modules['Template']->fetch('BBCodeHtml.tpl');
+	}
+
+	protected function cbSubscript($elements) {
+		$this->modules['Template']->assign('b', array(
+			'bbCodeType'=>BBCODE_SUBSCRIPT,
+			'subText'=>$elements[1]
+		));
+		return $this->modules['Template']->fetch('BBCodeHtml.tpl');
+	}
+
 	protected function cbCenter($elements) {
 		$this->modules['Template']->assign('b',array(
 			'bbCodeType'=>BBCODE_CENTER,
@@ -181,7 +199,7 @@ class BBCode extends ModuleTemplate {
 	protected function cbImage($elements) {
 		if(Functions::substr($elements[1],0,11) == 'javascript:') return $elements[0];
 
-		$this->modules['Template']->assign('b',array(        
+		$this->modules['Template']->assign('b',array(
 			'bbCodeType'=>BBCODE_IMAGE,
 			'imageAddress'=>$elements[1],
 			'imageText'=>count($elements) == 3 ? $elements[2] : ''

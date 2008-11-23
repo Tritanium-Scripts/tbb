@@ -38,6 +38,10 @@
  <span style="text-decoration:underline;">{$b.underlineText}</span>
 {elseif $b.bbCodeType == $smarty.const.BBCODE_STRIKE}
  <span style="text-decoration:line-through;">{$b.strikeText}</span>
+{elseif $b.bbCodeType == $smarty.const.BBCODE_SUPERSCRIPT}
+ <sup>{$b.superText}</sup>
+{elseif $b.bbCodeType == $smarty.const.BBCODE_SUBSCRIPT}
+ <sub>{$b.subText}</sub>
 {elseif $b.bbCodeType == $smarty.const.BBCODE_EMAIL}
  <a href="mailto:{$b.emailAddress}">{$b.emailAddress}</a>
 {elseif $b.bbCodeType == $smarty.const.BBCODE_CENTER}

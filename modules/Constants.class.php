@@ -23,20 +23,22 @@ class Constants extends ModuleTemplate {
 
 		define('BBCODE_QUOTE',0);
 		define('BBCODE_CODE',1);
-		define('BBCODE_BOLD',2);
-		define('BBCODE_ITALIC',3);
-		define('BBCODE_UNDERLINE',4);
-		define('BBCODE_STRIKE',5);
-		define('BBCODE_CENTER',6);
-		define('BBCODE_EMAIL',7);
-		define('BBCODE_IMAGE',8);
-		define('BBCODE_LINK',9);
-		define('BBCODE_COLOR',10);
-		define('BBCODE_SIZE', 11);
-		define('BBCODE_GLOW', 12);
-		define('BBCODE_SHADOW', 13);
-		define('BBCODE_LIST', 14);
-		define('BBCODE_FLASH', 15);
+		define('BBCODE_LIST', 2);
+		define('BBCODE_BOLD',3);
+		define('BBCODE_ITALIC',4);
+		define('BBCODE_UNDERLINE',5);
+		define('BBCODE_STRIKE',6);
+		define('BBCODE_SUPERSCRIPT', 7);
+		define('BBCODE_SUBSCRIPT', 8);
+		define('BBCODE_CENTER',9);
+		define('BBCODE_EMAIL',10);
+		define('BBCODE_IMAGE',11);
+		define('BBCODE_LINK',12);
+		define('BBCODE_COLOR',13);
+		define('BBCODE_SIZE', 14);
+		define('BBCODE_GLOW', 15);
+		define('BBCODE_SHADOW', 16);
+		define('BBCODE_FLASH', 17);
 	}
 }
 
