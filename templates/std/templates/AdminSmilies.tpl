@@ -6,7 +6,7 @@
   <td class="CellAlt"><span class="FontSmall">{$curSmiley.smileyFileName}</span></td>
   <td class="CellStd"><span class="FontSmall">{$curSmiley.smileySynonym}</span></td>
   <td class="CellAlt" align="center"><span class="FontSmall">{if $curSmiley.smileyStatus == 1}{$modules.Language->getString('visible')}{else}{$modules.Language->getString('invisible')}{/if}</span></td>
-  <td class="CellStd" align="right"><span class="FontSmall"><a href="{$indexFile}?action=AdminSmilies&amp;mode=deleteSmiley&amp;smileyID={$curSmiley.smileyID}&amp;{$mySID}">{$modules.Language->getString('delete')}</a> | <a href="{$indexFile}?action=AdminSmilies&amp;mode=editSmiley&amp;smileyID={$curSmiley.smileyID}&amp;{$mySID}">{$modules.Language->getString('edit')}</a></span></td>
+  <td class="CellStd" align="right"><span class="FontSmall"><a href="{$indexFile}?action=AdminSmilies&amp;mode=deleteSmiley&amp;smileyID={$curSmiley.smileyID}&amp;{$mySID}">{$modules.Language->getString('delete')}</a> | <a href="{$indexFile}?action=AdminSmilies&amp;mode=editSmiley&amp;smileyID={$curSmiley.smileyID}&amp;{$mySID}">{$modules.Language->getString('Edit')}</a></span></td>
  </tr>
 {/foreach}
 <tr><td class="CellTitle" colspan="5"><span class="FontTitle">{$modules.Language->getString('Adminsmilies')}</span></td></tr>
@@ -15,7 +15,7 @@
   <td class="CellStd" align="center"><img src="{$curSmiley.smileyFileName}" alt=""/></td>
   <td class="CellAlt"><span class="FontSmall">{$curSmiley.smileyFileName}</span></td>
   <td class="CellStd" colspan="2"><span class="FontSmall">{$curSmiley.smileySynonym}</span></td>
-  <td class="CellStd" align="right"><span class="FontSmall"><a href="{$indexFile}?action=AdminSmilies&amp;mode=deleteSmiley&amp;smileyID={$curSmiley.smileyID}&amp;{$mySID}">{$modules.Language->getString('delete')}</a> | <a href="{$indexFile}?action=AdminSmilies&amp;mode=editSmiley&amp;smileyID={$curSmiley.smileyID}&amp;{$mySID}">{$modules.Language->getString('edit')}</a></span></td>
+  <td class="CellStd" align="right"><span class="FontSmall"><a href="{$indexFile}?action=AdminSmilies&amp;mode=deleteSmiley&amp;smileyID={$curSmiley.smileyID}&amp;{$mySID}">{$modules.Language->getString('delete')}</a> | <a href="{$indexFile}?action=AdminSmilies&amp;mode=editSmiley&amp;smileyID={$curSmiley.smileyID}&amp;{$mySID}">{$modules.Language->getString('Edit')}</a></span></td>
  </tr>
 {/foreach}
 <tr><td class="CellTitle" colspan="5"><span class="FontTitle">{$modules.Language->getString('Topic_pics')}</span></td></tr>
@@ -23,7 +23,7 @@
 <tr>
  <td class="CellStd" align="center"><img src="{$curSmiley.smileyFileName}" alt=""/></td>
  <td class="CellAlt" colspan="3"><span class="FontSmall">{$curSmiley.smileyFileName}</span></td>
- <td class="CellStd" align="right"><span class="FontSmall"><a href="{$indexFile}?action=AdminSmilies&amp;mode=deleteSmiley&amp;smileyID={$curSmiley.smileyID}&amp;{$mySID}">{$modules.Language->getString('delete')}</a> | <a href="{$indexFile}?action=AdminSmilies&amp;mode=editSmiley&amp;smileyID={$curSmiley.smileyID}&amp;{$mySID}">{$modules.Language->getString('edit')}</a></span></td>
+ <td class="CellStd" align="right"><span class="FontSmall"><a href="{$indexFile}?action=AdminSmilies&amp;mode=deleteSmiley&amp;smileyID={$curSmiley.smileyID}&amp;{$mySID}">{$modules.Language->getString('delete')}</a> | <a href="{$indexFile}?action=AdminSmilies&amp;mode=editSmiley&amp;smileyID={$curSmiley.smileyID}&amp;{$mySID}">{$modules.Language->getString('Edit')}</a></span></td>
 </tr>
 {/foreach}
 </table>

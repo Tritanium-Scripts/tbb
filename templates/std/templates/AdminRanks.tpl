@@ -5,7 +5,7 @@
  <td class="CellStd"><span class="FontNorm">{$curRank.rankName}</span></td>
  <td class="CellAlt" align="center"><span class="FontNorm">{$curRank.rankPosts}</span></td>
  <td class="CellStd" align="center"><span class="FontNorm">{$curRank._rankGfx}</span></td>
- <td class="CellAlt" align="right"><span class="FontSmall"><a href="{$indexFile}?action=AdminRanks&amp;mode=DeleteRank&amp;rankID={$curRank.rankID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/icons/AwardStarDelete.png" alt="{$modules.Language->getString('delete')}" title="{$modules.Language->getString('delete')}"/></a> | <a href="{$indexFile}?action=AdminRanks&amp;mode=EditRank&amp;rankID={$curRank.rankID}&amp;{$mySID}">{$modules.Language->getString('edit')}</a></span></td>
+ <td class="CellAlt" align="right"><span class="FontSmall"><a href="{$indexFile}?action=AdminRanks&amp;mode=DeleteRank&amp;rankID={$curRank.rankID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/icons/AwardStarDelete.png" alt="{$modules.Language->getString('delete')}" title="{$modules.Language->getString('delete')}"/></a> | <a href="{$indexFile}?action=AdminRanks&amp;mode=EditRank&amp;rankID={$curRank.rankID}&amp;{$mySID}">{$modules.Language->getString('Edit')}</a></span></td>
 </tr>
 {/foreach}
 </table>
@@ -16,7 +16,7 @@
 <tr>
  <td class="CellStd"><span class="FontNorm">{$curRank.rankName}</span></td>
  <td class="CellAlt" align="center"><span class="FontNorm">{$curRank._rankGfx}</span></td>
- <td class="CellStd" align="right"><span class="FontSmall"><a href="{$indexFile}?action=AdminRanks&amp;mode=DeleteRank&amp;rankID={$curRank.rankID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/icons/AwardStarDelete.png" alt="{$modules.Language->getString('delete')}" title="{$modules.Language->getString('delete')}"/></a> | <a href="{$indexFile}?action=AdminRanks&amp;mode=EditRank&amp;rankID={$curRank.rankID}&amp;{$mySID}">{$modules.Language->getString('edit')}</a></span></td>
+ <td class="CellStd" align="right"><span class="FontSmall"><a href="{$indexFile}?action=AdminRanks&amp;mode=DeleteRank&amp;rankID={$curRank.rankID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/icons/AwardStarDelete.png" alt="{$modules.Language->getString('delete')}" title="{$modules.Language->getString('delete')}"/></a> | <a href="{$indexFile}?action=AdminRanks&amp;mode=EditRank&amp;rankID={$curRank.rankID}&amp;{$mySID}">{$modules.Language->getString('Edit')}</a></span></td>
 </tr>
 {/foreach}
 </table>

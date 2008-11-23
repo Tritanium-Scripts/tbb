@@ -25,7 +25,7 @@
   <td class="CellStd"><span class="FontNorm">{$curUser.userID}</span></td>
   <td class="CellAlt"><span class="FontNorm">{$curUser.userNick}</span></td>
   <td class="CellStd"><span class="FontNorm">{$curUser.userEmailAddress}</span></td>
-  <td class="CellAlt" align="right"><span class="FontSmall"><a href="{$indexFile}?action=AdminUsers&amp;mode=EditUser&amp;userID={$curUser.userID}&amp;{$mySID}">{$modules.Language->getString('edit')}</a></span></td>
+  <td class="CellAlt" align="right"><span class="FontSmall"><a href="{$indexFile}?action=AdminUsers&amp;mode=EditUser&amp;userID={$curUser.userID}&amp;{$mySID}">{$modules.Language->getString('Edit')}</a></span></td>
  </tr>
 {/foreach}
 </table>

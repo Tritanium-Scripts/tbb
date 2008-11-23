@@ -12,15 +12,15 @@
 						</colgroup>
 						<tr>
 							<td style="padding:2px;" valign="top"><span class="FontNorm">{$modules.Language->getString('Show_email_address')}:</span><br/><span class="FontSmall">{$modules.Language->getString('show_email_address_info')}</span></td>
-							<td style="padding:2px;" valign="top"><span class="FontNorm"><label><input class="FormRadio" type="radio" name="p[userHideEmailAddress]" value="0"{if $p.userHideEmailAddress == 0} checked="checked"{/if}/>&nbsp;{$modules.Language->getString('Yes')}</label>&nbsp;&nbsp;&nbsp;<label><input class="FormRadio" type="radio" name="p[userHideEmailAddress]" value="1"{if $p.userHideEmailAddress == 1} checked="checked"{/if}/>&nbsp;{$modules.Language->getString('No')}</label></span></td>
+							<td style="padding:2px;" valign="top"><span class="FontNorm"><label><input class="FormRadio" type="radio" name="p[userHideEmailAddress]" value="0"{if $p.userHideEmailAddress == 0} checked="checked"{/if}/>&nbsp;{$modules.Language->getString('Positive')}</label>&nbsp;&nbsp;&nbsp;<label><input class="FormRadio" type="radio" name="p[userHideEmailAddress]" value="1"{if $p.userHideEmailAddress == 1} checked="checked"{/if}/>&nbsp;{$modules.Language->getString('Negative')}</label></span></td>
 						</tr>
 						<tr>
 							<td style="padding:2px;" valign="top"><span class="FontNorm">{$modules.Language->getString('Receive_board_emails')}:</span><br/><span class="FontSmall">{$modules.Language->getString('receive_board_emails_info')}</span></td>
-							<td style="padding:2px;" valign="top"><span class="FontNorm"><label><input class="FormRadio" type="radio" name="p[userReceiveEmails]" value="1"{if $p.userReceiveEmails == 1} checked="checked"{/if}/>&nbsp;{$modules.Language->getString('Yes')}</label>&nbsp;&nbsp;&nbsp;<label><input class="FormRadio" type="radio" name="p[userReceiveEmails]" value="0"{if $p.userReceiveEmails == 0} checked="checked"{/if}/>&nbsp;{$modules.Language->getString('No')}</label></span></td>
+							<td style="padding:2px;" valign="top"><span class="FontNorm"><label><input class="FormRadio" type="radio" name="p[userReceiveEmails]" value="1"{if $p.userReceiveEmails == 1} checked="checked"{/if}/>&nbsp;{$modules.Language->getString('Positive')}</label>&nbsp;&nbsp;&nbsp;<label><input class="FormRadio" type="radio" name="p[userReceiveEmails]" value="0"{if $p.userReceiveEmails == 0} checked="checked"{/if}/>&nbsp;{$modules.Language->getString('Negative')}</label></span></td>
 						</tr>
 						<tr>
 							<td style="padding:2px;" valign="top"><span class="FontNorm">{$modules.Language->getString('Notify_new_pms_by_email')}:</span></td>
-							<td style="padding:2px;" valign="top"><span class="FontNorm"><label><input class="FormRadio" type="radio" name="p[userNotifyNewPM]" value="1"{if $p.userNotifyNewPM == 1} checked="checked"{/if}/>&nbsp;{$modules.Language->getString('Yes')}</label>&nbsp;&nbsp;&nbsp;<label><input class="FormRadio" type="radio" name="p[userNotifyNewPM]" value="0"{if $p.userNotifyNewPM == 0} checked="checked"{/if}/>&nbsp;{$modules.Language->getString('No')}</label></span></td>
+							<td style="padding:2px;" valign="top"><span class="FontNorm"><label><input class="FormRadio" type="radio" name="p[userNotifyNewPM]" value="1"{if $p.userNotifyNewPM == 1} checked="checked"{/if}/>&nbsp;{$modules.Language->getString('Positive')}</label>&nbsp;&nbsp;&nbsp;<label><input class="FormRadio" type="radio" name="p[userNotifyNewPM]" value="0"{if $p.userNotifyNewPM == 0} checked="checked"{/if}/>&nbsp;{$modules.Language->getString('Negative')}</label></span></td>
 						</tr>
 						<tr>
 							<td style="padding:2px;" valign="top"><span class="FontNorm">{$modules.Language->getString('Timezone')}:</span></td>

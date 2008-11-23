@@ -32,7 +32,7 @@
 		</tr>
 		<tr>
 			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Allow_select_template')}</span></td>
-			<td class="CellAlt"><span class="FontNorm"><label><input type="radio" name="p[allowSelectTemplate]" value="1"{if $p.allowSelectTemplate == 1} checked="checked"{/if}/> {$modules.Language->getString('Yes')}</label>&nbsp;&nbsp;&nbsp;<label><input type="radio" name="p[allowSelectTemplate]" value="0"{if $p.allowSelectTemplate == 0} checked="checked"{/if}/> {$modules.Language->getString('No')}</label></span></td>
+			<td class="CellAlt"><span class="FontNorm"><label><input type="radio" name="p[allowSelectTemplate]" value="1"{if $p.allowSelectTemplate == 1} checked="checked"{/if}/> {$modules.Language->getString('Positive')}</label>&nbsp;&nbsp;&nbsp;<label><input type="radio" name="p[allowSelectTemplate]" value="0"{if $p.allowSelectTemplate == 0} checked="checked"{/if}/> {$modules.Language->getString('Negative')}</label></span></td>
 		</tr>
 		<tr>
 			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Template_standard_style')}</span></td>
@@ -46,7 +46,7 @@
 		</tr>
 		<tr>
 			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Allow_select_style')}</span></td>
-			<td class="CellAlt"><span class="FontNorm"><label><input type="radio" name="p[allowSelectStyle]" value="1"{if $p.allowSelectStyle == 1} checked="checked"{/if}/> {$modules.Language->getString('Yes')}</label>&nbsp;&nbsp;&nbsp;<label><input type="radio" name="p[allowSelectStyle]" value="0"{if $p.allowSelectStyle == 0} checked="checked"{/if}/> {$modules.Language->getString('No')}</label></span></td>
+			<td class="CellAlt"><span class="FontNorm"><label><input type="radio" name="p[allowSelectStyle]" value="1"{if $p.allowSelectStyle == 1} checked="checked"{/if}/> {$modules.Language->getString('Positive')}</label>&nbsp;&nbsp;&nbsp;<label><input type="radio" name="p[allowSelectStyle]" value="0"{if $p.allowSelectStyle == 0} checked="checked"{/if}/> {$modules.Language->getString('Negative')}</label></span></td>
 		</tr>
 		<tr><td class="CellButtons" colspan="2" align="center"><input class="FormBButton" type="submit" value="{$modules.Language->getString('Update_template_config')}"/>&nbsp;&nbsp;&nbsp;<input class="FormButton" type="reset" value="{$modules.Language->getString('Reset')}"/></td></tr>
 	</table>

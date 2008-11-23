@@ -25,7 +25,7 @@
 </tr>
 <tr>
  <td class="CellStd" width="15%"><span class="FontNorm">{$modules.Language->getString('Group_leader')}:</span></td>
- <td class="CellAlt" width="85%"><select class="FormSelect" name="p[membersAreLeader]"><option value="0">{$modules.Language->getString('No')}</option><option value="1">{$modules.Language->getString('Yes')}</option></select></td>
+ <td class="CellAlt" width="85%"><select class="FormSelect" name="p[membersAreLeader]"><option value="0">{$modules.Language->getString('Negative')}</option><option value="1">{$modules.Language->getString('Positive')}</option></select></td>
 </tr>
 <tr><td class="CellButtons" colspan="2" align="center"><input class="FormBButton" type="submit" value="{$modules.Language->getString('Add_members')}"/>&nbsp;&nbsp;&nbsp;<input class="FormButton" type="reset" value="{$modules.Language->getString('Reset')}"/></td></tr>
 </table>

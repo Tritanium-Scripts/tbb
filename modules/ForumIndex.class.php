@@ -167,7 +167,7 @@ class ForumIndex extends ModuleTemplate {
 					$curLastPostText = $curLastPostLink.' ('.$this->modules['Language']->getString('by').' '.$curLastPostPosterNick.')<br/>'.Functions::toDateTime($curForum['forumLastPostTimestamp']);
 				}
 			}
-			else $curLastPostText = $this->modules['Language']->getString('No_last_post');
+			else $curLastPostText = $this->modules['Language']->getString('no_last_post');
 
 			$curForum['forumLastPostPic'] = $curLastPostPic;
 			$curForum['forumLastPostText'] = $curLastPostText;
@@ -472,7 +472,7 @@ class ForumIndex extends ModuleTemplate {
 				$curPostPoster = $curPost['postGuestNick'];
 			else
 				$curPostPoster = '<a href="'.INDEXFILE.'?action=ViewProfile&amp;profileID='.$curPost['posterID'].'&amp;'.MYSID.'">'.$curPost['posterNick'].'</a>';
-			$latestPostsData[] = sprintf($this->modules['Language']->getString('latest_post_text'),Functions::HTMLSpecialChars($curPost['postTitle']),$curPostPoster,Functions::toDateTime($curPost['postTimestamp']),$curPost['postID'],MYSID,INDEXFILE);
+			$latestPostsData[] = sprintf($this->modules['Language']->getString('latest_post_text'), Functions::toDateTime($curPost['postTimestamp']), '"' . INDEXFILE . '?action=ViewTopic&amp;postID=' . $curPost['postID'] . '&amp;' . MYSID . '#post' . $curPost['postID'] . '"', Functions::HTMLSpecialChars($curPost['postTitle']), $curPostPoster);
 		}
 		
 		return $latestPostsData;

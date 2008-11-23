@@ -1523,7 +1523,7 @@ class BoardInstall {
 							0,
 							'/^[0-9]{1,}\$/si',
 							serialize(array()),
-                            '%1$s <img src="http://status.icq.com/online.gif?icq=%1$s&img=2" alt="ICQ"/>',
+                            '%1$s <img src="http://status.icq.com/online.gif?icq=%1$s&amp;img=2" alt="ICQ"/>',
                             'icq'
 						));
 						$this->tbb1ConversionProperties['dbIcqID'] = $this->DB->getInsertID();

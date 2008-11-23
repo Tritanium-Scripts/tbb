@@ -103,8 +103,8 @@ class Globals extends ModuleTemplate {
 			if($this->modules['Config']->getValue('board_logo') != '') $boardBanner = '<img src="'.$this->modules['Config']->getValue('board_logo').'" alt="'.$this->modules['Config']->getValue('board_name').'" />';
 			else $boardBanner = $this->modules['Config']->getValue('board_name');
 	
-			if($this->modules['Auth']->isLoggedIn() == 1) $welcomeText = sprintf($this->modules['Language']->getString('welcome_logged_in'),$this->modules['Auth']->getValue('userNick'),Functions::toTime(time()),INDEXFILE,MYSID);
-			else $welcomeText = sprintf($this->modules['Language']->getString('welcome_not_logged_in'),$this->modules['Config']->getValue('board_name'),INDEXFILE,MYSID);
+			if($this->modules['Auth']->isLoggedIn() == 1) $welcomeText = sprintf($this->modules['Language']->getString('welcome_logged_in'),$this->modules['Auth']->getValue('userNick'),Functions::toTime(time()),'"' . INDEXFILE . '?action=Logout&amp;' . MYSID . '"');
+			else $welcomeText = sprintf($this->modules['Language']->getString('welcome_not_logged_in'), $this->modules['Config']->getValue('board_name'), '"' . INDEXFILE . '?action=ViewHelp&amp;' . MYSID . '"', '"' . INDEXFILE . '?action=Register&amp;' . MYSID . '"', '"' . INDEXFILE . '?action=Login&amp;' . MYSID . '"');
 			
 			$newPrivateMessageReceived = FALSE;
 			if($this->modules['Config']->getValue('enable_pms') == 1 && $this->modules['Auth']->isLoggedIn()) {

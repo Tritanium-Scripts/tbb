@@ -11,7 +11,6 @@ class Core extends ModuleTemplate {
 		error_reporting(E_ALL);
 		set_magic_quotes_runtime(0);
 		ini_set('arg_separator.output','&amp;');
-		//if(file_exists('install.php')) die('Please delete install.php first!'); // Ueberprueft, ob die Installationsdatei geloescht wurde
 
 
 		/**

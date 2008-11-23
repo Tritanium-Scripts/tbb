@@ -40,39 +40,29 @@ class Language extends ModuleTemplate {
 		return 'languages/'.($languageString != '' ? $languageString : $this->languageString).'/';
 	}
 
-	public function addFile($fileName,$languageString = '') {
+	public function addFile($fileName, $languageString = '') {
 		$languageString = ($languageString == '' ? $this->languageString : $languageString);
 		// Wurde die Datei waehrend der Ausfuehrung schon gechachet, gibt es nichts mehr zu tun
 		if(isset($this->loadedFiles[$languageString][$fileName])) return;
-		$languageDir = $this->getLD($languageString);
-
+		$iniFile = $this->getLD($languageString) . $fileName . '.ini';
 		// Gibt es die Originaldatei nicht, erfolgt der Abbruch
-		if(!file_exists($languageDir.$fileName.'.language'))
-			die('Language file "'.$languageDir.$fileName.'.language" does not exist');
-
-		$cacheFile = 'cache/Language-'.$languageString.'-'.$fileName.'.cache.php';
+		if(!file_exists($iniFile))
+			die('Language file "' . $iniFile . '" does not exist!');
+		$cacheFile = 'cache/Language-' . $languageString . '-' . $fileName . '.cache.php';
 		// Befindet sie sich im Cache und ist sie auch neuer als die Originaldatei, wird sie einfach inkludiert
-		if(file_exists($cacheFile) && (filemtime($cacheFile) > filemtime($languageDir.$fileName.'.language'))) {
+		if(file_exists($cacheFile) && (filemtime($cacheFile) > filemtime($iniFile))) {
 			include($cacheFile);
 			return;
 		}
-
-		$toWrite = array();
-
 		// Datei parsen
-		foreach(explode("\n",file_get_contents($languageDir.$fileName.'.language')) AS $curLine) {
-			preg_match('/^([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)[ ]*=[ ]*(.*)$/',rtrim($curLine),$matches);
-
-			// Ergebnisse speichern
-			if(count($matches) == 3) {
-				$this->strings[$languageString][$matches[1]] = $matches[2];
-				$toWrite[] = '$this->strings[\''.$languageString.'\'][\''.$matches[1].'\'] = \''.addcslashes($matches[2],'\'').'\'';
-			}
+		$toWrite = array("<?php");
+		foreach(parse_ini_file($iniFile) as $curKey => $curValue)
+		{
+		 $this->strings[$languageString][$curKey] = $curValue;
+		 $toWrite[] = '$this->strings[\'' . $languageString . '\'][\'' . $curKey . '\'] = \'' . addcslashes($curValue, '\'') . '\';';
 		}
 		// Datei cachen
-		$toWrite = '<?php '.implode(';',$toWrite).' ?>';
-		Functions::FileWrite($cacheFile,$toWrite,'w');
-
+		Functions::FileWrite($cacheFile, implode("\n", $toWrite) . "\n?>", 'w');
 		// Datei geladen
 		$this->loadedFiles[$languageString][$fileName] = TRUE;
 	}
