@@ -71,15 +71,9 @@ images/smilies/standard_yes.gif -text
 images/test.jpg -text
 /index.php -text
 /install.php -text
-languages/de/AdminAvatars.language -text
 languages/de/AdminConfig.language -text
 languages/de/AdminForums.language -text
-languages/de/AdminGroups.language -text
-languages/de/AdminMain.language -text
 languages/de/AdminProfileFields.language -text
-languages/de/AdminRanks.language -text
-languages/de/AdminSmilies.language -text
-languages/de/AdminTemplates.language -text
 languages/de/AdminUsers.language -text
 languages/de/BoardRules.ini -text
 languages/de/EditProfile.language -text
