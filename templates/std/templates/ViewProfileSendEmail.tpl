@@ -7,7 +7,7 @@
 <tr><td class="CellTitle" colspan="2"><span class="FontTitle">{$modules.Language->getString('Send_email')}</span></td></tr>
 {if $error != ''}<tr><td class="CellError" colspan="2"><span class="FontError">{$error}</span></td></tr>{/if}
 <tr>
- <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Recipient')}:</span></td>
+ <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('recipient')}:</span></td>
  <td class="CellStd"><span class="FontNorm">{$profileData.userNick}</span></td>
 </tr>
 <tr>
