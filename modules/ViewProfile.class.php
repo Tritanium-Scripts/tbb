@@ -21,7 +21,7 @@ class ViewProfile extends ModuleTemplate {
 
 		$userIsMod = Functions::checkModStatus(USERID);
 
-		$this->modules['Navbar']->addElements(array($this->modules['Language']->getString('View_profile'),INDEXFILE."?action=ViewProfile&amp;profileID=$profileID&amp;".MYSID));
+		$this->modules['Navbar']->addElements(array($this->modules['Language']->getString('view_profile'),INDEXFILE."?action=ViewProfile&amp;profileID=$profileID&amp;".MYSID));
 		$this->modules['Template']->assign(array(
 			'userIsMod'=>$userIsMod,
 			'profileID'=>$profileID
@@ -66,10 +66,10 @@ class ViewProfile extends ModuleTemplate {
 				$profileData['_profileRegisterDate'] = Functions::toDateTime($profileData['userRegistrationTimestamp']);
 				//Vor X Wochen registriert
                 $profileData['_userPostsCounterText'] = time()-$profileData['userRegistrationTimestamp'];
-                $profileData['_profileRegisterDateText'] = sprintf($this->modules['Language']->getString('Register_x_weeks_ago'), intval($profileData['_userPostsCounterText']/604800));
+                $profileData['_profileRegisterDateText'] = sprintf($this->modules['Language']->getString('register_x_weeks_ago'), intval($profileData['_userPostsCounterText']/604800));
                 //Beitraege pro Tag
                 $profileData['_userPostsCounterText'] = intval($profileData['_userPostsCounterText']/86400);
-                $profileData['_userPostsCounterText'] = (($profileData['_userPostsCounterText'] != 0) ? number_format($profileData['userPostsCounter']/$profileData['_userPostsCounterText'], 3, $this->modules['Language']->getString('dec_point'), $this->modules['Language']->getString('thousands_sep')) : $profileData['userPostsCounter']) . ' ' . $this->modules['Language']->getString('Posts_per_day');
+                $profileData['_userPostsCounterText'] = (($profileData['_userPostsCounterText'] != 0) ? number_format($profileData['userPostsCounter']/$profileData['_userPostsCounterText'], 3, $this->modules['Language']->getString('dec_point'), $this->modules['Language']->getString('thousands_sep')) : $profileData['userPostsCounter']) . ' ' . $this->modules['Language']->getString('posts_per_day');
 
                 //Signatur parsen
                 if ($this->modules['Config']->getValue('enable_sig') == 1)
@@ -107,8 +107,8 @@ class ViewProfile extends ModuleTemplate {
 					$fieldsData[$curResult['fieldVarName']] = $curResult;
 				}
 
-				$profileData['_searchPostsText'] = sprintf($this->modules['Language']->getString('Search_all_posts_by_x'), $profileData['userNick']);
-				$profileData['_searchTopicsText'] = sprintf($this->modules['Language']->getString('Search_all_topics_by_x'), $profileData['userNick']);
+				$profileData['_searchPostsText'] = sprintf($this->modules['Language']->getString('search_all_posts_by_x'), $profileData['userNick']);
+				$profileData['_searchTopicsText'] = sprintf($this->modules['Language']->getString('search_all_topics_by_x'), $profileData['userNick']);
 
 				//Anmerkungen
 				$show = array('notesTable'=>FALSE);
@@ -204,7 +204,7 @@ class ViewProfile extends ModuleTemplate {
 					'c'=>$c
 				));
 
-				$this->modules['Navbar']->addElements(array($this->modules['Language']->getString('Add_note'),INDEXFILE."?action=ViewProfile&amp;profileID=$profileID&amp;".MYSID));
+				$this->modules['Navbar']->addElements(array($this->modules['Language']->getString('add_note'),INDEXFILE."?action=ViewProfile&amp;profileID=$profileID&amp;".MYSID));
 
 				$this->modules['Template']->printPage('ViewProfileAddNote.tpl');
 				break;
@@ -245,7 +245,7 @@ class ViewProfile extends ModuleTemplate {
 					'noteID'=>$noteID
 				));
 
-				$this->modules['Navbar']->addElements(array($this->modules['Language']->getString('Edit_note'),INDEXFILE."?action=ViewProfile&amp;profileID=$profileID&amp;".MYSID));
+				$this->modules['Navbar']->addElements(array($this->modules['Language']->getString('edit_note'),INDEXFILE."?action=ViewProfile&amp;profileID=$profileID&amp;".MYSID));
 
 				$this->modules['Template']->printPage('ViewProfileEditNote.tpl');
 				break;
@@ -270,7 +270,7 @@ class ViewProfile extends ModuleTemplate {
 			case 'SendEmail':
 				if($this->modules['Auth']->isLoggedIn() == 0 || $this->modules['Config']->getValue('enable_email_formular') == 0) die('Access denied: profile: send email');
 
-				$this->modules['Navbar']->addElement($this->modules['Language']->getString('Send_email'),INDEXFILE."?action=ViewProfile&amp;profileID=$profileID&amp;mode=SendEmail&amp;".MYSID);
+				$this->modules['Navbar']->addElement($this->modules['Language']->getString('send_email'),INDEXFILE."?action=ViewProfile&amp;profileID=$profileID&amp;mode=SendEmail&amp;".MYSID);
 
 				$p = Functions::getSGValues($_POST['p'],array('emailSubject','emailMessage'),'');
 
@@ -282,7 +282,7 @@ class ViewProfile extends ModuleTemplate {
 					else {
 						Functions::myMail($this->modules['Auth']->getValue('userNick').' <'.$this->modules['Auth']->getValue('userEmailAddress').'>',$profileData['userNick'].' <'.$profileData['userEmailAddress'].'>',$p['emailSubject'],$p['emailMessage']);
 
-						$this->modules['Navbar']->addElement($this->modules['Language']->getString('Email_sent'));
+						$this->modules['Navbar']->addElement($this->modules['Language']->getString('email_sent'));
 						FuncMisc::printMessage('email_sent',array(sprintf($this->modules['Language']->getString('click_here_back_profile'),'<a href="'.INDEXFILE.'?action=ViewProfile&amp;profileID='.$profileID.'&amp;'.MYSID.'">','</a>')));
 						exit;
 					}

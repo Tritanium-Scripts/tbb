@@ -8,8 +8,8 @@
 -->
 </colgroup>
 <tr>
- <td class="CellTitle" colspan="2"><span class="FontTitle">{$modules.Language->getString('View_profile')}: {$profileData.userNick}</span></td>
- <td class="CellTitle" colspan="2" style="text-align:right;"><span class="FontTitle"><a href="{$indexFile}?action=ViewProfile&amp;profileID={$profileID}&amp;mode=vCard&amp;{$mySID}">{$modules.Language->getString('Download_vcard')}</a></span></td>
+ <td class="CellTitle" colspan="2"><span class="FontTitle">{$modules.Language->getString('view_profile')}: {$profileData.userNick}</span></td>
+ <td class="CellTitle" colspan="2" style="text-align:right;"><span class="FontTitle"><a href="{$indexFile}?action=ViewProfile&amp;profileID={$profileID}&amp;mode=vCard&amp;{$mySID}">{$modules.Language->getString('download_vcard')}</a></span></td>
 </tr>
 {if $modules.Config->getValue('enable_avatars') == 1 && $profileData.userAvatarAddress != ''}
 <tr>
@@ -27,14 +27,14 @@
 <tr>
  <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Email_address')}:</span></td>                
  <td class="CellAlt"><span class="FontNorm">{if $profileData.userHideEmailAddress != 1}<a href="mailto:{$profileData.userEmailAddress}">{$profileData.userEmailAddress}</a>{else}{$modules.Language->getString('Email_address_hidden')}{/if}</span></td>
- <td class="CellAlt"><span class="FontNorm">{if $profileData.userReceiveEmails == 1 && $modules.Auth->isLoggedIn() == 1 && $modules.Config->getValue('enable_email_formular') == 1} <a href="{$indexFile}?action=ViewProfile&amp;profileID={$profileID}&amp;mode=SendEmail&amp;{$mySID}">[{$modules.Language->getString('Send_email')}]</a>{/if}{if $modules.Auth->isLoggedIn() == 1} <a href="{$indexFile}?action=PrivateMessages&amp;mode=NewPM&amp;recipients={$profileData.userNick}&amp;{$mySID}">[{$modules.Language->getString('Send_pm')}]</a>{/if}</span></td>
+ <td class="CellAlt"><span class="FontNorm">{if $profileData.userReceiveEmails == 1 && $modules.Auth->isLoggedIn() == 1 && $modules.Config->getValue('enable_email_formular') == 1} <a href="{$indexFile}?action=ViewProfile&amp;profileID={$profileID}&amp;mode=SendEmail&amp;{$mySID}">[{$modules.Language->getString('Send_email')}]</a>{/if}{if $modules.Auth->isLoggedIn() == 1} <a href="{$indexFile}?action=PrivateMessages&amp;mode=NewPM&amp;recipients={$profileData.userNick}&amp;{$mySID}">[{$modules.Language->getString('send_pm')}]</a>{/if}</span></td>
 </tr>
 <tr>
- <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Homepage')}:</span></td>
+ <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('homepage')}:</span></td>
  <td class="CellAlt" colspan="2"><span class="FontNorm">{$fieldsData.homepage._fieldValue}</span></td>
 </tr>
 <tr>
- <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Register_date')}:</span></td>
+ <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('register_date')}:</span></td>
  <td class="CellAlt"><span class="FontNorm">{$profileData._profileRegisterDate}</span></td>
  <td class="CellAlt"><span class="FontNorm">{$profileData._profileRegisterDateText}</span></td>
 </tr>
@@ -56,7 +56,7 @@
 </table>
 <br/>
 <table class="TableStd" width="100%">
-<tr><td class="CellTitle" colspan="2"><span class="FontTitle">{$modules.Language->getString('Extended')}</span></td></tr>
+<tr><td class="CellTitle" colspan="2"><span class="FontTitle">{$modules.Language->getString('extended')}</span></td></tr>
 {foreach from=$fieldsData item=curField}
 {if $curField.fieldIsLocked != 1}
 <tr><td class="CellStd"><span class="FontNorm">{$curField.fieldName}:</span></td><td class="CellAlt"><span class="FontNorm">{$curField._fieldValue}</span></td></tr>
@@ -68,7 +68,7 @@
 {if $show.notesTable}
  <br/>
  <table class="TableStd" width="100%">
- <tr><td class="CellTitle" colspan="2"><span class="FontTitle">{$modules.Language->getString('Notes_about_user')}</span></td></tr>
+ <tr><td class="CellTitle" colspan="2"><span class="FontTitle">{$modules.Language->getString('notes_about_user')}</span></td></tr>
  {foreach from=$notesData item=curNote}
   <tr>
    <td class="CellAlt" valign="top" rowspan="2"><span class="FontNorm"><b><a href="{$indexFile}?action=ViewProfile&amp;profileID={$curNote.userID}&amp;{$mySID}">{$curNote.userNick}</a></b></span></td>
@@ -83,13 +83,13 @@
   </tr>
   <tr><td class="CellStd"><span class="FontNorm">{$curNote._noteText}</span></td></tr>
  {foreachelse}
-  <tr><td class="CellStd" align="center"><span class="FontNorm">{$modules.Language->getString('No_notes')}</span></td></tr>
+  <tr><td class="CellStd" align="center"><span class="FontNorm">{$modules.Language->getString('no_notes')}</span></td></tr>
  {/foreach}
  </table>
  <br/>
  <table class="TableStd" width="100%">
  <tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('Other_options')}</span></td></tr>
- <tr><td class="CellStd"><span class="FontNorm"><a href="{$indexFile}?action=ViewProfile&amp;profileID={$profileID}&amp;mode=AddNote&amp;{$mySID}">{$modules.Language->getString('Add_note')}</a></span></td></tr>
+ <tr><td class="CellStd"><span class="FontNorm"><a href="{$indexFile}?action=ViewProfile&amp;profileID={$profileID}&amp;mode=AddNote&amp;{$mySID}">{$modules.Language->getString('add_note')}</a></span></td></tr>
  <tr><td class="CellStd"><span class="FontNorm"><a href="{$indexFile}?action=AdminUsers&amp;mode=EditUser&amp;userID={$profileID}&amp;{$mySID}">{$modules.Language->getString('User')} {$modules.Language->getString('Edit')}</a></span></td></tr>
  </table>
 {/if}
