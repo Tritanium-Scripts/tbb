@@ -436,9 +436,9 @@ class BoardInstall {
 
 				$dp = opendir('languages');
 				while($curObj = readdir($dp)) {
-					if($curObj[0] == '.' || !is_dir('languages/'.$curObj) || !file_exists('languages/'.$curObj.'/Language.config')) continue;
+					if($curObj[0] == '.' || !is_dir('languages/'.$curObj) || !file_exists('languages/'.$curObj.'/Language.ini')) continue;
 
-					$curLanguageConfig = parse_ini_file('languages/'.$curObj.'/Language.config');
+					$curLanguageConfig = parse_ini_file('languages/'.$curObj.'/Language.ini');
 					echo '<option value="'.$curObj.'"'.($curObj == $this->language ? ' selected="selected"' : '').'>'.$curLanguageConfig['language_name_native'].' ('.$curLanguageConfig['language_name'].')</option>';
 				}
 				closedir($dp);
@@ -532,8 +532,8 @@ class BoardInstall {
 				<form method="post" action="<?php echo INSTALLFILE; ?>?step=<?php echo $this->step; ?>&amp;doit=1&amp;<?php echo MYSID; ?>">
 					<table class="TableStd" width="100%">
 						<colgroup>
-							<col width="20%"/>
-							<col width="80%"/>
+							<col width="30%"/>
+							<col width="70%"/>
 						</colgroup>
 						<tr><td class="CellCat" colspan="2"><span class="FontCat"><?php echo $this->steps[$this->step-1]; ?></span></td></tr>
 				<?php
@@ -695,7 +695,7 @@ class BoardInstall {
 						</colgroup>
 						<tr><td class="CellCat" colspan="2"><span class="FontCat"><?php echo $this->steps[$this->step-1]; ?></span></td></tr>
 						<?php if(count($errors) > 0) { ?> <tr><td colspan="2" class="CellError"><ul><?php foreach($errors AS $curError) echo '<li><span class="FontError">'.$curError.'</span></li>'; ?></ul></td></tr><?php } ?>
-						<tr><td class="CellWhite" colspan="2"><span class="FontNorm"><?php echo $this->strings['db_access_data_info']; ?></span></td></tr>
+						<tr><td class="CellWhite" colspan="2"><span class="FontNorm"><?php echo sprintf($this->strings['db_access_data_info'], '"http://www.mysql.de" target="_blank"'); ?></span></td></tr>
 						<tr>
 							<td class="CellWhite"><span class="FontNorm"><b><?php echo $this->strings['Database_server']; ?>:</b></span></td>
 							<td class="CellWhite"><input class="FormText" type="text" name="p[dbServer]" value="<?php echo $p['dbServer']; ?>" size="30"/></td>
@@ -988,7 +988,7 @@ class BoardInstall {
 						</colgroup>
 						<tr><td class="CellCat" colspan="2"><span class="FontCat"><?php echo $this->steps[$this->step-1]; ?></span></td></tr>
 						<?php if(count($errors) > 0) { ?> <tr><td colspan="2" class="CellError"><ul><?php foreach($errors AS $curError) echo '<li><span class="FontError">'.$curError.'</span></li>'; ?></ul></td></tr><?php } ?>
-						<tr><td colspan="2"><span class="FontNorm"><?php echo $this->strings['board_configuration_info']; ?></span></td></tr>
+						<tr><td colspan="2"><span class="FontNorm"><?php echo sprintf($this->strings['board_configuration_info'], '"http://www.tritanium-scripts.com/" target="_blank"'); ?></span></td></tr>
 						<tr>
 							<td><span class="FontNorm"><b><?php echo $this->strings['Path_to_forum']; ?></b></span><br/><span class="FontSmall"><?php echo $this->strings['path_to_forum_info']; ?></span></td>
 							<td><input class="FormText" name="p[pathToForum]" value="<?php echo $p['pathToForum']; ?>" size="50"/></td>
@@ -999,11 +999,11 @@ class BoardInstall {
 						</tr>
 						<tr>
 							<td><span class="FontNorm"><b><?php echo $this->strings['Enable_file_upload']; ?></b></span><br/><span class="FontSmall"><?php echo $this->strings['enable_file_upload_info']; ?></span></td>
-							<td><span class="FontNorm"><label><input type="radio" name="p[enableFileUpload]" value="1"<?php if($p['enableFileUpload'] == 1) echo 'checked="checked"'; ?>/> <?php echo $this->strings['Yes']; ?></label>&nbsp;&nbsp;&nbsp;<label><input type="radio" name="p[enableFileUpload]" value="0"<?php if($p['enableFileUpload'] == 0) echo 'checked="checked"'; ?>/> <?php echo $this->strings['No']; ?></label></span></td>
+							<td><span class="FontNorm"><label><input type="radio" name="p[enableFileUpload]" value="1"<?php if($p['enableFileUpload'] == 1) echo 'checked="checked"'; ?>/> <?php echo $this->strings['Positive']; ?></label>&nbsp;&nbsp;&nbsp;<label><input type="radio" name="p[enableFileUpload]" value="0"<?php if($p['enableFileUpload'] == 0) echo 'checked="checked"'; ?>/> <?php echo $this->strings['Negative']; ?></label></span></td>
 						</tr>
 						<tr>
 							<td><span class="FontNorm"><b><?php echo $this->strings['Enable_avatar_upload']; ?></b></span><br/><span class="FontSmall"><?php echo $this->strings['enable_avatar_upload_info']; ?></span></td>
-							<td><span class="FontNorm"><label><input type="radio" name="p[enableAvatarUpload]" value="1"<?php if ($p['enableAvatarUpload'] == 1) echo 'checked="checked"'; ?>/> <?php echo $this->strings['Yes']; ?></label>&nbsp;&nbsp;&nbsp;<label><input type="radio" name="p[enableAvatarUpload]" value="0"<?php if($p['enableAvatarUpload'] == 0) echo 'checked="checked"'; ?>/> <?php echo $this->strings['No']; ?></label></span></td>
+							<td><span class="FontNorm"><label><input type="radio" name="p[enableAvatarUpload]" value="1"<?php if ($p['enableAvatarUpload'] == 1) echo 'checked="checked"'; ?>/> <?php echo $this->strings['Positive']; ?></label>&nbsp;&nbsp;&nbsp;<label><input type="radio" name="p[enableAvatarUpload]" value="0"<?php if($p['enableAvatarUpload'] == 0) echo 'checked="checked"'; ?>/> <?php echo $this->strings['Negative']; ?></label></span></td>
 						</tr>
 				<?php
 
@@ -1016,7 +1016,7 @@ class BoardInstall {
 					?>
 						<tr>
 							<td><span class="FontNorm"><b><?php echo $this->strings['create_admin_keep_data_info']; ?></b></span></td>
-							<td><span class="FontNorm"><label><input type="radio" name="p[createAdministrator]" value="1"<?php if ($p['createAdministrator'] == 1) echo 'checked="checked"'; ?>/> <?php echo $this->strings['Yes']; ?></label>&nbsp;&nbsp;&nbsp;<label><input type="radio" name="p[createAdministrator]" value="0"<?php if($p['createAdministrator'] == 0) echo 'checked="checked"'; ?>/> <?php echo $this->strings['No']; ?></label></span></td>
+							<td><span class="FontNorm"><label><input type="radio" name="p[createAdministrator]" value="1"<?php if ($p['createAdministrator'] == 1) echo 'checked="checked"'; ?>/> <?php echo $this->strings['Positive']; ?></label>&nbsp;&nbsp;&nbsp;<label><input type="radio" name="p[createAdministrator]" value="0"<?php if($p['createAdministrator'] == 0) echo 'checked="checked"'; ?>/> <?php echo $this->strings['Negative']; ?></label></span></td>
 						</tr>
 					<?php
 				}
@@ -1048,7 +1048,7 @@ class BoardInstall {
 					if(!Functions::verifyEmailAddress($p['userEmailAddress'])) $errors[] = $this->strings['error_invalid_email_address'];
 					elseif($p['userEmailAddress'] != $p['userEmailAddressConfirmation']) $errors[] = $this->strings['error_email_addresses_no_match'];
 					if(trim($p['userPassword']) == '') $errors[] = $this->strings['error_invalid_password'];
-					elseif($p['userPassword'] != $p['userPasswordConfirmation']) $error = $this->strings['error_pws_no_match'];
+					elseif($p['userPassword'] != $p['userPasswordConfirmation']) $errors[] = $this->strings['error_pws_no_match'];
 					
 					if(count($errors) == 0) {
 						$userPasswordSalt = Functions::getRandomString(10);
@@ -1161,7 +1161,7 @@ class BoardInstall {
 						?>
 							<table class="TableStd" width="100%">
 								<tr><td class="CellCat" colspan="2"><span class="FontCat"><?php echo $this->steps[$this->step-1]; ?></span></td></tr>
-								<tr><td class="CellWhite" colspan="2"><span class="FontNorm"><?php echo $this->strings['installation_successful'].$message; ?></span></td></tr>
+								<tr><td class="CellWhite" colspan="2"><span class="FontNorm"><?php echo sprintf($this->strings['installation_successful'], '"index.php"').$message; ?></span></td></tr>
 							</table>
 						<?php
 
@@ -2213,7 +2213,7 @@ class BoardInstall {
 			$dp = opendir('languages');
 			while($curObj = readdir($dp)) {
 				if($curObj[0] == '.') continue;
-				$curConfigFile = parse_ini_file('languages/'.$curObj.'/Language.config');
+				$curConfigFile = parse_ini_file('languages/'.$curObj.'/Language.ini');
 				foreach(explode(',',$curConfigFile['supported_languages']) AS $curLanguage)
 					$supportedLanguages[$curLanguage] = $curObj;
 			}
@@ -2228,22 +2228,19 @@ class BoardInstall {
 
 		$this->language = $languageCode;
 
-		$this->parseLanguageFile('languages/'.$languageCode.'/Install.language');
-		$this->parseLanguageFile('languages/'.$languageCode.'/Main.language');
+		$this->parseLanguageFile('languages/'.$languageCode.'/Install.ini');
+		#$this->parseLanguageFile('languages/'.$languageCode.'/Main.ini'); //TODO? Main.ini wird nicht mehr benötigt, html_lang und html_dir in Install.ini aufgenommen
 	}
 
-	protected function parseLanguageFile($languageFile) {
-		foreach(explode("\n",file_get_contents($languageFile)) AS $curLine) {
-			preg_match('/^([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)[ ]*=[ ]*(.*)$/',rtrim($curLine),$matches);
-
-			if(count($matches) == 3)
-				$this->strings[$matches[1]] = $matches[2];
-		}
+	protected function parseLanguageFile($languageFile)
+	{
+		foreach(parse_ini_file($languageFile) as $curKey => $curValue)
+			$this->strings[$curKey] = $curValue;
 	}
 
 	protected function chooseLang($availableLangs) {
 		$pref = array();
-		foreach(explode(',', $_SERVER["HTTP_ACCEPT_LANGUAGE"]) as $lang) {
+		foreach(explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']) as $lang) {
 			$lang = explode(';',$lang);
 			$matches = NULL;
 

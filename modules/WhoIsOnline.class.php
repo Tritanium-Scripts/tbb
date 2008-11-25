@@ -43,7 +43,7 @@ class WhoIsOnline extends ModuleTemplate {
 			$curWIO['_sessionLastLocationText'] = $this->modules['Language']->getString('wio_'.$curWIO['sessionLastLocation']);
 		}
 
-		$this->modules['Navbar']->addElement($this->modules['Language']->getString('Who_is_online'),INDEXFILE.'?Action=WhoIsOnline&.'.MYSID);
+		$this->modules['Navbar']->addElement($this->modules['Language']->getString('Who_is_online'),INDEXFILE.'?action=WhoIsOnline&amp;'.MYSID);
 
 		$this->modules['Template']->assign(array(
 			'wioData'=>$wioData
