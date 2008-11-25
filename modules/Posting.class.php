@@ -443,7 +443,11 @@ class Posting extends ModuleTemplate {
 
 			case 'Delete':
 				if($postID == $topicData['topicFirstPostID']) {
-					$this->modules['Navbar']->addElement($this->modules['Language']->getString('delete_post'));
+					$this->modules['Navbar']->addCategories($forumData['catID']);
+					$this->modules['Navbar']->addElements(
+						array(Functions::HTMLSpecialChars($forumData['forumName']),INDEXFILE.'?action=ViewForum&amp;forumID='.$forumID.'&amp;'.MYSID),
+						array(Functions::HTMLSpecialChars($topicData['topicTitle']),INDEXFILE.'?action=ViewTopic&amp;topicID='.$topicID.'&amp;'.MYSID)
+					);
 					FuncMisc::printMessage('cannot_delete_first_post'); exit;
 				}
 

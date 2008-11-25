@@ -15,6 +15,7 @@ class AdminConfig extends ModuleTemplate {
 
 	public function executeMe() {
 		$this->modules['Language']->addFile('AdminConfig');
+		$this->modules['Navbar']->addElement($this->modules['Language']->getString('boardconfig'),INDEXFILE.'?action=AdminConfig&amp;'.MYSID);
 
 		$configNames = array(
 			'admin_rank_pic','allowed_attachment_types','allow_ghost_mode','allow_pms_bbcode','allow_pms_htmlcode',

@@ -22,6 +22,7 @@ class EditTopic extends ModuleTemplate {
 
 		$authData = Functions::getAuthData($forumData,array('authEditPosts','authIsMod'));
 
+		$this->modules['Navbar']->addCategories($forumData['catID']);
 		$this->modules['Navbar']->addElements(
 			array(Functions::HTMLSpecialChars($forumData['forumName']),INDEXFILE."?action=ViewForum&amp;forumID=$forumID&amp;".MYSID),
 			array(Functions::HTMLSpecialChars($topicData['topicTitle']),INDEXFILE."?action=ViewTopic&amp;topicID=$topicID&amp;".MYSID)

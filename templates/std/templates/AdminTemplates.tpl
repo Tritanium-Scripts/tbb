@@ -1,7 +1,7 @@
 <table class="TableStd" width="100%">
 	<tr>
 		<td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('template_name')}</span></td>
-		<td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('template_author')}</span></td>
+		<td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('author')}</span></td>
 		<td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('author_comment')}</span></td>
 	</tr>
 	{foreach from=$templatesData item=curTemplate}

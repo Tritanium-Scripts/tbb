@@ -14,6 +14,7 @@ class AdminTemplates extends ModuleTemplate {
 
 	public function executeMe() {
 		$this->modules['Language']->addFile('AdminTemplates');
+		$this->modules['Navbar']->addElement($this->modules['Language']->getString('manage_templates'),INDEXFILE.'?action=AdminTemplates&amp;'.MYSID);
 
 		$p = array();
 		$p['standardTemplate'] = isset($_POST['p']['standardTemplate']) ? basename($_POST['p']['standardTemplate']) : $this->modules['Config']->getValue('standard_tpl');
