@@ -1,7 +1,7 @@
 {if $modules.Auth->getValue('userIsAdmin') == 1}
 <br/>
 <div align="center">
- <span class="FontNorm"><a href="{$indexFile}?action=AdminIndex&amp;{$mySID}">{$modules.Language->getString('Administration')}</a></span>
+ <span class="FontNorm"><a href="{$indexFile}?action=AdminIndex&amp;{$mySID}">{$modules.Language->getString('administration')}</a></span>
 </div>
 {/if}
 <br/>

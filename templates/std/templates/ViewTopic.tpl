@@ -37,7 +37,7 @@
  <table border="0" cellpadding="0" cellspacing="0" width="100%">
  <tr>
   <td><span class="FontNavbar">{$pageListing}</span></td>
-  <td align="right"><span class="FontNavbar"><a href="{$indexFile}?action=Posting&amp;mode=Reply&amp;topicID={$topicID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLS()}/AddReply.png" class="ImageButton" alt="{$modules.Language->getString('Post_new_reply')}"/></a><a href="{$indexFile}?action=Posting&amp;mode=Topic&amp;forumID={$forumID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLS()}/AddTopic.png" class="ImageButton" alt="{$modules.Language->getString('Post_new_topic')}"/></a></span></td>
+  <td align="right"><span class="FontNavbar"><a href="{$indexFile}?action=Posting&amp;mode=Reply&amp;topicID={$topicID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLS()}/AddReply.png" class="ImageButton" alt="{$modules.Language->getString('post_new_reply')}"/></a><a href="{$indexFile}?action=Posting&amp;mode=Topic&amp;forumID={$forumID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLS()}/AddTopic.png" class="ImageButton" alt="{$modules.Language->getString('post_new_topic')}"/></a></span></td>
  </tr>
  </table>
 </td></tr>
@@ -46,14 +46,14 @@
 {if $topicData.topicHasPoll == 1}
 <form method="post" action="{$indexFile}?action=Vote&amp;topicID={$topicID}&amp;{$mySID}">
 <table class="TableStd" width="100%">
- <tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('Poll')}: {$topicData.topicPollTitle}</td></tr>
+ <tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('poll')}: {$topicData.topicPollTitle}</td></tr>
   {if $userAlreadyVoted || $modules.Auth->isloggedIn() != 1 && $topicData.topicPollGuestsVote != 1 || $pollHasEnded}
    {if $modules.Auth->isloggedIn() != 1 && $topicData.topicPollGuestsVote != 1 && !$userAlreadyVoted && !$pollHasEnded}
-    <tr><td class="CellMessageBox"><span class="FontNorm">{$modules.Language->getString('Must_be_logged_in_vote')}</span></td></tr>
+    <tr><td class="CellMessageBox"><span class="FontNorm">{$modules.Language->getString('must_be_logged_in_vote')}</span></td></tr>
    {elseif $modules.Auth->isloggedIn() != 1 && $topicData.topicPollGuestsViewResults == 0}
-    <tr><td class="CellMessageBox"><span class="FontNorm">{$modules.Language->getString('Must_be_logged_in_view_results')}</span></td></tr>
+    <tr><td class="CellMessageBox"><span class="FontNorm">{$modules.Language->getString('must_be_logged_in_view_results')}</span></td></tr>
    {elseif $topicData.topicPollShowResultsAfterEnd && !$pollHasEnded}
-    <tr><td class="CellMessageBox"><span class="FontNorm">{$modules.Language->getString('Results_after_end_of_poll')}</span></td></tr>
+    <tr><td class="CellMessageBox"><span class="FontNorm">{$modules.Language->getString('results_after_end_of_poll')}</span></td></tr>
    {else}
     <tr><td class="CellStd">
     <table border="0" cellpadding="2" cellspacing="0">
@@ -75,7 +75,7 @@
    {/foreach}
    </table>
    </td></tr>
-   <tr><td class="CellButtons"><input type="submit" class="FormBButton" value="{$modules.Language->getString('Vote')}"/></td></tr>
+   <tr><td class="CellButtons"><input type="submit" class="FormBButton" value="{$modules.Language->getString('vote')}"/></td></tr>
   {/if}
  </table>
  </form>
@@ -83,8 +83,8 @@
 {/if}
 <table class="TableStd" width="100%">
 <tr>
- <td class="CellTitle" align="left" width="15%"><span class="FontTitleSmall">{$modules.Language->getString('Author')}</span></td>
- <td class="CellTitle" align="left" width="85%"><span class="FontTitleSmall">{$modules.Language->getString('Topic')}: {$topicData.topicTitle}</span></td>
+ <td class="CellTitle" align="left" width="15%"><span class="FontTitleSmall">{$modules.Language->getString('author')}</span></td>
+ <td class="CellTitle" align="left" width="85%"><span class="FontTitleSmall">{$modules.Language->getString('topic')}: {$topicData.topicTitle}</span></td>
 </tr>
 {foreach from=$postsData item=curPost}
  <tr>
@@ -99,7 +99,7 @@
        {if $curPost.show.deleteButton}<td><a href="{$indexFile}?action=Posting&amp;mode=Delete&amp;postID={$curPost.postID}&amp;returnPage={$page}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/delete.png" class="ImageButton" alt=""/></a></td>{/if}
        {if $curPost.show.editButton}<td><a href="javascript:toggleFastEdit('{$curPost.postID}');"><img src="{$modules.Template->getTD()}/images/buttons/de/test.png" alt="" class="ImageButton"/></a></td>{/if}
        {if $curPost.show.editButton}<td><a href="{$indexFile}?action=Posting&amp;mode=Edit&amp;postID={$curPost.postID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/test.png" class="ImageButton" alt=""/></a></td>{/if}
-       {if $curPost.postPosterHideEmailAddress != 1 && $curPost.postPosterEmailAddress != ''}<td><a href="mailto:{$curPost.postPosterEmailAddress}"><img src="{$modules.Template->getTD()}/images/buttons/de/email.png" class="ImageButton" alt="{$curPost.postPosterEmailAddress}"/></a></td>{else}{if $curPost.postPosterReceiveEmails == 1}<td><a href="{$indexFile}?action=ViewProfile&amp;profileID={$curPost.posterID}&amp;mode=SendMail&amp;{$mySID}"><img src="{$modules.Template->getTemplateDir()}/images/buttons/de/email.png" alt="{$modules.Language->getString('Send_email')}"/></a></td>{/if}{/if}
+       {if $curPost.postPosterHideEmailAddress != 1 && $curPost.postPosterEmailAddress != ''}<td><a href="mailto:{$curPost.postPosterEmailAddress}"><img src="{$modules.Template->getTD()}/images/buttons/de/email.png" class="ImageButton" alt="{$curPost.postPosterEmailAddress}"/></a></td>{else}{if $curPost.postPosterReceiveEmails == 1}<td><a href="{$indexFile}?action=ViewProfile&amp;profileID={$curPost.posterID}&amp;mode=SendMail&amp;{$mySID}"><img src="{$modules.Template->getTemplateDir()}/images/buttons/de/email.png" alt="{$modules.Language->getString('send_email')}"/></a></td>{/if}{/if}
        <td><a href="{$indexFile}?action=Posting&amp;mode=Reply&amp;topicID={$topicID}&amp;postIDQuote={$curPost.postID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/quote.png" class="ImageButton" alt=""/></a></td>
       </tr>
      </table>
@@ -115,14 +115,14 @@
     <table class="TableStd" cellpadding="0" width="100%">
     <tr><td class="CellCat"><span class="FontCat">Fast Edit</span></td></tr>
     <tr><td class="CellNone" align="center"><textarea class="FormTextArea" rows="14" cols="" style="width:99%;" name="postData{$curPost.postID}">{$curPost._postEditBoxText}</textarea></td></tr>
-    <tr><td class="CellButtons" align="center"><input class="FormBButton" type="button" value="{$modules.Language->getString('Edit_post')}" onclick="ajaxUpdatePost({$curPost.postID});"/></td></tr>
+    <tr><td class="CellButtons" align="center"><input class="FormBButton" type="button" value="{$modules.Language->getString('edit_post')}" onclick="ajaxUpdatePost({$curPost.postID});"/></td></tr>
     </table>
    </div>
    {if $curPost._postSignature != ''}<br/><span class="signature">-----------<br/>{$curPost._postSignature}</span>{/if}
    {if $curPost._postEditedText != ''}<br/><br/><span class="FontSmall">{$curPost._postEditedText}</span>{/if}
   </td>
  </tr>
- <tr><td class="CellStd" width="85%"><span class="FontSmall">{$modules.Language->getString('Posted')}: {$curPost._postDateTime}</span></td></tr>
+ <tr><td class="CellStd" width="85%"><span class="FontSmall">{$modules.Language->getString('posted')}: {$curPost._postDateTime}</span></td></tr>
  {/foreach}
 </table>
 <br/>
@@ -131,7 +131,7 @@
  <table border="0" cellpadding="0" cellspacing="0" width="100%">
  <tr>
   <td><span class="FontNavbar">{$pageListing}</span></td>
-  <td align="right"><span class="FontNavbar"><a href="{$indexFile}?action=Posting&amp;mode=Reply&amp;topicID={$topicID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLS()}/AddReply.png" class="ImageButton" alt="{$modules.Language->getString('Post_new_reply')}"/></a><a href="{$indexFile}?action=Posting&amp;mode=Topic&amp;forumID={$forumID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLS()}/AddTopic.png" class="ImageButton" alt="{$modules.Language->getString('Post_new_topic')}"/></a></span></td>
+  <td align="right"><span class="FontNavbar"><a href="{$indexFile}?action=Posting&amp;mode=Reply&amp;topicID={$topicID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLS()}/AddReply.png" class="ImageButton" alt="{$modules.Language->getString('post_new_reply')}"/></a><a href="{$indexFile}?action=Posting&amp;mode=Topic&amp;forumID={$forumID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLS()}/AddTopic.png" class="ImageButton" alt="{$modules.Language->getString('post_new_topic')}"/></a></span></td>
  </tr>
  </table>
 </td></tr>

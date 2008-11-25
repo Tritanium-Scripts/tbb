@@ -15,19 +15,19 @@
 <tr>
  <td class="CellStd" rowspan="7">
   <div id="Avatar" style="position:fixed; left:0; top:0; width:100%; height:100%; background-image:url({$profileData.userAvatarAddress}); background-repeat:no-repeat; background-position:center; background-color:#000000; cursor:pointer; z-index:1; visibility:hidden; opacity:0.9;" onclick="this.style.visibility='hidden';"></div>
-  <img src="{$profileData.userAvatarAddress}" alt="{$profileData.userNick}'s {$modules.Language->getString('Avatar')}" style="width:128px; height:128px; cursor:pointer;" onclick="document.getElementById('Avatar').style.visibility='visible';"/>
+  <img src="{$profileData.userAvatarAddress}" alt="{$profileData.userNick}'s {$modules.Language->getString('avatar')}" style="width:128px; height:128px; cursor:pointer;" onclick="document.getElementById('Avatar').style.visibility='visible';"/>
  </td>
 </tr>
 {/if}
 <tr>
- <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('User_name')}:</span></td>
+ <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('user_name')}:</span></td>
  <td class="CellAlt"><span class="FontNorm">{$profileData.userNick}</span></td>
- <td class="CellAlt"><span class="FontNorm">{$modules.Language->getString('User_id')}: #{$profileData.userID}</span></td>
+ <td class="CellAlt"><span class="FontNorm">{$modules.Language->getString('user_id')}: #{$profileData.userID}</span></td>
 </tr>
 <tr>
- <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Email_address')}:</span></td>                
- <td class="CellAlt"><span class="FontNorm">{if $profileData.userHideEmailAddress != 1}<a href="mailto:{$profileData.userEmailAddress}">{$profileData.userEmailAddress}</a>{else}{$modules.Language->getString('Email_address_hidden')}{/if}</span></td>
- <td class="CellAlt"><span class="FontNorm">{if $profileData.userReceiveEmails == 1 && $modules.Auth->isLoggedIn() == 1 && $modules.Config->getValue('enable_email_formular') == 1} <a href="{$indexFile}?action=ViewProfile&amp;profileID={$profileID}&amp;mode=SendEmail&amp;{$mySID}">[{$modules.Language->getString('Send_email')}]</a>{/if}{if $modules.Auth->isLoggedIn() == 1} <a href="{$indexFile}?action=PrivateMessages&amp;mode=NewPM&amp;recipients={$profileData.userNick}&amp;{$mySID}">[{$modules.Language->getString('send_pm')}]</a>{/if}</span></td>
+ <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('email_address')}:</span></td>                
+ <td class="CellAlt"><span class="FontNorm">{if $profileData.userHideEmailAddress != 1}<a href="mailto:{$profileData.userEmailAddress}">{$profileData.userEmailAddress}</a>{else}{$modules.Language->getString('email_address_hidden')}{/if}</span></td>
+ <td class="CellAlt"><span class="FontNorm">{if $profileData.userReceiveEmails == 1 && $modules.Auth->isLoggedIn() == 1 && $modules.Config->getValue('enable_email_formular') == 1} <a href="{$indexFile}?action=ViewProfile&amp;profileID={$profileID}&amp;mode=SendEmail&amp;{$mySID}">[{$modules.Language->getString('send_email')}]</a>{/if}{if $modules.Auth->isLoggedIn() == 1} <a href="{$indexFile}?action=PrivateMessages&amp;mode=NewPM&amp;recipients={$profileData.userNick}&amp;{$mySID}">[{$modules.Language->getString('send_pm')}]</a>{/if}</span></td>
 </tr>
 <tr>
  <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('homepage')}:</span></td>
@@ -39,12 +39,12 @@
  <td class="CellAlt"><span class="FontNorm">{$profileData._profileRegisterDateText}</span></td>
 </tr>
 <tr>
- <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('Posts')}:</span></td>
+ <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('posts')}:</span></td>
  <td class="CellAlt"><span class="FontNorm">{$profileData.userPostsCounter}</span></td>
  <td class="CellAlt"><span class="FontNorm">{$profileData._userPostsCounterText}</span></td>
 </tr>
 <tr>
- <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('User_rank')}:</span></td>
+ <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('user_rank')}:</span></td>
  <td class="CellAlt"><span class="FontNorm">{$profileData._profileRankText}</span></td>
  <td class="CellAlt"><span class="FontNorm">{$profileData._profileRankPic}</span></td>
 </tr>
@@ -76,7 +76,7 @@
     <table border="0" cellpadding="0" cellspacing="0" width="100%">
     <tr>
      <td><span class="FontSmall">{$curNote._noteDate}</span></td>
-     <td align="right"><span class="FontSmall">{if $modules.Auth->getValue('userIsAdmin') == 1 || $modules.Auth->getValue('userID') == $curNote.userID}<a href="{$indexFile}?action=ViewProfile&amp;profileID={$profileID}&amp;mode=DeleteNote&amp;noteID={$curNote.noteID}&amp;{$mySID}">{$modules.Language->getString('Delete_note')}</a> | <a href="{$indexFile}?action=ViewProfile&amp;profileID={$profileID}&amp;mode=EditNote&amp;noteID={$curNote.noteID}&amp;{$mySID}">{$modules.Language->getString('Edit_note')}</a>{/if}</span></td>
+     <td align="right"><span class="FontSmall">{if $modules.Auth->getValue('userIsAdmin') == 1 || $modules.Auth->getValue('userID') == $curNote.userID}<a href="{$indexFile}?action=ViewProfile&amp;profileID={$profileID}&amp;mode=DeleteNote&amp;noteID={$curNote.noteID}&amp;{$mySID}">{$modules.Language->getString('delete_note')}</a> | <a href="{$indexFile}?action=ViewProfile&amp;profileID={$profileID}&amp;mode=EditNote&amp;noteID={$curNote.noteID}&amp;{$mySID}">{$modules.Language->getString('edit_note')}</a>{/if}</span></td>
     </tr>
     </table>
    </td>
@@ -88,8 +88,8 @@
  </table>
  <br/>
  <table class="TableStd" width="100%">
- <tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('Other_options')}</span></td></tr>
+ <tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('other_options')}</span></td></tr>
  <tr><td class="CellStd"><span class="FontNorm"><a href="{$indexFile}?action=ViewProfile&amp;profileID={$profileID}&amp;mode=AddNote&amp;{$mySID}">{$modules.Language->getString('add_note')}</a></span></td></tr>
- <tr><td class="CellStd"><span class="FontNorm"><a href="{$indexFile}?action=AdminUsers&amp;mode=EditUser&amp;userID={$profileID}&amp;{$mySID}">{$modules.Language->getString('User')} {$modules.Language->getString('Edit')}</a></span></td></tr>
+ <tr><td class="CellStd"><span class="FontNorm"><a href="{$indexFile}?action=AdminUsers&amp;mode=EditUser&amp;userID={$profileID}&amp;{$mySID}">{$modules.Language->getString('user')} {$modules.Language->getString('edit')}</a></span></td></tr>
  </table>
 {/if}

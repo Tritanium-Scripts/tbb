@@ -9,7 +9,7 @@
  	</div>
 {elseif $b.bbCodeType == $smarty.const.BBCODE_CODE}
 	<table class="TableStd" width="800px">
-		<tr><td class="CellCat" colspan="2"><span class="FontCat">{$modules.Language->getString('Code')}</span></td></tr>
+		<tr><td class="CellCat" colspan="2"><span class="FontCat">{$modules.Language->getString('code')}</span></td></tr>
 		<td class="CellBlank">
 			<div style="overflow:auto; width:800px; max-height:400px; padding:2px;">
 				<table style="height:100%;">
@@ -64,6 +64,6 @@
   <param name="movie" value="{$b.flashLink}"/>
   <param name="quality" value="autohigh"/>
   <param name="wmode" value="transparent"/>
-  <noscript>{$modules.Language->getString('No_flash')}</noscript>
+  <noscript>{$modules.Language->getString('no_flash')}</noscript>
  </object>
 {/if}

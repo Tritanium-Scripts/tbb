@@ -3,7 +3,7 @@
  <table border="0" cellpadding="0" cellspacing="0" width="100%">
  <tr>
   <td><span class="FontNavbar">{$pageListing}</span></td>
-  <td align="right"><span class="FontNavbar"><a href="{$indexFile}?action=Posting&amp;mode=Topic&amp;forumID={$forumID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLS()}/AddTopic.png" alt="{$modules.Language->getString('Post_new_topic')}"/></a></span></td>
+  <td align="right"><span class="FontNavbar"><a href="{$indexFile}?action=Posting&amp;mode=Topic&amp;forumID={$forumID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLS()}/AddTopic.png" alt="{$modules.Language->getString('post_new_topic')}"/></a></span></td>
  </tr>
  </table>
 </td></tr>
@@ -11,11 +11,11 @@
 <br />
 <table class="TableStd" width="100%">
 <tr>
- <td class="CellTitle" colspan="3" align="center"><span class="FontTitleSmall">{$modules.Language->getString('Topic')}</span></td>
- <td class="CellTitle" align="center"><span class="FontTitleSmall">{$modules.Language->getString('Author')}</span></td>
- <td class="CellTitle" align="center"><span class="FontTitleSmall">{$modules.Language->getString('Replies')}</span></td>
- <td class="CellTitle" align="center"><span class="FontTitleSmall">{$modules.Language->getString('Views')}</span></td>
- <td class="CellTitle" align="center"><span class="FontTitleSmall">{$modules.Language->getString('Last_post')}</span></td>
+ <td class="CellTitle" colspan="3" align="center"><span class="FontTitleSmall">{$modules.Language->getString('topic')}</span></td>
+ <td class="CellTitle" align="center"><span class="FontTitleSmall">{$modules.Language->getString('author')}</span></td>
+ <td class="CellTitle" align="center"><span class="FontTitleSmall">{$modules.Language->getString('replies')}</span></td>
+ <td class="CellTitle" align="center"><span class="FontTitleSmall">{$modules.Language->getString('views')}</span></td>
+ <td class="CellTitle" align="center"><span class="FontTitleSmall">{$modules.Language->getString('last_post')}</span></td>
 </tr>
 {foreach from=$topicsData item=curTopic}
  {if $curTopic.topicMovedID != 0}
@@ -40,7 +40,7 @@
   </tr>
  {/if}
 {foreachelse}
- <tr><td class="CellStd" align="center" colspan="7"><span class="FontNorm">{$modules.Language->getString('No_topics')}</span></td></tr>
+ <tr><td class="CellStd" align="center" colspan="7"><span class="FontNorm">{$modules.Language->getString('no_topics')}</span></td></tr>
 {/foreach}
 </table>
 <br/>
@@ -49,7 +49,7 @@
  <table border="0" cellpadding="0" cellspacing="0" width="100%">
  <tr>
   <td><span class="FontNavbar">{$pageListing}</span></td>
-  <td align="right"><span class="FontNavbar"><a href="{$indexFile}?action=Posting&amp;mode=Topic&amp;forumID={$forumID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLS()}/AddTopic.png" alt="{$modules.Language->getString('Post_new_topic')}"/></a></span></td>
+  <td align="right"><span class="FontNavbar"><a href="{$indexFile}?action=Posting&amp;mode=Topic&amp;forumID={$forumID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLS()}/AddTopic.png" alt="{$modules.Language->getString('post_new_topic')}"/></a></span></td>
  </tr>
  </table>
 </td></tr>

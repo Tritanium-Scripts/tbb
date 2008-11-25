@@ -19,10 +19,10 @@
 <tr>
  <td class="CellCat" align="center"><input type="checkbox" name="p_checkall" onclick="switchAllCheckboxes(this.checked);" /></td>
  <td class="CellCat" align="center">&nbsp;</td>
- <td class="CellCat" align="center"><span class="FontTitle">{$modules.Language->getString('Subject')}</span></td>
+ <td class="CellCat" align="center"><span class="FontTitle">{$modules.Language->getString('subject')}</span></td>
  <td class="CellCat"><span class="FontTitle">&nbsp;</span></td>
- <td class="CellCat" align="center"><span class="FontTitle">{$modules.Language->getString('Date')}</span></td>
- <td class="CellCat" align="center"><span class="FontTitle">{$modules.Language->getString('Actions')}</span></td>
+ <td class="CellCat" align="center"><span class="FontTitle">{$modules.Language->getString('date')}</span></td>
+ <td class="CellCat" align="center"><span class="FontTitle">{$modules.Language->getString('actions')}</span></td>
 </tr>
 {foreach from=$pmsData item=curPM}
  <tr>
@@ -34,13 +34,13 @@
   <td class="CellAlt" align="right"><span class="FontSmall"><a href="{$indexFile}?action=PrivateMessages&amp;mode=DeletePMs&amp;pmID={$curPM.pmID}&amp;returnFolderID={$folderID}&amp;returnPage={$page}&amp;{$mySID}"><img src="{$modules.Template->getTemplateDir()}/images/icons/PrivateMessageDelete.png" class="ImageIcon" alt="{$modules.Language->getString('delete')}"/></a>{if $curPM.pmType == 0 && $curPM.pmFromID != 0}<a href="{$indexFile}?action=PrivateMessages&amp;mode=ViewPM&amp;pmID={$curPM.pmID}&amp;{$mySID}#Reply"><img src="{$modules.Template->getTemplateDir()}/images/icons/PrivateMessageReadReplied.png" class="ImageIcon" alt=""/></a>{/if}</span></td>
  </tr>
 {foreachelse}
- <tr><td class="CellStd" colspan="6" align="center"><span class="FontNorm">-- {$modules.Language->getString('No_messages_in_this_folder')} --</span></td></tr>
+ <tr><td class="CellStd" colspan="6" align="center"><span class="FontNorm">-- {$modules.Language->getString('no_messages_in_this_folder')} --</span></td></tr>
 {/foreach}
 <tr><td class="CellButtons" colspan="6">
  <select class="FormSelect" name="selectAction" onchange="submitMyForm();">
-  <option value="">-- {$modules.Language->getString('Select_action')} --</option>
+  <option value="">-- {$modules.Language->getString('select_action')} --</option>
   <option value=""></option>
-  <option value="{$indexFile}?action=PrivateMessages&amp;mode=MarkPMsRead&amp;returnFolderID={$folderID}&amp;returnPage={$page}&amp;{$mySID}">{$modules.Language->getString('Mark_as_read')}</option>
+  <option value="{$indexFile}?action=PrivateMessages&amp;mode=MarkPMsRead&amp;returnFolderID={$folderID}&amp;returnPage={$page}&amp;{$mySID}">{$modules.Language->getString('mark_as_read')}</option>
   <option value="{$indexFile}?action=PrivateMessages&amp;mode=DeletePMs&amp;returnFolderID={$folderID}&amp;returnPage={$page}&amp;{$mySID}">{$modules.Language->getString('delete')}</option>
   <option value=""></option>
   {foreach from=$foldersData item=curFolder}

@@ -13,7 +13,7 @@ class AdminGroups extends ModuleTemplate {
 
 	public function executeMe() {
 		$this->modules['Language']->addFile('AdminGroups');
-		$this->modules['Navbar']->addElement($this->modules['Language']->getString('Manage_groups'),INDEXFILE.'?action=AdminGroups&amp;'.MYSID);
+		$this->modules['Navbar']->addElement($this->modules['Language']->getString('manage_groups'),INDEXFILE.'?action=AdminGroups&amp;'.MYSID);
 
 		switch(@$_GET['mode']) {
 			default:
@@ -46,7 +46,7 @@ class AdminGroups extends ModuleTemplate {
 					}
 				}
 
-				$this->modules['Navbar']->addElement($this->modules['Language']->getString('Add_group'),INDEXFILE.'?action=AdminGroups&amp;mode=AddGroup&amp;'.MYSID);
+				$this->modules['Navbar']->addElement($this->modules['Language']->getString('add_group'),INDEXFILE.'?action=AdminGroups&amp;mode=AddGroup&amp;'.MYSID);
 
 				$this->modules['Template']->assign(array(
 					'p'=>$p,
@@ -81,7 +81,7 @@ class AdminGroups extends ModuleTemplate {
 					}
 				}
 
-				$this->modules['Navbar']->addElement($this->modules['Language']->getString('Add_group'),INDEXFILE.'?action=AdminGroups&amp;mode=EditGroup&amp;groupID='.$groupID.'&amp;'.MYSID);
+				$this->modules['Navbar']->addElement($this->modules['Language']->getString('add_group'),INDEXFILE.'?action=AdminGroups&amp;mode=EditGroup&amp;groupID='.$groupID.'&amp;'.MYSID);
 
 				$this->modules['Template']->assign(array(
 					'p'=>$p,

@@ -66,11 +66,11 @@ class ViewForum extends ModuleTemplate {
 			$curTopic['_topicIsHot'] = ($this->modules['Config']->getValue('hot_status_posts_last_hour') != -1 && $this->modules['Config']->getValue('hot_status_posts_last_hour') <= $curTopic['topicPostsLastHour']);
 
 			if($curTopic['topicMovedID'] != 0)
-				$curPrefix .= $this->modules['Language']->getString('Prefix_moved'); // ...das hinschreiben...
+				$curPrefix .= $this->modules['Language']->getString('prefix_moved'); // ...das hinschreiben...
 
-			if($curTopic['forumID'] == $announcementsForumID && $announcementsForumID != $forumID) $curPrefix .= $this->modules['Language']->getString('Prefix_announcement');
-			if($curTopic['topicIsPinned'] == 1) $curPrefix .= $this->modules['Language']->getString('Prefix_important');
-			if($curTopic['topicHasPoll'] == 1) $curPrefix .= $this->modules['Language']->getString('Prefix_poll');
+			if($curTopic['forumID'] == $announcementsForumID && $announcementsForumID != $forumID) $curPrefix .= $this->modules['Language']->getString('prefix_announcement');
+			if($curTopic['topicIsPinned'] == 1) $curPrefix .= $this->modules['Language']->getString('prefix_important');
+			if($curTopic['topicHasPoll'] == 1) $curPrefix .= $this->modules['Language']->getString('prefix_poll');
 
 			if($curTopic['topicLastPostPosterID'] == 0)
 				$curLastPostPoster = $curTopic['topicLastPostPosterNick'];
@@ -110,7 +110,7 @@ class ViewForum extends ModuleTemplate {
 
 		$this->modules['Navbar']->addCategories($forumData['catID']);
 		$this->modules['Navbar']->addElement(Functions::HTMLSpecialChars($forumData['forumName']),INDEXFILE.'?action=ViewForum&amp;forumID='.$forumID.'&amp;'.MYSID);
-		$this->modules['Navbar']->setRightArea('<a href="'.INDEXFILE.'?action=ViewForum&amp;forumID='.$forumID.'&amp;markAll=1&amp;'.MYSID.'">'.$this->modules['Language']->getString('Mark_topics_read').'</a>');
+		$this->modules['Navbar']->setRightArea('<a href="'.INDEXFILE.'?action=ViewForum&amp;forumID='.$forumID.'&amp;markAll=1&amp;'.MYSID.'">'.$this->modules['Language']->getString('mark_topics_read').'</a>');
 
 		$this->modules['Template']->assign(array(
 			'forumID'=>$forumID,

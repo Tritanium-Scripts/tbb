@@ -1,1 +1,1 @@
-{if count($errors) > 0}<tr><td class="CellError" colspan="{$colSpan}"><span class="FontError">{$modules.Language->getString('Following_errors_occured')}<ul>{foreach from=$errors item=curError}<li><span class="FontError">{$curError}</span></li>{/foreach}</ul></span></td></tr>{/if}
+{if count($errors) > 0}<tr><td class="CellError" colspan="{$colSpan}"><span class="FontError">{$modules.Language->getString('following_errors_occured')}<ul>{foreach from=$errors item=curError}<li><span class="FontError">{$curError}</span></li>{/foreach}</ul></span></td></tr>{/if}

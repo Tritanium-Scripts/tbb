@@ -41,7 +41,7 @@ initializeClosedCatIDs();
 /* ]]> */</script>
 {if $newsData != FALSE}
  <table class="TableStd" width="100%">
- <tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('Latest_news')}</span></td></tr>
+ <tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('latest_news')}</span></td></tr>
  <tr><td class="CellStd"><span class="FontNorm"><b>{$news_data.news_title}</b><br/><br/>{$news_data.news_text}</span><br/><br/><span class="FontSmall">{$news_comments_link}</span></td></tr>
  </table>
  <br/>
@@ -50,11 +50,11 @@ initializeClosedCatIDs();
 <thead>
 <tr>
  <td class="CellTitle">&nbsp;</td>
- <td class="CellTitle" align="center"><span class="FontTitleSmall">{$modules.Language->getString('Forum')}</span></td>
- <td class="CellTitle" align="center"><span class="FontTitleSmall">{$modules.Language->getString('Topics')}</span></td>
- <td class="CellTitle" align="center"><span class="FontTitleSmall">{$modules.Language->getString('Posts')}</span></td>
- <td class="CellTitle" align="center"><span class="FontTitleSmall">{$modules.Language->getString('Last_post')}</span></td>
- <td class="CellTitle" align="center"><span class="FontTitleSmall">{$modules.Language->getString('Moderators')}</span></td>
+ <td class="CellTitle" align="center"><span class="FontTitleSmall">{$modules.Language->getString('forum')}</span></td>
+ <td class="CellTitle" align="center"><span class="FontTitleSmall">{$modules.Language->getString('topics')}</span></td>
+ <td class="CellTitle" align="center"><span class="FontTitleSmall">{$modules.Language->getString('posts')}</span></td>
+ <td class="CellTitle" align="center"><span class="FontTitleSmall">{$modules.Language->getString('last_post')}</span></td>
+ <td class="CellTitle" align="center"><span class="FontTitleSmall">{$modules.Language->getString('moderators')}</span></td>
 </tr>
 </thead>
 {foreach from=$catsData item=curCat}
@@ -94,7 +94,7 @@ initializeClosedCatIDs();
 <br/>
 {if !is_null($latestPostsData)}
 	<table class="TableStd" width="100%">
-		<tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('Latest_posts')}</span></td></tr>
+		<tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('latest_posts')}</span></td></tr>
 		{foreach from=$latestPostsData item=curPost}
 			<tr><td class="CellStd"><span class="FontSmall">{$curPost}</span></td></tr>
 		{/foreach}
@@ -103,14 +103,14 @@ initializeClosedCatIDs();
 {/if}
 {if $boardStatsData != FALSE}
  <table class="TableStd" width="100%">
- <tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('Board_statistics')}</span></td></tr>
+ <tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('board_statistics')}</span></td></tr>
  <tr><td class="CellStd"><span class="FontSmall">{$boardStatsData.text}</span></td></tr>
  </table>
  <br/>
 {/if}
 {if $wioData != FALSE}
  <table class="TableStd" width="100%">
- <tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('Who_is_online')}</span></td></tr>
+ <tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('who_is_online')}</span></td></tr>
  <tr><td class="CellStd"><span class="FontSmall">{$wioData.text}</span><hr /><span class="FontSmall">{$wioData.members}</span></td></tr>
  </table>
  <br/>

@@ -35,20 +35,20 @@
  <tr><td style="background-color:#c5e8f9; background-image:url(images/bck.jpg);"><!--<span class="big">{$boardBanner}</span>--><img src="images/test.jpg" alt=""/></td></tr>
   <tr><td align="center" style="background-color:#aec9d7; padding-bottom:4px;"><span class="FontSmall">
   {if $modules.Auth->isLoggedIn() == 1}
-   <a href="{$indexFile}?action=EditProfile&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/myprofile.png" class="ImageButton" alt="{$modules.Language->getString('My_profile')}"/></a>
-   <a href="{$indexFile}?action=ViewHelp&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/help.png" class="ImageButton" alt="{$modules.Language->getString('Help')}"/></a>
-   <a href="{$indexFile}?action=PrivateMessages&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/pms.png" class="ImageButton" alt="{$modules.Language->getString('Private_messages')}"/></a>
-   <a href="{$indexFile}?action=Search&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/search.png" class="ImageButton" alt="{$modules.Language->getString('Search')}"/></a>
-   <a href="{$indexFile}?action=MemberList&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/memberlist.png" class="ImageButton" alt="{$modules.Language->getString('Memberlist')}"/></a>
-   <a href="{$indexFile}?action=WhoIsOnline&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/whoisonline.png" class="ImageButton" alt="{$modules.Language->getString('Who_is_online')}"/></a>
-   <a href="{$indexFile}?action=Logout&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/logout.png" class="ImageButton" alt="{$modules.Language->getString('Logout')}"/></a>
+   <a href="{$indexFile}?action=EditProfile&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/myprofile.png" class="ImageButton" alt="{$modules.Language->getString('my_profile')}"/></a>
+   <a href="{$indexFile}?action=ViewHelp&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/help.png" class="ImageButton" alt="{$modules.Language->getString('help')}"/></a>
+   <a href="{$indexFile}?action=PrivateMessages&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/pms.png" class="ImageButton" alt="{$modules.Language->getString('private_messages')}"/></a>
+   <a href="{$indexFile}?action=Search&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/search.png" class="ImageButton" alt="{$modules.Language->getString('search')}"/></a>
+   <a href="{$indexFile}?action=MemberList&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/memberlist.png" class="ImageButton" alt="{$modules.Language->getString('memberlist')}"/></a>
+   <a href="{$indexFile}?action=WhoIsOnline&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/whoisonline.png" class="ImageButton" alt="{$modules.Language->getString('who_is_online')}"/></a>
+   <a href="{$indexFile}?action=Logout&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/logout.png" class="ImageButton" alt="{$modules.Language->getString('logout')}"/></a>
   {else}
-   <a href="{$indexFile}?action=Register&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/register.png" class="ImageButton" alt="{$modules.Language->getString('Register')}"/></a>
-   <a href="{$indexFile}?action=ViewHelp&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/help.png" class="ImageButton" alt="{$modules.Language->getString('Help')}"/></a>
-   <a href="{$indexFile}?action=Search&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/search.png" class="ImageButton" alt="{$modules.Language->getString('Search')}"/></a>
-   <a href="{$indexFile}?action=MemberList&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/memberlist.png" class="ImageButton" alt="{$modules.Language->getString('Memberlist')}"/></a>
-   <a href="{$indexFile}?action=WhoIsOnline&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/whoisonline.png" class="ImageButton" alt="{$modules.Language->getString('Who_is_online')}"/></a>
-   <a href="{$indexFile}?action=Login&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/login.png" class="ImageButton" alt="{$modules.Language->getString('Login')}"/></a>
+   <a href="{$indexFile}?action=Register&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/register.png" class="ImageButton" alt="{$modules.Language->getString('register')}"/></a>
+   <a href="{$indexFile}?action=ViewHelp&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/help.png" class="ImageButton" alt="{$modules.Language->getString('help')}"/></a>
+   <a href="{$indexFile}?action=Search&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/search.png" class="ImageButton" alt="{$modules.Language->getString('search')}"/></a>
+   <a href="{$indexFile}?action=MemberList&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/memberlist.png" class="ImageButton" alt="{$modules.Language->getString('memberlist')}"/></a>
+   <a href="{$indexFile}?action=WhoIsOnline&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/whoisonline.png" class="ImageButton" alt="{$modules.Language->getString('who_is_online')}"/></a>
+   <a href="{$indexFile}?action=Login&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/login.png" class="ImageButton" alt="{$modules.Language->getString('login')}"/></a>
   {/if}
   </span></td></tr>
  </table>

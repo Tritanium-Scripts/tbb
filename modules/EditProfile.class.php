@@ -30,7 +30,7 @@ class EditProfile extends ModuleTemplate {
 		$this->modules['Language']->addFile('Login');
 		$this->modules['Language']->addFile('Register');
 
-		$this->modules['Navbar']->addElement($this->modules['Language']->getString('User_administration'),INDEXFILE."?action=EditProfile&amp;".MYSID);
+		$this->modules['Navbar']->addElement($this->modules['Language']->getString('user_administration'),INDEXFILE."?action=EditProfile&amp;".MYSID);
 
 		switch(@$_GET['mode']) {
 			default:
@@ -78,7 +78,7 @@ class EditProfile extends ModuleTemplate {
 							$this->modules['Auth']->setSessionUserPassword($newPasswordEncrypted);
 						}
 
-						$this->modules['Navbar']->addElements(array($this->modules['Language']->getString('Profile_saved'),''));
+						$this->modules['Navbar']->addElements(array($this->modules['Language']->getString('profile_saved'),''));
 						FuncMisc::printMessage('profile_saved'); exit;
 					}
 				}
@@ -144,8 +144,8 @@ class EditProfile extends ModuleTemplate {
 				}
 
 				$groupsData = array(
-					array('groupName'=>$this->modules['Language']->getString('Required_information'),'groupType'=>1,'groupFields'=>array()),
-					array('groupName'=>$this->modules['Language']->getString('Other_information'),'groupType'=>0,'groupFields'=>array())
+					array('groupName'=>$this->modules['Language']->getString('required_information'),'groupType'=>1,'groupFields'=>array()),
+					array('groupName'=>$this->modules['Language']->getString('other_information'),'groupType'=>0,'groupFields'=>array())
 				);
 
 				foreach($profileFields AS $curField) {
@@ -202,7 +202,7 @@ class EditProfile extends ModuleTemplate {
 						$p['userNotifyNewPM']
 					));
 
-					$this->modules['Navbar']->addElements(array($this->modules['Language']->getString('Profile_saved'),''));
+					$this->modules['Navbar']->addElements(array($this->modules['Language']->getString('profile_saved'),''));
 					FuncMisc::printMessage('profile_saved'); exit;
 				}
 
@@ -228,7 +228,7 @@ class EditProfile extends ModuleTemplate {
 				$this->modules['DB']->queryParams('SELECT t2."topicTitle", t1."topicID" FROM ('.TBLPFX.'topics_subscriptions AS t1, '.TBLPFX.'topics AS t2) WHERE t1."userID"=$1 AND t2."topicID"=t1."topicID"', array(USERID));
 				$subscriptionsData = $this->modules['DB']->raw2Array();
 
-				$this->modules['Navbar']->addElement($this->modules['Language']->getString('Topic_subscriptions'),'');
+				$this->modules['Navbar']->addElement($this->modules['Language']->getString('topic_subscriptions'),'');
 
 				$this->modules['Template']->assign(array(
 					'subscriptionsData'=>$subscriptionsData
@@ -258,7 +258,7 @@ class EditProfile extends ModuleTemplate {
 				$p = array();
 				$p['userMemo'] = isset($_POST['p']['userMemo']) ? $_POST['p']['userMemo'] : $this->modules['Auth']->getValue('userMemo');
 
-				$this->modules['Navbar']->addelement($this->modules['Language']->getString('Memo'),INDEXFILE.'?action=EditProfile&amp;mode=Memo&amp;'.MYSID);
+				$this->modules['Navbar']->addelement($this->modules['Language']->getString('memo'),INDEXFILE.'?action=EditProfile&amp;mode=Memo&amp;'.MYSID);
 
 				if(isset($_GET['doit'])) {
 					$this->modules['DB']->queryParams('UPDATE '.TBLPFX.'users SET "userMemo"=$1 WHERE "userID"=$2', array($p['userMemo'], USERID));
@@ -323,7 +323,7 @@ class EditProfile extends ModuleTemplate {
 							));
 
 							$avatarSelectedText = sprintf($this->modules['Language']->getString('avatar_selected_text'),'<img src="'.$localAvatarFileName.'" width="'.$this->modules['Config']->getValue('avatar_image_width').'" height="'.$this->modules['Config']->getValue('avatar_image_height').'" alt=""/>');
-							FuncMisc::printMessage(array($this->modules['Language']->getString('Avatar_selected'),$avatarSelectedText),array(),TRUE); exit;
+							FuncMisc::printMessage(array($this->modules['Language']->getString('avatar_selected'),$avatarSelectedText),array(),TRUE); exit;
 						}
 					}
 				}

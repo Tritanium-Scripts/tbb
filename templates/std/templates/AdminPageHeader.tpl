@@ -33,7 +33,7 @@
 <tr>
  <td valign="top" width="200">
   <table class="TableStd" width="100%">
-  <tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('Navigation')}</span></td></tr>
+  <tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('navigation')}</span></td></tr>
   {foreach from=$navigation item=curNav}
    {if $curNav.0 == '-'}
     <tr><td class="CellNavNone"><hr class="LineNav"/></td></tr>

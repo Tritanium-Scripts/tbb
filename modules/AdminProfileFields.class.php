@@ -13,7 +13,7 @@ class AdminProfileFields extends ModuleTemplate {
 
 	public function executeMe() {
 		$this->modules['Language']->addFile('AdminProfileFields');
-		$this->modules['Navbar']->addElement($this->modules['Language']->getString('Manage_profile_fields'),INDEXFILE.'?action=AdminProfileFields&amp;'.MYSID);
+		$this->modules['Navbar']->addElement($this->modules['Language']->getString('manage_profile_fields'),INDEXFILE.'?action=AdminProfileFields&amp;'.MYSID);
 
 		switch(@$_GET['mode']) {
 			default:
@@ -21,10 +21,10 @@ class AdminProfileFields extends ModuleTemplate {
 				$fieldsData = $this->modules['DB']->raw2Array();
 
 				foreach($fieldsData AS &$curField) {
-					if($curField['fieldType'] == PROFILE_FIELD_TYPE_TEXT) $curField['_fieldTypeText'] = $this->modules['Language']->getString('Textfield');
-					elseif($curField['fieldType'] == PROFILE_FIELD_TYPE_TEXTAREA) $curField['_fieldTypeText'] = $this->modules['Language']->getString('Textarea');
-					elseif($curField['fieldType'] == PROFILE_FIELD_TYPE_SELECTSINGLE) $curField['_fieldTypeText'] = $this->modules['Language']->getString('Single_selection_list');
-					elseif($curField['fieldType'] == PROFILE_FIELD_TYPE_SELECTMULTI) $curField['_fieldTypeText'] = $this->modules['Language']->getString('Multiple_selection_list');
+					if($curField['fieldType'] == PROFILE_FIELD_TYPE_TEXT) $curField['_fieldTypeText'] = $this->modules['Language']->getString('textfield');
+					elseif($curField['fieldType'] == PROFILE_FIELD_TYPE_TEXTAREA) $curField['_fieldTypeText'] = $this->modules['Language']->getString('textarea');
+					elseif($curField['fieldType'] == PROFILE_FIELD_TYPE_SELECTSINGLE) $curField['_fieldTypeText'] = $this->modules['Language']->getString('single_selection_list');
+					elseif($curField['fieldType'] == PROFILE_FIELD_TYPE_SELECTMULTI) $curField['_fieldTypeText'] = $this->modules['Language']->getString('multiple_selection_list');
 				}
 
 				$this->modules['Template']->assign(array(
@@ -90,7 +90,7 @@ class AdminProfileFields extends ModuleTemplate {
 					'errors'=>$errors
 				));
 
-				$this->modules['Navbar']->addElement($this->modules['Language']->getString('Add_profile_field'),INDEXFILE.'?action=AdminProfileFields&amp;mode=AddField&amp;'.MYSID);
+				$this->modules['Navbar']->addElement($this->modules['Language']->getString('add_profile_field'),INDEXFILE.'?action=AdminProfileFields&amp;mode=AddField&amp;'.MYSID);
 				$this->modules['Template']->printPage('AdminProfileFieldsAddField.tpl');
 				break;
 
@@ -163,7 +163,7 @@ class AdminProfileFields extends ModuleTemplate {
 					'errors'=>$errors
 				));
 
-				$this->modules['Navbar']->addElement($this->modules['Language']->getString('Edit_profile_field'),INDEXFILE.'?action=AdminProfileFields&amp;mode=EditField&amp;fieldID=$fieldID&amp;'.MYSID);
+				$this->modules['Navbar']->addElement($this->modules['Language']->getString('edit_profile_field'),INDEXFILE.'?action=AdminProfileFields&amp;mode=EditField&amp;fieldID=$fieldID&amp;'.MYSID);
 				$this->modules['Template']->printPage('AdminProfileFieldsEditField.tpl');
 				break;
 

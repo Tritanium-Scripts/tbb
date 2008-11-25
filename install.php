@@ -119,7 +119,7 @@ class BoardInstall {
 		<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 		<html xmlns="http://www.w3.org/1999/xhtml" dir="<?php echo $this->strings['html_direction']; ?>" lang="<?php echo $this->strings['html_language']; ?>" xml:lang="<?php echo $this->strings['html_language']; ?>">
 			<head>
-	 			<title><?php echo $this->strings['Tbb2_installation']; ?></title>
+	 			<title><?php echo $this->strings['tbb2_installation']; ?></title>
 	 			<?php echo $autoLocation; ?>
  				<style type="text/css">
   					body {
@@ -353,7 +353,7 @@ class BoardInstall {
 			<body>
 				<div align="center"><div align="left" style="width:1024px;">
 				<table style="background-color:#000000; border:2px black solid;" border="0" cellpadding="0" cellspacing="1" width="100%">
-					<tr><td style="background-color:#000080; padding:5px; text-align:center;"><span style="color:#FFFFFF; font-size:24px; font-family:verdana,arial;"><?php echo $this->strings['Tbb2_installation']; ?></span></td></tr>
+					<tr><td style="background-color:#000080; padding:5px; text-align:center;"><span style="color:#FFFFFF; font-size:24px; font-family:verdana,arial;"><?php echo $this->strings['tbb2_installation']; ?></span></td></tr>
 					<tr>
 						<td class="CellWhite">
 							<table border="0" cellpadding="3" cellspacing="5" width="100%">
@@ -393,16 +393,16 @@ class BoardInstall {
 		}
 
 		$this->steps = array(
-			$this->strings['Language_selection'],
-			$this->strings['Introduction'],
-			$this->strings['System_test'],
-			$this->strings['Database_configuration'],
-			$this->strings['Search_for_existing_installation'],
-			$this->strings['Base_data_insertion'],
-			$this->strings['Board_configuration'],
-			$this->strings['Administrator_creation'],
-			$this->strings['Tbb1_conversion'],
-			$this->strings['Installation_finish']
+			$this->strings['language_selection'],
+			$this->strings['introduction'],
+			$this->strings['system_test'],
+			$this->strings['database_configuration'],
+			$this->strings['search_for_existing_installation'],
+			$this->strings['base_data_insertion'],
+			$this->strings['board_configuration'],
+			$this->strings['administrator_creation'],
+			$this->strings['tbb1_conversion'],
+			$this->strings['installation_finish']
 		);
 
 
@@ -429,7 +429,7 @@ class BoardInstall {
 						</colgroup>
 						<tr><td class="CellCat" colspan="2"><span class="FontCat"><?php echo $this->steps[$this->step-1]; ?></span></td></tr>
 						<tr>
-							<td valign="top" class="CellWhite"><span class="FontNorm"><?php echo $this->strings['Select_language']; ?>:</span></td>
+							<td valign="top" class="CellWhite"><span class="FontNorm"><?php echo $this->strings['select_language']; ?>:</span></td>
 							<td valign="top" class="CellWhite">
 								<select class="FormSelect" name="p[language]">
 				<?php
@@ -447,7 +447,7 @@ class BoardInstall {
 								</select>
 							</td>
 						</tr>
-						<tr><td class="CellButtons" align="right" colspan="2"><input class="FormBButton" type="submit" value="<?php echo $this->strings['Next']; ?>"/></td></tr>
+						<tr><td class="CellButtons" align="right" colspan="2"><input class="FormBButton" type="submit" value="<?php echo $this->strings['next']; ?>"/></td></tr>
 					</table>
 				</form>
 				<?php
@@ -471,7 +471,7 @@ class BoardInstall {
 					<table class="TableStd" width="100%">
 						<tr><td class="CellCat" colspan="2"><span class="FontCat"><?php echo $this->steps[$this->step-1]; ?></span></td></tr>
 						<tr><td class="CellWhite"><span class="FontNorm"><?php echo $this->strings['introduction_text']; ?></span></td></tr>
-						<tr><td class="CellButtons" align="right" colspan="2"><input class="FormButton" type="submit" value="<?php echo $this->strings['Back']; ?>" name="buttonBack"/>&nbsp;&nbsp;&nbsp;<input class="FormBButton" type="submit" value="<?php echo $this->strings['Next']; ?>"/></td></tr>
+						<tr><td class="CellButtons" align="right" colspan="2"><input class="FormButton" type="submit" value="<?php echo $this->strings['back']; ?>" name="buttonBack"/>&nbsp;&nbsp;&nbsp;<input class="FormBButton" type="submit" value="<?php echo $this->strings['next']; ?>"/></td></tr>
 					</table>
 				</form>
 				<?php
@@ -489,37 +489,37 @@ class BoardInstall {
 
 				$results = array(
 					'filetest'=>array(
-						'name'=>$this->strings['File_test'],
+						'name'=>$this->strings['file_test'],
 						'success'=>FALSE,
 						'error'=>$this->strings['successful'],
 						'color'=>'Red'
 					),
 					'fileuploadtest'=>array(
-						'name'=>$this->strings['File_upload_test'],
+						'name'=>$this->strings['file_upload_test'],
 						'success'=>FALSE,
 						'error'=>$this->strings['successful'],
 						'color'=>'Red'
 					),
 					'dirtest'=>array(
-						'name'=>$this->strings['Directory_test'],
+						'name'=>$this->strings['directory_test'],
 						'success'=>FALSE,
 						'error'=>$this->strings['successful'],
 						'color'=>'Red'
 					),
 					'phptest'=>array(
-						'name'=>$this->strings['Php_test'],
+						'name'=>$this->strings['php_test'],
 						'success'=>FALSE,
 						'error'=>$this->strings['successful'],
 						'color'=>'Red'
 					),
 					'mbstringtest'=>array(
-						'name'=>$this->strings['Mb_string_test'],
+						'name'=>$this->strings['mb_string_test'],
 						'success'=>FALSE,
 						'error'=>$this->strings['successful'],
 						'color'=>'Orange'
 					),
 					'mysqlitest'=>array(
-						'name'=>$this->strings['Mysqli_test'],
+						'name'=>$this->strings['mysqli_test'],
 						'success'=>FALSE,
 						'error'=>$this->strings['successful'],
 						'color'=>'Red'
@@ -629,7 +629,7 @@ class BoardInstall {
 				}
 
 				?>
-						<tr><td class="CellButtons" align="right" colspan="2"><input class="FormButton" type="submit" value="<?php echo $this->strings['Back']; ?>" name="buttonBack"/>&nbsp;&nbsp;&nbsp;<input class="FormBButton" type="submit" name="buttonAgain" value="<?php echo $this->strings['Test_again']; ?>"/>&nbsp;&nbsp;&nbsp;<input class="FormBButton" type="submit" value="<?php echo $this->strings['Next']; ?>"/></td></tr>
+						<tr><td class="CellButtons" align="right" colspan="2"><input class="FormButton" type="submit" value="<?php echo $this->strings['back']; ?>" name="buttonBack"/>&nbsp;&nbsp;&nbsp;<input class="FormBButton" type="submit" name="buttonAgain" value="<?php echo $this->strings['test_again']; ?>"/>&nbsp;&nbsp;&nbsp;<input class="FormBButton" type="submit" value="<?php echo $this->strings['next']; ?>"/></td></tr>
 					</table>
 				 </form>
 				<?php
@@ -697,27 +697,27 @@ class BoardInstall {
 						<?php if(count($errors) > 0) { ?> <tr><td colspan="2" class="CellError"><ul><?php foreach($errors AS $curError) echo '<li><span class="FontError">'.$curError.'</span></li>'; ?></ul></td></tr><?php } ?>
 						<tr><td class="CellWhite" colspan="2"><span class="FontNorm"><?php echo sprintf($this->strings['db_access_data_info'], '"http://www.mysql.de" target="_blank"'); ?></span></td></tr>
 						<tr>
-							<td class="CellWhite"><span class="FontNorm"><b><?php echo $this->strings['Database_server']; ?>:</b></span></td>
+							<td class="CellWhite"><span class="FontNorm"><b><?php echo $this->strings['database_server']; ?>:</b></span></td>
 							<td class="CellWhite"><input class="FormText" type="text" name="p[dbServer]" value="<?php echo $p['dbServer']; ?>" size="30"/></td>
 						</tr>
 						<tr>
-							<td class="CellWhite"><span class="FontNorm"><b><?php echo $this->strings['Database_user']; ?>:</b></span></td>
+							<td class="CellWhite"><span class="FontNorm"><b><?php echo $this->strings['database_user']; ?>:</b></span></td>
 							<td class="CellWhite"><input class="FormText" type="text" name="p[dbUser]" value="<?php echo $p['dbUser']; ?>" size="30"/></td>
 						</tr>
 						<tr>
-							<td class="CellWhite"><span class="FontNorm"><b><?php echo $this->strings['Database_password']; ?>:</b></span></td>
+							<td class="CellWhite"><span class="FontNorm"><b><?php echo $this->strings['database_password']; ?>:</b></span></td>
 							<td class="CellWhite"><input class="FormText" type="password" name="p[dbPassword]" value="" size="30"/></td>
 						</tr>
 						<tr>
-							<td class="CellWhite"><span class="FontNorm"><b><?php echo $this->strings['Database_name']; ?>:</b></span></td>
+							<td class="CellWhite"><span class="FontNorm"><b><?php echo $this->strings['database_name']; ?>:</b></span></td>
 							<td class="CellWhite"><input class="FormText" type="text" name="p[dbName]" value="<?php echo $p['dbName']; ?>" size="30"/></td>
 						</tr>
 						<tr>
-							<td class="CellWhite"><span class="FontNorm"><b><?php echo $this->strings['Table_prefix']; ?>:</b></span></td>
+							<td class="CellWhite"><span class="FontNorm"><b><?php echo $this->strings['table_prefix']; ?>:</b></span></td>
 							<td class="CellWhite"><input class="FormText" type="text" name="p[tablePrefix]" value="<?php echo $p['tablePrefix']; ?>" size="10"/></td>
 						</tr>
 						<tr><td class="CellInfoBox" colspan="2"><span class="FontInfoBox"><?php echo $this->strings['search_for_installation_preinfo']; ?></span></td></tr>
-						<tr><td class="CellButtons" align="right" colspan="2"><input class="FormButton" type="submit" value="<?php echo $this->strings['Back']; ?>" name="buttonBack"/>&nbsp;&nbsp;&nbsp;<input class="FormBButton" type="submit" value="<?php echo $this->strings['Next']; ?>"/></td></tr>
+						<tr><td class="CellButtons" align="right" colspan="2"><input class="FormButton" type="submit" value="<?php echo $this->strings['back']; ?>" name="buttonBack"/>&nbsp;&nbsp;&nbsp;<input class="FormBButton" type="submit" value="<?php echo $this->strings['next']; ?>"/></td></tr>
 					</table>
 				</form>
 				<?php
@@ -757,7 +757,7 @@ class BoardInstall {
 					elseif($DATAVERSION < SCRIPTVERSION) {
 						if(file_exists('update/'.$DATAVERSION.'.update')) {
 							$existingInstallationText = sprintf($this->strings['existing_installation_old_known'],$DATAVERSION);
-							$selectOptions[] = array('3',$this->strings['Update_existing_data']);
+							$selectOptions[] = array('3',$this->strings['update_existing_data']);
 						}
 						else
 							$existingInstallationText = sprintf($this->strings['existing_installation_old_unknown'],$DATAVERSION);
@@ -766,16 +766,16 @@ class BoardInstall {
 
 					$existingInstallationText = sprintf($this->strings['existing_installation_found'],$existingInstallationText);
 
-					$selectOptions[] = array('2',$this->strings['Use_existing_data']);
-					$selectOptions[] = array('1',$this->strings['Change_database_configuration']);
-					$selectOptions[] = array('0',$this->strings['Delete_existing_data']);
+					$selectOptions[] = array('2',$this->strings['use_existing_data']);
+					$selectOptions[] = array('1',$this->strings['change_database_configuration']);
+					$selectOptions[] = array('0',$this->strings['delete_existing_data']);
 
 					break;
 				}
 				
 				if(!$this->existingInstallationFound) {
-					$selectOptions[] = array('0',$this->strings['Dont_transfer_tbb1_data']);
-					$selectOptions[] = array('1',$this->strings['Transfer_tbb1_data']);
+					$selectOptions[] = array('0',$this->strings['dont_transfer_tbb1_data']);
+					$selectOptions[] = array('1',$this->strings['transfer_tbb1_data']);
 				}
 				
 				if(isset($_GET['doit'])) {
@@ -817,7 +817,7 @@ class BoardInstall {
 									<table class="TableStd" width="100%">
 										<tr><td class="CellCat"><span class="FontCat"><?php echo $this->steps[$this->step-1]; ?></span></td></tr>
 										<tr><td><span class="FontNorm"><?php echo $this->strings['old_data_successfully_updated']; ?></span></td></tr>
-										<tr><td align="right"><input class="FormBButton" type="submit" value="<?php echo $this->strings['Next']; ?>"/></td></tr>
+										<tr><td align="right"><input class="FormBButton" type="submit" value="<?php echo $this->strings['next']; ?>"/></td></tr>
 									</table>
 								</form>
 							<?php
@@ -853,8 +853,8 @@ class BoardInstall {
 				}
 
 				?>
-					<tr><td class="CellInfoBox"><span class="FontInfoBox"><?php echo $this->strings['No_way_back']; ?></span></td></tr>
-					<tr><td class="CellButtons" align="right" colspan="2"><input class="FormButton" type="submit" value="<?php echo $this->strings['Back']; ?>" name="buttonBack"/>&nbsp;&nbsp;&nbsp;<input class="FormBButton" type="submit" value="<?php echo $this->strings['Next']; ?>"/></td></tr>
+					<tr><td class="CellInfoBox"><span class="FontInfoBox"><?php echo $this->strings['no_way_back']; ?></span></td></tr>
+					<tr><td class="CellButtons" align="right" colspan="2"><input class="FormButton" type="submit" value="<?php echo $this->strings['back']; ?>" name="buttonBack"/>&nbsp;&nbsp;&nbsp;<input class="FormBButton" type="submit" value="<?php echo $this->strings['next']; ?>"/></td></tr>
 					</table>
 					</form>
 				<?php
@@ -896,7 +896,7 @@ class BoardInstall {
 				if($this->existingInstallationFound && !$this->keepExistingData) {
 					?>
 					<tr>
-						<td class="CellWhite" valign="top"><span class="FontNorm"><?php echo $this->strings['Deleting_old_tables']; ?></span></td>
+						<td class="CellWhite" valign="top"><span class="FontNorm"><?php echo $this->strings['deleting_old_tables']; ?></span></td>
 						<td class="CellWhite" valign="top"><span class="FontNorm">
 					<?php
 
@@ -912,7 +912,7 @@ class BoardInstall {
 
 				?>
 				<tr>
-					<td class="CellWhite" valign="top"><span class="FontNorm"><?php echo $this->strings['Creating_tables']; ?></span></td>
+					<td class="CellWhite" valign="top"><span class="FontNorm"><?php echo $this->strings['creating_tables']; ?></span></td>
 					<td class="CellWhite" valign="top">
 						<span class="FontNorm">
 				<?php
@@ -926,7 +926,7 @@ class BoardInstall {
 					</td>
 				</tr>
 				<tr>
-					<td class="CellWhite" valign="top"><span class="FontNorm"><?php echo $this->strings['Inserting_basic_data']; ?></span></td>
+					<td class="CellWhite" valign="top"><span class="FontNorm"><?php echo $this->strings['inserting_basic_data']; ?></span></td>
 					<td class="CellWhite" valign="top"><span class="FontNorm">
 				<?php
 
@@ -941,7 +941,7 @@ class BoardInstall {
 				?>
 					</span></td>
 				</tr>
-				<tr><td align="right" class="CellButtons" colspan="2"><input class="FormBButton" type="submit" value="<?php echo $this->strings['Next']; ?>"/></td></tr>
+				<tr><td align="right" class="CellButtons" colspan="2"><input class="FormBButton" type="submit" value="<?php echo $this->strings['next']; ?>"/></td></tr>
 				</table>
 				</form>
 				<?php
@@ -990,20 +990,20 @@ class BoardInstall {
 						<?php if(count($errors) > 0) { ?> <tr><td colspan="2" class="CellError"><ul><?php foreach($errors AS $curError) echo '<li><span class="FontError">'.$curError.'</span></li>'; ?></ul></td></tr><?php } ?>
 						<tr><td colspan="2"><span class="FontNorm"><?php echo sprintf($this->strings['board_configuration_info'], '"http://www.tritanium-scripts.com/" target="_blank"'); ?></span></td></tr>
 						<tr>
-							<td><span class="FontNorm"><b><?php echo $this->strings['Path_to_forum']; ?></b></span><br/><span class="FontSmall"><?php echo $this->strings['path_to_forum_info']; ?></span></td>
+							<td><span class="FontNorm"><b><?php echo $this->strings['path_to_forum']; ?></b></span><br/><span class="FontSmall"><?php echo $this->strings['path_to_forum_info']; ?></span></td>
 							<td><input class="FormText" name="p[pathToForum]" value="<?php echo $p['pathToForum']; ?>" size="50"/></td>
 						</tr>
 						<tr>
-							<td><span class="FontNorm"><b><?php echo $this->strings['Board_address']; ?></b></span><br/><span class="FontSmall"><?php echo $this->strings['board_address_info']; ?></span></td>
+							<td><span class="FontNorm"><b><?php echo $this->strings['board_address']; ?></b></span><br/><span class="FontSmall"><?php echo $this->strings['board_address_info']; ?></span></td>
 							<td><input class="FormText" name="p[boardAddress]" value="<?php echo $p['boardAddress']; ?>" size="50"/></td>
 						</tr>
 						<tr>
-							<td><span class="FontNorm"><b><?php echo $this->strings['Enable_file_upload']; ?></b></span><br/><span class="FontSmall"><?php echo $this->strings['enable_file_upload_info']; ?></span></td>
-							<td><span class="FontNorm"><label><input type="radio" name="p[enableFileUpload]" value="1"<?php if($p['enableFileUpload'] == 1) echo 'checked="checked"'; ?>/> <?php echo $this->strings['Positive']; ?></label>&nbsp;&nbsp;&nbsp;<label><input type="radio" name="p[enableFileUpload]" value="0"<?php if($p['enableFileUpload'] == 0) echo 'checked="checked"'; ?>/> <?php echo $this->strings['Negative']; ?></label></span></td>
+							<td><span class="FontNorm"><b><?php echo $this->strings['enable_file_upload']; ?></b></span><br/><span class="FontSmall"><?php echo $this->strings['enable_file_upload_info']; ?></span></td>
+							<td><span class="FontNorm"><label><input type="radio" name="p[enableFileUpload]" value="1"<?php if($p['enableFileUpload'] == 1) echo 'checked="checked"'; ?>/> <?php echo $this->strings['positive']; ?></label>&nbsp;&nbsp;&nbsp;<label><input type="radio" name="p[enableFileUpload]" value="0"<?php if($p['enableFileUpload'] == 0) echo 'checked="checked"'; ?>/> <?php echo $this->strings['negative']; ?></label></span></td>
 						</tr>
 						<tr>
-							<td><span class="FontNorm"><b><?php echo $this->strings['Enable_avatar_upload']; ?></b></span><br/><span class="FontSmall"><?php echo $this->strings['enable_avatar_upload_info']; ?></span></td>
-							<td><span class="FontNorm"><label><input type="radio" name="p[enableAvatarUpload]" value="1"<?php if ($p['enableAvatarUpload'] == 1) echo 'checked="checked"'; ?>/> <?php echo $this->strings['Positive']; ?></label>&nbsp;&nbsp;&nbsp;<label><input type="radio" name="p[enableAvatarUpload]" value="0"<?php if($p['enableAvatarUpload'] == 0) echo 'checked="checked"'; ?>/> <?php echo $this->strings['Negative']; ?></label></span></td>
+							<td><span class="FontNorm"><b><?php echo $this->strings['enable_avatar_upload']; ?></b></span><br/><span class="FontSmall"><?php echo $this->strings['enable_avatar_upload_info']; ?></span></td>
+							<td><span class="FontNorm"><label><input type="radio" name="p[enableAvatarUpload]" value="1"<?php if ($p['enableAvatarUpload'] == 1) echo 'checked="checked"'; ?>/> <?php echo $this->strings['positive']; ?></label>&nbsp;&nbsp;&nbsp;<label><input type="radio" name="p[enableAvatarUpload]" value="0"<?php if($p['enableAvatarUpload'] == 0) echo 'checked="checked"'; ?>/> <?php echo $this->strings['negative']; ?></label></span></td>
 						</tr>
 				<?php
 
@@ -1016,7 +1016,7 @@ class BoardInstall {
 					?>
 						<tr>
 							<td><span class="FontNorm"><b><?php echo $this->strings['create_admin_keep_data_info']; ?></b></span></td>
-							<td><span class="FontNorm"><label><input type="radio" name="p[createAdministrator]" value="1"<?php if ($p['createAdministrator'] == 1) echo 'checked="checked"'; ?>/> <?php echo $this->strings['Positive']; ?></label>&nbsp;&nbsp;&nbsp;<label><input type="radio" name="p[createAdministrator]" value="0"<?php if($p['createAdministrator'] == 0) echo 'checked="checked"'; ?>/> <?php echo $this->strings['Negative']; ?></label></span></td>
+							<td><span class="FontNorm"><label><input type="radio" name="p[createAdministrator]" value="1"<?php if ($p['createAdministrator'] == 1) echo 'checked="checked"'; ?>/> <?php echo $this->strings['positive']; ?></label>&nbsp;&nbsp;&nbsp;<label><input type="radio" name="p[createAdministrator]" value="0"<?php if($p['createAdministrator'] == 0) echo 'checked="checked"'; ?>/> <?php echo $this->strings['negative']; ?></label></span></td>
 						</tr>
 					<?php
 				}
@@ -1027,7 +1027,7 @@ class BoardInstall {
 				}
 
 				?>
-							<tr><td align="right" class="CellButtons" colspan="2"><input class="FormBButton" type="submit" value="<?php echo $this->strings['Next']; ?>"/></td></tr>
+							<tr><td align="right" class="CellButtons" colspan="2"><input class="FormBButton" type="submit" value="<?php echo $this->strings['next']; ?>"/></td></tr>
 						</table>
 					</form>
 				<?php
@@ -1112,26 +1112,26 @@ class BoardInstall {
 							<tr><td colspan="2"><span class="FontNorm"><?php echo $this->strings['administrator_creation_info']; ?></span></td></tr>
 							<tr><td colspan="2"><span class="FontNorm">&nbsp;</span></td></tr>
 							<tr>
-								<td><span class="FontNorm"><?php echo $this->strings['User_name']; ?>:</span><br/><span class="FontSmall"><?php echo $this->strings['user_name_info']; ?></span></td>
+								<td><span class="FontNorm"><?php echo $this->strings['user_name']; ?>:</span><br/><span class="FontSmall"><?php echo $this->strings['user_name_info']; ?></span></td>
 								<td><input type="text" class="FormText" name="p[userName]" value="<?php echo $p['userName']; ?>" size="16" maxlength="15"/></td>
 							</tr>
 							<tr>
-								<td><span class="FontNorm"><?php echo $this->strings['Email_address']; ?>:</span></td>
+								<td><span class="FontNorm"><?php echo $this->strings['email_address']; ?>:</span></td>
 								<td><input type="text" class="FormText" name="p[userEmailAddress]" value="<?php echo $p['userEmailAddress']; ?>" size="30"/></td>
 							</tr>
 							<tr>
-								<td><span class="FontNorm"><?php echo $this->strings['Email_address_confirmation']; ?>:</span></td>
+								<td><span class="FontNorm"><?php echo $this->strings['email_address_confirmation']; ?>:</span></td>
 								<td><input type="text" class="FormText" name="p[userEmailAddressConfirmation]" value="<?php echo $p['userEmailAddressConfirmation']; ?>" size="30"/></td>
 							</tr>
 							<tr>
-								<td><span class="FontNorm"><?php echo $this->strings['Password']; ?>:</span></td>
+								<td><span class="FontNorm"><?php echo $this->strings['password']; ?>:</span></td>
 								<td><input type="password" class="FormText" name="p[userPassword]" value="" size="20"/></td>
 							</tr>
 							<tr>
-								<td><span class="FontNorm"><?php echo $this->strings['Password_confirmation']; ?>:</span></td>
+								<td><span class="FontNorm"><?php echo $this->strings['password_confirmation']; ?>:</span></td>
 								<td><input type="password" class="FormText" name="p[userPasswordConfirmation]" value="" size="20"/></td>
 							</tr>
-							<tr><td class="CellButtons" align="right" colspan="2"><input class="FormBButton" type="submit" value="<?php echo $this->strings['Next']; ?>"/></td></tr>
+							<tr><td class="CellButtons" align="right" colspan="2"><input class="FormBButton" type="submit" value="<?php echo $this->strings['next']; ?>"/></td></tr>
 						</table>
 					</form>
 				<?php
@@ -1151,10 +1151,10 @@ class BoardInstall {
 				if(isset($_GET['doit'])) {
 					$toWrite = "<?php\n\nclass DBConfig extends ConfigTemplate {\n\tprotected \$config = array(\n\t\t'dbType'=>'".$_SESSION['dbType']."',\n\t\t'dbServer'=>'".$_SESSION['dbServer']."',\n\t\t'dbUser'=>'".$_SESSION['dbUser']."',\n\t\t'dbPassword'=>'".$_SESSION['dbPassword']."',\n\t\t'dbName'=>'".$_SESSION['dbName']."',\n\t\t'tablePrefix'=>'".$_SESSION['tablePrefix']."'\n\t);\n}\n\n?>";
 					
-					if(!@file_put_contents('config/DB.config.class.php',$toWrite,LOCK_EX)) $errors[] = $this->strings['Cannot_open_config_file'];
+					if(!@file_put_contents('config/DB.config.class.php',$toWrite,LOCK_EX)) $errors[] = $this->strings['cannot_open_config_file'];
 					
 					if(count($errors) == 0) {
-						$message = (chmod('config/DB.config.class.php',0644) ? '' : '<br/><b>'.$this->strings['Cannot_set_chmod'].'</b>');
+						$message = (chmod('config/DB.config.class.php',0644) ? '' : '<br/><b>'.$this->strings['cannot_set_chmod'].'</b>');
 
 						$this->printHeader();
 
@@ -1185,14 +1185,14 @@ class BoardInstall {
 				if(isset($_GET['doit'])) {
 					?>
 						<tr>
-						 <td class="CellWhite" width="25%"><span class="FontNorm"><?php echo $this->strings['Creating_config_file']; ?></span></td>
+						 <td class="CellWhite" width="25%"><span class="FontNorm"><?php echo $this->strings['creating_config_file']; ?></span></td>
 						 <td class="CellWhite" width="75%" class="error"><span class="error"><?php echo $errors[1]; ?></span></td>
 						</tr>
 					<?php
 				}
 
 				?>
-					<tr><td class="CellButtons" colspan="2" align="right"><input class="FormBButton" type="submit" value="<?php echo $this->strings['Next']; ?>"/></td></tr>
+					<tr><td class="CellButtons" colspan="2" align="right"><input class="FormBButton" type="submit" value="<?php echo $this->strings['next']; ?>"/></td></tr>
 					</table>
 					</form>
 				<?php
@@ -1519,7 +1519,7 @@ class BoardInstall {
                                 "fieldLink"=$5,
                                 "fieldVarName"=$6
 						',array(
-							$this->strings['ICQ'],
+							$this->strings['icq'],
 							0,
 							'/^[0-9]{1,}\$/si',
 							serialize(array()),
@@ -1537,7 +1537,7 @@ class BoardInstall {
                                 "fieldVarName"=$5,
                                 "fieldIsLocked"=$6
 						',array(
-							$this->strings['Homepage'],
+							$this->strings['homepage'],
 							0,
 							serialize(array()),
                             '<a href="%1$s" target="_blank">%1$s</a>',
@@ -1554,7 +1554,7 @@ class BoardInstall {
                                 "fieldLink"=$4,
                                 "fieldVarName"=$5
 						',array(
-							$this->strings['Real_name'],
+							$this->strings['real_name'],
 							0,
 							serialize(array()),
                             '%1$s',
@@ -1696,7 +1696,7 @@ class BoardInstall {
 									$curPMGuestNick = '';
 	
 									if(!$this->tbb1ConversionUserExists($curPM[3]))
-										$curPMGuestNick = $this->strings['Unknown_user'];
+										$curPMGuestNick = $this->strings['unknown_user'];
 									else
 										$curPMFromID = $curPM[3];
 	
@@ -1792,7 +1792,7 @@ class BoardInstall {
 								if(strncmp($curTopicInfo[2],'0',1) == 0)
 									$curTopicGuestNick = substr($curTopicInfo[2],1,strlen($curTopicInfo[2]));
 								elseif(!file_exists($this->pathToTBB1.'/members/'.$curTopicInfo[2].'.xbb'))
-									$curTopicGuestNick = $this->strings['Unknown_user'];
+									$curTopicGuestNick = $this->strings['unknown_user'];
 								else
 									$curTopicPosterID = $curTopicInfo[2];
 	
@@ -1860,7 +1860,7 @@ class BoardInstall {
 									if(strncmp($curPostData[1],'0',1) == 0)
 										$curPostGuestNick = substr($curPostData[1],1,strlen($curPostData[1]));
 									elseif(!file_exists($this->pathToTBB1.'/members/'.$curPostData[1].'.xbb'))
-										$curPostGuestNick = $this->strings['Unknown_user'];
+										$curPostGuestNick = $this->strings['unknown_user'];
 									else
 										$curPostPosterID = $curPostData[1];
 	
@@ -2026,7 +2026,7 @@ class BoardInstall {
                                 		"fieldLink"=$4,
                                 		"fieldVarName"=$5
 								',array(
-									$this->strings['Unknown'] . $j,
+									$this->strings['unknown'] . $j,
 									0,
 									serialize(array()),
                             		'%1$s',
@@ -2131,7 +2131,7 @@ class BoardInstall {
 							<table class="TableStd" width="100%">
 								<tr><td class="CellCat" colspan="2"><span class="FontCat"><?php echo $this->steps[$this->step-1]; ?></span></td></tr>
 								<tr><td class="CellWhite"><span class="FontNorm"><?php echo $this->strings['tbb1_conversion_finished_info']; ?></span></td></tr>
-								<tr><td class="CellButtons" align="right"><input class="FormBButton" type="submit" value="<?php echo $this->strings['Next']; ?>"/></td></tr>
+								<tr><td class="CellButtons" align="right"><input class="FormBButton" type="submit" value="<?php echo $this->strings['next']; ?>"/></td></tr>
 							</table>
 						</form>
 						<?php
@@ -2155,10 +2155,10 @@ class BoardInstall {
 				<?php if(count($errors) > 0) { ?> <tr><td colspan="2" class="CellError"><ul><?php foreach($errors AS $curError) echo '<li><span class="FontError">'.$curError.'</span></li>'; ?></ul></td></tr><?php } ?>
 				<tr><td colspan="2"><span class="FontNorm"><?php echo $this->strings['tbb1_conversion_info']; ?></span></td></tr>
 				<tr>
-					<td><span class="FontNorm"><?php echo $this->strings['Path_to_tbb1']; ?>:</span><br/><span class="FontSmall"><?php echo $this->strings['path_to_tbb1_info']; ?></span></td>
+					<td><span class="FontNorm"><?php echo $this->strings['path_to_tbb1']; ?>:</span><br/><span class="FontSmall"><?php echo $this->strings['path_to_tbb1_info']; ?></span></td>
 					<td><input type="text" class="FormText" name="p[pathToTBB1]" value="<?php echo $p['pathToTBB1']; ?>" size="50"/></td>
 				</tr>
-				<tr><td class="CellButtons" align="right" colspan="2"><input class="FormBButton" type="submit" value="<?php echo $this->strings['Next']; ?>"/></td></tr>
+				<tr><td class="CellButtons" align="right" colspan="2"><input class="FormBButton" type="submit" value="<?php echo $this->strings['next']; ?>"/></td></tr>
 			</table>
 		</form>
 		<?php
@@ -2383,19 +2383,19 @@ class BoardInstall {
 					<span class="FontNorm"><?php echo $this->strings['tbb1_conversion_running_info']; ?></span><br/><br/>
 					<table border="0" cellpadding="0" cellspacing="0">
 						<tr>
-							<td class="CellWhite"><span class="FontNorm"><?php echo $this->strings['General_data'] ?>:</span></td>
+							<td class="CellWhite"><span class="FontNorm"><?php echo $this->strings['general_data'] ?>:</span></td>
 							<td class="CellWhite"><div style="background-color:#000000; padding:0px; margin:0px; height:12px; width:<?php echo $this->tbb1ConversionProperties['statusPre']*2; ?>px; float:left;"></div> <span class="FontNorm"><?php echo $this->tbb1ConversionProperties['statusPre']; ?>%</span></td>
 						</tr>
 						<tr>
-							<td class="CellWhite"><span class="FontNorm"><?php echo $this->strings['Members_data'] ?>:</span></td>
+							<td class="CellWhite"><span class="FontNorm"><?php echo $this->strings['members_data'] ?>:</span></td>
 							<td class="CellWhite"><div style="background-color:#000000; padding:0px; margin:0px; height:12px; width:<?php echo $this->tbb1ConversionProperties['statusMembers']*2; ?>px; float:left;"></div> <span class="FontNorm"><?php echo $this->tbb1ConversionProperties['statusMembers']; ?>%</span></td>
 						</tr>
 						<tr>
-							<td class="CellWhite"><span class="FontNorm"><?php echo $this->strings['Topics_data'] ?>:</span></td>
+							<td class="CellWhite"><span class="FontNorm"><?php echo $this->strings['topics_data'] ?>:</span></td>
 							<td class="CellWhite"><div style="background-color:#000000; padding:0px; margin:0px; height:12px; width:<?php echo $this->tbb1ConversionProperties['statusTopics']*2; ?>px; float:left;"></div> <span class="FontNorm"><?php echo $this->tbb1ConversionProperties['statusTopics']; ?>%</span></td>
 						</tr>
 						<tr>
-							<td class="CellWhite"><span class="FontNorm"><?php echo $this->strings['Other_data'] ?>:</span></td>
+							<td class="CellWhite"><span class="FontNorm"><?php echo $this->strings['other_data'] ?>:</span></td>
 							<td class="CellWhite"><div style="background-color:#000000; padding:0px; margin:0px; height:12px; width:<?php echo $this->tbb1ConversionProperties['statusPost']*2; ?>px; float:left;"></div> <span class="FontNorm"><?php echo $this->tbb1ConversionProperties['statusPost']; ?>%</span></td>
 						</tr>
 					</table>

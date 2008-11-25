@@ -13,7 +13,7 @@ class AdminForums extends ModuleTemplate {
 
 	public function executeMe() {
 		$this->modules['Language']->addFile('AdminForums');
-		$this->modules['Navbar']->addElement($this->modules['Language']->getString('Manage_forums'),INDEXFILE.'?action=AdminForums&amp;'.MYSID);
+		$this->modules['Navbar']->addElement($this->modules['Language']->getString('manage_forums'),INDEXFILE.'?action=AdminForums&amp;'.MYSID);
 
 		switch(@$_GET['mode']) {
 			default:
@@ -145,7 +145,7 @@ class AdminForums extends ModuleTemplate {
 				}
 
 				$catsData = FuncCats::getCatsData();
-				array_unshift($catsData,array('catID'=>1,'catDepth'=>0,'catName'=>$this->modules['Language']->getString('No_category')));
+				array_unshift($catsData,array('catID'=>1,'catDepth'=>0,'catName'=>$this->modules['Language']->getString('no_category')));
 
 				foreach($catsData AS &$curCat) {
 					$curPrefix = '';
@@ -162,7 +162,7 @@ class AdminForums extends ModuleTemplate {
 					'error'=>$error
 				));
 
-				$this->modules['Navbar']->addElement($this->modules['Language']->getString('Add_forum'),INDEXFILE.'?action=AdminForums&amp;mode=AddForum&amp;catID='.$p['catID'].'&amp;'.MYSID);
+				$this->modules['Navbar']->addElement($this->modules['Language']->getString('add_forum'),INDEXFILE.'?action=AdminForums&amp;mode=AddForum&amp;catID='.$p['catID'].'&amp;'.MYSID);
 				$this->modules['Template']->printPage('AdminForumsAddForum.tpl');
 				break;
 
@@ -230,7 +230,7 @@ class AdminForums extends ModuleTemplate {
 				}
 
 				$catsData = FuncCats::getCatsData();
-				array_unshift($catsData,array('catID'=>1,'catDepth'=>0,'catName'=>$this->modules['Language']->getString('No_category')));
+				array_unshift($catsData,array('catID'=>1,'catDepth'=>0,'catName'=>$this->modules['Language']->getString('no_category')));
 
 				foreach($catsData AS &$curCat) {
 					$curPrefix = '';
@@ -250,7 +250,7 @@ class AdminForums extends ModuleTemplate {
 					'forumID'=>$forumID
 				));
 
-				$this->modules['Navbar']->addElement($this->modules['Language']->getString('Edit_forum'),INDEXFILE.'?action=AdminForums&amp;mode=EditForum&amp;forumID='.$forumID.'&amp;'.MYSID);
+				$this->modules['Navbar']->addElement($this->modules['Language']->getString('edit_forum'),INDEXFILE.'?action=AdminForums&amp;mode=EditForum&amp;forumID='.$forumID.'&amp;'.MYSID);
 				$this->modules['Template']->printPage('AdminForumsEditForum.tpl');
 				break;
 
@@ -289,7 +289,7 @@ class AdminForums extends ModuleTemplate {
 				}
 
 				$catsData = FuncCats::getCatsData();
-				array_unshift($catsData,array('catID'=>1,'catDepth'=>0,'catName'=>$this->modules['Language']->getString('No_parent_category')));
+				array_unshift($catsData,array('catID'=>1,'catDepth'=>0,'catName'=>$this->modules['Language']->getString('no_parent_category')));
 
 				foreach($catsData AS &$curCat) {
 					$curPrefix = '';
@@ -305,7 +305,7 @@ class AdminForums extends ModuleTemplate {
 					'error'=>$error
 				));
 
-				$this->modules['Navbar']->addElement($this->modules['Language']->getString('Add_category'),INDEXFILE.'?action=AdminForums&amp;mode=AddCat&amp;parentCatID='.$p['parentCatID'].'&amp;'.MYSID);
+				$this->modules['Navbar']->addElement($this->modules['Language']->getString('add_category'),INDEXFILE.'?action=AdminForums&amp;mode=AddCat&amp;parentCatID='.$p['parentCatID'].'&amp;'.MYSID);
 				$this->modules['Template']->printPage('AdminForumsAddCat.tpl');
 				break;
 
@@ -348,7 +348,7 @@ class AdminForums extends ModuleTemplate {
 				}
 
 				$catsData = FuncCats::getCatsData();
-				array_unshift($catsData,array('catID'=>1,'catDepth'=>0,'catName'=>$this->modules['Language']->getString('No_parent_category')));
+				array_unshift($catsData,array('catID'=>1,'catDepth'=>0,'catName'=>$this->modules['Language']->getString('no_parent_category')));
 				$catsCounter = count($catsData);
 
 				$relevantCatsData = array();
@@ -374,7 +374,7 @@ class AdminForums extends ModuleTemplate {
 					'parentCatData'=>$parentCatData
 				));
 
-				$this->modules['Navbar']->addElement($this->modules['Language']->getString('Edit_category'),INDEXFILE.'?action=AdminForums&amp;mode=EditCat&amp;catID='.$catID.'&amp;'.MYSID);
+				$this->modules['Navbar']->addElement($this->modules['Language']->getString('edit_category'),INDEXFILE.'?action=AdminForums&amp;mode=EditCat&amp;catID='.$catID.'&amp;'.MYSID);
 				$this->modules['Template']->printPage('AdminForumsEditCat.tpl');
 				break;
 
@@ -450,7 +450,7 @@ class AdminForums extends ModuleTemplate {
 						));
 					}
 
-					FuncMisc::printMessage('special_rights_updated',array(sprintf($this->modules['Language']->getString('click_here_back'),'<a href="'.INDEXFILE.'?action=AdminForums&amp;mode=EditForum&amp;forumID='.$forumID.'&amp;'.MYSID.'">','</a>'))); exit;
+					FuncMisc::printMessage('special_rights_updated',array(sprintf($this->modules['Language']->getString('message_link_click_here_back_forumindex'),'<a href="'.INDEXFILE.'?action=AdminForums&amp;mode=EditForum&amp;forumID='.$forumID.'&amp;'.MYSID.'">','</a>'))); exit;
 				}
 
 				$this->modules['DB']->queryParams('
@@ -498,8 +498,8 @@ class AdminForums extends ModuleTemplate {
 				));
 
 				$this->modules['Navbar']->addElements(
-					array($this->modules['Language']->getString('Edit_forum'),INDEXFILE.'?action=AdminForums&amp;mode=EditForum&amp;forumID='.$forumID.'&amp;'.MYSID),
-					array($this->modules['Language']->getString('Edit_special_rights'),INDEXFILE.'?action=AdminForums&amp;mode=EditSpecialRights&amp;forumID='.$forumID.'&amp;'.MYSID)
+					array($this->modules['Language']->getString('edit_forum'),INDEXFILE.'?action=AdminForums&amp;mode=EditForum&amp;forumID='.$forumID.'&amp;'.MYSID),
+					array($this->modules['Language']->getString('edit_special_rights'),INDEXFILE.'?action=AdminForums&amp;mode=EditSpecialRights&amp;forumID='.$forumID.'&amp;'.MYSID)
 				);
 				$this->modules['Template']->printPage('AdminForumsEditSpecialRights.tpl');
 				break;
@@ -558,9 +558,9 @@ class AdminForums extends ModuleTemplate {
 				));
 
 				$this->modules['Navbar']->addElements(
-					array($this->modules['Language']->getString('Edit_forum'),INDEXFILE.'?action=AdminForums&amp;mode=EditForum&amp;forumID='.$forumID.'&amp;'.MYSID),
-					array($this->modules['Language']->getString('Edit_special_rights'),INDEXFILE.'?action=AdminForums&amp;mode=EditSpecialRights&amp;forumID='.$forumID.'&amp;'.MYSID),
-					array($this->modules['Language']->getString('Add_user_right'),INDEXFILE.'?action=AdminForums&amp;mode=AddUserRight&amp;forumID='.$forumID.'&amp;'.MYSID)
+					array($this->modules['Language']->getString('edit_forum'),INDEXFILE.'?action=AdminForums&amp;mode=EditForum&amp;forumID='.$forumID.'&amp;'.MYSID),
+					array($this->modules['Language']->getString('edit_special_rights'),INDEXFILE.'?action=AdminForums&amp;mode=EditSpecialRights&amp;forumID='.$forumID.'&amp;'.MYSID),
+					array($this->modules['Language']->getString('add_user_right'),INDEXFILE.'?action=AdminForums&amp;mode=AddUserRight&amp;forumID='.$forumID.'&amp;'.MYSID)
 				);
 				$this->modules['Template']->printPage('AdminForumsAddUserRight.tpl');
 				break;
@@ -621,9 +621,9 @@ class AdminForums extends ModuleTemplate {
 				));
 
 				$this->modules['Navbar']->addElements(
-					array($this->modules['Language']->getString('Edit_forum'),INDEXFILE.'?action=AdminForums&amp;mode=EditForum&amp;forumID='.$forumID.'&amp;'.MYSID),
-					array($this->modules['Language']->getString('Edit_special_rights'),INDEXFILE.'?action=AdminForums&amp;mode=EditSpecialRights&amp;forumID='.$forumID.'&amp;'.MYSID),
-					array($this->modules['Language']->getString('Add_group_right'),INDEXFILE.'?action=AdminForums&amp;mode=AddGroupRight&amp;forumID='.$forumID.'&amp;'.MYSID)
+					array($this->modules['Language']->getString('edit_forum'),INDEXFILE.'?action=AdminForums&amp;mode=EditForum&amp;forumID='.$forumID.'&amp;'.MYSID),
+					array($this->modules['Language']->getString('edit_special_rights'),INDEXFILE.'?action=AdminForums&amp;mode=EditSpecialRights&amp;forumID='.$forumID.'&amp;'.MYSID),
+					array($this->modules['Language']->getString('add_group_right'),INDEXFILE.'?action=AdminForums&amp;mode=AddGroupRight&amp;forumID='.$forumID.'&amp;'.MYSID)
 				);
 				$this->modules['Template']->printPage('AdminForumsAddGroupRight.tpl');
 				break;

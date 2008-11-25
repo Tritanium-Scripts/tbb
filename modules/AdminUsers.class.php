@@ -14,7 +14,7 @@ class AdminUsers extends ModuleTemplate {
 
 	public function executeMe() {
 		$this->modules['Language']->addFile('AdminUsers');
-		$this->modules['Navbar']->addElement($this->modules['Language']->getString('Manage_users'),INDEXFILE.'?action=AdminUsers&amp;'.MYSID);
+		$this->modules['Navbar']->addElement($this->modules['Language']->getString('manage_users'),INDEXFILE.'?action=AdminUsers&amp;'.MYSID);
 
 		switch(@$_GET['mode']) {
 			default:
@@ -29,7 +29,7 @@ class AdminUsers extends ModuleTemplate {
 
 				$error = '';
 
-				$this->modules['Navbar']->addElement($this->modules['Language']->getString('Add_user'),INDEXFILE.'?action=AdminUsers&amp;mode=AddUser&amp;'.MYSID);
+				$this->modules['Navbar']->addElement($this->modules['Language']->getString('add_user'),INDEXFILE.'?action=AdminUsers&amp;mode=AddUser&amp;'.MYSID);
 
 				if(isset($_GET['doit'])) {
 					$c = Functions::getSGValues($_POST['c'],array('notifyUser'),0);
@@ -138,7 +138,7 @@ class AdminUsers extends ModuleTemplate {
 
 				$error = '';
 
-				$this->modules['Navbar']->addElement($this->modules['Language']->getString('Edit_user'),INDEXFILE."?action=AdminUsers&amp;mode=EditUser&amp;userID=$userID&amp;".MYSID);
+				$this->modules['Navbar']->addElement($this->modules['Language']->getString('edit_user'),INDEXFILE."?action=AdminUsers&amp;mode=EditUser&amp;userID=$userID&amp;".MYSID);
 
 				if(isset($_GET['doit'])) {
 					$c = Functions::getSGValues($_POST['c'],array('userIsAdmin','userIsSupermod'),0);

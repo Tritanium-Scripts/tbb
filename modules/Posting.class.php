@@ -400,28 +400,28 @@ class Posting extends ModuleTemplate {
 				$this->modules['Navbar']->addElement(Functions::HTMLSpecialChars($forumData['forumName']),INDEXFILE.'?action=ViewForum&amp;forumID='.$forumID.'&amp;'.MYSID);
 
 				if($mode == 'Topic') {
-					$actionText = $this->modules['Language']->getString('Post_topic');
-					$this->modules['Navbar']->addElement($this->modules['Language']->getString('Post_topic'),INDEXFILE.'?action=Posting&amp;mode=Topic&amp;forumID='.$forumID.'&amp;'.MYSID);
+					$actionText = $this->modules['Language']->getString('post_topic');
+					$this->modules['Navbar']->addElement($this->modules['Language']->getString('post_topic'),INDEXFILE.'?action=Posting&amp;mode=Topic&amp;forumID='.$forumID.'&amp;'.MYSID);
 				}
 				elseif($mode == 'Reply') {
-					$actionText = $this->modules['Language']->getString('Post_reply');
+					$actionText = $this->modules['Language']->getString('post_reply');
 					$this->modules['Navbar']->addElements(
 						array(Functions::HTMLSpecialChars($topicData['topicTitle']),INDEXFILE.'?action=ViewTopic&amp;topicID='.$topicID.'&amp;'.MYSID),
-						array($this->modules['Language']->getString('Post_reply'),INDEXFILE.'?action=Posting&amp;mode=Reply&amp;topicID='.$topicID.'&amp;'.MYSID)
+						array($this->modules['Language']->getString('post_reply'),INDEXFILE.'?action=Posting&amp;mode=Reply&amp;topicID='.$topicID.'&amp;'.MYSID)
 					);
 				}
 				elseif($mode == 'Edit') {
-					$actionText = $this->modules['Language']->getString('Edit_post');
+					$actionText = $this->modules['Language']->getString('edit_post');
 					$this->modules['Navbar']->addElements(
 						array(Functions::HTMLSpecialChars($topicData['topicTitle']),INDEXFILE.'?action=ViewTopic&amp;topicID='.$topicID.'&amp;'.MYSID),
-						array($this->modules['Language']->getString('Edit_post'),INDEXFILE.'?action=Posting&amp;mode=Edit&amp;PostID='.$postID.'&amp;'.MYSID)
+						array($this->modules['Language']->getString('edit_post'),INDEXFILE.'?action=Posting&amp;mode=Edit&amp;PostID='.$postID.'&amp;'.MYSID)
 					);
 				}
 
 				//
 				// Der Rest...
 				//
-				$title_max_chars = sprintf($this->modules['Language']->getString('Maximum_x_chars'),100);
+				$title_max_chars = sprintf($this->modules['Language']->getString('maximum_x_chars'),100);
 
 				$this->modules['Template']->assign(array(
 					'p'=>Functions::HTMLSpecialChars($p),
@@ -443,7 +443,7 @@ class Posting extends ModuleTemplate {
 
 			case 'Delete':
 				if($postID == $topicData['topicFirstPostID']) {
-					$this->modules['Navbar']->addElement($this->modules['Language']->getString('Delete_post'));
+					$this->modules['Navbar']->addElement($this->modules['Language']->getString('delete_post'));
 					FuncMisc::printMessage('cannot_delete_first_post'); exit;
 				}
 

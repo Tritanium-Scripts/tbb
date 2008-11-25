@@ -25,7 +25,7 @@ class Search extends ModuleTemplate {
 		$this->modules['Language']->addFile('Search');
 		$this->modules['Language']->addFile('ViewForum');
 
-		$this->modules['Navbar']->addElement($this->modules['Language']->getString('Search'),INDEXFILE.'?action=Search&amp;'.MYSID);
+		$this->modules['Navbar']->addElement($this->modules['Language']->getString('search'),INDEXFILE.'?action=Search&amp;'.MYSID);
 
 		switch(@$_GET['mode']) {
 			default:
@@ -200,7 +200,7 @@ class Search extends ModuleTemplate {
 		
 		$authedForumsIDs = $this->modules['Auth']->getAuthedForumsIDs();
 	
-		$this->modules['Navbar']->addElement($this->modules['Language']->getString('View_search_results'),INDEXFILE.'?action=Search&amp;mode=ViewResults&amp;searchID='.$searchID.'&amp;'.MYSID);
+		$this->modules['Navbar']->addElement($this->modules['Language']->getString('view_search_results'),INDEXFILE.'?action=Search&amp;mode=ViewResults&amp;searchID='.$searchID.'&amp;'.MYSID);
 		
 		$this->modules['Template']->assign(array(
 			'displayResults'=>$displayResults,
@@ -259,8 +259,8 @@ class Search extends ModuleTemplate {
 	
 			while($curTopic = $this->modules['DB']->fetchArray()) {
 				$curTopicPrefix = '';
-				if($curTopic['topicIsPinned'] == 1) $curTopicPrefix .= $this->modules['Language']->getString('Prefix_important');
-				if($curTopic['topicHasPoll'] == 1) $curTopicPrefix .= $this->modules['Language']->getString('Prefix_poll');
+				if($curTopic['topicIsPinned'] == 1) $curTopicPrefix .= $this->modules['Language']->getString('prefix_important');
+				if($curTopic['topicHasPoll'] == 1) $curTopicPrefix .= $this->modules['Language']->getString('prefix_poll');
 				$curTopic['_topicPrefix'] = $curTopicPrefix;
 	
 				$curTopic['_topicPoster'] = ($curTopic['posterID'] == 0) ? $curTopic['topicGuestNick'] : '<a href="'.INDEXFILE.'?action=ViewProfile&amp;profileID='.$curTopic['posterID'].'&amp;'.MYSID.'">'.$curTopic['posterNick'].'</a>';

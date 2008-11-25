@@ -70,7 +70,7 @@ class ViewTopic extends ModuleTemplate {
 		// Seitenanzeige erstellen
 		//
 		if(!isset($topicPostsCounter)) $topicPostsCounter = Functions::getPostsCounter($topicID); // Anzahl der Beitraege bestimmen (kann eventuell aus schon vorhandenen Daten geschehen)
-		$pageListing = Functions::createPageListing($topicPostsCounter,$this->modules['Config']->getValue('posts_per_page'),$page,"<a href=\"".INDEXFILE."?action=ViewTopic&amp;topicID=$topicID&amp;page=%1\$s&amp;".MYSID."\">%2\$s</a>"); // Die Seitenansicht erstellen
+		$pageListing = Functions::createPageListing($topicPostsCounter,$this->modules['Config']->getValue('posts_per_page'),$page,'<a href="'.INDEXFILE."?action=ViewTopic&amp;topicID=$topicID&amp;page=%1\$s&amp;".MYSID."\">%2\$s</a>"); // Die Seitenansicht erstellen
 		$start = $page*$this->modules['Config']->getValue('posts_per_page')-$this->modules['Config']->getValue('posts_per_page'); // Startbeitrag
 
 
@@ -79,16 +79,16 @@ class ViewTopic extends ModuleTemplate {
 		//
 		$modTools = array(); // Beinhaltet spaeter pro Element eine Moderationsoption
 		if($this->modules['Auth']->getValue('userIsAdmin') == 1 || $this->modules['Auth']->getValue('userIsSuperMod') == 1 || $topicData['posterID'] != 0 && USERID == $topicData['posterID'] && $authData['authEditPosts'] == 1 || $authData['authIsMod'] == 1)
-			$modTools[] = "<a href=\"".INDEXFILE."?action=EditTopic&amp;mode=Edit&amp;topicID=$topicID&amp;".MYSID."\">".$this->modules['Language']->getString('Edit_topic').'</a>'; // Thema bearbeiten (duerfen auch User, die das Thema erstellt haben)
+			$modTools[] = '<a href="'.INDEXFILE."?action=EditTopic&amp;mode=Edit&amp;topicID=$topicID&amp;".MYSID.'">'.$this->modules['Language']->getString('edit_topic').'</a>'; // Thema bearbeiten (duerfen auch User, die das Thema erstellt haben)
 		if($this->modules['Auth']->getValue('userIsAdmin') == 1 || $this->modules['Auth']->getValue('userIsSupermod') == 1 || $authData['authIsMod'] == 1) {
-			$modTools[] = "<a href=\"".INDEXFILE."?action=EditTopic&amp;mode=Move&amp;topicID=$topicID&amp;".MYSID."\">".$this->modules['Language']->getString('Move_topic').'</a>';
-			$modTools[] = "<a href=\"".INDEXFILE."?action=EditTopic&amp;mode=Delete&amp;topicID=$topicID&amp;".MYSID."\">".$this->modules['Language']->getString('Delete_topic').'</a>';
+			$modTools[] = '<a href="'.INDEXFILE."?action=EditTopic&amp;mode=Move&amp;topicID=$topicID&amp;".MYSID.'">'.$this->modules['Language']->getString('move_topic').'</a>';
+			$modTools[] = '<a href="'.INDEXFILE."?action=EditTopic&amp;mode=Delete&amp;topicID=$topicID&amp;".MYSID.'">'.$this->modules['Language']->getString('delete_topic').'</a>';
 
-			$temp = ($topicData['topicIsPinned'] == 1) ? $this->modules['Language']->getString('Mark_topic_unimportant') : $this->modules['Language']->getString('Mark_topic_important');
+			$temp = ($topicData['topicIsPinned'] == 1) ? $this->modules['Language']->getString('mark_topic_unimportant') : $this->modules['Language']->getString('mark_topic_important');
 			$modTools[] = '<a href="'.INDEXFILE."?action=EditTopic&amp;mode=Pinn&amp;topicID=$topicID&amp;".MYSID.'">'.$temp.'</a>';
 
-			$temp = ($topicData['topicIsClosed'] == 1) ? $this->modules['Language']->getString('Open_topic') : $this->modules['Language']->getString('Close_topic');
-			$modTools[] = "<a href=\"".INDEXFILE."?action=EditTopic&amp;mode=OpenClose&amp;topicID=$topicID&amp;".MYSID."\">".$temp.'</a>';
+			$temp = ($topicData['topicIsClosed'] == 1) ? $this->modules['Language']->getString('open_topic') : $this->modules['Language']->getString('close_topic');
+			$modTools[] = '<a href="'.INDEXFILE."?action=EditTopic&amp;mode=OpenClose&amp;topicID=$topicID&amp;".MYSID.'">'.$temp.'</a>';
 		}
 		$modTools = implode(' | ',$modTools);
 
@@ -166,10 +166,10 @@ class ViewTopic extends ModuleTemplate {
 			$curPosterNick = $curPosterRankText = $curPosterRankPic = $curPosterIDText = $curPosterAvatar = '';
 			if($curPost['posterID'] == 0) {
 				$curPosterNick = $curPost['postGuestNick'];
-				$curPosterRankText = $this->modules['Language']->getString('Guest');
+				$curPosterRankText = $this->modules['Language']->getString('guest');
 			} else {
 				$curPosterNick = '<a href="'.INDEXFILE.'?action=ViewProfile&amp;profileID='.$curPost['posterID'].'&amp;'.MYSID.'">'.$curPost['postPosterNick'].'</a>';
-				$curPosterIDText = sprintf($this->modules['Language']->getString('ID_x'),$curPost['posterID']);
+				$curPosterIDText = sprintf($this->modules['Language']->getString('id_x'),$curPost['posterID']);
 
 
 				//
@@ -248,7 +248,7 @@ class ViewTopic extends ModuleTemplate {
 
 		if($this->modules['Auth']->isLoggedIn() == 1 && $this->modules['Config']->getValue('enable_email_functions') == 1 && $this->modules['Config']->getValue('enable_topic_subscription') == 1) {
             $this->modules['DB']->queryParams('SELECT "userID" FROM '.TBLPFX.'topics_subscriptions WHERE "topicID"=$1 AND "userID"=$2', array($topicID, USERID));
-			$subscribeText = ($this->modules['DB']->getAffectedRows() == 0) ? $this->modules['Language']->getString('Subscribe_topic') : $this->modules['Language']->getString('Unsubscribe_topic');
+			$subscribeText = ($this->modules['DB']->getAffectedRows() == 0) ? $this->modules['Language']->getString('subscribe_topic') : $this->modules['Language']->getString('unsubscribe_topic');
 			$this->modules['Navbar']->setRightArea('<a href="'.INDEXFILE.'?action=SubscribeTopic&amp;topicID='.$topicID.'&amp;'.MYSID.'">'.$subscribeText.'</a>');
 		}
 

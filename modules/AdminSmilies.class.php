@@ -14,7 +14,7 @@ class AdminSmilies extends ModuleTemplate {
 
 	public function executeMe() {
 		$this->modules['Language']->addFile('AdminSmilies');
-		$this->modules['Navbar']->addElement($this->modules['Language']->getString('Manage_smilies'),INDEXFILE.'?action=AdminSmilies&amp;'.MYSID);
+		$this->modules['Navbar']->addElement($this->modules['Language']->getString('manage_smilies'),INDEXFILE.'?action=AdminSmilies&amp;'.MYSID);
 
 		switch(@$_GET['mode']) {
 			default:
@@ -76,7 +76,7 @@ class AdminSmilies extends ModuleTemplate {
 					}
 				}
 
-				$this->modules['Navbar']->addElement($this->modules['Language']->getString('Add_smiley'),INDEXFILE.'?action=addSmiley&amp;'.MYSID);
+				$this->modules['Navbar']->addElement($this->modules['Language']->getString('add_smiley'),INDEXFILE.'?action=addSmiley&amp;'.MYSID);
 
 				$this->modules['Template']->assign(array(
 					'p'=>$p,
@@ -125,7 +125,7 @@ class AdminSmilies extends ModuleTemplate {
 					}
 				}
 
-				$this->modules['Navbar']->addElement($this->modules['Language']->getString('Edit_smiley'),INDEXFILE.'?action=editSmiley&amp;smileyID='.$smileyID.'&amp;'.MYSID);
+				$this->modules['Navbar']->addElement($this->modules['Language']->getString('edit_smiley'),INDEXFILE.'?action=editSmiley&amp;smileyID='.$smileyID.'&amp;'.MYSID);
 
 				$this->modules['Template']->assign(array(
 					'p'=>$p,

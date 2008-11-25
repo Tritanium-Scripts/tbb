@@ -150,9 +150,9 @@ class MemberList extends ModuleTemplate {
 
 		foreach($usersData AS &$curUser) {
 			$curUserRank = '';
-			if($curUser['userIsAdmin'] == 1) $curUserRank = $this->modules['Language']->getString('Administrator');
-			elseif($curUser['userIsSupermod'] == 1) $curUserRank = $this->modules['Language']->getString('Supermoderator');
-			elseif(in_array($curUser['userID'],$modIDs)) $curUserRank = $this->modules['Language']->getString('Moderator');
+			if($curUser['userIsAdmin'] == 1) $curUserRank = $this->modules['Language']->getString('administrator');
+			elseif($curUser['userIsSupermod'] == 1) $curUserRank = $this->modules['Language']->getString('supermoderator');
+			elseif(in_array($curUser['userID'],$modIDs)) $curUserRank = $this->modules['Language']->getString('moderator');
 			elseif($curUser['userRankName'] != '') $curUserRank = $curUser['userRankName'];
 			else {
 				foreach($ranksData[0] AS $curRank) {
@@ -206,7 +206,7 @@ class MemberList extends ModuleTemplate {
 		}
 
 
-		$this->modules['Navbar']->addElement($this->modules['Language']->getString('Memberlist'),INDEXFILE.'?action=MemberList&'.MYSID);
+		$this->modules['Navbar']->addElement($this->modules['Language']->getString('memberlist'),INDEXFILE.'?action=MemberList&'.MYSID);
 
 		// Seite ausgeben
 		$this->modules['Template']->assign(array(

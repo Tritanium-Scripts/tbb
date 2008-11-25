@@ -197,10 +197,10 @@ class Functions {
 			if($pageListing[$i] != $page) $pageListing[$i] = sprintf($link,$pageListing[$i],$pageListing[$i]);
 		}
 
-		if($page > 1) $pre = sprintf($link,1,$Language->getString('First_page')).'&nbsp;'.sprintf($link,$page-1,$Language->getString('Previous_page')).'&nbsp;&nbsp;';
-		if($page < $pagesCounter) $suf = '&nbsp;&nbsp;'.sprintf($link,$page+1,$Language->getString('Next_page')).'&nbsp;'.sprintf($link,'last',$Language->getString('Last_page'));
+		if($page > 1) $pre = sprintf($link,1,$Language->getString('first_page')).'&nbsp;'.sprintf($link,$page-1,$Language->getString('previous_page')).'&nbsp;&nbsp;';
+		if($page < $pagesCounter) $suf = '&nbsp;&nbsp;'.sprintf($link,$page+1,$Language->getString('next_page')).'&nbsp;'.sprintf($link,'last',$Language->getString('last_page'));
 
-		return sprintf($Language->getString('Pages'),$pagesCounter,$pre.implode(' | ',$pageListing).$suf);
+		return sprintf($Language->getString('pages'),$pagesCounter,$pre.implode(' | ',$pageListing).$suf);
 	}
 
 	public static function FileWrite($FileName,$Data,$Mode) {

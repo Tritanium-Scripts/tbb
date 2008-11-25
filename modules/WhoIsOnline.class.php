@@ -12,7 +12,7 @@ class WhoIsOnline extends ModuleTemplate {
 
 	public function executeMe() {
 		if($this->modules['Config']->getValue('enable_wio') != 1) {
-			$this->modules['Navbar']->addElement($this->modules['Language']->getString('Function_deactivated'));
+			$this->modules['Navbar']->addElement($this->modules['Language']->getString('function_deactivated'));
 			FuncMisc::printMessage('function_deactivated');
 			exit;
 		}
@@ -39,11 +39,11 @@ class WhoIsOnline extends ModuleTemplate {
 		for($i = 0; $i < $wioDataCounter; $i++) {
 			$curWIO = &$wioData[$i];
 
-			if($curWIO['sessionUserID'] == 0) $curWIO['sessionUserNick'] = $this->modules['Language']->getString('Guest');
+			if($curWIO['sessionUserID'] == 0) $curWIO['sessionUserNick'] = $this->modules['Language']->getString('guest');
 			$curWIO['_sessionLastLocationText'] = $this->modules['Language']->getString('wio_'.$curWIO['sessionLastLocation']);
 		}
 
-		$this->modules['Navbar']->addElement($this->modules['Language']->getString('Who_is_online'),INDEXFILE.'?action=WhoIsOnline&amp;'.MYSID);
+		$this->modules['Navbar']->addElement($this->modules['Language']->getString('who_is_online'),INDEXFILE.'?action=WhoIsOnline&amp;'.MYSID);
 
 		$this->modules['Template']->assign(array(
 			'wioData'=>$wioData

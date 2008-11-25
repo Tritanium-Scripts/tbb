@@ -69,11 +69,11 @@ class BBCode extends ModuleTemplate {
 	protected function cbQuote($elements) {
 		if(count($elements) == 3) {
 			$quoteText = $elements[2];
-			$quoteTitle = sprintf($this->modules['Language']->getString('Quote_by_x'),$elements[1]);
+			$quoteTitle = sprintf($this->modules['Language']->getString('quote_by_x'),$elements[1]);
 		}
 		else {
 			$quoteText = $elements[1];
-			$quoteTitle = $this->modules['Language']->getString('Quote');
+			$quoteTitle = $this->modules['Language']->getString('quote');
 		}
 
 		$this->modules['Template']->assign('b',array(

@@ -34,9 +34,10 @@ class SubscribeTopic extends ModuleTemplate {
 				$message = 'topic_subscription_successful';
 			}
 
+			$this->modules['Navbar']->addCategories($forumData['catID']);
 			$this->modules['Navbar']->addElements(
-				array(Functions::HTMLSpecialChars($forumData['forumName']),INDEXFILE."?action=ViewForum&amp;forumID=$forumID&amp;".MYSID),
-				array(Functions::HTMLSpecialChars($topicData['topicTitle']),INDEXFILE."?action=ViewTopic&amp;topicID=$topicID&amp;".MYSID)
+				array(Functions::HTMLSpecialChars($forumData['forumName']),INDEXFILE.'?action=ViewForum&amp;forumID='.$forumID.'&amp;'.MYSID),
+				array(Functions::HTMLSpecialChars($topicData['topicTitle']),INDEXFILE.'?action=ViewTopic&amp;topicID='.$topicID.'&amp;'.MYSID)
 			);
 
 			FuncMisc::printMessage($message); exit;

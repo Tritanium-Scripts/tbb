@@ -27,7 +27,7 @@ class Register extends ModuleTemplate {
 			exit;
 		}
 
-		$this->modules['Navbar']->addElement($this->modules['Language']->getString('Register'),INDEXFILE."?action=Register&amp;".MYSID);
+		$this->modules['Navbar']->addElement($this->modules['Language']->getString('register'),INDEXFILE."?action=Register&amp;".MYSID);
 
 		switch(@$_GET['mode']) {
 			default:
@@ -35,7 +35,7 @@ class Register extends ModuleTemplate {
 					Functions::myHeader(INDEXFILE.'?action=Register&mode=RegisterForm&'.MYSID);
 				}
 
-				$this->modules['Navbar']->addElement($this->modules['Language']->getString('Board_rules'),INDEXFILE."?action=Register&amp;".MYSID);
+				$this->modules['Navbar']->addElement($this->modules['Language']->getString('board_rules'),INDEXFILE."?action=Register&amp;".MYSID);
 
 				$this->modules['Template']->printPage('RegisterBoardRules.tpl');
 				break;
@@ -201,8 +201,8 @@ class Register extends ModuleTemplate {
 				$groupsData = array();
 				if($fieldsCounter > 0) {
 					$groupsData = array(
-						array('groupName'=>$this->modules['Language']->getString('Required_information'),'groupType'=>1,'groupFields'=>array()),
-						array('groupName'=>$this->modules['Language']->getString('Other_information'),'groupType'=>0,'groupFields'=>array())
+						array('groupName'=>$this->modules['Language']->getString('required_information'),'groupType'=>1,'groupFields'=>array()),
+						array('groupName'=>$this->modules['Language']->getString('other_information'),'groupType'=>0,'groupFields'=>array())
 					);
 
 					foreach($profileFields AS $curField) {

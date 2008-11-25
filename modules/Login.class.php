@@ -14,7 +14,7 @@ class Login extends ModuleTemplate {
 	public function executeMe() {
 		$this->modules['Language']->addFile('Login');
 
-		$this->modules['Navbar']->addElement($this->modules['Language']->getString('Login'),INDEXFILE.'?action=Login&amp;'.MYSID);
+		$this->modules['Navbar']->addElement($this->modules['Language']->getString('login'),INDEXFILE.'?action=Login&amp;'.MYSID);
 
 		switch(@$_GET['mode']) {
 			default:
@@ -118,7 +118,7 @@ class Login extends ModuleTemplate {
 
 				$error = '';
 
-				$this->modules['Navbar']->addElement($this->modules['Language']->getString('Account_activation'),INDEXFILE."?action=Login&amp;mode=ActivateAccount&amp;".MYSID);
+				$this->modules['Navbar']->addElement($this->modules['Language']->getString('account_activation'),INDEXFILE."?action=Login&amp;mode=ActivateAccount&amp;".MYSID);
 
 				if(isset($_GET['doit'])) {
 					if(!$accountIDReal = FuncUsers::getUserID($accountID)) $error = $this->modules['Language']->getString('error_unknown_user');
@@ -161,7 +161,7 @@ class Login extends ModuleTemplate {
 
 				$error = '';
 
-				$this->modules['Navbar']->addElement($this->modules['Language']->getString('Request_new_password'),INDEXFILE."?action=Login&amp;mode=RequestPassword&amp;".MYSID);
+				$this->modules['Navbar']->addElement($this->modules['Language']->getString('request_new_password'),INDEXFILE."?action=Login&amp;mode=RequestPassword&amp;".MYSID);
 
 				if(isset($_GET['doit'])) {
 					if(!$userData = FuncUsers::getUserData($p['userName'])) $error = $this->modules['Language']->getString('error_unknown_user');
@@ -219,7 +219,7 @@ class Login extends ModuleTemplate {
 
 				$errors = array();
 
-				$this->modules['Navbar']->addElement($this->modules['Language']->getString('Request_activation_code'),INDEXFILE."?action=Login&amp;mode=RequestActivationCode&amp;".MYSID);
+				$this->modules['Navbar']->addElement($this->modules['Language']->getString('request_activation_code'),INDEXFILE."?action=Login&amp;mode=RequestActivationCode&amp;".MYSID);
 
 				if(isset($_GET['doit'])) {
 					if(!$userData = FuncUsers::getUserData($p['userName'])) $errors[] = $this->modules['Language']->getString('error_unknown_user');

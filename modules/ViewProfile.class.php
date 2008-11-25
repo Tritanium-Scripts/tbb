@@ -44,11 +44,11 @@ class ViewProfile extends ModuleTemplate {
 					$profileRankPic = $ranksData[1][$profileData['rankID']]['rankGfx'];
 				}
 				elseif($profileData['userIsAdmin'] == 1) {
-					$profileRankText = $this->modules['Language']->getString('Administrator');
+					$profileRankText = $this->modules['Language']->getString('administrator');
 					$profileRankPic = '<img src="'.$this->modules['Config']->getValue('admin_rank_pic').'" alt="'.$profileRankText.'"/>';
 				}
 				elseif($profileData['userIsSupermod'] == 1) {
-					$profileRankText = $this->modules['Language']->getString('Supermoderator');
+					$profileRankText = $this->modules['Language']->getString('supermoderator');
 					$profileRankPic = '<img src="'.$this->modules['Config']->getValue('supermod_rank_pic').'" alt="'.$profileRankText.'"/>';
 				}
 				else {

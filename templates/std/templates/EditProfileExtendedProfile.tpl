@@ -1,6 +1,6 @@
 <form method="post" action="{$indexFile}?action=EditProfile&amp;mode=ExtendedProfile&amp;doit=1&amp;{$mySID}">
 <table class="TableStd" width="100%">
-<tr><td class="CellCat"><span class="FontCat">{$modules.Language->getString('Extended_profile')}</span></td></tr>
+<tr><td class="CellCat"><span class="FontCat">{$modules.Language->getString('extended_profile')}</span></td></tr>
 {if $error != ''}<tr><td class="CellError"><span class="FontError">{$error}</span></td></tr>{/if}
 <tr><td class="CellStd">
 {foreach from=$groupsData item=curGroup}
@@ -44,6 +44,6 @@
  {/if}
 {/foreach}
 </td></tr>
-<tr><td class="CellButtons" align="center"><input class="FormBButton" type="submit" value="{$modules.Language->getString('Save_changes')}"/>&nbsp;&nbsp;&nbsp;<input class="FormButton" type="reset" value="{$modules.Language->getString('Reset')}"/></td></tr>
+<tr><td class="CellButtons" align="center"><input class="FormBButton" type="submit" value="{$modules.Language->getString('save_changes')}"/>&nbsp;&nbsp;&nbsp;<input class="FormButton" type="reset" value="{$modules.Language->getString('reset')}"/></td></tr>
 </table>
 </form>

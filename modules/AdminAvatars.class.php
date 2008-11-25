@@ -13,7 +13,7 @@ class AdminAvatars extends ModuleTemplate {
 
 	public function executeMe() {
 		$this->modules['Language']->addFile('AdminAvatars');
-		$this->modules['Navbar']->addElement($this->modules['Language']->getString('Manage_avatars'),INDEXFILE.'?action=AdminAvatars&amp;'.MYSID);
+		$this->modules['Navbar']->addElement($this->modules['Language']->getString('manage_avatars'),INDEXFILE.'?action=AdminAvatars&amp;'.MYSID);
 
 		switch(@$_GET['mode']) {
 			default:
@@ -61,7 +61,7 @@ class AdminAvatars extends ModuleTemplate {
 					}
 				}
 
-				$this->modules['Navbar']->addElement($this->modules['Language']->getString('Add_avatar'),INDEXFILE.'?action=AdminAvatars&amp;mode=AddAvatar&amp;'.MYSID);
+				$this->modules['Navbar']->addElement($this->modules['Language']->getString('add_avatar'),INDEXFILE.'?action=AdminAvatars&amp;mode=AddAvatar&amp;'.MYSID);
 
 				$this->modules['Template']->assign(array(
 					'p'=>$p,
@@ -97,7 +97,7 @@ class AdminAvatars extends ModuleTemplate {
 					}
 				}
 
-				$this->modules['Navbar']->addElement($this->modules['Language']->getString('Edit_avatar'),INDEXFILE.'?action=AdminAvatars&amp;mode=EditAvatar&amp;avatarID='.$avatarID.'&amp;'.MYSID);
+				$this->modules['Navbar']->addElement($this->modules['Language']->getString('edit_avatar'),INDEXFILE.'?action=AdminAvatars&amp;mode=EditAvatar&amp;avatarID='.$avatarID.'&amp;'.MYSID);
 
 				$this->modules['Template']->assign(array(
 					'p'=>$p,

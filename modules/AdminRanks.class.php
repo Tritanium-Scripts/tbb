@@ -14,7 +14,7 @@ class AdminRanks extends ModuleTemplate {
 
 	public function executeMe() {
 		$this->modules['Language']->addFile('AdminRanks');
-		$this->modules['Navbar']->addElement($this->modules['Language']->getString('Manage_ranks'),INDEXFILE.'?action=AdminRanks&amp;'.MYSID);
+		$this->modules['Navbar']->addElement($this->modules['Language']->getString('manage_ranks'),INDEXFILE.'?action=AdminRanks&amp;'.MYSID);
 
 		switch(@$_GET['mode']) {
 			default:
@@ -93,7 +93,7 @@ class AdminRanks extends ModuleTemplate {
 					}
 				}
 
-				$this->modules['Navbar']->addElement($this->modules['Language']->getString('Add_rank'),INDEXFILE.'?action=AdminRanks&amp;mode=AddRank'.MYSID);
+				$this->modules['Navbar']->addElement($this->modules['Language']->getString('add_rank'),INDEXFILE.'?action=AdminRanks&amp;mode=AddRank'.MYSID);
 
 				$this->modules['Template']->assign(array(
 					'p'=>$p,
@@ -146,7 +146,7 @@ class AdminRanks extends ModuleTemplate {
 					}
 				}
 
-				$this->modules['Navbar']->addElement($this->modules['Language']->getString('Edit_rank'),INDEXFILE.'?action=AdminRanks&amp;mode=EditRank&amp;rankID='.$rankID.'&amp;'.MYSID);
+				$this->modules['Navbar']->addElement($this->modules['Language']->getString('edit_rank'),INDEXFILE.'?action=AdminRanks&amp;mode=EditRank&amp;rankID='.$rankID.'&amp;'.MYSID);
 
 				$this->modules['Template']->assign(array(
 					'p'=>$p,

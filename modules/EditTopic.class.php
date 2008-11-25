@@ -133,7 +133,7 @@ class EditTopic extends ModuleTemplate {
 
 			$postPicsBox = Functions::getPostPicsBox($p['smileyID']);
 
-			$this->modules['Navbar']->addElement($this->modules['Language']->getString('Edit_topic'),'');
+			$this->modules['Navbar']->addElement($this->modules['Language']->getString('edit_topic'),'');
 
 			$this->modules['Template']->assign(array(
 				'p'=>Functions::HTMLSpecialChars($p),
@@ -216,7 +216,7 @@ class EditTopic extends ModuleTemplate {
 
 					$error = '';
 
-					$this->modules['Navbar']->addElement($this->modules['Language']->getString('Move_topic'),INDEXFILE."action=EditTopic&amp;topicID=$topicID&amp;mode=Move&amp;".MYSID);
+					$this->modules['Navbar']->addElement($this->modules['Language']->getString('move_topic'),INDEXFILE."action=EditTopic&amp;topicID=$topicID&amp;mode=Move&amp;".MYSID);
 
 					if(isset($_GET['doit'])) {
 						if(!$targetForumData = FuncForums::getForumData($p['targetForumID'])) $error = $this->modules['Language']->getString('error_invalid_forum');

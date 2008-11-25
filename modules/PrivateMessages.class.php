@@ -22,8 +22,8 @@ class PrivateMessages extends ModuleTemplate {
 		$headerFoldersData = $this->modules['DB']->raw2Array();
 
 		array_unshift($headerFoldersData, // Fuegt an den Anfang die Standardordner hinzu...
-			array('folderID'=>0,'folderName'=>$this->modules['Language']->getString('Inbox')),
-			array('folderID'=>1,'folderName'=>$this->modules['Language']->getString('Outbox'))
+			array('folderID'=>0,'folderName'=>$this->modules['Language']->getString('inbox')),
+			array('folderID'=>1,'folderName'=>$this->modules['Language']->getString('outbox'))
 		);
 		reset($headerFoldersData);
 
@@ -39,16 +39,16 @@ class PrivateMessages extends ModuleTemplate {
 	public function executeMe() {
 		if($this->modules['Auth']->isLoggedIn() != 1) die('Kein Zugriff: Nicht eingeloggt');
 		elseif($this->modules['Config']->getValue('enable_pms') != 1) {
-			$this->modules['Navbar']->addElement($this->modules['Language']->getString('Function_deactivated'),'');
+			$this->modules['Navbar']->addElement($this->modules['Language']->getString('function_deactivated'),'');
 			FuncMisc::printMessage('function_deactivated');
 			exit;
 		}
 
 		$this->modules['Language']->addFile('PrivateMessages');
-		$this->modules['Navbar']->addElement($this->modules['Language']->getString('Private_messages'),INDEXFILE.'?action=PrivateMessages&amp;'.MYSID);
+		$this->modules['Navbar']->addElement($this->modules['Language']->getString('private_messages'),INDEXFILE.'?action=PrivateMessages&amp;'.MYSID);
 
-		$inboxFolderData = array('folderID'=>0,'folderName'=>$this->modules['Language']->getString('Inbox'));
-		$outboxFolderData = array('folderID'=>1,'folderName'=>$this->modules['Language']->getString('Outbox'));
+		$inboxFolderData = array('folderID'=>0,'folderName'=>$this->modules['Language']->getString('inbox'));
+		$outboxFolderData = array('folderID'=>1,'folderName'=>$this->modules['Language']->getString('outbox'));
 
 		switch(@$_GET['mode']) {
 			default:
@@ -120,7 +120,7 @@ class PrivateMessages extends ModuleTemplate {
 				$foldersData = array_merge(array($inboxFolderData,$outboxFolderData),$this->modules['DB']->raw2Array());
 
 				while(list($curKey) = each($foldersData))
-					$foldersData[$curKey]['_moveText'] = sprintf($this->modules['Language']->getString('Move_messages_to'),$foldersData[$curKey]['folderName']);
+					$foldersData[$curKey]['_moveText'] = sprintf($this->modules['Language']->getString('move_messages_to'),$foldersData[$curKey]['folderName']);
 
 				$this->modules['Navbar']->addElement(Functions::HTMLSpecialChars($folderData['folderName']),INDEXFILE.'?action=PrivateMessages&amp;folderID='.$folderID.'&amp;'.MYSID);
 				$this->modules['Navbar']->setRightArea($pageListing);
@@ -136,7 +136,7 @@ class PrivateMessages extends ModuleTemplate {
 			break;
 
 			case 'NewPM':
-				$this->modules['Navbar']->addElement($this->modules['Language']->getString('New_private_message'),INDEXFILE.'?action=PrivateMessages&amp;Mode=NewPM&amp;'.MYSID);
+				$this->modules['Navbar']->addElement($this->modules['Language']->getString('new_private_message'),INDEXFILE.'?action=PrivateMessages&amp;Mode=NewPM&amp;'.MYSID);
 
 				$p = Functions::getSGValues($_POST['p'],array('recipients','pmSubject','pmMessageText'),'');
 				if(isset($_GET['recipients']))
@@ -547,8 +547,8 @@ class PrivateMessages extends ModuleTemplate {
 				$pmData['_pmSendDateTime'] = Functions::toDateTime($pmData['pmSendTimestamp']);
 				$pmData['_pmSender'] = ($pmData['pmType'] == 0) ? sprintf($this->modules['Language']->getString('from_x'),$pmData['pmFromNick']) : sprintf($this->modules['Language']->getString('to_x'),$pmData['pmFromNick']);
 
-				if($pmData['folderID'] == 0) $pmData['pmFolderName'] = $this->modules['Language']->getString('Inbox');
-				elseif($pmData['folderID'] == 1) $pmData['pmFolderName'] = $this->modules['Language']->getString('Outbox');
+				if($pmData['folderID'] == 0) $pmData['pmFolderName'] = $this->modules['Language']->getString('inbox');
+				elseif($pmData['folderID'] == 1) $pmData['pmFolderName'] = $this->modules['Language']->getString('outbox');
 
 				$pmData['_pmSubject'] = Functions::HTMLSpecialChars($pmData['pmSubject']);
 				$pmData['_pmMessageText'] = $this->modules['BBCode']->format($pmData['pmMessageText'], FALSE, FALSE, FALSE); //TOODO no parse?
@@ -560,7 +560,7 @@ class PrivateMessages extends ModuleTemplate {
 
 				$this->modules['Navbar']->addElements(
 					array(Functions::HTMLSpecialChars($pmData['pmFolderName']),INDEXFILE.'?action=PrivateMessages&amp;folderID='.$pmData['folderID'].'&amp;'.MYSID),
-					array($this->modules['Language']->getString('View_private_message'),INDEXFILE.'?action=PrivateMessages&amp;pmID='.$pmID.'&amp;'.MYSID)
+					array($this->modules['Language']->getString('view_private_message'),INDEXFILE.'?action=PrivateMessages&amp;pmID='.$pmID.'&amp;'.MYSID)
 				);
 
 				$this->modules['Template']->printPage('PrivateMessagesViewPM.tpl');
@@ -680,7 +680,7 @@ class PrivateMessages extends ModuleTemplate {
 						}
 					}
 					
-					if($moveFolderID != -1 && !$validFolder) $error = $this->modules['Language']->getString('Invalid_selection');
+					if($moveFolderID != -1 && !$validFolder) $error = $this->modules['Language']->getString('invalid_selection');
 					else {
 						if($moveFolderID == -1) $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'pms WHERE "pmToID"=$1 AND "folderID"=$2', array(USERID, $folderID));
 						else $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'pms SET "folderID"=$1 WHERE "pmToID"=$2 AND "folderID"=$3', array($moveFolderID, USERID, $folderID));
@@ -692,7 +692,7 @@ class PrivateMessages extends ModuleTemplate {
 				}
 
 				while(list($curKey) = each($foldersData))
-					$foldersData[$curKey]['_moveText'] = sprintf($this->modules['Language']->getString('Move_messages_to'),$foldersData[$curKey]['folderName']);
+					$foldersData[$curKey]['_moveText'] = sprintf($this->modules['Language']->getString('move_messages_to'),$foldersData[$curKey]['folderName']);
 
 				$this->modules['Template']->assign(array(
 					'foldersData'=>$foldersData,
