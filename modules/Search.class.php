@@ -1,5 +1,4 @@
 <?php
-
 class Search extends ModuleTemplate {
 	protected $requiredModules = array(
 		'Auth',
@@ -193,6 +192,7 @@ class Search extends ModuleTemplate {
 		$sortMethod = isset($_REQUEST['sortMethod']) ? $_REQUEST['sortMethod'] : 'DESC';
 		$sortType = isset($_REQUEST['sortType']) ? $_REQUEST['sortType'] : 'time';
 		$resultsPerPage = isset($_REQUEST['resultsPerPage']) ? intval($_REQUEST['resultsPerPage']) : 20;
+		$page = isset($_REQUEST['page']) ? $_REQUEST['page'] : 1;
 	
 		if(!in_array($sortType,array('time','timeCreation','author','title'))) $sortType = 'time';
 		if(!in_array($displayResults,array('topics','posts'))) $displayResults = 'topics';
@@ -216,8 +216,22 @@ class Search extends ModuleTemplate {
 			elseif($sortType == 'timeCreation') $querySortType = 't1."topicPostTimestamp"';
 			elseif($sortType == 'title') $querySortType = 't1."topicTitle"';
 			else $querySortType = 't3."userNick"'.' '.$sortMethod.', t1."topicGuestNick"';
+			
+			$this->modules['DB']->query('
+				SELECT DISTINCT
+					"topicID"
+				FROM
+					'.TBLPFX.'posts
+				WHERE
+					"postID" IN ('.$searchData['searchResults'].')
+			');
+			$topicIDs = $this->modules['DB']->raw2FVArray();
+
+			$pageListing = Functions::createPageListing(count($topicIDs), $resultsPerPage, $page, '<a href="'.INDEXFILE.'?action=Search&amp;mode=ViewResults&amp;searchID='.$searchID.'&amp;displayResults='.$displayResults.'&amp;sortMethod='.$sortMethod.'&amp;sortType='.$sortType.'&amp;resultsPerPage='.$resultsPerPage.'&amp;page=%1$s&amp;'.MYSID.'">%2$s</a>');
+			$start = $page*$resultsPerPage-$resultsPerPage;
+
+			$this->modules['Navbar']->setRightArea($pageListing);
 	
-			$topicsData = array();
 			$this->modules['DB']->queryParams('
 				SELECT
 					t1."topicID",
@@ -229,35 +243,42 @@ class Search extends ModuleTemplate {
 					t1."topicGuestNick",
 					t1."topicHasPoll",
 					t1."posterID",
+					t1."topicFirstPostID",
 					t3."userNick" AS "posterNick",
 					t2."posterID" AS "topicLastPostPosterID",
 					t2."postGuestNick" AS "topicLastPostGuestNick",
 					t2."postTimestamp" AS "topicLastPostTimestamp",
-					t4."userNick" AS "topicLastPostPosterNick"
+					t4."userNick" AS "topicLastPostPosterNick",
+					t5."postText" AS "topicFirstPostPostText",
+					t5."postEnableHtmlCode" AS "topicFirstPostPostEnableHtmlCode",
+					t5."postEnableSmilies" AS "topicFirstPostPostEnableSmilies",
+					t5."postEnableBBCode" AS "topicFirstPostPostEnableBBCode",
+					t6."forumEnableBBCode",
+					t6."forumEnableSmilies",
+					t6."forumEnableHtmlCode"
 				FROM (
-					'.TBLPFX.'topics t1
+					'.TBLPFX.'topics t1,
+					'.TBLPFX.'posts t2,
+					'.TBLPFX.'forums t6,
+					'.TBLPFX.'posts t5
 				)
-				LEFT JOIN '.TBLPFX.'posts t2 ON t2."postID"=t1."topicLastPostID"
 				LEFT JOIN '.TBLPFX.'users t3 ON t1."posterID"=t3."userID"
 				LEFT JOIN '.TBLPFX.'users t4 ON t2."posterID"=t4."userID"
 				WHERE
-					t1."topicID" IN (
-						SELECT DISTINCT
-							t5."topicID"
-						FROM
-							'.TBLPFX.'posts t5
-						WHERE
-							t5."postID" IN $1
-					)
-					AND t1."forumID" IN $2
+					t1."topicID" IN $2
+					AND t1."forumID"=t6."forumID"
+					AND t2."postID"=t1."topicLastPostID"
+					AND t1."forumID" IN $1
+					AND t1."topicFirstPostID"=t5."postID"
 				ORDER BY '.$querySortType.' '.$sortMethod.'
-				LIMIT 0,'.intval($resultsPerPage).'
-			',array(
-				explode(',',$searchData['searchResults']),
-				$authedForumsIDs
+				LIMIT '.intval($start).','.intval($resultsPerPage).'
+ 			',array(
+				$authedForumsIDs,
+				$topicIDs
 			));
-	
-			while($curTopic = $this->modules['DB']->fetchArray()) {
+			$topicsData = $this->modules['DB']->raw2Array();
+
+			foreach($topicsData AS &$curTopic) {
 				$curTopicPrefix = '';
 				if($curTopic['topicIsPinned'] == 1) $curTopicPrefix .= $this->modules['Language']->getString('prefix_important');
 				if($curTopic['topicHasPoll'] == 1) $curTopicPrefix .= $this->modules['Language']->getString('prefix_poll');
@@ -269,8 +290,8 @@ class Search extends ModuleTemplate {
 					$curTopicLastPostPoster = $curTopic['topicLastPostGuestNick'];
 				else $curTopicLastPostPoster = '<a href="'.INDEXFILE.'?action=ViewProfile&amp;profileID='.$curTopic['topicLastPostPosterID'].'&amp;'.MYSID.'">'.$curTopic['topicLastPostPosterNick'].'</a>';
 				$curTopic['_topicLastPost'] = Functions::toDateTime($curTopic['topicLastPostTimestamp']).'<br/>'.$this->modules['Language']->getString('by').' '.$curTopicLastPostPoster.' <a href="'.INDEXFILE.'?action=ViewTopic&amp;topicID='.$curTopic['topicID'].'&amp;z=last&amp;'.MYSID.'#post'.$curTopic['topicLastPostID'].'">&#187;</a>';
-				
-				$topicsData[] = $curTopic;
+
+				$curTopic['_topicFirstPostPostText'] = $this->modules['BBCode']->format($curTopic['topicFirstPostPostText'], ($curTopic['topicFirstPostPostEnableHtmlCode'] == 1 || $curTopic['forumEnableHtmlCode'] == 1), ($curTopic['topicFirstPostPostEnableSmilies'] == 1 && $curTopic['forumEnableSmilies'] == 1), ($curTopic['topicFirstPostPostEnableBBCode'] == 1 && $curTopic['forumEnableBBCode'] == 1));
 			}
 			
 			$this->modules['Template']->assign(array(
@@ -287,8 +308,14 @@ class Search extends ModuleTemplate {
 			else $querySortType = 't2."userNick"'.' '.$sortMethod.', t1."postGuestNick"';
 			
 			$smiliesData = $this->modules['Cache']->getSmiliesData('write');
+
+			$searchResults = explode(',',$searchData['searchResults']);
 	
-			$postsData = array();
+			$pageListing = Functions::createPageListing(count($searchResults), $resultsPerPage, $page, '<a href="'.INDEXFILE.'?action=Search&amp;mode=ViewResults&amp;searchID='.$searchID.'&amp;displayResults='.$displayResults.'&amp;sortMethod='.$sortMethod.'&amp;sortType='.$sortType.'&amp;resultsPerPage='.$resultsPerPage.'&amp;page=%1$s&amp;'.MYSID.'">%2$s</a>');
+			$start = $page*$resultsPerPage-$resultsPerPage;
+
+			$this->modules['Navbar']->setRightArea($pageListing);
+
 			$this->modules['DB']->queryParams('
 				SELECT
 					t1."postID",
@@ -313,13 +340,12 @@ class Search extends ModuleTemplate {
 					t1."postID" IN $1
 					AND t1."forumID" IN $2
 				ORDER BY '.$querySortType.' '.$sortMethod.'
-				LIMIT 0,'.intval($resultsPerPage).'
+				LIMIT '.intval($start).','.intval($resultsPerPage).'
 			',array(
-				explode(',',$searchData['searchResults']),
+				$searchResults,
 				$authedForumsIDs
 			));
 			$postsData = $this->modules['DB']->raw2Array();
-
 			foreach($postsData AS &$curPost) {
 				$curPost['_postDateTime'] = Functions::toDateTime($curPost['postTimestamp']);
 				$curPost['_postPoster'] = ($curPost['posterID'] == 0 ? $curPost['postGuestNick'] : '<a href="'.INDEXFILE.'?action=ViewProfile&amp;profileID='.$curPost['posterID'].'&amp;'.MYSID.'">'.$curPost['posterNick'].'</a>');
@@ -335,5 +361,4 @@ class Search extends ModuleTemplate {
 		}
 	}
 }
-
 ?>

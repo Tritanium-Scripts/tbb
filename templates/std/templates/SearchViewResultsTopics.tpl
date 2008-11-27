@@ -1,3 +1,20 @@
+<script type="text/javascript">/* <![CDATA[ */
+
+{literal}
+function switchPostDisplay(postID) {
+	var i;
+
+	if(document.getElementById("postFull"+postID).style.display == "none") {
+		document.getElementById("postFull"+postID).style.display = "";
+		document.getElementById("postIntro"+postID).style.display = "none";
+	} else {
+		document.getElementById("postFull"+postID).style.display= "none";
+		document.getElementById("postIntro"+postID).style.display = "";
+	}
+}
+{/literal}
+
+/* ]]> */</script>
 <form method="post" action="{$indexFile}?action=Search&amp;mode=ViewResults&amp;searchID={$searchID}&amp;{$mySID}">
 	<table class="TableStd" width="100%">
 		<tr>
@@ -9,7 +26,11 @@
 		</tr>
 		{foreach from=$topicsData item=curTopic}
 			<tr>
-				<td class="CellStd"><span class="FontNorm">{$curTopic._topicPrefix}</span><span class="FontNorm"><a class="TopicLink" href="{$indexFile}?action=ViewTopic&amp;topicID={$curTopic.topicID}&amp;{$mySID}">{$curTopic.topicTitle}</a></span></td>
+				<td class="CellStd">
+					<span class="FontNorm">{$curTopic._topicPrefix}</span><span class="FontNorm"><a class="TopicLink" href="{$indexFile}?action=ViewTopic&amp;topicID={$curTopic.topicID}&amp;{$mySID}">{$curTopic.topicTitle}</a></span>
+					<div id="postIntro{$curTopic.topicFirstPostID}"><span class="FontSmall">{$curTopic.topicFirstPostPostText|truncate:80:"..."|escape} <a href="javascript:switchPostDisplay({$curTopic.topicFirstPostID});">({$modules.Language->getString('more')})</a></span></div>
+					<div id="postFull{$curTopic.topicFirstPostID}" style="display:none;"><span class="FontSmall">{$curTopic._topicFirstPostPostText}</span><br/><span class="FontSmall"><a href="javascript:switchPostDisplay({$curTopic.topicFirstPostID});">({$modules.Language->getString('less')})</a></span></div>
+				</td>
 				<td class="CellAlt" align="center"><span class="FontNorm">{$curTopic._topicPoster}</span></td>
 				<td class="CellStd" align="center"><span class="FontSmall">{$curTopic.topicRepliesCounter}</span></td>
 				<td class="CellAlt" align="center"><span class="FontSmall">{$curTopic.topicViewsCounter}</span></td>

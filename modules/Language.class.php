@@ -63,7 +63,7 @@ class Language extends ModuleTemplate {
 			$this->strings[$languageString][$curKey] = $curValue;
 			$toWrite[] = '$this->strings[\'' . $languageString . '\'][\'' . $curKey . '\'] = \'' . addcslashes($curValue, '\'') . '\';';
 		}
-		Functions::FileWrite($cacheFile, '<?php'.implode('', $toWrite) . '?>', 'wb');
+		Functions::FileWrite($cacheFile, '<?php '.implode('', $toWrite) . ' ?>', 'wb');
 
 		$this->loadedFiles[$languageString][$fileName] = TRUE;
 	}

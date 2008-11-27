@@ -370,6 +370,7 @@ templates/std/templates/ViewTopic.tpl -text
 templates/std/templates/WhoIsOnline.tpl -text
 templates/std/templates/_Copyright.tpl -text
 templates/std/templates/_ErrorRow.tpl -text
+templates/std/templates/_Navbar.tpl -text
 update/0.2.0.7.20041116.update -text
 update/0.2.0.8.20050121.update -text
 update/0.2.0.9.20050502.update -text

@@ -58,18 +58,5 @@
 
 <br/>
 <div class="DivInfoBox"><span class="FontInfoBox"><img src="{$modules.Template->getTemplateDir()}/images/icons/Info.png" class="ImageIcon" alt=""/>{$welcomeText}</span></div>
-
-<br/>
-<table class="TableNavbar" width="100%">
-<tr>
- <td class="CellNavbar">
-  <table border="0" cellpadding="0" cellspacing="0" width="100%">
-   <tr>
-    <td><span class="FontNavbar">{$modules.Navbar->parseElements()}</span></td>
-    <td align="right"><span class="FontNavbar">{$modules.Navbar->getRightArea()}</span></td>
-   </tr>
-  </table>
- </td>
-</tr>
-</table>
+{include file=_Navbar.tpl}
 <br/>
