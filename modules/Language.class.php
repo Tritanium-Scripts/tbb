@@ -1,5 +1,4 @@
 <?php
-
 class Language extends ModuleTemplate {
 	protected $requiredModules = array(
 		'Auth',
@@ -42,28 +41,30 @@ class Language extends ModuleTemplate {
 
 	public function addFile($fileName, $languageString = '') {
 		$languageString = ($languageString == '' ? $this->languageString : $languageString);
-		// Wurde die Datei waehrend der Ausfuehrung schon gechachet, gibt es nichts mehr zu tun
+
+		// already loaded?
 		if(isset($this->loadedFiles[$languageString][$fileName])) return;
 		$iniFile = $this->getLD($languageString) . $fileName . '.ini';
-		// Gibt es die Originaldatei nicht, erfolgt der Abbruch
+
+		// check original file
 		if(!file_exists($iniFile))
-			die('Language file "' . $iniFile . '" does not exist!');
+			throw new Exception('Language file "' . $iniFile . '" does not exist!');
+
+		// check cache
 		$cacheFile = 'cache/Language-' . $languageString . '-' . $fileName . '.cache.php';
-		// Befindet sie sich im Cache und ist sie auch neuer als die Originaldatei, wird sie einfach inkludiert
 		if(file_exists($cacheFile) && (filemtime($cacheFile) > filemtime($iniFile))) {
 			include($cacheFile);
 			return;
 		}
-		// Datei parsen
-		$toWrite = array("<?php");
-		foreach(parse_ini_file($iniFile) as $curKey => $curValue)
-		{
-		 $this->strings[$languageString][$curKey] = $curValue;
-		 $toWrite[] = '$this->strings[\'' . $languageString . '\'][\'' . $curKey . '\'] = \'' . addcslashes($curValue, '\'') . '\';';
+
+		// parse file and cache it
+		$toWrite = array();
+		foreach(parse_ini_file($iniFile) as $curKey => $curValue) {
+			$this->strings[$languageString][$curKey] = $curValue;
+			$toWrite[] = '$this->strings[\'' . $languageString . '\'][\'' . $curKey . '\'] = \'' . addcslashes($curValue, '\'') . '\';';
 		}
-		// Datei cachen
-		Functions::FileWrite($cacheFile, implode("\n", $toWrite) . "\n?>", 'w');
-		// Datei geladen
+		Functions::FileWrite($cacheFile, '<?php'.implode('', $toWrite) . '?>', 'wb');
+
 		$this->loadedFiles[$languageString][$fileName] = TRUE;
 	}
 
@@ -77,5 +78,4 @@ class Language extends ModuleTemplate {
 		return $this->strings[$languageString][$index];
 	}
 }
-
 ?>
