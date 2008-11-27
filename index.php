@@ -1,5 +1,4 @@
 <?php
-
 function get_mtime_counter() {
 	$mtime = explode(' ',microtime());
 	return $mtime[1] + $mtime[0];
@@ -21,5 +20,4 @@ $Core = new Core;
 $Core->executeMe();
 
 //echo (get_mtime_counter()-$t);
-
 ?>

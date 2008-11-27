@@ -1,5 +1,4 @@
 <?php
-
 class FuncDate {
 	public static function splitTime($seconds) {
 		$array = array();
@@ -13,5 +12,4 @@ class FuncDate {
 		return $array;
 	}
 }
-
 ?>

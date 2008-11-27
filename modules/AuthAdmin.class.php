@@ -1,5 +1,4 @@
 <?php
-
 class AuthAdmin extends ModuleTemplate {
 	protected $requiredModules = array(
 		'Auth'
@@ -10,5 +9,4 @@ class AuthAdmin extends ModuleTemplate {
 			die('Access denied: Administrator rights required');
 	}
 }
-
 ?>

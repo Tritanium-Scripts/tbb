@@ -1,5 +1,4 @@
 <?php
-
 class ModuleTemplate {
 	protected $requiredModules = array();
 	protected $modules = array();
@@ -32,5 +31,4 @@ class ModuleTemplate {
 		return $this->moduleConfig->getValue($configName);
 	}
 }
-
 ?>

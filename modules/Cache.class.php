@@ -1,5 +1,4 @@
 <?php
-
 class Cache extends ModuleTemplate {
 	protected $requiredModules = array(
 		'DB',
@@ -221,5 +220,4 @@ class Cache extends ModuleTemplate {
 	}
 
 }
-
 ?>

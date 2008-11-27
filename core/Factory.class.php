@@ -1,5 +1,4 @@
 <?php
-
 class Factory {
 	protected static $instances = array();
 
@@ -26,5 +25,4 @@ class Factory {
 		return isset(self::$instances[$modulesName]);
 	}
 }
-
 ?>

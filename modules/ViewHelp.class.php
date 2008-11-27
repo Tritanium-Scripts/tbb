@@ -1,5 +1,4 @@
 <?php
-
 class ViewHelp extends ModuleTemplate {
 	protected $requiredModules = array(
 	);

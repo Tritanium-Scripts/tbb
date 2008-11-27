@@ -1,5 +1,4 @@
 <?php
-
 class AdminRanks extends ModuleTemplate {
 	protected $requiredModules = array(
 		'Auth',
@@ -172,5 +171,4 @@ class AdminRanks extends ModuleTemplate {
 		}
 	}
 }
-
 ?>

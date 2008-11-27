@@ -1,5 +1,4 @@
 <?php
-
 class AdminProfileFields extends ModuleTemplate {
 	protected $requiredModules = array(
 		'Auth',
@@ -179,5 +178,4 @@ class AdminProfileFields extends ModuleTemplate {
 		}
 	}
 }
-
 ?>

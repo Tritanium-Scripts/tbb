@@ -1,5 +1,4 @@
 <?php
-
 class SubscribeTopic extends ModuleTemplate {
 	protected $requiredModules = array(
 		'Auth',
@@ -46,5 +45,4 @@ class SubscribeTopic extends ModuleTemplate {
 		Functions::myHeader(INDEXFILE."?action=ViewTopic&topicID=$topicID&page=$returnPage&".MYSID);
 	}
 }
-
 ?>

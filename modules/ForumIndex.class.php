@@ -1,5 +1,4 @@
 <?php
-
 class ForumIndex extends ModuleTemplate {
 	protected $requiredModules = array(
 		'Auth',
@@ -478,5 +477,4 @@ class ForumIndex extends ModuleTemplate {
 		return $latestPostsData;
 	}
 }
-
 ?>

@@ -1,5 +1,4 @@
 <?php
-
 class AdminUsers extends ModuleTemplate {
 	protected $requiredModules = array(
 		'Auth',
@@ -470,5 +469,4 @@ class AdminUsers extends ModuleTemplate {
 		}
 	}
 }
-
 ?>

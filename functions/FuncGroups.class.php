@@ -1,5 +1,4 @@
 <?php
-
 class FuncGroups {
 	public static function getGroupData($groupID) {
 		$DB = Factory::singleton('DB');
@@ -8,5 +7,4 @@ class FuncGroups {
 		return ($DB->getAffectedRows() == 0) ? FALSE : $DB->fetchArray();
 	}
 }
-
 ?>

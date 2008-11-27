@@ -1,5 +1,4 @@
 <?php
-
 class Config extends ModuleTemplate {
 	protected $requiredModules = array(
 		'Cache',
@@ -31,5 +30,4 @@ class Config extends ModuleTemplate {
 		if($updateCache) $this->modules['Cache']->setConfig();
 	}
 }
-
 ?>

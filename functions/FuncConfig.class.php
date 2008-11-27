@@ -1,5 +1,4 @@
 <?php
-
 class FuncConfig {
 	public static function updateLatestUser($userID = '',$userNick = '') {
 		if($userID == '' || $userNick == '') {
@@ -13,5 +12,4 @@ class FuncConfig {
 		$Config->updateValue('newest_user_nick',$userNick);
 	}
 }
-
 ?>

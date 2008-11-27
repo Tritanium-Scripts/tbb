@@ -2407,5 +2407,4 @@ class BoardInstall {
 		$this->printTail();
 	}
 }
-
 ?>

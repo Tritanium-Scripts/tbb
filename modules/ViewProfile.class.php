@@ -1,5 +1,4 @@
 <?php
-
 class ViewProfile extends ModuleTemplate {
 	protected $requiredModules = array(
 		'Auth',

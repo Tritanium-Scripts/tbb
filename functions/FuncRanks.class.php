@@ -1,5 +1,4 @@
 <?php
-
 class FuncRanks {
 	public static function getRankData($rankID) {
 		$DB = Factory::singleton('DB');
@@ -7,5 +6,4 @@ class FuncRanks {
 		return ($DB->getAffectedRows() == 1) ? $DB->fetchArray() : FALSE;
 	}
 }
-
 ?>

@@ -1,5 +1,4 @@
 <?php
-
 class FuncUsers {
 	public static function getUserData($userID) {
 		$DB = Factory::singleton('DB');
@@ -15,7 +14,7 @@ class FuncUsers {
 			if($userData['userLockStartTimestamp'] == $userData['userLockEndTimestamp'] || time() < $userData['userLockEndTimestamp'])
 				return TRUE;
 			
-			// Benutzer entsperren
+			// Unlock user
 			$DB = Factory::singleton('DB');
 			$DB->queryParams('UPDATE '.TBLPFX.'users SET "userIsLocked"=0 WHERE "userID"=$1', array($userData['userID']));
 		}
@@ -80,5 +79,4 @@ class FuncUsers {
 		$Cache->setConfig();
 	}
 }
-
 ?>

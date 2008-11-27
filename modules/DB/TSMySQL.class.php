@@ -1,5 +1,4 @@
 <?php
-
 class TSMySQL {
 	protected $dbObject = NULL;
 	protected $curResult = NULL;
@@ -174,5 +173,4 @@ class TSMySQL {
 		return $keysData;
 	}
 }
-
 ?>

@@ -1,5 +1,4 @@
 <?php
-
 class PrivateMessages extends ModuleTemplate {
 	protected $requiredModules = array(
 		'Auth',
@@ -723,5 +722,4 @@ class PrivateMessages extends ModuleTemplate {
 		}
 	}
 }
-
 ?>

@@ -1,5 +1,4 @@
 <?php
-
 class GlobalsAdmin extends ModuleTemplate {
 	protected $requiredModules = array(
 		'Language',
@@ -37,5 +36,4 @@ class GlobalsAdmin extends ModuleTemplate {
 		$this->modules['Template']->display('AdminPageTail.tpl');
 	}
 }
-
 ?>

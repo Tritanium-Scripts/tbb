@@ -1,5 +1,4 @@
 <?php
-
 class Posting extends ModuleTemplate {
 	protected $requiredModules = array(
 		'Auth',
@@ -475,5 +474,4 @@ class Posting extends ModuleTemplate {
 		return $authData;
 	}
 }
-
 ?>

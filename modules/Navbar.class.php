@@ -1,5 +1,4 @@
 <?php
-
 class Navbar extends ModuleTemplate {
 	protected $elements = array();
 	protected $seperator = '&nbsp;&#187;&nbsp;';
@@ -59,5 +58,4 @@ class Navbar extends ModuleTemplate {
 		$this->seperator = $newSeperator;
 	}
 }
-
 ?>

@@ -1,5 +1,4 @@
 <?php
-
 class FuncSmilies {
 	public static function getSmileyData($smileyID) {
 		$DB = Factory::singleton('DB');
@@ -8,5 +7,4 @@ class FuncSmilies {
 		return ($DB->getAffectedRows() == 0) ? FALSE : $DB->fetchArray();
 	}
 }
-
 ?>

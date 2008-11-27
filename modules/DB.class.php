@@ -1,5 +1,4 @@
 <?php
-
 include('DB/TSMySQL.class.php');
 
 class DB extends ModuleTemplate {
@@ -85,5 +84,4 @@ class DB extends ModuleTemplate {
 		return $this->dbObject->escapeString($string);
 	}
 }
-
 ?>

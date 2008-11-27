@@ -1,5 +1,4 @@
 <?php
-
 class Core extends ModuleTemplate {
 	public function executeMe() {
 		/**
@@ -60,5 +59,4 @@ class Core extends ModuleTemplate {
 function __autoload($className) {
 	require_once('functions/'.$className.'.class.php');
 }
-
 ?>

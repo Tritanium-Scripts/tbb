@@ -1,5 +1,4 @@
 <?php
-
 class FuncForums {
 	public static function getForumData($forumID) {
 		$DB = Factory::singleton('DB');
@@ -16,5 +15,4 @@ class FuncForums {
 		$DB->queryParams('UPDATE '.TBLPFX.'forums SET "forumLastPostID"=$1 WHERE "forumID"=$2',array($postID,$forumID));
 	}
 }
-
 ?>

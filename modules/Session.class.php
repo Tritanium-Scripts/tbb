@@ -1,5 +1,4 @@
 <?php
-
 class Session extends ModuleTemplate {
 	protected $requiredModules = array(
 		'DB',
@@ -77,5 +76,4 @@ class Session extends ModuleTemplate {
 		return TRUE;
 	}
 }
-
 ?>

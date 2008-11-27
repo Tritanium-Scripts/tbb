@@ -1,5 +1,4 @@
 <?php
-
 class ViewForum extends ModuleTemplate {
 	protected $requiredModules = array(
 		'Auth',
@@ -217,5 +216,4 @@ class ViewForum extends ModuleTemplate {
 		return $authData;
 	}
 }
-
 ?>

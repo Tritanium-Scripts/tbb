@@ -1,5 +1,4 @@
 <?php
-
 class Ajax extends ModuleTemplate {
 	protected $requiredModules = array(
 		'Auth',
@@ -77,5 +76,4 @@ class Ajax extends ModuleTemplate {
 		$this->modules['Template']->display('AjaxResult.tpl');
 	}
 }
-
 ?>

@@ -1,5 +1,4 @@
 <?php
-
 class Login extends ModuleTemplate {
 	protected $requiredModules = array(
 		'Auth',
@@ -257,5 +256,4 @@ class Login extends ModuleTemplate {
 		}
 	}
 }
-
 ?>

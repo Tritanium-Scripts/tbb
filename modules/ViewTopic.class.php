@@ -1,5 +1,4 @@
 <?php
-
 class ViewTopic extends ModuleTemplate {
 	protected $requiredModules = array(
 		'Auth',
@@ -355,5 +354,4 @@ class ViewTopic extends ModuleTemplate {
 		return $authData;
 	}
 }
-
 ?>

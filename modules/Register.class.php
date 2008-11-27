@@ -1,5 +1,4 @@
 <?php
-
 class Register extends ModuleTemplate {
 	protected $requiredModules = array(
 		'Auth',
@@ -234,5 +233,4 @@ class Register extends ModuleTemplate {
 		}
 	}
 }
-
 ?>

@@ -1,5 +1,4 @@
 <?php
-
 class EditProfile extends ModuleTemplate {
 	protected $requiredModules = array(
 		'Auth',
@@ -336,5 +335,4 @@ class EditProfile extends ModuleTemplate {
 		}
 	}
 }
-
 ?>

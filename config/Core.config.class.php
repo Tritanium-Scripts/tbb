@@ -1,5 +1,4 @@
 <?php
-
 class CoreConfig extends ConfigTemplate {
 	protected $config = array(
 		'indexFile'=>'index.php',
@@ -37,5 +36,4 @@ class CoreConfig extends ConfigTemplate {
 		)
 	);
 }
-
 ?>

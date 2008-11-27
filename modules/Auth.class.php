@@ -1,5 +1,4 @@
 <?php
-
 class Auth extends ModuleTemplate {
 	protected $requiredModules = array(
 		'Constants',
@@ -113,5 +112,4 @@ class Auth extends ModuleTemplate {
 		return $this->modules['DB']->raw2FVArray();
 	}
 }
-
 ?>

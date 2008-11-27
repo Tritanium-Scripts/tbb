@@ -1,23 +1,26 @@
 <?php
-
 class FuncCats {
-	//*
-	//* Fuegt eine neue Kategorie hinzu
-	//*
+
+	/**
+	* Adds a new category.
+	* 
+	* @param mixed $parentID
+	* @param Factory $DB
+	*/
 	function addCatData($parentID = 1,$DB = NULL) {
 		if(!$DB) $DB = Factory::singleton('DB');
 
-		$DB->query('LOCK TABLES '.TBLPFX.'cats WRITE'); // Die Tabelle sperren
+		$DB->query('LOCK TABLES '.TBLPFX.'cats WRITE'); // Lock table
 
-        $DB->queryParams('SELECT "catL", "catR" FROM '.TBLPFX.'cats WHERE "catID"=$1', array($parentID)); // Die Daten der uebergeordneten Kategorie laden
+        $DB->queryParams('SELECT "catL", "catR" FROM '.TBLPFX.'cats WHERE "catID"=$1', array($parentID)); // Load data from parent cat
 		$parentCatData = $DB->fetchArray();
 
-        $DB->queryParams('UPDATE '.TBLPFX.'cats SET "catL"="catL"+2 WHERE "catL">$1', array($parentCatData['catR'])); // Platz schaffen
-        $DB->queryParams('UPDATE '.TBLPFX.'cats SET "catR"="catR"+2 WHERE "catR">=$1', array($parentCatData['catR'])); // und nochmal Platz schaffen
-        $DB->queryParams('INSERT INTO '.TBLPFX.'cats ("catL", "catR") VALUES ($1, $2)', array($parentCatData['catR'], $parentCatData['catR']+1)); // Daten der neuen Kategorie einfuegen
+        $DB->queryParams('UPDATE '.TBLPFX.'cats SET "catL"="catL"+2 WHERE "catL">$1', array($parentCatData['catR'])); // Get some space
+        $DB->queryParams('UPDATE '.TBLPFX.'cats SET "catR"="catR"+2 WHERE "catR">=$1', array($parentCatData['catR'])); // and more space
+        $DB->queryParams('INSERT INTO '.TBLPFX.'cats ("catL", "catR") VALUES ($1, $2)', array($parentCatData['catR'], $parentCatData['catR']+1)); // Insert data from the new cat
 		$newCatID = $DB->getInsertID();
 
-		$DB->query('UNLOCK TABLES'); // Tabelle entsperren
+		$DB->query('UNLOCK TABLES'); // Unlock table
 
 		return $newCatID;
 	}
@@ -164,5 +167,4 @@ class FuncCats {
 		return ($DB->getAffectedRows() == 0) ? FALSE : $DB->fetchArray();
 	}
 }
-
 ?>

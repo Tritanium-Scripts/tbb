@@ -1,5 +1,4 @@
 <?php
-
 class BBCode extends ModuleTemplate {
 	protected $requiredModules = array(
 		'Cache',

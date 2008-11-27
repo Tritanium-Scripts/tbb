@@ -1,5 +1,4 @@
 <?php
-
 class FuncMisc {
 	public static function printMessage($message, $additionalLinks = array(), $inPopup = FALSE) {
 		$Language = Factory::singleton('Language');
@@ -16,5 +15,4 @@ class FuncMisc {
 		$Template->printMessage($messageTitle,$messageText,$additionalLinks,$inPopup);
 	}
 }
-
 ?>

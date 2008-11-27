@@ -1,5 +1,4 @@
 <?php
-
 class Constants extends ModuleTemplate {
 	public function initializeMe() {
 		define('SMILEY_TYPE_SMILEY',0);
@@ -41,5 +40,4 @@ class Constants extends ModuleTemplate {
 		define('BBCODE_FLASH', 17);
 	}
 }
-
 ?>

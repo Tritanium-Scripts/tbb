@@ -1,5 +1,4 @@
 <?php
-
 class Logout extends ModuleTemplate {
 	protected $requiredModules = array(
 		'Auth'
@@ -10,5 +9,4 @@ class Logout extends ModuleTemplate {
 		Functions::myHeader(INDEXFILE);
 	}
 }
-
 ?>

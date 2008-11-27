@@ -1,5 +1,4 @@
 <?php
-
 class AdminSmilies extends ModuleTemplate {
 	protected $requiredModules = array(
 		'Auth',
@@ -137,5 +136,4 @@ class AdminSmilies extends ModuleTemplate {
 		}
 	}
 }
-
 ?>

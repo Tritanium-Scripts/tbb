@@ -1,5 +1,4 @@
 <?php
-
 class Functions {
 	protected static $HTMLCharsSearch = array('/&(?!\#[0-9]+;)/','/</','/>/','/"/');
 	protected static $HTMLCharsReplace = array('&amp;','&lt;','&gt;','&quot;');

@@ -1,5 +1,4 @@
 <?php
-
 class Globals extends ModuleTemplate {
 	protected $requiredModules = array(
 		'Auth',
@@ -152,5 +151,4 @@ class Globals extends ModuleTemplate {
 		}
 	}
 }
-
 ?>

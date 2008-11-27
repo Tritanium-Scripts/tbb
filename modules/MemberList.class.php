@@ -1,5 +1,4 @@
 <?php
-
 class MemberList extends ModuleTemplate {
 	protected $requiredModules = array(
 		'Auth',
@@ -221,5 +220,4 @@ class MemberList extends ModuleTemplate {
 		$this->modules['Template']->printPage('MemberList.tpl');
 	}
 }
-
 ?>

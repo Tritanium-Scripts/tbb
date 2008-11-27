@@ -1,5 +1,4 @@
 <?php
-
 class AdminTemplates extends ModuleTemplate {
 	protected $requiredModules = array(
 		'Auth',
@@ -73,5 +72,4 @@ class AdminTemplates extends ModuleTemplate {
 		$this->modules['Template']->printPage('AdminTemplates.tpl');
 	}
 }
-
 ?>

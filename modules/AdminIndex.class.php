@@ -1,5 +1,4 @@
 <?php
-
 class AdminIndex extends ModuleTemplate {
 	protected $requiredModules = array(
 		'Auth',
@@ -13,5 +12,4 @@ class AdminIndex extends ModuleTemplate {
 		$this->modules['Template']->printPage('AdminIndex.tpl');
 	}
 }
-
 ?>

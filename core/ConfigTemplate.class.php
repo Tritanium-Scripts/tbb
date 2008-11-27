@@ -1,5 +1,4 @@
 <?php
-
 class ConfigTemplate {
 	protected $config = array();
 
@@ -7,5 +6,4 @@ class ConfigTemplate {
 		return $this->config[$configName];
 	}
 }
-
 ?>

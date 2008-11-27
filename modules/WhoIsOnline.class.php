@@ -1,5 +1,4 @@
 <?php
-
 class WhoIsOnline extends ModuleTemplate {
 	protected $requiredModules = array(
 		'Auth',
@@ -51,5 +50,4 @@ class WhoIsOnline extends ModuleTemplate {
 		$this->modules['Template']->printPage('WhoIsOnline.tpl');
 	}
 }
-
 ?>

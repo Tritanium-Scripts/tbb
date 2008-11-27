@@ -1,5 +1,4 @@
 <?php
-
 class Vote extends ModuleTemplate {
 	protected $requiredModules = array(
 		'Auth',
@@ -63,5 +62,4 @@ class Vote extends ModuleTemplate {
 		return $authData;
 	}
 }
-
 ?>

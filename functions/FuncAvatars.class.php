@@ -1,5 +1,4 @@
 <?php
-
 class FuncAvatars {
 	public static function getAvatarData($avatarID) {
 		$DB = Factory::singleton('DB');
@@ -7,5 +6,4 @@ class FuncAvatars {
 		return ($DB->getAffectedRows() == 0) ? FALSE : $DB->fetchArray();
 	}
 }
-
 ?>
