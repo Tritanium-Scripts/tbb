@@ -35,10 +35,21 @@ class Language extends ModuleTemplate {
 		return ($languageCode == '' ? $this->languageCode : (isset($this->languages[$languageCode]) ? $this->languages[$languageCode] : die('Unknown language: '.$languageCode)));
 	}*/
 
+	/**
+	 * Returns the current language directory.
+	 * 
+	 * @param string $languageString
+	 */
 	public function getLD($languageString = '') {
 		return 'languages/'.($languageString != '' ? $languageString : $this->languageString).'/';
 	}
 
+	/**
+	 * Adds a language file for caching.
+	 * 
+	 * @param string Name of language file
+	 * @param string $languageString
+	 */
 	public function addFile($fileName, $languageString = '') {
 		$languageString = ($languageString == '' ? $this->languageString : $languageString);
 
@@ -63,11 +74,18 @@ class Language extends ModuleTemplate {
 			$this->strings[$languageString][$curKey] = $curValue;
 			$toWrite[] = '$this->strings[\'' . $languageString . '\'][\'' . $curKey . '\'] = \'' . addcslashes($curValue, '\'') . '\';';
 		}
-		Functions::FileWrite($cacheFile, '<?php '.implode('', $toWrite) . ' ?>', 'wb');
+		Functions::FileWrite($cacheFile, '<?php ' . implode('', $toWrite) . ' ?>', 'wb');
 
 		$this->loadedFiles[$languageString][$fileName] = TRUE;
 	}
 
+	/**
+	 * Returns a cached language string stated by the index key.
+	 * 
+	 * @param string Language key, identifies the requested string
+	 * @param string $languageString
+	 * @return string Translated string
+	 */
 	public function getString($index,$languageString = '') {
 		$languageString = ($languageString == '' ? $this->languageString : $languageString);
 		

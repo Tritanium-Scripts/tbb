@@ -436,9 +436,9 @@ class BoardInstall {
 
 				$dp = opendir('languages');
 				while($curObj = readdir($dp)) {
-					if($curObj[0] == '.' || !is_dir('languages/'.$curObj) || !file_exists('languages/'.$curObj.'/Language.ini')) continue;
+					if($curObj[0] == '.' || !is_dir('languages/'.$curObj) || !file_exists('languages/'.$curObj.'/Language.info.ini')) continue;
 
-					$curLanguageConfig = parse_ini_file('languages/'.$curObj.'/Language.ini');
+					$curLanguageConfig = parse_ini_file('languages/'.$curObj.'/Language.info.ini');
 					echo '<option value="'.$curObj.'"'.($curObj == $this->language ? ' selected="selected"' : '').'>'.$curLanguageConfig['language_name_native'].' ('.$curLanguageConfig['language_name'].')</option>';
 				}
 				closedir($dp);
@@ -2213,7 +2213,7 @@ class BoardInstall {
 			$dp = opendir('languages');
 			while($curObj = readdir($dp)) {
 				if($curObj[0] == '.') continue;
-				$curConfigFile = parse_ini_file('languages/'.$curObj.'/Language.ini');
+				$curConfigFile = parse_ini_file('languages/'.$curObj.'/Language.info.ini');
 				foreach(explode(',',$curConfigFile['supported_languages']) AS $curLanguage)
 					$supportedLanguages[$curLanguage] = $curObj;
 			}

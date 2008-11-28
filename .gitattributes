@@ -86,7 +86,7 @@ languages/de/EditProfile.ini -text
 languages/de/EditTopic.ini -text
 languages/de/ForumIndex.ini -text
 languages/de/Install.ini -text
-languages/de/Language.ini -text
+languages/de/Language.info.ini -text
 languages/de/Login.ini -text
 languages/de/Main.ini -text
 languages/de/Messages.ini -text

@@ -158,9 +158,9 @@ class Cache extends ModuleTemplate {
 
 		$dP = opendir('languages');
 		while($curObj = readdir($dP)) {
-			if($dP == '..' || $dP == '.' || file_exists('languages/'.$curObj.'/Language.ini') == FALSE) continue;
+			if($dP == '..' || $dP == '.' || file_exists('languages/'.$curObj.'/Language.info.ini') == FALSE) continue;
 
-			$curLanguageConfig = parse_ini_file('languages/'.$curObj.'/Language.ini');
+			$curLanguageConfig = parse_ini_file('languages/'.$curObj.'/Language.info.ini');
 			$curSupportedLanguages = explode(',',$curLanguageConfig['supported_languages']);
 
 			foreach($curSupportedLanguages AS $curLanguage) {
