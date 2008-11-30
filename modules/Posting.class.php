@@ -362,7 +362,7 @@ class Posting extends ModuleTemplate {
 								);
 							}
 							
-							Functions::myHeader(INDEXFILE.'?action=ViewTopic&postID='.$postID.'&'.MYSID.'#post4740');
+							Functions::myHeader(INDEXFILE.'?action=ViewTopic&postID='.$postID.'&'.MYSID.'#post'.$postID);
 						}
 					}
 				}
