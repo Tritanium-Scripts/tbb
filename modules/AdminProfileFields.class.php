@@ -16,7 +16,7 @@ class AdminProfileFields extends ModuleTemplate {
 
 		switch(@$_GET['mode']) {
 			default:
-                $this->modules['DB']->query('SELECT "fieldID", "fieldName", "fieldType" FROM '.TBLPFX.'profile_fields WHERE "fieldIsLocked"=0');
+                $this->modules['DB']->query('SELECT "fieldID", "fieldName", "fieldType", "fieldIsLocked" FROM '.TBLPFX.'profile_fields');
 				$fieldsData = $this->modules['DB']->raw2Array();
 
 				foreach($fieldsData AS &$curField) {
@@ -98,7 +98,7 @@ class AdminProfileFields extends ModuleTemplate {
 
                 $this->modules['DB']->queryParams('SELECT * FROM '.TBLPFX.'profile_fields WHERE "fieldID"=$1', array($fieldID));
 				($this->modules['DB']->getAffectedRows() == 0) ? die('Cannot load data: profile field') : $fieldData = $this->modules['DB']->fetchArray();
-				if($fieldData['fieldIsLocked'] == 1) die('Cannot edit field: locked field');
+				//if($fieldData['fieldIsLocked'] == 1) die('Cannot edit field: locked field');
 				
 				$errors = array();
 

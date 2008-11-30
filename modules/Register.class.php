@@ -30,11 +30,23 @@ class Register extends ModuleTemplate {
 
 		switch(@$_GET['mode']) {
 			default:
+				$c = Functions::getSGValues($_POST['c'], array('acceptRules'),0);
+
+				$errors = array();
+
 				if(isset($_GET['doit'])) {
-					Functions::myHeader(INDEXFILE.'?action=Register&mode=RegisterForm&'.MYSID);
+					$c = Functions::getSGValues($_POST['c'], array('acceptRules'),0);
+
+					if($this->modules['Config']->getValue('require_accept_boardrules') == 1 && $c['acceptRules'] != 1) $errors[] = $this->modules['Language']->getString('error_accept_board_rules');;
+
+					if(count($errors) == 0) {
+						Functions::myHeader(INDEXFILE.'?action=Register&mode=RegisterForm&'.MYSID);
+					}
 				}
 
 				$this->modules['Navbar']->addElement($this->modules['Language']->getString('board_rules'),INDEXFILE."?action=Register&amp;".MYSID);
+
+				$this->modules['Template']->assign('errors',$errors);
 
 				$this->modules['Template']->printPage('RegisterBoardRules.tpl');
 				break;
@@ -213,7 +225,7 @@ class Register extends ModuleTemplate {
 
 							case PROFILE_FIELD_TYPE_SELECTSINGLE:
 							case PROFILE_FIELD_TYPE_SELECTMULTI:
-								$curField['_fieldSelectedIDs'] = $p['profileFields'][$curField['fieldID']];
+								$curField['_fieldSelectedIDs'] = $p['fieldsData'][$curField['fieldID']];
 								$curField['_fieldOptions'] = unserialize($curField['fieldData']);
 								break;
 						}
