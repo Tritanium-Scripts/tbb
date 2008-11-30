@@ -4,7 +4,7 @@
  <tr class="RowToHighlight" onmouseover="setRowCellsClass(this,'CellHighlight');" onmouseout="restoreRowCellsClass(this);">
   <td class="CellStd"><span class="FontNorm"><a href="{$indexFile}?action=AdminProfileFields&amp;mode=EditField&amp;fieldID={$curField.fieldID}&amp;{$mySID}">{$curField.fieldName}</a></span></td>
   <td class="CellAlt" align="center"><span class="FontNorm">{$curField._fieldTypeText}</span></td>
-  <td class="CellStd" align="right"><span class="FontSmall">{if $curField.fieldIsLocked != 0}<a href="{$indexFile}?action=AdminProfileFields&amp;mode=DeleteField&amp;fieldID={$curField.fieldID}&amp;{$mySID}">{$modules.Language->getString('delete')}</a> | {/if}<a href="{$indexFile}?action=AdminProfileFields&amp;mode=EditField&amp;fieldID={$curField.fieldID}&amp;{$mySID}">{$modules.Language->getString('edit')}</a></span></td>
+  <td class="CellStd" align="right"><span class="FontSmall">{if $curField.fieldIsLocked != 1}<a href="{$indexFile}?action=AdminProfileFields&amp;mode=DeleteField&amp;fieldID={$curField.fieldID}&amp;{$mySID}">{$modules.Language->getString('delete')}</a> | {/if}<a href="{$indexFile}?action=AdminProfileFields&amp;mode=EditField&amp;fieldID={$curField.fieldID}&amp;{$mySID}">{$modules.Language->getString('edit')}</a></span></td>
  </tr>
 {/foreach}
 </table>

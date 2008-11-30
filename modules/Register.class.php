@@ -26,7 +26,7 @@ class Register extends ModuleTemplate {
 			exit;
 		}
 
-		$this->modules['Navbar']->addElement($this->modules['Language']->getString('register'),INDEXFILE."?action=Register&amp;".MYSID);
+		$this->modules['Navbar']->addElement($this->modules['Language']->getString('register'),INDEXFILE.'?action=Register&amp;'.MYSID);
 
 		switch(@$_GET['mode']) {
 			default:
@@ -44,7 +44,7 @@ class Register extends ModuleTemplate {
 					}
 				}
 
-				$this->modules['Navbar']->addElement($this->modules['Language']->getString('board_rules'),INDEXFILE."?action=Register&amp;".MYSID);
+				$this->modules['Navbar']->addElement($this->modules['Language']->getString('board_rules'),INDEXFILE.'?action=Register&amp;'.MYSID);
 
 				$this->modules['Template']->assign('errors',$errors);
 
@@ -153,7 +153,7 @@ class Register extends ModuleTemplate {
 							$this->modules['DB']->queryParams('
 								INSERT INTO '.TBLPFX.'profile_fields_data SET
 									"fieldID"=$1,
-									"userID"=$2.
+									"userID"=$2,
 									"fieldValue"=$3
 							',array(
 								$curField['fieldID'],

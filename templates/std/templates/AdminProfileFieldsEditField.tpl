@@ -17,10 +17,10 @@
 <tr>
  <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('field_type')}:</span></td>
  <td class="CellAlt"><select class="FormSelect" name="p[fieldType]">
-  <option value="0"{if $p.fieldType} == $smarty.const.PROFILE_FIELD_TYPE_TEXTFIELD} selected="selected"{/if}>{$modules.Language->getString('textfield')}</option>
-  <option value="1"{if $p.fieldType} == $smarty.const.PROFILE_FIELD_TYPE_TEXTAREA} selected="selected"{/if}>{$modules.Language->getString('textarea')}</option>
-  <option value="2"{if $p.fieldType} == $smarty.const.PROFILE_FIELD_TYPE_SELECTSINGLE} selected="selected"{/if}>{$modules.Language->getString('single_selection_list')}</option>
-  <option value="3"{if $p.fieldType} == $smarty.const.PROFILE_FIELD_TYPE_SELECTMULTI} selected="selected"{/if}>{$modules.Language->getString('multiple_selection_list')}</option>
+  <option value="0"{if $p.fieldType == $smarty.const.PROFILE_FIELD_TYPE_TEXTFIELD} selected="selected"{/if}>{$modules.Language->getString('textfield')}</option>
+  <option value="1"{if $p.fieldType == $smarty.const.PROFILE_FIELD_TYPE_TEXTAREA} selected="selected"{/if}>{$modules.Language->getString('textarea')}</option>
+  <option value="2"{if $p.fieldType == $smarty.const.PROFILE_FIELD_TYPE_SELECTSINGLE} selected="selected"{/if}>{$modules.Language->getString('single_selection_list')}</option>
+  <option value="3"{if $p.fieldType == $smarty.const.PROFILE_FIELD_TYPE_SELECTMULTI} selected="selected"{/if}>{$modules.Language->getString('multiple_selection_list')}</option>
  </select></td>
 </tr>
 <tr>

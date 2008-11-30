@@ -1521,7 +1521,7 @@ class BoardInstall {
 						',array(
 							$this->strings['icq'],
 							0,
-							'/^[0-9]{1,}\$/si',
+							'/^\d+$/si',
 							serialize(array()),
                             '%1$s <img src="http://status.icq.com/online.gif?icq=%1$s&amp;img=2" alt="ICQ"/>',
                             'icq'
