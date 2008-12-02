@@ -31,4 +31,3 @@ class ModuleTemplate {
 		return $this->moduleConfig->getValue($configName);
 	}
 }
-?>

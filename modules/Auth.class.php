@@ -112,4 +112,3 @@ class Auth extends ModuleTemplate {
 		return $this->modules['DB']->raw2FVArray();
 	}
 }
-?>

@@ -216,4 +216,3 @@ class ViewForum extends ModuleTemplate {
 		return $authData;
 	}
 }
-?>

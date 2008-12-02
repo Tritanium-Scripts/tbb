@@ -293,4 +293,3 @@ class BBCode extends ModuleTemplate {
 		return $this->modules['Template']->fetch('BBCodeHtml.tpl');
 	}
 }
-?>

@@ -527,4 +527,3 @@ class Functions {
 		return $array;
     }
 }
-?>

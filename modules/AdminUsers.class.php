@@ -469,4 +469,3 @@ class AdminUsers extends ModuleTemplate {
 		}
 	}
 }
-?>

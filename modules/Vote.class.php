@@ -62,4 +62,3 @@ class Vote extends ModuleTemplate {
 		return $authData;
 	}
 }
-?>

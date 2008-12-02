@@ -1,5 +1,4 @@
 <?php
-
 class DBConfig extends ConfigTemplate {
 	protected $config = array(
 		'dbType'=>'mysql',
@@ -10,5 +9,3 @@ class DBConfig extends ConfigTemplate {
 		'tablePrefix'=>'tbb2_'
 	);
 }
-
-?>

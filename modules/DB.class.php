@@ -84,4 +84,3 @@ class DB extends ModuleTemplate {
 		return $this->dbObject->escapeString($string);
 	}
 }
-?>

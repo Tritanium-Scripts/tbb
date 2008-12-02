@@ -361,4 +361,3 @@ class Search extends ModuleTemplate {
 		}
 	}
 }
-?>

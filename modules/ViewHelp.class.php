@@ -8,4 +8,3 @@ class ViewHelp extends ModuleTemplate {
 		exit;
 	}
 }
-?>

@@ -7,4 +7,3 @@ class FuncGroups {
 		return ($DB->getAffectedRows() == 0) ? FALSE : $DB->fetchArray();
 	}
 }
-?>

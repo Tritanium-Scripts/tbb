@@ -58,4 +58,3 @@ class Navbar extends ModuleTemplate {
 		$this->seperator = $newSeperator;
 	}
 }
-?>

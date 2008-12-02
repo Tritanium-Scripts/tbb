@@ -477,4 +477,3 @@ class ForumIndex extends ModuleTemplate {
 		return $latestPostsData;
 	}
 }
-?>

@@ -335,4 +335,3 @@ class EditProfile extends ModuleTemplate {
 		}
 	}
 }
-?>

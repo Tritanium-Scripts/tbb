@@ -59,4 +59,3 @@ class Core extends ModuleTemplate {
 function __autoload($className) {
 	require_once('functions/'.$className.'.class.php');
 }
-?>

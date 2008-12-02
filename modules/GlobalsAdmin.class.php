@@ -36,4 +36,3 @@ class GlobalsAdmin extends ModuleTemplate {
 		$this->modules['Template']->display('AdminPageTail.tpl');
 	}
 }
-?>

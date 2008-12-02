@@ -329,4 +329,3 @@ class EditTopic extends ModuleTemplate {
 		}
 	}
 }
-?>

@@ -50,4 +50,3 @@ class WhoIsOnline extends ModuleTemplate {
 		$this->modules['Template']->printPage('WhoIsOnline.tpl');
 	}
 }
-?>

@@ -12,4 +12,3 @@ class FuncConfig {
 		$Config->updateValue('newest_user_nick',$userNick);
 	}
 }
-?>

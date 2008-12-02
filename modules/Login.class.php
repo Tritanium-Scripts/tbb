@@ -256,4 +256,3 @@ class Login extends ModuleTemplate {
 		}
 	}
 }
-?>

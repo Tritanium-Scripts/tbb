@@ -6,4 +6,3 @@ class FuncAvatars {
 		return ($DB->getAffectedRows() == 0) ? FALSE : $DB->fetchArray();
 	}
 }
-?>

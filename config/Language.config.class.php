@@ -5,4 +5,3 @@ class LanguageConfig extends ConfigTemplate {
 		'autoloadFiles'=>array('Main')
 	);
 }
-?>

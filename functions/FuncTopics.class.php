@@ -15,4 +15,3 @@ class FuncTopics {
 		$DB->queryParams('UPDATE '.TBLPFX.'topics SET "topicLastPostID"=$1 WHERE "topicID"=$2',array($postID,$topicID));
 	}
 }
-?>

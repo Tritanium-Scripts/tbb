@@ -220,4 +220,3 @@ class Cache extends ModuleTemplate {
 	}
 
 }
-?>

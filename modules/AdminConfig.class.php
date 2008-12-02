@@ -67,4 +67,3 @@ class AdminConfig extends ModuleTemplate {
 		$this->modules['Template']->printPage('AdminConfig.tpl');
 	}
 }
-?>

@@ -6,4 +6,3 @@ class ConfigTemplate {
 		return $this->config[$configName];
 	}
 }
-?>

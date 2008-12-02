@@ -4,4 +4,3 @@ class TemplateConfig extends ConfigTemplate {
 		'defaultTemplateDir'=>'std'
 	);
 }
-?>

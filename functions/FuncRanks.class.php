@@ -6,4 +6,3 @@ class FuncRanks {
 		return ($DB->getAffectedRows() == 1) ? $DB->fetchArray() : FALSE;
 	}
 }
-?>

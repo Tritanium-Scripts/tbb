@@ -15,4 +15,3 @@ class FuncMisc {
 		$Template->printMessage($messageTitle,$messageText,$additionalLinks,$inPopup);
 	}
 }
-?>

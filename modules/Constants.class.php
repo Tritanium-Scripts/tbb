@@ -40,4 +40,3 @@ class Constants extends ModuleTemplate {
 		define('BBCODE_FLASH', 17);
 	}
 }
-?>

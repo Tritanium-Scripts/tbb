@@ -111,4 +111,3 @@ class Template extends ModuleTemplate {
 		call_user_func($this->globalFrame[1]);
 	}
 }
-?>

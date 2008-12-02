@@ -79,4 +79,3 @@ class FuncUsers {
 		$Cache->setConfig();
 	}
 }
-?>

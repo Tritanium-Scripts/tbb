@@ -178,4 +178,3 @@ class AdminProfileFields extends ModuleTemplate {
 		}
 	}
 }
-?>

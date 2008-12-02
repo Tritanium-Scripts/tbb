@@ -76,4 +76,3 @@ class Session extends ModuleTemplate {
 		return TRUE;
 	}
 }
-?>

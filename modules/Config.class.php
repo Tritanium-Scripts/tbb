@@ -30,4 +30,3 @@ class Config extends ModuleTemplate {
 		if($updateCache) $this->modules['Cache']->setConfig();
 	}
 }
-?>

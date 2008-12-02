@@ -722,4 +722,3 @@ class PrivateMessages extends ModuleTemplate {
 		}
 	}
 }
-?>

@@ -76,4 +76,3 @@ class Ajax extends ModuleTemplate {
 		$this->modules['Template']->display('AjaxResult.tpl');
 	}
 }
-?>

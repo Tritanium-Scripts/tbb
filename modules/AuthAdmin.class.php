@@ -9,4 +9,3 @@ class AuthAdmin extends ModuleTemplate {
 			die('Access denied: Administrator rights required');
 	}
 }
-?>

@@ -151,4 +151,3 @@ class Globals extends ModuleTemplate {
 		}
 	}
 }
-?>

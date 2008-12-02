@@ -12,4 +12,3 @@ class AdminIndex extends ModuleTemplate {
 		$this->modules['Template']->printPage('AdminIndex.tpl');
 	}
 }
-?>

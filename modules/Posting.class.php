@@ -474,4 +474,3 @@ class Posting extends ModuleTemplate {
 		return $authData;
 	}
 }
-?>

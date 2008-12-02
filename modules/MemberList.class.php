@@ -220,4 +220,3 @@ class MemberList extends ModuleTemplate {
 		$this->modules['Template']->printPage('MemberList.tpl');
 	}
 }
-?>

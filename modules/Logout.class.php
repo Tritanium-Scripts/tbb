@@ -9,4 +9,3 @@ class Logout extends ModuleTemplate {
 		Functions::myHeader(INDEXFILE);
 	}
 }
-?>

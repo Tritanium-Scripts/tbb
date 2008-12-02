@@ -197,4 +197,3 @@ class AdminGroups extends ModuleTemplate {
 		}
 	}
 }
-?>

@@ -72,4 +72,3 @@ class AdminTemplates extends ModuleTemplate {
 		$this->modules['Template']->printPage('AdminTemplates.tpl');
 	}
 }
-?>

@@ -639,4 +639,3 @@ class AdminForums extends ModuleTemplate {
 		}
 	}
 }
-?>

@@ -354,4 +354,3 @@ class ViewTopic extends ModuleTemplate {
 		return $authData;
 	}
 }
-?>

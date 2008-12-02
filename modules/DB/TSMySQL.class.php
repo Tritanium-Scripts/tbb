@@ -173,4 +173,3 @@ class TSMySQL {
 		return $keysData;
 	}
 }
-?>

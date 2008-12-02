@@ -45,4 +45,3 @@ class SubscribeTopic extends ModuleTemplate {
 		Functions::myHeader(INDEXFILE."?action=ViewTopic&topicID=$topicID&page=$returnPage&".MYSID);
 	}
 }
-?>

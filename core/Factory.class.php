@@ -25,4 +25,3 @@ class Factory {
 		return isset(self::$instances[$modulesName]);
 	}
 }
-?>

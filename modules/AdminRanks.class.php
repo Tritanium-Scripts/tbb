@@ -171,4 +171,3 @@ class AdminRanks extends ModuleTemplate {
 		}
 	}
 }
-?>

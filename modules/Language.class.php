@@ -96,4 +96,3 @@ class Language extends ModuleTemplate {
 		return $this->strings[$languageString][$index];
 	}
 }
-?>
