@@ -332,7 +332,6 @@ templates/std/templates/EditProfileTopicSubscriptions.tpl -text
 templates/std/templates/EditProfileUploadAvatar.tpl -text
 templates/std/templates/EditTopicEdit.tpl -text
 templates/std/templates/EditTopicMove.tpl -text
-templates/std/templates/FatalError.tpl -text
 templates/std/templates/ForumIndex.tpl -text
 templates/std/templates/LoginActivateAccount.tpl -text
 templates/std/templates/LoginLogin.tpl -text
