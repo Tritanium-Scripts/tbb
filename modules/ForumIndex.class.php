@@ -131,7 +131,7 @@ class ForumIndex extends ModuleTemplate {
 			while(list($curKey) = each($modsGroupsData)) { // Erst werden alle Gruppen-Moderatoren ueberprueft
 				if($modsGroupsData[$curKey]['forumID'] != $curForum['forumID']) continue;
 
-				$curForumMods[] = '<a href="'.INDEXFILE.'?action=ViewGroup&amp;groupID='.$modsGroupsData[$curKey]['groupID'].'&amp;'.MYSID.'">'.$modsGroupsData[$curKey]['groupName'].'</a>'; // Aktuelle Gruppe zu Array mit Moderatoren des aktuellen Forums hinzufuegen
+				$curForumMods[] = '<a href="'.INDEXFILE.'?action=Groups&amp;mode=ViewGroup&amp;groupID='.$modsGroupsData[$curKey]['groupID'].'&amp;'.MYSID.'">'.$modsGroupsData[$curKey]['groupName'].'</a>'; // Aktuelle Gruppe zu Array mit Moderatoren des aktuellen Forums hinzufuegen
 				unset($modsGroupsData[$curKey]); // Mitglied kann aus Array geloescht werden
 			}
 			reset($modsGroupsData);

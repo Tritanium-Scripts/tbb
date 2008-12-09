@@ -19,6 +19,7 @@ class CoreConfig extends ConfigTemplate {
 			'EditProfile',
 			'EditTopic',
 			'ForumIndex',
+			'Groups',
 			'Login',
 			'Logout',
 			'MemberList',
