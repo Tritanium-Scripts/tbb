@@ -10,6 +10,19 @@ class EditProfile extends ModuleTemplate {
 		'Template'
 	);
 
+	/**
+	 * Valid file extensions for avatar files
+	 * 
+	 * @var array
+	 */
+	protected $validFileExtensions = array(
+		'jpg',
+		'jpeg',
+		'bmp',
+		'png',
+		'gif'
+	);
+
 	public function printHeader() {
 		$this->modules['Template']->display('EditProfileHeader.tpl');
 	}
@@ -253,8 +266,12 @@ class EditProfile extends ModuleTemplate {
 			case 'Avatar':
 				$p['avatarAddress'] = isset($_POST['p']['avatarAddress']) ? $_POST['p']['avatarAddress'] : $this->modules['Auth']->getValue('userAvatarAddress');
 
-				if(isset($_GET['doit']))
-					$this->modules['DB']->queryParams('UPDATE '.TBLPFX.'users SET "userAvatarAddress"=$1 WHERE "userID"=$2', array($p['avatarAddress'], USERID));
+				if(isset($_GET['doit'])) {
+					if($p['avatarAddress'] != $this->modules['Auth']->getValue('userAvatarAddress')) {
+						$this->deleteExistingAvatar();
+						$this->modules['DB']->queryParams('UPDATE '.TBLPFX.'users SET "userAvatarAddress"=$1 WHERE "userID"=$2', array($p['avatarAddress'], USERID));
+					}
+				}
 
 				$this->modules['DB']->query('SELECT "avatarAddress" FROM '.TBLPFX.'avatars');
 				$avatarsData = $this->modules['DB']->raw2Array();
@@ -300,25 +317,10 @@ class EditProfile extends ModuleTemplate {
 						preg_match("/^(.*)\.([^.]*)/i",Functions::strtolower($_FILES['avatarFile']['name']),$fileExtension);
 						$fileExtension = $fileExtension[2];
 
-						$validFileExtensions = array(
-							'jpg',
-							'jpeg',
-							'bmp',
-							'png',
-							'gif'
-						);
-
-						if(!in_array($fileExtension,$validFileExtensions)) $error = $this->modules['Language']->getString('error_invalid_file_extension');
+						if(!in_array($fileExtension,$this->validFileExtensions)) $error = $this->modules['Language']->getString('error_invalid_file_extension');
 						else {
-							/**
-							 * Check if the user already uploaded an avatar
-							 */
-							foreach($validFileExtensions AS $curExtension) {
-								if(file_exists('uploads/avatars/'.USERID.'.'.$curExtension)) {
-									unlink('uploads/avatars/'.USERID.'.'.$curExtension);
-									break;
-								}
-							}
+							// Delete (possibly) existing avatar
+							$this->deleteExistingAvatar();
 
 							/**
 							 * Move new avatar to correct dir
@@ -347,6 +349,15 @@ class EditProfile extends ModuleTemplate {
 				));
 				$this->modules['Template']->printPage('EditProfileUploadAvatar.tpl');
 				break;
+		}
+	}
+
+	protected function deleteExistingAvatar() {
+		foreach($this->validFileExtensions AS &$curExtension) {
+			if(file_exists('uploads/avatars/'.USERID.'.'.$curExtension)) {
+				unlink('uploads/avatars/'.USERID.'.'.$curExtension);
+				break;
+			}
 		}
 	}
 }
