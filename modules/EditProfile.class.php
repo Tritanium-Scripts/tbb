@@ -141,10 +141,13 @@ class EditProfile extends ModuleTemplate {
 						foreach($profileFields AS &$curField) {
 							$curValue = ($curField['fieldType'] == PROFILE_FIELD_TYPE_SELECTMULTI) ? implode(',',$_POST['p']['fieldsData'][$curField['fieldID']]) : $_POST['p']['fieldsData'][$curField['fieldID']];
 
-							if($curValue === '' && isset($fields_data[$curField['fieldID']])) $deleteIDs[] = $curField['fieldID'];
-							elseif($curValue === '' && isset($fields_data[$curField['fieldID']])) {}
-							elseif(isset($fieldsData[$curField['fieldID']])) $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'profile_fields_data SET "fieldValue"=$1 WHERE "userID"=$2 AND "fieldID"=$3', array($curValue, USERID, $curField['fieldID']));
-							else $this->modules['DB']->queryParams('INSERT INTO '.TBLPFX.'profile_fields_data ("fieldID", "userID", "fieldValue") VALUES ($1, $2, $3)', array($curField['fieldID'], USERID, $curValue));
+							if($curValue === '' ) {
+								if(isset($fieldsData[$curField['fieldID']]))
+									$deleteIDs[] = $curField['fieldID'];
+							} else {
+								if(isset($fieldsData[$curField['fieldID']])) $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'profile_fields_data SET "fieldValue"=$1 WHERE "userID"=$2 AND "fieldID"=$3', array($curValue, USERID, $curField['fieldID']));
+								else $this->modules['DB']->queryParams('INSERT INTO '.TBLPFX.'profile_fields_data ("fieldID", "userID", "fieldValue") VALUES ($1, $2, $3)', array($curField['fieldID'], USERID, $curValue));								
+							}
 						}
 
 						$this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'profile_fields_data WHERE "userID"=$1 AND "fieldID" IN $2', array(USERID, $deleteIDs));

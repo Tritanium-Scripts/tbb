@@ -320,7 +320,7 @@ class Functions {
 			) WHERE
 				t1."forumID"=$1
 				AND t1."authType"=$2
-				AND t1"authID"=t2."groupID"
+				AND t1."authID"=t2."groupID"
 		',array(
 			$forumData['forumID'],
 			AUTH_TYPE_GROUP,
