@@ -71,7 +71,7 @@ class ForumIndex extends ModuleTemplate {
 			if($this->modules['Auth']->isLoggedIn() == 0) {
 				if($curForum['authViewForumGuests'] == 0) $curAuthViewForum = 0;
 			}
-			elseif($this->modules['Auth']->getValue('userIsAdmin')!= 1 && $this->modules['Auth']->getValue('userIsSupermod') != 1) {
+			elseif($this->modules['Auth']->getValue('userIsAdmin') != 1 && $this->modules['Auth']->getValue('userIsSupermod') != 1 && (!isset($forumsAuthData[$curForum['forumID']]) || $forumsAuthData[$curForum['forumID']]['authIsMod'] != 1)) {
 				if($curForum['authViewForumMembers'] == 1) {
 					if(isset($forumsAuthData[$curForum['forumID']]) && $forumsAuthData[$curForum['forumID']]['authViewForum'] == 0)
 						$curAuthViewForum = 0;
@@ -280,7 +280,8 @@ class ForumIndex extends ModuleTemplate {
 			$this->modules['DB']->queryParams('
 				SELECT
 					t1."forumID",
-					t1."authViewForum"
+					t1."authViewForum",
+					t1."authIsMod"
 				FROM
 					'.TBLPFX.'forums_auth t1,
 					'.TBLPFX.'groups_members t2
@@ -291,14 +292,23 @@ class ForumIndex extends ModuleTemplate {
 			', array(
                 USERID
             ));
-			while($curData = $this->modules['DB']->fetchArray())
-				$forumsAuthData[$curData['forumID']] = $curData;
+			while($curData = $this->modules['DB']->fetchArray()) {
+				if(!isset($forumsAuthData[$curData['forumID']]))
+					$forumsAuthData[$curData['forumID']] = $curData;
+				else {
+					if($curData['authIsMod'] == 0)
+						$forumsAuthData[$curData['forumID']]['authIsMod'] = 0;
+					if($curData['authViewForum'] == 0)
+						$forumsAuthData[$curData['forumID']]['authViewForum'] = 0;
+				}
+			}
 
 
 			$this->modules['DB']->queryParams('
 				SELECT
 					t1."forumID",
-					t1."authViewForum"
+					t1."authViewForum",
+					t1."authIsMod"
 				FROM
 					'.TBLPFX.'forums_auth t1
 				WHERE
