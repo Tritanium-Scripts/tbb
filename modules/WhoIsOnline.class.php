@@ -33,11 +33,8 @@ class WhoIsOnline extends ModuleTemplate {
                 $this->modules['DB']->fromUnixTimestamp(time()-$this->modules['Config']->getValue('wio_timeout')*60)
             ));
 		$wioData = $this->modules['DB']->raw2Array();
-		$wioDataCounter = count($wioData);
 
-		for($i = 0; $i < $wioDataCounter; $i++) {
-			$curWIO = &$wioData[$i];
-
+		foreach($wioData AS &$curWIO) {
 			if($curWIO['sessionUserID'] == 0) $curWIO['sessionUserNick'] = $this->modules['Language']->getString('guest');
 			$curWIO['_sessionLastLocationText'] = $this->modules['Language']->getString('wio_'.$curWIO['sessionLastLocation']);
 		}

@@ -329,10 +329,12 @@ class Functions {
 		if($DB->numRows() > 0) {
 			$groupsAuthData = $DB->raw2Array();
 			foreach($authNames AS $curAuth) {
-				$authData[$curAuth] = isset($forumData[$curAuth.'Members']) ? $forumData[$curAuth.'Members'] : 0;
+				$authData[$curAuth] = 1;
+
+				// we look for a group where we don't have access -> deny access
 				foreach($groupsAuthData AS $curGroupAuth) {
-					if($curGroupAuth[$curAuth] == 1 - $authData[$curAuth]) {
-						$authData[$curAuth] = 1 - $authData[$curAuth];
+					if($curGroupAuth[$curAuth] == 0) {
+						$authData[$curAuth] = 0;
 						break;
 					}
 				}

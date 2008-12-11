@@ -107,7 +107,7 @@ class EditProfile extends ModuleTemplate {
 
 				// Jetzt werden eventuelle $_POST-Daten uebernommen
 				$p = array();
-				foreach($profileFields AS $curField) {
+				foreach($profileFields AS &$curField) {
 					switch($curField['fieldType']) {
 						case PROFILE_FIELD_TYPE_TEXT:		 $p['fieldsData'][$curField['fieldID']] = isset($_POST['p']['fieldsData'][$curField['fieldID']]) ? $_POST['p']['fieldsData'][$curField['fieldID']] : (isset($fieldsData[$curField['fieldID']]) ? $fieldsData[$curField['fieldID']] : ''); break;
 						case PROFILE_FIELD_TYPE_TEXTAREA:	 $p['fieldsData'][$curField['fieldID']] = isset($_POST['p']['fieldsData'][$curField['fieldID']]) ? $_POST['p']['fieldsData'][$curField['fieldID']] : (isset($fieldsData[$curField['fieldID']]) ? $fieldsData[$curField['fieldID']] : ''); break;
@@ -119,15 +119,15 @@ class EditProfile extends ModuleTemplate {
 				if(isset($_GET['doit'])) {
 					$fieldIsMissing = FALSE;
 					foreach($profileFields AS &$curField) {
-						if($curField['fieldIsRequired'] == 1 && ($curField['fieldType'] != PROFILE_FIELD_TYPE_SELECTMULTI && $_POST['p']['fieldsData'][$curField['fieldID']] === '' || $curField['fieldType'] == PROFILE_FIELD_TYPE_SELECTMULTI && count($_POST['p']['fieldsData'][$curField['fieldID']]) == 0)) {
+						if($curField['fieldIsRequired'] == 1 && ($curField['fieldType'] != PROFILE_FIELD_TYPE_SELECTMULTI && $p['fieldsData'][$curField['fieldID']] === '' || $curField['fieldType'] == PROFILE_FIELD_TYPE_SELECTMULTI && count($p['fieldsData'][$curField['fieldID']]) == 0)) {
 							$fieldIsMissing = TRUE;
 							break;
 						}
 					}
 
 					$fieldIsInvalid = FALSE;
-					foreach($profileFields AS $curField) {
-						if(($curField['fieldType'] == PROFILE_FIELD_TYPE_TEXT || $curField['fieldType'] == PROFILE_FIELD_TYPE_TEXTAREA) && $curField['fieldRegexVerification'] != '' && $_POST['p']['fieldsData'][$curField['fieldID']] != '' && !preg_match($curField['fieldRegexVerification'],$_POST['p']['fieldsData'][$curField['fieldID']])) {
+					foreach($profileFields AS &$curField) {
+						if(($curField['fieldType'] == PROFILE_FIELD_TYPE_TEXT || $curField['fieldType'] == PROFILE_FIELD_TYPE_TEXTAREA) && $curField['fieldRegexVerification'] != '' && $p['fieldsData'][$curField['fieldID']] != '' && !preg_match($curField['fieldRegexVerification'],$p['fieldsData'][$curField['fieldID']])) {
 							$fieldIsInvalid = TRUE;
 							break;
 						}
@@ -139,7 +139,7 @@ class EditProfile extends ModuleTemplate {
 						$deleteIDs = array();
 
 						foreach($profileFields AS &$curField) {
-							$curValue = ($curField['fieldType'] == PROFILE_FIELD_TYPE_SELECTMULTI) ? implode(',',$_POST['p']['fieldsData'][$curField['fieldID']]) : $_POST['p']['fieldsData'][$curField['fieldID']];
+							$curValue = ($curField['fieldType'] == PROFILE_FIELD_TYPE_SELECTMULTI) ? implode(',',$p['fieldsData'][$curField['fieldID']]) : $p['fieldsData'][$curField['fieldID']];
 
 							if($curValue === '' ) {
 								if(isset($fieldsData[$curField['fieldID']]))
@@ -150,7 +150,10 @@ class EditProfile extends ModuleTemplate {
 							}
 						}
 
-						$this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'profile_fields_data WHERE "userID"=$1 AND "fieldID" IN $2', array(USERID, $deleteIDs));
+						if(count($deleteIDs) > 0)
+							$this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'profile_fields_data WHERE "userID"=$1 AND "fieldID" IN $2', array(USERID, $deleteIDs));
+
+						Functions::myHeader(INDEXFILE.'?action=EditProfile&amp;mode=ExtendedProfile&amp;'.MYSID);
 					}
 				}
 
