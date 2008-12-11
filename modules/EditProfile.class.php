@@ -153,7 +153,7 @@ class EditProfile extends ModuleTemplate {
 						if(count($deleteIDs) > 0)
 							$this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'profile_fields_data WHERE "userID"=$1 AND "fieldID" IN $2', array(USERID, $deleteIDs));
 
-						Functions::myHeader(INDEXFILE.'?action=EditProfile&amp;mode=ExtendedProfile&amp;'.MYSID);
+						Functions::myHeader(INDEXFILE.'?action=EditProfile&mode=ExtendedProfile&'.MYSID);
 					}
 				}
 
