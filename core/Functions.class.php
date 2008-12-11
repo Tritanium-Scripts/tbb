@@ -286,6 +286,7 @@ class Functions {
 
 		$DB = Factory::singleton('DB');
 
+		// Do we have special rights for this user?
 		$DB->queryParams('
 			SELECT
 				'.$authNamesI.'
@@ -303,22 +304,23 @@ class Functions {
 		if($DB->numRows() == 1)
 			return $DB->fetchArray();
 
+		// Do we have group rights for this user?
 		$DB->queryParams('
 			SELECT
 				'.$authNamesI.'
-			FROM
-				'.TBLPFX.'forums_auth
-			WHERE
-				"forumID"=$1
-				AND "authType"=$2
-				AND "authID" IN (
-					SELECT 
-						"groupID"
-					FROM
-						'.TBLPFX.'groups_members
-					WHERE
-						"memberID"=$3
-				)
+			FROM (
+				'.TBLPFX.'forums_auth t1,
+				(SELECT DISTINCT
+					"groupID"
+				FROM
+					'.TBLPFX.'groups_members
+				WHERE
+					"memberID"=$3
+				) t2
+			) WHERE
+				t1."forumID"=$1
+				AND t1."authType"=$2
+				AND t1"authID"=t2."groupID"
 		',array(
 			$forumData['forumID'],
 			AUTH_TYPE_GROUP,
@@ -327,7 +329,7 @@ class Functions {
 		if($DB->numRows() > 0) {
 			$groupsAuthData = $DB->raw2Array();
 			foreach($authNames AS $curAuth) {
-				$authData[$curAuth] = $forumData[$curAuth.'Members'];
+				$authData[$curAuth] = isset($forumData[$curAuth.'Members']) ? $forumData[$curAuth.'Members'] : 0;
 				foreach($groupsAuthData AS $curGroupAuth) {
 					if($curGroupAuth[$curAuth] == 1 - $authData[$curAuth]) {
 						$authData[$curAuth] = 1 - $authData[$curAuth];
@@ -344,6 +346,7 @@ class Functions {
 			return $authData;
 		}
 
+		// No special rights found, take default rights
 		foreach($authNames AS $curAuth)
 			$authData[$curAuth] = isset($forumData[$curAuth.'Members']) ? $forumData[$curAuth.'Members'] : 0;
 

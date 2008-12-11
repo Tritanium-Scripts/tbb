@@ -125,7 +125,16 @@ class EditProfile extends ModuleTemplate {
 						}
 					}
 
+					$fieldIsInvalid = FALSE;
+					foreach($profileFields AS $curField) {
+						if(($curField['fieldType'] == PROFILE_FIELD_TYPE_TEXT || $curField['fieldType'] == PROFILE_FIELD_TYPE_TEXTAREA) && $curField['fieldRegexVerification'] != '' && $_POST['p']['fieldsData'][$curField['fieldID']] != '' && !preg_match($curField['fieldRegexVerification'],$_POST['p']['fieldsData'][$curField['fieldID']])) {
+							$fieldIsInvalid = TRUE;
+							break;
+						}
+					}
+
 					if($fieldIsMissing) $error = $this->modules['Language']->getString('error_required_fields_missing');
+					elseif($fieldIsInvalid) $error = $this->modules['Language']->getString('error_bad_information');
 					else {
 						$deleteIDs = array();
 

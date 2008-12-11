@@ -87,7 +87,7 @@ class Register extends ModuleTemplate {
 
 					$fieldIsInvalid = FALSE;
 					foreach($profileFields AS $curField) {
-						if(($curField['fieldType'] == PROFILE_FIELD_TYPE_TEXT || $curField['fieldType'] == PROFILE_FIELD_TYPE_TEXTAREA) && $curField['fieldRegexVerification'] != '' && !preg_match($curField['fieldRegexVerification'],$p['fieldsData'][$curField['fieldID']])) {
+						if(($curField['fieldType'] == PROFILE_FIELD_TYPE_TEXT || $curField['fieldType'] == PROFILE_FIELD_TYPE_TEXTAREA) && $curField['fieldRegexVerification'] != '' && $p['fieldsData'][$curField['fieldID']] != '' && !preg_match($curField['fieldRegexVerification'],$p['fieldsData'][$curField['fieldID']])) {
 							$fieldIsInvalid = TRUE;
 							break;
 						}
