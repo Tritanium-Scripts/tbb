@@ -162,7 +162,7 @@ class EditProfile extends ModuleTemplate {
 					array('groupName'=>$this->modules['Language']->getString('other_information'),'groupType'=>0,'groupFields'=>array())
 				);
 
-				foreach($profileFields AS $curField) {
+				foreach($profileFields AS &$curField) {
 					switch($curField['fieldType']) {
 						case PROFILE_FIELD_TYPE_TEXT:
 						case PROFILE_FIELD_TYPE_TEXTAREA:
