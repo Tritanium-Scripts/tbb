@@ -60,7 +60,7 @@ initializeClosedCatIDs();
 {foreach from=$catsData item=curCat}
  {if $curCat.catID != $catID}
   <tbody>
-  <tr><td class="CellCat" colspan="6"><a href="javascript:switchCatStatus({$curCat.catID});"><img src="{$modules.Template->getTemplateDir()}/images/{if $curCat.catIsOpen == 1}minus{else}plus{/if}.gif" alt="" id="CatPic{$curCat.catID}"/></a>&nbsp;<span class="FontCat"><a class="FontCat" href="{$indexFile}?catID={$curCat.catID}&amp;{$mySID}">{$curCat.catName}</a></span></td></tr>
+  <tr><td class="CellCat" colspan="6"><a href="javascript:switchCatStatus({$curCat.catID});"><img src="{$modules.Template->getTemplateDir()}/images/{if $curCat.catIsOpen == 1}minus{else}plus{/if}.gif" alt="" id="CatPic{$curCat.catID}"/></a>&nbsp;<span class="FontCat"><a class="FontCat" href="{$smarty.const.INDEXFILE}?catID={$curCat.catID}&amp;{$smarty.const.MYSID}">{$curCat.catName}</a></span></td></tr>
   </tbody>
  {/if}
  <tbody id="CatForums{$curCat.catID}" style="{if $curCat.catIsOpen == 1}{else}display:none;{/if}">
@@ -70,7 +70,7 @@ initializeClosedCatIDs();
    <td class="CellAlt" align="center"><img src="{$modules.Template->getTD()}/images/forum_{if $curForum._newPostsAvailable == 1}on{else}off{/if}.gif" alt=""/></td>
    <td class="CellStd" width="50%">
     <table border="0" cellspacing="0" cellpadding="0">
-     <tr><td><span class="ForumLink"><a class="ForumLink" href="{$indexFile}?action=ViewForum&amp;forumID={$curForum.forumID}&amp;{$mySID}">{$curForum.forumName}</a></span></td></tr>
+     <tr><td><span class="ForumLink"><a class="ForumLink" href="{$smarty.const.INDEXFILE}?action=ViewForum&amp;forumID={$curForum.forumID}&amp;{$smarty.const.MYSID}">{$curForum.forumName}</a></span></td></tr>
      <tr><td><span class="FontSmall">{$curForum.forumDescription}</span></td></tr>
     </table>
    </td>

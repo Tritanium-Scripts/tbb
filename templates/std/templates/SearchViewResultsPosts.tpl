@@ -1,4 +1,4 @@
-<form method="post" action="{$indexFile}?action=Search&amp;mode=ViewResults&amp;searchID={$searchID}&amp;{$mySID}">
+<form method="post" action="{$smarty.const.INDEXFILE}?action=Search&amp;mode=ViewResults&amp;searchID={$searchID}&amp;{$smarty.const.MYSID}">
 	<table class="TableStd" width="100%">
 		<colgroup>
 			<col width="15%"/>

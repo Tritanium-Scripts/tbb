@@ -1,4 +1,4 @@
-<form method="post" action="{$indexFile}?action=AdminUsers&amp;mode=SearchUsers&amp;doit=1&amp;{$mySID}">
+<form method="post" action="{$smarty.const.INDEXFILE}?action=AdminUsers&amp;mode=SearchUsers&amp;doit=1&amp;{$smarty.const.MYSID}">
 <table class="TableStd" width="100%">
 <tr><td class="CellTitle" colspan="2"><span class="FontTitle">{$modules.Language->getString('search_users')}</span></td></tr>
 <tr><td class="CellInfoBox" colspan="2"><span class="FontInfoBox">{$modules.Language->getString('search_users_info')}</span></td></tr>
@@ -25,7 +25,7 @@
   <td class="CellStd"><span class="FontNorm">{$curUser.userID}</span></td>
   <td class="CellAlt"><span class="FontNorm">{$curUser.userNick}</span></td>
   <td class="CellStd"><span class="FontNorm">{$curUser.userEmailAddress}</span></td>
-  <td class="CellAlt" align="right"><span class="FontSmall"><a href="{$indexFile}?action=AdminUsers&amp;mode=EditUser&amp;userID={$curUser.userID}&amp;{$mySID}">{$modules.Language->getString('edit')}</a></span></td>
+  <td class="CellAlt" align="right"><span class="FontSmall"><a href="{$smarty.const.INDEXFILE}?action=AdminUsers&amp;mode=EditUser&amp;userID={$curUser.userID}&amp;{$smarty.const.MYSID}">{$modules.Language->getString('edit')}</a></span></td>
  </tr>
 {/foreach}
 </table>

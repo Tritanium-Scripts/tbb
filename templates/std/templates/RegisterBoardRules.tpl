@@ -1,4 +1,4 @@
-<form method="post" action="{$indexFile}?action=Register&amp;mode=BoardRules&amp;doit=1&amp;{$mySID}">
+<form method="post" action="{$smarty.const.INDEXFILE}?action=Register&amp;mode=BoardRules&amp;doit=1&amp;{$smarty.const.MYSID}">
 	<table class="TableStd" width="100%">
 		<tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('register')}</span></td></tr>
 		{include file=_ErrorRow.tpl colSpan=1}

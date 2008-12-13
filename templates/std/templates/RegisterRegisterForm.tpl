@@ -1,4 +1,4 @@
-<form method="post" action="{$indexFile}?action=Register&amp;mode=RegisterForm&amp;doit=1&amp;{$mySID}">
+<form method="post" action="{$smarty.const.INDEXFILE}?action=Register&amp;mode=RegisterForm&amp;doit=1&amp;{$smarty.const.MYSID}">
 <table class="TableStd" width="100%">
 <tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('register')}</span></td></tr>
 {if $error != ''}<tr><td class="CellError"><span class="FontError"><img src="{$modules.Template->getTD()}/images/icons/Warning.png" class="ImageIcon" alt=""/>{$error}</span></td></tr>{/if}

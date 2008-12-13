@@ -55,7 +55,7 @@
  </table>
  <br/>
 {/if}
-<form method="post" action="{$indexFile}?action=Posting&amp;mode={$mode}&amp;forumID={$forumID}&amp;topicID={$topicID}&amp;postID={$postID}&amp;doit=1&amp;{$mySID}" name="MyForm">
+<form method="post" action="{$smarty.const.INDEXFILE}?action=Posting&amp;mode={$mode}&amp;forumID={$forumID}&amp;topicID={$topicID}&amp;postID={$postID}&amp;doit=1&amp;{$smarty.const.MYSID}" name="MyForm">
 <table class="TableStd" width="100%">
 <colgroup>
  <col width="20%"/>

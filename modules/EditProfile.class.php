@@ -90,7 +90,6 @@ class EditProfile extends ModuleTemplate {
 							$this->modules['Auth']->setSessionUserPassword($newPasswordEncrypted);
 						}
 
-						$this->modules['Navbar']->addElements(array($this->modules['Language']->getString('profile_saved'),''));
 						FuncMisc::printMessage('profile_saved'); exit;
 					}
 				}
@@ -229,7 +228,6 @@ class EditProfile extends ModuleTemplate {
 						$p['userNotifyNewPM']
 					));
 
-					$this->modules['Navbar']->addElements(array($this->modules['Language']->getString('profile_saved'),''));
 					FuncMisc::printMessage('profile_saved'); exit;
 				}
 

@@ -22,33 +22,33 @@
  <script src="{$modules.Template->getTD()}/scripts/posting.js" type="text/javascript"></script>
  {if $newPrivateMessageReceived}
  <script type="text/javascript">
-  popUp('{$indexFile}?action=PrivateMessages&mode=NewPMReceived&inPopup=1&{$mySID}','newpmreceived',400,200);
+  popUp('{$smarty.const.INDEXFILE}?action=PrivateMessages&mode=NewPMReceived&inPopup=1&{$smarty.const.MYSID}','newpmreceived',400,200);
  </script>
  {/if}
 </head>
 <body>
 <div align="center"><div align="left" style="width:1024px;">
-<!--<form method="post" action="{$indexFile}?action=Login&amp;doit=1&amp;{$mySID}">-->
+<!--<form method="post" action="{$smarty.const.INDEXFILE}?action=Login&amp;doit=1&amp;{$smarty.const.MYSID}">-->
 <table style="border-spacing:0px; border:2px #000000 solid; width:100%; padding:1px; background-color:#FFFFFF;">
 <tr><td>
  <table style="width:100%; border-spacing:0px; border:1px #ACACAC solid;" cellspacing="0">
  <tr><td style="background-color:#c5e8f9; background-image:url(images/bck.jpg);"><!--<span class="big">{$boardBanner}</span>--><img src="images/test.jpg" alt=""/></td></tr>
   <tr><td align="center" style="background-color:#aec9d7; padding-bottom:4px;"><span class="FontSmall">
   {if $modules.Auth->isLoggedIn() == 1}
-   <a href="{$indexFile}?action=EditProfile&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/myprofile.png" class="ImageButton" alt="{$modules.Language->getString('my_profile')}"/></a>
-   <a href="{$indexFile}?action=ViewHelp&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/help.png" class="ImageButton" alt="{$modules.Language->getString('help')}"/></a>
-   <a href="{$indexFile}?action=PrivateMessages&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/pms.png" class="ImageButton" alt="{$modules.Language->getString('private_messages')}"/></a>
-   <a href="{$indexFile}?action=Search&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/search.png" class="ImageButton" alt="{$modules.Language->getString('search')}"/></a>
-   <a href="{$indexFile}?action=MemberList&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/memberlist.png" class="ImageButton" alt="{$modules.Language->getString('memberlist')}"/></a>
-   <a href="{$indexFile}?action=WhoIsOnline&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/whoisonline.png" class="ImageButton" alt="{$modules.Language->getString('who_is_online')}"/></a>
-   <a href="{$indexFile}?action=Logout&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/logout.png" class="ImageButton" alt="{$modules.Language->getString('logout')}"/></a>
+   <a href="{$smarty.const.INDEXFILE}?action=EditProfile&amp;{$smarty.const.MYSID}"><img src="{$modules.Template->getTD()}/images/buttons/de/myprofile.png" class="ImageButton" alt="{$modules.Language->getString('my_profile')}"/></a>
+   <a href="{$smarty.const.INDEXFILE}?action=ViewHelp&amp;{$smarty.const.MYSID}"><img src="{$modules.Template->getTD()}/images/buttons/de/help.png" class="ImageButton" alt="{$modules.Language->getString('help')}"/></a>
+   <a href="{$smarty.const.INDEXFILE}?action=PrivateMessages&amp;{$smarty.const.MYSID}"><img src="{$modules.Template->getTD()}/images/buttons/de/pms.png" class="ImageButton" alt="{$modules.Language->getString('private_messages')}"/></a>
+   <a href="{$smarty.const.INDEXFILE}?action=Search&amp;{$smarty.const.MYSID}"><img src="{$modules.Template->getTD()}/images/buttons/de/search.png" class="ImageButton" alt="{$modules.Language->getString('search')}"/></a>
+   <a href="{$smarty.const.INDEXFILE}?action=MemberList&amp;{$smarty.const.MYSID}"><img src="{$modules.Template->getTD()}/images/buttons/de/memberlist.png" class="ImageButton" alt="{$modules.Language->getString('memberlist')}"/></a>
+   <a href="{$smarty.const.INDEXFILE}?action=WhoIsOnline&amp;{$smarty.const.MYSID}"><img src="{$modules.Template->getTD()}/images/buttons/de/whoisonline.png" class="ImageButton" alt="{$modules.Language->getString('who_is_online')}"/></a>
+   <a href="{$smarty.const.INDEXFILE}?action=Logout&amp;{$smarty.const.MYSID}"><img src="{$modules.Template->getTD()}/images/buttons/de/logout.png" class="ImageButton" alt="{$modules.Language->getString('logout')}"/></a>
   {else}
-   <a href="{$indexFile}?action=Register&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/register.png" class="ImageButton" alt="{$modules.Language->getString('register')}"/></a>
-   <a href="{$indexFile}?action=ViewHelp&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/help.png" class="ImageButton" alt="{$modules.Language->getString('help')}"/></a>
-   <a href="{$indexFile}?action=Search&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/search.png" class="ImageButton" alt="{$modules.Language->getString('search')}"/></a>
-   <a href="{$indexFile}?action=MemberList&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/memberlist.png" class="ImageButton" alt="{$modules.Language->getString('memberlist')}"/></a>
-   <a href="{$indexFile}?action=WhoIsOnline&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/whoisonline.png" class="ImageButton" alt="{$modules.Language->getString('who_is_online')}"/></a>
-   <a href="{$indexFile}?action=Login&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/login.png" class="ImageButton" alt="{$modules.Language->getString('login')}"/></a>
+   <a href="{$smarty.const.INDEXFILE}?action=Register&amp;{$smarty.const.MYSID}"><img src="{$modules.Template->getTD()}/images/buttons/de/register.png" class="ImageButton" alt="{$modules.Language->getString('register')}"/></a>
+   <a href="{$smarty.const.INDEXFILE}?action=ViewHelp&amp;{$smarty.const.MYSID}"><img src="{$modules.Template->getTD()}/images/buttons/de/help.png" class="ImageButton" alt="{$modules.Language->getString('help')}"/></a>
+   <a href="{$smarty.const.INDEXFILE}?action=Search&amp;{$smarty.const.MYSID}"><img src="{$modules.Template->getTD()}/images/buttons/de/search.png" class="ImageButton" alt="{$modules.Language->getString('search')}"/></a>
+   <a href="{$smarty.const.INDEXFILE}?action=MemberList&amp;{$smarty.const.MYSID}"><img src="{$modules.Template->getTD()}/images/buttons/de/memberlist.png" class="ImageButton" alt="{$modules.Language->getString('memberlist')}"/></a>
+   <a href="{$smarty.const.INDEXFILE}?action=WhoIsOnline&amp;{$smarty.const.MYSID}"><img src="{$modules.Template->getTD()}/images/buttons/de/whoisonline.png" class="ImageButton" alt="{$modules.Language->getString('who_is_online')}"/></a>
+   <a href="{$smarty.const.INDEXFILE}?action=Login&amp;{$smarty.const.MYSID}"><img src="{$modules.Template->getTD()}/images/buttons/de/login.png" class="ImageButton" alt="{$modules.Language->getString('login')}"/></a>
   {/if}
   </span></td></tr>
  </table>

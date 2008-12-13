@@ -1,4 +1,4 @@
-<form method="post" action="{$indexFile}?action=EditProfile&amp;mode=Avatar&amp;doit=1&amp;{$mySID}" name="myForm">
+<form method="post" action="{$smarty.const.INDEXFILE}?action=EditProfile&amp;mode=Avatar&amp;doit=1&amp;{$smarty.const.MYSID}" name="myForm">
 <table class="TableStd" width="100%">
 <tr><td class="CellCat"><span class="FontCat">{$modules.Language->getString('avatar')}</span></td></tr>
 <tr><td class="CellStd">
@@ -9,7 +9,7 @@
    <td><span class="FontNorm">{$modules.Language->getString('avatar')}:</span>{if $p.avatarAddress != ''}<br/><img src="{$p.avatarAddress}" alt="{$modules.Language->getString('current_avatar')}" width="{$modules.Config->getValue('avatar_image_width')}" height="{$modules.Config->getValue('avatar_image_height')}"/>{/if}</td>
    <td valign="top"><input class="FormText" type="text" size="60" name="p[avatarAddress]" value="{$p.avatarAddress}"/></td>
   </tr>
-  <tr><td colspan="2"><span class="FontNorm"><a href="{$indexFile}?action=EditProfile&amp;mode=UploadAvatar&amp;{$mySID}{*javascript:popup('{$indexFile}?action=EditProfile&amp;mode=UploadAvatar&amp;{$mySID}','uploadavatarwindow','width=500,height=250,scrollbars=yes,toolbar=no,status=yes')*}">{$modules.Language->getString('upload_avatar')}</a></span></td></tr>
+  <tr><td colspan="2"><span class="FontNorm"><a href="{$smarty.const.INDEXFILE}?action=EditProfile&amp;mode=UploadAvatar&amp;{$smarty.const.MYSID}{*javascript:popup('{$smarty.const.INDEXFILE}?action=EditProfile&amp;mode=UploadAvatar&amp;{$smarty.const.MYSID}','uploadavatarwindow','width=500,height=250,scrollbars=yes,toolbar=no,status=yes')*}">{$modules.Language->getString('upload_avatar')}</a></span></td></tr>
   </table>
  </fieldset>
  {if $avatarsCounter > 0}

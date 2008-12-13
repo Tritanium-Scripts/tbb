@@ -1,4 +1,4 @@
-<form method="post" action="{$indexFile}?action=Login&amp;mode=RequestActivationCode&amp;doit=1&amp;{$mySID}">
+<form method="post" action="{$smarty.const.INDEXFILE}?action=Login&amp;mode=RequestActivationCode&amp;doit=1&amp;{$smarty.const.MYSID}">
 	<table class="TableStd" width="100%">
 		<colgroup>
 			<col width="15%"/>

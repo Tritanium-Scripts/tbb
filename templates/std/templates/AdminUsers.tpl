@@ -1,4 +1,4 @@
-<form method="post" action="{$indexFile}?action=AdminUsers&amp;mode=SearchUsers&amp;doit=1&amp;{$mySID}">
+<form method="post" action="{$smarty.const.INDEXFILE}?action=AdminUsers&amp;mode=SearchUsers&amp;doit=1&amp;{$smarty.const.MYSID}">
 <table class="TableStd" width="100%">
 <tr><td class="CellTitle" colspan="2"><span class="FontTitle">{$modules.Language->getString('manage_users')}</span></td></tr>
 <tr><td class="CellInfoBox" colspan="2"><span class="FontInfoBox">{$modules.Language->getString('search_users_info')}</span></td></tr>
@@ -18,7 +18,7 @@
 </table>
 </form>
 <br/>
-<form method="post" action="{$indexFile}?action=AdminUsers&amp;mode=UnlockUsers&amp;{$mySID}">
+<form method="post" action="{$smarty.const.INDEXFILE}?action=AdminUsers&amp;mode=UnlockUsers&amp;{$smarty.const.MYSID}">
 <table class="TableStd" width="100%">
 <tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('unlock_users')}</span></td></tr>
 {*<template:nolockedusers>
@@ -37,5 +37,5 @@
 <br/>
 <table class="TableStd" width="100%">
 <tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('other_options')}</span></td></tr>
-<tr><td class="CellStd"><span class="FontNorm"><a href="{$indexFile}?action=AdminUsers&amp;mode=AddUser&amp;{$mySID}">{$modules.Language->getString('add_user')}</a></span></td></tr>
+<tr><td class="CellStd"><span class="FontNorm"><a href="{$smarty.const.INDEXFILE}?action=AdminUsers&amp;mode=AddUser&amp;{$smarty.const.MYSID}">{$modules.Language->getString('add_user')}</a></span></td></tr>
 </table>

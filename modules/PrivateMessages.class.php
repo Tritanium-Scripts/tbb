@@ -38,7 +38,6 @@ class PrivateMessages extends ModuleTemplate {
 	public function executeMe() {
 		if($this->modules['Auth']->isLoggedIn() != 1) die('Kein Zugriff: Nicht eingeloggt');
 		elseif($this->modules['Config']->getValue('enable_pms') != 1) {
-			$this->modules['Navbar']->addElement($this->modules['Language']->getString('function_deactivated'),'');
 			FuncMisc::printMessage('function_deactivated');
 			exit;
 		}

@@ -1,4 +1,4 @@
-<form method="post" action="{$indexFile}?action=AdminForums&amp;mode=EditForum&amp;forumID={$forumID}&amp;doit=1&amp;{$mySID}">
+<form method="post" action="{$smarty.const.INDEXFILE}?action=AdminForums&amp;mode=EditForum&amp;forumID={$forumID}&amp;doit=1&amp;{$smarty.const.MYSID}">
 <table class="TableStd" width="100%">
 <tr><td class="CellTitle" colspan="2"><span class="FontTitle">{$modules.Language->getString('edit_forum')}</span></td></tr>
 {if $error != ''}<tr><td class="CellError" colspan="2"><span class="FontError">{$error}</span></td></tr>{/if}
@@ -30,7 +30,7 @@
  <label><input type="checkbox" value="1" name="c[authPostTopicGuests]"{if $c.authPostTopicGuests == 1} checked="checked"{/if}/> {$modules.Language->getString('guests_post_topic')}</label><br/>
  <label><input type="checkbox" value="1" name="c[authPostReplyGuests]"{if $c.authPostReplyGuests == 1} checked="checked"{/if}/> {$modules.Language->getString('guests_post_reply')}</label><br/>
  <label><input type="checkbox" value="1" name="c[authPostPollGuests]"{if $c.authPostPollGuests == 1} checked="checked"{/if}/> {$modules.Language->getString('guests_post_poll')}</label><br/>
- <a href="{$indexFile}?action=AdminForums&amp;mode=EditSpecialRights&amp;forumID={$forumID}&amp;{$mySID}">{$modules.Language->getString('edit_special_rights')}</a>
+ <a href="{$smarty.const.INDEXFILE}?action=AdminForums&amp;mode=EditSpecialRights&amp;forumID={$forumID}&amp;{$smarty.const.MYSID}">{$modules.Language->getString('edit_special_rights')}</a>
 </span></td></tr>
 <tr><td class="CellCat" colspan="2"><span class="FontCat">{$modules.Language->getString('other_options')}</span></td></tr>
 <tr><td colspan="2" class="CellStd"><span class="FontNorm">

@@ -1,4 +1,4 @@
-<form method="post" action="{$indexFile}?action=MemberList&amp;page={$page}&amp;{$mySID}">
+<form method="post" action="{$smarty.const.INDEXFILE}?action=MemberList&amp;page={$page}&amp;{$smarty.const.MYSID}">
 <table class="TableStd" width="100%">
 <tr>
  <td class="CellTitle" align="center"><span class="FontTitleSmall">{$modules.Language->getString('user_id')}</span></td>
@@ -12,7 +12,7 @@
 {foreach from=$usersData item=curUser}
  <tr onmouseover="setRowCellsClass(this,'CellHighlight');" onmouseout="restoreRowCellsClass(this);">
   <td class="CellStd"><span class="FontNorm">{$curUser.userID}</span></td>
-  <td class="CellAlt"><span class="FontNorm"><a href="{$indexFile}?action=ViewProfile&amp;profileID={$curUser.userID}&amp;{$mySID}">{$curUser.userNick}</a></span></td>
+  <td class="CellAlt"><span class="FontNorm"><a href="{$smarty.const.INDEXFILE}?action=ViewProfile&amp;profileID={$curUser.userID}&amp;{$smarty.const.MYSID}">{$curUser.userNick}</a></span></td>
   <td class="CellStd"><span class="FontNorm">{$curUser._userRankName}</span></td>
   <td class="CellAlt"><span class="FontNorm">{$curUser.userPostsCounter}</span></td>
   {foreach from=$curUser._userFieldsValues item=curFieldValue}

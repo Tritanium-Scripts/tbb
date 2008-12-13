@@ -1,4 +1,4 @@
-<form method="post" action="{$indexFile}?action=EditProfile&amp;mode=UploadAvatar&amp;doit=1&amp;{$mySID}" enctype="multipart/form-data">
+<form method="post" action="{$smarty.const.INDEXFILE}?action=EditProfile&amp;mode=UploadAvatar&amp;doit=1&amp;{$smarty.const.MYSID}" enctype="multipart/form-data">
 <table class="TableStd" width="100%">
 <tr><td class="CellTitle" colspan="2"><span class="FontTitle">{$modules.Language->getString('upload_avatar')}</span></td></tr>
 {if $error != ''}<tr><td class="CellError" colspan="2"><span class="FontError">{$error}</span></td></tr>{/if}

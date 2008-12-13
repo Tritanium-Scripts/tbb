@@ -15,7 +15,7 @@ function switchPostDisplay(postID) {
 {/literal}
 
 /* ]]> */</script>
-<form method="post" action="{$indexFile}?action=Search&amp;mode=ViewResults&amp;searchID={$searchID}&amp;{$mySID}">
+<form method="post" action="{$smarty.const.INDEXFILE}?action=Search&amp;mode=ViewResults&amp;searchID={$searchID}&amp;{$smarty.const.MYSID}">
 	<table class="TableStd" width="100%">
 		<tr>
 			<td class="CellTitle" align="center"><span class="FontTitleSmall">{$modules.Language->getString('topic')}</span></td>
@@ -27,7 +27,7 @@ function switchPostDisplay(postID) {
 		{foreach from=$topicsData item=curTopic}
 			<tr>
 				<td class="CellStd">
-					<span class="FontNorm">{$curTopic._topicPrefix}</span><span class="FontNorm"><a class="TopicLink" href="{$indexFile}?action=ViewTopic&amp;topicID={$curTopic.topicID}&amp;{$mySID}">{$curTopic.topicTitle}</a></span>
+					<span class="FontNorm">{$curTopic._topicPrefix}</span><span class="FontNorm"><a class="TopicLink" href="{$smarty.const.INDEXFILE}?action=ViewTopic&amp;topicID={$curTopic.topicID}&amp;{$smarty.const.MYSID}">{$curTopic.topicTitle}</a></span>
 					<div id="postIntro{$curTopic.topicFirstPostID}"><span class="FontSmall">{$curTopic.topicFirstPostPostText|truncate:80:"..."|escape} <a href="javascript:switchPostDisplay({$curTopic.topicFirstPostID});">({$modules.Language->getString('more')})</a></span></div>
 					<div id="postFull{$curTopic.topicFirstPostID}" style="display:none;"><span class="FontSmall">{$curTopic._topicFirstPostPostText}</span><br/><span class="FontSmall"><a href="javascript:switchPostDisplay({$curTopic.topicFirstPostID});">({$modules.Language->getString('less')})</a></span></div>
 				</td>

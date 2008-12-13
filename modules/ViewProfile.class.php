@@ -281,8 +281,7 @@ class ViewProfile extends ModuleTemplate {
 					else {
 						Functions::myMail($this->modules['Auth']->getValue('userNick').' <'.$this->modules['Auth']->getValue('userEmailAddress').'>',$profileData['userNick'].' <'.$profileData['userEmailAddress'].'>',$p['emailSubject'],$p['emailMessage']);
 
-						$this->modules['Navbar']->addElement($this->modules['Language']->getString('email_sent'));
-						FuncMisc::printMessage('email_sent',array(sprintf($this->modules['Language']->getString('click_here_back_profile'),'<a href="'.INDEXFILE.'?action=ViewProfile&amp;profileID='.$profileID.'&amp;'.MYSID.'">','</a>')));
+						FuncMisc::printMessage('email_sent',array(sprintf($this->modules['Language']->getString('message_link_click_here_back_profile'),'<a href="'.INDEXFILE.'?action=ViewProfile&amp;profileID='.$profileID.'&amp;'.MYSID.'">','</a>')));
 						exit;
 					}
 				}

@@ -1,6 +1,6 @@
 <script type="text/javascript">/* <![CDATA[ */
-	indexFile = "{$indexFile}";
-	mySID = "{$mySID}";
+	indexFile = "{$smarty.const.INDEXFILE}";
+	mySID = "{$smarty.const.MYSID}";
 {literal}
 	function toggleFastEdit(postID) {
 		if(document.getElementById("post"+postID+"Text").style.display == "none") {
@@ -37,14 +37,14 @@
  <table border="0" cellpadding="0" cellspacing="0" width="100%">
  <tr>
   <td><span class="FontNavbar">{$pageListing}</span></td>
-  <td align="right"><span class="FontNavbar"><a href="{$indexFile}?action=Posting&amp;mode=Reply&amp;topicID={$topicID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLS()}/AddReply.png" class="ImageButton" alt="{$modules.Language->getString('post_new_reply')}"/></a><a href="{$indexFile}?action=Posting&amp;mode=Topic&amp;forumID={$forumID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLS()}/AddTopic.png" class="ImageButton" alt="{$modules.Language->getString('post_new_topic')}"/></a></span></td>
+  <td align="right"><span class="FontNavbar"><a href="{$smarty.const.INDEXFILE}?action=Posting&amp;mode=Reply&amp;topicID={$topicID}&amp;{$smarty.const.MYSID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLS()}/AddReply.png" class="ImageButton" alt="{$modules.Language->getString('post_new_reply')}"/></a><a href="{$smarty.const.INDEXFILE}?action=Posting&amp;mode=Topic&amp;forumID={$forumID}&amp;{$smarty.const.MYSID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLS()}/AddTopic.png" class="ImageButton" alt="{$modules.Language->getString('post_new_topic')}"/></a></span></td>
  </tr>
  </table>
 </td></tr>
 </table>
 <br/>
 {if $topicData.topicHasPoll == 1}
-<form method="post" action="{$indexFile}?action=Vote&amp;topicID={$topicID}&amp;{$mySID}">
+<form method="post" action="{$smarty.const.INDEXFILE}?action=Vote&amp;topicID={$topicID}&amp;{$smarty.const.MYSID}">
 <table class="TableStd" width="100%">
  <tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('poll')}: {$topicData.topicPollTitle}</td></tr>
   {if $userAlreadyVoted || $modules.Auth->isloggedIn() != 1 && $topicData.topicPollGuestsVote != 1 || $pollHasEnded}
@@ -96,11 +96,11 @@
     <td align="right">
      <table border="0" cellpadding="0" cellspacing="0">
       <tr>
-       {if $curPost.show.deleteButton}<td><a href="{$indexFile}?action=Posting&amp;mode=Delete&amp;postID={$curPost.postID}&amp;returnPage={$page}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/delete.png" class="ImageButton" alt=""/></a></td>{/if}
+       {if $curPost.show.deleteButton}<td><a href="{$smarty.const.INDEXFILE}?action=Posting&amp;mode=Delete&amp;postID={$curPost.postID}&amp;returnPage={$page}&amp;{$smarty.const.MYSID}"><img src="{$modules.Template->getTD()}/images/buttons/de/delete.png" class="ImageButton" alt=""/></a></td>{/if}
        {if $curPost.show.editButton}<td><a href="javascript:toggleFastEdit('{$curPost.postID}');"><img src="{$modules.Template->getTD()}/images/buttons/de/test.png" alt="" class="ImageButton"/></a></td>{/if}
-       {if $curPost.show.editButton}<td><a href="{$indexFile}?action=Posting&amp;mode=Edit&amp;postID={$curPost.postID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/test.png" class="ImageButton" alt=""/></a></td>{/if}
-       {if $curPost.postPosterHideEmailAddress != 1 && $curPost.postPosterEmailAddress != ''}<td><a href="mailto:{$curPost.postPosterEmailAddress}"><img src="{$modules.Template->getTD()}/images/buttons/de/email.png" class="ImageButton" alt="{$curPost.postPosterEmailAddress}"/></a></td>{else}{if $curPost.postPosterReceiveEmails == 1}<td><a href="{$indexFile}?action=ViewProfile&amp;profileID={$curPost.posterID}&amp;mode=SendMail&amp;{$mySID}"><img src="{$modules.Template->getTemplateDir()}/images/buttons/de/email.png" alt="{$modules.Language->getString('send_email')}"/></a></td>{/if}{/if}
-       <td><a href="{$indexFile}?action=Posting&amp;mode=Reply&amp;topicID={$topicID}&amp;postIDQuote={$curPost.postID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/de/quote.png" class="ImageButton" alt=""/></a></td>
+       {if $curPost.show.editButton}<td><a href="{$smarty.const.INDEXFILE}?action=Posting&amp;mode=Edit&amp;postID={$curPost.postID}&amp;{$smarty.const.MYSID}"><img src="{$modules.Template->getTD()}/images/buttons/de/test.png" class="ImageButton" alt=""/></a></td>{/if}
+       {if $curPost.postPosterHideEmailAddress != 1 && $curPost.postPosterEmailAddress != ''}<td><a href="mailto:{$curPost.postPosterEmailAddress}"><img src="{$modules.Template->getTD()}/images/buttons/de/email.png" class="ImageButton" alt="{$curPost.postPosterEmailAddress}"/></a></td>{else}{if $curPost.postPosterReceiveEmails == 1}<td><a href="{$smarty.const.INDEXFILE}?action=ViewProfile&amp;profileID={$curPost.posterID}&amp;mode=SendMail&amp;{$smarty.const.MYSID}"><img src="{$modules.Template->getTemplateDir()}/images/buttons/de/email.png" alt="{$modules.Language->getString('send_email')}"/></a></td>{/if}{/if}
+       <td><a href="{$smarty.const.INDEXFILE}?action=Posting&amp;mode=Reply&amp;topicID={$topicID}&amp;postIDQuote={$curPost.postID}&amp;{$smarty.const.MYSID}"><img src="{$modules.Template->getTD()}/images/buttons/de/quote.png" class="ImageButton" alt=""/></a></td>
       </tr>
      </table>
     </td>
@@ -131,7 +131,7 @@
  <table border="0" cellpadding="0" cellspacing="0" width="100%">
  <tr>
   <td><span class="FontNavbar">{$pageListing}</span></td>
-  <td align="right"><span class="FontNavbar"><a href="{$indexFile}?action=Posting&amp;mode=Reply&amp;topicID={$topicID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLS()}/AddReply.png" class="ImageButton" alt="{$modules.Language->getString('post_new_reply')}"/></a><a href="{$indexFile}?action=Posting&amp;mode=Topic&amp;forumID={$forumID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLS()}/AddTopic.png" class="ImageButton" alt="{$modules.Language->getString('post_new_topic')}"/></a></span></td>
+  <td align="right"><span class="FontNavbar"><a href="{$smarty.const.INDEXFILE}?action=Posting&amp;mode=Reply&amp;topicID={$topicID}&amp;{$smarty.const.MYSID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLS()}/AddReply.png" class="ImageButton" alt="{$modules.Language->getString('post_new_reply')}"/></a><a href="{$smarty.const.INDEXFILE}?action=Posting&amp;mode=Topic&amp;forumID={$forumID}&amp;{$smarty.const.MYSID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLS()}/AddTopic.png" class="ImageButton" alt="{$modules.Language->getString('post_new_topic')}"/></a></span></td>
  </tr>
  </table>
 </td></tr>

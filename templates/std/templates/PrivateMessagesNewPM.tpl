@@ -18,7 +18,7 @@
 	<br/>
 {/if}
 
-<form method="post" action="{$indexFile}?action=PrivateMessages&amp;mode=NewPM&amp;doit=1&amp;{$mySID}" name="myForm">
+<form method="post" action="{$smarty.const.INDEXFILE}?action=PrivateMessages&amp;mode=NewPM&amp;doit=1&amp;{$smarty.const.MYSID}" name="myForm">
 <table class="TableStd" width="100%">
 <colgroup>
  <col width="20%"/>

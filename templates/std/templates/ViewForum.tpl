@@ -3,7 +3,7 @@
  <table border="0" cellpadding="0" cellspacing="0" width="100%">
  <tr>
   <td><span class="FontNavbar">{$pageListing}</span></td>
-  <td align="right"><span class="FontNavbar"><a href="{$indexFile}?action=Posting&amp;mode=Topic&amp;forumID={$forumID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLS()}/AddTopic.png" alt="{$modules.Language->getString('post_new_topic')}"/></a></span></td>
+  <td align="right"><span class="FontNavbar"><a href="{$smarty.const.INDEXFILE}?action=Posting&amp;mode=Topic&amp;forumID={$forumID}&amp;{$smarty.const.MYSID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLS()}/AddTopic.png" alt="{$modules.Language->getString('post_new_topic')}"/></a></span></td>
  </tr>
  </table>
 </td></tr>
@@ -22,7 +22,7 @@
    <tr onmouseover="setRowCellsClass(this,'CellHighlight');" onmouseout="restoreRowCellsClass(this);">
    <td class="CellAlt" width="20" align="center">&nbsp;</td>
    <td class="CellAlt" width="20" align="center">&nbsp;</td>
-   <td class="CellStd"><span class="FontNorm">{$curTopic._topicPrefix}</span><span class="topiclink"><a class="topiclink" href="{$indexFile}?action=ViewTopic&amp;topicID={$curTopic.topicID}&amp;{$mySID}">{$curTopic.topicTitle}</a></span></td>
+   <td class="CellStd"><span class="FontNorm">{$curTopic._topicPrefix}</span><span class="topiclink"><a class="topiclink" href="{$smarty.const.INDEXFILE}?action=ViewTopic&amp;topicID={$curTopic.topicID}&amp;{$smarty.const.MYSID}">{$curTopic.topicTitle}</a></span></td>
    <td class="CellAlt"><span class="FontNorm">{$curTopic._topicPosterNick}</span></td>
    <td class="CellStd" align="center"><span class="FontSmall">-</span></td>
    <td class="CellStd" align="center"><span class="FontSmall">-</span></td>
@@ -32,7 +32,7 @@
   <tr onmouseover="setRowCellsClass(this,'CellHighlight');" onmouseout="restoreRowCellsClass(this);">
    <td class="CellAlt" width="20" align="center"><img src="{$modules.Template->getTD()}/images/topic_{if $curTopic._newPostsAvailable == 1}on{else}off{/if}_{if $curTopic.topicIsClosed == 1}closed{else}open{if $curTopic._topicIsHot}_hot{/if}{/if}.gif" alt=""/></td>
    <td class="CellAlt" width="20" align="center">{if $curTopic._topicPic != ''}{$curTopic._topicPic}{else}&nbsp;{/if}</td>
-   <td class="CellStd"><span class="FontNorm">{$curTopic._topicPrefix}</span><span class="topiclink"><a class="topiclink" href="{$indexFile}?action=ViewTopic&amp;topicID={$curTopic.topicID}&amp;{$mySID}">{$curTopic.topicTitle}</a></span></td>
+   <td class="CellStd"><span class="FontNorm">{$curTopic._topicPrefix}</span><span class="topiclink"><a class="topiclink" href="{$smarty.const.INDEXFILE}?action=ViewTopic&amp;topicID={$curTopic.topicID}&amp;{$smarty.const.MYSID}">{$curTopic.topicTitle}</a></span></td>
    <td class="CellAlt"><span class="FontNorm">{$curTopic._topicPosterNick}</span></td>
    <td class="CellStd" align="center"><span class="FontSmall">{$curTopic.topicRepliesCounter}</span></td>
    <td class="CellStd" align="center"><span class="FontSmall">{$curTopic.topicViewsCounter}</span></td>
@@ -49,7 +49,7 @@
  <table border="0" cellpadding="0" cellspacing="0" width="100%">
  <tr>
   <td><span class="FontNavbar">{$pageListing}</span></td>
-  <td align="right"><span class="FontNavbar"><a href="{$indexFile}?action=Posting&amp;mode=Topic&amp;forumID={$forumID}&amp;{$mySID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLS()}/AddTopic.png" alt="{$modules.Language->getString('post_new_topic')}"/></a></span></td>
+  <td align="right"><span class="FontNavbar"><a href="{$smarty.const.INDEXFILE}?action=Posting&amp;mode=Topic&amp;forumID={$forumID}&amp;{$smarty.const.MYSID}"><img src="{$modules.Template->getTD()}/images/buttons/{$modules.Language->getLS()}/AddTopic.png" alt="{$modules.Language->getString('post_new_topic')}"/></a></span></td>
  </tr>
  </table>
 </td></tr>

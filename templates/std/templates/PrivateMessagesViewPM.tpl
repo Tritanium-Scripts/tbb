@@ -31,7 +31,7 @@
 		</table>
 	{/if}
  <br/>
- <form method="post" action="{$indexFile}?action=PrivateMessages&amp;mode=ViewPM&amp;pmID={$pmID}&amp;doit=1&amp;{$mySID}" name="tbb_form">
+ <form method="post" action="{$smarty.const.INDEXFILE}?action=PrivateMessages&amp;mode=ViewPM&amp;pmID={$pmID}&amp;doit=1&amp;{$smarty.const.MYSID}" name="tbb_form">
  <table class="TableStd" width="100%">
  <colgroup>
   <col width="20%"/>

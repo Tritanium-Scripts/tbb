@@ -1,4 +1,4 @@
-<form method="post" action="{$indexFile}?action=AdminUsers&amp;mode=EditUser&amp;userID={$userData.userID}&amp;doit=1&amp;{$mySID}">
+<form method="post" action="{$smarty.const.INDEXFILE}?action=AdminUsers&amp;mode=EditUser&amp;userID={$userData.userID}&amp;doit=1&amp;{$smarty.const.MYSID}">
 <table class="TableStd" width="100%">
 <tr><td class="CellTitle" colspan="2"><span class="FontTitle">{$modules.Language->getString('edit_user')}</span></td></tr>
 {if $error != ''}<tr><td class="CellError" colspan="2"><span class="FontError">{$error}</span></td></tr>{/if}
@@ -53,7 +53,7 @@
 </form>
 <br/>
 {if $userData.userIsLocked != 0}
- <form method="post" action="{$indexFile}?action=AdminUsers&amp;mode=UnlockUser&amp;userID={$userData.userID}&amp;{$mySID}">
+ <form method="post" action="{$smarty.const.INDEXFILE}?action=AdminUsers&amp;mode=UnlockUser&amp;userID={$userData.userID}&amp;{$smarty.const.MYSID}">
  <table class="TableStd" width="100%">
  <tr><td class="CellTitle" colspan="2"><span class="FontTitle">{$modules.Language->getString('unlock_user')}</span></td></tr>
  <tr>
@@ -69,7 +69,7 @@
  <br/>
  </form>
 {else}
- <form method="post" action="{$indexFile}?action=AdminUsers&amp;mode=LockUser&amp;userID={$userData.userID}&amp;{$mySID}">
+ <form method="post" action="{$smarty.const.INDEXFILE}?action=AdminUsers&amp;mode=LockUser&amp;userID={$userData.userID}&amp;{$smarty.const.MYSID}">
  <table class="TableStd" width="100%">
  <tr><td class="CellTitle" colspan="2"><span class="FontTitle">{$modules.Language->getString('lock_user')}</span></td></tr>
  <tr>
@@ -85,7 +85,7 @@
  </form>
  <br/>
 {/if}
-<form method="post" action="{$indexFile}?action=AdminUsers&amp;mode=DeleteUser&amp;userID={$userData.userID}&amp;{$mySID}">
+<form method="post" action="{$smarty.const.INDEXFILE}?action=AdminUsers&amp;mode=DeleteUser&amp;userID={$userData.userID}&amp;{$smarty.const.MYSID}">
 <table class="TableStd" width="100%">
  <tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('delete_user')}</span></td></tr>
  <tr><td class="CellStd"><span class="FontNorm"><label><input type="checkbox" name="c[deletePosts]" value="1"/>&nbsp;{$modules.Language->getString('delete_users_posts')}</label></span></td></tr>

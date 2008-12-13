@@ -1,4 +1,4 @@
-<form method="post" action="{$indexFile}?action=EditProfile&amp;mode=ExtendedProfile&amp;doit=1&amp;{$mySID}">
+<form method="post" action="{$smarty.const.INDEXFILE}?action=EditProfile&amp;mode=ExtendedProfile&amp;doit=1&amp;{$smarty.const.MYSID}">
 <table class="TableStd" width="100%">
 <tr><td class="CellCat"><span class="FontCat">{$modules.Language->getString('extended_profile')}</span></td></tr>
 {if $error != ''}<tr><td class="CellError"><span class="FontError">{$error}</span></td></tr>{/if}

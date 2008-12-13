@@ -1,4 +1,4 @@
-<form method="post" action="{$indexFile}?action=EditProfile&amp;mode=Memo&amp;doit=1&amp;{$mySID}">
+<form method="post" action="{$smarty.const.INDEXFILE}?action=EditProfile&amp;mode=Memo&amp;doit=1&amp;{$smarty.const.MYSID}">
 <table class="TableStd" width="100%">
 <tr><td class="CellCat"><span class="FontCat">{$modules.Language->getString('memo')}</span></td></tr>
 <tr><td class="CellStd">
