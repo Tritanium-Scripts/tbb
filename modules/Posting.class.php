@@ -35,6 +35,7 @@ class Posting extends ModuleTemplate {
 		}
 
 		$this->modules['Language']->addFile('Posting');
+		$this->modules['Language']->addFile('ViewTopic');
 
 		$authData = $this->_authenticateUser($mode,$forumData);
 		
@@ -398,6 +399,8 @@ class Posting extends ModuleTemplate {
 				$this->modules['Navbar']->addCategories($forumData['catID']);
 				$this->modules['Navbar']->addElement(Functions::HTMLSpecialChars($forumData['forumName']),INDEXFILE.'?action=ViewForum&amp;forumID='.$forumID.'&amp;'.MYSID);
 
+				$latestPostsData = NULL;
+
 				if($mode == 'Topic') {
 					$actionText = $this->modules['Language']->getString('post_topic');
 					$this->modules['Navbar']->addElement($this->modules['Language']->getString('post_topic'),INDEXFILE.'?action=Posting&amp;mode=Topic&amp;forumID='.$forumID.'&amp;'.MYSID);
@@ -408,6 +411,36 @@ class Posting extends ModuleTemplate {
 						array(Functions::HTMLSpecialChars($topicData['topicTitle']),INDEXFILE.'?action=ViewTopic&amp;topicID='.$topicID.'&amp;'.MYSID),
 						array($this->modules['Language']->getString('post_reply'),INDEXFILE.'?action=Posting&amp;mode=Reply&amp;topicID='.$topicID.'&amp;'.MYSID)
 					);
+
+					$this->modules['DB']->queryParams('
+						SELECT
+							t1.*,
+							t2."userEmailAddress" AS "postPosterEmailAddress",
+							t2."userNick" AS "postPosterNick",
+							t2."userSignature" AS "postPosterSignature",
+							t2."userIsAdmin" AS "postPosterIsAdmin",
+							t2."userIsSupermod" AS "postPosterIsSupermod",
+							t2."userPostsCounter" AS "postPosterPosts",
+							t2."rankID" AS "postPosterRankID",
+							t2."userAvatarAddress" AS "postPosterAvatarAddress",
+							t2."userHideEmailAddress" AS "postPosterHideEmailAddress",
+							t2."userReceiveEmails" AS "postPosterReceiveEmails",
+							t3."smileyFileName" AS "postSmileyFileName"
+						FROM '.TBLPFX.'posts t1
+						LEFT JOIN '.TBLPFX.'users t2 ON t1."posterID"=t2."userID"
+						LEFT JOIN '.TBLPFX.'smilies t3 ON t3."smileyID"=t1."smileyID"
+						WHERE t1."topicID"=$1
+						ORDER BY t1."postTimestamp" DESC LIMIT 10
+					', array(
+						$topicID
+					));
+					$latestPostsData = $this->modules['DB']->raw2Array();
+
+					foreach($latestPostsData AS &$curPost) {
+						$curPost['_postDateTime'] = Functions::toDateTime($curPost['postTimestamp']);
+						$curPost['_postPosterNick'] = ($curPost['posterID'] == 0 ? $curPost['postGuestNick'] : '<a href="'.INDEXFILE.'?action=ViewProfile&amp;profileID='.$curPost['posterID'].'&amp;'.MYSID.'">'.$curPost['postPosterNick'].'</a>');
+						$curPost['_postText'] = $this->modules['BBCode']->format($curPost['postText'], ($curPost['postEnableHtmlCode'] == 1 || $forumData['forumEnableHtmlCode'] == 1), ($curPost['postEnableSmilies'] == 1 && $forumData['forumEnableSmilies'] == 1), ($curPost['postEnableBBCode'] == 1 && $forumData['forumEnableBBCode'] == 1));
+					}
 				}
 				elseif($mode == 'Edit') {
 					$actionText = $this->modules['Language']->getString('edit_post');
@@ -435,7 +468,8 @@ class Posting extends ModuleTemplate {
 					'error'=>$error,
 					'postPicsBox'=>$postPicsBox,
 					'smiliesBox'=>$smiliesBox,
-					'previewData'=>$previewData
+					'previewData'=>$previewData,
+					'latestPostsData'=>$latestPostsData
 				));
 				$this->modules['Template']->printPage('Posting.tpl');
 				break;

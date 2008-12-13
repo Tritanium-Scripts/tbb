@@ -137,6 +137,24 @@
 {/if}
 <tr><td class="CellButtons" colspan="2" align="center"><input class="FormButton" type="submit" value="{$actionText}"/>&nbsp;&nbsp;&nbsp;<input class="FormBButton" type="submit" name="showPreview" value="{$modules.Language->getString('preview')}"/>&nbsp;&nbsp;&nbsp;<input class="FormButton" type="reset" value="{$modules.Language->getString('reset')}"/></td></tr>
 </table></form>
+{if $mode == 'Reply'}
+	<br/>
+	<table class="TableStd">
+		<colgroup>
+			<col width="15%"/>
+			<col width="85%"/>
+		</colgroup>
+		<tr><td class="CellTitle" colspan="2"><span class="FontTitle">{$modules.Language->getString('latest_posts_in_topic')}</span></td></tr>
+		{foreach from=$latestPostsData item=curPost}
+			<tr>
+				<td class="CellAlt" width="15%" valign="top" rowspan="3"><span class="FontNorm"><b>{$curPost._postPosterNick}</b></span></td>
+				<td class="CellAlt" width="85%" valign="middle">{if $curPost.postSmileyFileName != ''}<span style="margin-right:4px;"><img src="{$curPost.postSmileyFileName}" alt=""/></span>{/if}<span class="FontSmall"><a id="post{$curPost.postID}" name="post{$curPost.postID}"></a><b>{$curPost.postTitle}</b></span></td>
+			</tr>
+			<tr><td class="CellStd"><div class="FontNorm" style="min-height:50px;">{$curPost._postText}</div></td></tr>
+			<tr><td class="CellStd" width="85%"><span class="FontSmall">{$modules.Language->getString('posted')}: {$curPost._postDateTime}</span></td></tr>
+		{/foreach}
+	</table>
+{/if}
 <script type="text/javascript">
 	if(RowsCounter == 0) addPollOption();
 </script>
