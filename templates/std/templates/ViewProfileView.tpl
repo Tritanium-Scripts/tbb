@@ -62,8 +62,8 @@
 <tr><td class="CellStd"><span class="FontNorm">{$curField.fieldName}:</span></td><td class="CellAlt"><span class="FontNorm">{$curField._fieldValue}</span></td></tr>
 {/if}
 {/foreach}
-<tr><td class="CellAlt" colspan="2"><span class="FontNorm">[<a href="{$smarty.const.INDEXFILE}?action=Search&amp;p[searchAuthorPosts]={$profileData.userID}&amp;doit=1&amp;p[displayResults]=posts">{$profileData._searchPostsText}</a>]</span></td></tr>
-<tr><td class="CellAlt" colspan="2"><span class="FontNorm">[<a href="{$smarty.const.INDEXFILE}?action=Search&amp;p[searchAuthorTopics]={$profileData.userID}&amp;doit=1">{$profileData._searchTopicsText}</a>]</span></td></tr>
+<tr><td class="CellAlt" colspan="2"><span class="FontNorm">[<a href="{$smarty.const.INDEXFILE}?action=Search&amp;p[searchAuthorPosts]={$profileData.userID}&amp;doit=1&amp;p[displayResults]=posts&amp;{$smarty.const.MYSID}">{$profileData._searchPostsText}</a>]</span></td></tr>
+<tr><td class="CellAlt" colspan="2"><span class="FontNorm">[<a href="{$smarty.const.INDEXFILE}?action=Search&amp;p[searchAuthorTopics]={$profileData.userID}&amp;doit=1&amp;{$smarty.const.MYSID}">{$profileData._searchTopicsText}</a>]</span></td></tr>
 </table>
 {if $show.notesTable}
  <br/>
