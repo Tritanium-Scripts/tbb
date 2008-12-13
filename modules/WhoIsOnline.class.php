@@ -11,7 +11,6 @@ class WhoIsOnline extends ModuleTemplate {
 
 	public function executeMe() {
 		if($this->modules['Config']->getValue('enable_wio') != 1) {
-			$this->modules['Navbar']->addElement($this->modules['Language']->getString('function_deactivated'));
 			FuncMisc::printMessage('function_deactivated');
 			exit;
 		}
