@@ -319,6 +319,8 @@ class Search extends ModuleTemplate {
 			$this->modules['DB']->queryParams('
 				SELECT
 					t1."postID",
+					t1."topicID",
+					t1."forumID",
 					t1."postTitle",
 					t1."posterID",
 					t1."postTimestamp",
@@ -328,17 +330,21 @@ class Search extends ModuleTemplate {
 					t1."postEnableSmilies",
 					t1."postEnableBBCode",
 					t2."userNick" AS "posterNick",
+					t3."forumName",
 					t3."forumEnableBBCode",
 					t3."forumEnableSmilies",
-					t3."forumEnableHtmlCode"
+					t3."forumEnableHtmlCode",
+					t4."topicTitle"
 				FROM (
-					'.TBLPFX.'posts t1
+					'.TBLPFX.'posts t1,
+					'.TBLPFX.'topics t4
 				)
 				LEFT JOIN '.TBLPFX.'users t2 ON t1."posterID"=t2."userID"
 				LEFT JOIN '.TBLPFX.'forums t3 ON t1."forumID"=t3."forumID"
 				WHERE
 					t1."postID" IN $1
 					AND t1."forumID" IN $2
+					AND t1."topicID"=t4."topicID"
 				ORDER BY '.$querySortType.' '.$sortMethod.'
 				LIMIT '.intval($start).','.intval($resultsPerPage).'
 			',array(

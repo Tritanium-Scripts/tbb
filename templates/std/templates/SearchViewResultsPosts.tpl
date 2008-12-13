@@ -9,11 +9,12 @@
 			<td class="CellTitle"><span class="FontTitleSmall">{$modules.Language->getString('post')}</span></td>
 		</tr>
 		{foreach from=$postsData item=curPost}
+			<tr><td colspan="2" class="CellCat"><span class="FontCat">{$modules.Language->getString('topic')}: <a href="{$smarty.const.INDEXFILE}?action=ViewTopic&amp;topicID={$curPost.topicID}&amp;{$smarty.const.MYSID}">{$curPost.topicTitle}</a> ({$modules.Language->getString('forum')}: <a href="{$smarty.const.INDEXFILE}?action=ViewForum&amp;forumID={$curPost.forumID}&amp;{$smarty.const.MYSID}">{$curPost.forumName}</a>)</span></td></tr>
 			<tr>
 				<td class="CellAlt" valign="top" rowspan="3"><span class="FontNorm"><b>{$curPost._postPoster}</b></span></td>
 				<td class="CellAlt" valign="middle"><span class="FontSmall"><a id="post{$curPost.postID}" name="post{$curPost.postID}"></a><b>{$curPost.postTitle}</b></span></td>
 			</tr>
-			<tr><td class="CellStd"><div class="FontNorm">{$curPost._postText}</div></td></tr>
+			<tr><td class="CellStd"><div class="FontNorm" style="overflow:auto; width:100%; max-height:400px;">{$curPost._postText}</div></td></tr>
 			<tr><td class="CellStd" width="85%"><span class="FontSmall">{$modules.Language->getString('posted')}: {$curPost._postDateTime}</span></td></tr>
 		{/foreach}
 		<tr>
