@@ -438,7 +438,7 @@ class Posting extends ModuleTemplate {
 
 					foreach($latestPostsData AS &$curPost) {
 						$curPost['_postDateTime'] = Functions::toDateTime($curPost['postTimestamp']);
-						$curPost['_postPosterNick'] = ($curPost['posterID'] == 0 ? $curPost['postGuestNick'] : '<a href="'.INDEXFILE.'?action=ViewProfile&amp;profileID='.$curPost['posterID'].'&amp;'.MYSID.'">'.$curPost['postPosterNick'].'</a>');
+						$curPost['_postPosterNick'] = ($curPost['posterID'] == 0 ? $curPost['postGuestNick'] : $curPost['postPosterNick']);
 						$curPost['_postText'] = $this->modules['BBCode']->format($curPost['postText'], ($curPost['postEnableHtmlCode'] == 1 || $forumData['forumEnableHtmlCode'] == 1), ($curPost['postEnableSmilies'] == 1 && $forumData['forumEnableSmilies'] == 1), ($curPost['postEnableBBCode'] == 1 && $forumData['forumEnableBBCode'] == 1));
 					}
 				}
