@@ -437,13 +437,14 @@ class AdminUsers extends ModuleTemplate {
 					$lockEndTime = ($p['lockTime'] == -1 ? $lockStartTime : $lockStartTime+$p['lockTime']*3600);
 
 					$this->modules['DB']->queryParams('
-						INSERT INTO
-							'.TBLPFX.'users_locks
+						UPDATE
+							'.TBLPFX.'users
 						SET
-							"userID"=$1,
-							"lockType"=$2,
-							"lockStartTimestamp"=$3,
-							"lockEndTimestamp"=$4
+							"userIsLocked"=$2,
+							"userLockStartTimestamp"=$3,
+							"userLockEndTimestamp"=$4
+						WHERE
+							"userID"=$1
 					', array(
 						$userID,
 						$p['lockType'],
@@ -461,8 +462,7 @@ class AdminUsers extends ModuleTemplate {
 
 				if(!$userData = FuncUsers::getUserData($userID)) die('Cannot load data: user');
 
-				$this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'users_locks WHERE "userID"=$1', array($userID));
-				$this->modules['DB']->queryParams('UPDATE '.TBLPFX.'users SET "userIsLocked"=0 WHERE "userID"=$1', array($userID));
+				$this->modules['DB']->queryParams('UPDATE '.TBLPFX.'users SET "userIsLocked"=$2 WHERE "userID"=$1', array($userID),LOCK_TYPE_NO_LOCK);
 
 				Functions::myHeader(INDEXFILE."?action=AdminUsers&mode=EditUser&userID=$userID&".MYSID);
 			break;

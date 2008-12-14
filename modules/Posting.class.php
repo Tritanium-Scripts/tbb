@@ -36,12 +36,21 @@ class Posting extends ModuleTemplate {
 
 		$this->modules['Language']->addFile('Posting');
 		$this->modules['Language']->addFile('ViewTopic');
+		$this->modules['Language']->addFile('Messages');
 
 		$authData = $this->_authenticateUser($mode,$forumData);
 		
 		// You don't need to check if the user is still locked because if so the lock was removed in Auth.class.php
 		if($this->modules['Auth']->getValue('userIsLocked') == LOCK_TYPE_NO_POSTING) {
-			FuncMisc::printMessage('access_denied'); exit;
+			if($this->modules['Auth']->getValue('userLockStartTimestamp') == $this->modules['Auth']->getValue('userLockEndTimestamp'))
+				FuncMisc::printMessage('locked_forever_no_posts');
+			else
+				FuncMisc::printMessage(array(
+					$this->modules['Language']->getString('message_title_locked_until_no_posts'),
+					sprintf($this->modules['Language']->getString('message_text_locked_until_no_posts'), Functions::toDateTime($this->modules['Auth']->getValue('userLockEndTimestamp')))
+				));
+
+			exit;
 		}
 		if($mode == 'Reply' && $topicData['topicIsClosed'] == 1 && $authData['authIsMod'] != 1 && $this->modules['Auth']->getValue('userIsSuperadmin') && $this->modules['Auth']->getValue('userIsSupermod')) {
 			FuncMisc::printMessage('topic_closed'); exit;
