@@ -180,18 +180,14 @@ class AdminUsers extends ModuleTemplate {
 				 * Handle user lock
 				 */
 				if($userData['userIsLocked'] != LOCK_TYPE_NO_LOCK && FuncUsers::checkLockStatus($userData)) {
-					$this->modules['DB']->queryParams('SELECT * FROM '.TBLPFX.'users_locks WHERE "userID"=$1', array($userID));
-					$lockData = $this->modules['DB']->fetchArray();
-
-					if($lockData['lockStartTimestamp'] == $lockData['lockEndTimestamp'])
+					if($userData['userLockStartTimestamp'] == $userData['userLockEndTimestamp'])
 						$remainingLockTime = $this->modules['Language']->getString('locked_forever');
 					else {
-						$remainingLockTime = FuncDate::splitTime($lockData['lockEndTimestamp']-time());
+						$remainingLockTime = FuncDate::splitTime($userData['userLockEndTimestamp']-time());
 						$remainingLockTime = sprintf($this->modules['Language']->getString('time_left'),$remainingLockTime['days'],$remainingLockTime['hours'],$remainingLockTime['minutes']);
 					}
 
 					$this->modules['Template']->assign(array(
-						'lockData'=>$lockData,
 						'remainingLockTime'=>$remainingLockTime
 					));
 				} else {
