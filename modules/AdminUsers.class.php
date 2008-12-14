@@ -458,7 +458,7 @@ class AdminUsers extends ModuleTemplate {
 
 				if(!$userData = FuncUsers::getUserData($userID)) die('Cannot load data: user');
 
-				$this->modules['DB']->queryParams('UPDATE '.TBLPFX.'users SET "userIsLocked"=$2 WHERE "userID"=$1', array($userID),LOCK_TYPE_NO_LOCK);
+				$this->modules['DB']->queryParams('UPDATE '.TBLPFX.'users SET "userIsLocked"=$2 WHERE "userID"=$1', array($userID,LOCK_TYPE_NO_LOCK));
 
 				Functions::myHeader(INDEXFILE."?action=AdminUsers&mode=EditUser&userID=$userID&".MYSID);
 			break;
