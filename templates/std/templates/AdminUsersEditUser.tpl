@@ -52,13 +52,13 @@
 </table>
 </form>
 <br/>
-{if $userData.userIsLocked != 0}
+{if $userData.userIsLocked != $smarty.const.LOCK_TYPE_NO_LOCK}
  <form method="post" action="{$smarty.const.INDEXFILE}?action=AdminUsers&amp;mode=UnlockUser&amp;userID={$userData.userID}&amp;{$smarty.const.MYSID}">
  <table class="TableStd" width="100%">
  <tr><td class="CellTitle" colspan="2"><span class="FontTitle">{$modules.Language->getString('unlock_user')}</span></td></tr>
  <tr>
   <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('ban_type')}:</span></td>
-  <td class="CellAlt"><span class="FontNorm">{if $userData.userisLocked == 1}{$modules.Language->getString('user_must_not_login')}{else}{$modules.Language->getString('user_must_not_write')}{/if}</span></td>
+  <td class="CellAlt"><span class="FontNorm">{if $userData.userIsLocked == 1}{$modules.Language->getString('user_must_not_login')}{else}{$modules.Language->getString('user_must_not_write')}{/if}</span></td>
  </tr>
  <tr>
   <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('remaining_lock_time')}:</span></td>
