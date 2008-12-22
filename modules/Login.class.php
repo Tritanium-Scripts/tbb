@@ -38,21 +38,10 @@ class Login extends ModuleTemplate {
 					}
 					elseif(Functions::getSaltedHash($p['userPassword'],$userData['userPasswordSalt']) != $userData['userPassword'] && ($userData['userNewPassword'] == '' || Functions::getSaltedHash($p['userPassword'],$userData['userNewPasswordSalt']) != $userData['userNewPassword'])) $error = $this->modules['Language']->getString('error_wrong_password');
 					elseif($userData['userIsLocked'] == LOCK_TYPE_NO_LOGIN && FuncUsers::checkLockStatus($userData)) { // Falls der Benutzer sich nicht mehr einloggen darf
-						if($userData['userLockStartTimestamp'] == $userData['userLockEndTimestamp']) $remainingLockTime = $this->modules['Language']->getString('locked_forever');
-						else {
-							$remainingLockTime = Functions::splitTime($userData['userLockEndTimestamp']-$userData['userLockStartTimestamp']);
-
-							$remainingMonths = sprintf($this->modules['Language']->getString('x_months'),$remainingLockTime['months']);
-							$remainingWeeks = sprintf($this->modules['Language']->getString('x_weeks'),$remainingLockTime['weeks']);
-							$remainingDays = sprintf($this->modules['Language']->getString('x_days'),$remainingLockTime['days']);
-							$remainingHours = sprintf($this->modules['Language']->getString('x_hours'),$remainingLockTime['hours']);
-							$remainingMinutes = sprintf($this->modules['Language']->getString('x_minutes'),$remainingLockTime['minutes']);
-							$remainingSeconds = sprintf($this->modules['Language']->getString('x_seconds'),$remainingLockTime['seconds']);
-
-							$remainingLockTime = "$remainingMonths, $remainingWeeks, $remainingDays, $remainingHours, $remainingMinutes, $remainingSeconds";
-						}
-
-						$error = sprintf($this->modules['Language']->getString('error_locked_account'),$remainingLockTime);
+						if($userData['userLockStartTimestamp'] == $userData['userLockEndTimestamp'])
+							$error = $this->modules['Language']->getString('error_account_locked_forever');
+						else
+							$error = sprintf($this->modules['Language']->getString('error_account_locked_until'), Functions::toDateTime($userData['userLockEndTimestamp']));
 					}
 					else {
 						//
