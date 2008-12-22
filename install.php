@@ -768,6 +768,7 @@ class BoardInstall {
 
 					$selectOptions[] = array('2',$this->strings['use_existing_data']);
 					$selectOptions[] = array('1',$this->strings['change_database_configuration']);
+					$selectOptions[] = array('4',$this->strings['delete_existing_data_and_transfer_tbb1_data']);
 					$selectOptions[] = array('0',$this->strings['delete_existing_data']);
 
 					break;
@@ -823,6 +824,11 @@ class BoardInstall {
 							<?php
 	
 							$this->printTail(); exit;
+						}
+						elseif($_POST['p_action'] == '4') {
+							$this->keepExistingData = FALSE;
+							$this->transferTBB1Data = TRUE;
+							Functions::myHeader(INSTALLFILE.'?step=6'.MYSID);
 						}
 					}
 				}
@@ -2229,7 +2235,7 @@ class BoardInstall {
 		$this->language = $languageCode;
 
 		$this->parseLanguageFile('languages/'.$languageCode.'/Install.ini');
-		#$this->parseLanguageFile('languages/'.$languageCode.'/Main.ini'); //TODO? Main.ini wird nicht mehr benötigt, html_lang und html_dir in Install.ini aufgenommen
+		#$this->parseLanguageFile('languages/'.$languageCode.'/Main.ini'); //TODO? Main.ini wird nicht mehr benï¿½tigt, html_lang und html_dir in Install.ini aufgenommen
 	}
 
 	protected function parseLanguageFile($languageFile)
