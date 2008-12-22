@@ -134,6 +134,9 @@
   </table>
   </td>
  </tr>
+ <script type="text/javascript">
+	if(RowsCounter == 0) addPollOption();
+ </script>
 {/if}
 <tr><td class="CellButtons" colspan="2" align="center"><input class="FormButton" type="submit" value="{$actionText}"/>&nbsp;&nbsp;&nbsp;<input class="FormBButton" type="submit" name="showPreview" value="{$modules.Language->getString('preview')}"/>&nbsp;&nbsp;&nbsp;<input class="FormButton" type="reset" value="{$modules.Language->getString('reset')}"/></td></tr>
 </table></form>
@@ -155,6 +158,3 @@
 		{/foreach}
 	</table>
 {/if}
-<script type="text/javascript">
-	if(RowsCounter == 0) addPollOption();
-</script>
