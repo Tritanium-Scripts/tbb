@@ -86,7 +86,7 @@
 {/if}
 <tr>
  <td class="CellStd" valign="top"><span class="FontNorm">{$modules.Language->getString('post')}:</span><br/><br/>{$smiliesBox}</td>
- <td class="CellAlt"><textarea class="FormTextArea" name="p[messageText]" rows="14" cols="80" id="messageBox">{$p.messageText}</textarea></td>
+ <td class="CellAlt"><div style="float:left;"><textarea class="FormTextArea" name="p[messageText]" rows="14" cols="80" id="messageBox">{$p.messageText}</textarea></div>{if $show.adminSmilies}<div style="float:left; padding-left:3px;"><span class="FontNorm">{$modules.Language->getString('admin_moderator_smilies')}</span><br/><br/>{$adminSmiliesBox}</div>{/if}</td>
 </tr>
 <tr>
  <td class="CellStd" valign="top"><span class="FontNorm">{$modules.Language->getString('options')}:</span></td>

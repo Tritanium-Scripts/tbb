@@ -265,6 +265,15 @@ class Functions {
 		return $Template->fetch('SmiliesBox.tpl');
 	}
 
+	public static function getAdminSmiliesBox() {
+		$Cache = Factory::singleton('Cache');
+		$Template = Factory::singleton('Template');
+
+		$Template->assign('smiliesData', $Cache->getAdminSmiliesData());
+
+		return $Template->fetch('SmiliesBox.tpl');
+	}
+
 	public static function getAuthData(&$forumData,$authNames) {
 		$authData = array();
 		$Auth = Factory::singleton('Auth');

@@ -386,15 +386,19 @@ class Posting extends ModuleTemplate {
 				$show['enableHtmlCode'] = $forumData['forumEnableHtmlCode'] == 1;
 				$show['subscribeTopic'] = $mode != 'Edit' && $this->modules['Auth']->isLoggedIn() == 1 && $this->modules['Config']->getValue('enable_email_functions') == 1 && $this->modules['Config']->getValue('enable_topic_subscription') == 1;
 				$show['closeTopic'] = $mode != 'Edit' && $this->modules['Auth']->isLoggedIn() == 1 && ($this->modules['Auth']->getValue('userIsAdmin') == 1 || $this->modules['Auth']->getValue('userIsSupermod') == 1 || $authData['authIsMod'] == 1);
+				$show['adminSmilies'] = $this->modules['Auth']->isLoggedIn() == 1 && ($this->modules['Auth']->getValue('userIsAdmin') == 1 || $this->modules['Auth']->getValue('userIsSupermod') == 1 || $authData['authIsMod'] == 1);
 				$show['pinTopic'] = $mode != 'Edit' && $this->modules['Auth']->isLoggedIn() == 1 && ($this->modules['Auth']->getValue('userIsAdmin') == 1 || $this->modules['Auth']->getValue('userIsSupermod') == 1 || $authData['authIsMod'] == 1);
 				$show['showEditings'] = $this->modules['Auth']->isLoggedIn() == 1 && ($this->modules['Auth']->getValue('userIsAdmin') == 1 || $this->modules['Auth']->getValue('userIsSupermod') == 1 || $authData['authIsMod'] == 1);
 				$show['pollBox'] = $mode == 'Topic' && ($this->modules['Auth']->getValue('userIsAdmin') == 1 || $this->modules['Auth']->getValue('userIsSupermod') == 1 || $authData['authIsMod'] == 1 || $authData['authPostPoll'] == 1);
 				$show['previewBox'] = isset($_POST['showPreview']);
 
-				// Beitragsbilder laden
-				$smiliesBox = '';
+				// smilies, topic pics
+				$smiliesBox = $adminSmiliesBox = '';
 				if($show['enableSmilies'])
 					$smiliesBox = Functions::getSmiliesBox();
+				if($show['adminSmilies'])
+					$adminSmiliesBox = Functions::getAdminSmiliesBox();
+
 				$postPicsBox = Functions::getPostPicsBox($p['smileyID']);
 
 				// Die Vorschau
@@ -477,6 +481,7 @@ class Posting extends ModuleTemplate {
 					'error'=>$error,
 					'postPicsBox'=>$postPicsBox,
 					'smiliesBox'=>$smiliesBox,
+					'adminSmiliesBox'=>$adminSmiliesBox,
 					'previewData'=>$previewData,
 					'latestPostsData'=>$latestPostsData
 				));
