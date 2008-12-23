@@ -32,16 +32,8 @@
  <option value="+2">{$modules.Language->getString('size_up2')}</option>
  <option value="+3">{$modules.Language->getString('size_up3')}</option>
  <option value="+4">{$modules.Language->getString('size_up4')}</option>
-</select><br />
-<input class="FormBBCodeButton" type="button" value="{$modules.Language->getString('quote')}" onclick="insert('[quote]','[/quote]');"/>
-<input class="FormBBCodeButton" type="button" value="Code" onclick="insert('[code]','[/code]');"/>
-<input class="FormBBCodeButton" type="button" value="PHP" onclick="insert('[php]','[/php]');"/>
-<input class="FormBBCodeButton" type="button" value="Center" onclick="insert('[center]','[/center]');"/>
-<input class="FormBBCodeButton" type="button" value="{$modules.Language->getString('list')}" onclick="insert('[list]\n[*]','\n[/list]');"/>
-<input class="FormBBCodeButton" type="button" value="Flash" onclick="insert('[flash]','[/flash]');"/>
-<input class="FormBBCodeButton" type="button" value="SUP" onclick="insert('[sup]','[/sup]');"/>
-<input class="FormBBCodeButton" type="button" value="SUB" onclick="insert('[sub]','[/sub]');"/>
-{*<select class="FormSelect" onchange="if(this.options[this.options.selectedIndex].value != '') insert('[glow=' + this.options[this.options.selectedIndex].value + ']', '[/glow]');">
+</select>{*
+<select class="FormSelect" onchange="if(this.options[this.options.selectedIndex].value != '') insert('[glow=' + this.options[this.options.selectedIndex].value + ']', '[/glow]');">
  <option value="">{$modules.Language->getString('font_glow')}</option>
  <option value="#FF0000" style="background-color:#FF0000; color:#FF0000;">{$modules.Language->getString('red')}</option>
  <option value="#FFFF00" style="background-color:#FFFF00; color:#FFFF00;">{$modules.Language->getString('yellow')}</option>
@@ -54,4 +46,13 @@
  <option value="#FFFF00" style="background-color:#FFFF00; color:#FFFF00;">{$modules.Language->getString('yellow')}</option>
  <option value="#008000" style="background-color:#008000; color:#008000;">{$modules.Language->getString('green')}</option>
  <option value="#0000FF" style="background-color:#0000FF; color:#0000FF;">{$modules.Language->getString('blue')}</option>
-</select>*}
+</select>*}<br />
+<input class="FormBBCodeButton" type="button" value="{$modules.Language->getString('quote')}" onclick="insert('[quote]','[/quote]');"/>
+<input class="FormBBCodeButton" type="button" value="Code" onclick="insert('[code]','[/code]');"/>
+<input class="FormBBCodeButton" type="button" value="PHP" onclick="insert('[php]','[/php]');"/>
+<input class="FormBBCodeButton" type="button" value="Center" onclick="insert('[center]','[/center]');"/>
+<input class="FormBBCodeButton" type="button" value="{$modules.Language->getString('list')}" onclick="insert('[list]\n[*]','\n[/list]');"/>
+<input class="FormBBCodeButton" type="button" value="Flash" onclick="insert('[flash]','[/flash]');"/>
+<input class="FormBBCodeButton" type="button" value="SUP" onclick="insert('[sup]','[/sup]');"/>
+<input class="FormBBCodeButton" type="button" value="SUB" onclick="insert('[sub]','[/sub]');"/>
+<input class="FormBBCodeButton" type="button" value="{$modules.Language->getString('spoiler')}" onclick="insert('[hide]','[/hide]');"/>

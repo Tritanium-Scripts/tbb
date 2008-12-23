@@ -42,6 +42,11 @@
  <sup>{$b.superText}</sup>
 {elseif $b.bbCodeType == $smarty.const.BBCODE_SUBSCRIPT}
  <sub>{$b.subText}</sub>
+{elseif $b.bbCodeType == $smarty.const.BBCODE_SPOILER}
+ <div>
+  <b>{$modules.Language->getString('spoiler')}:</b> <input class="FormBBCodeButton" type="button" value="{$modules.Language->getString('uncover')}" onclick="(s = this.parentNode.getElementsByTagName('div')[0].style).display = s.display == 'none' ? '' : 'none'; this.value= this.value == '{$modules.Language->getString('uncover')}' ? '{$modules.Language->getString('hide')}' : '{$modules.Language->getString('uncover')}';" />
+  <div style="border:1px inset; display:none; padding:5px;">{$b.spoilerText}</div>
+ </div>
 {elseif $b.bbCodeType == $smarty.const.BBCODE_EMAIL}
  <a href="mailto:{$b.emailAddress}">{$b.emailAddress}</a>
 {elseif $b.bbCodeType == $smarty.const.BBCODE_CENTER}
