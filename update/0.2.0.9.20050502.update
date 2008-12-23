@@ -478,7 +478,7 @@ $this->DB->query('
 		CHANGE "user_email" "userEmailAddress" varchar(255) NOT NULL default \'\',
 		CHANGE "user_pw" "userPassword" varchar(255) NOT NULL default \'\',
 		ADD "userPasswordSalt" varchar(255) NOT NULL default \'\' AFTER "userPassword",
-		CHANGE "user_new_pw" "userNewPassword" varchar(255) NOT NULL default \'\',
+		CHANGE "user_new_pw" "userNewPassword" varchar(255) NOT NULL default \'\' AFTER "userPasswordSalt",
 		ADD "userNewPasswordSalt" varchar(255) NOT NULL default \'\' AFTER "userNewPassword",
 		CHANGE "user_posts" "userPostsCounter" mediumint(8) unsigned NOT NULL default \'0\',
 		CHANGE "user_regtime" "userRegistrationTimestamp" int(10) unsigned NOT NULL default \'0\',

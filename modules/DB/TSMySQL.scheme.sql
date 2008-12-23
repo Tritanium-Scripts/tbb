@@ -149,8 +149,8 @@ CREATE TABLE /*!32312 IF NOT EXISTS*/ "/*TABLEPREFIX*/posts" (
   PRIMARY KEY  ("postID"),
   KEY "topicID" ("topicID"),
   KEY "posterID" ("posterID"),
-  KEY "postTimestamp" ("postTimestamp"),
-  KEY "forumIDPostID" ("forumID","postID")
+  KEY "forumIDPostID" ("forumID","postID"),
+  KEY "postTimestamp" ("postTimestamp")
 ) /*!40100 DEFAULT CHARSET=utf8*/;
 
 CREATE TABLE /*!32312 IF NOT EXISTS*/ "/*TABLEPREFIX*/profile_fields" (
