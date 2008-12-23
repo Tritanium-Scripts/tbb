@@ -569,4 +569,4 @@ $this->DB->query('ALTER TABLE '.TBLPFX.'topics_subscriptions CONVERT TO CHARACTE
 $this->DB->query('ALTER TABLE '.TBLPFX.'users CONVERT TO CHARACTER SET utf8');
 $this->DB->query('ALTER TABLE '.TBLPFX.'users_locks CONVERT TO CHARACTER SET utf8');
 
-$nextUpdateFile = '0.2.1';
+$nextUpdateFile = '0.2.1.update';
