@@ -978,7 +978,7 @@ class BoardInstall {
 						$this->DB->queryParams('UPDATE '.$_SESSION['tablePrefix'].'config SET "configValue"=$1 WHERE "configName"=\'enable_file_upload\'',array($p['enableFileUpload']));
 						$this->DB->queryParams('UPDATE '.$_SESSION['tablePrefix'].'config SET "configValue"=$1 WHERE "configName"=\'enable_avatar_upload\'',array($p['enableAvatarUpload']));
 
-						if(!$this->existingInstallationFound && $this->transferTBB1Data) Functions::myHeader(INSTALLFILE.'?step=9&'.MYSID);
+						if(/*!$this->existingInstallationFound && */$this->transferTBB1Data) Functions::myHeader(INSTALLFILE.'?step=9&'.MYSID);
 						elseif($this->existingInstallationFound && $this->keepExistingData && $p['createAdministrator'] != 1) Functions::myHeader(INSTALLFILE.'?step=10&'.MYSID);
 						else Functions::myHeader(INSTALLFILE.'?step=8&'.MYSID);
 					}
@@ -1013,7 +1013,7 @@ class BoardInstall {
 						</tr>
 				<?php
 
-				if(!$this->existingInstallationFound && $this->transferTBB1Data) {
+				if(/*!$this->existingInstallationFound && */$this->transferTBB1Data) {
 					?>
 						<tr><td class="CellWhite" colspan="2"><span class="FontNorm"><?php echo $this->strings['next_step_transfer_tbb1_data_info']; ?></span></td></tr>
 					<?php
@@ -2231,11 +2231,8 @@ class BoardInstall {
 
 		if(is_null($languageFile))
 			$languageCode = 'de';
-
 		$this->language = $languageCode;
-
 		$this->parseLanguageFile('languages/'.$languageCode.'/Install.ini');
-		#$this->parseLanguageFile('languages/'.$languageCode.'/Main.ini'); //TODO? Main.ini wird nicht mehr ben�tigt, html_lang und html_dir in Install.ini aufgenommen
 	}
 
 	protected function parseLanguageFile($languageFile)
