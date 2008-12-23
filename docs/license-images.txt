@@ -1,5 +1,6 @@
-Einige Bilder unterliegen nicht der in license-tbb2.txt beschriebenen Lizenz, da sie aus anderen Bildern entstanden sind,
-die anderen Lizenzen unterliegen. Diese Ausnahmen sind im Folgenden detailliert beschrieben:
+Einige Bilder unterliegen nicht der in license-tbb2-deutsch.txt beschriebenen
+Lizenz, da sie aus anderen Bildern entstanden sind, die anderen Lizenzen
+unterliegen. Diese Ausnahmen sind im Folgenden detailliert beschrieben:
 
 templates/std/images/buttons/de/AddReply.png:
 - Original entnommen aus "Mini Icons": page_new.gif
