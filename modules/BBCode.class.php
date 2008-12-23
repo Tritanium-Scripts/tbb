@@ -48,7 +48,7 @@ class BBCode extends ModuleTemplate {
 		$text = preg_replace_callback("/\[s\](.*?)\[\/s\]/si",array($this,'cbStrike'),$text); // [s]xxx[/s]
 		$text = preg_replace_callback("/\[sup\](.*?)\[\/sup\]/si", array($this, 'cbSuperscript'), $text); //[sup]xxx[/sup]
 		$text = preg_replace_callback("/\[sub\](.*?)\[\/sub\]/si", array($this, 'cbSubscript'), $text); //[sub]xxx[/sub]
-		$text = preg_replace_callback("/\[hide\](.*?)\[\/hide\]/si", array($this, 'cbSpoiler'), $text); //[hide]xxx[/hide]
+		$text = preg_replace_callback("/\[hide\](.*?)\[\/hide\]/si", array($this, 'cbHide'), $text); //[hide]xxx[/hide]
 		$text = preg_replace_callback("/\[center\](.*?)\[\/center\]/si",array($this,'cbCenter'),$text); // [center]xxx[/center]
 		$text = preg_replace_callback("/\[email\](.*?)\[\/email\]/si",array($this,'cbEmail'),$text); // [email]xxx[/email]
 		$text = preg_replace_callback("/\[img\](.*?)\[\/img\]/si",array($this,'cbImage'),$text); // [img]xxx[/img]
@@ -187,10 +187,10 @@ class BBCode extends ModuleTemplate {
 		return $this->modules['Template']->fetch('BBCodeHtml.tpl');
 	}
 
-	protected function cbSpoiler($elements) {
+	protected function cbHide($elements) {
 		$this->modules['Template']->assign('b', array(
-			'bbCodeType'=>BBCODE_SPOILER,
-			'spoilerText'=>$elements[1]
+			'bbCodeType'=>BBCODE_HIDE,
+			'hideText'=>$elements[1]
 		));
 		return $this->modules['Template']->fetch('BBCodeHtml.tpl');
 	}

@@ -42,12 +42,12 @@
  <sup>{$b.superText}</sup>
 {elseif $b.bbCodeType == $smarty.const.BBCODE_SUBSCRIPT}
  <sub>{$b.subText}</sub>
-{elseif $b.bbCodeType == $smarty.const.BBCODE_SPOILER}
+{elseif $b.bbCodeType == $smarty.const.BBCODE_HIDE}
 	<div>
-		<div style="padding:3px;"><b>{$modules.Language->getString('spoiler')}:</b> <input class="FormBBCodeButton" type="button" value="{$modules.Language->getString('uncover')}" onclick="this.parentNode.parentNode.getElementsByTagName('div')[1].style.display = ''; this.parentNode.style.display = 'none';"/></div>
+		<div style="padding:3px;"><b>{$modules.Language->getString('hidden_text')}:</b> <input class="FormBBCodeButton" type="button" value="{$modules.Language->getString('uncover')}" onclick="this.parentNode.parentNode.getElementsByTagName('div')[1].style.display = ''; this.parentNode.style.display = 'none';"/></div>
 		<div style="display:none;">
-			<div style="padding:3px; background-color:#000000;"><b><span style="color:#FFFFFF;">{$modules.Language->getString('spoiler')}:</span></b> <input class="FormBBCodeButton" type="button" value="{$modules.Language->getString('hide')}" onclick="this.parentNode.parentNode.parentNode.getElementsByTagName('div')[0].style.display = ''; this.parentNode.parentNode.style.display = 'none';"/></div>
-			<div style="border:1px #000000 solid; background-color:#F0F8FF; padding:10px;">{$b.spoilerText}</div>
+			<div style="padding:3px; background-color:#000000;"><b><span style="color:#FFFFFF;">{$modules.Language->getString('hidden_text')}:</span></b> <input class="FormBBCodeButton" type="button" value="{$modules.Language->getString('hide')}" onclick="this.parentNode.parentNode.parentNode.getElementsByTagName('div')[0].style.display = ''; this.parentNode.parentNode.style.display = 'none';"/></div>
+			<div style="border:1px #000000 solid; background-color:#F0F8FF; padding:10px;">{$b.hideText}</div>
 		</div>
 	</div>
 {elseif $b.bbCodeType == $smarty.const.BBCODE_EMAIL}
