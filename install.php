@@ -1159,7 +1159,7 @@ class BoardInstall {
 				$errors = array();
 
 				if(isset($_GET['doit'])) {
-					$toWrite = "<?php\nclass DBConfig extends ConfigTemplate {\n\tprotected \$config = array(\n\t\t'dbType'=>'".$_SESSION['dbType']."',\n\t\t'dbServer'=>'".$_SESSION['dbServer']."',\n\t\t'dbUser'=>'".$_SESSION['dbUser']."',\n\t\t'dbPassword'=>'".$_SESSION['dbPassword']."',\n\t\t'dbName'=>'".$_SESSION['dbName']."',\n\t\t'tablePrefix'=>'".$_SESSION['tablePrefix']."'\n\t);\n}";
+					$toWrite = "<?php\n/**\n * @author Julian Backes <julian@tritanium-scripts.com>\n * @author Christoph Jahn <chris@tritanium-scripts.com>\n * @copyright Copyright (c) 2003 - 2009, Tritanium Scripts\n * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa\n * @package tbb2\n */\nclass DBConfig extends ConfigTemplate {\n\tprotected \$config = array(\n\t\t'dbType'=>'".$_SESSION['dbType']."',\n\t\t'dbServer'=>'".$_SESSION['dbServer']."',\n\t\t'dbUser'=>'".$_SESSION['dbUser']."',\n\t\t'dbPassword'=>'".$_SESSION['dbPassword']."',\n\t\t'dbName'=>'".$_SESSION['dbName']."',\n\t\t'tablePrefix'=>'".$_SESSION['tablePrefix']."'\n\t);\n}";
 					
 					if(!@file_put_contents('config/DB.config.class.php',$toWrite,LOCK_EX)) $errors[] = $this->strings['cannot_open_config_file'];
 					
