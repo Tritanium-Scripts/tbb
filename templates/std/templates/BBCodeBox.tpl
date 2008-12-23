@@ -55,4 +55,4 @@
 <input class="FormBBCodeButton" type="button" value="Flash" onclick="insert('[flash]','[/flash]');"/>
 <input class="FormBBCodeButton" type="button" value="SUP" onclick="insert('[sup]','[/sup]');"/>
 <input class="FormBBCodeButton" type="button" value="SUB" onclick="insert('[sub]','[/sub]');"/>
-<input class="FormBBCodeButton" type="button" value="{$modules.Language->getString('spoiler')}" onclick="insert('[hide]','[/hide]');"/>
+<input class="FormBBCodeButton" type="button" value="{$modules.Language->getString('hidden_text')}" onclick="insert('[hide]','[/hide]');"/>
