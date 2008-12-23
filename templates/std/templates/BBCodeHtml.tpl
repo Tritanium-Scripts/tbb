@@ -43,12 +43,9 @@
 {elseif $b.bbCodeType == $smarty.const.BBCODE_SUBSCRIPT}
  <sub>{$b.subText}</sub>
 {elseif $b.bbCodeType == $smarty.const.BBCODE_HIDE}
-	<div>
-		<div style="padding:3px;"><b>{$modules.Language->getString('hidden_text')}:</b> <input class="FormBBCodeButton" type="button" value="{$modules.Language->getString('uncover')}" onclick="this.parentNode.parentNode.getElementsByTagName('div')[1].style.display = ''; this.parentNode.style.display = 'none';"/></div>
-		<div style="display:none;">
-			<div style="padding:3px; background-color:#000000;"><b><span style="color:#FFFFFF;">{$modules.Language->getString('hidden_text')}:</span></b> <input class="FormBBCodeButton" type="button" value="{$modules.Language->getString('hide')}" onclick="this.parentNode.parentNode.parentNode.getElementsByTagName('div')[0].style.display = ''; this.parentNode.parentNode.style.display = 'none';"/></div>
-			<div style="border:1px #000000 solid; background-color:#F0F8FF; padding:10px;">{$b.hideText}</div>
-		</div>
+	<div>  
+		<div style="padding:3px;"><b>{$modules.Language->getString('hidden_text')}:</b> <input class="FormBBCodeButton" type="button" value="{$modules.Language->getString('uncover')}" onclick="(s = this.parentNode.parentNode.getElementsByTagName('div')[1].style).display = s.display == 'none' ? '' : 'none'; (s = this.parentNode.style).backgroundColor = s.backgroundColor == '' ? '#000000' : ''; s.color = s.color == '' ? '#FFFFFF' : ''; this.value = s.color == '' ? '{$modules.Language->getString('uncover')}' : '{$modules.Language->getString('hide')}';" /></div>
+		<div style="background-color:#F0F8FF; border:1px #000000 solid; display:none; padding:10px;">{$b.hideText}</div>  
 	</div>
 {elseif $b.bbCodeType == $smarty.const.BBCODE_EMAIL}
  <a href="mailto:{$b.emailAddress}">{$b.emailAddress}</a>
