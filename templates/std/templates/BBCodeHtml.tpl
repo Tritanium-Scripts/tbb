@@ -11,7 +11,7 @@
 	<table class="TableStd" width="800px">
 		<tr><td class="CellCat" colspan="2"><span class="FontCat">{$modules.Language->getString('code')}</span></td></tr>
 		<td class="CellBlank">
-			<div style="overflow:auto; width:800px; min-height:40px; max-height:400px; padding:2px;">
+			<div style="overflow:auto; width:800px; min-height:37px; max-height:400px; padding:2px;">
 				<table style="height:100%;">
 					{counter start=$b.startLine print=false}
 					{foreach from=$b.codeLines item=curCodeLine}
