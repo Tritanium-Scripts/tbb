@@ -91,27 +91,26 @@ initializeClosedCatIDs();
  </tbody>
 {/foreach}
 </table>
-<br/>
 {if !is_null($latestPostsData)}
+	<br/>
 	<table class="TableStd" width="100%">
 		<tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('latest_posts')}</span></td></tr>
 		{foreach from=$latestPostsData item=curPost}
 			<tr><td class="CellStd"><span class="FontSmall">{$curPost}</span></td></tr>
 		{/foreach}
 	</table>
-	<br/>
 {/if}
 {if $boardStatsData != FALSE}
+ <br/>
  <table class="TableStd" width="100%">
  <tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('board_statistics')}</span></td></tr>
  <tr><td class="CellStd"><span class="FontSmall">{$boardStatsData.text}</span></td></tr>
  </table>
- <br/>
 {/if}
 {if $wioData != FALSE}
+ <br/>
  <table class="TableStd" width="100%">
  <tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('who_is_online')}</span></td></tr>
  <tr><td class="CellStd"><span class="FontSmall">{$wioData.text}</span><hr /><span class="FontSmall">{$wioData.members}</span></td></tr>
  </table>
- <br/>
 {/if}

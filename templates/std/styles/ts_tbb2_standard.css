@@ -217,19 +217,18 @@ table.TableNavbar { /* Tabelleneigenschaften */
 	width:1024px;
 	margin:auto;
 	padding:0px;
+	text-align:left;
 }
 
 #HeaderBox {
-	width:1018px;
 	border-spacing:0px;
 	border:2px #000000 solid;
-	padding:1px;
 	background-color:#FFFFFF;
 	margin-bottom:20px;
 }
 
 #HeaderInnerBox {
-	width:1016px;
+	margin:1px;
 	border-spacing:0px;
 	border:1px #ACACAC solid;
 	background-color:#aec9d7;
@@ -249,6 +248,11 @@ table.TableNavbar { /* Tabelleneigenschaften */
 	background-color:#F0F8FF;
 	border:1px #00008B dotted;
 	padding:5px;
+}
+
+#AdministrationBox {
+	margin-top:20px;
+	text-align:center;
 }
 
 
@@ -562,23 +566,21 @@ img.ImageButton {
 }
 
 /**
- * Das Copyright am unteren Seitenende
+ * the copyright box at the bottom of each page
  */
-table.TableCopyright {
+#CopyrightBox {
+	margin:auto;
+	margin-top:20px;
 	border:1px #ACACAC solid;
-}
-
-td.CellCopyright {
+	width:200px;
 	background-color:#F0F8FF;
 	padding:5px;
-}
-
-.FontCopyright {
+	text-align:center;
 	font-size:10px;
-	color:#666699;
 	font-family:verdana,arial;
 	font-weight:bold;
+	color:#666699;
 }
-a.FontCopyright:link { color:#a62a2a; }
-a.FontCopyright:visited { color:#a62a2a; }
-a.FontCopyright:active { color:#a62a2a; }
+#CopyrightBox a:link, #CopyrightBox a:visited, #CopyrightBox a:active {
+	color:#a62a2a;
+}

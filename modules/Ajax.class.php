@@ -9,6 +9,7 @@
 class Ajax extends ModuleTemplate {
 	protected $requiredModules = array(
 		'Auth',
+		'BBCode',
 		'Cache',
 		'Config',
 		'DB',
@@ -51,12 +52,8 @@ class Ajax extends ModuleTemplate {
                             $postID
                         ));
 
-						$postTextHTMLReady = $postText;
-						if($postData['postEnableHtmlCode'] != 1 || $forumData['ForumEnableHtmlCode'] != 1) $postTextHTMLReady = Functions::HTMLSpecialChars($postTextHTMLReady);
-						if($postData['postEnableSmilies'] == 1 && $forumData['forumEnableSmilies'] == 1) $postTextHTMLReady = strtr($postTextHTMLReady,$this->modules['Cache']->getSmiliesData('write'));
-						$postTextHTMLReady = nl2br($postTextHTMLReady);
-						//if($postData['postEnableBBCode'] == 1 && $forumData['forumEnableBBCode'] == TRUE) $postTextHTMLReady = Functions::BBCode($postTextHTMLReady);
-
+						$postTextHTMLReady = $this->modules['BBCode']->format($postText, ($postData['postEnableHtmlCode'] == 1 && $forumData['forumEnableHtmlCode'] == 1), ($postData['postEnableSmilies'] == 1 && $forumData['forumEnableSmilies'] == 1), ($postData['postEnableBBCode'] == 1 && $forumData['forumEnableBBCode'] == 1));
+						
 						$values = array(
 							array('name'=>'postID','value'=>$postID),
 							array('name'=>'postTextRaw','value'=>Functions::XMLEscapeString($postText)),

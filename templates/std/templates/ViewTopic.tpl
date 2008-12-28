@@ -114,8 +114,8 @@
    <div id="post{$curPost.postID}EditBox" style="display:none;">
     <table class="TableStd" cellpadding="0" width="100%">
     <tr><td class="CellCat"><span class="FontCat">Fast Edit</span></td></tr>
-    <tr><td class="CellNone" align="center"><textarea class="FormTextArea" rows="14" cols="" style="width:99%;" name="postData{$curPost.postID}">{$curPost._postEditBoxText}</textarea></td></tr>
-    <tr><td class="CellButtons" align="center"><input class="FormBButton" type="button" value="{$modules.Language->getString('edit_post')}" onclick="ajaxUpdatePost({$curPost.postID});"/></td></tr>
+    <tr><td class="CellNone" align="center"><textarea class="FormTextArea" rows="14" style="width:98%;" name="postData{$curPost.postID}">{$curPost._postEditBoxText}</textarea></td></tr>
+    <tr><td class="CellButtons" align="center"><input class="FormBButton" type="button" value="{$modules.Language->getString('edit_post')}" onclick="ajaxUpdatePost({$curPost.postID});"/>&nbsp;&nbsp;&nbsp;<input type="button" class="FormButton" value="{$modules.Language->getString('abort')}" onclick="toggleFastEdit('{$curPost.postID}');"/></td></tr>
     </table>
    </div>
    {if $curPost._postSignature != ''}<br/><span class="signature">-----------<br/>{$curPost._postSignature}</span>{/if}

@@ -25,6 +25,8 @@
 	{/if}
 </head>
 <body>
+
+<div align="center">
 <div id="MainBox">
 
 <div id="HeaderBox">
@@ -54,5 +56,7 @@
 <div id="HeaderInfoBox">
 	<img src="{$modules.Template->getTemplateDir()}/images/icons/Info.png" class="ImageIcon" alt=""/>{$welcomeText}
 </div>
+
 {include file=_Navbar.tpl}
+
 <br/>
