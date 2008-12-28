@@ -488,7 +488,7 @@ class ForumIndex extends ModuleTemplate {
 				$curPostPoster = $curPost['postGuestNick'];
 			else
 				$curPostPoster = '<a href="'.INDEXFILE.'?action=ViewProfile&amp;profileID='.$curPost['posterID'].'&amp;'.MYSID.'">'.$curPost['posterNick'].'</a>';
-			$latestPostsData[] = sprintf($this->modules['Language']->getString('latest_post_text'), Functions::toDateTime($curPost['postTimestamp']), '"' . INDEXFILE . '?action=ViewTopic&amp;postID=' . $curPost['postID'] . '&amp;' . MYSID . '#post' . $curPost['postID'] . '"', Functions::HTMLSpecialChars($curPost['postTitle']), $curPostPoster);
+			$latestPostsData[] = sprintf($this->modules['Language']->getString('latest_post_text'), Functions::toDateTime($curPost['postTimestamp']), INDEXFILE . '?action=ViewTopic&amp;postID=' . $curPost['postID'] . '&amp;' . MYSID . '#post' . $curPost['postID'], Functions::HTMLSpecialChars($curPost['postTitle']), $curPostPoster);
 		}
 		
 		return $latestPostsData;

@@ -170,7 +170,13 @@ class Globals extends ModuleTemplate {
 					);
 				}
 			}
-			else $welcomeText = sprintf($this->modules['Language']->getString('welcome_not_logged_in'), $this->modules['Config']->getValue('board_name'), '"' . INDEXFILE . '?action=ViewHelp&amp;' . MYSID . '"', '"' . INDEXFILE . '?action=Register&amp;' . MYSID . '"', '"' . INDEXFILE . '?action=Login&amp;' . MYSID . '"');
+			else $welcomeText = sprintf(
+					$this->modules['Language']->getString('welcome_not_logged_in'),
+					$this->modules['Config']->getValue('board_name'),
+					INDEXFILE . '?action=ViewHelp&amp;' . MYSID,
+					INDEXFILE . '?action=Register&amp;' . MYSID,
+					INDEXFILE . '?action=Login&amp;' . MYSID
+				);
 
 			$this->modules['Template']->assign(array(
 				'boardBanner'=>$boardBanner,
