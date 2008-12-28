@@ -2,61 +2,57 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" dir="{$modules.Language->getString('html_direction')}" lang="{$modules.Language->getString('html_language')}" xml:lang="{$modules.Language->getString('html_language')}">
 <head>
- <title>{$modules.Navbar->parseElements(0)}</title>
- <meta name="author" content="Tritanium Scripts"/>
- <meta name="copyright" content="Tritanium Scripts"/>
- <!--
- <meta name="keywords" content="{$modules.Navbar->parseElements(0)}"/>
- <meta name="description" content="{$modules.Navbar->parseElements(0)}"/>
- -->
- <meta name="robots" content="all"/>
- <meta name="revisit-after" content="7 days"/>
- <meta http-equiv="content-language" content="{$modules.Language->getString('html_language')}"/>
- <meta http-equiv="content-type" content="application/xhtml+xml; charset={$modules.Language->getString('html_encoding')}"/>
- <meta http-equiv="content-style-type" content="text/css"/>
- <meta http-equiv="content-script-type" content="text/javascript"/>
- <link rel="stylesheet" media="all" href="{$modules.Template->getTD()}/styles/ts_tbb2_standard.css"/>
- <link rel="shortcut icon" type="image/x-icon" href="{$modules.Template->getTD()}/images/favicon.ico"/>
- <script src="{$modules.Template->getTD()}/scripts/jscripts.js" type="text/javascript"></script>
- <script src="{$modules.Template->getTD()}/scripts/ajax.js" type="text/javascript"></script>
- <script src="{$modules.Template->getTD()}/scripts/posting.js" type="text/javascript"></script>
- {if $newPrivateMessageReceived}
- <script type="text/javascript">
-  popUp('{$smarty.const.INDEXFILE}?action=PrivateMessages&mode=NewPMReceived&inPopup=1&{$smarty.const.MYSID}','newpmreceived',400,200);
- </script>
- {/if}
+	<title>{$modules.Navbar->parseElements(0)}</title>
+	<meta name="author" content="Tritanium Scripts"/>
+	<meta name="copyright" content="Tritanium Scripts"/>
+	{*<meta name="keywords" content="{$modules.Navbar->parseElements(0)}"/>
+	<meta name="description" content="{$modules.Navbar->parseElements(0)}"/>*}
+	<meta name="robots" content="all"/>
+	<meta name="revisit-after" content="7 days"/>
+	<meta http-equiv="content-language" content="{$modules.Language->getString('html_language')}"/>
+	<meta http-equiv="content-type" content="application/xhtml+xml; charset={$modules.Language->getString('html_encoding')}"/>
+	<meta http-equiv="content-style-type" content="text/css"/>
+	<meta http-equiv="content-script-type" content="text/javascript"/>
+	<link rel="stylesheet" media="all" href="{$modules.Template->getTD()}/styles/ts_tbb2_standard.css"/>
+	<link rel="shortcut icon" type="image/x-icon" href="{$modules.Template->getTD()}/images/favicon.ico"/>
+	<script src="{$modules.Template->getTD()}/scripts/jscripts.js" type="text/javascript"></script>
+	<script src="{$modules.Template->getTD()}/scripts/ajax.js" type="text/javascript"></script>
+	<script src="{$modules.Template->getTD()}/scripts/posting.js" type="text/javascript"></script>
+	{if $newPrivateMessageReceived}
+		<script type="text/javascript">
+			popUp('{$smarty.const.INDEXFILE}?action=PrivateMessages&mode=NewPMReceived&inPopup=1&{$smarty.const.MYSID}','newpmreceived',400,200);
+		</script>
+	{/if}
 </head>
 <body>
-<div align="center"><div align="left" style="width:1024px;">
-<!--<form method="post" action="{$smarty.const.INDEXFILE}?action=Login&amp;doit=1&amp;{$smarty.const.MYSID}">-->
-<table style="border-spacing:0px; border:2px #000000 solid; width:100%; padding:1px; background-color:#FFFFFF;">
-<tr><td>
- <table style="width:100%; border-spacing:0px; border:1px #ACACAC solid;" cellspacing="0">
- <tr><td style="background-color:#c5e8f9; background-image:url(images/bck.jpg);"><!--<span class="big">{$boardBanner}</span>--><img src="images/test.jpg" alt=""/></td></tr>
-  <tr><td align="center" style="background-color:#aec9d7; padding-bottom:4px;"><span class="FontSmall">
-  {if $modules.Auth->isLoggedIn() == 1}
-   <a href="{$smarty.const.INDEXFILE}?action=EditProfile&amp;{$smarty.const.MYSID}"><img src="{$modules.Template->getTD()}/images/buttons/de/myprofile.png" class="ImageButton" alt="{$modules.Language->getString('my_profile')}"/></a>
-   <a href="{$smarty.const.INDEXFILE}?action=ViewHelp&amp;{$smarty.const.MYSID}"><img src="{$modules.Template->getTD()}/images/buttons/de/help.png" class="ImageButton" alt="{$modules.Language->getString('help')}"/></a>
-   <a href="{$smarty.const.INDEXFILE}?action=PrivateMessages&amp;{$smarty.const.MYSID}"><img src="{$modules.Template->getTD()}/images/buttons/de/pms.png" class="ImageButton" alt="{$modules.Language->getString('private_messages')}"/></a>
-   <a href="{$smarty.const.INDEXFILE}?action=Search&amp;{$smarty.const.MYSID}"><img src="{$modules.Template->getTD()}/images/buttons/de/search.png" class="ImageButton" alt="{$modules.Language->getString('search')}"/></a>
-   <a href="{$smarty.const.INDEXFILE}?action=MemberList&amp;{$smarty.const.MYSID}"><img src="{$modules.Template->getTD()}/images/buttons/de/memberlist.png" class="ImageButton" alt="{$modules.Language->getString('memberlist')}"/></a>
-   <a href="{$smarty.const.INDEXFILE}?action=WhoIsOnline&amp;{$smarty.const.MYSID}"><img src="{$modules.Template->getTD()}/images/buttons/de/whoisonline.png" class="ImageButton" alt="{$modules.Language->getString('who_is_online')}"/></a>
-   <a href="{$smarty.const.INDEXFILE}?action=Logout&amp;{$smarty.const.MYSID}"><img src="{$modules.Template->getTD()}/images/buttons/de/logout.png" class="ImageButton" alt="{$modules.Language->getString('logout')}"/></a>
-  {else}
-   <a href="{$smarty.const.INDEXFILE}?action=Register&amp;{$smarty.const.MYSID}"><img src="{$modules.Template->getTD()}/images/buttons/de/register.png" class="ImageButton" alt="{$modules.Language->getString('register')}"/></a>
-   <a href="{$smarty.const.INDEXFILE}?action=ViewHelp&amp;{$smarty.const.MYSID}"><img src="{$modules.Template->getTD()}/images/buttons/de/help.png" class="ImageButton" alt="{$modules.Language->getString('help')}"/></a>
-   <a href="{$smarty.const.INDEXFILE}?action=Search&amp;{$smarty.const.MYSID}"><img src="{$modules.Template->getTD()}/images/buttons/de/search.png" class="ImageButton" alt="{$modules.Language->getString('search')}"/></a>
-   <a href="{$smarty.const.INDEXFILE}?action=MemberList&amp;{$smarty.const.MYSID}"><img src="{$modules.Template->getTD()}/images/buttons/de/memberlist.png" class="ImageButton" alt="{$modules.Language->getString('memberlist')}"/></a>
-   <a href="{$smarty.const.INDEXFILE}?action=WhoIsOnline&amp;{$smarty.const.MYSID}"><img src="{$modules.Template->getTD()}/images/buttons/de/whoisonline.png" class="ImageButton" alt="{$modules.Language->getString('who_is_online')}"/></a>
-   <a href="{$smarty.const.INDEXFILE}?action=Login&amp;{$smarty.const.MYSID}"><img src="{$modules.Template->getTD()}/images/buttons/de/login.png" class="ImageButton" alt="{$modules.Language->getString('login')}"/></a>
-  {/if}
-  </span></td></tr>
- </table>
-</td></tr>
-</table>
-<!--</form>-->
+<div id="MainBox">
 
-<br/>
-<div class="DivInfoBox"><span class="FontInfoBox"><img src="{$modules.Template->getTemplateDir()}/images/icons/Info.png" class="ImageIcon" alt=""/>{$welcomeText}</span></div>
+<div id="HeaderBox">
+	<div id="HeaderInnerBox">
+		<img src="{$modules.Template->getTD()}/images/logo.jpg"/>
+		<div id="HeaderNavigationBox">
+			{if $modules.Auth->isLoggedIn() == 1}
+				<a href="{$smarty.const.INDEXFILE}?action=EditProfile&amp;{$smarty.const.MYSID}"><img src="{$modules.Template->getTD()}/images/buttons/de/myprofile.png" class="ImageButton" alt="{$modules.Language->getString('my_profile')}"/></a>
+				<a href="{$smarty.const.INDEXFILE}?action=ViewHelp&amp;{$smarty.const.MYSID}"><img src="{$modules.Template->getTD()}/images/buttons/de/help.png" class="ImageButton" alt="{$modules.Language->getString('help')}"/></a>
+				<a href="{$smarty.const.INDEXFILE}?action=PrivateMessages&amp;{$smarty.const.MYSID}"><img src="{$modules.Template->getTD()}/images/buttons/de/pms.png" class="ImageButton" alt="{$modules.Language->getString('private_messages')}"/></a>
+				<a href="{$smarty.const.INDEXFILE}?action=Search&amp;{$smarty.const.MYSID}"><img src="{$modules.Template->getTD()}/images/buttons/de/search.png" class="ImageButton" alt="{$modules.Language->getString('search')}"/></a>
+				<a href="{$smarty.const.INDEXFILE}?action=MemberList&amp;{$smarty.const.MYSID}"><img src="{$modules.Template->getTD()}/images/buttons/de/memberlist.png" class="ImageButton" alt="{$modules.Language->getString('memberlist')}"/></a>
+				<a href="{$smarty.const.INDEXFILE}?action=WhoIsOnline&amp;{$smarty.const.MYSID}"><img src="{$modules.Template->getTD()}/images/buttons/de/whoisonline.png" class="ImageButton" alt="{$modules.Language->getString('who_is_online')}"/></a>
+				<a href="{$smarty.const.INDEXFILE}?action=Logout&amp;{$smarty.const.MYSID}"><img src="{$modules.Template->getTD()}/images/buttons/de/logout.png" class="ImageButton" alt="{$modules.Language->getString('logout')}"/></a>
+			{else}
+				<a href="{$smarty.const.INDEXFILE}?action=Register&amp;{$smarty.const.MYSID}"><img src="{$modules.Template->getTD()}/images/buttons/de/register.png" class="ImageButton" alt="{$modules.Language->getString('register')}"/></a>
+				<a href="{$smarty.const.INDEXFILE}?action=ViewHelp&amp;{$smarty.const.MYSID}"><img src="{$modules.Template->getTD()}/images/buttons/de/help.png" class="ImageButton" alt="{$modules.Language->getString('help')}"/></a>
+				<a href="{$smarty.const.INDEXFILE}?action=Search&amp;{$smarty.const.MYSID}"><img src="{$modules.Template->getTD()}/images/buttons/de/search.png" class="ImageButton" alt="{$modules.Language->getString('search')}"/></a>
+				<a href="{$smarty.const.INDEXFILE}?action=MemberList&amp;{$smarty.const.MYSID}"><img src="{$modules.Template->getTD()}/images/buttons/de/memberlist.png" class="ImageButton" alt="{$modules.Language->getString('memberlist')}"/></a>
+				<a href="{$smarty.const.INDEXFILE}?action=WhoIsOnline&amp;{$smarty.const.MYSID}"><img src="{$modules.Template->getTD()}/images/buttons/de/whoisonline.png" class="ImageButton" alt="{$modules.Language->getString('who_is_online')}"/></a>
+				<a href="{$smarty.const.INDEXFILE}?action=Login&amp;{$smarty.const.MYSID}"><img src="{$modules.Template->getTD()}/images/buttons/de/login.png" class="ImageButton" alt="{$modules.Language->getString('login')}"/></a>
+			{/if}
+		</div>
+	</div>
+</div>
+
+<div id="HeaderInfoBox">
+	<img src="{$modules.Template->getTemplateDir()}/images/icons/Info.png" class="ImageIcon" alt=""/>{$welcomeText}
+</div>
 {include file=_Navbar.tpl}
 <br/>

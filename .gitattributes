@@ -24,7 +24,6 @@ functions/FuncRanks.class.php -text
 functions/FuncSmilies.class.php -text
 functions/FuncTopics.class.php -text
 functions/FuncUsers.class.php -text
-images/bck.jpg -text
 images/dot.gif -text
 images/postpics/arrow.gif -text
 images/postpics/attention.gif -text
@@ -69,7 +68,6 @@ images/smilies/standard_uhoh.gif -text
 images/smilies/standard_upset.gif -text
 images/smilies/standard_wink.gif -text
 images/smilies/standard_yes.gif -text
-images/test.jpg -text
 /index.php -text
 /install.php -text
 languages/de/AdminAvatars.ini -text
@@ -242,11 +240,11 @@ templates/std/images/buttons/de/search.png -text
 templates/std/images/buttons/de/test.png -text
 templates/std/images/buttons/de/whoisonline.png -text
 templates/std/images/cellcat.gif -text
-templates/std/images/cellcat.jpg -text
 templates/std/images/celltitle.gif -text
 templates/std/images/favicon.ico -text
 templates/std/images/forum_off.gif -text
 templates/std/images/forum_on.gif -text
+templates/std/images/header_background.jpg -text
 templates/std/images/icons/Attention.png -text
 templates/std/images/icons/AwardStarAdd.png -text
 templates/std/images/icons/AwardStarDelete.png -text
@@ -268,6 +266,7 @@ templates/std/images/icons/PrivateMessageUnread.png -text
 templates/std/images/icons/UserDelete.png -text
 templates/std/images/icons/Warning.png -text
 templates/std/images/lightbulb_a.gif -text
+templates/std/images/logo.jpg -text
 templates/std/images/minus.gif -text
 templates/std/images/plus.gif -text
 templates/std/images/poll.gif -text

@@ -108,11 +108,9 @@ class Globals extends ModuleTemplate {
 		} else {
 			if($this->modules['Config']->getValue('board_logo') != '') $boardBanner = '<img src="'.$this->modules['Config']->getValue('board_logo').'" alt="'.$this->modules['Config']->getValue('board_name').'" />';
 			else $boardBanner = $this->modules['Config']->getValue('board_name');
-	
-			if($this->modules['Auth']->isLoggedIn() == 1) $welcomeText = sprintf($this->modules['Language']->getString('welcome_logged_in'),$this->modules['Auth']->getValue('userNick'),Functions::toTime(time()),'"' . INDEXFILE . '?action=Logout&amp;' . MYSID . '"');
-			else $welcomeText = sprintf($this->modules['Language']->getString('welcome_not_logged_in'), $this->modules['Config']->getValue('board_name'), '"' . INDEXFILE . '?action=ViewHelp&amp;' . MYSID . '"', '"' . INDEXFILE . '?action=Register&amp;' . MYSID . '"', '"' . INDEXFILE . '?action=Login&amp;' . MYSID . '"');
-			
+				
 			$newPrivateMessageReceived = FALSE;
+			$unreadPrivateMessages = 0;
 			if($this->modules['Config']->getValue('enable_pms') == 1 && $this->modules['Auth']->isLoggedIn()) {
 				if(!isset($_SESSION['lastPrivateMessageTimestamp']))
 					$_SESSION['lastPrivateMessageTimestamp'] = 0;
@@ -138,8 +136,42 @@ class Globals extends ModuleTemplate {
 					$_SESSION['lastPrivateMessageTimestamp'] = $timestamp;
 					$newPrivateMessageReceived = TRUE;
 				}
+
+				$this->modules['DB']->queryParams('
+					SELECT
+						COUNT(*)
+					FROM
+						'.TBLPFX.'pms
+					WHERE
+						"pmToID"=$1
+						AND "folderID"=0
+						AND "pmIsRead"=0
+				',array(
+					USERID
+				));
+				list($unreadPrivateMessages) = $this->modules['DB']->fetchArray();
 			}
-	
+
+			if($this->modules['Auth']->isLoggedIn() == 1) {
+				if($unreadPrivateMessages > 0) {
+					$welcomeText = sprintf(
+						$this->modules['Language']->getString('welcome_logged_in_x_unread_pms'),
+						$this->modules['Auth']->getValue('userNick'),
+						Functions::toTime(time()),
+						INDEXFILE.'?action=Logout&amp;'.MYSID,
+						INDEXFILE.'?action=PrivateMessages&amp;'.MYSID,
+						$unreadPrivateMessages
+					);
+				} else {
+					$welcomeText = sprintf(
+						$this->modules['Language']->getString('welcome_logged_in_no_unread_pms'),
+						$this->modules['Auth']->getValue('userNick'),
+						Functions::toTime(time()), INDEXFILE.'?action=Logout&amp;'.MYSID
+					);
+				}
+			}
+			else $welcomeText = sprintf($this->modules['Language']->getString('welcome_not_logged_in'), $this->modules['Config']->getValue('board_name'), '"' . INDEXFILE . '?action=ViewHelp&amp;' . MYSID . '"', '"' . INDEXFILE . '?action=Register&amp;' . MYSID . '"', '"' . INDEXFILE . '?action=Login&amp;' . MYSID . '"');
+
 			$this->modules['Template']->assign(array(
 				'boardBanner'=>$boardBanner,
 				'welcomeText'=>$welcomeText,
