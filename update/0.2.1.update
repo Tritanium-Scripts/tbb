@@ -267,4 +267,4 @@ $this->DB->queryParams('
 	'0'
 ));
 
-$nextUpdateFile = '';
+$nextUpdateFile = '0.2.2.update';

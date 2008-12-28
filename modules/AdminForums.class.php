@@ -91,8 +91,8 @@ class AdminForums extends ModuleTemplate {
 
 			case 'AddForum':
 				$p  = Functions::getSGValues($_POST['p'],array('forumName','forumDescription'),'');
-				$c  = Functions::getSGValues($_POST['c'],array('authViewForumMembers','authPostTopicMembers','authPostReplyMembers','authPostPollMembers','authEditPostsMembers','authViewForumGuests','forumEnableBBCode','forumEnableSmilies','forumShowLatestPosts'),1);
-				$c += Functions::getSGValues($_POST['c'],array('authPostTopicGuests','authPostReplyGuests','authPostPollGuests','forumIsModerated','forumEnableHtmlCode'),0);
+				$c  = Functions::getSGValues($_POST['c'],array('authViewForumMembers','authPostTopicMembers','authPostReplyMembers','authPostPollMembers','authEditPostsMembers','authViewForumGuests','forumEnableBBCode','forumEnableSmilies','forumShowLatestPosts','authUploadMembers','authDownloadMembers'),1);
+				$c += Functions::getSGValues($_POST['c'],array('authPostTopicGuests','authPostReplyGuests','authPostPollGuests','forumIsModerated','forumEnableHtmlCode','authUploadGuests','authDownloadGuests'),0);
 
 				$p['catID'] = isset($_POST['p']['catID']) ? intval($_POST['p']['catID']) : 1;
 				if(isset($_GET['catID'])) $p['catID'] = intval($_GET['catID']);
@@ -100,7 +100,7 @@ class AdminForums extends ModuleTemplate {
 				$error = '';
 
 				if(isset($_GET['doit'])) {
-					$c = Functions::getSGValues($_POST['c'],array('authViewForumMembers','authPostTopicMembers','authPostReplyMembers','authPostPollMembers','authEditPostsMembers','authViewForumGuests','authPostTopicGuests','authPostReplyGuests','authPostPollGuests','forumIsModerated','forumEnableBBCode','forumEnableHtmlCode','forumEnableSmilies','forumShowLatestPosts'),0);
+					$c = Functions::getSGValues($_POST['c'],array('authViewForumMembers','authPostTopicMembers','authPostReplyMembers','authPostPollMembers','authEditPostsMembers','authViewForumGuests','authPostTopicGuests','authPostReplyGuests','authPostPollGuests','forumIsModerated','forumEnableBBCode','forumEnableHtmlCode','forumEnableSmilies','forumShowLatestPosts','authUploadMembers','authDownloadMembers','authUploadGuests','authDownloadGuests'),0);
 
 					if(trim($p['forumName']) == '') $error = $this->modules['Language']->getString('error_no_forum_name');
 					else {
@@ -122,11 +122,15 @@ class AdminForums extends ModuleTemplate {
 								"authPostTopicMembers"=$10,
 								"authPostReplyMembers"=$11,
 								"authPostPollMembers"=$12,
+								"authUploadMembers"=$18,
+								"authDownloadMembers"=$19,
 								"authEditPostsMembers"=$13,
 								"authViewForumGuests"=$14,
 								"authPostTopicGuests"=$15,
 								"authPostReplyGuests"=$16,
-								"authPostPollGuests"=$17
+								"authPostPollGuests"=$17,
+								"authUploadGuests"=$21,
+								"authDownloadGuests"=$22,
 						',array(
 							$p['catID'],
 							$p['forumName'],
@@ -144,7 +148,11 @@ class AdminForums extends ModuleTemplate {
 							$c['authViewForumGuests'],
 							$c['authPostTopicGuests'],
 							$c['authPostReplyGuests'],
-							$c['authPostPollGuests']
+							$c['authPostPollGuests'],
+							$c['authUploadMembers'],
+							$c['authDownloadMembers'],
+							$c['authUploadGuests'],
+							$c['authDownloadGuests']
 						));
 						Functions::myHeader(INDEXFILE.'?action=AdminForums&'.MYSID);
 					}
@@ -177,12 +185,12 @@ class AdminForums extends ModuleTemplate {
 				if(!$forumData = FuncForums::getForumData($forumID)) die('Cannot load data: forum');
 
 				$p = Functions::getSGValues($_POST['p'],array('forumName','forumDescription','catID'),'',$forumData);
-				$c = Functions::getSGValues($_POST['c'],array('authViewForumMembers','authPostTopicMembers','authPostReplyMembers','authPostPollMembers','authEditPostsMembers','authViewForumGuests','authPostTopicGuests','authPostReplyGuests','authPostPollGuests','forumIsModerated','forumEnableBBCode','forumEnableHtmlCode','forumEnableSmilies','forumShowLatestPosts'),1,$forumData);
+				$c = Functions::getSGValues($_POST['c'],array('authViewForumMembers','authPostTopicMembers','authPostReplyMembers','authPostPollMembers','authEditPostsMembers','authViewForumGuests','authPostTopicGuests','authPostReplyGuests','authPostPollGuests','forumIsModerated','forumEnableBBCode','forumEnableHtmlCode','forumEnableSmilies','forumShowLatestPosts','authUploadMembers','authDownloadMembers','authUploadGuests','authDownloadGuests'),1,$forumData);
 
 				$error = '';
 
 				if(isset($_GET['doit'])) {
-					$c = Functions::getSGValues($_POST['c'],array('authViewForumMembers','authPostTopicMembers','authPostReplyMembers','authPostPollMembers','authEditPostsMembers','authViewForumGuests','authPostTopicGuests','authPostReplyGuests','authPostPollGuests','forumIsModerated','forumEnableBBCode','forumEnableHtmlCode','forumEnableSmilies','forumShowLatestPosts'),0);
+					$c = Functions::getSGValues($_POST['c'],array('authViewForumMembers','authPostTopicMembers','authPostReplyMembers','authPostPollMembers','authEditPostsMembers','authViewForumGuests','authPostTopicGuests','authPostReplyGuests','authPostPollGuests','forumIsModerated','forumEnableBBCode','forumEnableHtmlCode','forumEnableSmilies','forumShowLatestPosts','authUploadMembers','authDownloadMembers','authUploadGuests','authDownloadGuests'),0);
 
 					if(trim($p['forumName']) == '') $error = $this->modules['Language']->getString('error_no_forum_name');
 					else {
@@ -204,11 +212,15 @@ class AdminForums extends ModuleTemplate {
 								"authPostTopicMembers"=$10,
 								"authPostReplyMembers"=$11,
 								"authPostPollMembers"=$12,
+								"authUploadMembers"=$19,
+								"authDownloadMembers"=$20,
 								"authEditPostsMembers"=$13,
 								"authViewForumGuests"=$14,
 								"authPostTopicGuests"=$15,
 								"authPostReplyGuests"=$16,
-								"authPostPollGuests"=$17
+								"authPostPollGuests"=$17,
+								"authUploadGuests"=$21,
+								"authDownloadGuests"=$22
 							WHERE
 								"forumID"=$18
 						',array(
@@ -229,7 +241,11 @@ class AdminForums extends ModuleTemplate {
 							$c['authPostTopicGuests'],
 							$c['authPostReplyGuests'],
 							$c['authPostPollGuests'],
-							$forumID
+							$forumID,
+							$c['authUploadMembers'],
+							$c['authDownloadMembers'],
+							$c['authUploadGuests'],
+							$c['authDownloadGuests']
 						));
 						Functions::myHeader(INDEXFILE.'?action=AdminForums&'.MYSID);
 					}
@@ -426,6 +442,8 @@ class AdminForums extends ModuleTemplate {
 						$curRight['authViewForum'] = isset($curRight['authViewForum']) ? 1 : 0;
 						$curRight['authPostTopic'] = isset($curRight['authPostTopic']) ? 1 : 0;
 						$curRight['authPostReply'] = isset($curRight['authPostReply']) ? 1 : 0;
+						$curRight['authUpload'] = isset($curRight['authUpload']) ? 1 : 0;
+						$curRight['authDownload'] = isset($curRight['authDownload']) ? 1 : 0;
 						$curRight['authPostPoll'] = isset($curRight['authPostPoll']) ? 1 : 0;
 						$curRight['authEditPosts'] = isset($curRight['authEditPosts']) ? 1 : 0;
 
@@ -438,7 +456,9 @@ class AdminForums extends ModuleTemplate {
 								"authPostTopic"=$3,
 								"authPostReply"=$4,
 								"authPostPoll"=$5,
-								"authEditPosts"=$6
+								"authEditPosts"=$6,
+								"authPostPoll"=$10,
+								"authPostPoll"=$11
 							WHERE
 								"forumID"=$7
 								AND "authType"=$8
@@ -452,7 +472,9 @@ class AdminForums extends ModuleTemplate {
 							$curRight['authEditPosts'],
 							$forumID,
 							$curRight['authType'],
-							$curRight['authID']
+							$curRight['authID'],
+							$curRight['authUpload'],
+							$curRight['authDownload']
 						));
 					}
 

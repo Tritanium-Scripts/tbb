@@ -14,7 +14,6 @@
 </template>*}
 
 </div>
-</div>
 
 </body>
 </html>

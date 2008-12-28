@@ -1,0 +1,36 @@
+// create files table
+$this->DB->query('
+	CREATE TABLE IF NOT EXISTS '.TBLPFX.'files (
+		"fileID" MEDIUMINT(8) UNSIGNED AUTO_INCREMENT,
+		"userID" MEDIUMINT(8) UNSIGNED DEFAULT NULL,
+		"fileUploadTimestamp" INT(10) DEFAULT \'0\' NOT NULL,
+		"fileIsUsed" TINYINT(1) DEFAULT \'0\' NOT NULL,
+		"fileName" VARCHAR(255) DEFAULT \'\' NOT NULL,
+		"fileSize" INT(10) UNSIGNED DEFAULT \'0\' NOT NULL,
+		"fileDownloadsCounter" INT(10) UNSIGNED DEFAULT \'0\' NOT NULL,
+		"fileData" TEXT DEFAULT \'\' NOT NULL,
+		PRIMARY KEY ("fileID"),
+		KEY "userID_fileID" ("fileID", "fileID")
+	)
+');
+
+// Add download and upload rights
+$this->DB->query('
+	ALTER TABLE '.TBLPFX.'forums
+		ADD "authUploadMembers" tinyint(1) unsigned NOT NULL default \'0\' AFTER "authPostPollMembers",
+		ADD "authDownloadMembers" tinyint(1) unsigned NOT NULL default \'0\' AFTER "authUploadMembers",
+		ADD "authUploadGuests" tinyint(1) unsigned NOT NULL default \'0\' AFTER "authPostPollGuests",
+		ADD "authDownloadGuests" tinyint(1) unsigned NOT NULL default \'0\' AFTER "authUploadGuests"
+');
+$this->DB->query('
+	ALTER TABLE '.TBLPFX.'forums_auth
+		ADD "authUpload" tinyint(1) unsigned NOT NULL default \'0\' AFTER "authPostPoll",
+		ADD "authDownload" tinyint(1) unsigned NOT NULL default \'0\' AFTER "authUpload"
+');
+$this->DB->query('
+	ALTER TABLE '.TBLPFX.'users
+		ADD "userAuthUpload" tinyint(1) unsigned NOT NULL default \'2\' AFTER "userAuthProfileNotes",
+		ADD "userAuthDownload" tinyint(1) unsigned NOT NULL default \'2\' AFTER "userAuthUpload"
+');
+
+$nextUpdateFile = '';

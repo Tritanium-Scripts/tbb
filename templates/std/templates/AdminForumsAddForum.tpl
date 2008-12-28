@@ -25,11 +25,15 @@
  <label><input type="checkbox" value="1" name="c[authPostTopicMembers]"{if $c.authPostTopicMembers == 1} checked="checked"{/if}/> {$modules.Language->getString('members_post_topic')}</label><br/>
  <label><input type="checkbox" value="1" name="c[authPostReplyMembers]"{if $c.authPostReplyMembers == 1} checked="checked"{/if}/> {$modules.Language->getString('members_post_reply')}</label><br/>
  <label><input type="checkbox" value="1" name="c[authPostPollMembers]"{if $c.authPostPollMembers == 1} checked="checked"{/if}/> {$modules.Language->getString('members_post_poll')}</label><br/>
+ <label><input type="checkbox" value="1" name="c[authUploadMembers]"{if $c.authUploadMembers == 1} checked="checked"{/if}/> {$modules.Language->getString('members_upload_files')}</label><br/>
+ <label><input type="checkbox" value="1" name="c[authDownloadMembers]"{if $c.authDownloadMembers == 1} checked="checked"{/if}/> {$modules.Language->getString('members_download_files')}</label><br/>
  <label><input type="checkbox" value="1" name="c[authEditPostsMembers]"{if $c.authEditPostsMembers == 1} checked="checked"{/if}/> {$modules.Language->getString('members_edit_posts')}</label><br/>
  <label><input type="checkbox" value="1" name="c[authViewForumGuests]"{if $c.authViewForumGuests == 1} checked="checked"{/if}/> {$modules.Language->getString('guests_view_forum')}</label><br/>
  <label><input type="checkbox" value="1" name="c[authPostTopicGuests]"{if $c.authPostTopicGuests == 1} checked="checked"{/if}/> {$modules.Language->getString('guests_post_topic')}</label><br/>
  <label><input type="checkbox" value="1" name="c[authPostReplyGuests]"{if $c.authPostReplyGuests == 1} checked="checked"{/if}/> {$modules.Language->getString('guests_post_reply')}</label><br/>
  <label><input type="checkbox" value="1" name="c[authPostPollGuests]"{if $c.authPostPollGuests == 1} checked="checked"{/if}/> {$modules.Language->getString('guests_post_poll')}</label><br/>
+ <label><input type="checkbox" value="1" name="c[authUploadGuests]"{if $c.authUploadGuests == 1} checked="checked"{/if}/> {$modules.Language->getString('guests_upload_files')}</label><br/>
+ <label><input type="checkbox" value="1" name="c[authDownloadGuests]"{if $c.authDownloadGuests == 1} checked="checked"{/if}/> {$modules.Language->getString('guests_download_files')}</label><br/>
 </span></td></tr>
 <tr><td class="CellCat" colspan="2"><span class="FontCat">{$modules.Language->getString('other_options')}</span></td></tr>
 <tr><td colspan="2" class="CellStd"><span class="FontNorm">

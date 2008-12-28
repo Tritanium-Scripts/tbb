@@ -139,7 +139,7 @@ class AdminUsers extends ModuleTemplate {
 				$this->modules['Language']->addFile('EditProfile');
 				$this->modules['Language']->addFile('ViewProfile');
 
-				$p = Functions::getSGValues($_POST['p'],array('userEmailAddress','userSignature','userAvatarAddress','rankID','userAuthProfileNotes'),'',$userData);
+				$p = Functions::getSGValues($_POST['p'],array('userEmailAddress','userSignature','userAvatarAddress','rankID','userAuthProfileNotes','userAuthUpload','userAuthDownload'),'',$userData);
 				$c = Functions::getSGValues($_POST['c'],array('userIsAdmin','userIsSupermod'),0,$userData);
 
 				$error = '';
@@ -165,7 +165,10 @@ class AdminUsers extends ModuleTemplate {
 								"userEmailAddress"=$3,
 								"userSignature"=$4,
 								"userAvatarAddress"=$5,
-								"rankID"=$6
+								"rankID"=$6,
+								"userAuthProfileNotes"=$8,
+								"userAuthUpload"=$9,
+								"userAuthDownload"=$10
 							WHERE
 								"userID"=$7
 						', array(
@@ -175,7 +178,10 @@ class AdminUsers extends ModuleTemplate {
 							$p['userSignature'],
 							$p['userAvatarAddress'],
 							$p['rankID'],
-							$userID
+							$userID,
+							$p['userAuthProfileNotes'],
+							$p['userAuthUpload'],
+							$p['userAuthDownload']
 						));
 
 						FuncMisc::printMessage('user_edited'); exit;
@@ -183,9 +189,9 @@ class AdminUsers extends ModuleTemplate {
 				}
 
 
-				/**
-				 * Handle user lock
-				 */
+				//
+				// Handle user lock
+				//
 				if($userData['userIsLocked'] != LOCK_TYPE_NO_LOCK && FuncUsers::checkLockStatus($userData)) {
 					if($userData['userLockStartTimestamp'] == $userData['userLockEndTimestamp'])
 						$remainingLockTime = $this->modules['Language']->getString('locked_forever');

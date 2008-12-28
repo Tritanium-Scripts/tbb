@@ -13,6 +13,7 @@ class Ajax extends ModuleTemplate {
 		'Cache',
 		'Config',
 		'DB',
+		'Language',
 		'Template'
 	);
 
@@ -26,6 +27,8 @@ class Ajax extends ModuleTemplate {
 
 		switch(@$_GET['mode']) {
 			case 'EditPost':
+				$this->modules['Language']->addFile('ViewTopic');
+
 				$postID = isset($_GET['postID']) ? intval($_GET['postID']) : 0;
 				$postText = isset($_GET['postText']) ? $_GET['postText'] : '';
 				$mode = 'EditPost';

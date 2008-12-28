@@ -26,7 +26,6 @@
 </head>
 <body>
 
-<div align="center">
 <div id="MainBox">
 
 <div id="HeaderBox">

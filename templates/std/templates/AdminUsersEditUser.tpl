@@ -42,6 +42,26 @@
  </td>
 </tr>
 <tr>
+ <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('file_upload')}:</span></td>
+ <td class="CellAlt">
+  <select class="FormSelect" name="p[userAuthUpload]">
+   <option value="1"{if $p.userAuthUpload == 1} selected="selected"{/if}>{$modules.Language->getString('allow')}</option>
+   <option value="1"{if $p.userAuthUpload == 2} selected="selected"{/if}>{$modules.Language->getString('use_default')}</option>
+   <option value="1"{if $p.userAuthUpload == 0} selected="selected"{/if}>{$modules.Language->getString('disallow')}</option>
+  </select>
+ </td>
+</tr>
+<tr>
+ <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('file_download')}:</span></td>
+ <td class="CellAlt">
+  <select class="FormSelect" name="p[userAuthDownload]">
+   <option value="1"{if $p.userAuthDownload == 1} selected="selected"{/if}>{$modules.Language->getString('allow')}</option>
+   <option value="1"{if $p.userAuthDownload == 2} selected="selected"{/if}>{$modules.Language->getString('use_default')}</option>
+   <option value="1"{if $p.userAuthDownload == 0} selected="selected"{/if}>{$modules.Language->getString('disallow')}</option>
+  </select>
+ </td>
+</tr>
+<tr>
  <td class="CellStd" valign="top"><span class="FontNorm">{$modules.Language->getString('options')}:</span></td>
  <td class="CellAlt" valign="top"><span class="FontNorm">
   <label><input type="checkbox" name="c[userIsAdmin]" value="1"{if $c.userIsAdmin == 1} checked="checked"{/if}/>&nbsp;{$modules.Language->getString('user_is_admin')}</label><br/>
