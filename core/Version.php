@@ -6,4 +6,4 @@
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package tbb2
  */
-define('SCRIPTVERSION','0.2.2');
+define('SCRIPTVERSION','0.2.3');
