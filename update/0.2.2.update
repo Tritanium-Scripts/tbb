@@ -3,14 +3,14 @@ $this->DB->query('
 	CREATE TABLE IF NOT EXISTS '.TBLPFX.'files (
 		"fileID" MEDIUMINT(8) UNSIGNED AUTO_INCREMENT,
 		"userID" MEDIUMINT(8) UNSIGNED DEFAULT NULL,
-		"fileUploadTimestamp" INT(10) DEFAULT \'0\' NOT NULL,
-		"fileIsUsed" TINYINT(1) DEFAULT \'0\' NOT NULL,
+		"fileUploadTimestamp" INT(10) UNSIGNED DEFAULT \'0\' NOT NULL,
+		"fileIsUsed" TINYINT(1) UNSIGNED DEFAULT \'0\' NOT NULL,
 		"fileName" VARCHAR(255) DEFAULT \'\' NOT NULL,
 		"fileSize" INT(10) UNSIGNED DEFAULT \'0\' NOT NULL,
 		"fileDownloadsCounter" INT(10) UNSIGNED DEFAULT \'0\' NOT NULL,
-		"fileData" TEXT DEFAULT \'\' NOT NULL,
+		"fileData" BLOB,
 		PRIMARY KEY ("fileID"),
-		KEY "userID_fileID" ("fileID", "fileID")
+		KEY "userID_fileID" ("userID", "fileID")
 	)
 ');
 

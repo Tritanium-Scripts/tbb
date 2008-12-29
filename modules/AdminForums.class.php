@@ -457,8 +457,8 @@ class AdminForums extends ModuleTemplate {
 								"authPostReply"=$4,
 								"authPostPoll"=$5,
 								"authEditPosts"=$6,
-								"authPostPoll"=$10,
-								"authPostPoll"=$11
+								"authUpload"=$10,
+								"authDownload"=$11
 							WHERE
 								"forumID"=$7
 								AND "authType"=$8
@@ -537,11 +537,11 @@ class AdminForums extends ModuleTemplate {
 				if(!$forumData = FuncForums::getForumData($forumID)) die('Cannot load date: forum');
 
 				$p = Functions::getSGValues($_POST['p'],array('users'),'');
-				$c = Functions::getSGValues($_POST['c'],array('authViewForumMembers','authPostTopicMembers','authPostReplyMembers','authPostPollMembers','authEditPostsMembers'),0,$forumData);
+				$c = Functions::getSGValues($_POST['c'],array('authViewForumMembers','authPostTopicMembers','authPostReplyMembers','authPostPollMembers','authEditPostsMembers','authUploadMembers','authDownloadMembers'),0,$forumData);
 				$c += Functions::getSGValues($_POST['c'],array('authIsMod'),0);
 
 				if(isset($_GET['doit'])) {
-					$c = Functions::getSGValues($_POST['c'],array('authViewForumMembers','authPostTopicMembers','authPostReplyMembers','authPostPollMembers','authEditPostsMembers','authIsMod'),0);
+					$c = Functions::getSGValues($_POST['c'],array('authViewForumMembers','authPostTopicMembers','authPostReplyMembers','authPostPollMembers','authEditPostsMembers','authUploadMembers','authDownloadMembers','authIsMod'),0);
 
 					$users = explode(',',$p['users']);
 					foreach($users AS &$curUser) {
@@ -560,7 +560,9 @@ class AdminForums extends ModuleTemplate {
 										"authPostReply"=$6,
 										"authPostPoll"=$7,
 										"authEditPosts"=$8,
-										"authIsMod"=$9
+										"authIsMod"=$9,
+										"authUpload"=$10,
+										"authDownload"=$11
 								',array(
 									$forumID,
 									AUTH_TYPE_USER,
@@ -570,7 +572,9 @@ class AdminForums extends ModuleTemplate {
 									$c['authPostReplyMembers'],
 									$c['authPostPollMembers'],
 									$c['authEditPostsMembers'],
-									$c['authIsMod']
+									$c['authIsMod'],
+									$c['authUploadMembers'],
+									$c['authDownloadMembers']
 								));
 							}
 						}
@@ -598,11 +602,11 @@ class AdminForums extends ModuleTemplate {
 				if(!$forumData = FuncForums::getForumData($forumID)) die('Cannot load date: forum');
 
 				$p = Functions::getSGValues($_POST['p'],array('groupID'),0);
-				$c = Functions::getSGValues($_POST['c'],array('authViewForumMembers','authPostTopicMembers','authPostReplyMembers','authPostPollMembers','authEditPostsMembers'),0,$forumData);
+				$c = Functions::getSGValues($_POST['c'],array('authViewForumMembers','authPostTopicMembers','authPostReplyMembers','authPostPollMembers','authEditPostsMembers','authUploadMembers','authDownloadMembers'),0,$forumData);
 				$c += Functions::getSGValues($_POST['c'],array('authIsMod'),0);
 
 				if(isset($_GET['doit'])) { // Falls Formular abgeschickt wurde
-					$c = Functions::getSGValues($_POST['c'],array('authViewForumMembers','authPostTopicMembers','authPostReplyMembers','authPostPollMembers','authEditPostsMembers','authIsMod'),0);
+					$c = Functions::getSGValues($_POST['c'],array('authViewForumMembers','authPostTopicMembers','authPostReplyMembers','authPostPollMembers','authEditPostsMembers','authUploadMembers','authDownloadMembers','authIsMod'),0);
 
 					if($groupData = FuncGroups::getGroupData($p['groupID'])) {
 						$this->modules['DB']->queryParams('SELECT "authID" FROM '.TBLPFX.'forums_auth WHERE "forumID"=$1 AND "authType"=$2 AND "authID"=$3',array($forumID,AUTH_TYPE_GROUP,$groupData['groupID']));
@@ -619,7 +623,9 @@ class AdminForums extends ModuleTemplate {
 									"authPostReply"=$6,
 									"authPostPoll"=$7,
 									"authEditPosts"=$8,
-									"authIsMod"=$9
+									"authIsMod"=$9,
+									"authUpload"=$10,
+									"authDownload"=$11
 							',array(
 								$forumID,
 								AUTH_TYPE_GROUP,
@@ -629,7 +635,9 @@ class AdminForums extends ModuleTemplate {
 								$c['authPostReplyMembers'],
 								$c['authPostPollMembers'],
 								$c['authEditPostsMembers'],
-								$c['authIsMod']
+								$c['authIsMod'],
+								$c['authUploadMembers'],
+								$c['authDownloadMembers']
 							));
 						}
 					}
