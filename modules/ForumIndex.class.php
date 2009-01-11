@@ -186,9 +186,6 @@ class ForumIndex extends ModuleTemplate {
 			$curForum['forumDescription'] = Functions::HTMLSpecialChars($curForum['forumDescription']);
 		}
 
-
-		$catsData = array_merge(array(array('catID'=>$catID,'catIsOpen'=>1)),$catsData);
-
 		$this->modules['Navbar']->addCategories($catID);
 
 		$this->modules['Template']->assign(array(

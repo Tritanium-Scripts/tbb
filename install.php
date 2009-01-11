@@ -1366,7 +1366,7 @@ class BoardInstall {
 								foreach($curForumRights AS &$curRight) {
 									$curRight = self::tbb1ConversionExplodeByTab($curRight);
 									$curRightType = ($curRight[1] == 1) ? 0 : 1;
-									if($curRightType == 0 && $this->tbb1ConversionUserExists($curRight[2]) || $curRightType == 1 && in_array($curRight[2],$groupIDs))
+									if($curRightType == 0 && $this->tbb1ConversionUserExists($curRight[2]) && !in_array($curRight[2], $curForumMods)|| $curRightType == 1 && in_array($curRight[2],$groupIDs))
 										$this->DB->queryParams('
 											INSERT INTO '.TBLPFX.'forums_auth SET
 												"forumID"=$1,
@@ -1791,7 +1791,7 @@ class BoardInstall {
 								$curTopicFirstPostID = $curTopicLastPostID = $curTopicPic = 0;
 								$curTopicStatus = ($curTopicInfo[0] == 1) ? 0 : 1;
 								$curTopicRepliesCounter = $curTopicCount-2;
-								$curTopicID = $this->tbb1ConversionProperties['lastPostID']++;
+								$curTopicID = $this->tbb1ConversionProperties['lastTopicID']++;
 								$curTopicTitle = $this->tbb1ConversionUnmutate(utf8_encode($curTopicInfo[1]));
 								$curTopicPosterID = 0;
 	
