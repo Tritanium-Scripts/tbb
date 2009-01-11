@@ -40,9 +40,6 @@ class BoardInstall {
 	 * @var array
 	 */
 	protected $tbb1ConversionProperties = array(
-		'lastPostID'=>1,
-		'lastTopicID'=>1,
-		'lastOptionID'=>1,
 		'membersCounter'=>0,
 		'membersCompleteCounter'=>0,
 		'topicsCounter'=>0,
@@ -61,7 +58,7 @@ class BoardInstall {
 	 * 
 	 * This should be decreased if the server is too slow
 	 */
-	const FILES_PER_ROUND = 200;
+	const FILES_PER_ROUND = 150;
 
 	public function __construct() {
 		if(get_magic_quotes_gpc() == 1) {
@@ -1751,10 +1748,6 @@ class BoardInstall {
 						$this->DB->query('DELETE FROM '.TBLPFX.'topics_subscriptions');
 						$this->DB->query('DELETE FROM '.TBLPFX.'polls_options');
 	
-						$this->tbb1ConversionProperties['lastPostID'] = 1;
-						$this->tbb1ConversionProperties['lastTopicID'] = 1;
-						$this->tbb1ConversionProperties['lastOptionID'] = 1;
-	
 						$this->tbb1ConversionPrintConversionStatus(INSTALLFILE.'?step='.$this->step.'&doit=1&subStep=3&'.MYSID); exit;
 						break;
 	
@@ -1791,7 +1784,6 @@ class BoardInstall {
 								$curTopicFirstPostID = $curTopicLastPostID = $curTopicPic = 0;
 								$curTopicStatus = ($curTopicInfo[0] == 1) ? 0 : 1;
 								$curTopicRepliesCounter = $curTopicCount-2;
-								$curTopicID = $this->tbb1ConversionProperties['lastTopicID']++;
 								$curTopicTitle = $this->tbb1ConversionUnmutate(utf8_encode($curTopicInfo[1]));
 								$curTopicPosterID = 0;
 	
@@ -1808,17 +1800,15 @@ class BoardInstall {
 	
 								$this->DB->queryParams('
 									INSERT INTO '.TBLPFX.'topics SET
-										"topicID"=$1,
-										"forumID"=$2,
-										"posterID"=$3,
-										"topicIsClosed"=$4,
-										"topicRepliesCounter"=$5,
-										"topicViewsCounter"=$6,
-										"topicTitle"=$7,
-										"topicGuestNick"=$8,
-										"topicIsPinned"=$9
+										"forumID"=$1,
+										"posterID"=$2,
+										"topicIsClosed"=$3,
+										"topicRepliesCounter"=$4,
+										"topicViewsCounter"=$5,
+										"topicTitle"=$6,
+										"topicGuestNick"=$7,
+										"topicIsPinned"=$8
 								',array(
-									$curTopicID,
 									$forumID,
 									$curTopicPosterID,
 									$curTopicStatus,
@@ -1828,6 +1818,7 @@ class BoardInstall {
 									$curTopicGuestNick,
 									(($curSticker && (in_array($j,$curSticker))) ? 1 : 0) //sticker hack
 								));
+								$curTopicID = $this->DB->getInsertID();
 	
 								if($curTopicInfo[4] == 1 && $curTopicPosterID != 0) {
 									$this->DB->queryParams('
@@ -1862,7 +1853,6 @@ class BoardInstall {
 										unset($temp);
 									}
 	
-									$curPostID = $this->tbb1ConversionProperties['lastPostID']++;
 									$curPostTimestamp = $this->tbb1ConversionConvertDate2Time($curPostData[2]);
 									$curPostGuestNick = '';
 									$curPostPosterID = 0;
@@ -1873,36 +1863,25 @@ class BoardInstall {
 										$curPostGuestNick = $this->strings['unknown_user'];
 									else
 										$curPostPosterID = $curPostData[1];
-	
-									if($k == 1) {
-										$curTopicFirstPostID = $curPostID;
-										$curTopicPic = $curPostData[6];
-										$curPostTitle = $curTopicTitle;
-										$curTopicPostTimestamp = $curPostTimestamp;
-									}
-									else {
-										$curPostTitle = 'Re: '.$curTopicTitle;
-									}
-									if($k == $curTopicRepliesCounter+1) $curTopicLastPostID = $curPostID;
-	
+
+									$curPostTitle = ($k == 1 ? $curTopicTitle : 'Re: '.$curTopicTitle);
+		
 									$this->DB->queryParams('
 										INSERT INTO '.TBLPFX.'posts SET
-											"postID"=$1,
-											"topicID"=$2,
-											"forumID"=$3,
-											"posterID"=$4,
-											"postTimestamp"=$5,
-											"postIP"=$6,
-											"smileyID"=$7,
-											"postEnableBBCode"=$8,
-											"postEnableSmilies"=$9,
-											"postEnableHtmlCode"=$10,
-											"postShowSignature"=$11,
-											"postGuestNick"=$12,
-											"postTitle"=$13,
-											"postText"=$14
+											"topicID"=$1,
+											"forumID"=$2,
+											"posterID"=$3,
+											"postTimestamp"=$4,
+											"postIP"=$5,
+											"smileyID"=$6,
+											"postEnableBBCode"=$7,
+											"postEnableSmilies"=$8,
+											"postEnableHtmlCode"=$9,
+											"postShowSignature"=$10,
+											"postGuestNick"=$11,
+											"postTitle"=$12,
+											"postText"=$13
 									',array(
-										$curPostID,
 										$curTopicID,
 										$forumID,
 										$curPostPosterID,
@@ -1917,8 +1896,21 @@ class BoardInstall {
 										$curPostTitle,
 										$this->tbb1ConversionUnmutate($this->tbb1ConversionBr2Nl(utf8_encode($curPostData[3])))
 									));
-								}
-	
+									$curPostID = $this->DB->getInsertID();
+
+									if($k == 1) {
+										$curTopicFirstPostID = $curPostID;
+										$curTopicPic = $curPostData[6];
+										$curTopicPostTimestamp = $curPostTimestamp;
+										$curPostTitle = $curTopicTitle;
+									}
+									else {
+										$curPostTitle = 'Re: '.$curTopicTitle;
+									}
+
+									if($k == $curTopicRepliesCounter+1) $curTopicLastPostID = $curPostID;
+								}	
+
 								$this->DB->queryParams('
 									UPDATE
 										'.TBLPFX.'topics
@@ -1966,7 +1958,6 @@ class BoardInstall {
 									
 									for($k = 1; $k < $curPollCount; $k++) {
 										$curOptionData = $this->tbb1ConversionExplodeByTab($curPollData[$k]);
-										$curOptionID = $this->tbb1ConversionProperties['lastOptionID']++;
 										$this->DB->queryParams('
 											INSERT INTO '.TBLPFX.'polls_options SET
 												"optionID"=$1,
@@ -1974,7 +1965,7 @@ class BoardInstall {
 												"optionTitle"=$3,
 												"optionVotesCounter"=$4
 										',array(
-											$curOptionID,
+											$k,
 											$curTopicID,
 											$this->tbb1ConversionUnmutate(utf8_encode($curOptionData[1])),
 											$curOptionData[2]
