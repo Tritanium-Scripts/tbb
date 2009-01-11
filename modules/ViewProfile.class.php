@@ -286,7 +286,12 @@ class ViewProfile extends ModuleTemplate {
 					if(trim($p['emailSubject']) == '') $error = $this->modules['Language']->getString('error_no_subject');
 					elseif(trim($p['emailMessage']) == '') $error = $this->modules['Language']->getString('error_no_message');
 					else {
-						Functions::myMail($this->modules['Auth']->getValue('userNick').' <'.$this->modules['Auth']->getValue('userEmailAddress').'>',$profileData['userNick'].' <'.$profileData['userEmailAddress'].'>',$p['emailSubject'],$p['emailMessage']);
+						Functions::myMail(
+							$this->modules['Auth']->getValue('userNick').' <'.$this->modules['Auth']->getValue('userEmailAddress').'>',
+							$profileData['userNick'].' <'.$profileData['userEmailAddress'].'>',
+							str_replace("\n", '', $p['emailSubject']),
+							str_replace("\r", '', $p['emailMessage'])
+						);
 
 						FuncMisc::printMessage('email_sent',array(sprintf($this->modules['Language']->getString('message_link_click_here_back_profile'),'<a href="'.INDEXFILE.'?action=ViewProfile&amp;profileID='.$profileID.'&amp;'.MYSID.'">','</a>')));
 						exit;

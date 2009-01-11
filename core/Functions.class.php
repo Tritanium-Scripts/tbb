@@ -127,12 +127,12 @@ class Functions {
 		return Functions::str_replace('<br />',"\n",$text);
 	}
 
-	public static function myMail($From,$To,$Subject,$Message,$AdditionalHeaders = '') {
-		$AdditionalHeaders .= "From: $From\r\n".
-		"Reply-To: $From\r\n".
-		"Content-type: text/plain; charset=UTF-8";
+	public static function myMail($from, $to, $subject, $message, $additionalHeaders = array()) {
+		$additionalHeaders[] = 'From: '.$from;
+		$additionalHeaders[] = 'Reply-To: '.$from;
+		$additionalHeaders[] = 'Content-type: text/plain; charset=UTF-8';
 
-		return mail($To,$Subject,$Message,$AdditionalHeaders);
+		return mail($to, $subject, $message, implode("\r\n", $additionalHeaders));
 	}
 
 	public static function getPostData($postID) {

@@ -345,8 +345,10 @@ class Posting extends ModuleTemplate {
 								) WHERE
 									t2."topicID"=$1
 									AND t1."userID"=t2."userID"
+									AND t1."userID"<>$2
 							',array(
-								$topicID
+								$topicID,
+								USERID
 							));
 							$subscriptionsData = $this->modules['DB']->raw2Array();
 							$emailsToSend = array();
@@ -375,7 +377,7 @@ class Posting extends ModuleTemplate {
 									'undisclosed-recipients: ;',
 									$curEmail[1],
 									$curEmail[2],
-									'Bcc: '.implode(', ',$curEmail[0])
+									array('Bcc: '.implode(', ',$curEmail[0]))
 								);
 							}
 							
