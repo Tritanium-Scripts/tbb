@@ -206,7 +206,7 @@ class Posting extends ModuleTemplate {
 								));
 							}
 
-							Functions::myHeader(INDEXFILE."?action=ViewTopic&postID=$postID&".MYSID."#post$postID");
+							Functions::myHeader(INDEXFILE.'?action=ViewTopic&postID='.$postID.'&'.MYSID.'#post'.$postID);
 						}
 						else {
 							if(USERID != 0)
@@ -354,7 +354,7 @@ class Posting extends ModuleTemplate {
 							$emailsToSend = array();
 							$this->modules['Template']->assign(array(
 								'topicTitle'=>$topicData['topicTitle'],
-								'linkToPost'=>$this->modules['Config']->getValue('board_address').'/'.INDEXFILE.'?action=ViewTopic&postID='.$postID.'#postID='.$postID
+								'linkToPost'=>$this->modules['Config']->getValue('board_address').'/'.INDEXFILE.'?action=ViewTopic&postID='.$postID.'#post'.$postID
 							));
 							foreach($subscriptionsData AS &$curSubscription) {
 								$curLanguageString = $this->modules['Language']->getLS($curSubscription['userLanguage']);

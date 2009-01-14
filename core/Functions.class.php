@@ -38,14 +38,14 @@ class Functions {
 	public static function unifyUserName($userName) {
 		$DB = Factory::singleton('DB');
 
-        $DB->queryParams('SELECT "userID" FROM '.TBLPFX.'users WHERE "userNick"=$1 LIMIT 1', array($userName));
+		$DB->queryParams('SELECT "userID" FROM '.TBLPFX.'users WHERE "userNick"=$1 LIMIT 1', array($userName));
 		return ($DB->getAffectedRows() != 1);
 	}
 
 	public static function unifyEmailAddress($emailAddress) {
 		$DB = Factory::singleton('DB');
 
-        $DB->queryParams('SELECT "userID" FROM '.TBLPFX.'users WHERE "userEmailAddress"=$1 LIMIT 1', array($emailAddress));
+		$DB->queryParams('SELECT "userID" FROM '.TBLPFX.'users WHERE "userEmailAddress"=$1 LIMIT 1', array($emailAddress));
 		return ($DB->getAffectedRows() != 1);
 	}
 
@@ -137,7 +137,7 @@ class Functions {
 
 	public static function getPostData($postID) {
 		$DB = Factory::singleton('DB');
-        $DB->queryParams('SELECT * FROM '.TBLPFX.'posts WHERE "postID"=$1', array($postID));
+		$DB->queryParams('SELECT * FROM '.TBLPFX.'posts WHERE "postID"=$1', array($postID));
 		return ($DB->getAffectedRows() == 1) ? $DB->fetchArray() : FALSE;
 	}
 
@@ -230,22 +230,6 @@ class Functions {
 	public static function set1YearCookie($cookieName, $cookieValue) {
 		setcookie($cookieName,$cookieValue,time()+31536000);
 	}
-
-	/*public static function implodeTwice($string1, $string2, $array) {
-		foreach($array AS &$curValue)
-			$curValue = implode($string1,$curValue);
-
-		return implode($string2,$array);
-	}
-
-	public static function explodeTwice($string1, $string2, $array) {
-		$array = explode($string1,$array);
-
-		foreach($array AS &$curValue)
-			$curValue = explode($string2,$curValue);
-
-		return $array;
-	}*/
 
 	public static function getPostPicsBox($checkedID = 0) {
 		$Template = Factory::singleton('Template');
@@ -510,27 +494,27 @@ class Functions {
 		return $TimeZones;
 	}
 
-    //String wrapper functions, see ticket #3 for details
-    public static function strlen($string){
-        return (function_exists('mb_strlen') ? mb_strlen($string) : strlen($string));
-    }
+	//String wrapper functions, see ticket #3 for details
+	public static function strlen($string){
+		return (function_exists('mb_strlen') ? mb_strlen($string) : strlen($string));
+	}
 
-    public static function substr($string, $start, $length = NULL){
-    	if(is_null($length)) 
-    		return (function_exists('mb_substr') ? mb_substr($string,$start) : substr($string,$start));
-    	else
-    		return (function_exists('mb_substr') ? mb_substr($string,$start,$length) : substr($string,$start,$length));
-    }
+	public static function substr($string, $start, $length = NULL){
+		if(is_null($length))
+			return (function_exists('mb_substr') ? mb_substr($string,$start) : substr($string,$start));
+		else
+			return (function_exists('mb_substr') ? mb_substr($string,$start,$length) : substr($string,$start,$length));
+	}
 
-    public static function str_replace($search, $replace, $subject){
-        return str_replace($search, $replace, $subject);
-    }
+	public static function str_replace($search, $replace, $subject){
+		return str_replace($search, $replace, $subject);
+	}
 
-    public static function strtolower($str){
-        return (function_exists('mb_strtolower') ? mb_strtolower($str) : strtolower($str));
-    }
-    
-    public static function splitTime($time) {
+	public static function strtolower($str){
+		return (function_exists('mb_strtolower') ? mb_strtolower($str) : strtolower($str));
+	}
+
+	public static function splitTime($time) {
 		$array = array();
 	
 		$array['months'] = floor($time/2592000);
@@ -546,5 +530,5 @@ class Functions {
 		$array['seconds'] = $time;
 	
 		return $array;
-    }
+	}
 }
