@@ -2075,8 +2075,8 @@ class BoardInstall {
 							break;
 						}
 						
-						$newConfigData[] = array($settingsFile[5],'board_name');
-						$newConfigData[] = array(($settingsFile[25] == 1 ? 0 : 1),'guests_enter_board');
+						$newConfigData[] = array(utf8_encode($settingsFile[5]),'board_name');
+						$newConfigData[] = array(($settingsFile[25] == '1' ? 0 : 1),'guests_enter_board');
 						$newConfigData[] = array($settingsFile[12],'enable_registration');
 						$newConfigData[] = array($settingsFile[47],'avatar_image_height');
 						$newConfigData[] = array($settingsFile[48],'avatar_image_width');
