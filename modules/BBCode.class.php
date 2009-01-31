@@ -30,7 +30,7 @@ class BBCode extends ModuleTemplate {
 		if(isset($codephp))
 			// Wurde Code zwischengespeichert, so muss dieser nach allen anderen Parsevorgaengen wieder eingesetzt werden, anhand der Platzhalter.
 			foreach($codephp as $key => $value)
-				$text = preg_replace("/\[codephp\]$key\[\/codephp\]/si", $value, $text);
+				$text = str_replace('[codephp]' . $key . '[/codephp]', $value, $text);
 			// Jetzt kann der Code ansich geparst werden, ohne verfaelscht zu werden. :)
 		if($enableBBCode) $text = $this->parse($text);
 		return $text;
