@@ -170,7 +170,6 @@ modules/Template/internals/core.write_compiled_resource.php -text
 modules/Template/internals/core.write_file.php -text
 modules/Template/plugins/block.textformat.php -text
 modules/Template/plugins/compiler.assign.php -text
-modules/Template/plugins/compiler.defun.php -text
 modules/Template/plugins/function.assign_debug_info.php -text
 modules/Template/plugins/function.config_load.php -text
 modules/Template/plugins/function.counter.php -text
@@ -189,7 +188,6 @@ modules/Template/plugins/function.mailto.php -text
 modules/Template/plugins/function.math.php -text
 modules/Template/plugins/function.popup.php -text
 modules/Template/plugins/function.popup_init.php -text
-modules/Template/plugins/function.repeat.php -text
 modules/Template/plugins/modifier.capitalize.php -text
 modules/Template/plugins/modifier.cat.php -text
 modules/Template/plugins/modifier.count_characters.php -text
