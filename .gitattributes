@@ -188,6 +188,7 @@ modules/Template/plugins/function.mailto.php -text
 modules/Template/plugins/function.math.php -text
 modules/Template/plugins/function.popup.php -text
 modules/Template/plugins/function.popup_init.php -text
+modules/Template/plugins/function.repeat.php -text
 modules/Template/plugins/modifier.capitalize.php -text
 modules/Template/plugins/modifier.cat.php -text
 modules/Template/plugins/modifier.count_characters.php -text
