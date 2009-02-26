@@ -114,3 +114,10 @@ initializeClosedCatIDs();
  <tr><td class="CellStd"><span class="FontSmall">{$wioData.text}</span><hr /><span class="FontSmall">{$wioData.members}</span></td></tr>
  </table>
 {/if}
+{if $wwoData != FALSE}
+ <br />
+ <table class="TableStd" width="100%">
+  <tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('who_was_online')}</span></td></tr>
+  <tr><td class="CellStd"><span class="FontSmall">{$modules.Language->getString('wwo_text')}</span><hr /><span class="FontSmall">{$wwoData}</span></td></tr>
+ </table>
+{/if}

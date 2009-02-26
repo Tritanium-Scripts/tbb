@@ -42,6 +42,7 @@ class ForumIndex extends ModuleTemplate {
 
 		$newsData = $this->_loadNewsData();
 		$wioData = $this->_loadWIOData();
+		$wwoData = $this->_loadWWOData();
 		$boardStatsData = $this->_loadBoardStatsData();
 
 
@@ -194,6 +195,7 @@ class ForumIndex extends ModuleTemplate {
 			'forumsData'=>$forumsData,
 			'newsData'=>$newsData,
 			'wioData'=>$wioData,
+			'wwoData'=>$wwoData,
 			'boardStatsData'=>$boardStatsData,
 			'latestPostsData'=>$this->getLatestPostsData($forumIDsAccessible)
 		));
@@ -437,6 +439,33 @@ class ForumIndex extends ModuleTemplate {
 		}
 
 		return $wioData;
+	}
+
+	/**
+	 * Loads WWO user list based on todays visits.
+	 * 
+	 * @return bool|mixed User list or false
+	 */
+	protected function _loadWWOData() {
+	    $this->modules['DB']->queryParams('
+	    	SELECT
+	    		"userID", "userNick"
+	    	FROM
+	    		' . TBLPFX . 'users
+	    	WHERE
+	    		"userLastAction" > $1
+	    	ORDER BY
+	    		"userLastAction" ASC
+	    	LIMIT 10
+	    ', array(
+	    	mktime(0, 0, 0)
+	    ));
+
+	    $members = array();
+	    while($curData = $this->modules['DB']->fetchArray())
+	        $members[] = '<a href="' . INDEXFILE . '?action=ViewProfile&amp;profileID=' . $curData['userID'] . '&amp;' . MYSID . '">' . $curData['userNick'] . '</a>';
+
+		return count($members) > 0 ? implode(', ', $members) : false;
 	}
 
 	protected function _loadBoardStatsData() {
