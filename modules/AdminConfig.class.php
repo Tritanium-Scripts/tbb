@@ -31,7 +31,7 @@ class AdminConfig extends ModuleTemplate {
 			'board_email_address','board_logo','board_name','check_unique_email_addresses','dataversion',
 			'email_signature','enable_attachments','enable_avatars','enable_avatar_upload','enable_email_formular',
 			'enable_email_functions','enable_file_upload','enable_gzip','enable_news_module','enable_outbox',
-			'enable_pms','enable_registration','enable_sig','enable_topic_subscription','enable_wio',
+			'enable_pms','enable_registration','enable_sig','enable_topic_subscription','enable_wio', 'enable_wwo',
 			'forbidden_attachment_types','guests_enter_board','maximum_pms','maximum_pms_folders','maximum_registrations',
 			'maximum_sig_length','max_attachments_per_post','max_attachment_size','max_avatar_file_size','max_latest_posts',
 			'mod_rank_pic','newest_user_id','newest_user_nick','news_forum','online_users_record',

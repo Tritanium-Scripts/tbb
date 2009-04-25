@@ -46,6 +46,7 @@ INSERT INTO /*TABLEPREFIX*/config ("configName","configValue") VALUES ('enable_r
 INSERT INTO /*TABLEPREFIX*/config ("configName","configValue") VALUES ('enable_sig','1');
 INSERT INTO /*TABLEPREFIX*/config ("configName","configValue") VALUES ('enable_topic_subscription','1');
 INSERT INTO /*TABLEPREFIX*/config ("configName","configValue") VALUES ('enable_wio','1');
+INSERT INTO /*TABLEPREFIX*/config ("configName","configValue") VALUES ('enable_wwo','1');
 INSERT INTO /*TABLEPREFIX*/config ("configName","configValue") VALUES ('forbidden_attachment_types','');
 INSERT INTO /*TABLEPREFIX*/config ("configName","configValue") VALUES ('guests_enter_board','1');
 INSERT INTO /*TABLEPREFIX*/config ("configName","configValue") VALUES ('hide_not_accessible_forums','0');

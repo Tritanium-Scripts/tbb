@@ -447,24 +447,24 @@ class ForumIndex extends ModuleTemplate {
 	 * @return bool|mixed User list or false
 	 */
 	protected function _loadWWOData() {
-	    $this->modules['DB']->queryParams('
-	    	SELECT
-	    		"userID", "userNick"
-	    	FROM
-	    		' . TBLPFX . 'users
-	    	WHERE
-	    		"userLastAction" > $1
-	    	ORDER BY
-	    		"userLastAction" ASC
-	    	LIMIT 10
-	    ', array(
-	    	mktime(0, 0, 0)
-	    ));
-
 	    $members = array();
-	    while($curData = $this->modules['DB']->fetchArray())
-	        $members[] = '<a href="' . INDEXFILE . '?action=ViewProfile&amp;profileID=' . $curData['userID'] . '&amp;' . MYSID . '">' . $curData['userNick'] . '</a>';
+		if($this->modules['Config']->getValue('enable_wwo') == 1) {
+			$this->modules['DB']->queryParams('
+	    		SELECT
+	    			"userID", "userNick"
+	    		FROM
+	    			' . TBLPFX . 'users
+	    		WHERE
+	    			"userLastAction" > $1
+    			ORDER BY
+					"userLastAction" ASC
+	    	', array(
+	    		mktime(0, 0, 0)
+	    	));
 
+	    	while($curData = $this->modules['DB']->fetchArray())
+	        	$members[] = '<a href="' . INDEXFILE . '?action=ViewProfile&amp;profileID=' . $curData['userID'] . '&amp;' . MYSID . '">' . $curData['userNick'] . '</a>';
+		}
 		return count($members) > 0 ? implode(', ', $members) : false;
 	}
 

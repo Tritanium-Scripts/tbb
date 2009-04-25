@@ -266,7 +266,7 @@
 			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('allow_guests_select_language')}:</span></td>
 			<td class="CellAlt"><span class="FontNorm"><label><input type="radio" name="p[config][allow_select_lng_guests]" value="1"{if $p.config.allow_select_lng_guests == 1} checked="checked"{/if}/> {$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<label><input type="radio" name="p[config][allow_select_lng_guests]" value="0"{if $p.config.allow_select_lng_guests == 0} checked="checked"{/if}/> {$modules.Language->getString('negative')}</label></span></td>
 		</tr>
-		<tr><td class="CellCat" colspan="2"><span class="FontCat">{$modules.Language->getString('who_is_online_settings')}</span></td></tr>
+		<tr><td class="CellCat" colspan="2"><span class="FontCat">{$modules.Language->getString('who_is_was_online_settings')}</span></td></tr>
 		<tr>
 			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('enable_who_is_online')}:</span></td>
 			<td class="CellAlt"><span class="FontNorm"><label><input type="radio" name="p[config][enable_wio]" value="1"{if $p.config.enable_wio == 1} checked="checked"{/if}/> {$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<label><input type="radio" name="p[config][enable_wio]" value="0"{if $p.config.enable_wio == 0} checked="checked"{/if}/> {$modules.Language->getString('negative')}</label></span></td>
@@ -278,6 +278,10 @@
 		<tr>
 			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('show_who_is_online_box_forumindex')}:</span></td>
 			<td class="CellAlt"><span class="FontNorm"><label><input type="radio" name="p[config][show_wio_forumindex]" value="1"{if $p.config.show_wio_forumindex == 1} checked="checked"{/if}/> {$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<label><input type="radio" name="p[config][show_wio_forumindex]" value="0"{if $p.config.show_wio_forumindex == 0} checked="checked"{/if}/> {$modules.Language->getString('negative')}</label></span></td>
+		</tr>
+		<tr>
+			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('enable_who_was_online')}:</span></td>
+			<td class="CellAlt"><span class="FontNorm"><label><input type="radio" name="p[config][enable_wwo]" value="1"{if $p.config.enable_wwo == 1} checked="checked"{/if}/> {$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<label><input type="radio" name="p[config][enable_wwo]" value="0"{if $p.config.enable_wwo == 0} checked="checked"{/if}/> {$modules.Language->getString('negative')}</label></span></td>
 		</tr>
 		<tr><td class="CellCat" colspan="2"><span class="FontCat">{$modules.Language->getString('private_messages_settings')}</span></td></tr>
 		<tr>
