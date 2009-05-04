@@ -55,7 +55,7 @@ class Ajax extends ModuleTemplate {
                             $postID
                         ));
 
-						$postTextHTMLReady = $this->modules['BBCode']->format($postText, ($postData['postEnableHtmlCode'] == 1 && $forumData['forumEnableHtmlCode'] == 1), ($postData['postEnableSmilies'] == 1 && $forumData['forumEnableSmilies'] == 1), ($postData['postEnableBBCode'] == 1 && $forumData['forumEnableBBCode'] == 1));
+						$postTextHTMLReady = $this->modules['BBCode']->format($postText, ($postData['postEnableHtmlCode'] == 1 && $forumData['forumEnableHtmlCode'] == 1), ($postData['postEnableSmilies'] == 1 && $forumData['forumEnableSmilies'] == 1), ($postData['postEnableBBCode'] == 1 && $forumData['forumEnableBBCode'] == 1), $postData['topicID']);
 						
 						$values = array(
 							array('name'=>'postID','value'=>$postID),

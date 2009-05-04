@@ -37,14 +37,15 @@ class Constants extends ModuleTemplate {
 		define('BBCODE_SUPERSCRIPT', 7);
 		define('BBCODE_SUBSCRIPT', 8);
 		define('BBCODE_HIDE', 9);
-		define('BBCODE_CENTER', 10);
-		define('BBCODE_EMAIL', 11);
-		define('BBCODE_IMAGE', 12);
-		define('BBCODE_LINK', 13);
-		define('BBCODE_COLOR',14);
-		define('BBCODE_SIZE', 15);
-		define('BBCODE_GLOW', 16);
-		define('BBCODE_SHADOW', 17);
-		define('BBCODE_FLASH', 18);
+		define('BBCODE_LOCK', 10);
+		define('BBCODE_CENTER', 11);
+		define('BBCODE_EMAIL', 12);
+		define('BBCODE_IMAGE', 13);
+		define('BBCODE_LINK', 14);
+		define('BBCODE_COLOR',15);
+		define('BBCODE_SIZE', 16);
+		define('BBCODE_GLOW', 17);
+		define('BBCODE_SHADOW', 18);
+		define('BBCODE_FLASH', 19);
 	}
 }

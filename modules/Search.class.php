@@ -298,7 +298,7 @@ class Search extends ModuleTemplate {
 				else $curTopicLastPostPoster = '<a href="'.INDEXFILE.'?action=ViewProfile&amp;profileID='.$curTopic['topicLastPostPosterID'].'&amp;'.MYSID.'">'.$curTopic['topicLastPostPosterNick'].'</a>';
 				$curTopic['_topicLastPost'] = Functions::toDateTime($curTopic['topicLastPostTimestamp']).'<br/>'.$this->modules['Language']->getString('by').' '.$curTopicLastPostPoster.' <a href="'.INDEXFILE.'?action=ViewTopic&amp;topicID='.$curTopic['topicID'].'&amp;z=last&amp;'.MYSID.'#post'.$curTopic['topicLastPostID'].'">&#187;</a>';
 
-				$curTopic['_topicFirstPostPostText'] = $this->modules['BBCode']->format($curTopic['topicFirstPostPostText'], ($curTopic['topicFirstPostPostEnableHtmlCode'] == 1 || $curTopic['forumEnableHtmlCode'] == 1), ($curTopic['topicFirstPostPostEnableSmilies'] == 1 && $curTopic['forumEnableSmilies'] == 1), ($curTopic['topicFirstPostPostEnableBBCode'] == 1 && $curTopic['forumEnableBBCode'] == 1));
+				$curTopic['_topicFirstPostPostText'] = $this->modules['BBCode']->format($curTopic['topicFirstPostPostText'], ($curTopic['topicFirstPostPostEnableHtmlCode'] == 1 || $curTopic['forumEnableHtmlCode'] == 1), ($curTopic['topicFirstPostPostEnableSmilies'] == 1 && $curTopic['forumEnableSmilies'] == 1), ($curTopic['topicFirstPostPostEnableBBCode'] == 1 && $curTopic['forumEnableBBCode'] == 1), $curTopic['topicID']);
 			}
 			
 			$this->modules['Template']->assign(array(
@@ -363,7 +363,7 @@ class Search extends ModuleTemplate {
 				$curPost['_postDateTime'] = Functions::toDateTime($curPost['postTimestamp']);
 				$curPost['_postPoster'] = ($curPost['posterID'] == 0 ? $curPost['postGuestNick'] : '<a href="'.INDEXFILE.'?action=ViewProfile&amp;profileID='.$curPost['posterID'].'&amp;'.MYSID.'">'.$curPost['posterNick'].'</a>');
 				
-				$curPost['_postText'] = $this->modules['BBCode']->format($curPost['postText'], ($curPost['postEnableHtmlCode'] == 1 || $curPost['forumEnableHtmlCode'] == 1), ($curPost['postEnableSmilies'] == 1 && $curPost['forumEnableSmilies'] == 1), ($curPost['postEnableBBCode'] == 1 && $curPost['forumEnableBBCode'] == 1));
+				$curPost['_postText'] = $this->modules['BBCode']->format($curPost['postText'], ($curPost['postEnableHtmlCode'] == 1 || $curPost['forumEnableHtmlCode'] == 1), ($curPost['postEnableSmilies'] == 1 && $curPost['forumEnableSmilies'] == 1), ($curPost['postEnableBBCode'] == 1 && $curPost['forumEnableBBCode'] == 1), $curPost['topicID']);
 				//if($curPost['post_enable_urltransformation'] == 1  && ($forum_id == 0 || $forumData['forum_enable_urltransformation'] == 1)) $curPost['post_text'] = transform_urls($curPost['post_text']);
 			}
 

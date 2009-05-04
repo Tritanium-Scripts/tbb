@@ -226,7 +226,7 @@ class ViewTopic extends ModuleTemplate {
 			//
 			// Den Beitrag entsprechend formatieren
 			//
-			$curPost['_postText'] = $this->modules['BBCode']->format($curPost['postText'], ($curPost['postEnableHtmlCode'] == 1 && $forumData['forumEnableHtmlCode'] == 1), ($curPost['postEnableSmilies'] == 1 && $forumData['forumEnableSmilies'] == 1), ($curPost['postEnableBBCode'] == 1 && $forumData['forumEnableBBCode'] == 1));
+			$curPost['_postText'] = $this->modules['BBCode']->format($curPost['postText'], ($curPost['postEnableHtmlCode'] == 1 && $forumData['forumEnableHtmlCode'] == 1), ($curPost['postEnableSmilies'] == 1 && $forumData['forumEnableSmilies'] == 1), ($curPost['postEnableBBCode'] == 1 && $forumData['forumEnableBBCode'] == 1), $topicID);
 
 
 			//

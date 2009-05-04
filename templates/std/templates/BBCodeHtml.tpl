@@ -43,9 +43,14 @@
 {elseif $b.bbCodeType == $smarty.const.BBCODE_SUBSCRIPT}
  <sub>{$b.subText}</sub>
 {elseif $b.bbCodeType == $smarty.const.BBCODE_HIDE}
-	<div>  
+	<div>
 		<div style="padding:3px;"><b>{$modules.Language->getString('hidden_text')}:</b> <input class="FormBBCodeButton" type="button" value="{$modules.Language->getString('uncover')}" onclick="(s = this.parentNode.parentNode.getElementsByTagName('div')[1].style).display = s.display == 'none' ? '' : 'none'; (s = this.parentNode.style).backgroundColor = s.backgroundColor == '' ? '#000000' : ''; s.color = s.color == '' ? '#FFFFFF' : ''; this.value = s.color == '' ? '{$modules.Language->getString('uncover')}' : '{$modules.Language->getString('hide')}';" /></div>
-		<div style="background-color:#F0F8FF; border:1px #000000 solid; display:none; padding:10px;">{$b.hideText}</div>  
+		<div style="background-color:#F0F8FF; border:1px #000000 solid; display:none; padding:10px;">{$b.hideText}</div>
+	</div>
+{elseif $b.bbCodeType == $smarty.const.BBCODE_LOCK}
+	<div>  
+		<div style="background-color:#000000; color:#FFFFFF; font-weight:bold; padding:3px;">{$modules.Language->getString('locked_text')}:</div>
+		<div style="border:1px #000000 solid; padding:10px; background-color:#{if $b.lockText != ''}F0F8FF;">{$b.lockText}{else}000000;"><span style="color:red; font-weight:bold;">{$modules.Language->getString('locked_text_hint')}</span>{/if}</div>
 	</div>
 {elseif $b.bbCodeType == $smarty.const.BBCODE_EMAIL}
  <a href="mailto:{$b.emailAddress}">{$b.emailAddress}</a>

@@ -413,7 +413,7 @@ class Posting extends ModuleTemplate {
 				// Die Vorschau
 				$previewData = array();
 				if($show['previewBox']) {
-					$previewData['messageText'] = $this->modules['BBCode']->format($p['messageText'], ($c['enableHtmlCode'] == 1 || $show['enableHtmlCode']), ($c['enableSmilies'] == 1 && $show['enableSmilies']), ($c['enableBBCode'] == 1 && $show['enableBBCode']));
+					$previewData['messageText'] = $this->modules['BBCode']->format($p['messageText'], ($c['enableHtmlCode'] == 1 || $show['enableHtmlCode']), ($c['enableSmilies'] == 1 && $show['enableSmilies']), ($c['enableBBCode'] == 1 && $show['enableBBCode']), $topicID);
 					$previewData['messageTitle'] = Functions::HTMLSpecialChars($p['messageTitle']);
 				}
 
@@ -461,7 +461,7 @@ class Posting extends ModuleTemplate {
 					foreach($latestPostsData AS &$curPost) {
 						$curPost['_postDateTime'] = Functions::toDateTime($curPost['postTimestamp']);
 						$curPost['_postPosterNick'] = ($curPost['posterID'] == 0 ? $curPost['postGuestNick'] : $curPost['postPosterNick']);
-						$curPost['_postText'] = $this->modules['BBCode']->format($curPost['postText'], ($curPost['postEnableHtmlCode'] == 1 || $forumData['forumEnableHtmlCode'] == 1), ($curPost['postEnableSmilies'] == 1 && $forumData['forumEnableSmilies'] == 1), ($curPost['postEnableBBCode'] == 1 && $forumData['forumEnableBBCode'] == 1));
+						$curPost['_postText'] = $this->modules['BBCode']->format($curPost['postText'], ($curPost['postEnableHtmlCode'] == 1 || $forumData['forumEnableHtmlCode'] == 1), ($curPost['postEnableSmilies'] == 1 && $forumData['forumEnableSmilies'] == 1), ($curPost['postEnableBBCode'] == 1 && $forumData['forumEnableBBCode'] == 1), $topicID);
 					}
 				}
 				elseif($mode == 'Edit') {
