@@ -97,7 +97,21 @@ class Posting extends ModuleTemplate {
 						if($this->modules['DB']->numRows() == 1) {
 							$postDataQuote = $this->modules['DB']->fetchArray();
 							$quoteNick = ($postDataQuote['posterID'] == 0 ? $postDataQuote['postGuestNick'] : $postDataQuote['userNick']);
-							$p['messageText'] = '[quote='.$quoteNick.']'.$postDataQuote['postText'].'[/quote]';
+							//To prevent an user reading locked text via quoting the text instead of posting first, filter it here
+							$this->modules['DB']->queryParams('
+								SELECT
+									COUNT(*)
+								FROM
+									' . TBLPFX . 'posts
+								WHERE
+									"topicID"=$1
+									AND "posterID"=$2
+							', array(
+								$topicID,
+								USERID
+							));
+							list($counter) = $this->modules['DB']->fetchArray();
+							$p['messageText'] = '[quote='.$quoteNick.']' . ($counter > 0 ? $postDataQuote['postText'] : preg_replace("/\[lock\](.*?)\[\/lock\]/si", '[lock][/lock]', $postDataQuote['postText'])) . '[/quote]';
 						}
 					}
 				}

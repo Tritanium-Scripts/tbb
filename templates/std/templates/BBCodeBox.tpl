@@ -48,11 +48,12 @@
  <option value="#0000FF" style="background-color:#0000FF; color:#0000FF;">{$modules.Language->getString('blue')}</option>
 </select>*}<br />
 <input class="FormBBCodeButton" type="button" value="{$modules.Language->getString('quote')}" onclick="insert('[quote]','[/quote]');"/>
-<input class="FormBBCodeButton" type="button" value="Code" onclick="insert('[code]','[/code]');"/>
+<input class="FormBBCodeButton" style="font-family:monospace;" type="button" value="Code" onclick="insert('[code]','[/code]');"/>
 <input class="FormBBCodeButton" type="button" value="PHP" onclick="insert('[php]','[/php]');"/>
-<input class="FormBBCodeButton" type="button" value="Center" onclick="insert('[center]','[/center]');"/>
+<input class="FormBBCodeButton" type="button" value="{$modules.Language->getString('center')}" onclick="insert('[center]','[/center]');"/>
 <input class="FormBBCodeButton" type="button" value="{$modules.Language->getString('list')}" onclick="insert('[list]\n[*]','\n[/list]');"/>
 <input class="FormBBCodeButton" type="button" value="Flash" onclick="insert('[flash]','[/flash]');"/>
 <input class="FormBBCodeButton" type="button" value="SUP" onclick="insert('[sup]','[/sup]');"/>
 <input class="FormBBCodeButton" type="button" value="SUB" onclick="insert('[sub]','[/sub]');"/>
 <input class="FormBBCodeButton" type="button" value="{$modules.Language->getString('hidden_text')}" onclick="insert('[hide]','[/hide]');"/>
+<input class="FormBBCodeButton" type="button" value="{$modules.Language->getString('locked_text')}" onclick="insert('[lock]','[/lock]');"/>

@@ -14,11 +14,11 @@ class BBCode extends ModuleTemplate {
 		'Language',
 		'Template'
 	);
-	protected $topicID = 0;
-	protected $showLock = false;
+	protected $topicIDs = array(0);
 
 	public function format($text, $enableHTMLCode=FALSE, $enableSmilies=TRUE, $enableBBCode=TRUE, $topicID=0) {
-		if($this->modules['Auth']->isLoggedIn() == 1 && $topicID > 0 && $this->topicID != $topicID)
+		$this->topicIDs[0] = $topicID; //Save current topic ID at index 0
+		if($this->modules['Auth']->isLoggedIn() == 1 && $topicID > 0 && !array_key_exists($topicID, $this->topicIDs))
 		{
 			$this->modules['DB']->queryParams('
 				SELECT
@@ -33,8 +33,7 @@ class BBCode extends ModuleTemplate {
 				USERID
 			));
 			list($counter) = $this->modules['DB']->fetchArray();
-			$this->showLock = $counter > 0;
-			$this->topicID = $topicID;
+			$this->topicIDs[$topicID] = $counter > 0;
 		}
 		if(!$enableHTMLCode) $text = Functions::HTMLSpecialChars($text);
 		if($enableBBCode && (stristr($text, '[code]') || stristr($text, '[php]'))) {
@@ -221,7 +220,7 @@ class BBCode extends ModuleTemplate {
 	protected function cbLock($elements) {
 		$this->modules['Template']->assign('b', array(
 			'bbCodeType'=>BBCODE_LOCK,
-			'lockText'=>$this->showLock ? $elements[1] : ''
+			'lockText'=>$this->topicIDs[$this->topicIDs[0]] ? $elements[1] : ''
 		));
 		return $this->modules['Template']->fetch('BBCodeHtml.tpl');
 	}
