@@ -73,6 +73,7 @@ class BBCode extends ModuleTemplate {
 		$text = preg_replace_callback("/\[lock\](.*?)\[\/lock\]/si", array($this, 'cbLock'), $text); //[lock]xxx[/lock]
 		$text = preg_replace_callback("/\[center\](.*?)\[\/center\]/si",array($this,'cbCenter'),$text); // [center]xxx[/center]
 		$text = preg_replace_callback("/\[email\](.*?)\[\/email\]/si",array($this,'cbEmail'),$text); // [email]xxx[/email]
+		$text = preg_replace_callback("/\[email=(.*?)\](.*?)\[\/email\]/si",array($this,'cbEmail'),$text); // [email=xxx]xxx[/email]
 		$text = preg_replace_callback("/\[img\](.*?)\[\/img\]/si",array($this,'cbImage'),$text); // [img]xxx[/img]
 		$text = preg_replace_callback("/\[img=(.*?)\](.*?)\[\/img\]/si", array($this,'cbImage'), $text); //[img=xxx]xxx[/img]
 		$text = preg_replace_callback("/\[url\](.*?)\[\/url\]/si",array($this,'cbLink'),$text); // [url]xxx[/url]
@@ -234,9 +235,17 @@ class BBCode extends ModuleTemplate {
 	}
 
 	protected function cbEmail($elements) {
+		if(count($elements) == 3) {
+			$emailAddress = $elements[1];
+			$emailText = $elements[2];
+		}
+		else
+			$emailAddress = $emailText = $elements[1];
+
 		$this->modules['Template']->assign('b',array(
 			'bbCodeType'=>BBCODE_EMAIL,
-			'emailAddress'=>$elements[1]
+			'emailAddress'=>$emailAddress,
+			'emailText'=>$emailText
 		));
 		return $this->modules['Template']->fetch('BBCodeHtml.tpl');
 	}
@@ -259,9 +268,8 @@ class BBCode extends ModuleTemplate {
 			$linkAddress = $elements[1];
 			$linkText = $elements[2];
 		}
-		else {
+		else
 			$linkAddress = $linkText = $elements[1];
-		}
 
 		$linkAddress = Functions::addHttp($linkAddress);
 

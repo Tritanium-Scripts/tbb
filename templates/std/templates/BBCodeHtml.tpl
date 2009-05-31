@@ -53,7 +53,7 @@
 		<div style="border:1px #000000 solid; padding:10px; background-color:#{if $b.lockText != ''}F0F8FF;">{$b.lockText}{else}000000;"><span style="color:red; font-weight:bold;">{$modules.Language->getString('locked_text_hint')}</span>{/if}</div>
 	</div>
 {elseif $b.bbCodeType == $smarty.const.BBCODE_EMAIL}
- <a href="mailto:{$b.emailAddress}">{$b.emailAddress}</a>
+ <a href="mailto:{$b.emailAddress}">{$b.emailText}</a>
 {elseif $b.bbCodeType == $smarty.const.BBCODE_CENTER}
  <p style="text-align:center;">{$b.centerText}</p>
 {elseif $b.bbCodeType == $smarty.const.BBCODE_IMAGE}
