@@ -14,10 +14,11 @@ class BBCode extends ModuleTemplate {
 		'Language',
 		'Template'
 	);
-	protected $topicIDs = array(0);
+	protected $topicID = 0;
+	protected $topicIDs = array();
 
 	public function format($text, $enableHTMLCode=FALSE, $enableSmilies=TRUE, $enableBBCode=TRUE, $topicID=0) {
-		$this->topicIDs[0] = $topicID; //Save current topic ID at index 0
+		$this->topicID = $topicID; //Save current topic ID
 		if($this->modules['Auth']->isLoggedIn() == 1 && $topicID > 0 && !array_key_exists($topicID, $this->topicIDs))
 		{
 			$this->modules['DB']->queryParams('
@@ -221,7 +222,7 @@ class BBCode extends ModuleTemplate {
 	protected function cbLock($elements) {
 		$this->modules['Template']->assign('b', array(
 			'bbCodeType'=>BBCODE_LOCK,
-			'lockText'=>$this->topicIDs[$this->topicIDs[0]] ? $elements[1] : ''
+			'lockText'=>$this->topicIDs[$this->topicID] ? $elements[1] : ''
 		));
 		return $this->modules['Template']->fetch('BBCodeHtml.tpl');
 	}
