@@ -77,7 +77,7 @@ input.FormText:focus {
 	font-family:verdana,arial;
 }
 
-input.FormBButton {
+input.FormBButton, button.FormBButton {
 	background-color:#d4d0c8;
 	border:2px #000000 outset;
 	padding:2px;
@@ -87,7 +87,7 @@ input.FormBButton {
 	font-family:verdana,arial;
 	font-weight:bold;
 }
-input.FormBButton:hover {
+input.FormBButton:hover, button.FormBButton:hover {
 	background-color:#F8F8FF;
 	border:2px #000000 inset;
 	padding:2px;
@@ -99,7 +99,7 @@ input.FormBButton:hover {
 	cursor:pointer;
 }
 
-input.FormButton {
+input.FormButton, button.FormButton {
 	background-color:#d4d0c8;
 	border:2px #000000 outset;
 	padding:2px;
@@ -108,7 +108,7 @@ input.FormButton {
 	font-size:11px;
 	font-family:verdana,arial;
 }
-input.FormButton:hover {
+input.FormButton:hover, button.FormButton:hover {
 	background-color:#F8F8FF;
 	border:2px #000000 inset;
 	padding:2px;
@@ -485,6 +485,7 @@ td.CellButtons {
 	background-color:#778899;
 	border:1px #000000 solid;
 	padding:1px;
+	text-align:center;
 }
 .FontButtonsStd {
 	font-family:verdana,arial;

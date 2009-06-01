@@ -114,6 +114,7 @@ modules/AdminSmilies.class.php -text
 modules/AdminTemplates.class.php -text
 modules/AdminUsers.class.php -text
 modules/Ajax.class.php -text
+modules/AjaxResponse.class.php -text
 modules/Auth.class.php -text
 modules/AuthAdmin.class.php -text
 modules/BBCode.class.php -text
@@ -127,6 +128,7 @@ modules/DB/TSMySQL.drop.sql -text
 modules/DB/TSMySQL.scheme.sql -text
 modules/EditProfile.class.php -text
 modules/EditTopic.class.php -text
+modules/FileUploads.class.php -text
 modules/ForumIndex.class.php -text
 modules/Globals.class.php -text
 modules/GlobalsAdmin.class.php -text
@@ -281,6 +283,8 @@ templates/std/images/v2.gif -text
 templates/std/images/v3.gif -text
 templates/std/images/v4.gif -text
 templates/std/scripts/ajax.js -text
+templates/std/scripts/dojo/dojo.js -text
+templates/std/scripts/dojo/io/iframe.js -text
 templates/std/scripts/jscripts.js -text
 templates/std/scripts/posting.js -text
 templates/std/styles/ts_tbb2_standard.css -text

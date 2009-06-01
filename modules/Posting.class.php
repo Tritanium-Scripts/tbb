@@ -414,6 +414,7 @@ class Posting extends ModuleTemplate {
 				$show['showEditings'] = $this->modules['Auth']->isLoggedIn() == 1 && ($this->modules['Auth']->getValue('userIsAdmin') == 1 || $this->modules['Auth']->getValue('userIsSupermod') == 1 || $authData['authIsMod'] == 1);
 				$show['pollBox'] = $mode == 'Topic' && ($this->modules['Auth']->getValue('userIsAdmin') == 1 || $this->modules['Auth']->getValue('userIsSupermod') == 1 || $authData['authIsMod'] == 1 || $authData['authPostPoll'] == 1);
 				$show['previewBox'] = isset($_POST['showPreview']);
+				$show['fileUploads'] = $this->modules['Config']->getValue('enable_attachments') == 1 && ($this->modules['Auth']->isLoggedIn() == 1 && ($this->modules['Auth']->getValue('userAuthUpload') == 1 || $this->modules['Auth']->getValue('userAuthUpload') == 2 && $authData['authUpload'] == 1) || $authData['authUpload'] == 1);
 
 				// smilies, topic pics
 				$smiliesBox = $adminSmiliesBox = '';
@@ -536,7 +537,7 @@ class Posting extends ModuleTemplate {
 	}
 
 	protected function _authenticateUser(&$mode,&$forumData) {
-		$authData = Functions::getAuthData($forumData,array('authPostTopic','authPostReply','authPostPoll','authEditPosts','authIsMod'));
+		$authData = Functions::getAuthData($forumData,array('authPostTopic','authPostReply','authPostPoll','authEditPosts','authIsMod','authUpload'));
 		if($mode == 'Reply' && $authData['authPostReply'] == 0 || ($mode == 'Edit' || $mode == 'Delete') && $authData['authEditPosts'] == 0 || $mode == 'Topic' && $authData['authPostTopic'] == 0) {
 			FuncMisc::printMessage('access_denied');
 			exit;

@@ -1,7 +1,10 @@
 <script type="text/javascript">
+	dojo.require("dojo.io.iframe");
 	LanguageDelete = EntitiesToUnicode('{$modules.Language->getString('delete')}');
+	LanguageUpload = EntitiesToUnicode('{$modules.Language->getString('upload')}');
 	RowsCounter = {$pollOptionsCounter};
 	LastRowID = {$pollOptionsCounter};
+	var lastUploadFieldID = 0;
 
 	{literal}
 	function addPollOption() {
@@ -46,8 +49,51 @@
 		document.getElementById('idPollOptionsTable').deleteRow(document.getElementById(RowID).rowIndex);
 		RowsCounter--;
 	}
+
+	function addUploadField() {
+		var fieldID = lastUploadFieldID++;
+
+		var newdiv = document.createElement('div');
+		newdiv.id = 'UploadField'+fieldID;
+
+		var newinput = document.createElement('input');
+		newinput.type = 'file';
+		newinput.name = 'uploads[]';
+
+		newdiv.appendChild(newinput);
+
+		dojo.byId('UploadFields').appendChild(newdiv);
+	}
+
+	function closeUploadFormBox() {
+		dojo.byId('UploadFormBox').style.display = 'none';
+	}
+
+	function openUploadFormBox() {
+		dojo.byId('UploadFormBox').style.display = 'table';
+	}
 	{/literal}
 </script>
+{if $show.fileUploads}
+	<div id="UploadFormBox" style="position:fixed; display:table; left:0; top:0; width:100%; height:100%;">
+		<div style="position:fixed; left:0; top:0; width:100%; height:100%; background-color:#000000; opacity:0.9; z-index:1;">
+		</div>
+		<div style="display:table-cell; vertical-align:middle; position:relative; z-index:2;">
+			<form id="UploadForm">
+				<table class="TableStd" style="margin:auto; width:500px;">
+					<tr><td class="CellTitle"><span class="FontTitle">Dateiupload</span></td></tr>
+					<tr>
+						<td class="CellStd">
+							<div id="UploadFields"></div>
+							<span class="FontSmall"><a href="javascript:addUploadField();">Feld f&uuml;r Upload hinzuf&uuml;gen</a></span>
+						</td>
+					</tr>
+					<tr><td class="CellButtons"><button type="button" class="FormBButton" onclick="">Datei(en) hochladen</button>&nbsp;&nbsp;&nbsp;<button type="button" class="FormButton" onclick="closeUploadFormBox();">Abbrechen</button></tr></td>
+				</table>
+			</form>
+		</div>
+	</div>
+{/if}
 {if $show.previewBox}
  <table class="TableStd" width="100%">
  <tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('preview')}</span></td></tr>
@@ -137,6 +183,14 @@
  <script type="text/javascript">
 	if(RowsCounter == 0) addPollOption();
  </script>
+{/if}
+{if $show.fileUploads}
+	<tr><td class="CellCat" colspan="2"><span class="FontCat">{$modules.Language->getString('attachments')}</span></td></tr>
+	<tr>
+		<td class="CellStd" colspan="2">
+			<span class="FontSmall"><a href="javascript:openUploadFormBox();">Feld f&uuml;r Upload hinzuf&uuml;gen</a></span>
+		</td>
+	</tr>
 {/if}
 <tr><td class="CellButtons" colspan="2" align="center"><input class="FormButton" type="submit" value="{$actionText}"/>&nbsp;&nbsp;&nbsp;<input class="FormBButton" type="submit" name="showPreview" value="{$modules.Language->getString('preview')}"/>&nbsp;&nbsp;&nbsp;<input class="FormButton" type="reset" value="{$modules.Language->getString('reset')}"/></td></tr>
 </table></form>

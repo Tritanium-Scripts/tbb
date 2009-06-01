@@ -9,9 +9,10 @@ $this->DB->query('
 		"fileSize" INT(10) UNSIGNED DEFAULT \'0\' NOT NULL,
 		"fileDownloadsCounter" INT(10) UNSIGNED DEFAULT \'0\' NOT NULL,
 		"fileData" BLOB,
+		"fileThumbnail" BLOB,
 		PRIMARY KEY ("fileID"),
 		KEY "userID_fileID" ("userID", "fileID")
-	)
+	) ENGINE=InnoDB
 ');
 
 // Add download and upload rights
