@@ -17,6 +17,16 @@ class BBCode extends ModuleTemplate {
 	protected $topicID = 0;
 	protected $topicIDs = array();
 
+	/**
+	* Returns a fornmatted text for BBCode tags, smilies, HTML tags and line breaks.
+	*
+	* @param string $text Text to parse
+	* @param bool $enableHTMLCode Allow HTML tags
+	* @param bool $enableSmilies Parse smiley syntax
+	* @param bool $enableBBCode Parse BBCode statements
+	* @param int $topicID ID of current topic, if applicable
+	* @return string Formatted text
+	*/
 	public function format($text, $enableHTMLCode=FALSE, $enableSmilies=TRUE, $enableBBCode=TRUE, $topicID=0) {
 		$this->topicID = $topicID; //Save current topic ID
 		if($this->modules['Auth']->isLoggedIn() == 1 && $topicID > 0 && !array_key_exists($topicID, $this->topicIDs))
@@ -38,7 +48,7 @@ class BBCode extends ModuleTemplate {
 		}
 		if(!$enableHTMLCode) $text = Functions::HTMLSpecialChars($text);
 		if($enableBBCode && (stristr($text, '[code]') || stristr($text, '[php]'))) {
-			// Um zu verhindern, dass &quot;) in den Zwinker-Smilie umgewandelt wird, ist etwas mehr Aufwand noetig. Zunaechst werden erstmal alle [php] und [code] Tags gesucht...
+			// Um zu verhindern, dass &quot;) in den Zwinker-Smiley umgewandelt wird, ist etwas mehr Aufwand noetig. Zunaechst werden erstmal alle [php] und [code] Tags gesucht...
 			preg_match_all("/\[(code|php)\].*?\[\/\\1\]/si", $text, $codephp);
 			// ...und das Ergebnis in $codephp gespeichert. Hier wird nur der erste Eintrag benoetigt...
 			$codephp = array_shift($codephp);
@@ -49,20 +59,40 @@ class BBCode extends ModuleTemplate {
 		}
 		if($enableSmilies) $text = strtr($text, $this->modules['Cache']->getSmiliesData('write'));
 		$text = nl2br($text);
-		if(isset($codephp))
-			// Wurde Code zwischengespeichert, so muss dieser nach allen anderen Parsevorgaengen wieder eingesetzt werden, anhand der Platzhalter.
-			foreach($codephp as $key => $value)
-				$text = str_replace('[codephp]' . $key . '[/codephp]', $value, $text);
-			// Jetzt kann der Code ansich geparst werden, ohne verfaelscht zu werden. :)
-		if($enableBBCode) $text = $this->parse($text);
+		if($enableBBCode)
+		{
+			$text = $this->parse($text);
+			if(isset($codephp))
+				// Wurde Code zwischengespeichert, so muss dieser nach allen anderen Parsevorgaengen wieder eingesetzt werden, anhand der Platzhalter.
+				foreach($codephp as $key => $value)
+					$text = str_replace('[codephp]' . $key . '[/codephp]', $value, $text);
+				// Jetzt kann der Code ansich geparst werden, ohne verfaelscht zu werden. :)
+			$text = $this->parseCode($text);  
+		}
 		return $text;
 	}
 
-	protected function parse($text) {
+	/**
+	* Returns parsed text for BBCode code tags ([code] and [php]) only.
+	* 
+	* @param string $text Text to parse with BBCode code statements
+	* @return string Parsed text with code tags applied
+	*/
+	protected function parseCode($text) {
 		$text = preg_replace_callback("/\[code\](.*?)\[\/code\]/si",array($this,'cbCode'),$text); // [code]xxx[/code]
 		$text = preg_replace_callback("/\[code=(\d*?)\](.*?)\[\/code\]/si",array($this,'cbCode'),$text); // [code=integer]xxx[/code]
 		$text = preg_replace_callback("/\[php\](.*?)\[\/php\]/si", array($this, 'cbPHP'), $text); //[php]xxx[/php]
 		$text = preg_replace_callback("/\[php=(\d*?)\](.*?)\[\/php\]/si", array($this, 'cbPHP'), $text); //[php=integer]xxx[/php]
+		return $text;
+	}
+
+	/**
+	* Returns parsed text for every BBCode except code tags ([code] and [php]).
+	*
+	* @param string $text Text to parse with BBCode statements
+	* @return string Parsed text with BBCode applied
+	*/
+	protected function parse($text) {
 		$text = preg_replace_callback("/\[list\](.*?)\[\/list\]/si", array($this, 'cbList'), $text); //[list][*]xxx[/list]
 		$text = preg_replace_callback("/\[b\](.*?)\[\/b\]/si",array($this,'cbBold'),$text); // [b]xxx[/b]
 		$text = preg_replace_callback("/\[i\](.*?)\[\/i\]/si",array($this,'cbItalic'),$text); // [i]xxx[/i]
