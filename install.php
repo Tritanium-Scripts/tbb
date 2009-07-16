@@ -589,7 +589,7 @@ class BoardInstall {
 					$results['phptest']['color'] = 'Green';
 					$results['phptest']['success'] = TRUE;
 				}
-                                                                
+
 				//
 				// Ueberpruefung von Multibyte String Erweiterung
 				//
@@ -1523,15 +1523,15 @@ class BoardInstall {
 								"fieldType"=$2,
 								"fieldRegexVerification"=$3,
 								"fieldData"=$4,
-                                "fieldLink"=$5,
-                                "fieldVarName"=$6
+								"fieldLink"=$5,
+								"fieldVarName"=$6
 						',array(
 							$this->strings['icq'],
 							0,
 							'/^\d+$/si',
 							serialize(array()),
-                            '%1$s <img src="http://status.icq.com/online.gif?icq=%1$s&amp;img=2" alt="ICQ"/>',
-                            'icq'
+							'%1$s <img src="http://status.icq.com/online.gif?icq=%1$s&amp;img=2" alt="ICQ"/>',
+							'icq'
 						));
 						$this->tbb1ConversionProperties['dbIcqID'] = $this->DB->getInsertID();
 	
@@ -1540,15 +1540,15 @@ class BoardInstall {
 								"fieldName"=$1,
 								"fieldType"=$2,
 								"fieldData"=$3,
-                                "fieldLink"=$4,
-                                "fieldVarName"=$5,
-                                "fieldIsLocked"=$6
+								"fieldLink"=$4,
+								"fieldVarName"=$5,
+								"fieldIsLocked"=$6
 						',array(
 							$this->strings['homepage'],
 							0,
 							serialize(array()),
-                            '<a href="%1$s" target="_blank">%1$s</a>',
-                            'homepage',
+							'<a href="%1$s" target="_blank">%1$s</a>',
+							'homepage',
 							1
 						));
 						$this->tbb1ConversionProperties['dbHomepageID'] = $this->DB->getInsertID();
@@ -1558,14 +1558,14 @@ class BoardInstall {
 								"fieldName"=$1,
 								"fieldType"=$2,
 								"fieldData"=$3,
-                                "fieldLink"=$4,
-                                "fieldVarName"=$5
+								"fieldLink"=$4,
+								"fieldVarName"=$5
 						',array(
 							$this->strings['real_name'],
 							0,
 							serialize(array()),
-                            '%1$s',
-                            'realName'
+							'%1$s',
+							'realName'
 						));
 						$this->tbb1ConversionProperties['dbRealNameID'] = $this->DB->getInsertID();
 						
@@ -1887,7 +1887,7 @@ class BoardInstall {
 										$curPostPosterID,
 										$curPostTimestamp,
 										$curPostData[4],
-                                        ($curPostData[6] > file_get_contents($this->pathToTBB1.'/vars/tsmiliess.var')) ? '1' : $curPostData[6], //In case of invalid tsmilie
+										($curPostData[6] > file_get_contents($this->pathToTBB1.'/vars/tsmiliess.var')) ? '1' : $curPostData[6], //In case of invalid tsmilie
 										$curPostData[8],
 										$curPostData[7],
 										$curPostData[9],
@@ -2024,18 +2024,18 @@ class BoardInstall {
 										"fieldName"=$1,
 										"fieldType"=$2,
 										"fieldData"=$3,
-                                		"fieldLink"=$4,
-                                		"fieldVarName"=$5
+										"fieldLink"=$4,
+										"fieldVarName"=$5
 								',array(
 									$this->strings['unknown'] . $j,
 									0,
 									serialize(array()),
-                            		'%1$s',
-                            		'unknown' . $j
+									'%1$s',
+									'unknown' . $j
 								));
 								$j++;
-                            }
-                        }
+							}
+						}
 
 						$this->DB->query('
 							UPDATE
@@ -2080,24 +2080,32 @@ class BoardInstall {
 						$newConfigData[] = array($settingsFile[12],'enable_registration');
 						$newConfigData[] = array($settingsFile[47],'avatar_image_height');
 						$newConfigData[] = array($settingsFile[48],'avatar_image_width');
-                        $newConfigData[] = array($settingsFile[4],'board_email_address');
-                        $newConfigData[] = array($settingsFile[6],'board_logo');
-                        $newConfigData[] = array($settingsFile[13],'maximum_registrations');
-                        $newConfigData[] = array($settingsFile[14],'verify_email_address'); //create_reg_pw
-                        $newConfigData[] = array($settingsFile[16],'topics_per_page');
-                        $newConfigData[] = array($settingsFile[17],'posts_per_page');
-                        $newConfigData[] = array($settingsFile[18],'wio_timeout');
-                        $newConfigData[] = array($settingsFile[19],'enable_wio');
-                        $newConfigData[] = array($settingsFile[21],'show_boardstats_forumindex');
-                        if($settingsFile[22] > 1) { //last posts hack
-                        	$newConfigData[] = array(1,'show_latest_posts_forumindex');
-                        	$newConfigData[] = array($settingsFile[22],'max_latest_posts');
-                        }
-                        else $newConfigData[] = array($settingsFile[22],'show_latest_posts_forumindex');
-                        $newConfigData[] = array($settingsFile[43],'enable_gzip');
-                        $newConfigData[] = array($settingsFile[51],'enable_email_functions');
-                        $newConfigData[] = array($settingsTimeZone,'standard_tz');
-						
+						$newConfigData[] = array($settingsFile[4],'board_email_address');
+						$newConfigData[] = array($settingsFile[6],'board_logo');
+						$newConfigData[] = array($settingsFile[13],'maximum_registrations');
+						$newConfigData[] = array($settingsFile[14],'verify_email_address'); //create_reg_pw
+						$newConfigData[] = array($settingsFile[16],'topics_per_page');
+						$newConfigData[] = array($settingsFile[17],'posts_per_page');
+						$newConfigData[] = array($settingsFile[18],'wio_timeout');
+						$newConfigData[] = array($settingsFile[19],'enable_wio');
+						$newConfigData[] = array($settingsFile[21],'show_boardstats_forumindex');
+						if($settingsFile[22] > 1) { //last posts hack
+							$newConfigData[] = array(1,'show_latest_posts_forumindex');
+							$newConfigData[] = array($settingsFile[22],'max_latest_posts');
+						}
+						else $newConfigData[] = array($settingsFile[22],'show_latest_posts_forumindex');
+						$newConfigData[] = array($settingsFile[43],'enable_gzip');
+						$newConfigData[] = array($settingsFile[51],'enable_email_functions');
+						$newConfigData[] = array($settingsTimeZone,'standard_tz');
+
+						//WWO hack support
+						$wwoFile = self::tbb1ConversionFileToArray($this->pathToTBB1 . '/vars/today.var');
+						if($wwoFile) {
+							$wwoData = self::tbb1ConversionExplodeByTab($wwoFile[1]);
+							$wwoData[1] = mktime(0, 0, 0, substr($wwoData[1], 2, 2), substr($wwoData[1], 0, 2), substr($wwoData[1], 4));
+							$newConfigData[] = array(implode(',', $wwoData), 'online_users_record');
+						}
+
 						foreach($newConfigData AS $curConfig) {
 							$this->DB->queryParams('
 								UPDATE
