@@ -57,7 +57,7 @@ class EditTopic extends ModuleTemplate {
 
 				$p['pollDuration'] = isset($_POST['p']['pollDuration']) ? intval($_POST['p']['pollDuration']) : (($topicData['topicPollEndTimestamp']-$topicData['topicPollStartTimestamp'])/86400);
 
-				$p += Functions::getSGValues($_POST['p'],array('topicPollTitle'),'',$topicDataData);
+				$p += Functions::getSGValues($_POST['p'],array('topicPollTitle'),'',$topicData);
 				$c = Functions::getSGValues($topicData,array('topicPollGuestsVote','topicPollShowResultsAfterEnd','topicPollGuestsViewResults'),0);
 
 				$this->modules['Template']->assign('optionsData',$optionsData);
