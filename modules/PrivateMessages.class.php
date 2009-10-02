@@ -254,18 +254,18 @@ class PrivateMessages extends ModuleTemplate {
 										$c['requestReadReceipt']
 									));
 								}
-								
+								//TODO a lot of bugs, looks like same bugs are around line 500?!
 								if($this->modules['Config']->getValue('enable_email_functions') == 1) {
 									$this->modules['Template']->assign(array(
-										'recipientNick'=>$curRecipient['userNick'],
+										'recipientNick'=>$curRecipient['userNick'],//TODO get nick from ID!
 										'senderNick'=>$this->modules['Auth']->getValue('userNick'),
-										'messageTitle'=>$p['messageTitle'],
-										'messageText'=>$p['messageText'],
+										'messageTitle'=>$p['pmSubject'],
+										'messageText'=>$p['pmMessageText'],
 										'pmLink'=>$this->modules['Config']->getValue('board_address').'/'.INDEXFILE.'?action=PrivateMessages&mode=ViewPM&pmID='.$pmID
 									));
 									Functions::myMail(
 										$this->modules['Config']->getValue('board_name').' <'.$this->modules['Config']->getValue('board_email_address').'>',
-										$curRecipient['userEmailAddress'],
+										$curRecipient['userEmailAddress'],//TODO get mail addy from ID?!
 										$this->modules['Language']->getString('email_subject_new_pm_received'),
 										$this->modules['Template']->fetch('PrivateMessageReceived.mail',$this->modules['Language']->getLD().'mails')
 									);
@@ -684,7 +684,7 @@ class PrivateMessages extends ModuleTemplate {
 							break;
 						}
 					}
-					
+
 					if($moveFolderID != -1 && !$validFolder) $error = $this->modules['Language']->getString('invalid_selection');
 					else {
 						if($moveFolderID == -1) $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'pms WHERE "pmToID"=$1 AND "folderID"=$2', array(USERID, $folderID));
