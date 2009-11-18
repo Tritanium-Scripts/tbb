@@ -23,7 +23,7 @@
  </tr>
  <tr>
   <td class="CellStd" valign="top"><span class="FontNorm">{$modules.Language->getString('poll_duration')}:</span></td>
-  <td class="CellAlt" valign="top"><input class="FormText" size="5" name="p[pollDuration]" value="{$p.pollDuration}"/> <span class="FontSmall">({$modules.Language->getString('in_days')})</span></td>
+  <td class="CellAlt" valign="top"><input class="FormText" size="5" name="p[topicPollDuration]" value="{$p.topicPollDuration}"/> <span class="FontSmall">({$modules.Language->getString('in_days')})</span></td>
  </tr>
  <tr>
   <td class="CellStd" valign="top"><span class="FontNorm">{$modules.Language->getString('options')}:</span></td>

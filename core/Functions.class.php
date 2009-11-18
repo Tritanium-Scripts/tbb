@@ -130,7 +130,7 @@ class Functions {
 	public static function myMail($from, $to, $subject, $message, $additionalHeaders = array()) {
 		$additionalHeaders[] = 'From: '.$from;
 		$additionalHeaders[] = 'Reply-To: '.$from;
-		$additionalHeaders[] = 'Content-type: text/plain; charset=UTF-8';
+		$additionalHeaders[] = 'Content-Type: text/plain; charset=UTF-8';
 
 		return mail($to, $subject, $message, implode("\r\n", $additionalHeaders));
 	}

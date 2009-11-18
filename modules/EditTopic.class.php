@@ -55,7 +55,7 @@ class EditTopic extends ModuleTemplate {
 				foreach($optionsData AS $curOption)
 					$p['optionsData'][$curOption['optionID']] = isset($_POST['p']['optionsData'][$curOption['optionID']]) ? $_POST['p']['optionsData'][$curOption['optionID']] : $curOption['optionTitle'];
 
-				$p['pollDuration'] = isset($_POST['p']['pollDuration']) ? intval($_POST['p']['pollDuration']) : (($topicData['topicPollEndTimestamp']-$topicData['topicPollStartTimestamp'])/86400);
+				$p['topicPollDuration'] = isset($_POST['p']['topicPollDuration']) ? intval($_POST['p']['topicPollDuration']) : (($topicData['topicPollEndTimestamp']-$topicData['topicPollStartTimestamp'])/86400);
 
 				$p += Functions::getSGValues($_POST['p'],array('topicPollTitle'),'',$topicData);
 				$c = Functions::getSGValues($topicData,array('topicPollGuestsVote','topicPollShowResultsAfterEnd','topicPollGuestsViewResults'),0);
@@ -74,12 +74,12 @@ class EditTopic extends ModuleTemplate {
 					}
 				}
 
-				$c = Functions::getSGValues($_POST['c'],array('pollGuestsVote','pollShowResultsAfterEnd','pollGuestsViewResults'),0);
+				$c = Functions::getSGValues($_POST['c'],array('topicPollGuestsVote','topicPollShowResultsAfterEnd','topicPollGuestsViewResults'),0);
 
 				if(trim($p['topicTitle']) == '') $error = $this->modules['Language']->getString('error_no_title');
-				elseif($topicData['topicHasPoll'] == 1 && trim($p['pollTitle']) == '') $error = $this->modules['Language']->getString('error_poll_title_missing');
+				elseif($topicData['topicHasPoll'] == 1 && trim($p['topicPollTitle']) == '') $error = $this->modules['Language']->getString('error_poll_title_missing');
 				elseif($topicData['topicHasPoll'] == 1 && $optionTitleMissing) $error = $this->modules['Language']->getString('error_poll_option_missing');
-				elseif($topicData['topicHasPoll'] == 1 && $p['pollDuration'] <= 0) $error = $this->modules['Language']->getString('error_invalid_poll_duration');
+				elseif($topicData['topicHasPoll'] == 1 && $p['topicPollDuration'] <= 0) $error = $this->modules['Language']->getString('error_invalid_poll_duration');
 				else {
 					$this->modules['DB']->queryParams('
 						UPDATE

@@ -74,8 +74,8 @@ class AdminUsers extends ModuleTemplate {
 
 						if($c['notifyUser'] == 1 && $this->modules['Config']->getValue('enable_email_functions') == 1) {
 							$this->modules['Template']->assign(array(
-								'userNick'=>$p['userName'],
-								'userID'=>$userID,
+								'userNick'=>$p['userNick'],
+								'userID'=>$newUserID,
 								'userEmailAddress'=>$p['userEmailAddress'],
 								'userPassword'=>$p['userPassword']
 							));
