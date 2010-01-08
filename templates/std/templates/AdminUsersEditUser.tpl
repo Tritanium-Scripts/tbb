@@ -16,7 +16,7 @@
 </tr>
 <tr>
  <td class="CellStd" valign="top"><span class="FontNorm">{$modules.Language->getString('signature')}:</span></td>
- <td class="CellAlt" valign="top"><textarea cols="50" rows="5" class="FormTextArea">{$p.userSignature}</textarea></td>
+ <td class="CellAlt" valign="top"><textarea class="FormTextArea" cols="50" rows="5" name="p[userSignature]">{$p.userSignature}</textarea></td>
 </tr>
 <tr>
  <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('avatar')}:</span></td>

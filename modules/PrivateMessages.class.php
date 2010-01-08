@@ -159,6 +159,7 @@ class PrivateMessages extends ModuleTemplate {
 					$c['enableSmilies'] = (isset($_POST['c']['enableSmilies']) && $this->modules['Config']->getValue('allow_pms_smilies') == 1) ? 1 : 0;
 					$c['showSignature'] = (isset($_POST['c']['showSignature']) && $this->modules['Config']->getValue('enable_sig') == 1) ? 1 : 0;
 					$c['enableBBCode'] = (isset($_POST['c']['enableBBCode']) && $this->modules['Config']->getValue('allow_pms_bbcode') == 1) ? 1 : 0;
+					$c['enableHtmlCode'] = (isset($_POST['c']['enableHtmlCode']) && $this->modules['Config']->getValue('allow_pms_htmlcode') == 1) ? 1 : 0;
 					$c['saveOutbox'] = (isset($_POST['c']['saveOutbox']) && $this->modules['Config']->getValue('enable_outbox') == 1) ? 1 : 0;
 					$c['requestReadReceipt'] = (isset($_POST['c']['requestReadReceipt']) && $this->modules['Config']->getValue('allow_pms_rconfirmation') == 1) ? 1 : 0;
 
@@ -181,7 +182,7 @@ class PrivateMessages extends ModuleTemplate {
 					if(count($errors) == 0) {
 						if(isset($_POST['showPreview'])) {
 							$previewData = array();
-							$previewData['pmMessageText'] = $this->modules['BBCode']->format($p['pmMessageText'], FALSE, ($c['enableSmilies'] == 1), ($c['enableBBCode'] == 1));
+							$previewData['pmMessageText'] = $this->modules['BBCode']->format($p['pmMessageText'], ($c['enableHtmlCode'] == 1), ($c['enableSmilies'] == 1), ($c['enableBBCode'] == 1));
 							$previewData['pmSubject'] = Functions::HTMLSpecialChars($p['pmSubject']);							
 							$previewData['pmRecipients'] = $recipients;
 						} else {
@@ -353,6 +354,9 @@ class PrivateMessages extends ModuleTemplate {
 						t1."pmIsReplied",
 						t1."pmMessageText",
 						t1."pmGuestNick",
+						t1."pmEnableBBCode",
+						t1."pmEnableSmilies",
+						t1."pmEnableHtmlCode",
 						t2."userNick" AS "pmFromNick",
 						t2."userEmailAddress" AS "pmFromEmailAddress",
 						t4."folderName" AS "pmFolderName"
@@ -383,7 +387,7 @@ class PrivateMessages extends ModuleTemplate {
 								"pmType"=0,
 								"pmSubject"=$3,
 								"pmSendTimestamp"=$4,
-								"pmEnableBBcode"=0,
+								"pmEnableBBCode"=0,
 								"pmEnableSmilies"=0,
 								"pmEnableHtmlCode"=0,
 								"pmShowSignature"=0,
@@ -419,6 +423,7 @@ class PrivateMessages extends ModuleTemplate {
 					$c['enableSmilies'] = (isset($_POST['c']['enableSmilies']) && $this->modules['Config']->getValue('allow_pms_smilies') == 1) ? 1 : 0;
 					$c['showSignature'] = (isset($_POST['c']['showSignature']) && $this->modules['Config']->getValue('enable_sig') == 1) ? 1 : 0;
 					$c['enableBBCode'] = (isset($_POST['c']['enableBBCode']) && $this->modules['Config']->getValue('allow_pms_bbcode') == 1) ? 1 : 0;
+					$c['enableHtmlCode'] = (isset($_POST['c']['enableHtmlCode']) && $this->modules['Config']->getValue('allow_pms_htmlcode') == 1) ? 1 : 0;
 					$c['saveOutbox'] = (isset($_POST['c']['saveOutbox']) && $this->modules['Config']->getValue('enable_outbox') == 1) ? 1 : 0;
 					$c['requestReadReceipt'] = (isset($_POST['c']['requestReadReceipt']) && $this->modules['Config']->getValue('allow_pms_rconfirmation') == 1) ? 1 : 0;
 
@@ -428,7 +433,7 @@ class PrivateMessages extends ModuleTemplate {
 					if(count($errors) == 0) {
 						if(isset($_POST['showPreview'])) {
 							$previewData = array();
-							$previewData['pmMessageText'] = $this->modules['BBCode']->format($p['pmMessageText'], FALSE, ($c['enableSmilies'] == 1), ($c['enableBBCode'] == 1));
+							$previewData['pmMessageText'] = $this->modules['BBCode']->format($p['pmMessageText'], ($c['enableHtmlCode'] == 1), ($c['enableSmilies'] == 1), ($c['enableBBCode'] == 1));
  							$previewData['pmSubject'] = Functions::HTMLSpecialChars($p['pmSubject']);							
 						} else {
 							$this->modules['DB']->queryParams('
@@ -556,7 +561,7 @@ class PrivateMessages extends ModuleTemplate {
 				elseif($pmData['folderID'] == 1) $pmData['pmFolderName'] = $this->modules['Language']->getString('outbox');
 
 				$pmData['_pmSubject'] = Functions::HTMLSpecialChars($pmData['pmSubject']);
-				$pmData['_pmMessageText'] = $this->modules['BBCode']->format($pmData['pmMessageText'], FALSE, FALSE, FALSE); //TOODO no parse?
+				$pmData['_pmMessageText'] = $this->modules['BBCode']->format($pmData['pmMessageText'], ($pmData['pmEnableHtmlCode'] == 1), ($pmData['pmEnableSmilies'] == 1), ($pmData['pmEnableBBCode'] == 1));
 
 				$this->modules['Template']->assign(array(
 					'pmID'=>$pmID,
