@@ -129,8 +129,8 @@ class AdminForums extends ModuleTemplate {
 								"authPostTopicGuests"=$15,
 								"authPostReplyGuests"=$16,
 								"authPostPollGuests"=$17,
-								"authUploadGuests"=$21,
-								"authDownloadGuests"=$22,
+								"authUploadGuests"=$20,
+								"authDownloadGuests"=$21
 						',array(
 							$p['catID'],
 							$p['forumName'],
