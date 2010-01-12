@@ -13,9 +13,9 @@
 </tr>
 {if $modules.Config->getValue('enable_avatars') == 1 && $profileData.userAvatarAddress != ''}
 <tr>
- <td class="CellStd" rowspan="7">
+ <td class="CellStd" rowspan="7" style="text-align:center;">
   <div id="Avatar" style="position:fixed; left:0; top:0; width:100%; height:100%; background-image:url({$profileData.userAvatarAddress}); background-repeat:no-repeat; background-position:center; background-color:#000000; cursor:pointer; z-index:1; display:none; opacity:0.9;" onclick="this.style.display='none';"></div>
-  <img src="{$profileData.userAvatarAddress}" alt="{$profileData.userNick}'s {$modules.Language->getString('avatar')}" style="width:128px; height:128px; cursor:pointer;" onclick="document.getElementById('Avatar').style.display='';"/>
+  <img src="{$profileData.userAvatarAddress}" alt="{$profileData.userNick}'s {$modules.Language->getString('avatar')}" style="width:{$profileData._avatarWidth}px; height:{$profileData._avatarHeight}px; cursor:pointer;" onclick="document.getElementById('Avatar').style.display='';"/>
  </td>
 </tr>
 {/if}

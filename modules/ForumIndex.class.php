@@ -384,8 +384,7 @@ class ForumIndex extends ModuleTemplate {
 
 		if($this->modules['Config']->getValue('enable_wio') == 1 && $this->modules['Config']->getValue('show_wio_forumindex') == 1) {
 			$onlineGuestsCounter = $onlineMembersCounter = $onlineGhostsCounter = $onlineUsersCounter = 0;
-			$members = array();
-			$membersChecks = array();
+			$members = $membersChecks = array();
 			$guests = '';
 
 			$this->modules['DB']->queryParams('
@@ -507,7 +506,7 @@ class ForumIndex extends ModuleTemplate {
 		}
 		$query = '('.implode(') UNION (',$queryParts).') ORDER BY "postID" DESC LIMIT '.intval($this->modules['Config']->getValue('max_latest_posts'));
 
-			$latestPostsData = array();
+		$latestPostsData = array();
 		$this->modules['DB']->query($query);
 		while($curPost = $this->modules['DB']->fetchArray()) {
 			if($curPost['posterID'] == 0)

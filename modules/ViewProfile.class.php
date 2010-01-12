@@ -70,16 +70,28 @@ class ViewProfile extends ModuleTemplate {
 				$profileData['_profileRankText'] = $profileRankText;
 				$profileData['_profileRankPic'] = $profileRankPic;
 				$profileData['_profileRegisterDate'] = Functions::toDateTime($profileData['userRegistrationTimestamp']);
-				//Vor X Wochen registriert
-                $profileData['_userPostsCounterText'] = time()-$profileData['userRegistrationTimestamp'];
-                $profileData['_profileRegisterDateText'] = sprintf($this->modules['Language']->getString('register_x_weeks_ago'), intval($profileData['_userPostsCounterText']/604800));
-                //Beitraege pro Tag
-                $profileData['_userPostsCounterText'] = intval($profileData['_userPostsCounterText']/86400);
-                $profileData['_userPostsCounterText'] = (($profileData['_userPostsCounterText'] != 0) ? number_format($profileData['userPostsCounter']/$profileData['_userPostsCounterText'], 3, $this->modules['Language']->getString('dec_point'), $this->modules['Language']->getString('thousands_sep')) : $profileData['userPostsCounter']) . ' ' . $this->modules['Language']->getString('posts_per_day');
+				//Regged X weeks ago
+				$profileData['_userPostsCounterText'] = time()-$profileData['userRegistrationTimestamp'];
+				$profileData['_profileRegisterDateText'] = sprintf($this->modules['Language']->getString('register_x_weeks_ago'), intval($profileData['_userPostsCounterText']/604800));
+				//Posts per day
+				$profileData['_userPostsCounterText'] = intval($profileData['_userPostsCounterText']/86400);
+				$profileData['_userPostsCounterText'] = (($profileData['_userPostsCounterText'] != 0) ? number_format($profileData['userPostsCounter']/$profileData['_userPostsCounterText'], 3, $this->modules['Language']->getString('dec_point'), $this->modules['Language']->getString('thousands_sep')) : $profileData['userPostsCounter']) . ' ' . $this->modules['Language']->getString('posts_per_day');
 
-                //Signatur parsen
-                if ($this->modules['Config']->getValue('enable_sig') == 1)
-                	$profileData['userSignature'] = $this->modules['BBCode']->format($profileData['userSignature'], ($this->modules['Config']->getValue('allow_sig_html') == 1), ($this->modules['Config']->getValue('allow_sig_smilies') == 1), ($this->modules['Config']->getValue('allow_sig_bbcode')));
+				//Proper avatar size
+				//TODO needed check? vs smaller avatars also strechted
+				ini_set('default_socket_timeout', 3); //Set max time to get avatar if its not available
+				$avatar = @getimagesize($profileData['userAvatarAddress']);
+				if($avatar == FALSE)
+					$profileData['_avatarWidth'] = $profileData['_avatarHeight'] = 128;
+				else
+				{
+					$profileData['_avatarWidth'] = $avatar[0] == 0 || $avatar[0] >= 128 ? 128 : $avatar[0];
+					$profileData['_avatarHeight'] = $avatar[1] == 0 || $avatar[1] >= 128 ? 128 : $avatar[1];
+				}
+
+                //Parse signature
+				if($this->modules['Config']->getValue('enable_sig') == 1)
+					$profileData['userSignature'] = $this->modules['BBCode']->format($profileData['userSignature'], ($this->modules['Config']->getValue('allow_sig_html') == 1), ($this->modules['Config']->getValue('allow_sig_smilies') == 1), ($this->modules['Config']->getValue('allow_sig_bbcode')));
 
                 // custom profile fields
                 $fieldsData = array();
@@ -181,7 +193,7 @@ class ViewProfile extends ModuleTemplate {
 				$c = Functions::getSGValues($_POST['c'],array('noteIsPublic'),0);
 
 				if(isset($_GET['doit'])) {
-					// Oeffentlich darf man nur als Admin oder Mod posten...
+					// Posting public notes only as admin or mod...
 					if($this->modules['Auth']->getValue('userIsAdmin') != 1 && $this->modules['Auth']->getValue('userIsSupermod') != 1 && !$userIsMod)
 						$c['noteIsPublic'] = 0;
 
@@ -224,7 +236,7 @@ class ViewProfile extends ModuleTemplate {
 				$c = Functions::getSGValues($_POST['c'],array('noteIsPublic'),'',$noteData);
 
 				if(isset($_GET['doit'])) {
-					// Oeffentlich darf man nur als Admin oder Mod posten...
+					// Posting public notes only as admin or mod...
 					if($this->modules['Auth']->getValue('userIsAdmin') != 1 && $this->modules['Auth']->getValue('userIsSupermod') != 1 && !$userIsMod)
 						$c['noteIsPublic'] = 0;
 
