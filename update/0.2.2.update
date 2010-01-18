@@ -43,4 +43,10 @@ $this->DB->queryParams('
 	'1'
 ));
 
+//TODO: ok?
+$this->DB->query('
+	ALTER TABLE '.TBLPFX.'sessions
+		CHANGE "sessionLastLocation" "sessionLastLocation" VARCHAR(255) NOT NULL DEFAULT \'ForumIndex\'
+');
+
 $nextUpdateFile = '';

@@ -23,19 +23,7 @@ class WhoIsOnline extends ModuleTemplate {
 		}
 
 		$this->modules['Language']->addFile('WhoIsOnline');
-/*
-		$this->modules['DB']->queryParams('
-			UPDATE
-				'.TBLPFX.'sessions
-			SET
-				"sessionLastLocation"=$1
-			WHERE
-				"sessionID"=$2
-		',array(
-			'viewwio',
-			session_id()
-		));
-*/
+
 		$this->modules['DB']->queryParams('
 			SELECT
 				t1."sessionUserID",

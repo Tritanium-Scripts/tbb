@@ -41,7 +41,7 @@ class Globals extends ModuleTemplate {
 			exit;
 		}
 
-        //Siehe Ticket #35
+        //See ticket #35
         // proper content type
         //if(stristr($_SERVER['HTTP_ACCEPT'],'application/xhtml+xml')) header('Content-Type: application/xhtml+xml');
 
@@ -100,6 +100,19 @@ class Globals extends ModuleTemplate {
 			else
 				$_SESSION['topicVisits'] = array();
 		}
+
+		//Set WIO location
+		$this->modules['DB']->queryParams('
+			UPDATE
+				'.TBLPFX.'sessions
+			SET
+				"sessionLastLocation"=$1
+			WHERE
+				"sessionID"=$2
+		',array(
+			ACTION,
+			session_id()
+		));
 	}
 
 	public function printHeader() {

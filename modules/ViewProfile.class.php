@@ -78,9 +78,9 @@ class ViewProfile extends ModuleTemplate {
 				$profileData['_userPostsCounterText'] = (($profileData['_userPostsCounterText'] != 0) ? number_format($profileData['userPostsCounter']/$profileData['_userPostsCounterText'], 3, $this->modules['Language']->getString('dec_point'), $this->modules['Language']->getString('thousands_sep')) : $profileData['userPostsCounter']) . ' ' . $this->modules['Language']->getString('posts_per_day');
 
 				//Proper avatar size
-				//TODO needed check? vs smaller avatars also strechted
-				ini_set('default_socket_timeout', 3); //Set max time to get avatar if its not available
+				@ini_set('default_socket_timeout', 3); //Set max time to get avatar if it's not available
 				$avatar = @getimagesize($profileData['userAvatarAddress']);
+				//TODO get template config values
 				if($avatar == FALSE)
 					$profileData['_avatarWidth'] = $profileData['_avatarHeight'] = 128;
 				else

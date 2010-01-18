@@ -218,7 +218,7 @@ CREATE TABLE /*!32312 IF NOT EXISTS*/ "/*TABLEPREFIX*/sessions" (
   "sessionData" mediumtext NOT NULL,
   "sessionUserID" mediumint(8) unsigned NOT NULL default '0',
   "sessionIsGhost" tinyint(1) unsigned NOT NULL default '0',
-  "sessionLastLocation" varchar(255) NOT NULL default 'forumindex',
+  "sessionLastLocation" varchar(255) NOT NULL default 'ForumIndex',
   PRIMARY KEY  ("sessionID"),
   KEY "sessionLastUpdate" ("sessionLastUpdate")
 ) /*!40100 DEFAULT CHARSET=utf8*/;

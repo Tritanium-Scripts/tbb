@@ -91,6 +91,7 @@ class Template extends ModuleTemplate {
 			'pageInPage'=>(count($this->subFrames) > 0)
 		));
 
+		//TODO: Making sense?!
 		if($inPopup) $this->printPage('Message.tpl');
 		else $this->printPage('Message.tpl');
 	}
