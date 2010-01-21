@@ -110,7 +110,7 @@ class Globals extends ModuleTemplate {
 			WHERE
 				"sessionID"=$2
 		',array(
-			ACTION,
+			ACTION . (isset($_GET['mode']) ? $_GET['mode'] : ''),
 			session_id()
 		));
 	}

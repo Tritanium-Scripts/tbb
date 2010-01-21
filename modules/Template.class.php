@@ -13,6 +13,7 @@ class Template extends ModuleTemplate {
 	protected $globalFrame = array();
 	protected $subFrames = array();
 	protected $templateDir = '';
+	protected $templateConfig = array();
 	protected $inPopup = FALSE;
 
 	public function setDirs($dirName) {
@@ -34,6 +35,12 @@ class Template extends ModuleTemplate {
 		return $this->templateDir;
 	}
 
+	public function getTCValue($configName) {
+		if(!isset($this->templateConfig[$configName]))
+			throw new Exception('Unknown tenmplate config name: '.$configName);
+		return $this->templateConfig[$configName];
+	}
+
 	public function initializeMe() {
 		$this->smarty = new Smarty;
 
@@ -46,6 +53,9 @@ class Template extends ModuleTemplate {
 
 		$modules = &Factory::getInstances();
 		$this->smarty->assign_by_ref('modules',$modules);
+
+		//TODO
+		$this->templateConfig = parse_ini_file($this->getTD().'/config/TemplateInfo.ini'); //'templates/'.$this->modules['Config']->getValue('standard_tpl')
 	}
 
 	public function assign($value1, $value2 = NULL) {
@@ -83,6 +93,7 @@ class Template extends ModuleTemplate {
 		$this->subFrames[] = array($headerFunction,$tailFunction);
 	}
 
+	//TODO inpopup vs editprofile
 	public function printMessage($messageTitle,$messageText,$additionalLinks = array(),$inPopup = FALSE) {
 		$this->assign(array(
 			'messageTitle'=>$messageTitle,
@@ -91,9 +102,7 @@ class Template extends ModuleTemplate {
 			'pageInPage'=>(count($this->subFrames) > 0)
 		));
 
-		//TODO: Making sense?!
-		if($inPopup) $this->printPage('Message.tpl');
-		else $this->printPage('Message.tpl');
+		$this->printPage('Message.tpl');
 	}
 
 	public function printPage($templateName) {
