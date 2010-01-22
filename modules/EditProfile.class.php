@@ -309,7 +309,7 @@ class EditProfile extends ModuleTemplate {
 
 			case 'UploadAvatar':
 				if($this->modules['Config']->getValue('enable_avatar_upload') != 1) {
-					FuncMisc::printMessage('avatar_upload_disabled',array(),TRUE);
+					FuncMisc::printMessage('avatar_upload_disabled');
 					exit;
 				}
 
@@ -344,7 +344,7 @@ class EditProfile extends ModuleTemplate {
 							));
 
 							$avatarSelectedText = sprintf($this->modules['Language']->getString('avatar_selected_text'),'<img src="'.$localAvatarFileName.'" width="'.$this->modules['Config']->getValue('avatar_image_width').'" height="'.$this->modules['Config']->getValue('avatar_image_height').'" alt=""/>');
-							FuncMisc::printMessage(array($this->modules['Language']->getString('avatar_selected'),$avatarSelectedText),array(),TRUE); exit;
+							FuncMisc::printMessage(array($this->modules['Language']->getString('avatar_selected'),$avatarSelectedText)); exit;
 						}
 					}
 				}

@@ -80,14 +80,10 @@ class ViewProfile extends ModuleTemplate {
 				//Proper avatar size
 				@ini_set('default_socket_timeout', 3); //Set max time to get avatar if it's not available
 				$avatar = @getimagesize($profileData['userAvatarAddress']);
-				//TODO get template config values
-				if($avatar == FALSE)
-					$profileData['_avatarWidth'] = $profileData['_avatarHeight'] = 128;
-				else
-				{
-					$profileData['_avatarWidth'] = $avatar[0] == 0 || $avatar[0] >= 128 ? 128 : $avatar[0];
-					$profileData['_avatarHeight'] = $avatar[1] == 0 || $avatar[1] >= 128 ? 128 : $avatar[1];
-				}
+				$avatarWidth = $this->modules['Template']->getTCValue('avatarProfileWidth');
+				$avatarHeight = $this->modules['Template']->getTCValue('avatarProfileHeight');
+				$profileData['_avatarWidth'] = $avatar == FALSE || $avatar[0] == 0 || $avatar[0] >= $avatarWidth ? $avatarWidth : $avatar[0];
+				$profileData['_avatarHeight'] = $avatar == FALSE || $avatar[1] == 0 || $avatar[1] >= $avatarHeight ? $avatarHeight : $avatar[1];
 
                 //Parse signature
 				if($this->modules['Config']->getValue('enable_sig') == 1)
@@ -330,7 +326,7 @@ class ViewProfile extends ModuleTemplate {
                 header('Content-Disposition: attachment; filename=' . $profileData['userNick'] . '.vcf');
                 header('Content-Length: ' . strlen($vCard));
                 header('Content-Type: text/x-vCard; charset=UTF-8; name=' . $profileData['userNick'] . '.vcf');
-                die($vCard);
+                exit($vCard);
 		}
 	}
 }

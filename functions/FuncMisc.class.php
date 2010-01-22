@@ -7,7 +7,7 @@
  * @package tbb2
  */
 class FuncMisc {
-	public static function printMessage($message, $additionalLinks = array(), $inPopup = FALSE) {
+	public static function printMessage($message, $additionalLinks = array()) {
 		$Language = Factory::singleton('Language');
 		$Navbar = Factory::singleton('Navbar');
 		$Template = Factory::singleton('Template');
@@ -19,6 +19,6 @@ class FuncMisc {
 
 		$Navbar->addElement($messageTitle,'');
 
-		$Template->printMessage($messageTitle,$messageText,$additionalLinks,$inPopup);
+		$Template->printMessage($messageTitle,$messageText,$additionalLinks);
 	}
 }

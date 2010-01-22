@@ -37,7 +37,7 @@ class Template extends ModuleTemplate {
 
 	public function getTCValue($configName) {
 		if(!isset($this->templateConfig[$configName]))
-			throw new Exception('Unknown tenmplate config name: '.$configName);
+			throw new Exception('Unknown template config name: '.$configName);
 		return $this->templateConfig[$configName];
 	}
 
@@ -54,8 +54,7 @@ class Template extends ModuleTemplate {
 		$modules = &Factory::getInstances();
 		$this->smarty->assign_by_ref('modules',$modules);
 
-		//TODO
-		$this->templateConfig = parse_ini_file($this->getTD().'/config/TemplateInfo.ini'); //'templates/'.$this->modules['Config']->getValue('standard_tpl')
+		$this->templateConfig = parse_ini_file($this->getTD().'/config/TemplateInfo.ini');
 	}
 
 	public function assign($value1, $value2 = NULL) {
@@ -93,8 +92,7 @@ class Template extends ModuleTemplate {
 		$this->subFrames[] = array($headerFunction,$tailFunction);
 	}
 
-	//TODO inpopup vs editprofile
-	public function printMessage($messageTitle,$messageText,$additionalLinks = array(),$inPopup = FALSE) {
+	public function printMessage($messageTitle,$messageText,$additionalLinks = array()) {
 		$this->assign(array(
 			'messageTitle'=>$messageTitle,
 			'messageText'=>$messageText,

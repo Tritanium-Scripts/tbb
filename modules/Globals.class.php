@@ -31,6 +31,10 @@ class Globals extends ModuleTemplate {
 			$_GET['postID'] = $_GET['p'];
 		}
 
+		//Set template defined by admin
+		//TODO set template based on user settings
+		$this->modules['Template']->setDirs($this->modules['Config']->getValue('standard_tpl'));
+
 		// global page frame / popup
 		$this->modules['Template']->setGlobalFrame(array($this,'printHeader'),array($this,'printTail'));
 		if(isset($_GET['inPopup'])) $this->modules['Template']->setInPopup(TRUE);
@@ -110,7 +114,8 @@ class Globals extends ModuleTemplate {
 			WHERE
 				"sessionID"=$2
 		',array(
-			ACTION . (isset($_GET['mode']) ? $_GET['mode'] : ''),
+			//TODO proper subaction
+			ACTION,// . (isset($_GET['mode']) ? $_GET['mode'] : ''),
 			session_id()
 		));
 	}
