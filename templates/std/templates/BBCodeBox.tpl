@@ -7,7 +7,8 @@
 <input class="FormBBCodeButton" type="button" value="SUB" onclick="insert('[sub]','[/sub]');"/>
 <input class="FormBBCodeButton" type="button" value="{$modules.Language->getString('quote')}" onclick="insert('[quote]','[/quote]');"/>
 <input class="FormBBCodeButton" style="font-family:monospace; position:relative; top:-0.1em;" type="button" value="{$modules.Language->getString('code')}" onclick="insert('[code]','[/code]');"/>
-<input class="FormBBCodeButton" type="button" value="PHP" onclick="insert('[php]','[/php]');"/><br />
+<input class="FormBBCodeButton" type="button" value="PHP" onclick="insert('[php]','[/php]');"/>
+<input class="FormBBCodeButton" type="button" value="[noparse]" onclick="insert('[noparse]','[/noparse]');"/><br />
 <select class="FormSelect" onchange="if(this.options[this.options.selectedIndex].value != '') insert('[color=' + this.options[this.options.selectedIndex].value + ']', '[/color]');">
  <option>{$modules.Language->getString('font_color')}</option>
  <option value="#000000" style="background-color:#000000; color:#000000;">{$modules.Language->getString('black')}</option>

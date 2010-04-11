@@ -8,7 +8,7 @@
 	 	</div>
  	</div>
 {elseif $b.bbCodeType == $smarty.const.BBCODE_CODE}
-	<table class="TableStd" width="800px">
+	<table class="TableStd" style="width:800px;">
 		<tr><td class="CellCat" colspan="2"><span class="FontCat">{$modules.Language->getString('code')}</span></td></tr>
 		<td class="CellBlank">
 			<div style="overflow:auto; width:800px; min-height:37px; max-height:400px; padding:2px;">
@@ -70,10 +70,11 @@
  <div style="width:100%; filter:DropShadow(color={$b.shadowColor}, offx=2, offy=2);">{$b.shadowText}</div>{* <span> doesn't work?! *}
 {elseif $b.bbCodeType == $smarty.const.BBCODE_FLASH}
  <object data="{$b.flashLink}" type="application/x-shockwave-flash" width="{$b.flashWidth}" height="{$b.flashHeight}">
-  <param name="allowscriptaccess" value="samedomain"/>
+  <param name="allowFullScreen" value="true" />
+  <param name="allowScriptAccess" value="sameDomain" />
   <param name="movie" value="{$b.flashLink}"/>
-  <param name="quality" value="autohigh"/>
-  <param name="wmode" value="transparent"/>
-  <noscript>{$modules.Language->getString('no_flash')}</noscript>
+  <param name="quality" value="autohigh" />
+  <param name="wmode" value="transparent" />
+  <p>{$modules.Language->getString('no_flash')}</p>
  </object>
 {/if}

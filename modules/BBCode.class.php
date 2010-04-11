@@ -46,7 +46,10 @@ class BBCode extends ModuleTemplate {
 			list($counter) = $this->modules['DB']->fetchArray();
 			$this->topicIDs[$topicID] = $counter > 0;
 		}
-		if(!$enableHTMLCode) $text = Functions::HTMLSpecialChars($text);
+		if(!$enableHTMLCode)
+			$text = Functions::HTMLSpecialChars($text);
+		if($enableBBCode)
+			$text = preg_replace_callback("/\[noparse\](.*?)\[\/noparse\]/si", array($this, 'cbNoParse'), $text); //[noparse]xxx[/noparse]
 		if($enableBBCode && (stristr($text, '[code]') || stristr($text, '[php]'))) {
 			// Um zu verhindern, dass &quot;) in den Zwinker-Smiley umgewandelt wird, ist etwas mehr Aufwand noetig. Zunaechst werden erstmal alle [php] und [code] Tags gesucht...
 			preg_match_all("/\[(code|php)\].*?\[\/\\1\]/si", $text, $codephp);
@@ -57,7 +60,8 @@ class BBCode extends ModuleTemplate {
 				$text = preg_replace('/' . preg_quote($value, '/#') . '/', '[codephp]' . $key . '[/codephp]', $text);
 			// Danach koennen erstmal Smilies etc. geparst werden.
 		}
-		if($enableSmilies) $text = strtr($text, $this->modules['Cache']->getSmiliesData('write'));
+		if($enableSmilies)
+			$text = strtr($text, $this->modules['Cache']->getSmiliesData('write'));
 		$text = nl2br($text);
 		if($enableBBCode)
 		{
@@ -87,7 +91,7 @@ class BBCode extends ModuleTemplate {
 	}
 
 	/**
-	* Returns parsed text for every BBCode except code tags ([code] and [php]).
+	* Returns parsed text for every BBCode except [code], [php] and [noparse] tags.
 	*
 	* @param string $text Text to parse with BBCode statements
 	* @return string Parsed text with BBCode applied
@@ -181,6 +185,10 @@ class BBCode extends ModuleTemplate {
 			'startLine'=>$startLine
 		));
 		return $this->modules['Template']->fetch('BBCodeHtml.tpl');
+	}
+
+	protected function cbNoParse($elements) {
+		return Functions::str_replace(array('[', ']'), array('&#91;', '&#93;'), $elements[1]);
 	}
 
 	protected function cbList($elements) {
