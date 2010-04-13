@@ -58,9 +58,9 @@ class Ajax extends ModuleTemplate {
 						$postTextHTMLReady = $this->modules['BBCode']->format($postText, ($postData['postEnableHtmlCode'] == 1 && $forumData['forumEnableHtmlCode'] == 1), ($postData['postEnableSmilies'] == 1 && $forumData['forumEnableSmilies'] == 1), ($postData['postEnableBBCode'] == 1 && $forumData['forumEnableBBCode'] == 1), $postData['topicID']);
 						
 						$values = array(
-							array('name'=>'postID','value'=>$postID),
-							array('name'=>'postTextRaw','value'=>Functions::XMLEscapeString($postText)),
-							array('name'=>'postTextHTMLReady','value'=>Functions::XMLEscapeString($postTextHTMLReady))
+							array('key'=>'postID','value'=>$postID),
+							array('key'=>'postTextRaw','value'=>Functions::XMLEscapeString($postText)),
+							array('key'=>'postTextHTMLReady','value'=>Functions::XMLEscapeString($postTextHTMLReady))
 						);
 
 						$status = 'SUCC';
@@ -73,12 +73,13 @@ class Ajax extends ModuleTemplate {
 				break;
 		}
 
-		$values[] = array('name'=>'error','value'=>$error);
+		$values[] = array('key'=>'error','value'=>$error);
 
 		$this->modules['Template']->assign(array(
 			'status'=>$status,
 			'mode'=>$mode,
-			'values'=>$values
+			'values'=>$values,
+			'error'=>''
 		));
 		$this->modules['Template']->display('AjaxResult.tpl');
 	}

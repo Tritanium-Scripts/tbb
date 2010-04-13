@@ -22,7 +22,7 @@ function ajaxGetValue(xmlObject,valueName) {
 
 	for(var i = 0; i < xmlObject.getElementsByTagName('ajaxresult')[0].getElementsByTagName('values')[0].getElementsByTagName('value').length; i++) {
 		if(xmlObject.getElementsByTagName('ajaxresult')[0].getElementsByTagName('values')[0].getElementsByTagName('value')[i].getAttribute('name') == valueName) {
-			result = xmlUnescapeString(xmlObject.getElementsByTagName('ajaxresult')[0].getElementsByTagName('values')[0].getElementsByTagName('value')[i].firstChild.data);
+			result = xmlObject.getElementsByTagName('ajaxresult')[0].getElementsByTagName('values')[0].getElementsByTagName('value')[i].firstChild.data;
 			break;
 		}
 	}
@@ -32,6 +32,10 @@ function ajaxGetValue(xmlObject,valueName) {
 
 function ajaxGetStatus(xmlObject) {
 	return xmlObject.getElementsByTagName('ajaxresult')[0].getElementsByTagName('status')[0].firstChild.data;
+}
+
+function ajaxGetError(xmlObject) {
+	return xmlObject.getElementsByTagName('ajaxresult')[0].getElementsByTagName('error')[0].firstChild.data;
 }
 
 function ajaxGetMode(xmlObject) {

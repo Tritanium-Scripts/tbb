@@ -8,7 +8,7 @@ class AjaxResponse {
 	 *
 	 * @var string
 	 */
-	protected $status = 'FAIL';
+	protected $status = self::STATUS_FAIL;
 
 	protected $error = '';
 
@@ -25,20 +25,18 @@ class AjaxResponse {
 		$this->error = $error;
 	}
 
-	public function setResults(array $results) {
-		$this->results = $results;
-	}
-
-	public function addResult(array $result) {
-		$this->results[] = $result;
+	public function addValue($key, $value) {
+		$this->results[] = array('key'=>$key, 'value'=>$value);
 	}
 
 	public function respond() {
 		$template = Factory::singleton('Template');
 
 		$template->assign(array(
-			'status'=>$status,
-			'values'=>$results
+			'status'=>$this->status,
+			'values'=>$this->results,
+			'mode'=>'',
+			'error'=>$this->error
 		));
 		$template->display('AjaxResult.tpl');
 	}

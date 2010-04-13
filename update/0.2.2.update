@@ -15,6 +15,14 @@ $this->DB->query('
 	) ENGINE=InnoDB
 ');
 
+$this->DB->query('
+	CREATE TABLE IF NOT EXISTS '.TBLPFX.'files_posts (
+		"fileID" MEDIUMINT(8) UNSIGNED DEFAULT \'0\' NOT NULL,
+		"postID" MEDIUMINT(8) UNSIGNED DEFAULT \'0\' NOT NULL,
+		PRIMARY KEY ("fileID","postID")
+	) ENGINE=InnoDB
+');
+
 // Add download and upload rights
 $this->DB->query('
 	ALTER TABLE '.TBLPFX.'forums

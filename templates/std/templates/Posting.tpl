@@ -1,10 +1,20 @@
 <script type="text/javascript">
 	dojo.require("dojo.io.iframe");
 	LanguageDelete = EntitiesToUnicode('{$modules.Language->getString('delete')}');
-	LanguageUpload = EntitiesToUnicode('{$modules.Language->getString('upload')}');
 	RowsCounter = {$pollOptionsCounter};
 	LastRowID = {$pollOptionsCounter};
-	var lastUploadFieldID = 0;
+	var lastUploadId = {$files|@count};
+	var templatePath = "{$modules.Template->getTD()}";
+	var files = new Array();
+
+	{foreach from=$files item=curFile name=jsFileObjectsLoop}
+		files[{$smarty.foreach.jsFileObjectsLoop.iteration}] = {literal}{{/literal}
+			uploadId: {$smarty.foreach.jsFileObjectsLoop.iteration},
+			fileId: {$curFile.fileID},
+			fileName: "{$curFile.fileName}"
+		{literal}}{/literal}
+	{/foreach}
+
 
 	{literal}
 	function addPollOption() {
@@ -50,90 +60,114 @@
 		RowsCounter--;
 	}
 
-	function addUploadField() {
-		var fieldID = lastUploadFieldID++;
-
-		var newdiv = document.createElement('div');
-		newdiv.id = 'UploadField'+fieldID;
-
-		var newinput = document.createElement('input');
-		newinput.type = 'file';
-		newinput.name = 'uploads[]';
-
-		newdiv.appendChild(newinput);
-
-		dojo.byId('UploadFields').appendChild(newdiv);
+	function addUploadingStatus(uploadId) {
+		dojo.byId("Uploads").innerHTML = dojo.byId("Uploads").innerHTML + "<div id=\"UploadStatus"+uploadId+"\" style=\"border:1px dotted black; padding:3px;\"><span class=\"FontNorm\"><img style=\"padding:5px; vertical-align:middle;\" src=\""+templatePath+"/images/spinner.gif\"/>"+files[uploadId].fileName+"</span></div>";
 	}
 
-	function closeUploadFormBox() {
-		dojo.byId('UploadFormBox').style.display = 'none';
+	function changeUploadingStatus(uploadId) {
+		dojo.byId("UploadStatus"+uploadId).innerHTML = "<span class=\"FontNorm\"><img style=\"padding:5px; vertical-align:middle;\" src=\""+templatePath+"/images/icons/Ok.png\"/>"+files[uploadId].fileName+"</span> <span class=\"FontSmall\">(<a href=\"javascript:deleteUploadingStatus("+uploadId+");\">"+LanguageDelete+"</a>)</span>";
 	}
 
-	function openUploadFormBox() {
-		dojo.byId('UploadFormBox').style.display = 'table';
+	function addHiddenUploadField(uploadId) {
+		dojo.byId("hiddenUploadFields").innerHTML = dojo.byId("hiddenUploadFields").innerHTML + "<input id=\"HiddenFileInput"+uploadId+"\" type=\"hidden\" name=\"p[files][]\" value=\""+files[uploadId].fileId+"\"/>";
+	}
+
+	function deleteUploadingStatus(uploadId) {
+		var node = dojo.byId("UploadStatus"+uploadId);
+		node.parentNode.removeChild(node);
+
+		var node = dojo.byId("HiddenFileInput"+uploadId);
+		if(node)
+			node.parentNode.removeChild(node);
+	}
+
+	function uploadFile() {
+		var file = {
+			fileName: dojo.byId("UploadField").value,
+			uploadId: ++lastUploadId,
+			fileId: null
+		}
+
+		files[file.uploadId] = file;
+
+		addUploadingStatus(file.uploadId);
+
+		dojo.io.iframe.send({
+			form: "UploadForm",
+			handleAs: "xml",
+			load: function(response, ioArgs) {
+				var status = ajaxGetStatus(response);
+
+				if(status === "SUCC") {
+					file.fileId = ajaxGetValue(response, "fileId");
+					changeUploadingStatus(file.uploadId);
+					addHiddenUploadField(file.uploadId);
+				} else {
+					deleteUploadingStatus(file.uploadId);
+					files[file.uploadId] = null;
+					alert(ajaxGetError(response));
+				}
+				
+				return response;
+			},
+			error: function(response, ioArgs){
+				alert("Error: "+response);
+				return response;
+			}
+		});
+
+		dojo.byId("UploadForm").reset();
+
 	}
 	{/literal}
 </script>
-{if $show.fileUploads}
-	<div id="UploadFormBox" style="position:fixed; display:table; left:0; top:0; width:100%; height:100%;">
-		<div style="position:fixed; left:0; top:0; width:100%; height:100%; background-color:#000000; opacity:0.9; z-index:1;">
-		</div>
-		<div style="display:table-cell; vertical-align:middle; position:relative; z-index:2;">
-			<form id="UploadForm">
-				<table class="TableStd" style="margin:auto; width:500px;">
-					<tr><td class="CellTitle"><span class="FontTitle">Dateiupload</span></td></tr>
-					<tr>
-						<td class="CellStd">
-							<div id="UploadFields"></div>
-							<span class="FontSmall"><a href="javascript:addUploadField();">Feld f&uuml;r Upload hinzuf&uuml;gen</a></span>
-						</td>
-					</tr>
-					<tr><td class="CellButtons"><button type="button" class="FormBButton" onclick="">Datei(en) hochladen</button>&nbsp;&nbsp;&nbsp;<button type="button" class="FormButton" onclick="closeUploadFormBox();">Abbrechen</button></tr></td>
-				</table>
-			</form>
-		</div>
-	</div>
-{/if}
+
 {if $show.previewBox}
- <table class="TableStd" width="100%">
- <tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('preview')}</span></td></tr>
- <tr><td class="CellStd"><span class="FontNorm">{$previewData.messageText}</span></td></tr>
- </table>
- <br/>
+	<table class="TableStd" width="100%">
+	<tr><td class="CellTitle"><span class="FontTitle">{$modules.Language->getString('preview')}</span></td></tr>
+	<tr><td class="CellStd"><span class="FontNorm">{$previewData.messageText}</span></td></tr>
+	</table>
+	<br/>
 {/if}
+
 <form method="post" action="{$smarty.const.INDEXFILE}?action=Posting&amp;mode={$mode}&amp;forumID={$forumID}&amp;topicID={$topicID}&amp;postID={$postID}&amp;doit=1&amp;{$smarty.const.MYSID}" name="MyForm">
+<div id="hiddenUploadFields">
+	{foreach from=$files item=curFile name=hiddenFileInputsLoop}
+		<input id="HiddenFileInput{$smarty.foreach.hiddenFileInputsLoop.iteration}" type="hidden" name="p[files][]" value="{$curFile.fileID}"/>
+	{/foreach}
+</div>
 <table class="TableStd" width="100%">
-<colgroup>
- <col width="20%"/>
- <col width="80%"/>
-</colgroup>
-<tr><td class="CellTitle" colspan="2"><span class="FontTitle">{$actionText}</span></td></tr>
-<tr><td class="CellCat" colspan="2"><span class="FontCat">{$modules.Language->getString('post')}</span></td></tr>
-{if $error != ''}<tr><td class="CellError" colspan="2"><span class="FontError">{$error}</span></td></tr>{/if}
-{if $modules.Auth->isLoggedIn() != 1}
- <tr>
-  <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('your_name')}:</span><br/><span class="FontSmall">{$modules.Language->getString('nick_conventions')}</span></td>
-  <td class="CellAlt" valign="top"><input size="20" class="FormText" type="text" name="p[guestNick]" value="{$p.guestNick}" maxlength="15"/></td>
- </tr>
-{/if}
-<tr>
- <td class="CellStd" valign="top"><span class="FontNorm">{$modules.Language->getString('post_pic')}:</span></td>
- <td class="CellAlt" valign="top">{$postPicsBox}</td>
-</tr>
-<tr>
- <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('title')}:</span></td>
- <td class="CellAlt"><input class="FormText" type="text" size="65" name="p[messageTitle]" value="{$p.messageTitle}" maxlength="100"/>&nbsp;<span class="FontSmall"></span></td>
-</tr>
-{if $show.enableBBCode}
- <tr>
-  <td class="CellStd" valign="top"><span class="FontNorm">{$modules.Language->getString('bbcode')}:</span></td>
-  <td class="CellAlt">{include file=BBCodeBox.tpl}</td>
- </tr>
-{/if}
-<tr>
- <td class="CellStd" valign="top"><span class="FontNorm">{$modules.Language->getString('post')}:</span><br/><br/>{$smiliesBox}</td>
- <td class="CellAlt"><div style="float:left;"><textarea class="FormTextArea" name="p[messageText]" rows="15" cols="80" id="messageBox">{$p.messageText}</textarea></div>{if $show.adminSmilies}<div style="float:left; padding-left:3px;"><span class="FontNorm">{$modules.Language->getString('admin_moderator_smilies')}</span><br/><br/>{$adminSmiliesBox}</div>{/if}</td>
-</tr>
+	<colgroup>
+		<col width="20%"/>
+		<col width="80%"/>
+	</colgroup>
+	<tr><td class="CellTitle" colspan="2"><span class="FontTitle">{$actionText}</span></td></tr>
+	<tr><td class="CellCat" colspan="2"><span class="FontCat">{$modules.Language->getString('post')}</span></td></tr>
+	{if $error != ''}<tr><td class="CellError" colspan="2"><span class="FontError">{$error}</span></td></tr>{/if}
+	{if $modules.Auth->isLoggedIn() != 1}
+		<tr>
+			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('your_name')}:</span><br/><span class="FontSmall">{$modules.Language->getString('nick_conventions')}</span></td>
+			<td class="CellAlt" valign="top"><input size="20" class="FormText" type="text" name="p[guestNick]" value="{$p.guestNick}" maxlength="15"/></td>
+		</tr>
+	{/if}
+	<tr>
+		<td class="CellStd" valign="top"><span class="FontNorm">{$modules.Language->getString('post_pic')}:</span></td>
+		<td class="CellAlt" valign="top">{$postPicsBox}</td>
+	</tr>
+	<tr>
+		<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('title')}:</span></td>
+		<td class="CellAlt"><input class="FormText" type="text" size="65" name="p[messageTitle]" value="{$p.messageTitle}" maxlength="100"/>&nbsp;<span class="FontSmall"></span></td>
+	</tr>
+	{if $show.enableBBCode}
+		<tr>
+			<td class="CellStd" valign="top"><span class="FontNorm">{$modules.Language->getString('bbcode')}:</span></td>
+			<td class="CellAlt">{include file=BBCodeBox.tpl}</td>
+		</tr>
+	{/if}
+	<tr>
+		<td class="CellStd" valign="top"><span class="FontNorm">{$modules.Language->getString('post')}:</span><br/><br/>{$smiliesBox}</td>
+		<td class="CellAlt"><div style="float:left;"><textarea class="FormTextArea" name="p[messageText]" rows="15" cols="80" id="messageBox">{$p.messageText}</textarea></div>{if $show.adminSmilies}<div style="float:left; padding-left:3px;"><span class="FontNorm">{$modules.Language->getString('admin_moderator_smilies')}</span><br/><br/>{$adminSmiliesBox}</div>{/if}</td>
+	</tr>
 <tr>
  <td class="CellStd" valign="top"><span class="FontNorm">{$modules.Language->getString('options')}:</span></td>
  <td class="CellAlt"><span class="FontNorm">
@@ -184,19 +218,25 @@
 	if(RowsCounter == 0) addPollOption();
  </script>
 {/if}
-{if $show.fileUploads}
-	<tr><td class="CellCat" colspan="2"><span class="FontCat">{$modules.Language->getString('attachments')}</span></td></tr>
-	<tr>
-		<td class="CellStd" colspan="2">
-			<span class="FontSmall"><a href="javascript:openUploadFormBox();">Feld f&uuml;r Upload hinzuf&uuml;gen</a></span>
-		</td>
-	</tr>
-{/if}
 <tr><td class="CellButtons" colspan="2" align="center"><input class="FormButton" type="submit" value="{$actionText}"/>&nbsp;&nbsp;&nbsp;<input class="FormBButton" type="submit" name="showPreview" value="{$modules.Language->getString('preview')}"/>&nbsp;&nbsp;&nbsp;<input class="FormButton" type="reset" value="{$modules.Language->getString('reset')}"/></td></tr>
 </table></form>
+{if $show.fileUploads}
+	<br/>
+	<table class="TableStd" width="100%">
+	<tr><td class="CellTitle" colspan="2"><span class="FontCat">{$modules.Language->getString('attachments')}</span></td></tr>
+	<tr><td class="CellStd" colspan="2">
+		<div id="Uploads">
+			{foreach from=$files item=curFile name=fileUploadsLoop}
+				<div id="UploadStatus{$smarty.foreach.fileUploadsLoop.iteration}" style="border:1px dotted black; padding:3px;"><span class="FontNorm"><img style="padding:5px; vertical-align:middle;" src="{$modules.Template->getTD()}/images/icons/Ok.png"/>{$curFile.fileName}</span> <span class="FontSmall">(<a href="javascript:deleteUploadingStatus({$smarty.foreach.fileUploadsLoop.iteration});">{$modules.Language->getString('delete')}</a>)</span></div>
+			{/foreach}
+		</div>
+		<form id="UploadForm" method="POST" enctype="multipart/form-data" action="{$smarty.const.INDEXFILE}?action=FileUploads&amp;mode=SingleUploadAjax"><input id="UploadField" name="upload" type="file"/><button onclick="uploadFile();" type="button">{$modules.Language->getString('upload')}</button></form>
+	</td></tr>
+	</table>
+{/if}
 {if $mode == 'Reply'}
 	<br/>
-	<table class="TableStd">
+	<table class="TableStd" width="100%">
 		<colgroup>
 			<col width="15%"/>
 			<col width="85%"/>
@@ -204,11 +244,11 @@
 		<tr><td class="CellTitle" colspan="2"><span class="FontTitle">{$modules.Language->getString('latest_posts_in_topic')}</span></td></tr>
 		{foreach from=$latestPostsData item=curPost}
 			<tr>
-				<td class="CellAlt" width="15%" valign="top" rowspan="3"><span class="FontNorm"><b>{$curPost._postPosterNick}</b></span></td>
-				<td class="CellAlt" width="85%" valign="middle">{if $curPost.postSmileyFileName != ''}<span style="margin-right:4px;"><img src="{$curPost.postSmileyFileName}" alt=""/></span>{/if}<span class="FontSmall"><a id="post{$curPost.postID}" name="post{$curPost.postID}"></a><b>{$curPost.postTitle}</b></span></td>
+				<td class="CellAlt" valign="top" rowspan="3"><span class="FontNorm"><b>{$curPost._postPosterNick}</b></span></td>
+				<td class="CellAlt" valign="middle">{if $curPost.postSmileyFileName != ''}<span style="margin-right:4px;"><img src="{$curPost.postSmileyFileName}" alt=""/></span>{/if}<span class="FontSmall"><a id="post{$curPost.postID}" name="post{$curPost.postID}"></a><b>{$curPost.postTitle}</b></span></td>
 			</tr>
 			<tr><td class="CellStd"><div class="FontNorm" style="min-height:50px;">{$curPost._postText}</div></td></tr>
-			<tr><td class="CellStd" width="85%"><span class="FontSmall">{$modules.Language->getString('posted')}: {$curPost._postDateTime}</span></td></tr>
+			<tr><td class="CellStd"><span class="FontSmall">{$modules.Language->getString('posted')}: {$curPost._postDateTime}</span></td></tr>
 		{/foreach}
 	</table>
 {/if}

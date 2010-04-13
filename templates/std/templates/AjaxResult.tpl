@@ -9,9 +9,10 @@
 <ajaxresult>
 	<mode>{$mode}</mode>
 	<status>{$status}</status>
+	<error>{$error}</error>
 	<values>
 		{foreach from=$values item=curValue}
-		<value name="{$curValue.name}">{$curValue.value}</value>
+		<value name="{$curValue.key}">{$curValue.value}</value>
 		{/foreach}
 	</values>
 </ajaxresult>

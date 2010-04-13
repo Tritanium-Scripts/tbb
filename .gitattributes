@@ -17,6 +17,7 @@ functions/FuncAvatars.class.php -text
 functions/FuncCats.class.php -text
 functions/FuncConfig.class.php -text
 functions/FuncDate.class.php -text
+functions/FuncFiles.class.php -text
 functions/FuncForums.class.php -text
 functions/FuncGroups.class.php -text
 functions/FuncMisc.class.php -text
@@ -83,6 +84,7 @@ languages/de/AdminUsers.ini -text
 languages/de/BoardRules.ini -text
 languages/de/EditProfile.ini -text
 languages/de/EditTopic.ini -text
+languages/de/FileUploads.ini -text
 languages/de/ForumIndex.ini -text
 languages/de/Install.ini -text
 languages/de/Language.info.ini -text
@@ -260,6 +262,7 @@ templates/std/images/icons/Info.gif -text
 templates/std/images/icons/Info.png -text
 templates/std/images/icons/MedalGoldAdd.png -text
 templates/std/images/icons/MedalGoldDelete.png -text
+templates/std/images/icons/Ok.png -text
 templates/std/images/icons/PrivateMessageDelete.png -text
 templates/std/images/icons/PrivateMessageRead.png -text
 templates/std/images/icons/PrivateMessageReadReplied.png -text
@@ -272,6 +275,7 @@ templates/std/images/minus.gif -text
 templates/std/images/plus.gif -text
 templates/std/images/poll.gif -text
 templates/std/images/sep.gif -text
+templates/std/images/spinner.gif -text
 templates/std/images/topic_off_closed.gif -text
 templates/std/images/topic_off_open.gif -text
 templates/std/images/topic_off_open_hot.gif -text
@@ -285,6 +289,7 @@ templates/std/images/v4.gif -text
 templates/std/scripts/ajax.js -text
 templates/std/scripts/dojo/dojo.js -text
 templates/std/scripts/dojo/io/iframe.js -text
+templates/std/scripts/dojo/resources/blank.html -text
 templates/std/scripts/jscripts.js -text
 templates/std/scripts/posting.js -text
 templates/std/styles/ts_tbb2_standard.css -text

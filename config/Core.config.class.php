@@ -25,6 +25,7 @@ class CoreConfig extends ConfigTemplate {
 			'Ajax',
 			'EditProfile',
 			'EditTopic',
+			'FileUploads',
 			'ForumIndex',
 			'Groups',
 			'Login',

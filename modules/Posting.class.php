@@ -46,8 +46,9 @@ class Posting extends ModuleTemplate {
 		$this->modules['Language']->addFile('Messages');
 
 		$authData = $this->_authenticateUser($mode,$forumData);
+		$userAuthUpload = $this->modules['Config']->getValue('enable_attachments') == 1 && $this->modules['Auth']->isLoggedIn() == 1 && $authData['authUpload'] == 1 && $this->modules['Auth']->getValue('userAuthUpload') != 0;
 		
-		// You don't need to check if the user is still locked because if so the lock was removed in Auth.class.php
+		// You don't need to check if the lock is still active because if not so the lock was removed in Auth.class.php
 		if($this->modules['Auth']->getValue('userIsLocked') == LOCK_TYPE_NO_POSTING) {
 			if($this->modules['Auth']->getValue('userLockStartTimestamp') == $this->modules['Auth']->getValue('userLockEndTimestamp'))
 				FuncMisc::printMessage('locked_forever_no_posts');
@@ -59,7 +60,7 @@ class Posting extends ModuleTemplate {
 
 			exit;
 		}
-		if($mode == 'Reply' && $topicData['topicIsClosed'] == 1 && $authData['authIsMod'] != 1 && $this->modules['Auth']->getValue('userIsSuperadmin') && $this->modules['Auth']->getValue('userIsSupermod')) {
+		if($mode == 'Reply' && $topicData['topicIsClosed'] == 1 && $authData['authIsMod'] != 1 && $this->modules['Auth']->getValue('userIsAdmin') && $this->modules['Auth']->getValue('userIsSupermod')) {
 			FuncMisc::printMessage('topic_closed'); exit;
 		}
 
@@ -141,6 +142,51 @@ class Posting extends ModuleTemplate {
 				$c['pollGuestsVote'] = $c['pollShowResultsAfterEnd'] = 0;
 				$c['pollGuestsViewResults'] = 1;
 
+				// Files
+				$files = array();
+				if($userAuthUpload) {
+					if(isset($_GET['doit'])) {
+						if(isset($_POST['p']['files']) && is_array($_POST['p']['files'])) {
+							$tmpFiles = array();
+
+							foreach($_POST['p']['files'] AS $curFileID)
+								$tmpFiles[] = intval($curFileID);
+
+							if(count($tmpFiles) > 0) {
+								$this->modules['DB']->queryParams('
+									SELECT
+										"fileID",
+										"fileName"
+									FROM
+										'.TBLPFX.'files
+									WHERE
+										"fileID" IN $1
+										AND "userID"=$2
+								',array(
+									$tmpFiles,
+									USERID
+								));
+								$files = $this->modules['DB']->raw2Array();
+							}
+						}
+					} elseif($mode == 'Edit') {
+						$this->modules['DB']->queryParams('
+							SELECT
+								t2."fileID",
+								t2."fileName"
+							FROM (
+								'.TBLPFX.'files_posts t1,
+								'.TBLPFX.'files t2
+							) WHERE
+								t1."postID"=$1
+								AND t2."fileID"=t1."fileID"
+						',array(
+							$postID,
+						));
+						$files = $this->modules['DB']->raw2Array();
+					}
+				}
+
 				if(isset($_GET['doit'])) {
 					$c['enableBBCode'] = (isset($_POST['c']['enableBBCode']) && $forumData['forumEnableBBCode'] == 1) ? 1 : 0;
 					$c['enableSmilies'] = (isset($_POST['c']['enableSmilies']) && $forumData['forumEnableSmilies'] == 1) ? 1 : 0;
@@ -198,7 +244,6 @@ class Posting extends ModuleTemplate {
 								$c['showSignature'],
 								$c['enableURITransformation'],
 								$c['showEditings'],
-
 								$this->modules['Auth']->getValue('userNick'),
 								$p['messageTitle'],
 								$p['messageText'],
@@ -218,6 +263,15 @@ class Posting extends ModuleTemplate {
 									$p['smileyID'],
 									$topicID
 								));
+							}
+
+							// Delete old files and insert new files if there are any...
+							if($userAuthUpload) {
+								$this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'files_posts WHERE "postID"=$1', array($postID));
+								if(count($files) > 0) {
+									foreach($files AS &$curFile)
+										$this->modules['DB']->queryParams('INSERT INTO '.TBLPFX.'files_posts ("postID","fileID") VALUES ($1, $2)', array($postID, $curFile['fileID']));
+								}
 							}
 
 							Functions::myHeader(INDEXFILE.'?action=ViewTopic&postID='.$postID.'&'.MYSID.'#post'.$postID);
@@ -332,6 +386,12 @@ class Posting extends ModuleTemplate {
 							));
 							$postID = $this->modules['DB']->getInsertID();
 
+							// Insert files
+							if($userAuthUpload && count($files) > 0) {
+								foreach($files AS &$curFile)
+									$this->modules['DB']->queryParams('INSERT INTO '.TBLPFX.'files_posts ("postID","fileID") VALUES ($1, $2)', array($postID, $curFile['fileID']));
+							}
+
 							// Verschiedene Dinge updaten (Beitragszahl, erster/letzter Beitrag usw.)
 							if($mode == 'Topic') $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'topics SET "topicFirstPostID"=$1, "topicLastPostID"=$2 WHERE "topicID"=$3', array($postID, $postID, $topicID));
 							else $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'topics SET "topicLastPostID"=$1, "topicRepliesCounter"="topicRepliesCounter"+1, "topicIsClosed"=$2, "topicIsPinned"=$3 WHERE "topicID"=$4', array($postID, $c['closeTopic'], $c['pinTopic'], $topicID));
@@ -414,7 +474,7 @@ class Posting extends ModuleTemplate {
 				$show['showEditings'] = $this->modules['Auth']->isLoggedIn() == 1 && ($this->modules['Auth']->getValue('userIsAdmin') == 1 || $this->modules['Auth']->getValue('userIsSupermod') == 1 || $authData['authIsMod'] == 1);
 				$show['pollBox'] = $mode == 'Topic' && ($this->modules['Auth']->getValue('userIsAdmin') == 1 || $this->modules['Auth']->getValue('userIsSupermod') == 1 || $authData['authIsMod'] == 1 || $authData['authPostPoll'] == 1);
 				$show['previewBox'] = isset($_POST['showPreview']);
-				$show['fileUploads'] = $this->modules['Config']->getValue('enable_attachments') == 1 && ($this->modules['Auth']->isLoggedIn() == 1 && ($this->modules['Auth']->getValue('userAuthUpload') == 1 || $this->modules['Auth']->getValue('userAuthUpload') == 2 && $authData['authUpload'] == 1) || $authData['authUpload'] == 1);
+				$show['fileUploads'] = $this->modules['Config']->getValue('enable_attachments') == 1 && (($this->modules['Auth']->isLoggedIn() != 1 && $authData['authUpload'] == 1) || ($this->modules['Auth']->isLoggedIn() == 1 && $authData['authUpload'] == 1 && $this->modules['Auth']->getValue('userAuthUpload') != 0));
 
 				// smilies, topic pics
 				$smiliesBox = $adminSmiliesBox = '';
@@ -503,6 +563,7 @@ class Posting extends ModuleTemplate {
 					'postID'=>$postID,
 					'mode'=>$mode,
 					'error'=>$error,
+					'files'=>$files,
 					'postPicsBox'=>$postPicsBox,
 					'smiliesBox'=>$smiliesBox,
 					'adminSmiliesBox'=>$adminSmiliesBox,
@@ -522,6 +583,7 @@ class Posting extends ModuleTemplate {
 					FuncMisc::printMessage('cannot_delete_first_post'); exit;
 				}
 
+				$this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'files_posts WHERE "postID"=$1', array($postID));
 				$this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'posts WHERE "postID"=$1',array($postID));
 				$this->modules['DB']->queryParams('UPDATE '.TBLPFX.'topics SET "topicRepliesCounter"="topicRepliesCounter"-1 WHERE "topicID"=$1',array($topicID));
 				// Should posts counter really be decreased?

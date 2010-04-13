@@ -200,16 +200,18 @@ class EditTopic extends ModuleTemplate {
 						$this->modules['DB']->queryParams('UPDATE '.TBLPFX.'users SET "userPostsCounter"="userPostsCounter"-$1 WHERE "userID"=$2', array($curCounter['posterPostsCounter'], $curCounter['posterID']));
 					}*/
 
-					$this->modules['DB']->queryParams('UPDATE '.TBLPFX.'forums SET "forumPostsCounter"="forumPostsCounter"-$1, "forumTopicsCounter"="forumTopicsCounter"-1 WHERE "forumID"=$2', array($postsCounter, $forumID));
-					$this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'topics WHERE "topicID"=$1', array($topicID));
-					$this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'topics WHERE "topicMovedID"=$1', array($topicID));
-					$this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'posts WHERE "topicID"=$1', array($topicID));
-					$this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'topics_subscriptions WHERE "topicID"=$1', array($topicID));
-
 					if($topicData['topicHasPoll'] == 1) {
 						$this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'polls_options WHERE "topicID"=$1', array($topicID));
 						$this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'polls_votes WHERE "topicID"=$1', array($topicID));
 					}
+
+					$this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'files_posts WHERE "postID" IN $1',array($postIDs));
+					$this->modules['DB']->queryParams('UPDATE '.TBLPFX.'forums SET "forumPostsCounter"="forumPostsCounter"-$1, "forumTopicsCounter"="forumTopicsCounter"-1 WHERE "forumID"=$2', array($postsCounter, $forumID));
+					$this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'posts WHERE "topicID"=$1', array($topicID));
+					$this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'topics_subscriptions WHERE "topicID"=$1', array($topicID));
+					$this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'topics WHERE "topicMovedID"=$1', array($topicID));
+					$this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'topics WHERE "topicID"=$1', array($topicID));
+
 
 					if(in_array($forumData['forumLastPostID'],$postIDs))
 						FuncForums::updateLastPost($forumID);

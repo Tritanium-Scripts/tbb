@@ -10,8 +10,8 @@ class Functions {
 	protected static $HTMLCharsSearch = array('/&(?!\#[0-9]+;)/','/</','/>/','/"/');
 	protected static $HTMLCharsReplace = array('&amp;','&lt;','&gt;','&quot;');
 
-	protected static $XMLCharsSearch = array('/</','/>/','/&/','/"/','/\'/');
-	protected static $XMLCharsReplace = array('&lt;','&gt;','&amp;','&quot;','&apos;');
+	protected static $XMLCharsSearch = array('/&/','/</','/>/','/"/','/\'/');
+	protected static $XMLCharsReplace = array('&amp;','&lt;','&gt;','&quot;','&apos;');
 
 	public static function getMicroTime() {
 		$mtime = explode(" ",microtime());
