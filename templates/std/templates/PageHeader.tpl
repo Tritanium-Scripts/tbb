@@ -9,10 +9,10 @@
 	<meta name="description" content="{$modules.Navbar->parseElements(0)}"/>*}
 	<meta name="robots" content="all"/>
 	<meta name="revisit-after" content="7 days"/>
-	<meta http-equiv="content-language" content="{$modules.Language->getString('html_language')}"/>
-	<meta http-equiv="content-type" content="application/xhtml+xml; charset={$modules.Language->getString('html_encoding')}"/>
-	<meta http-equiv="content-style-type" content="text/css"/>
-	<meta http-equiv="content-script-type" content="text/javascript"/>
+	<meta http-equiv="Content-Language" content="{$modules.Language->getString('html_language')}"/>
+	<meta http-equiv="Content-Type" content="application/xhtml+xml; charset={$modules.Language->getString('html_encoding')}"/>
+	<meta http-equiv="Content-Style-Type" content="text/css"/>
+	<meta http-equiv="Content-Script-Type" content="text/javascript"/>
 	<link rel="stylesheet" media="all" href="{$modules.Template->getTD()}/styles/ts_tbb2_standard.css"/>
 	<link rel="shortcut icon" type="image/x-icon" href="{$modules.Template->getTD()}/images/favicon.ico"/>
 	<script type="text/javascript">

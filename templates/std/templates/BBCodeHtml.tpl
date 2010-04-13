@@ -70,11 +70,11 @@
  <div style="width:100%; filter:DropShadow(color={$b.shadowColor}, offx=2, offy=2);">{$b.shadowText}</div>{* <span> doesn't work?! *}
 {elseif $b.bbCodeType == $smarty.const.BBCODE_FLASH}
  <object data="{$b.flashLink}" type="application/x-shockwave-flash" width="{$b.flashWidth}" height="{$b.flashHeight}">
-  <param name="allowFullScreen" value="true" />
-  <param name="allowScriptAccess" value="sameDomain" />
+  <param name="allowFullScreen" value="true"/>
+  <param name="allowScriptAccess" value="sameDomain"/>
   <param name="movie" value="{$b.flashLink}"/>
-  <param name="quality" value="autohigh" />
-  <param name="wmode" value="transparent" />
+  <param name="quality" value="autohigh"/>
+  <param name="wmode" value="transparent"/>
   <p>{$modules.Language->getString('no_flash')}</p>
  </object>
 {/if}
