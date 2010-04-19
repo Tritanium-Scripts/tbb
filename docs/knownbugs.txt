@@ -1,0 +1,12 @@
+Tritanium Bulletin Board 2 - Bekannte Fehler/fehlende Features
+
+- Die Anzeige, ob in einem Forum/Thema neue Beiträge vorhanden sind, funktioniert (noch) gar nicht oder nur eingeschränkt bzw. fehlerhaft
+- Der Button "Account löschen", der einem Benutzer in seinem Profil zur Verfügung steht, ist noch funktionslos
+- Bei der Suche funktioniert die Darstellungsoption "als Beiträge" noch nicht
+- Die Hilfe/F.A.Q. funktioniert noch nicht
+- Der Ordner "addons" hat noch keine Funktion
+- Der Ordner "upload/files" hat noch keine Funktion
+
+
+(c) 2004 Tritanium Scripts
+http://www.tritanium-scripts.com
