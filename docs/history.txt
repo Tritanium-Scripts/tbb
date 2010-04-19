@@ -1,0 +1,134 @@
+Tritanium Bulletin Board 2 - History
+
+Alpha 5 (0.2.0.5.01012004)
+	- NEU: Daten werden nun nicht mehr in Dateien gespeichert, sondern in einer Datenbank
+	- NEU: Ein Beitrag kann nun lediglich über seine ID direkt angesprungen werden
+	- NEU: Der Themenrückblick wird nun beim Antworten angezeigt
+	- NEU: Umfangreiches "Private Nachrichten"-System eingebaut
+	- NEU: Bei einer neuen privaten Nachricht wird dies nun per Pop-Up angezeigt
+	- NEU: Moderatoren werden nun in der Forenübersicht angezeigt
+	- NEU: Gruppen komplett implementiert, User können nun auch in mehreren Gruppen Mitglied sein (<> TBB 1)
+	- NEU: Ein einfaches Installationsscript richtet nun die Datenbank ein
+	- NEU: BBCode-System implementiert, dabei wurde auch die Javascript-Gefahr beachtet
+	- NEU: Falls entsprechende Rechte vorhanden sind, können nun Umfragen an Themen angehängt werden
+	
+	- UPDATE: Änderungen an der Datumsanzeige aus Version 0.2.0.4 wieder rückgängig gemacht, allerdings werden Daten des aktuellen
+	  Tages fett angezeigt
+	- UPDATE: "ad_forums_addcategory.tpl" verwendet nun auch die neuen Möglichkeiten der Templateklasse (-> Alpha 4)
+	- UPDATE: In der Forenübersicht der Administration findet man nun bei jedem Forum direkt ein Link zu den Spezialrechten
+	
+	- BUGFIX: Den Standardzeichensatz von ISO-8859-1 wieder auf UTF-8 geändert, da die browserspezifischen Probleme gelöst wurden
+	- BUGFIX: In den Boardstatistiken werden nun die Themen und Beiträge richtig angezeigt
+	- BUGFIX: Der Nick des neuesten Mitglieds wird nun in der Forenübersicht korrekt angezeigt
+	- BUGFIX: Beim Löschen eines Beitrages wird nun auch die Anzahl der Beiträge des Beitragserstellers um 1 verringert
+	- BUGFIX: In der Themenübersicht kann nun nicht mehr eine höhere Seitenzahl als möglich angegeben werden
+
+Alpha 4 (0.2.0.4.17092003)
+	- BUGFIX: Forum arbeitet nun auch mit "magic_quotes_gpc = Off" korrekt
+	- BUGFIX: User können nun ihre eigenen Themen korrekt bearbeiten, Admins können nun alle Themen korrekt bearbeiten
+	- BUGFIX: Ein User sollte nun nicht mehr doppelt unter "Wer ist online?" erscheinen
+	- BUGFIX: Den standard Zeichensatz des XHTML-Teils von UTF-8 auf ISO-8859-1 geändert, damit werden einige Probleme z.B. mit
+	  Mozilla behoben
+
+	- UPDATE: Templateklasse erheblich verbessert: Es treten nun keine leeren Zeilen mehr im endgültigen HTML-Code auf, außerdem kann
+	  nun auf alle verfügbaren _Globalen_ Variablen per {$xyz} zugegriffen werden, auch auf Arrays. Andere Variablen müssen nach dem
+	  alten Schema an das Template übergeben werden (per ->values) und haben nun die Form {xyz}, dürfen jetzt aber auch Arrays sein.
+	- UPDATE: Die Anzahl der Themen/Beiträge in der Forenübersicht werden nun per number_format() etwas übersichtlicher (->Spischi)
+	- UPDATE: Vieles aus administration.php/index.php in startup.php verlagert, damit werden eventuelle Änderungen später nicht
+	  so umständlich
+	- UPDATE: $CONFIG['time_format'] und $CONFIG['date_format'] entfernt, Daten werden jetzt standardmäßig mit d.m.Y H:i angezeigt,
+	  allerdings wird d.m.Y eventuell mit "Heute" oder "Gestern" ersetzt
+	- UPDATE: In der "Wer ist online?" Übersicht in der Forenübersicht werden nun auch Geister angezeigt, außerdem wurde die Darstellung
+	  überarbeitet
+
+	- NEU: Smilies integriert: Beim Erstellen von Themen und Antworten können nun bequem Smilies eingefügt werden, auch mitten im Text
+	- NEU: Beitragsgrafiken: Beim Erstellen von Themen und Antworten kann nun dem Beitrag ein kleines Bild zugewiesen werden
+	- NEU: GZIP-Komprimierung eingebaut, kann auch über die Administration ein- und ausgeschaltet werden
+	- NEU: Beiträge können nun bearbeitet und gelöscht werden, der erste Beitrag eines Themas kann jedoch nicht gelöscht werden
+	- NEU: Falls vorhanden wird nun bei jedem Beitrag die Homepage und die Emailadresse eines Users angezeigt
+	- NEU: In der Forenübersicht werden nun die Boardstatistiken mit Anzahl an Mitgliedern/Themen/Beiträgen und neuestem User angezeigt
+	- NEU: In der Session wird nun die IP des Users gespeichert und falls diese nicht mit der aktuellen IP übereinstimmt, wird die
+	  Session gelöscht und eine Meldung ausgegeben
+	- NEU: Das Board kann nun für Gäste komplett gesperrt werden
+	- NEU: Die Registrierung kann nun deaktiviert werden, des Weiteren kann man eine maximale Zahl an Registrierungen festlegen
+	- NEU: Die (noch nicht eingebaute) Suche kann nun entweder ganz ausgeschaltet werden, nur für Mitglieder freigegeben werden,
+	  oder für alle freigegeben werden
+	- NEU: Anstatt dem Namen des Boards kann nun auch ein Logo angegeben werden, dass immer ganz oben angezeigt wird
+
+
+Alpha 3 (#09082003)
+	- BUGFIX: Themenanzahl, Beitragsanzahl und neuester Beitrag eines Forums werden nun beim Erstellen eines Themas oder einer Antwort
+	  korrekt geupdatet
+	- BUGFIX: Das Auf- und Zuklappen von Kategorien funktioniert nun auch bei eingeschaltetem register_globals
+	- BUGFIX: Auch das Anzeigen von überlangen Thementiteln in der Forenübersicht funktioniert nun wieder problemlos
+	- NEU: WhoIsOnline-Technik integriert, d.h. alle Besucher des Forums werden in einer Liste erfasst, aus der hervorgeht,
+	  was ein User gerade macht, Mitglieder können beim Einloggen wählen, ob sie in dieser Liste erfasst werden wollen.
+	- NEU: "Toolleiste" ganz unten in der Themenansicht integriert, von hier können User (und vor allem später Moderatoren) ein Thema
+	  bearbeiten, verschieben, löschen und als wichtig markieren.
+	- NEU: Themen können nun gelöscht werden, es wird nun auch der letzte Beitrag eines Forums korrekt geupdatet
+	- BUGFIX: myfwrite() lädt nun die Dateien neu in den Cache
+	- BUGFIX: Nicht-Administratoren haben nun kein Zugriff mehr auf die Administration
+	- NEU: Templateersteller haben nun wesentliche umfangreichere Konfigurationsmöglichkeiten, Sie können die Dateinamen
+	  der einzelnen Templates und der Bilder bestimmen, außerdem können sie ein Kommentar über ihr Template abgeben
+	- NEU: Für ein Template kann es nun verschiedene Styles geben
+	- UPDATE: Es wird nun nicht mehr die Sprache Deutsch und das Standardtemplate mit dem Standardstyle verwendet, sondern
+	  die Sprache/das Template, die/das in der Konfiguration festgelegt wird.
+	- NEU: Es können nun alle bisher vorhandenen Konfigurationsmöglichkeiten komfortabel über die Administration bearbeitet
+	  werden
+	- NEU: Standardtemplates und -Styles können nun über die Administration ausgewählt werden
+	- NEU: Nach dem Einloggen wird man nun wieder genau dorthin gebracht, wo man vor dem Einloggen war
+	- NEU: Es wird nun erkannt, ob in einem Forum/einem Thema neue Beiträge sind, dies wird mit einem Bild angezeigt
+	- NEU: Man kann nun alle Foren und alle Themen in einem Forum als gelesen markieren
+	- NEU: Die Erkennung von Gästen und gelöschten Usern funktioniert nun wesentlich besser
+	- UPDATE: pheader.tpl des Standardtemplates etwas erweitert (Idee vov www.mytbb.de)
+	- NEU: Links zum Bearbeiten und Löschen eines Beitrags angebracht
+	- NEU: Funktionen zum Umwandeln von Smilies und verhindern von HTML-Code erstellt, vor allem der alte Fehler, dass
+	  aus ") auch ein Smiley wird, wenn HTML-Code deaktiviert ist, taucht dank strtr() nicht mehr auf
+	- BUGFIX: Falls Dateien mit filetostr() öfters geladen werden, funktioniert dies nun auch dank clearstatcache() korrekt
+	- NEU: Allgemeine Rechte (funktionsfähig) eingebaut, Spezialrechte fehlen noch
+
+
+Alpha 2 (#01082003)
+	- NEU: Im Ordner "db" befinden sich nun alle Datenbankfunktionen, momentan natürlich nur für Dateien (Ordner "filedb")
+	- UPDATE: Datei dfunctions.php nach db/filedb verlegt und in functions.php umbenannt
+	- NEU: In allen update_blablabla Funktionen wird nun bei einem upgedateten Wert zwischen "STR" und "INT" unterschieden. Bei "STR"
+	  wird einfach der alte Wert durch den neuen ersetzt, bei "INT" wird der alte Wert (eine Zahl) um den neuen verändert.
+	- UPDATE: update_user_posts(), update_topic_views() und update_topic_replies() aus db/filedb/functions.php entfernt
+	- UPDATE: $DEFS wird nun nicht mehr aus Dateien geladen sondern direkt durch ein Array im Skript definiert
+	- NEU: Die Views eines Themas werden nun mitgezählt
+	- NEU: Gäste werden in der Themenansicht schon teilweise erkannt
+	- NEU: In Themen kann nun geantwortet werden
+	- NEU: Es kann nun auch mit Zitat geantwortet werden, BBCode ist aber noch nicht implementiert
+	- NEU: Beim Antworten und Themenerstellen wird nun der neueste Beitrag des Forums korrekt geupdatet
+	- NEU: Beim Antworten werden nun die Themen mit der neuesten Antwort ganz oben angezeigt
+	- NEU: Themen können nun als wichtig markiert werden, d.h. sie bleiben in der Themenübersicht immer ganz oben
+	- BUGFIX: In der Themenübersicht ist nun auch kein HTML-Code in den Thementiteln mehr möglich
+	- NEU: In der Themenübersicht wird nun angezeigt, ob ein Thema wichtig ist und ob es verschoben wurde
+	- NEU: Vorschau funktioniert nun auch beim Themenerstellen
+	- BUGFIX: In der Themenansicht werden nun neue Zeilen korrekt dargestellt
+	- UPDATE: Kein Unterschied mehr zwischen "Dateizugriffe" und "DB Queries", beides ist nun in "Datenbankzugriffe" zusammengefasst
+	- NEU: Der Autor eines Templates kann sich nun mit Namen des Templates, seinem eigenen Namen, einer URL und einer Emailadresse
+	  "verewigen", die Informationen sollen später auf Wunsch des Admins auch unter dem Copyright angezeigt werden
+	- BUGFIX: In allen update_blablabla Funktionen wird nun auch der geupdatete Wert per value_prepare_db "vorbereitet"
+	- BUGFIX: In allen update_blablabla Funktionen werden nun keine Dateien mehr gecached
+	- NEU: Thementitel können nun vom Ersteller und von Admins bearbeitet werden
+	- NEU: Foren und Kategorien können nun administriert werden
+	- NEU: Es existieren nun auch Unterkategorien, mit beliebiger Tiefe
+	- BUGFIX: Beim Einloggen wird nun bei falscher Eingabe das Passwort nicht mehr schon in das Feld eingetragen
+	- UPDATE: Forumindex komplett überarbeitet, zeigt nun auch verschachtelte Kategorien an und bietet Möglichkeit
+	  Kategorien zu öffnen zu und schließen
+	- NEU: Hat ein Forum/Thema zu viele Themen/Beiträge wird es in mehrere Seiten unterteilt
+	- NEU: $CONFIG['topics_per_page'] und $CONFIG['posts_per_page'] hinzugefügt, gibt an, wieviele Themen/Beiträge in einem Forum/Thema
+	  pro Seite angezeigt werden sollen
+	- NEU: User können nun ihr Profil bearbeiten
+	- UPDATE: Beim Registrieren werden nun alle Profilangaben berücksichtigt
+
+
+Alpha 1 Build #250402
+	- UPDATE: $stats ist nun $STATS
+	- NEU: In $CACHE werden nun per filetostr() ganze Dateien gecached
+	- NEU: viewtopic.php nun verfügbar
+	- NEU: dfunctions.php: get_posts_data(), get_post_data(), update_forum_data() hinzugefügt
+	- NEU: Einige Variablen-Initialisierungen von auth.php nach startup.php verlagert
+	- BUGFIX: In Thementiteln ist nun kein HTML mehr möglich
+	- BUGFIX: Templateklasse kann nun wieder mehr als eine Verschachtelung verwalten
