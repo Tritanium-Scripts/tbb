@@ -1,0 +1,127 @@
+<?
+
+/* loadset.php - lädt die Einstellungen (c) 2001-2002 Tritanium Scripts */
+
+if(!myfile_exists("vars/settings.var")) { // Falls settings.var noch nicht existiert
+	include("settings.php");
+	$setfile[0] = $config['path_to_forum'];
+	$setfile[1] = $config['address_to_forum'];
+	$setfile[2] = $config['site_name'];
+	$setfile[3] = $config['site_address'];
+	$setfile[4] = $config['site_contact'];
+	$setfile[5] = $config['forum_name'];
+	$setfile[6] = $config['forum_logo'];
+	$setfile[7] = $config['uc_message'];
+	$setfile[8] = $config['gmt_offset'];
+	$setfile[9] = $config['log_options'];
+	$setfile[10] = $config['warn_admin_fds'];
+	$setfile[11] = $config['close_forum_fds'];
+	$setfile[12] = $config['activate_registration'];
+	$setfile[13] = $config['max_registrations'];
+	$setfile[14] = $config['create_reg_pw'];
+	$setfile[15] = $config['uc'];
+	$setfile[16] = $config['topics_per_page'];
+	$setfile[17] = $config['posts_per_page'];
+	$setfile[18] = $config['wio_timeout'];
+	$setfile[19] = $config['wio'];
+	$setfile[20] = $config['show_site_creation_time'];
+	$setfile[21] = $config['show_board_stats'];
+	$setfile[22] = $config['show_lposts'];
+	$setfile[23] = $config['show_kats'];
+	$setfile[24] = $config['censored'];
+	$setfile[25] = $config['must_be_logged_in'];
+	$setfile[26] = $config['var_admin'];
+	$setfile[27] = $config['var_mod'];
+	$setfile[28] = $config['var_banned'];
+	$setfile[29] = $config['var_killed'];
+	$setfile[30] = $config['stars_admin'];
+	$setfile[31] = $config['stars_mod'];
+	$setfile[32] = $config['news_position'];
+	$setfile[33] = $config['topic_is_hot'];
+	$setfile[34] = $config['formmail_mbli'];
+	$setfile[35] = $config['activate_mlist'];
+	$setfile[36] = $config['nli_must_enter_name'];
+	$setfile[37] = $config['show_private_forums'];
+	$setfile[38] = $config['css_file'];
+	$setfile[39] = $twidth;
+	$setfile[40] = $tspacing;
+	$setfile[41] = $tpadding;
+	$setfile[42] = $config['append_sid_url'];
+	$setfile[43] = $config['use_gzip_compression'];
+	$setfile[44] = $config['use_file_caching'];
+	$setfile[45] = $config['activate_ob'];
+	$setfile[46] = $config['use_getimagesize'];
+	$setfile[47] = $config['avatar_height'];
+	$setfile[48] = $config['avatar_width'];
+	$setfile[49] = $config['use_diskfreespace'];
+	$setfile[50] = $config['lng_folder'];
+	$setfile[51] = $config['activate_mail'];
+	$setfile[52] = $config['admin_email'];
+	$setfile[53] = $config['forum_email'];
+	$setfile[54] = $config['mail_admin_new_registration'];
+	$setfile[55] = $config['notify_new_replies'];
+	$setfile = implode("\n",array_pad($setfile,200,''))."\n";
+	myfwrite("vars/settings.var",$setfile,'w');
+}
+else {
+	$setfile = myfile("vars/settings.var");
+	$config['path_to_forum'] = chop($setfile[0]);
+	$config['address_to_forum'] = chop($setfile[1]);
+	$config['site_name'] = chop($setfile[2]);
+	$config['site_address'] = chop($setfile[3]);
+	$config['site_contact'] = chop($setfile[4]);
+	$config['forum_name'] = chop($setfile[5]);
+	$config['forum_logo'] = chop($setfile[6]);
+	$config['uc_message'] = chop($setfile[7]);
+	$config['gmt_offset'] = chop($setfile[8]);
+	$config['log_options'] = chop($setfile[9]);
+	$config['warn_admin_fds'] = chop($setfile[10]);
+	$config['close_forum_fds'] = chop($setfile[11]);
+	$config['activate_registration'] = chop($setfile[12]);
+	$config['max_registrations'] = chop($setfile[13]);
+	$config['create_reg_pw'] = chop($setfile[14]);
+	$config['uc'] = chop($setfile[15]);
+	$config['topics_per_page'] = chop($setfile[16]);
+	$config['posts_per_page'] = chop($setfile[17]);
+	$config['wio_timeout'] = chop($setfile[18]);
+	$config['wio'] = chop($setfile[19]);
+	$config['show_site_creation_time'] = chop($setfile[20]);
+	$config['show_board_stats'] = chop($setfile[21]);
+	$config['show_lposts'] = chop($setfile[22]);
+	$config['show_kats'] = chop($setfile[23]);
+	$config['censored'] = chop($setfile[24]);
+	$config['must_be_logged_in'] = chop($setfile[25]);
+	$config['var_admin'] = chop($setfile[26]);
+	$config['var_mod'] = chop($setfile[27]);
+	$config['var_banned'] = chop($setfile[28]);
+	$config['var_killed'] = chop($setfile[29]);
+	$config['stars_admin'] = chop($setfile[30]);
+	$config['stars_mod'] = chop($setfile[31]);
+	$config['news_position'] = chop($setfile[32]);
+	$config['topic_is_hot'] = chop($setfile[33]);
+	$config['formmail_mbli'] = chop($setfile[34]);
+	$config['activate_mlist'] = chop($setfile[35]);
+	$config['nli_must_enter_name'] = chop($setfile[36]);
+	$config['show_private_forums'] = chop($setfile[37]);
+	$config['css_file'] = chop($setfile[38]);
+	$twidth = chop($setfile[39]);
+	$tspacing = chop($setfile[40]);
+	$tpadding = chop($setfile[41]);
+	$config['append_sid_url'] = chop($setfile[42]);
+	$config['use_gzip_compression'] = chop($setfile[43]);
+	$config['use_file_caching'] = chop($setfile[44]);
+	$config['activate_ob'] = chop($setfile[45]);
+	$config['use_getimagesize'] = chop($setfile[46]);
+	$config['avatar_height'] = chop($setfile[47]);
+	$config['avatar_width'] = chop($setfile[48]);
+	$config['use_diskfreespace'] = chop($setfile[49]);
+	$config['lng_folder'] = chop($setfile[50]);
+	$config['activate_mail'] = chop($setfile[51]);
+	$config['admin_email'] = chop($setfile[52]);
+	$config['forum_email'] = chop($setfile[53]);
+	$config['mail_admin_new_registration'] = chop($setfile[54]);
+	$config['notify_new_replies'] = chop($setfile[55]);
+}
+
+
+?>

@@ -1,0 +1,348 @@
+<html>
+<head>
+<title>TBB Readme</title>
+<style>
+	a:visited {
+		color:blue;
+		text-decoration:underline;
+	}
+	a:hover {
+		color:red;
+		text-decoration:underline;
+	}
+
+</style>
+</head>
+<body>
+
+<font face=verdana size=2>
+
+<font size=5>Tritanium Bulletin Board 1.2.1<br>Readme</font>
+
+<br><br>
+<hr align=left color=black width=50%>
+1. <a href="#part1">Einführung</a><br>
+2. <a href="#part2">Installation</a><br>
+&nbsp;&nbsp;2.1 <a href="#part2.1">Vorraussetzungen</a><br>
+&nbsp;&nbsp;2.2 <a href="#part2.2">Voreinstellungen</a><br>
+&nbsp;&nbsp;2.3 <a href="#part2.3">Upload</a><br>
+&nbsp;&nbsp;2.4 <a href="#part2.4">Rechte setzen</a><br>
+&nbsp;&nbsp;2.5 <a href="#part2.5">Erste Schritte</a><br>
+3. <a href="#part3">Update-Installation</a><br>
+&nbsp;&nbsp;3.1 <a href="#part3.1">Anmerkungen zum Update</a><br>
+&nbsp;&nbsp;3.2 <a href="#part3.2">Update von Version 1.1</a><br>
+&nbsp;&nbsp;3.3 <a href="#part3.3">Update von Version 1.0 Beta</a><br>
+4. <a href="#part4">settings.php</a><br>
+&nbsp;&nbsp;4.1 <a href="#part4.1">Einführung</a><br>
+&nbsp;&nbsp;4.2 <a href="#part4.2">$config['adress_to_forum']</a><br>
+&nbsp;&nbsp;4.3 <a href="#part4.3">$config['log_options']</a><br>
+&nbsp;&nbsp;4.4 <a href="#part4.4">$config['warn_admin_fds'] / $config['close_forum_fds']</a><br>
+&nbsp;&nbsp;4.5 <a href="#part4.5">$config['create_reg_pw']</a><br>
+&nbsp;&nbsp;4.6 <a href="#part4.6">$config['uc']</a><br>
+5. <a href="#part5">Forumexterne Tools</a><br>
+6. <a href="#part6">Weitere Anmerkungen</a><br>
+&nbsp;&nbsp;6.1 <a href="#part6.1">Die Newsfader Funktion</a><br>
+&nbsp;&nbsp;6.2 <a href="#part6.2">Sicherheit des Forums/.htaccess Probleme</a><br>
+&nbsp;&nbsp;6.3 <a href="#part6.3">Das Forum mit einer anderen CSS-Datei aufrufen</a><br>
+&nbsp;&nbsp;6.4 <a href="#part6.4">Ein paar Worte zum Code</a><br>
+&nbsp;&nbsp;6.5 <a href="#part6.5">Das Gruppensystem</a><br>
+7. <a href="#part7">F.A.Q.</a><br>
+8. <a href="#part8">Lizenz</a><br>
+9. <a href="#part9">Schlusswort</a>
+<hr align="left" color="black" width="50%">
+<br>
+<b><u>Ich weise hier noch einmal ausdrücklich darauf hin, dass TBB nur für nicht-kommerzielle Seiten
+kostenlos ist! Andernfalls kostet TBB etwas und in diesem Fall empfehle ich ihnen auf meine
+<a href="http://www.tritanium-scripts.de" target="_blank"><u>Website</u></a> zu gehen, um nähere Informationen dazu zu erhalten!
+Dort erfahren sie z.B. auch, was das Entfernen des sichtbaren Copyrights kostet.</u></b>
+<br><br><br>
+<b><font size=3><a name="part1">1. Einführung:</a></font></b><br>
+Erst einmal vielen Dank, dass sie sich für TBB entschieden haben!<br>
+Im Folgenden wird die Installation von TBB beschrieben und, obwohl ich versuche sie so einfach wie möglich
+zu gestalten, sollten sie doch einige Grundkenntnisse in Sachen Scripte-Installieren haben. Falls es trotzdem
+Probleme geben sollte, sollten sie sie sich erst das <a href="#part7">F.A.Q.</a> durchlesen und dann, falls sich
+keine Lösung gefunden hat, mein <a href="http://www.tritanium-scripts.de" target="_blank">Forum</a> aufsuchen. Dort wird ihnen sicher geholfen!
+<br><br><br><br>
+
+<b><font size=3><a name="part2">2. Installation:</a></font></b><br><br>
+<a name="part2.1"><b>2.1 Voraussetzungen</b></a><br>
+Damit TBB auf ihrem Webserver ohne Probleme läuft, sollte dieser mindestens die folgenden Vorraussetzungen erfüllen:<br>
+- ca. <u>2 MB Webspace</u> (je nach späterer Größe des Forums kann dies weniger, aber auch erheblich mehr sein!)<br>
+- <u>PHP 4.06</u> oder höher
+<br><br>
+
+<a name="part2.2"><b>2.2 Voreinstellungen</b></a><br>
+Sind die Vorraussetzungen erfüllt, können sie sofort mit der Installation beginnen. Als erstes sollten sie die Dateien
+&quot;settings.php&quot; mit einem beliebigen Texteditor öffnen und alle Einstellungen vornehmen. Im Einzelnen wird das in dieser
+Datei erklärt, aber sie sollten auf jeden Fall darauf achten, dass sie vorhandene ; (Semikolons) am Ende einer Zeile
+<u>auf keinen Fall löschen</u>! Weitere Informationen dazu finden sie auch im Abschnitt &quot;<a href="#part4">settings.php</a>&quot;.<br><br>
+
+<a name="part2.3"><b>2.3 Upload</b></a><br>
+Sind sie damit fertig, können sie mit dem Uploaden beginnen. Dabei zu beachten sind die verschiedenen Übertragungsmodi &quot;Binary&quot; und &quot;Ascii&quot;. Ihr FTP-Program
+sollte/muss beide Modi unterstützen. Gibt es eine &quot;automatisch-Modus-Auswahl&quot;-Funktion, sollten sie diese deaktivieren und stattdessen jeweils manuell den Modus auswählen.
+Als erstes sollten sie nun ein Verzeichnis für das Forum auf ihrem Webserver erstellen (z.B. &quot;forum&quot; oder &quot;TBB&quot;). In dieses Verzeichnis laden sie anschließend
+die folgenden Dateien/Verzeichnisse in den folgenden Modi:<br>
+Verzeichnis &quot;<b>foren</b>&quot; (+ Inhalt) <b>Binarymodus</b><br>
+Verzeichnis &quot;<b>members</b>&quot; (+ Inhalt) <b>Binarymodus</b><br>
+Verzeichnis &quot;<b>polls</b>&quot; (+ Inhalt) <b>Binarymodus</b><br>
+Verzeichnis &quot;<b>vars</b>&quot; (+ Inhalt) <b>Binarymodus</b><br>
+Verzeichnis &quot;<b>logs</b>&quot; (+ Inhalt) <b>Binarymodus</b><br>
+Verzeichnis &quot;<b>images</b>&quot; (+ Inhalt) <b>Binarymodus</b><br>
+Verzeichnis &quot;<b>styles</b>&quot; (+ Inhalt) <b>Asciimodus</b><br>
+Verzeichnis &quot;<b>language</b>&quot; (+ Inhalt) <b>Asciimodus</b><br>
+Dateien <b>*.php</b> <b>Asciimodus</b><br><br>
+
+<a name="part2.4"><b>2.4 Rechte setzen</b></a><br>
+Erteilen sie folgenden Ordner/Dateien folgende Rechte (chmod):<br>
+Verzeichnis &quot;<b>foren</b>&quot; <b>777</b><br>
+Verzeichnis &quot;<b>members</b>&quot; <b>777</b><br>
+Verzeichnis &quot;<b>vars</b>&quot; <b>777</b><br>
+Verzeichnis &quot;<b>logs</b>&quot; <b>777</b><br>
+Verzeichnis &quot;<b>polls</b>&quot; <b>777</b><br>
+Dateien <b>*.var</b> in &quot;<b>vars</b>&quot; <b>777</b><br>
+Dateien <b>*.xbb</b> in &quot;<b>members</b>&quot; <b>777</b><br>
+Dateien <b>*.xbb</b> in &quot;<b>polls</b>&quot; <b>777</b><br>
+Dateien <b>*.php</b> <b>755</b><br><br>
+
+<a name="part2.5"><b>2.5 Erste Schritte</b></a><br>
+Sind sie damit fertig, ist ihr TBB fast einsatzbereit. Rufen sie es über ihren Webbrowser auf
+(z.B. www.meinedomain.de/tbb). Haben sie alles richtig gemacht, erscheint nun die Forenübersicht,
+allerdings fehlen noch die Foren. Nun registrieren sie sich erst einmal selbst, d.h. sie klicken oben
+in der Leiste auf &quot;Registrieren&quot;, geben ihre Daten ein und schicken das ganze ab. Loggen sie sich
+nun mit diesen Daten ein (sie wurden automatisch als Administrator eingetragen). War dies erfolgreich,
+können sie am unteren Ende der Seite auf den Link &quot;Administration&quot; klicken oder alternativ
+in ihrem Webbrowser adminpanel.php aufrufen (z.B. www.meinedomain.de/tbb/adminpanel.php). Hier klicken
+sie nun auf &quot;Foren/Kategorien&quot; und im nächsten Bildschirm <u>zuerst</u> auf &quot;Kategorien bearbeiten&quot;,
+wo sie nun mindestens eine Kategorie erstellen. Danach gehen sie zurück und wechseln zu &quot;Foren bearbeiten&quot;,
+wo sie nun alle benötigten Foren erstellen können.<br>
+Falls sie nun im Nachhinein Einstellungen ändern wollen, sollten sie das auch über den Administrationspunkt &quot;Einstellungen bearbeiten&quot;
+tun. Wenn sie dagegen Dinge in der settings.php einfach so ändern, wird das keine Auswirkungen auf das Forum haben, außer sie wählen anschließend
+die Option &quot;settings.php neu einlesen&quot; in der Administration.
+<br><br>
+
+<u>Falls Probleme bei der Installation auftreten, lesen sie sich bitte zuerst das <a href="#part5"><u>F.A.Q.</u></a> durch, bevor sie das Forum auf meiner <a href="http://www.tritanium-scripts.de" target="_blank"><u>Seite</u></a> zu Rate ziehen.</u>
+<br><br><br><br>
+
+<a name="part3"><b><font size=3>3. Update-Installation:</font></b></a><br><br>
+<a name="part3.1"><b>3.1 Allgemeine Anmerkungen zum Update</b></a><br>
+Leider kann keine Garantie für ein reibungsloses Update übernommen werden. Deshalb wird empfohlen
+vor einem Update die Ordner &quot;foren&quot;, &quot;members&quot; und eventuell &quot;vars&quot;
+zu sichern. Dies machen sie am besten, in dem sie die Ordner per FTP downloaden. Dabei unbedingt
+beachten, dass sie den Binarymode verwenden!<br>
+Desweiteren ist es seit dieser Version möglich alle Einstellungen aus der settings.php über die
+Administration zu ändern. Nach dem Update wird es also nichts mehr bringen, Dinge in der settings.php
+einfach so zu ändern. Wollen sie es trotzdem so machen, müssen sie nach dem Ändern entweder in
+der Administration die Option &quot;settings.php neu einlesen&quot; wählen oder einfach die Datei
+&quot;vars/settings.var&quot; löschen. Beim nächsten Aufruf des Forums wird diese automatisch wieder
+erstellt - mit den neuen Einstellungen.<br>
+Falls sie nach dem Update Probleme bei der Darstellung - vor allem bei den TBB-Code Buttons - haben, sollten sie
+ihre CSS-Datei updaten, d.h. die &quot;standard.css&quot;, die den Forum beiliegt, auf neue
+Abschnitte überprüfen (z.B. forumcode) und diese in ihre modifizierte CSS-Datei einsetzen.
+<br><br>
+
+<a name="part3.2"><b>3.2 Update von Version Version 1.1</b></a><br>
+1: Nehmen sie alle Einstellungen in settings.php<br>
+2: Uploaden sie alle .php Dateien auf ihren Webserver in das TBB-Verzeichnis, überschreiben sie gegebenenfalls vorhandene (achten sie darauf, die Dateien im Asciimodus zu übertragen!)<br>
+3. Die Dateien "mailsettings.php und "faderset.php" können sie nun auf ihrem Webserver löschen<br>
+4: Die Ordner "jscripts" und "templates" können sie nun auf ihrem Webserver löschen<br>
+5: Erstellen sie den Ordner "polls" und geben sie ihm die Rechte <b>777</b><br>
+6: Uploaden sie die Datei .htaccess aus dem Ordner /update in den Ordner "polls"<br>
+7: Uploaden sie den Ordner "language" (mit Inhalt; Asciimodus!) auf ihren Webserver<br>
+8: Updaten sie den Ordner "images", d.h. laden sie den Ordner+Inhalt ins TBB-Verzeichnis und überschreiben sie gegebenfalls ältere Dateien<br>
+9: Uploaden sie die Datei "update_11.php" aus dem Ordner /update in ihr TBB-Verzeichnis (Asciimodus!) und öffnen sie die Datei im Browser (z.B. www.meinedomain.de/tbb/update_11.php). Das Script updatet dann das Forum.<br>
+10: Löschen sie die Datei "update_11.php" auf ihrem Webserver.<br>
+Das Forum sollte nun vollständig geupdatet sein!
+<br><br>
+<a name="part3.3"><b>3.3 Update von Version 1.0 Beta</b></a><br>
+1: Nehmen sie alle Einstellungen in settings.php vor<br>
+2: Uploaden sie alle .php Dateien auf ihren Webserver in das TBB-Verzeichnis, überschreiben sie gegebenenfalls vorhandene (achten sie darauf, die Dateien im Asciimodus zu übertragen!)<br>
+3: Uploaden sie die Ordner "styles" und "language" (jeweils mit Inhalt; Asciimodus!) ins TBB-Verzeichnis.<br>
+4: Updaten sie den Ordner "images", d.h. laden sie den Ordner+Inhalt ins TBB-Verzeichnis und überschreiben sie gegebenfalls ältere Dateien<br>
+5: Die Datei ad.php auf ihrem Webserver können sie nun löschen (ihre Funktionen übernimmt adminpanel.php)<br>
+6: Erstellen sie im TBB-Verzeichnis die Ordner "logs", "vars" und "polls".<br>
+7: Geben sie den neu erstellten Ordnern "logs", "vars" und "polls" die Rechte <b>777</b><br>
+8: Uploaden sie die Datei .htaccess (Binarymodus!) aus dem Ordner /update in die Verzeichnisse: "foren", "logs", "members", "vars" und "polls" (das verhindert, dass jemand Daten per Browser lesen kann)<br>
+9: Uploaden sie die Datei "update_10.php" aus dem Ordner /update in ihr TBB-Verzeichnis (Asciimodus!) und öffnen sie die Datei im Browser (z.B. www.meinedomain.de/tbb/update_10.php). Das Script überprüft ihre Einstellungen und updatet dann das Forum.<br>
+10: Löschen sie die Datei "update_10.php" auf ihrem Webserver.<br>
+Das Forum sollte nun vollständig geupdatet sein!
+
+
+<br><br><br><br>
+
+<b><font size=3><a name="part4">4. settings.php:</a></font></b><br><br>
+<a name="part4.1"><b>4.1 Einführung</b></a><br>
+In diesem Kapitel werden einige Variablen aus der Datei &quot;settings.php&quot; näher erläutert. Beim Setzen der Werte für eine Variable sollten sie
+grundsätzlich den <u>Wert in Anführungszeichen</u> ("") setzten. Besteht der Wert nur aus <u>einer</u> Zahl, können sie diese Anführungszeichen auch weglassen.
+Auf keinen Fall aber dürfen sie das Semikolon ; am Ende einer Zeile weglassen!<br>
+Kommentare können sie übrigens per // einfügen, alles was in dieser Zeile dahinter steht, wird nun als Kommentar gewertet. Damit können sie sich zum Beispiel
+Anmerkungen zu den einzelnen Variablen schreiben und müssen sich nicht alles merken, bzw. haben es später wieder da, wo sie es auch brauchen.<br><br>
+<a name="part4.2"><b>4.2 $config['adress_to_forum']</b></a><br>
+Diese Variable ist vor allem für die Mailfunktionen wichtig, da oft Links zu ihrem Forum angehängt werden und diese sollten schon korrekt sein. Sie müssen
+die WWW-Adresse zu ihrem Forum angeben (z.B. http://www.meinedomain.de/forum). Die Richtigkeit können sie
+einfach überprüfen, indem sie ein /index.php anhängen (z.B. http://www.meinedomain.de/forum/index.php). Dieser Link sollte dann die Forenübersicht aufrufen.
+Tut er das nicht, so ist etwas falsch. <u>Vergessen sie aber das http:// nicht</u>, auch wenn es heutzutage nicht mehr so oft gebraucht wird.<br><br>
+<a name="part4.3"><b>4.3 $config['log_options']</b></a><br>
+Diese Variable steuert die sehr umfangreiche Logfunktion des Forums. Sie können mit ihr genau bestimmen, was geloggt werden soll. Dabei sollten sie beachten,
+dass dadurch der Speicherplatz (besonders bei vielen Usern) zum Teil stark beansprucht werden kann. Die Logdateien finden sie im Ordner /logs auf ihrem Webserver.
+Sie können sie ohne Probleme löschen (danach sind sie natürlich weg). Für jeden Tag wird eine Logdatei erstellt, die den Namen TTMMJJJJ.log trägt. Um zu bestimmen,
+was geloggt werden soll, geben sie einfach die Kennzahlen des gewünschten Bereiche (wird gleich erläutert) mit Kommata getrennt an, also z.b. 1,6,10. Die Reihenfolge
+spielt dabei keine Rolle, d.h. 5,8,2 und 2,5,8 bewirkt das gleiche.<br>
+Hier sind nun die verschiedenen Logoptionen:<br>
+<b>1</b> - Dateisystemprobleme (lesen/schreiben/Speicherplatz)<br>
+<b>2</b> - Fehlgeschlagene Administrationszugriffsversuche<br>
+<b>3</b> - Fehlgeschlagene Logins<br>
+<b>4</b> - Neue Themen/Posts erstellt<br>
+<b>5</b> - Posts bearbeitet/gelöscht, Themen gelöscht/geschlossen/geöffnet/verschoben<br>
+<b>6</b> - User zum Board connected<br>
+<b>7</b> - Login/outs<br>
+<b>8</b> - Administrationsaktionen<br>
+<b>9</b> - Mails/PMs verschickt<br>
+<b>10</b> - Profile bearbeitet<br>
+<b>11</b> - Neue Registrierungen<br>
+<b>12</b> - Neue Passwörter angefordert<br>
+Als Beipiel: Sie wollen alle User, die zum Board connecten (6) und alle Login/outs (7) loggen. Dann muss ihre Zeile in der settings.php folgendermaßen aussehen:<br>
+$config['log_options'] = &quot;6,7&quot;;<br><br>
+<a name="part4.4"><b>4.4 $config['warn_admin_fds'] / $config['close_forum_fds']</b></a><br>
+Diese Variablen sind extrem wichtig, da sie ihr Forum vor Schäden bewahren können/sollen. Die erste Variable $config['warn_admin_fds'] setzt fest, ab wieviel MB restlichem
+Speicherplatz der Administrator eine Warnmail zugeschickt bekommen soll. Haben sie den Wert z.B. auf 5 gesetzt und es sind nur noch 5 MB frei, bekommen sie (oder der entsprechende
+Administrator) eine Mail zugeschickt, in der sie/er gewarnt werden/wird. Wichtig ist dabei, dass sie die Emailadresse des Administrators angeben! Die 2. Variable $config['close_forum_fds']
+bewirkt das gleiche wie $config['warn_admin_fds'], nur dass hier das Forum gleichzeitig gesperrt wird. Haben sie im Ernstfall wie auch immer
+zusätzlichen Speicherplatz freigegeben, müssen sie noch die Datei fds.var im Verzeichnis /vars auf ihrem Webserver löschen, da sie sonst das nächste Mal keine Warnmail bekommen!<br><br>
+<a name="part4.5"><b>4.5 $config['create_reg_pw']</b></a><br>
+Diese Option dient dazu, dass sich niemand mit einer ungültigen Emailadresse anmeldet. Wird der Wert dieser Variablen auf 1 gesetzt, kann man beim Registrieren kein eigenes Password eingeben. Dagegen
+wird eins erstellt und per Mail zugeschickt.<br><br>
+<a name="part4.6"><b>4.6 $config['uc']</b></a><br>
+Falls sie z.B. ein Update am Forum durchführen wollen, können sie den Wert dieser Variable auf 1 setzen. Dann kann man nur noch über die Administration auf das Forum zugreifen (ad_login.php), sonst bekommt man eine
+entsprechende Meldung angezeigt.
+<br><br><br><br>
+
+<b><font size=3><a name="part5">5. Forumexterne Tools:</a></font></b><br>
+Die Forumexternen Tools befinden sich im Ordner /extern und dienen dazu, die letzten Beiträge und WIO woanders, als im Forum selber anzuzeigen (z.B. auf dem Portal seiner Seite). Bedingung dafür ist, dass sich Forum und Page auf dem
+gleichen Webserver befinden und die Page in PHP geschrieben ist. Um die Tools zu verwenden. öffnen sie die gewünschten Dateien (ext_wio.php für WhoIsOnline und ext_lposts.php für die letzten Beiträge) in einem Texteditor und passen
+den Pfad an (sie können auch relative Pfadangaben verwenden). Nun uploaden sie (Asciimodus!) die Dateien in das Verzeichnis auf ihrem Webserver, in dem sich die Webpage befindet (nicht in das Verzeichnis des Forums!). Nun fügen sie
+in der entsprechenden Datei ihrer Website die Zeile <code><font size=2>include(&quot;ext_wio.php&quot;);</font></code> für WIO und <code><font size=2>include(&quot;ext_lposts.php&quot;);</font></code> für die letzten Beiträge ein.
+<br><br><br><br>
+
+<b><font size=3><a name="part6">6. Weitere Anmerkungen:</a></font></b><br><br>
+<a name="part6.1"><b>6.1 Die Newfader Funktion</b></a><br>
+Die Newsfaderfunktion wurde bisher nur mit dem IE 5.0-6.0 erfolgreich getestet. Unter Opera/Netscape/Mozilla funktionierte sie überhaupt nicht, weswegen empfohlen wird, im Zweifelsfall die normalen News zu verwenden (&quot;static&quot;).
+<br><br>
+
+<a name="part6.2"><b>6.2 Sicherheit des Forums/.htaccess Probleme</b></a><br>
+Sie sollten auf jeden Fall darauf achten, dass ihr Provider .htacces Dateien (überall) unterstützt, da sonst jeder mit ein wenig Geschick Daten des Forums lesen kann (Beiträge (auch in privaten Foren), Userdaten...).
+<br><br>
+
+<a name="part6.3"><b>6.3 Das Forum mit einer anderen CSS-Datei aufrufen</b></a><br>
+Es gibt die Möglichkeit das Forum mit einer anderen CSS-Datei als in den Einstellungen angegeben
+aufzurufen und zwar in dem sie an den Link zum Forum &quot;?var_css_file=cssdatei&quot; anhängen.
+Vorraussetzung dafür ist allerdings, dass diese CSS-Datei im Ordner &quot;styles&quot; liegt.
+Heißt die Datei z.B. meindesign.css müssten sie das Forum mit index.php?var_css_file=meindesign.css
+aufrufen.
+<br><br>
+
+<a name="part6.4"><b>6.4 Ein paar Worte zum Code</b></a><br>
+Bei Version 1.0 und 1.1 wurde öfters die Übersichtlichkeit bzw. leichte Verständlichkeit des Codes lobenswert erwähnt. Es kann sein, dass das bei dieser Version nicht mehr der Fall ist, d.h. der Code nicht mehr
+so übersichtlich und an ein paar Stellen nicht gerade optimal ist. Die nächste Version wird sich deswegen wahrscheinlich hauptsächlich der Code-Optimierung widmen.
+<br><br>
+
+<a name="part6.5"><b>6.5 Die Gruppenfunktion</b></a><br>
+Es gibt die Möglichkeit in der Administration Benutzergruppen zu erstellen. Dies dient dazu, damit
+sie z.B. nicht immer den gleichen Leuten Zugriff zu bestimmten Foren gewähren müssen, denn anstatt dessen
+können sie auch diese Leute einer Gruppe zuweisen und müssen dann nur noch der Gruppe Zugang gewähren.
+Sie können für jede Gruppe auch ein extra Avatar bestimmen. Dieser bekommt das Gruppenmitglied dann
+automatisch zugewiesen, falls es nicht selber einen anderen Avatar angegeben hat. Beachten sie bitte,
+dass jeder User <u>nur Mitglied einer Gruppe</u> sein kann. Wundern sie sich also nicht, wenn sie einen User
+einer Gruppe zuweisen wollen, dies aber nicht geschieht. Das liegt dann normalerweise daran, dass der
+betreffende User schon Mitglied einer anderen Gruppe ist.
+<br><br><br><br>
+
+<b><font size=3><a name="part7">7. F.A.Q.:</a></font></b><br>
+<b>Frage:</b> Wenn ich in der Administration die Reihenfolge von irgendetwas verändere, wird die Seite
+zwar neu angezeigt, allerdings immernoch in der alten Reihenfolge. Erst, wenn ich die Seite
+aktualisiere, wird die aktuelle Position angezeigt.<br>
+<b>Antwort:</b> Dies kann mehrere Ursachen haben. Als erstes sollten sie ihren Proxyserver ausschalten,
+falls sie einen verwenden, da diese die Seiten häufig zwischenspeichern. Außerdem sollten sie in
+ihrem Browser (vor allem Opera) überprüfen, ob der Browser die Seite auch immer neu lädt und nicht
+aus dem Cache.
+<br><br>
+<b>Frage:</b> Ich teste das Forum auf meinem eigenen Webserver, beim Aufrufen erhalte ich aber immer Fehlermeldungen in der Art &quot;Warning: open(/tmp\sess_0e83b056d7f6aad8ccfed8c7ef93f6e9, O_RDWR) failed:...&quot;<br>
+<b>Antwort:</b> Anscheinend haben sie in der php.ini den Wert von session.save_path auf einem ungültigen Verzeichnis stehen. Arbeiten sie unter Windows, müssen sie zum Beispiel c:\windows\temp angeben, unter Linux z.B. /tmp
+<br><br>
+<b>Frage:</b> Funktioniert das Forum auch mit IIS?<br>
+<b>Antwort:</b> Getestet wurde es noch nicht, allerdings haben schon mehrere Leute damit (bisher unlösbare) Probleme gehabt.
+<br><br>
+<b>Frage:</b> Wie alt bist du?<br>
+<b>Antwort:</b> Ich bin am 1.6.1985 geboren. Das Alter kann man sich dementsprechend hoffentlich selber ausrechnen :)
+<br><br>
+<b>Frage:</b> Programmierst du das Forum wirklich ganz alleine?<br>
+<b>Antwort:</b> Ja, aber gegen nette Programmiererinnen habe ich grundsätzlich nichts ;)
+<br><br>
+<b>Frage:</b> Ich bin von deiner Arbeit total begeistert! Kann man dich irgendwie unterstützen?<br>
+<b>Antwort:</b> Wenn du meine Kontonummer haben willst...
+<br><br>
+<b>Frage:</b> Kann man irgendwie mehr über dich erfahren?<br>
+<b>Antwort:</b> Ja, kann man und zwar unter <a href="http://www.julianbackes.2fbi.de" target="_blank">http://www.julianbackes.2fbi.de</a>
+<br><br>
+<b>Frage:</b> Was sollen diese ganzen persönlichen Fragen überhaupt?<br>
+<b>Antwort:</b> Ich habe sie ja nicht gestellt...
+<br><br><br><br>
+
+<b><font size=3><a name="part8">8. Lizenz:</a></font></b><br>
+1: Durch das Verwenden dieser Software akzeptieren sie das Lizenzabkommen/erlären sich damit einverstanden.<br>
+2: Diese Lizenz ermöglicht es ihnen Tritanium Bulletin Board (im Folgenden TBB) auf beliebig vielen Servern zu installieren und zu verwenden, so lange der Verwendungszweck nicht einen kommerziellen Hintergrund hat.<br>
+3: Sie dürfen TBB für ihren eigenen Zweck beliebig verändern bzw. Dritte dazu beauftragen, allerdings dürfen sie es verändert weder weitergeben noch verkaufen!<br>
+4: Alle Copyrighthinweise (&quot;&copy; 2001-2002 Tritanium Scripts&quot;, &quot;Tritanium Bulletin Board 1.2&quot;) und die dazugehörigen Links sowohl im Quellcode, als auch in den von TBB erstellen Seiten dürfen unter keinen Umständen verändert/gelöscht werden und müssen damit für den Benutzer unverändert und immer gut sichtbar zu sehen sein.<br>
+5: Tritanium Scripts gibt keine Funktionsgarantie auf TBB mit der verwendeten Hardware/Software.<br>
+6: Tritanium Scripts ist für keinerlei Inhalte bzw. Verfasser verantwortlich, die mit TBB erstellt wurden/werden.<br>
+7: Das Risiko diese Software zu verwenden liegt alleine beim Lizenznehmer. Der Rechtsweg ist ausgeschlossen.<br>
+8: Ohne Genehmigung der Tritanium Scripts dürfen weder ganze Scripte noch Sciptteile, die Bestandteil von TBB sind, in anderen Scipten verwendet werden.<br>
+9: TBB darf ohne Genehmigung der Tritanium Scripts nicht zum Download angeboten werden.<br>
+10: Falls eine Genehmigung zum Download vorliegt, darf das Archiv nur unverändert verbreitet werden, falls nicht anders mit Tritanium Scripts vereinbart.<br>
+11: TBB darf nur mit Genehmigung von Tritanium Scripts auf politischen Seiten verwendet werden.
+<br><br><br><br>
+
+<b><font size=3><a name="part9">9. Schlusswort:</a></font></b><br>
+Viele (oder auch wenige :) fragen sich bestimmt, warum jemand auf die Idee kommt, ein Forum in
+PHP ohne MySQL zu programmieren, wenn letzteres doch viel einfacher und vielleicht auch schneller
+gehen würde. Dazu muss ich ein bisschen ausholen: Im Sommer 2000 hatte ich nichts, aber
+wirklich gar nichts mit PHP oder HTML am Hut, meine Webseiten bastelte ich mit allen möglichen
+Editoren zusammen, hauptsache ich musste selber kein Code schreiben. Da ich damals (wie heute auch immer noch ;)
+kein Geld hatte, nutzte ich außerdem den tollen Service von vielen verschiedenen Freewebspaceprovidern.
+Dabei hatte ich eigentlich so ziemlich ausprobiert (und da bin ich bestimmt nicht der einzige gewesen).
+Das Problem war, dass ich unbedingt CGI (besser gesagt Perl) Unterstützung brauchte um ein Forum
+einzurichten, aber auch keine Werbung wollte. Zuerst war da snoop.dk, dann supertown.de, dann f2s.com
+und schließlich Barrysworld. Auf Grund extremer Überlastung musste letzteres aber die Perl
+Unterstützung streichen, was in Form einer Mail verkündet wurde. In der Mail (ich hab sie leider nicht mehr)
+stand, man müsse sich wohl nach einem anderen Provider umsehen, wenn man weiterhin ein Forum oder sonstiges
+haben wolle. PHP wurde zwar unterstützt, allerdings kein MySQL, was PHP Foren damit auch ausschloss, da
+die alle nur mit einer Datenbank funktionierten. Weiterhin stand in der Mail, man könne ja selber PHP lernen und
+ein dateibasierendes Forum in PHP schreiben. Und da fing dann alles an. Innerhalb eines halben Monats
+hatte ich ein Kontaktformular und ein Gästebuch geschrieben, beides natürlich auf Dateibasis. Dann begann
+ich mit dem Forum, was ziemlich schnell immer besser wurde (fast täglich eine neue Version, aber
+meistens nur mit wenigen Änderungen). Dass ich dieses eigentlich nur für mich verwenden wollte, glaubt
+mir wohl heute keiner mehr, aber es war tatsächlich so. Irgendwann habe ich das Forum dann zum ersten Mal mit anderen
+getestet und es lief auf Anhieb prima. Irgendwie hab ich dann ein paar Leute kennengelernt, die auch
+so ein Forum haben wollten, und da hab ich natürlich nicht gezögert und auch gleich eine benutzerfreundliche
+Version gebastelt. Danach ist für ungefähr 3 Monate nichts passiert (vielleicht 4 oder 5 Seiten verwendeten
+das Forum), bis ich das ganze dann im November in drei Scriptarchive eintrug. Danach ging es Schlag
+auf Schlag, bis heute, wo ich um ca. 500 Mails reicher bin, meine Kontaktliste in ICQ von 10 auf 120 Leute
+gewachsen ist, das Forum ca. 3500 mal runtergeladen wurde (ca. 470 MB :) und ich viele viele Leute kennen gelernt habe, mit
+denen ich sonst wohl nie was zu tun gehabt hätte.<br>
+Noch mehr Leute als zu Beginn dieses Textes werden sich jetzt wohl fragen, warum ich so einen Text überhaupt schreibe.
+Erstens will ich jeden, der sich ein bisschen für dieses Thema interessiert, dazu ermutigen, auch Scripte (oder sontige Sachen)
+zu schreiben. Und es ist nicht schlimm z.B. ein Forum zu programmieren, obwohl es schon hunderte davon gibt,
+denn die Erfahrungen, die man dabei gewinnt, die sind wirklich einmalig! Und wie man sieht braucht man kein riesen
+Team für sowas. Ich habe bisher alle meine Projekte was das programmieren angeht alleine über die Bühne gebracht
+und ich denke, dass zumindest das Forum besser ist, als so manch anderes, was im Team entstanden ist (Was aber nicht
+heißen soll, dass Teams keine guten Sachen machen!).<br>
+Ich hoffe, das hier interessiert wenigstens ein paar Leute, denn es war, auch wenn es nicht danach aus sieht, verdammt viel
+Arbeit diesen Text hier zu schreiben ;)<br><br>
+mfg <b>Julian</b>
+
+<br><br><br><br><br>
+&copy; 2001-2002 <a href="http://www.tritanium-scripts.de" target="_blank">Tritanium Scripts</a><br>
+
+</font>
+
+</body>
+</html>
