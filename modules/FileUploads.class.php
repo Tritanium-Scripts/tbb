@@ -61,14 +61,14 @@ class FileUploads extends ModuleTemplate {
 		}
 
 		if(!isset($_FILES['upload']) || is_array($_FILES['upload']['error'])) {
-			$response->setError($this->modules['Language']->getString('error_while_uploading').'1');
+			$response->setError($this->modules['Language']->getString('error_while_uploading'));
 			$response->respond(); exit;
 		}
 
 		$error = $_FILES['upload']['error'];
 		
 		if($error != UPLOAD_ERR_OK) {
-			$response->setError($this->modules['Language']->getString('error_while_uploading').'2');
+			$response->setError($this->modules['Language']->getString('error_while_uploading'));
 			$response->respond(); exit;
 		}
 
@@ -79,7 +79,7 @@ class FileUploads extends ModuleTemplate {
 		}
 
 		$thumbnail = '';
-		if(getimagesize($_FILES['upload']['tmp_name']) !== FALSE) {
+		if(@getimagesize($_FILES['upload']['tmp_name']) !== FALSE) {
 			// TODO: create thumbnail
 		}
 

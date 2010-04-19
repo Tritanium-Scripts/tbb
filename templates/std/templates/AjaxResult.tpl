@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<!DOCTYPE ajaxresult [
-	<!ELEMENT ajaxresult (mode, status, values)>
-	<!ELEMENT mode (#PCDATA)>
-	<!ELEMENT status (#PCDATA)>
-	<!ELEMENT values (value)>
-	<!ELEMENT value (#PCDATA)>
-]>
 <ajaxresult>
-	<mode>{$mode}</mode>
-	<status>{$status}</status>
-	<error>{$error}</error>
+	<mode>{$mode|escape}</mode>
+	<status>{$status|escape}</status>
+	<error>{$error|escape}</error>
 	<values>
 		{foreach from=$values item=curValue}
-		<value name="{$curValue.key}">{$curValue.value}</value>
+		<value name="{$curValue.key}">{$curValue.value|escape}</value>
 		{/foreach}
 	</values>
 </ajaxresult>

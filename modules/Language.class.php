@@ -77,7 +77,7 @@ class Language extends ModuleTemplate {
 
 		// parse file and cache it
 		$toWrite = array();
-		foreach(parse_ini_file($iniFile) as $curKey => $curValue) {
+		foreach($this->parseINIFile($iniFile) as $curKey => $curValue) {
 			$this->strings[$languageString][$curKey] = $curValue;
 			$toWrite[] = '$this->strings[\'' . $languageString . '\'][\'' . $curKey . '\'] = \'' . addcslashes($curValue, '\'') . '\';';
 		}
@@ -101,5 +101,34 @@ class Language extends ModuleTemplate {
 			return FALSE;
 		}
 		return $this->strings[$languageString][$index];
+	}
+
+	function parseINIFile($fileName) {
+		$lines = file($fileName);
+		$section = '';
+		$result = array();
+
+		foreach($lines as &$curLine) {
+			$curLine = trim($curLine);
+			$firstChar = substr($curLine, 0, 1);
+			
+			if($firstChar == '#' || $curLine == '')
+				continue;
+			
+			$delimiter = strpos($curLine, '=');
+			
+			if($delimiter === FALSE || $delimiter <= 0)
+				continue;
+
+			$key = trim(substr($curLine, 0, $delimiter));
+			$value = trim(substr($curLine, $delimiter + 1));
+
+			if(substr($value, 0, 1) == '"' && substr($value, -1, 1) == '"')
+				$value = substr($value, 1, -1);
+			
+			$result[$key] = stripcslashes($value);
+		}
+		
+		return $result;
 	}
 }

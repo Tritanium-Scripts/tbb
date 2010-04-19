@@ -96,13 +96,16 @@
 			form: "UploadForm",
 			handleAs: "xml",
 			load: function(response, ioArgs) {
+				alert("hole status der response");
 				var status = ajaxGetStatus(response);
 
 				if(status === "SUCC") {
+					alert("status war SUCC, hole fileID");
 					file.fileId = ajaxGetValue(response, "fileId");
 					changeUploadingStatus(file.uploadId);
 					addHiddenUploadField(file.uploadId);
 				} else {
+					alert("status war nicht SUCC");
 					deleteUploadingStatus(file.uploadId);
 					files[file.uploadId] = null;
 					alert(ajaxGetError(response));
@@ -111,6 +114,7 @@
 				return response;
 			},
 			error: function(response, ioArgs){
+				alert("Es ist ein Fehler aufgetreten");
 				alert("Error: "+response);
 				return response;
 			}

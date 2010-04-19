@@ -59,8 +59,8 @@ class Ajax extends ModuleTemplate {
 						
 						$values = array(
 							array('key'=>'postID','value'=>$postID),
-							array('key'=>'postTextRaw','value'=>Functions::XMLEscapeString($postText)),
-							array('key'=>'postTextHTMLReady','value'=>Functions::XMLEscapeString($postTextHTMLReady))
+							array('key'=>'postTextRaw','value'=>$postText),
+							array('key'=>'postTextHTMLReady','value'=>$postTextHTMLReady)
 						);
 
 						$status = 'SUCC';
