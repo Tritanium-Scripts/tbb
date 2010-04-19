@@ -1,0 +1,18 @@
+* text=auto !eol
+images/smilies/smile.gif -text
+language/ts_german/ts_german.zip -text
+templates/ts_tbb2_standard/images/blank.gif -text
+templates/ts_tbb2_standard/images/forum_off.gif -text
+templates/ts_tbb2_standard/images/forum_on.gif -text
+templates/ts_tbb2_standard/images/minus.gif -text
+templates/ts_tbb2_standard/images/plus.gif -text
+templates/ts_tbb2_standard/images/sep.gif -text
+templates/ts_tbb2_standard/images/topic_off_closed.gif -text
+templates/ts_tbb2_standard/images/topic_off_open.gif -text
+templates/ts_tbb2_standard/images/topic_off_open_hot.gif -text
+templates/ts_tbb2_standard/images/topic_on_closed.gif -text
+templates/ts_tbb2_standard/images/topic_on_open.gif -text
+templates/ts_tbb2_standard/images/topic_on_open_hot.gif -text
+templates/ts_tbb2_standard/images/v1.gif -text
+templates/ts_tbb2_standard/images/v2.gif -text
+templates/ts_tbb2_standard/images/v3.gif -text

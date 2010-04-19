@@ -1,0 +1,17 @@
+body {
+	margin:0px;
+}
+
+
+td.adtd {
+	background-color:#FFFFFF;
+}
+
+table.adtbl {
+	background-color:black;
+}
+
+td.adcat {
+	height:23px;
+	background-image:url(images/v2.gif);
+}
