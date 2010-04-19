@@ -1,0 +1,155 @@
+<?php
+/**
+*
+* Tritanium Bulletin Board 2 - language/ts_german/lng_admin.php
+* version #2003-09-17-17-03-24
+* (c) 2003 Tritanium Scripts - http://www.tritanium-scripts.com
+*
+**/
+
+$lng['moveup'] = 'nach oben';
+$lng['movedown'] = 'nach unten';
+$lng['delete'] = 'l&ouml;schen';
+$lng['edit'] = 'bearbeiten';
+$lng['in_minutes'] = '(in Minuten)';
+$lng['in_seconds'] = '(in Sekunden)';
+
+
+//
+// ad_index.php
+//
+$lng['ad_welcome_text'] = 'Willkommen in der Administration des Tritanium Bulletin Board 2! Bitte w&auml;hlen Sie in der Navigation den Bereich aus, den Sie administrieren wollen!';
+
+
+//
+// ad_pheader.php
+//
+$lng['Navigation'] = 'Navigation';
+$lng['Overview'] = '&Uuml;bersicht';
+$lng['Manage_forums'] = 'Foren/Kategorien verwalten';
+$lng['Back_to_forumindex'] = 'Zur&uuml;ck zur Foren&uuml;bersicht';
+$lng['Boardconfig'] = 'Boardkonfiguration';
+$lng['Manage_templates'] = 'Templates verwalten';
+$lng['Manage_smilies'] = 'Smilies verwalten';
+
+
+//
+// ad_forums.php
+//
+$lng['Add_category'] = 'Kategorie hinzuf&uuml;gen';
+$lng['Add_forum'] = 'Forum hinzuf&uuml;gen';
+$lng['Add_sub_category'] = 'Subkategorie hinzuf&uuml;gen';
+$lng['Forums_without_category'] = 'Foren ohne Kategorie (werden nicht angezeigt!)';
+$lng['Edit_forum'] = 'Forum bearbeiten';
+$lng['Description'] = 'Beschreibung';
+$lng['Name'] = 'Name';
+$lng['Category'] = 'Kategorie';
+$lng['No_category'] = 'Keine Kategorie (Forum wird nicht angezeigt)!';
+$lng['Moderate_forum'] = 'Dieses Forum moderieren?';
+$lng['Edit_special_rights'] = 'Spezialrechte bearbeiten';
+$lng['General_rights'] = 'Allgemeine Rechte';
+$lng['Edit_category'] = 'Kategorie bearbeiten';
+$lng['Parent_category'] = '&Uuml;bergeordnete Kategorie';
+$lng['No_parent_category'] = 'Keine &uuml;bergeordnete Kategorie';
+$lng['Members_view_forum'] = 'Mitglieder d&uuml;rfen Forum betreten';
+$lng['Members_post_topic'] = 'Mitglieder d&uuml;rfen Themen erstellen';
+$lng['Members_post_reply'] = 'Mitglieder d&uuml;rfen Antworten erstellen';
+$lng['Members_post_poll'] = 'Mitglieder d&uuml;rfen  Umfragen erstellen';
+$lng['Members_edit_posts'] = 'Mitglieder d&uuml;rfen ihre Beitr&auml;ge bearbeiten';
+$lng['Guests_view_forum'] = 'G&auml;ste d&uuml;rfen Forum betreten';
+$lng['Guests_post_topic'] = 'G&auml;ste d&uuml;rfen Themen erstellen';
+$lng['Guests_post_reply'] = 'G&auml;ste d&uuml;rfen Antworten erstellen';
+$lng['Guests_post_poll'] = 'G&auml;ste d&uuml;rfen Umfragen erstellen';
+$lng['User_rights'] = 'Userrechte';
+$lng['Group_rights'] = 'Gruppenrechte';
+$lng['Auth_view_forum'] = 'Darf Forum betreten';
+$lng['Auth_post_topic'] = 'Darf Themen erstellen';
+$lng['Auth_post_reply'] = 'Darf Antworten erstellen';
+$lng['Auth_post_poll'] = 'Darf Umfragen erstellen';
+$lng['Auth_edit_posts'] = 'Darf eigene Beitr&auml;ge bearbeiten';
+$lng['Auth_is_moderator'] = 'Ist Moderator';
+$lng['Add_user_right'] = 'Userrecht hinzuf&uuml;gen';
+$lng['Add_group_right'] = 'Gruppenrecht hinzuf&uuml;gen';
+$lng['Rights'] = 'Rechte';
+$lng['Special_rights_updated'] = 'Spezialrechte geupdated';
+$lng['error_no_forum_name'] = 'Bitte geben Sie einen Forumnamen ein!';
+$lng['error_no_category_name'] = 'Bitte geben Sie einen Kategorienamen ein!';
+
+
+//
+// ad_config.php
+//
+$lng['Update_config'] = 'Konfiguration updaten';
+$lng['General_settings'] = 'Allgemeine Einstellungen';
+$lng['Topics_per_page'] = 'Themen pro Seite';
+$lng['Posts_per_page'] = 'Beitr&auml;ge pro Seite';
+$lng['Signature_settings'] = 'Signatureinstellungen';
+$lng['Enable_signature'] = 'Signatur aktivieren';
+$lng['Allow_signature_bbcode'] = 'BBCode in der Signatur erlauben';
+$lng['Allow_signature_html'] = 'HTML in der Signatur erlauben';
+$lng['Maximum_signature_length'] = 'Maximale L&auml;nge der Signatur (in Zeichen)';
+$lng['Who_is_online_settings'] = '&quot;Wer ist online?&quot;-Einstellungen';
+$lng['Enable_who_is_online'] = '&quot;Wer ist online?&quot; aktivieren';
+$lng['Board_name'] = 'Boardname';
+$lng['Board_address'] = 'Adresse des Boards';
+$lng['Time_format'] = 'Zeitformat';
+$lng['Language_settings'] = 'Spracheinstellungen';
+$lng['Standard_language'] = 'Standardsprache';
+$lng['Allow_select_language'] = 'User d&uuml;rfen Sprache ausw&auml;hlen';
+$lng['Board_config_updated'] = 'Boardkonfiguration geupdated';
+$lng['Who_is_online_timeout'] = '&quot;Wer ist online?&quot;-Timeout';
+$lng['Show_who_is_online_box_forumindex'] = '&quotWer ist online?&quot;-Box in der Foren&uuml;bersicht anzeigen';
+$lng['Technical_settings'] = 'Technische Einstellungen';
+$lng['Enable_gzip_compression'] = 'Gzip Komprimierung aktivieren';
+$lng['Enable_search'] = 'Suche aktivieren';
+$lng['Members_only'] = 'Nur f&uuml;r Mitglieder';
+$lng['Show_boardstats_forumindex'] = 'Boardstatistiken in der Foren&uuml;bersicht anzeigen';
+$lng['Registration_settings'] = 'Registrierungseinstellungen';
+$lng['Enable_registration'] = 'Registrierung aktivieren';
+$lng['Verify_email_address'] = 'Emailadresse verifizieren';
+$lng['Send_activation_code'] = 'Aktivierungscode verschicken';
+$lng['Create_random_password'] = 'Zufallspasswort erstellen';
+$lng['Maximum_registrations'] = 'Maximale Registrierungen';
+$lng['-1_infinite'] = '-1 = unendlich';
+$lng['Guests_enter_board'] = 'G&auml;ste d&uuml;rfen Board betreten';
+$lng['Board_logo'] = 'Boardlogo';
+
+
+//
+// ad_smilies.php
+//
+$lng['Smiley'] = 'Smiley';
+$lng['Type'] = 'Typ';
+$lng['Topic_pic'] = 'Themenbild';
+$lng['Topic_pics'] = 'Themenbilder';
+$lng['Path_or_url'] = 'Pfad oder URL';
+$lng['Only_for_smiley'] = 'Nur f&uuml;r Smiley';
+$lng['Synonym'] = 'Synonym';
+$lng['Status'] = 'Status';
+$lng['visible'] = 'sichtbar';
+$lng['invisible'] = 'unsichtbar';
+$lng['visible_description'] = 'Wird in der Smiley&uuml;bersicht angezeigt';
+$lng['Add_smiley'] = 'Smiley hinzuf&uuml;gen';
+$lng['Add_topic_pic'] = 'Themenbild hinzuf&uuml;gen';
+$lng['Add_smiley_topic_pic'] = 'Smiley/Themenbild hinzuf&uuml;gen';
+$lng['Edit_smiley_topic_pic'] = 'Smiley/Themenbild bearbeiten';
+$lng['error_no_path_or_url'] = 'Bitte geben Sie einen Pfad oder eine URL an!';
+$lng['error_no_synonym'] = 'Bitte geben Sie ein Synonym an!';
+
+
+//
+// ad_templates.php
+//
+$lng['Template_name'] = 'Name des Templates';
+$lng['Template_author'] = 'Autor';
+$lng['Author_comment'] = 'Kommentar des Autors';
+$lng['Template_settings'] = 'Templateeinstellungen';
+$lng['Standard_template'] = 'Standardtemplate';
+$lng['Allow_select_template'] = 'User d&uuml;rfen Template ausw&auml;hlen';
+$lng['Template_standard_style'] = 'Standardstyle';
+$lng['Allow_select_style'] = 'User d&uuml;rfen Style ausw&auml;hlen';
+$lng['Update_template_config'] = 'Templatekonfiguration updaten';
+$lng['Template_config_updated'] = 'Templatekonfiguration geupdated';
+
+
+?>

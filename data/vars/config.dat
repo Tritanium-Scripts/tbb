@@ -1,0 +1,26 @@
+enable_sig	1
+maximum_sig_length	250
+allow_sig_bbcode	1
+allow_sig_html	0
+standard_tpl	ts_tbb2_standard
+standard_style	ts_tbb2_standard.css
+posts_per_page	10
+topics_per_page	15
+enable_wio	1
+board_name	Mein Forum
+standard_language	ts_german
+allow_select_lng	1
+allow_select_tpl	1
+allow_select_style	1
+wio_timeout	10
+show_wio_forumindex	1
+enable_gzip	1
+show_techstats	1
+show_boardstats_forumindex	1
+search_status	2
+board_address	http://www.meinedomain.de
+enable_registration	1
+verify_email_address	0
+maximum_registrations	-1
+guests_enter_board	1
+board_logo	
