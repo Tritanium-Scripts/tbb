@@ -108,14 +108,14 @@
 					//alert("status war nicht SUCC");
 					deleteUploadingStatus(file.uploadId);
 					files[file.uploadId] = null;
-					//alert(ajaxGetError(response));
+					alert(ajaxGetError(response));
 				}
 				
 				return response;
 			},
 			error: function(response, ioArgs){
 				//alert("Es ist ein Fehler aufgetreten");
-				//alert("Error: "+response);
+				alert("Error: "+response);
 				return response;
 			}
 		});
