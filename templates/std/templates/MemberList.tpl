@@ -20,7 +20,7 @@
   {/foreach}
  </tr>
 {/foreach}
-<tr><td colspan="100" class="CellButtons"><span class="FontSmall"><b>{$modules.Language->getString('display_options')}:</b> {$modules.Language->getString('sort_by')}
+<tr><td colspan="{$colSpan}" class="CellButtons"><span class="FontSmall"><b>{$modules.Language->getString('display_options')}:</b> {$modules.Language->getString('sort_by')}
  <select class="FormSelect" name="orderBy">
   <option value="id"{if $orderBy == 'id'} selected="selected"{/if}>{$modules.Language->getString('user_id')}</option>
   <option value="nick"{if $orderBy == 'nick'} selected="selected"{/if}>{$modules.Language->getString('user_name')}</option>

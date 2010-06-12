@@ -221,7 +221,8 @@ class MemberList extends ModuleTemplate {
 			'page'=>$page,
 			'orderBy'=>$orderBy,
 			'orderType'=>$orderType,
-			'usersPerPage'=>$usersPerPage
+			'usersPerPage'=>$usersPerPage,
+			'colSpan'=>4+count($fieldsData)
 		));
 
 		$this->modules['Template']->printPage('MemberList.tpl');

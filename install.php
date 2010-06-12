@@ -114,13 +114,21 @@ class BoardInstall {
 	}
 	
 	protected function printHeader($autoLocation = '') {
-		if($autoLocation != '') $autoLocation = '<meta http-equiv="refresh" content="0; URL='.$autoLocation.'" />';
+		if($autoLocation != '') $autoLocation = '<meta http-equiv="refresh" content="0; URL='.$autoLocation.'"/>';
 
+		echo('<?xml version="1.0" encoding="' . $this->strings['html_encoding'] . '" standalone="no" ?>');
 		?>
+
 		<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 		<html xmlns="http://www.w3.org/1999/xhtml" dir="<?php echo $this->strings['html_direction']; ?>" lang="<?php echo $this->strings['html_language']; ?>" xml:lang="<?php echo $this->strings['html_language']; ?>">
 			<head>
 	 			<title><?php echo $this->strings['tbb2_installation']; ?></title>
+				<meta name="author" content="Tritanium Scripts"/>
+				<meta name="copyright" content="Tritanium Scripts"/>
+				<meta http-equiv="Content-Language" content="<?php echo $this->strings['html_language']; ?>"/>
+				<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=<?php echo $this->strings['html_encoding']; ?>"/>
+				<meta http-equiv="Content-Style-Type" content="text/css"/>
+				<meta http-equiv="Content-Script-Type" content="text/javascript"/>
 	 			<?php echo $autoLocation; ?>
  				<style type="text/css">
   					body {

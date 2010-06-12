@@ -2,7 +2,7 @@
 /**
  * @author Julian Backes <julian@tritanium-scripts.com>
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2003 - 2009, Tritanium Scripts
+ * @copyright Copyright (c) 2003 - 2010, Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package tbb2
  */
@@ -112,7 +112,7 @@ class BBCode extends ModuleTemplate {
 		$text = preg_replace_callback("/\[img\](.*?)\[\/img\]/si",array($this,'cbImage'),$text); // [img]xxx[/img]
 		$text = preg_replace_callback("/\[img=(.*?)\](.*?)\[\/img\]/si", array($this,'cbImage'), $text); //[img=xxx]xxx[/img]
 		$text = preg_replace_callback("/\[url\](.*?)\[\/url\]/si",array($this,'cbLink'),$text); // [url]xxx[/url]
-		$text = preg_replace_callback("/\[url=(.*?)\](.*?)\[\/url\]/si",array($this,'cbLink'),$text); // [url=xxx]xxx[/url]
+		$text = preg_replace_callback("/\[url=(.*?)\](.*?)\[\/url\]/si",array($this,'cbLink'),$text); // [url=xxx|integer]xxx[/url]
 		$text = preg_replace_callback("/\[color=(\#[a-fA-F0-9]{6}|[a-zA-Z]+)\](.*?)\[\/color\]/si",array($this,'cbColor'),$text); // [color=xxx]xxx[/color]
 		$text = preg_replace("/\[marquee\](.*?)\[\/marquee\]/si", '<marquee>\1</marquee>', $text); //[marquee]xxx[/marquee] - Es wird keine Option geboten per Button eine Laufschrift zu erstellen (nicht HTML konform), parsen es aber trotzdem weil das TBB1 dies anbot
 		//TBB1 BBCode hack support
@@ -310,7 +310,8 @@ class BBCode extends ModuleTemplate {
 		else
 			$linkAddress = $linkText = $elements[1];
 
-		$linkAddress = Functions::addHttp($linkAddress);
+		//Link to internal thread or normal external site
+		$linkAddress = is_numeric($linkAddress) ? INDEXFILE . '?action=ViewTopic&amp;topicID=' . $linkAddress . '&amp;' . MYSID : Functions::addHttp($linkAddress);
 
 		$this->modules['Template']->assign('b',array(
 			'bbCodeType'=>BBCODE_LINK,
@@ -344,7 +345,7 @@ class BBCode extends ModuleTemplate {
 			'bbCodeType'=>BBCODE_SIZE,
 			'sizeFont'=>$elements[1],
 			'sizeText'=>$elements[2]
-			));
+		));
 		return $this->modules['Template']->fetch('BBCodeHtml.tpl');
 	}
 
@@ -353,7 +354,7 @@ class BBCode extends ModuleTemplate {
 			'bbCodeType'=>BBCODE_GLOW,
 			'glowColor'=>$elements[1],
 			'glowText'=>$elements[2]
-			));
+		));
 		return $this->modules['Template']->fetch('BBCodeHtml.tpl');
 	}
 
@@ -362,7 +363,7 @@ class BBCode extends ModuleTemplate {
 			'bbCodeType'=>BBCODE_SHADOW,
 			'shadowColor'=>$elements[1],
 			'shadowText'=>$elements[2]
-			));
+		));
 		return $this->modules['Template']->fetch('BBCodeHtml.tpl');
 	}
 
@@ -382,7 +383,7 @@ class BBCode extends ModuleTemplate {
 			'flashWidth'=>$flashWidth,
 			'flashHeight'=>$flashHeight,
 			'flashLink'=>$flashLink
-			));
+		));
 		return $this->modules['Template']->fetch('BBCodeHtml.tpl');
 	}
 }
