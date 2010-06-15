@@ -3,9 +3,9 @@
 <input class="FormBBCodeButton" style="text-decoration:underline;" type="button" value="U" onclick="insert('[u]','[/u]');"/>
 <input class="FormBBCodeButton" style="text-decoration:line-through;" type="button" value="S" onclick="insert('[s]','[/s]');"/>
 <input class="FormBBCodeButton" type="button" value="{$modules.Language->getString('center')}" onclick="insert('[center]','[/center]');"/>
-<input class="FormBBCodeButton" type="button" value="SUP" onclick="insert('[sup]','[/sup]');"/>
-<input class="FormBBCodeButton" type="button" value="SUB" onclick="insert('[sub]','[/sub]');"/>
-<input class="FormBBCodeButton" type="button" value="{$modules.Language->getString('quote')}" onclick="insert('[quote]','[/quote]');"/>
+<button class="FormBBCodeButton" type="button" onclick="insert('[sup]','[/sup]');"><span style="position:relative; top:-0.3em;">{$modules.Language->getString('superscript')}</span></button>
+<button class="FormBBCodeButton" type="button" onclick="insert('[sub]', '[/sub]');"><span style="position:relative; bottom:-0.3em;">{$modules.Language->getString('subscript')}</span></button>
+<input class="FormBBCodeButton" type="button" value="{$modules.Language->getString('quote_button')}" onclick="insert('[quote]','[/quote]');"/>
 <input class="FormBBCodeButton" style="font-family:monospace; position:relative; top:-0.1em;" type="button" value="{$modules.Language->getString('code')}" onclick="insert('[code]','[/code]');"/>
 <input class="FormBBCodeButton" type="button" value="PHP" onclick="insert('[php]','[/php]');"/>
 <input class="FormBBCodeButton" type="button" value="[noparse]" onclick="insert('[noparse]','[/noparse]');"/><br />

@@ -75,6 +75,6 @@
   <param name="movie" value="{$b.flashLink}"/>
   <param name="quality" value="autohigh"/>
   <param name="wmode" value="transparent"/>
-  <p>{$modules.Language->getString('no_flash')}</p>
+  <p><a href="http://get.adobe.com/flashplayer/" target="_blank">{$modules.Language->getString('no_flash')}</a></p>
  </object>
 {/if}

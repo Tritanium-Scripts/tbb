@@ -234,7 +234,7 @@
 				<div id="UploadStatus{$smarty.foreach.fileUploadsLoop.iteration}" style="border:1px dotted black; padding:3px;"><span class="FontNorm"><img style="padding:5px; vertical-align:middle;" src="{$modules.Template->getTD()}/images/icons/Ok.png"/>{$curFile.fileName}</span> <span class="FontSmall">(<a href="javascript:deleteUploadingStatus({$smarty.foreach.fileUploadsLoop.iteration});">{$modules.Language->getString('delete')}</a>)</span></div>
 			{/foreach}
 		</div>
-		<form id="UploadForm" method="POST" enctype="multipart/form-data" action="{$smarty.const.INDEXFILE}?action=FileUploads&amp;mode=SingleUploadAjax"><input id="UploadField" name="upload" type="file"/><button onclick="uploadFile();" type="button">{$modules.Language->getString('upload')}</button></form>
+		<form id="UploadForm" method="POST" enctype="multipart/form-data" action="{$smarty.const.INDEXFILE}?action=FileUploads&amp;mode=SingleUploadAjax"><input class="FormText" id="UploadField" name="upload" type="file"/> <button class="FormButton" onclick="uploadFile();" type="button">{$modules.Language->getString('upload')}</button></form>
 	</td></tr>
 	</table>
 {/if}
