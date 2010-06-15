@@ -54,8 +54,8 @@ class Language extends ModuleTemplate {
 	/**
 	 * Adds a language file for caching.
 	 * 
-	 * @param string Name of language file
-	 * @param string $languageString
+	 * @param string $fileName Name of language file
+	 * @param string $languageString Optional language code
 	 */
 	public function addFile($fileName, $languageString = '') {
 		$languageString = ($languageString == '' ? $this->languageString : $languageString);
@@ -89,8 +89,8 @@ class Language extends ModuleTemplate {
 	/**
 	 * Returns a cached language string stated by the index key.
 	 * 
-	 * @param string Language key, identifies the requested string
-	 * @param string $languageString
+	 * @param string $index Language key, identifies the requested string
+	 * @param string $languageString Optional language code
 	 * @return string Translated string
 	 */
 	public function getString($index,$languageString = '') {
@@ -103,32 +103,34 @@ class Language extends ModuleTemplate {
 		return $this->strings[$languageString][$index];
 	}
 
-	function parseINIFile($fileName) {
-		$lines = file($fileName);
-		$section = '';
+	/**
+	 * Parses an INI language file with stripping of cslashes.
+	 *
+	 * @param string $fileName Name of language file
+	 * @return array Parsed language strings with their keys
+	 */
+	private function parseINIFile($fileName) {
 		$result = array();
-
-		foreach($lines as &$curLine) {
-			$curLine = trim($curLine);
-			$firstChar = substr($curLine, 0, 1);
-			
-			if($firstChar == '#' || $curLine == '')
+		foreach(array_map('trim', file($fileName, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES)) as $curLine) {
+			//Skip comments
+			if($curLine[0] == ';')
 				continue;
-			
+			//Detect valid delimiter
 			$delimiter = strpos($curLine, '=');
-			
 			if($delimiter === FALSE || $delimiter <= 0)
 				continue;
-
+			//Extract translation
 			$key = trim(substr($curLine, 0, $delimiter));
 			$value = trim(substr($curLine, $delimiter + 1));
-
+			//Cut off possible comment
+			if(substr($value, -1, 1) != '"' && (strrpos($value, ';') > strrpos($value, '"')))
+				$value = trim(substr($value, 0, strrpos($value, ';')));
+			//Get language string
 			if(substr($value, 0, 1) == '"' && substr($value, -1, 1) == '"')
 				$value = substr($value, 1, -1);
-			
+			//Add to results
 			$result[$key] = stripcslashes($value);
 		}
-		
 		return $result;
 	}
 }
