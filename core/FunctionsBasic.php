@@ -17,12 +17,29 @@ class FunctionsBasic
 	private static $fileCounter = 0;
 
 	/**
-	 * Extending PHP's {@link file()} with file counting and global data path.
+	 * Checks current IP for access permission.
+	 *
+	 * @param int $forumID Only check for a specific forum, whole board otherwise
+	 * @return bool|int Access permission granted or ban endtime
+	 */
+	public static function checkIPAccess($forumID=-1)
+	{
+		foreach(self::file('vars/ip.var') as $curIP)
+		{
+			$curIP = explode("\t", $curIP);
+			if($curIP[0] == $_SERVER['REMOTE_ADDR'] && $curIP[2] == $forumID && ($curIP[1] > time() || $curIP[1] == '-1'))
+				return (int) $curIP[1];
+		}
+		return true;
+	}
+
+	/**
+	 * Extending PHP's {@link file()} with file counting, trim and global data path.
 	 */
 	public static function file($filename, $flags=null, $context=null)
 	{
 		self::$fileCounter++;
-		return file(DATAPATH . $filename, $flags, $context);
+		return array_map('trim', file(DATAPATH . $filename, $flags, $context));
 	}
 
 	/**
@@ -41,6 +58,16 @@ class FunctionsBasic
 	{
 		self::$fileCounter++;
 		return file_put_contents(DATAPATH . $filename, $data, $flags, $context);
+	}
+
+	/**
+	 * Returns amount of file accesses.
+	 *
+	 * @return int File counter
+	 */
+	public static function getFileCounter()
+	{
+		return self::$fileCounter;
 	}
 
 	/**

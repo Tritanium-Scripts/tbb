@@ -20,7 +20,7 @@ class Functions extends FunctionsBasic
 				'From: ' . Main::getModule('Config')->getCfgVal('forum_name') . ' <' . Main::getModule('Config')->getCfgVal('forum_email') . '>' . "\r\n" .
 				'Reply-To: ' . Main::getModule('Config')->getCfgVal('forum_name') . ' <' . Main::getModule('Config')->getCfgVal('forum_email') . '>' . "\r\n" .
 				'X-Mailer: PHP/' . phpversion() . "\r\n" .
-				'Content-Type: text/plain; charset=UTF8');
+				'Content-Type: text/plain; charset=' . Main::getModule('Language')->getString('encoding', 'Mails'));
 			Main::getModule('Logger')->log('Mail sent to ' . $to, LOG_USER_TRAFFIC);
 		}
 	}

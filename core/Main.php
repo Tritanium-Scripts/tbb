@@ -86,7 +86,7 @@ class Main implements Module
 	private static $loadedModules = array();
 
 	/**
-	 * Some initial PHP stuff and instructions.
+	 * Some initial PHP stuff and preparations.
 	 */
 	function __construct()
 	{
@@ -94,13 +94,23 @@ class Main implements Module
 		error_reporting(E_ALL);
 		//Finalize feature set of Functions class by either using Multibyte string functions and/or (overloaded) default PHP ones
 		include('Functions' . (!extension_loaded('mbstring') || ini_set('mbstring.func_overload', '7') === false ? '' : 'MB') . '.php');
+		//Revert quoted strings on GPC vars, if needed
+		if(ini_get('magic_quotes_gpc') == '1')
+			list($_GET, $_POST, $_COOKIE) = Functions::stripSlashesDeep(array($_GET, $_POST, $_COOKIE));
+	}
+
+	/**
+	 * Executes the board software and the desired action.
+	 */
+	public function execute()
+	{
 		//Check available disk space
 		if(self::getModule('Config')->getCfgVal('use_diskfreespace') == 1 && (($fds = round(disk_free_space('.')/1024)) <= self::getModule('Config')->getCfgVal('warn_admin_fds')*1024))
 		{
 			$fdsVar = intval(Functions::file_get_contents('vars/fds.var')); //false = 0, if file does not exist or if file is empty
 			if($fdsVar == 0) //Is this first time warning?
 			{
-				Functions::mail(self::getModule('Config')->getCfgVal('admin_email'), self::getModule('Language')->getString('fds_warning_subject'), sprintf(self::getModule('Language')->getString('fds_warning_message'), self::getModule('Config')->getCfgVal('address_to_forum') . '/index.php?faction=login'));
+				Functions::mail(self::getModule('Config')->getCfgVal('admin_email'), self::getModule('Language')->getString('fds_warning_subject', 'Mails'), sprintf(self::getModule('Language')->getString('fds_warning_message'), self::getModule('Config')->getCfgVal('address_to_forum') . '/index.php?faction=login'));
 				self::getModule('Logger')->log('Disk space warning! Admin notified', LOG_FILESYSTEM);
 				Functions::file_put_contents('vars/fds.var', ++$fdsVar);
 			}
@@ -109,35 +119,58 @@ class Main implements Module
 				self::getModule('Config')->setCfgVal('uc', 1); //Emergency closure
 				if($fdsVar != 2)
 				{
-					Functions::mail(self::getModule('Config')->getCfgVal('admin_email'), self::getModule('Language')->getString('fds_alert_subject'), sprintf(self::getModule('Language')->getString('fds_alert_message'), self::getModule('Config')->getCfgVal('address_to_forum') . '/index.php?faction=login'));
+					Functions::mail(self::getModule('Config')->getCfgVal('admin_email'), self::getModule('Language')->getString('fds_alert_subject', 'Mails'), sprintf(self::getModule('Language')->getString('fds_alert_message'), self::getModule('Config')->getCfgVal('address_to_forum') . '/index.php?faction=login'));
 					self::getModule('Logger')->log('Disk space alert! Admin notified; Board closed', LOG_FILESYSTEM);
 					Functions::file_put_contents('vars/fds.var', 2);
 				}
 			}
 		}
-		//Log
-		#session_start();
-		#self::getModule('Logger')->log('User connected', LOG_USER_CONNECT);
-		//Revert quoted strings on GPC vars, if needed
-		if(ini_get('magic_quotes_gpc') == '1')
-			list($_GET, $_POST, $_COOKIE) = Functions::stripSlashesDeep(array($_GET, $_POST, $_COOKIE));
 		//Manage output compressions
-		if(self::getModule('Config')->getCfgVal('use_gzip_compression'))
+		if(self::getModule('Config')->getCfgVal('use_gzip_compression') == 1)
 			if(ini_get('zlib.output_compression') != '1' && ini_get('output_handler') != 'ob_gzhandler')
 				ob_start('ob_gzhandler');
 			else
 				self::getModule('Config')->setCfgVal('use_gzip_compression', 0); //Set actual state for tec stats
 		if(self::getModule('Config')->getCfgVal('use_gzip_compression') == 0 && self::getModule('Config')->getCfgVal('activate_ob') == 1)
 			ob_start();
+		//Manage session
+		session_name('sid');
+		session_start();
+		if(session_id() == '0')
+			session_regenerate_id();
+		//Provide session IDs
+		if(self::getModule('Config')->getCfgVal('append_sid_url') == 1 || SID != '')
+		{
+			//URL-based
+			define('SID_QMARK', '?sid=' . session_id());
+			define('SID_AMPER', '&sid=' . session_id());
+		}
+		else
+		{
+			//Cookie-based
+			define('SID_QMARK', '');
+			define('SID_AMPER', '');
+		}
+		//Log connected state of user
+		if(!self::getModule('Auth')->isConnected())
+		{
+			self::getModule('Logger')->log('User connected', LOG_USER_CONNECT);
+			self::getModule('Auth')->setConnected();
+		}
+		//Check maintenance mode
+		if(self::getModule('Config')->getCfgVal('uc') == 1)
+			self::getModule('Template')->printMessage('maintenance_mode_on');
+		//Check IP address
+		if(($endtime = Functions::checkIPAccess()) !== true)
+			self::getModule('Template')->printMessage(($endtime == -1 ? 'banned_forever_everywhere' : 'banned_for_x_minutes_everywhere'), ceil(($endtime-time())/60));
 		//Detect action
 		$this->action = isset($_GET['faction']) ? $_GET['faction'] : (isset($_POST['faction']) ? $_POST['faction'] : '');
-	}
-
-	/**
-	 * Executes detected action.
-	 */
-	public function execute()
-	{
+		//Check force login
+		if(self::getModule('Config')->getCfgVal('must_be_logged_in') == 1 && !self::getModule('Auth')->isLoggedIn() && !in_array($this->action, array('Register', 'Login', 'Help')))
+			self::getModule('Template')->printMessage('members_only');
+		//Autoload translation of module
+		self::getModule('Language')->parseFile(self::$actionTable[$this->action]);
+		//Execute module
 		self::getModule(self::$actionTable[$this->action])->execute();
 	}
 
@@ -157,6 +190,16 @@ class Main implements Module
 			self::$loadedModules[$module] = new $module;
 		}
 		return self::$loadedModules[$module];
+	}
+
+	/**
+	 * Returns all loaded modules.
+	 *
+	 * @return array Loaded modules
+	 */
+	public static function &getModules()
+	{
+		return self::$loadedModules;
 	}
 }
 ?>
