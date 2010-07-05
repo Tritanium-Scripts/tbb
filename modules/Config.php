@@ -69,7 +69,9 @@ class Config// extends Module
 		'admin@meinedomain.de',
 		'admin@meinedomain.de',
 		0,
-		1);
+		1,
+		//New TBB 1.5 config values
+		'std');
 
 	/**
 	 * Name of config file to work with.
@@ -138,7 +140,9 @@ class Config// extends Module
 		'admin_email',
 		'forum_email',
 		'mail_admin_new_registration',
-		'notify_new_replies');
+		'notify_new_replies',
+		//New TBB 1.5 config values
+		'default_tpl');
 
 	/**
 	 * Loaded configuration values are stored here.
@@ -152,7 +156,15 @@ class Config// extends Module
 	 */
 	function __construct()
 	{
-		$this->cfgValues = array_combine(self::$cfgKeys, file_exists(self::$cfgFile) ? file(self::$cfgFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) : self::$cfgDefaults);
+		$this->cfgValues = array_combine(self::$cfgKeys, file_exists(self::$cfgFile) ? Functions::file(self::$cfgFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) : self::$cfgDefaults);
+	}
+
+	/**
+	 * Alias for {@link getConfigValue()}.
+	 */
+	public function getCfgVal($key)
+	{
+		return $this->getConfigValue($key);
 	}
 
 	/**
@@ -167,6 +179,14 @@ class Config// extends Module
 	}
 
 	/**
+	 * Alias for {@link setConfigValue()}
+	 */
+	public function setCfgVal($key, $value, $save=false)
+	{
+		$this->setConfigValue($key, $value, $save);
+	}
+
+	/**
 	 * Sets a single configuration value. <b>Existing data will be overwritten!</b>
 	 *
 	 * @param string $key Identifier to access the value
@@ -177,7 +197,7 @@ class Config// extends Module
 	{
 		$this->cfgValues[$key] = $value;
 		if($save)
-			file_put_contents(self::$cfgFile, implode("\n", $this->cfgValues), LOCK_EX);
+			Functions::file_put_contents(self::$cfgFile, implode("\n", $this->cfgValues), LOCK_EX);
 	}
 }
 ?>
