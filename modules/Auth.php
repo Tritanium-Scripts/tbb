@@ -47,6 +47,16 @@ class Auth
 	}
 
 	/**
+	 * Returns user has admin permissions.
+	 *
+	 * @return bool Admin permissions
+	 */
+	public function isAdmin()
+	{
+		return $this->userData[4] == '1';
+	}
+
+	/**
 	 * Returns user is already connected to board.
 	 *
 	 * @return bool Connection state
@@ -64,6 +74,16 @@ class Auth
 	public function isLoggedIn()
 	{
 		return $this->loggedIn;
+	}
+
+	/**
+	 * Returns user has moderator permissions.
+	 *
+	 * @return bool Moderator permissions
+	 */
+	public function isMod()
+	{
+		return $this->userData[4] <= '2';
 	}
 
 	/**

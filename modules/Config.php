@@ -52,7 +52,7 @@ class Config// extends Module
 		1,
 		1,
 		1,
-		'templates/std/styles/standard.css',
+		'styles/standard.css',
 		'95%',
 		'0',
 		'4',

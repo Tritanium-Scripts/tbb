@@ -9,7 +9,7 @@
  */
 include('Template/Smarty.class.php');
 /**
- * Wrapper class for Smarty API.
+ * Wrapper class for Smarty 3 API.
  */
 class Template
 {
@@ -21,6 +21,13 @@ class Template
 	private $smarty;
 
 	/**
+	 * Directory of used template.
+	 *
+	 * @var string Template folder
+	 */
+	private $tplDir;
+
+	/**
 	 * Sets up Smarty instance.
 	 */
 	function __construct()
@@ -29,53 +36,97 @@ class Template
 		$this->smarty->setErrorReporting(E_ALL);
 		$this->smarty->setCacheDir('cache');
 		$this->smarty->setCompileDir('cache');
-		$stdTpl = Main::getModule('Config')->getCfgVal('default_tpl');
-		$this->smarty->setTemplateDir('templates/' . $stdTpl . '/templates');
-		$this->smarty->setConfigDir('templates/' . $stdTpl);
-		$this->smarty->setCompileId('templates/' . $stdTpl);
-		$this->smarty->setCaching(Main::getModule('Config')->getCfgVal('use_file_caching') == 1);
+		$this->tplDir = 'templates/' . Main::getModule('Config')->getCfgVal('default_tpl') . '/';
+		$this->smarty->setTemplateDir($this->tplDir . 'templates');
+		$this->smarty->setConfigDir($this->tplDir);
+		$this->smarty->setCompileId($this->tplDir);
+		#$this->smarty->setCaching(Main::getModule('Config')->getCfgVal('use_file_caching') == 1);
 		$this->smarty->assignByRef('modules', Main::getModules());
 	}
 
+	/**
+	 * Assigns value(s) to Smarty.
+	 *
+	 * @param mixed $tplVar Name of value or array with name+value tuples
+	 * @param mixed $value Value for single var
+	 */
 	public function assign($tplVar, $value=null)
 	{
 		$this->smarty->assign($tplVar, $value);
 	}
 
-	/**
-	 * Displays a template file.
-	 *
-	 * @param string $tplName Name of template file
-	 */
-	public function display($tplName)
+	 /**
+	  * Displays a template file and assigns prior optional values to it.
+	  *
+	  * @param string $tplName Name of template file
+	  * @param mixed $tplVar Name of single value or array with name+value tuples
+	  * @param mixed $value Value for single var
+	  */
+	public function display($tplName, $tplVar=null, $value=null)
 	{
+		if(!empty($tplVar))
+			$this->assign($tplVar, $value);
 		$this->smarty->display($tplName . '.tpl');
 	}
 
 	/**
-	 * Assigns values to template and displays it.
+	 * Returns used template directory.
 	 *
-	 * @param string $tplName Name of template file
-	 * @param string|array $tplVar
-	 * @param mixed $value
+	 * @return string Used template folder
 	 */
-	public function display($tplName, $tplVar, $value=null)
+	public function getTplDir()
 	{
-		$this->smarty->assign($tplVar, $value);
-		$this->smarty->display($tplName . '.tpl');
+		return $this->tplDir;
 	}
 
 	/**
-	 * Prints a full page message and exits any further program execution.
+	 * Prints the head of a page.
+	 */
+	public function printHeader()
+	{
+		$this->display('PageHeader');
+	}
+
+	/**
+	 * Prints a full page message and exits program execution.
 	 *
 	 * @param string $msgIndex Identifier part of message title and text
 	 * @param mixed $args,... Optional arguments to be replaced in message text
 	 */
 	public function printMessage($msgIndex, $args=null)
 	{
-		$this->display('Message', array('msgTitle' => Main::getModule('Language')->getString('title_' . $msgIndex, 'Messages'),
-			'msgText' => sprintf(Main::getModule('Language')->getString('text_' . $msgIndex), array_splice(func_get_args(), 1))));
-		exit();
+		//Make sure needed message strings are ready
+		Main::getModule('Language')->parseFile('Messages');
+		Main::getModule('Language')->parseFile('Forum');
+		//Update NavBar
+		Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('title_' . $msgIndex));
+		//Print message
+		$this->printHeader();
+		$temp = func_get_args();
+		$this->display('Message', array('msgTitle' => Main::getModule('Language')->getString('title_' . $msgIndex),
+			'msgText' => vsprintf(Main::getModule('Language')->getString('text_' . $msgIndex), array_splice($temp, 1))));
+		exit($this->printTail());
+	}
+
+	/**
+	 * Prints a full page with provided template file and exists program execution.
+	 *
+	 * @param string $tplName Name of template file
+	 */
+	public function printPage($tplName)
+	{
+		$this->printHeader();
+		$this->display($tplName);
+		exit($this->printTail());
+	}
+
+	/**
+	 * Prints the tail of a page.
+	 */
+	public function printTail()
+	{
+		$this->display('PageTail', array('creationTime' => microtime(true)-SCRIPTSTART,
+			'processedFiles' => Functions::getFileCounter()));
 	}
 }
 ?>

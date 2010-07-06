@@ -93,7 +93,7 @@ class Main implements Module
 		//Report all errors
 		error_reporting(E_ALL);
 		//Finalize feature set of Functions class by either using Multibyte string functions and/or (overloaded) default PHP ones
-		include('Functions' . (!extension_loaded('mbstring') || ini_set('mbstring.func_overload', '7') === false ? '' : 'MB') . '.php');
+		include('Functions' . (!extension_loaded('mbstring') || (extension_loaded('mbstring') && ini_set('mbstring.func_overload', '7') !== false) ? '' : 'MB') . '.php');
 		//Revert quoted strings on GPC vars, if needed
 		if(ini_get('magic_quotes_gpc') == '1')
 			list($_GET, $_POST, $_COOKIE) = Functions::stripSlashesDeep(array($_GET, $_POST, $_COOKIE));
@@ -157,6 +157,8 @@ class Main implements Module
 			self::getModule('Logger')->log('User connected', LOG_USER_CONNECT);
 			self::getModule('Auth')->setConnected();
 		}
+		//Set root of NavBar
+		Main::getModule('NavBar')->addElement(Main::getModule('Config')->getCfgVal('forum_name'), INDEXFILE . SID_QMARK);
 		//Check maintenance mode
 		if(self::getModule('Config')->getCfgVal('uc') == 1)
 			self::getModule('Template')->printMessage('maintenance_mode_on');
@@ -166,8 +168,8 @@ class Main implements Module
 		//Detect action
 		$this->action = isset($_GET['faction']) ? $_GET['faction'] : (isset($_POST['faction']) ? $_POST['faction'] : '');
 		//Check force login
-		if(self::getModule('Config')->getCfgVal('must_be_logged_in') == 1 && !self::getModule('Auth')->isLoggedIn() && !in_array($this->action, array('Register', 'Login', 'Help')))
-			self::getModule('Template')->printMessage('members_only');
+		if(self::getModule('Config')->getCfgVal('must_be_logged_in') == 1 && !self::getModule('Auth')->isLoggedIn() && !in_array(self::$actionTable[$this->action], array('Register', 'Login', 'Help')))
+			self::getModule('Template')->printMessage('members_only', INDEXFILE . '?faction=register' . SID_AMPER, INDEXFILE . '?faction=login' . SID_AMPER);
 		//Autoload translation of module
 		self::getModule('Language')->parseFile(self::$actionTable[$this->action]);
 		//Execute module

@@ -1,0 +1,31 @@
+*********************************************************
+Tritanium Bulletin Board 1.5 - Changelog (German version)
+Last changed: 2010 (Version 1.5 Alpha)
+*********************************************************
+
+2010: Version 1.5 Alpha (offiziell)
+	-Alle Features des TBB 1.2.3 übernommen
+	-Komplett neuer technischer Unterbau für PHP 5.1 (=Mindestvoraussetzung) oder höher
+	-Komplett valides XHTML 1.0 transitional
+	-PHP 6 kompatibel
+	-Design als Template ausgelagert mit Smarty 3.0 als Engine
+	-Abwärtskompatibel mit TBB 1.2.3 CSS-Dateien
+	-UTF-8 fähig, schreibt aber intern zwecks Abwärtskompatiblität noch im Zeichensatz des Benutzers
+	-Nutzt Multibyte, wenn möglich
+	-Abwärtskompatibel mit TBB 1.2.3 Daten (Foren, Themen, Umfragen, Mitgliedern, Logs, Einstellungen, News usw.)
+	-Cache-Funktionalität persistent
+	-Automatische Spracherkennung
+	-Aufwärtskompatibel für TBB 2.0 oder höher
+	-Rang für Supermoderatoren
+	-Neue Rangbilder
+	-Admin- & Moderatoren-Smileys
+	-Neues Format für Übersetzungen auf Basis von INI-Dateien
+	-Upload-Funktion für Dateien
+	-"Cache leeren"-Funktion im ACP
+	-Logansicht im ACP
+	-Kontakt-Mail-Adresse verschlüsselt mit JavaScript
+	-Newsfader (Option "2") wurde deaktiviert
+
+Written by Chrissyx
+(c) 2010 Tritanium Scripts
+http://www.tritanium-scripts.com/

@@ -8,6 +8,7 @@
  * @package TBB1.5
  */
 define('SCRIPTSTART', microtime(true));
+define('INDEXFILE', 'index.php');
 //Define data path
 include('DataPath.php');
 //Logging constants

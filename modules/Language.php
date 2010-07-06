@@ -49,6 +49,16 @@ class Language
 	}
 
 	/**
+	 * Returns used language.
+	 *
+	 * @return string Used language code
+	 */
+	public function getLangCode()
+	{
+		return $this->langCode;
+	}
+
+	/**
 	 * Detects preferred languages of current user reported by its browser.
 	 *
 	 * @return array Preferred language codes from current browser, sorted by priority
@@ -72,7 +82,7 @@ class Language
 	 */
 	public function getString($index, $file=null)
 	{
-		return isset($this->langStrings[$this->langCode][$index]) || (!empty($file) && $this->parseFile($file) && isset($this->langStrings[$this->langCode][$index])) ? $this->langStrings[$this->langCode][$index] : !trigger_error('Identifier ' . $index . ' for ' . $this->langCode . ' not found!', E_USER_WARNING);
+		return isset($this->langStrings[$this->langCode][$index]) || (!empty($file) && $this->parseFile($file) && isset($this->langStrings[$this->langCode][$index])) ? $this->langStrings[$this->langCode][$index] : !trigger_error('Identifier ' . $index . ' for ' . $this->langCode . ' not found', E_USER_NOTICE);
 	}
 
 	/**
@@ -102,7 +112,7 @@ class Language
 		//Cache file
 		if(Main::getModule('Config')->getCfgVal('use_file_caching') == 1)
 			Functions::file_put_contents($cacheFile, '<?php ' . implode("\n", $toCache) . ' ?>');
-		$this->langStrings[$this->langCode][$file] = true;
+		return ($this->langStrings[$this->langCode][$file] = true);
 	}
 
 	/**
@@ -128,7 +138,7 @@ class Language
 					}
 			//No match: Set native code
 			if(empty($this->langCode))
-				$this->langCode = current($this->availableLangs);
+				$this->langCode = Main::getModule('Config')->getCfgVal('lng_folder');
 		}
 	}
 }

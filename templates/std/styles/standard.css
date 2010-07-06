@@ -1,587 +1,307 @@
-table {
-	padding:0px;
+/*
+
+Standard TBB-Style - http://www.tritanium-scripts.com
+
+Falls sie sich nicht so gute mit CSS auskennen, finden sie auf
+http://de.selfhtml.org/ viele Informationen dazu.
+
+Kurze Erklärung:
+color - Textfarbe (z.B. blue, FFFFFF, #000000)
+font-family - Schriftart (z.B. Verdana, Arial)
+font-size - Schriftgröße (z.B. 10pt, 10px)
+font-weight - Schriftdicke (z.B. bold, bolder, lighter)
+text-decoration - Unterstrichen, Oberstrichen... (z.B. none, overline, underline)
+background-color - Hintergrundfarbe (z.B. blue, FFFFFF, #000000)
+text-align - Ausrichtung des Textes (z.B. left, right)
+padding - Abstand des Textes zum Rahmen (z.B. 2pt, 4px)
+
+Um ein Hintergrundbild zu verwenden, müssen sie im Abschnitt body
+folgendes einfügen:
+background-image:url(background.jpg);
+
+*/
+
+/* Allgemeine Linkfarben und -eigenschaften */
+a:link
+{
+	color:#CC6600;
+	text-decoration:none;
 }
 
-td {
-	padding:0px;
+a:visited
+{
+	color:#666699;
+	text-decoration:none;
 }
 
-div {
-	padding:0px;
-	margin:0px;
+a:active
+{
+	color:#333366;
+	text-decoration:none;
 }
 
-.signature {
+a:hover
+{
+	text-decoration:underline;
+}
+
+/* <body>-Einstellungen */
+body
+{
+	background-color:white;
+	font-family:Verdana;
 	color:black;
-	font-size:13px;
-	font-family:verdana,arial;
 }
 
-.big {
-	font-family:verdana,arial;
-	font-size:50px;
-	color:black;
+/* Die Fläche "hinter" dem Forum */
+#main
+{
+
 }
 
-select {
-	cursor:pointer;
+/* Kategorieleisten */
+.kat
+{
+	font-family:Verdana;
+	font-size:10pt;
+	font-weight:bold;
+	color:#CCCCFF;
 }
 
-label {
-	border-bottom:1px gray dotted;
-}
-label:hover {
-	border-bottom:1px gray solid;
-	cursor:pointer;
+td.kat
+{
+	background-color:#333366;
 }
 
-/**
- *
- * Allgemeine Formulare und Formularelemente
- *
- */
-form {
-	padding:0px;
-	margin:0px;
+/* Überschriftenleiste (kleine Schrift) */
+.thsmall
+{
+	font-family:Verdana;
+	font-size:8pt;
+	font-weight:bold;
+	color:white;
 }
 
-textarea.FormTextArea {
-	border:1px #000000 dotted;
-	padding:4px;
-	font-size:11px;
-	font-family:verdana,arial;
-}
-textarea.FormTextArea:hover {
-	border:1px #696969 solid;
-}
-textarea.FormTextArea:focus {
-	border:1px #000000 solid;
-	padding:4px;
-	font-size:11px;
-	font-family:verdana,arial;
+th.thsmall
+{
+	background-color:#666699;
 }
 
-input.FormText {
-	border:1px #000000 dotted;
-	padding:3px;
-	font-size:11px;
-	font-family:verdana,arial;
-}
-input.FormText:hover {
-	border:1px #696969 solid;
-}
-input.FormText:focus {
-	border:1px #000000 solid;
-	padding:3px;
-	font-size:11px;
-	font-family:verdana,arial;
-}
-
-input.FormBButton, button.FormBButton {
-	background-color:#d4d0c8;
-	border:2px #000000 outset;
-	padding:2px;
-	padding-left:15px;
-	padding-right:15px;
-	font-size:11px;
-	font-family:verdana,arial;
+/* Überschriftenleiste (normale Schriftgröße) */
+.thnorm
+{
+	font-family:Verdana;
+	font-size:10pt;
+	color:white;
 	font-weight:bold;
 }
-input.FormBButton:hover, button.FormBButton:hover {
-	background-color:#F8F8FF;
-	border:2px #000000 inset;
-	padding:2px;
-	padding-left:15px;
-	padding-right:15px;
-	font-size:11px;
-	font-family:verdana,arial;
-	font-weight:bold;
-	cursor:pointer;
+
+td.thnorm
+{
+	padding:2pt;
+	background-color:#666699;
 }
 
-input.FormButton, button.FormButton {
-	background-color:#d4d0c8;
-	border:2px #000000 outset;
-	padding:2px;
-	padding-left:15px;
-	padding-right:15px;
-	font-size:11px;
-	font-family:verdana,arial;
-}
-input.FormButton:hover, button.FormButton:hover {
-	background-color:#F8F8FF;
-	border:2px #000000 inset;
-	padding:2px;
-	padding-left:15px;
-	padding-right:15px;
-	font-size:11px;
-	font-family:verdana,arial;
-	cursor:pointer;
-}
-
-input.FormBBCodeButton, button.FormBBCodeButton {
-	border:1px #000000 solid;
-	font-size:10px;
-	font-family:verdana,arial;
-	padding-left:8px;
-	padding-right:8px;
-}
-
-
-select.FormSelect {
-	padding:2px;
-	border:2px #000000 inset;
-	font-size:11px;
-	font-family:verdana,arial;
-}
-
-
-
-a:link { /* Ein normaler Link */
-	color:blue;
-	text-decoration: none;
-}
-a:visited { /* Ein besuchter Link */
-	color:blue;
-	text-decoration: none;
-}
-a:hover { /* Maus ueber einem Link */
-	text-decoration: underline;
-}
-
-.ForumLink {
-	font-family:verdana,arial;
-	font-size:13px;
-	color:black;
-	font-weight:bold;
-}
-a.ForumLink { color:blue; }
-a.ForumLink:visited { color:#4169E1; }
-
-
-.topiclink {
-	font-family:verdana,arial;
-	font-size:13px;
-	color:black;
-	font-weight:bold;
-}
-a.topiclink { color:#0C6B9C; text-decoration:none;}
-a.topiclink:visited { color:#014F77; text-decoration:none;}
-a.topiclink:hover { color:#014F77; text-decoration:underline; }
-
-
-/* Navigationsleiste */
-.FontNavbar { /* Schriftformatierung */
-	font-family:verdana,arial;
-	font-size:10px;
-	color:black;
-	font-weight:bold;
-}
-td.CellNavbar { /* Hintergrund */
-	padding:0px;
-	padding-left:2px;
-	height:17px;
-	background-image:url(../images/v3.gif);
-	background-color:#F1FAFF;
-	border:#ACACAC 1px solid;
-}
-td.CellNavbarBig { /* Hintergrund */
-	padding:0px;
-	padding-left:2px;
-	height:27px;
-	background-image:url(../images/v4.gif);
-	background-color:#F1FAFF;
-	border:#ACACAC 1px solid;
-}
-table.TableNavbar { /* Tabelleneigenschaften */
-	/*background-color:#107AB0;*/
-	background-color:#FFFFFF;
-	border:#000000 2px solid;
-	padding:1px;
-	border-spacing:0px;
-}
-
-.techstats {
-	font-family:verdana,arial;
-	font-size:10px;
-	color:#A9A9A9;
-}
-
-/**
-*
-* Hier beginnt die neue Definition
-*
-**/
-
-#MainBox {
-	width:1024px;
-	margin:auto;
-	padding:0px;
+th.thnorm
+{
+	padding:2pt;
+	background-color:#666699;
 	text-align:left;
 }
 
-#HeaderBox {
-	border-spacing:0px;
-	border:2px #000000 solid;
-	background-color:#FFFFFF;
-	margin-bottom:20px;
+/* Tabellen allgemein (außer Navigationsleiste) */
+.tbl
+{
+	background-color:#666699; /* Dies ist auch die Farbe "zwischen" den Zellen, wenn $tspacing > 0 ist */
+	border:#666699 1px solid;
 }
 
-#HeaderInnerBox {
-	margin:1px;
-	border-spacing:0px;
-	border:1px #ACACAC solid;
-	background-color:#aec9d7;
-	background-image:url(../images/header_background.jpg);
-	background-repeat:repeat-x;
-}
-
-#HeaderNavigationBox {
-	width:auto;
-	margin:auto;
-	text-align:center;
-}
-
-#HeaderInfoBox {
-	font-family:Verdana, Arial, sans-serif;
-	font-size:12px;
-	background-color:#F0F8FF;
-	border:1px #00008B dotted;
-	padding:5px;
-}
-
-#AdministrationBox {
-	margin-top:20px;
-	text-align:center;
-}
-
-
-/**
-*
-* Die Standardangaben fuer Tabellen und Tabellenzellen
-*
-**/
-table.TableStd{
-	background-color:#FFFFFF;
-	border:2px #000000 solid;
-	border-spacing:1px;
-	empty-cells:show;
-	border-collapse:separate;
-}
-
-td.CellStd {
-	padding:3px;
-	border:#ACACAC 1px solid;
-	background-color:#EEF0F2;
-}
-
-td.CellAlt {
-	padding:3px;
-	border:#ACACAC 1px solid;
-	background-color:#DFE6EF;
-}
-td.CellHotTopic {
-	padding:3px;
-	border:#FF4500 1px solid;
-	background-color:#EEF0F2;
-}
-
-td.CellHighlight {
-	padding:3px;
-	/*border:#000000 1px dashed;*/
-	border:#8c8c8c 1px dashed;
-	background-color:#d5dce5;
-}
-td.CellMessageBox {
-	padding:15px;
-	border:#ACACAC 1px solid;
-	background-color:#EEF0F2;
-	text-align:center;
-}
-/*tr.RowToHighlight {
-	padding:5px;
-	border:3px black solid;
-	margin:10px;
-}
-tr.RowToHighlight:hover {
-	padding:30px;
-	border:2px black solid;
-}*/
-
-/**
-*
-* Die allgemeinen Schriftarten
-*
-**/
-.FontBig {
-	font-family:verdana,arial;
-	font-size:17px;
-	color:#000000;
-}
-
-.FontNorm {
-	font-family:verdana,arial;
-	font-size:13px;
-	color:#000000;
-}
-
-.FontSmall {
-	font-family:verdana,arial;
-	font-size:10px;
-	color:#000000;
-}
-
-
-/**
-*
-* Die Titeltabellenzelle
-*
-**/
-.FontTitle {
-	font-family:verdana,arial;
-	font-size:13px;
-	letter-spacing:1px;
-	color:#FFFFFF;
-	font-weight:bold;
-}
-.FontTitleSmall {
-	font-family:verdana,arial;
-	font-size:11px;
-	color:#FFFFFF;
-	font-weight:bold;
-}
-td.CellTitle {
-	padding:0px;
-	padding-left:3px;
-	padding-right:3px;
-	height:30px;
-	background-image:url(../images/celltitle.gif);
-	background-color:#107AB0;
-}
-td.CellTitle a:link {
-	color:yellow;
-	text-decoration:none;
-}
-td.CellTitle a:visited {
-	color:yellow;
-	text-decoration:none;
-}
-td.CellTitle a:hover {
-	color:yellow;
-	text-decoration:underline;
-}
-
-/**
-*
-* Die Kategorietabellenzelle
-*
-**/
-.FontCat {
-	font-family:verdana,arial;
-	font-size:13px;
-	font-weight:bold;
-	color:#FFFFFF;
-}
-.FontCatSmall {
-	font-family:verdana,arial;
-	font-size:10px;
-	font-weight:bold;
-	color:#FFFFFF;
-}
-
-td.CellCat {
-	padding:0px;
-	padding-left:3px;
-	padding-right:3px;
-	height:25px;
-	background-image:url(../images/cellcat.gif);
-	background-color:#000000;
-	border:1px #000000 solid;
-}
-td.CellCat a:link {
-	color:yellow;
-	text-decoration:none;
-}
-td.CellCat a:visited {
-	color:yellow;
-	text-decoration:none;
-}
-td.CellCat a:hover {
-	color:yellow;
-	text-decoration:underline;
-}
-
-
-/**
- *
- * Die Navigation z.B. im Profil (nicht die Navigationsleiste!)
- *
- **/
-td.CellNavActive {
-	background-color:#a9b3d9;
-	padding:4px;
-	padding-top:7px;
-	padding-bottom:7px;
-	cursor:default;
-	border:1px #838ba8 solid;
-}
-td.CellNone {
+/* Tabellenfeld (Farbe) 1 */
+.td1
+{
 	background-color:#F7F7F7;
-	text-align:center;
-}
-td.CellNav {
-	background-color:#FFFFFF;
-	padding:5px;
-	padding-top:8px;
-	padding-bottom:8px;
-	cursor:default;
-	/*border:1px lightgray dotted;*/
-}
-td.CellNav:hover {
-	background-color:#E5F3FF;
-	border:1px #4169E1 solid;
-	cursor:pointer;
-	padding:4px;
-	padding-top:7px;
-	padding-bottom:7px;
 }
 
-td.CellNavNone {
-	background-color:#FFFFFF;
-	padding:3px;
-	cursor:default;
+/* Tabellenfeld (Farbe) 2 */
+.td2
+{
+	background-color:#DEDFDF;
 }
-hr.LineNav {
+
+/* kleine Schrift */
+.small
+{
+	font-family:Verdana;
+	font-size:10px;
 	color:black;
-	background-color:black;
-	height:1px;
-	margin:4px;
-	padding:0px;
-	border:1px black solid;
-}
-table.TableNav {
-	border:#ACACAC 1px solid;
 }
 
-a.FontNav {
-	font-family:verdana,arial;
-	font-size:11px;
-	color:darkblue;
-	/*font-weight:bold;*/
-	text-decoration:none;
-}
-a.FontNav:visited {
-}
-a.FontNav:hover {
+/* normale Schrift */
+.norm
+{
+	font-family:Verdana;
+	font-size:10pt;
+	color:black;
 }
 
-
-/**
-*
-* Die Tabellenzelle fuer die Buttons einer Form
-*
-**/
-td.CellButtons {
-	background-color:#778899;
-	border:1px #000000 solid;
-	padding:1px;
-	text-align:center;
-}
-.FontButtonsStd {
-	font-family:verdana,arial;
-	font-size:13px;
-	color:#FFFFFF;
+/* Fehler Schrift */
+.error
+{
+	font-family:Verdana;
+	font-size:10pt;
+	color:red;
 }
 
-.FontButtonsSmall {
-	font-family:verdana,arial;
-	font-size:10px;
-	color:#FFFFFF;
+/* Link zur Themenübersicht eines Forums in der Forenübersicht */
+.forumlink
+{
+	font-family:Verdana;
+	font-size:10pt;
+	color:black;
+	font-weight:bold;
 }
 
-
-/**
-*
-* Eine Fehlerbox
-*
-**/
-.FontError {
-	font-family:verdana;
-	font-size:13px;
-	color:#FF0000;
-}
-td.CellError{
-	background-color:#FFD1D1;
-	border:1px #FF0000 solid;
-	padding:3px;
+a.forumlink
+{
+	color:#CC6600;
 }
 
-/**
- *
- * Eine Infobox
- *
- */
-td.CellInfoBox {
-	background-color:#FAFAD2;
-	border:1px olive dotted;
-	padding:4px;
-	margin-top:3px;
-	margin-bottom:3px;
-	vertical-align:middle;
-}
-div.DivInfoBox {
-	/*background-color:#FAFAD2;*/
-	background-color:#E6E6FA;
-	/*border:1px olive dotted;*/
-	border:1px #0000CD dotted;
-	padding:4px;
-	margin-top:4px;
-	margin-bottom:4px;
-	vertical-align:middle;
-}
-.FontInfoBox {
-	font-family:verdana,arial;
-	color:#111755;
-	font-size:13px;
-	/*vertical-align:middle;*/
+a.forumlink:visited
+{
+	color:#666699;
 }
 
-/**
- *
- * Bilder
- *
- */
-img {
-    border:none;
-}
-img.ImageIcon {
-	margin-right:4px;
-	float:left;
-	vertical-align:middle;
-}
-img.ImageButton {
-	margin-left:3px;
-	margin-right:3px;
-	margin-top:0px;
-	margin-bottom:2px;
+/* Link zu einem Thema in der Themenübersicht */
+.topiclink
+{
+	font-family:Verdana;
+	font-size:10pt;
+	color:black;
 }
 
-/**
- * the copyright box at the bottom of each page
- */
-#CopyrightBox {
-	margin:auto;
-	margin-top:20px;
-	border:1px #ACACAC solid;
-	width:200px;
-	background-color:#F0F8FF;
-	padding:5px;
-	text-align:center;
-	font-size:10px;
-	font-family:verdana,arial;
+a.topiclink
+{
+	font-weight:bold;
+	color:#CC6600;
+}
+
+a.topiclink:visited
+{
 	font-weight:bold;
 	color:#666699;
 }
-#CopyrightBox a:link, #CopyrightBox a:visited, #CopyrightBox a:active {
-	color:#a62a2a;
+
+/* Navigationsleiste */
+.navbar
+{
+	font-family:Verdana;
+	font-size:10px;
+	color:black;
+	font-weight:bold;
+}
+
+td.navbar
+{
+	padding:2px;
+	background-color:#F7F7F7;
+}
+
+table.navbar
+{
+	background-color:#666699;
+	border:#666699 1px solid;
+}
+
+/* Uhrzeit Schrift */
+.time
+{
+	font-family:Verdana;
+	color:#A62A2A;
+}
+
+/* News */
+.news
+{
+	font-family:Verdana;
+	font-size:10pt;
+	color:black;
+	font-weight:bold;
+	padding:6;
+}
+
+/* Zitate ([quote][/quote]) */
+.quote
+{
+	font-family:Verdana;
+	font-size:10px;
+	color:black;
+	font-weight:bold;
+}
+
+/* Die kleine "Toolbar" rechts neben dem Logo */
+.tbar
+{
+	font-size:10px;
+	font-family:Verdana;
+}
+
+/* Der Forumname rechts neben dem Logo (über der "Toolbar") */
+.finfo
+{
+	color:black;
+	font-size:13pt;
+	font-family:Verdana;
+	font-weight:bold;
+}
+
+/* Technische Statistik (am Seitenende) */
+.stat
+{
+	font-size:10px;
+	color:gray;
+	font-family:Verdana;
+}
+
+/* Die Buttons um Forumcode einzufügen */
+button.forumcode
+{
+	border-width:1px;
+	font-size:12px;
+}
+
+select.forumcode
+{
+	border-width:1px;
+	font-size:12px;
+}
+
+/*
+
+Copyright
+ACHTUNG: Das Copyright muss immer gut erkennbar sein, sonst wird gegen die Lizenz verstoßen!
+Wenn sie die Hintergrundfarbe des Forums ändern, müssen sie auch darauf achten, dass man
+das Copyright immer noch erkennen kann. Vor allem, wenn Hintergrundfarbe = Schriftfarbe
+des Copyrights ist, ist dies ein Verstoß!!!
+
+*/
+.copyr
+{
+	font-size:10px;
+	color:#666699;
+	font-family:Verdana;
+}
+
+a.copyr:link
+{
+	color:#A62A2A;
+}
+
+a.copyr:visited
+{
+	color:#A62A2A;
+}
+
+a.copyr:active
+{
+	color:#A62A2A;
 }
