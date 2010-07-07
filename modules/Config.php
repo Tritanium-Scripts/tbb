@@ -71,7 +71,8 @@ class Config// extends Module
 		0,
 		1,
 		//New TBB 1.5 config values
-		'std');
+		'std',
+		0);
 
 	/**
 	 * Name of config file to work with.
@@ -142,7 +143,8 @@ class Config// extends Module
 		'mail_admin_new_registration',
 		'notify_new_replies',
 		//New TBB 1.5 config values
-		'default_tpl');
+		'default_tpl',
+		'clickjacking');
 
 	/**
 	 * Loaded configuration values are stored here.

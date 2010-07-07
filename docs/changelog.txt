@@ -24,7 +24,9 @@ Last changed: 2010 (Version 1.5 Alpha)
 	-"Cache leeren"-Funktion im ACP
 	-Logansicht im ACP
 	-Kontakt-Mail-Adresse verschlüsselt mit JavaScript
-	-Newsfader (Option "2") wurde deaktiviert
+	-Newsfader (Newstyp "2") wurde deaktiviert (IE only)
+	-ClickJacking Schutz
+	-Speichernutzung in technischen Statistiken
 
 Written by Chrissyx
 (c) 2010 Tritanium Scripts

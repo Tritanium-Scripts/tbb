@@ -17,7 +17,7 @@ class NavBar
 	private $elements = array();
 
 	/**
-	* Adds a new element tuple.
+	* Adds a new element pair.
 	*
 	* @param string $name Name of navbar element
 	* @param string $link Optional link of navbar element

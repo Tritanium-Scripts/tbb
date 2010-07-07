@@ -2,6 +2,35 @@
 /**
  * Login state and data of current user.
  *
+ * XBB user file structure:
+ * <ol>
+ *  <li>Nick</li>
+ *  <li>User ID</li>
+ *  <li>Password Hash</li>
+ *  <li>E-Mail</li>
+ *  <li>State:
+ *   <ol>
+ *    <li>Admin</li>
+ *    <li>Mod</li>
+ *    <li>User</li>
+ *    <li>Banned</li>
+ *    <li>Deleted</li>
+ *   </ol>
+ *  </li>
+ *  <li>Posts</li>
+ *  <li>Reg date (year+month)</li>
+ *  <li>Signature</li>
+ *  <li>faccess?</li>
+ *  <li>Homepage</li>
+ *  <li>Avatar</li>
+ *  <li>Update state?</li>
+ *  <li>Real name</li>
+ *  <li>ICQ</li>
+ *  <li>Mail options</li>
+ *  <li>Group ID</li>
+ *  <li>?</li>
+ * </ol>
+ *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
  * @copyright Copyright (c) 2010 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
@@ -47,6 +76,26 @@ class Auth
 	}
 
 	/**
+	 * Returns group ID of user (empty string = no group).
+	 *
+	 * @return string Group ID
+	 */
+	public function getGroupID()
+	{
+		return $this->userData[15];
+	}
+
+	/**
+	 * Returns ID of user.
+	 *
+	 * @return int User ID
+	 */
+	public function getUserID()
+	{
+		return intval($this->userData[0]);
+	}
+
+	/**
 	 * Returns user has admin permissions.
 	 *
 	 * @return bool Admin permissions
@@ -77,9 +126,9 @@ class Auth
 	}
 
 	/**
-	 * Returns user has moderator permissions.
+	 * Returns user has moderator rank.
 	 *
-	 * @return bool Moderator permissions
+	 * @return bool Moderator rank
 	 */
 	public function isMod()
 	{

@@ -47,7 +47,7 @@ class Template
 	/**
 	 * Assigns value(s) to Smarty.
 	 *
-	 * @param mixed $tplVar Name of value or array with name+value tuples
+	 * @param mixed $tplVar Name of value or array with name+value pairs
 	 * @param mixed $value Value for single var
 	 */
 	public function assign($tplVar, $value=null)
@@ -55,13 +55,13 @@ class Template
 		$this->smarty->assign($tplVar, $value);
 	}
 
-	 /**
-	  * Displays a template file and assigns prior optional values to it.
-	  *
-	  * @param string $tplName Name of template file
-	  * @param mixed $tplVar Name of single value or array with name+value tuples
-	  * @param mixed $value Value for single var
-	  */
+	/**
+	 * Displays a template file and assigns prior optional values to it.
+	 *
+	 * @param string $tplName Name of template file
+	 * @param mixed $tplVar Name of single value or array with name+value pairs
+	 * @param mixed $value Value for single var
+	 */
 	public function display($tplName, $tplVar=null, $value=null)
 	{
 		if(!empty($tplVar))
@@ -84,6 +84,9 @@ class Template
 	 */
 	public function printHeader()
 	{
+		//ClickJacking protection
+		if(Main::getModule('Config')->getCfgVal('clickjacking') == 1)
+			header("X-FRAME-OPTIONS: SAMEORIGIN");
 		$this->display('PageHeader');
 	}
 
@@ -126,7 +129,8 @@ class Template
 	public function printTail()
 	{
 		$this->display('PageTail', array('creationTime' => microtime(true)-SCRIPTSTART,
-			'processedFiles' => Functions::getFileCounter()));
+			'processedFiles' => Functions::getFileCounter(),
+			'memoryUsage' => memory_get_usage()/1024));
 	}
 }
 ?>

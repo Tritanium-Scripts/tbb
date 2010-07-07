@@ -34,6 +34,55 @@ class FunctionsBasic
 	}
 
 	/**
+	 * Checks if member has certain access permissions for a forum.
+	 *
+	 * @param array|int $forum Forum data or forum ID
+	 * @param int $what Access level
+	 * @return bool Access granted
+	 */
+	public static function checkMemberAccess($forum, $what)
+	{
+		//Check members only, guests have therefore no permissions
+		if(!Main::getModule('Auth')->isLoggedIn())
+			return false;
+		//Provide proper forum data
+		if(is_numeric($forum))
+			$forum = self::getForumData($forum);
+		//Allow access for admins or mods of that forum
+		if(Main::getModule('Auth')->isAdmin() || self::checkModOfForum($forum))
+			return true;
+		//Get default permission...
+		$canAccess = $forum[10][$what] == '1';
+		//...and check with special ones
+		foreach(self::file('foren/' . $forum[0] . '-rights.xbb') as $curSpecialPerm)
+		{
+			$curSpecialPerm = explode("\t", $curSpecialPerm);
+			if($curSpecialPerm[1] == '1' && $curSpecialPerm[2] == Main::getModule('Auth')->getUserID() || ($curSpecialPerm[1] == '2' && Main::getModule('Auth')->getGroupID() == $curSpecialPerm[2]))
+			{
+				if(($canAccess && $curSpecialPerm[$what+3] != '1') || (!$canAccess && $curSpecialPerm[$what+3] == '1'))
+					$canAccess = !$canAccess;
+				break;
+			}
+		}
+		return $canAccess;
+	}
+
+	/**
+	 * Checks current user has moderator permissions in a forum.
+	 *
+	 * @param array|int $forum Forum data or forum ID
+	 * @return bool Moderator permissions of stated forum
+	 */
+	public static function checkModOfForum($forum)
+	{
+		//Provide proper forum data
+		if(is_numeric($forum))
+			$forum = self::getForumData($forum);
+		//Check moderator permissions
+		return in_array(Main::getModule('Auth')->getUserID(), explode(',', $forum[11]));
+	}
+
+	/**
 	 * Extending PHP's {@link file()} with file counting, trim and global data path.
 	 */
 	public static function file($filename, $flags=null, $context=null)
@@ -68,6 +117,27 @@ class FunctionsBasic
 	public static function getFileCounter()
 	{
 		return self::$fileCounter;
+	}
+
+	/**
+	 * Returns data of a forum.
+	 *
+	 * @param int $forumID ID of forum
+	 * @return array|bool Forum data or false if forum was not found
+	 */
+	public static function getForumData($forumID)
+	{
+		foreach(self::file('vars/foren.var') as $curForum)
+		{
+			$curForum = explode("\t", $curForum);
+			if($curForum[0] == $forumID)
+			{
+				$curForum[7] = explode(',', $curForum[7]);
+				$curForum[10] = explode(',', $curForum[10]);
+				return $curForum;
+			}
+		}
+		return false;
 	}
 
 	/**
