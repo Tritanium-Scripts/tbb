@@ -113,7 +113,7 @@ class Language extends ModuleTemplate {
 		$result = array();
 		foreach(array_map('trim', file($fileName, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES)) as $curLine) {
 			//Skip comments
-			if($curLine[0] == ';')
+			if(empty($curLine) || $curLine[0] == ';')
 				continue;
 			//Detect valid delimiter
 			$delimiter = strpos($curLine, '=');
