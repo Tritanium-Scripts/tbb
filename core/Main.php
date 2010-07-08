@@ -104,6 +104,8 @@ class Main implements Module
 	 */
 	public function execute()
 	{
+		//Set locale for dates and number formats
+		setlocale(LC_ALL, str_replace('-', '_', self::getModule('Language')->getLangCode()));
 		//Check available disk space
 		if(self::getModule('Config')->getCfgVal('use_diskfreespace') == 1 && (($fds = round(disk_free_space('.')/1024)) <= self::getModule('Config')->getCfgVal('warn_admin_fds')*1024))
 		{

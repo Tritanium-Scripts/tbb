@@ -28,7 +28,7 @@ class Logger
 	 */
 	function __construct()
 	{
-		$this->logFile = 'logs/' . date('dmY') . '.log';
+		$this->logFile = 'logs/' . gmdate('dmY') . '.log';
 		$this->logLevels = explode(',', Main::getModule('Config')->getCfgVal('log_options'));
 	}
 

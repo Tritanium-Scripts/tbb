@@ -26,11 +26,27 @@ class Functions extends FunctionsBasic
 	}
 
 	/**
+	 * PHP's {@link str_ireplace()}. No Multibyte version available.
+	 */
+	public static function str_ireplace($search, $replace, $subject, $count=null)
+	{
+		return str_ireplace($search, $replace, $subject, $count);
+	}
+
+	/**
 	 * Wraps PHP's {@link strlen()} to Multibyte's {@link mb_strlen()}.
 	 */
 	public static function strlen($string)
 	{
 		return mb_strlen($string);
+	}
+
+	/**
+	 * Wraps PHP's {@link substr()} to Multibyte's {@link mb_substr()}.
+	 */
+	public static function substr($string, $start, $length=null)
+	{
+		return mb_substr($string, $start, $length);
 	}
 }
 ?>

@@ -13,23 +13,15 @@
 {* 0:id - 1:name *}
 {if $modules.Config->getCfgVal('show_kats')} <tr><td class="kat" colspan="6"><span class="kat">{$curCat[1]}</span></td></tr>{/if}
 {foreach from=$forums item=curForum name=forums}
-{*
-	0:
-	0:id - 1:name - 2:descr - 3:topics - 4:postings - 5:catID - 6:lastPostTstamp - 7:options - 8:lastPostData - 9:permissions - 10:modIDs
-	7:0:bbCode - 7:1:html - 7:2:notifyMods
-	9:0:memberAccess - 9:1:memberNewTopic - 9:2:memberPostReply - 9:3:memberPostPolls - 9:4:memberEditOwnPosts - 9:5:memberEditPolls - 9:6:guestAccess - 9:7:guestNewTopic - 9:8:guestPostReply - 9:9:guestPostPolls
-
-	1:
-	0:newPosts
-*}
-{if $curForum[0][5] == $curCat[0]}
+{* 0:id - 1:name - 2:descr - 3:topics - 4:postings - 5:catID - 6:newPost - 7:lastPost - 8:mods *}
+{if $curForum[5] == $curCat[0]}
  <tr>
-  <td class="td1"><img src="{$modules.Template->getTplDir()}images/{if !$curForum[1]}no_{/if}new_post.gif" alt="" /></td>
-  <td class="td2"><span class="forumlink"><a class="forumlink" href="{$smarty.const.INDEXFILE}?mode=viewforum&amp;forum_id={$curForum[0][0]}{$smarty.const.SID_AMPER}">{$curForum[0][1]}</a></span><br /><span class="small">{$curForum[0][2]}</span></td>
-  <td class="td1" style="text-align:center;"><span class="norm">{$curForum[0][3]}</span></td>
-  <td class="td1" style="text-align:center;"><span class="norm">{$curForum[0][4]}</span></td>
-  <td class="td1" style="text-align:center;"><span class="small">last_post_data</span></td>
-  <td class="td2" style="text-align:center;"><span class="small">forum_mods</span></td>
+  <td class="td1"><img src="{$modules.Template->getTplDir()}images/{if !$curForum[6]}no_{/if}new_post.gif" alt="" /></td>
+  <td class="td2"><span class="forumlink"><a class="forumlink" href="{$smarty.const.INDEXFILE}?mode=viewforum&amp;forum_id={$curForum[0]}{$smarty.const.SID_AMPER}">{$curForum[1]}</a></span><br /><span class="small">{$curForum[2]}</span></td>
+  <td class="td1" style="text-align:center;"><span class="norm">{$curForum[3]}</span></td>
+  <td class="td1" style="text-align:center;"><span class="norm">{$curForum[4]}</span></td>
+  <td class="td1" style="text-align:center;"><span class="small">{$curForum[7]}</span></td>
+  <td class="td2" style="text-align:center;"><span class="small">{$curForum[8]}</span></td>
  </tr>
 <?php unset($forums[$smarty.foreach.forums.index]); ?>
 {/if}

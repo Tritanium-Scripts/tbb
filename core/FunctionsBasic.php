@@ -67,6 +67,16 @@ class FunctionsBasic
 		return $canAccess;
 	}
 
+	public static function censor($string)
+	{
+		foreach(self::file('vars/cwords.var') as $curWord)
+		{
+			$curWord = explode("\t", $curWord);
+			$string = Functions::str_ireplace($curWord[1], $curWord[2], $string);
+		}
+		return $string;
+	}
+
 	/**
 	 * Checks current user has moderator permissions in a forum.
 	 *
@@ -110,6 +120,19 @@ class FunctionsBasic
 	}
 
 	/**
+	 * Returns a formatted date from proprietary date format.
+	 *
+	 * @param string $date Proprietary date format
+	 * @return string Ready-for-use date
+	 */
+	public static function formatDate($date)
+	{
+		$gmtOffset = Main::getModule('Config')->getCfgVal('gmt_offset');
+		$offset = Functions::substr($gmtOffset, 1, 2)*3600 + Functions::substr($gmtOffset, 3, 2)*60;
+		return gmstrftime('%d. %B %Y <span class="time">%H:%M</span>', mktime(substr($date, 8, 2), substr($date, 10, 2), 0, substr($date, 4, 2), substr($date, 6, 2), substr($date, 0, 4)) + ($gmtOffset[0] == '-' ? $offset*-1 : $offset) + date('Z'));
+	}
+
+	/**
 	 * Returns amount of file accesses.
 	 *
 	 * @return int File counter
@@ -138,6 +161,21 @@ class FunctionsBasic
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Returns linked user profile for given user IDs.
+	 *
+	 * @param string $userID Single or multiple user IDs separated with commata
+	 * @param bool $isValid Performs an additional check if user(s) exists to prevent linking deleted porfiles
+	 * @return string Linked user profile(s) as one string
+	 */
+	public static function getProfileLink($userID, $isValid=false)
+	{
+		$userLinks = array();
+		foreach(explode(',', $userID) as $curUserID)
+			$userLinks[] = $isValid && !file_exists('members/' . $curUserID . '.xbb') ? Main::getModule('Language')->getString('deleted') : '<a href="' . INDEXFILE . '?faction=profile&amp;profile_id=' . $curUserID . SID_AMPER . '">' . current(Functions::file('members/' . $curUserID . '.xbb')) . '</a>';
+		return implode(', ', $userLinks);
 	}
 
 	/**

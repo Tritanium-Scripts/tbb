@@ -80,7 +80,8 @@ class Forum implements Module
 			{
 				#0:id - 1:name - 2:descr - 3:topics - 4:postings - 5:catID - 6:lastPostTstamp - 7:options - 8: - 9:lastPostData - 10:permissions - 11:modIDs
 				#7:0:bbCode - 7:1:html - 7:2:notifyMods
-				#9:0:memberAccess - 9:1:memberNewTopic - 9:2:memberPostReply - 9:3:memberPostPolls - 9:4:memberEditOwnPosts - 9:5:memberEditPolls - 9:6:guestAccess - 9:7:guestNewTopic - 9:8:guestPostReply - 9:9:guestPostPolls
+				#9:0:topicID - 9:1:userID - 9:2:proprietaryDate - #9:3:tSmileyID
+				#10:0:memberAccess - 9:1:memberNewTopic - 9:2:memberPostReply - 9:3:memberPostPolls - 9:4:memberEditOwnPosts - 9:5:memberEditPolls - 9:6:guestAccess - 9:7:guestNewTopic - 9:8:guestPostReply - 9:9:guestPostPolls
 				$curForum = explode("\t", $curForum);
 				//Check permission
 				if(!$showPrivateForums)
@@ -91,8 +92,36 @@ class Forum implements Module
 				}
 				if($showCurForum)
 				{
-					//Cookie check to detect new posts in current forum since last visit
-					$forums[] = array($curForum, !isset($_COOKIE['forum.' . $curForum[0]]) || $_COOKIE['forum.' . $curForum[0]] < $curForum[6]);
+					$curLastPostData = explode(',', $curForum[9]);
+					//Check and prepare last post with link or related message
+					if(!isset($curLastPostData[0]))
+						$curLastPost = Main::getModule('Language')->getString('no_last_post');
+					elseif(!$showCurForum)
+						$curLastPost = Functions::formatDate($curLastPostData[2]);
+					elseif(!file_exists($curTopicFile = 'foren/' . $curForum[0] . '-' . $curLastPostData[0] . '.xbb'))
+						$curLastPost = Main::getModule('Language')->getString('deleted_moved');
+					else
+					{
+						//Prepare topic title of current last posting
+						$curTopicTitle = next(explode("\t", current(Functions::file($curTopicFile))));
+						if(Main::getModule('Config')->getCfgVal('censored') == 1)
+							$curTopicTitle = Functions::censor($curTopicTitle);
+						if(Functions::strlen($curTopicTitle) > 22)
+							$curTopicTitle = Functions::substr($curTopicTitle, 0, 19) . Main::getModule('Language')->getString('dots');
+						//Query template for formatting current last posting
+						$curLastPost = Main::getModule('Template')->fetch('LastPost', array('tSmileyURL' => $curLastPostData[3],
+							'forumID' => $curForum[0],
+							'topicID' => $curLastPostData[0],
+							'topicTitle' => $curTopicTitle,
+							//Prepare user of current last posting
+							'user' => $curLastPostData[1][0] == '0' ? Functions::substr($curLastPostData[1], 1) : Functions::getProfileLink($curLastPostData[1], true),
+							'date' => Functions::formatDate($curLastPostData[2])));
+					}
+					$forums[] = array($curForum[0], $curForum[1], $curForum[2], $curForum[3], $curForum[4], $curForum[5],
+						//Cookie check to detect new posts in current forum since last visit
+						!isset($_COOKIE['forum.' . $curForum[0]]) || $_COOKIE['forum.' . $curForum[0]] < $curForum[6],
+						$curLastPost,
+						Functions::getProfileLink($curForum[11]));
 					$topicCounter += $curForum[3];
 					$postCounter += $curForum[4];
 				}
