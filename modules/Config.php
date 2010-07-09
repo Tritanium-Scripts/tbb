@@ -199,7 +199,7 @@ class Config// extends Module
 	{
 		$this->cfgValues[$key] = $value;
 		if($save)
-			Functions::file_put_contents(self::$cfgFile, implode("\n", $this->cfgValues), LOCK_EX);
+			Functions::file_put_contents(self::$cfgFile, implode("\n", $this->cfgValues));
 	}
 }
 ?>

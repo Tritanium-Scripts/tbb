@@ -42,6 +42,22 @@ class Functions extends FunctionsBasic
 	}
 
 	/**
+	 * Wraps PHP's {@link strpos()} to Multibyte's {@link mb_strpos()}.
+	 */
+	public static function strpos($haystack, $needle, $offset=null)
+	{
+		return mb_strpos($haystack, $needle, $offset);
+	}
+
+	/**
+	 * Wraps PHP's {@link strtoupper()} to Multibyte's {@link mb_strtoupper()}.
+	 */
+	public static function strtoupper($string)
+	{
+		return mb_strtoupper($string);
+	}
+
+	/**
 	 * Wraps PHP's {@link substr()} to Multibyte's {@link mb_substr()}.
 	 */
 	public static function substr($string, $start, $length=null)

@@ -42,6 +42,22 @@ class Functions extends FunctionsBasic
 	}
 
 	/**
+	 * PHP's {@link strpos()}.
+	 */
+	public static function strpos($haystack, $needle, $offset=null)
+	{
+		return strpos($haystack, $needle, $offset);
+	}
+
+	/**
+	 * PHP's {@link strtoupper()}.
+	 */
+	public static function strtoupper($string)
+	{
+		return strtoupper($string);
+	}
+
+	/**
 	 * PHP's {@link substr()}.
 	 */
 	public static function substr($string, $start, $length=null)

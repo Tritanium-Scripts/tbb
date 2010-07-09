@@ -38,9 +38,25 @@
 <br />
 <!-- WIO -->
 <table class="tbl" cellpadding="{$modules.Config->getCfgVal('tpadding')}" cellspacing="{$modules.Config->getCfgVal('tspacing')}" style="width:{$modules.Config->getCfgVal('twidth')}; margin:auto;">
- <tr><td class="thnorm"><span class="thnorm">{$modules.Language->getString('who_is_online')}</span></td></tr>
+ <tr><th class="thnorm"><span class="thnorm">{$modules.Language->getString('who_is_online')}</span></th></tr>
  <tr><td class="td1"><span class="small">{$modules.Config->getCfgVal('wio_timeout')|string_format:$modules.Language->getString('in_last_x_min_were_active')}<br />
 {foreach $modules.WhoIsOnline->getMembers() as $curMember}{$curMember}, {foreachelse}{$modules.Language->getString('no_members')}{/foreach}<br />
 {if $guests == 0}{$modules.Language->getString('no_guests')}{elseif $guests == 1}{$modules.Language->getString('one_guest')}{else}{$guests|string_format:$modules.Language->getString('x_guests')}{/if}</td></tr>
+</table>
+{/if}
+
+{if $modules.Config->getCfgVal('show_board_stats') == 1}
+<br />
+<table class="tbl" cellpadding="{$modules.Config->getCfgVal('tpadding')}" cellspacing="{$modules.Config->getCfgVal('tspacing')}" style="width:{$modules.Config->getCfgVal('twidth')}; margin:auto;">
+ <tr><th class="thnorm"><span class="thnorm">{$modules.Language->getString('board_statistics')}</span></th></tr>
+ <tr><td class="td1"><span class="small">{$modules.Language->getString('registered_members')} {$memberCounter}<br />{$modules.Language->getString('newest_member')} {$newestMember}<br />{$modules.Language->getString('total_amount_of_topics_posts')} {$topicCounter}/{$postCounter}</span></td></tr>
+</table>
+{/if}
+
+{if $modules.Config->getCfgVal('show_lposts') == 1}
+<br />
+<table class="tbl" cellpadding="{$modules.Config->getCfgVal('tpadding')}" cellspacing="{$modules.Config->getCfgVal('tspacing')}" style="width:{$modules.Config->getCfgVal('twidth')}; margin:auto;">
+ <tr><th class="thnorm"><span class="thnorm">{$modules.Language->getString('newest_posts')}</span></th></tr>
+ <tr><td class="td1"><span class="small">{foreach $newestPosts as $curNewestPost}{$curNewestPost}<br />{foreachelse}{$modules.Language->getString('no_newest_posts')}{/foreach}</span></td></tr>
 </table>
 {/if}

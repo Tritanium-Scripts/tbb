@@ -67,6 +67,12 @@ class FunctionsBasic
 		return $canAccess;
 	}
 
+	/**
+	 * Censors a string.
+	 *
+	 * @param string $string Text to censor
+	 * @return string Censored text
+	 */
 	public static function censor($string)
 	{
 		foreach(self::file('vars/cwords.var') as $curWord)
@@ -102,6 +108,14 @@ class FunctionsBasic
 	}
 
 	/**
+	 * Extending PHP's {@link file_exists()} with global data path.
+	 */
+	public static function file_exists($filename)
+	{
+		return file_exists(DATAPATH . $filename);
+	}
+
+	/**
 	 * Extending PHP's {@link file_get_contents()} with file counting and global data path.
 	 */
 	public static function file_get_contents($filename, $flags=null, $context=null, $offset=null, $maxlen=null)
@@ -120,7 +134,7 @@ class FunctionsBasic
 	}
 
 	/**
-	 * Returns a formatted date from proprietary date format.
+	 * Returns a formatted date string from proprietary date format.
 	 *
 	 * @param string $date Proprietary date format
 	 * @return string Ready-for-use date
@@ -129,7 +143,7 @@ class FunctionsBasic
 	{
 		$gmtOffset = Main::getModule('Config')->getCfgVal('gmt_offset');
 		$offset = Functions::substr($gmtOffset, 1, 2)*3600 + Functions::substr($gmtOffset, 3, 2)*60;
-		return gmstrftime('%d. %B %Y <span class="time">%H:%M</span>', mktime(substr($date, 8, 2), substr($date, 10, 2), 0, substr($date, 4, 2), substr($date, 6, 2), substr($date, 0, 4)) + ($gmtOffset[0] == '-' ? $offset*-1 : $offset) + date('Z'));
+		return gmstrftime(Main::getModule('Language')->getString('DATEFORMAT'), mktime(substr($date, 8, 2), substr($date, 10, 2), 0, substr($date, 4, 2), substr($date, 6, 2), substr($date, 0, 4)) + ($gmtOffset[0] == '-' ? $offset*-1 : $offset) + date('Z'));
 	}
 
 	/**
@@ -166,16 +180,60 @@ class FunctionsBasic
 	/**
 	 * Returns linked user profile for given user IDs.
 	 *
-	 * @param string $userID Single or multiple user IDs separated with commata
-	 * @param bool $isValid Performs an additional check if user(s) exists to prevent linking deleted porfiles
+	 * @param int|string $userID Single or multiple user IDs separated with comma
+	 * @param bool $isValid Performs an additional check if user(s) exists to prevent linking deleted profiles
 	 * @return string Linked user profile(s) as one string
 	 */
 	public static function getProfileLink($userID, $isValid=false)
 	{
 		$userLinks = array();
-		foreach(explode(',', $userID) as $curUserID)
-			$userLinks[] = $isValid && !file_exists('members/' . $curUserID . '.xbb') ? Main::getModule('Language')->getString('deleted') : '<a href="' . INDEXFILE . '?faction=profile&amp;profile_id=' . $curUserID . SID_AMPER . '">' . current(Functions::file('members/' . $curUserID . '.xbb')) . '</a>';
+		if(!empty($userID))
+			foreach(explode(',', $userID) as $curUserID)
+				$userLinks[] = $isValid && !self::file_exists('members/' . $curUserID . '.xbb') ? Main::getModule('Language')->getString('deleted') : '<a href="' . INDEXFILE . '?faction=profile&amp;profile_id=' . $curUserID . SID_AMPER . '">' . current(Functions::file('members/' . $curUserID . '.xbb')) . '</a>';
 		return implode(', ', $userLinks);
+	}
+
+	/**
+	 * Returns the name of a topic.
+	 *
+	 * @param int|string $forumID ID of forum
+	 * @param int|string $topicID ID of topic
+	 * @return string Name of topic
+	 */
+	public static function getTopicName($forumID, $topicID)
+	{
+		return !($topic = self::file('foren/' . $forumID . '-' . $topicID . '.xbb')) ? Main::getModule('Language')->getString('deleted_moved') : next(explode("\t", $topic[0]));
+	}
+
+	/**
+	 * Returns the URL address for a topic smiley.
+	 *
+	 * @param int|string $tSmileyID ID of topic smiley
+	 * @return string Topic smiley address
+	 */
+	public static function getTSmileyURL($tSmileyID)
+	{
+		foreach(self::file('vars/tsmilies.var') as $curTSmiley)
+		{
+			$curTSmiley = explode("\t", $curTSmiley);
+			if($curTSmiley[0] == $tSmileyID)
+				return $curTSmiley[1];
+		}
+		return 'images/tsmilies/1.gif';
+	}
+
+	/**
+	 * Shortens a string to stated length by appending dots.
+	 *
+	 * @param string $string String to shorten
+	 * @param int $maxLength Maximal length of string may have
+	 * @return string Shortened string
+	 */
+	public static function shorten($string, $maxLength)
+	{
+		if(Functions::strlen($string) > $maxLength)
+			$string = Functions::substr($curTopicTitle, 0, $maxLength-3) . Main::getModule('Language')->getString('dots');
+		return $string;
 	}
 
 	/**

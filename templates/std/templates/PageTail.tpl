@@ -19,6 +19,7 @@
    {$processedFiles|string_format:$modules.Language->getString('processed_x_files')}<br />
    {if $modules.Config->getCfgVal('use_gzip_compression') == 1}{$modules.Language->getString('gzip_compression_enabled')}{else}{$modules.Language->getString('gzip_compression_disabled')}{/if}<br />
    {$memoryUsage|string_format:$modules.Language->getString('x_kib_memory_usage')}
+   {*<br />microtime(true)-$smartyTime|string_format:"%.6f"*}
   </p>
   {/if}
   </div>

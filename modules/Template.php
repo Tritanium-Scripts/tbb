@@ -38,7 +38,7 @@ class Template
 		$this->smarty->setCompileDir('cache');
 		$this->tplDir = 'templates/' . Main::getModule('Config')->getCfgVal('default_tpl') . '/';
 		$this->smarty->setTemplateDir($this->tplDir . 'templates');
-		$this->smarty->setConfigDir($this->tplDir);
+		#$this->smarty->setConfigDir($this->tplDir . 'config');
 		$this->smarty->setCompileId($this->tplDir);
 		#$this->smarty->setCaching(Main::getModule('Config')->getCfgVal('use_file_caching') == 1);
 		$this->smarty->assignByRef('modules', Main::getModules());
@@ -67,6 +67,21 @@ class Template
 		if(!empty($tplVar))
 			$this->assign($tplVar, $value);
 		$this->smarty->display($tplName . '.tpl');
+	}
+
+	/**
+	 * Returns fetched contents (with assigned data) of a template file.
+	 *
+	 * @param string $tplName Name of template file
+	 * @param mixed $tplVar Name of single value or array with name+value pairs
+	 * @param mixed $value Value for single var
+	 * @return string Rendered template output
+	 */
+	public function fetch($tplName, $tplVar=null, $value=null)
+	{
+		if(!empty($tplVar))
+			$this->assign($tplVar, $value);
+		return $this->smarty->fetch($tplName);
 	}
 
 	/**
@@ -130,7 +145,8 @@ class Template
 	{
 		$this->display('PageTail', array('creationTime' => microtime(true)-SCRIPTSTART,
 			'processedFiles' => Functions::getFileCounter(),
-			'memoryUsage' => memory_get_usage()/1024));
+			'memoryUsage' => memory_get_usage()/1024/*,
+			'smartyTime' => $this->smarty->getStartTime()*/));
 	}
 }
 ?>
