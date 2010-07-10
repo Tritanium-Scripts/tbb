@@ -44,6 +44,7 @@ class WhoIsOnline implements Module
 			Main::getModule('Template')->printMessage('function_deactivated');
 		Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('who_is_online'));
 		$this->setLocation('WhoIsOnline'); //Add WIO location now, in Template module would be too late
+		$time = time(); //Same time as starting basis for all entries
 		$wioLocations = array();
 		foreach(Functions::file('vars/wio.var') as $curWIOEntry)
 		{
@@ -53,26 +54,27 @@ class WhoIsOnline implements Module
 			if(!($curWIOEntryIsGhost = $curWIOEntry[4] == '1') || Main::getModule('Auth')->isAdmin())
 			{
 				$curUser = is_numeric($curWIOEntry[1]) ? Functions::getProfileLink($curWIOEntry[1]) : Main::getModule('Language')->getString('guest') . Functions::substr($curWIOEntry[1], 5, 5);
+				$curTime = ($curTime = $time-$curWIOEntry[0]) < 60 ? sprintf(Main::getModule('Language')->getString('x_seconds_ago'), $curTime) : ($curTime < 120 ? Main::getModule('Language')->getString('one_minute_ago') : sprintf(Main::getModule('Language')->getString('x_minutes_ago'), $curTime/60));
 				switch($curWIOEntry[2][0])
 				{
 					case 'ForumIndex':
-					$wioLocations[] = array($curUser, sprintf(Main::getModule('Language')->getString('views_the_forum_index'), INDEXFILE . SID_QMARK), $curWIOEntryIsGhost);
+					$wioLocations[] = array($curUser, sprintf(Main::getModule('Language')->getString('views_the_forum_index'), INDEXFILE . SID_QMARK), $curWIOEntryIsGhost, $curTime);
 					break;
 
 					case 'ViewForum':
-					$wioLocations[] = Main::getModule('Config')->getCfgVal('show_private_forums') == 1 || Functions::checkUserAccess($curWIOEntry[2][1], 0) ? array($curUser, sprintf(Main::getModule('Language')->getString('views_the_forum_x'), INDEXFILE . '?mode=viewforum&amp;forum_id=' . $curWIOEntry[2][1] . SID_AMPER, next(Functions::getForumData($curWIOEntry[2][1]))), $curWIOEntryIsGhost) : $wioLocations[] = array($curUser, sprintf(Main::getModule('Language')->getString('views_a_forum'), INDEXFILE . '?mode=viewforum&amp;forum_id=' . $curWIOEntry[2][1] . SID_AMPER), $curWIOEntryIsGhost);
+					$wioLocations[] = Main::getModule('Config')->getCfgVal('show_private_forums') == 1 || Functions::checkUserAccess($curWIOEntry[2][1], 0) ? array($curUser, sprintf(Main::getModule('Language')->getString('views_the_forum_x'), INDEXFILE . '?mode=viewforum&amp;forum_id=' . $curWIOEntry[2][1] . SID_AMPER, next(Functions::getForumData($curWIOEntry[2][1]))), $curWIOEntryIsGhost, $curTime) : $wioLocations[] = array($curUser, sprintf(Main::getModule('Language')->getString('views_a_forum'), INDEXFILE . '?mode=viewforum&amp;forum_id=' . $curWIOEntry[2][1] . SID_AMPER), $curWIOEntryIsGhost, $curTime);
 					break;
 
 					case 'ViewTopic':
-					$wioLocations[] = Functions::checkUserAccess($curWIOEntry[2][1], 0) ? array($curUser,  sprintf(Main::getModule('Language')->getString('views_the_topic_x'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER, Functions::getTopicName($curWIOEntry[2][1], $curWIOEntry[2][2])), $curWIOEntryIsGhost) : array($curUser, sprintf(Main::getModule('Language')->getString('views_a_topic'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER), $curWIOEntryIsGhost);
+					$wioLocations[] = Functions::checkUserAccess($curWIOEntry[2][1], 0) ? array($curUser,  sprintf(Main::getModule('Language')->getString('views_the_topic_x'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER, Functions::getTopicName($curWIOEntry[2][1], $curWIOEntry[2][2])), $curWIOEntryIsGhost, $curTime) : array($curUser, sprintf(Main::getModule('Language')->getString('views_a_topic'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER), $curWIOEntryIsGhost, $curTime);
 					break;
 
 					case 'WhoIsOnline':
-					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('views_the_wio_list'), $curWIOEntryIsGhost);
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('views_the_wio_list'), $curWIOEntryIsGhost, $curTime);
 					break;
 
 					default:
-					$wioLocations[] = array($curUser, '<b>WARNING: Unknown WIO location!</b>', $curWIOEntryIsGhost);
+					$wioLocations[] = array($curUser, '<b>WARNING: Unknown WIO location!</b>', $curWIOEntryIsGhost, $curTime);
 					break;
 				}
 			}
@@ -123,9 +125,9 @@ class WhoIsOnline implements Module
 	}
 
 	/**
-	 * Refreshes contents of the WIO data file.
+	 * Refreshes contents of the WIO data file by removing outdated entries.
 	 *
-	 * @return array Already exploded contents of WIO file.
+	 * @return array Already exploded contents of refreshed WIO file.
 	 */
 	private function refreshVar()
 	{
@@ -143,7 +145,7 @@ class WhoIsOnline implements Module
 			}
 		}
 		if($update)
-			Functions::file_put_contents('vars/wio.var', implode("\n", $wioFile));
+			Functions::file_put_contents('vars/wio.var', implode("\n", array_map(create_function('$entry', 'return implode("\t", $entry);'), $wioFile)));
 		return $wioFile;
 	}
 }

@@ -92,6 +92,9 @@ class FunctionsBasic
 	 */
 	public static function checkModOfForum($forum)
 	{
+		//Super mods can access all
+		if(Main::getModule('Auth')->isSuperMod())
+			return true;
 		//Provide proper forum data
 		if(is_numeric($forum))
 			$forum = self::getForumData($forum);
@@ -122,13 +125,14 @@ class FunctionsBasic
 	}
 
 	/**
-	 * Extending PHP's {@link file()} with file counting and global data path.
+	 * Extending PHP's {@link file()} with file counting, light trimming and global data path.
 	 */
 	public static function file($filename, $flags=null)
 	{
 		self::$fileCounter++;
+		$trimNoTab = create_function('$entry', 'return trim($entry, " \n\r\0\x0B");');
 		//Trim all except tabulator
-		return array_map(create_function('$entry', 'return trim($entry, " \n\r\0\x0B");'), file(DATAPATH . $filename, $flags));
+		return array_map($trimNoTab, file(DATAPATH . $filename, $flags));
 	}
 
 	/**

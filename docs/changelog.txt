@@ -27,7 +27,7 @@ Last changed: 2010 (Version 1.5 Alpha)
 	-Newsfader (Newstyp "2") wurde deaktiviert (IE only)
 	-Optionaler ClickJacking Schutz
 	-Speichernutzung in technischen Statistiken
-	-WIO mit mehr Details
+	-WIO mit mehr Details zu Position und Zeit des letzten Klicks
 	-Anzeige von Geistern in WIO für Admins
 	-Anzahl von Geistern in WIO-Box in der Forenübersicht
 

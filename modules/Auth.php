@@ -15,6 +15,7 @@
  *    <li>User</li>
  *    <li>Banned</li>
  *    <li>Deleted</li>
+ *    <li>[SuperMod]</li>
  *   </ol>
  *  </li>
  *  <li>Posts</li>
@@ -52,6 +53,11 @@ class Auth
 	 */
 	private $userData = array();
 
+	/**
+	 * Special ID for WIO listing.
+	 *
+	 * @var int|string User ID or special guest ID
+	 */
 	private $wioID;
 
 	/**
@@ -92,7 +98,7 @@ class Auth
 	/**
 	 * Returns either User ID (if logged in) or special guest ID.
 	 *
-	 * @return int|string Speical ID for WIO list
+	 * @return int|string Special ID for WIO list
 	 */
 	public function getWIOID()
 	{
@@ -157,6 +163,16 @@ class Auth
 	public function isMod()
 	{
 		return $this->userData[4] <= '2';
+	}
+
+	/**
+	 * Returns user has super moderator permissions.
+	 *
+	 * @return bool Super moderator permissions
+	 */
+	public function isSuperMod()
+	{
+		return $this->userData[4] == '6';
 	}
 
 	/**

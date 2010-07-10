@@ -82,7 +82,7 @@ class Language
 	 */
 	public function getString($index, $file=null)
 	{
-		return isset($this->langStrings[$this->langCode][$index]) || (!empty($file) && $this->parseFile($file) && isset($this->langStrings[$this->langCode][$index])) ? $this->langStrings[$this->langCode][$index] : !trigger_error('Identifier ' . $index . ' for ' . $this->langCode . ' not found', E_USER_NOTICE);
+		return isset($this->langStrings[$this->langCode][$index]) || (!empty($file) && $this->parseFile($file) && isset($this->langStrings[$this->langCode][$index])) ? $this->langStrings[$this->langCode][$index] : !trigger_error('Identifier \'' . $index . '\' for ' . $this->langCode . ' not found', E_USER_NOTICE);
 	}
 
 	/**
