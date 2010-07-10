@@ -40,19 +40,20 @@ class FunctionsBasic
 	 * @param int $what Access level
 	 * @return bool Access granted
 	 */
-	public static function checkMemberAccess($forum, $what)
+	public static function checkUserAccess($forum, $what)
 	{
-		//Check members only, guests have therefore no permissions
-		if(!Main::getModule('Auth')->isLoggedIn())
-			return false;
-		//Provide proper forum data
+		//Provide proper forum data and permissions
 		if(is_numeric($forum))
 			$forum = self::getForumData($forum);
+		$perms = Functions::explodeByComma($forum[10]);
+		//Check guests
+		if(!Main::getModule('Auth')->isLoggedIn())
+			return $perms[6] == '1';
 		//Allow access for admins or mods of that forum
 		if(Main::getModule('Auth')->isAdmin() || self::checkModOfForum($forum))
 			return true;
 		//Get default permission...
-		$canAccess = $forum[10][$what] == '1';
+		$canAccess = $perms[$what] == '1';
 		//...and check with special ones
 		foreach(self::file('foren/' . $forum[0] . '-rights.xbb') as $curSpecialPerm)
 		{
@@ -121,12 +122,13 @@ class FunctionsBasic
 	}
 
 	/**
-	 * Extending PHP's {@link file()} with file counting, trim and global data path.
+	 * Extending PHP's {@link file()} with file counting and global data path.
 	 */
 	public static function file($filename, $flags=null)
 	{
 		self::$fileCounter++;
-		return array_map('trim', file(DATAPATH . $filename, $flags));
+		//Trim all except tabulator
+		return array_map(create_function('$entry', 'return trim($entry, " \n\r\0\x0B");'), file(DATAPATH . $filename, $flags));
 	}
 
 	/**

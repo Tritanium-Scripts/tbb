@@ -35,6 +35,16 @@ class Main implements Module
 
 	/**
 	 * Translates the TBB1 faction value to a module.
+	 * Each module (incl. Main) has a language file with the same name.
+	 * But each module can rely on multiple template files.
+	 *
+	 * m = amount of factions
+	 * n = amount of modules
+	 * x = amount of language file
+	 * y = amount of template files
+	 * => n < m
+	 * => n = x
+	 * => x > y
 	 *
 	 * @var array Translation table
 	 */
@@ -172,7 +182,8 @@ class Main implements Module
 		//Check force login
 		if(self::getModule('Config')->getCfgVal('must_be_logged_in') == 1 && !self::getModule('Auth')->isLoggedIn() && !in_array(self::$actionTable[$this->action], array('Register', 'Login', 'Help')))
 			self::getModule('Template')->printMessage('members_only', INDEXFILE . '?faction=register' . SID_AMPER, INDEXFILE . '?faction=login' . SID_AMPER);
-		//Autoload translation of module
+		//Autoload common and translation of module
+		self::getModule('Language')->parseFile('Main');
 		self::getModule('Language')->parseFile(self::$actionTable[$this->action]);
 		//Execute module
 		self::getModule(self::$actionTable[$this->action])->execute();

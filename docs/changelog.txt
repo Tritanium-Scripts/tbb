@@ -25,8 +25,11 @@ Last changed: 2010 (Version 1.5 Alpha)
 	-Logansicht im ACP
 	-Kontakt-Mail-Adresse verschlüsselt mit JavaScript
 	-Newsfader (Newstyp "2") wurde deaktiviert (IE only)
-	-ClickJacking Schutz
+	-Optionaler ClickJacking Schutz
 	-Speichernutzung in technischen Statistiken
+	-WIO mit mehr Details
+	-Anzeige von Geistern in WIO für Admins
+	-Anzahl von Geistern in WIO-Box in der Forenübersicht
 
 Written by Chrissyx
 (c) 2010 Tritanium Scripts

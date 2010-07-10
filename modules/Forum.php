@@ -100,28 +100,22 @@ class Forum implements Module
 				$cats[] = Functions::explodeByTab($curCat);
 			//Prepare forums
 			$showPrivateForums = Main::getModule('Config')->getCfgVal('show_private_forums') == 1;
-			$showCurForum = true;
 			foreach(Functions::file('vars/foren.var') as $curForum)
 			{
-				#0:id - 1:name - 2:descr - 3:topics - 4:postings - 5:catID - 6:lastPostTstamp - 7:options - 8: - 9:lastPostData - 10:permissions - 11:modIDs
+				#0:id - 1:name - 2:descr - 3:topics - 4:postings - 5:catID - 6:lastPostTstamp - 7:options - 8:status? - 9:lastPostData - 10:permissions - 11:modIDs
 				#7:0:bbCode - 7:1:html - 7:2:notifyMods
 				#9:0:topicID - 9:1:userID - 9:2:proprietaryDate - #9:3:tSmileyID
 				#10:0:memberAccess - 10:1:memberNewTopic - 10:2:memberPostReply - 10:3:memberPostPolls - 10:4:memberEditOwnPosts - 10:5:memberEditPolls - 10:6:guestAccess - 10:7:guestNewTopic - 10:8:guestPostReply - 10:9:guestPostPolls
 				$curForum = Functions::explodeByTab($curForum);
 				//Check permission
-				if(!$showPrivateForums)
-				{
-					$curPerms = Functions::explodeByComma($curForum[10]);
-					//not logged in ? check guest : check member
-					$showCurForum = !Main::getModule('Auth')->isLoggedIn() ? $curPerms[6] == '1' : Functions::checkMemberAccess($curForum, 0);
-				}
-				if($showCurForum)
+				$showCurForum = Functions::checkUserAccess($curForum, 0);
+				if($showPrivateForums || $showCurForum)
 				{
 					$curLastPostData = Functions::explodeByComma($curForum[9]);
 					//Check and prepare last post with link or related message
 					if(!isset($curLastPostData[0]))
 						$curLastPost = Main::getModule('Language')->getString('no_last_post');
-					elseif(!$showCurForum)
+					elseif(!$showCurForum) //At the latest checkUserAccess is needed here
 						$curLastPost = Functions::formatDate($curLastPostData[2]);
 					elseif(!Functions::file_exists($curTopicFile = 'foren/' . $curForum[0] . '-' . $curLastPostData[0] . '.xbb'))
 						$curLastPost = Main::getModule('Language')->getString('deleted_moved');
@@ -172,10 +166,7 @@ class Forum implements Module
 				//Add board statistics
 				(Main::getModule('Config')->getCfgVal('show_board_stats') == 1 ? array(
 				'newestMember' => Functions::getProfileLink(Functions::file_get_contents('vars/last_user_id.var')),
-				'memberCounter' => Functions::file_get_contents('vars/member_counter.var')) : array()) +
-				//WIO data
-				(Main::getModule('Config')->getCfgVal('wio') == 1 ? array(
-				'wioUser' => Main::getModule('WhoIsOnline')->getUser()) : array()));
+				'memberCounter' => Functions::file_get_contents('vars/member_counter.var')) : array()));
 			break;
 		}
 		Main::getModule('Template')->printPage(self::$modeTable[$this->mode]);

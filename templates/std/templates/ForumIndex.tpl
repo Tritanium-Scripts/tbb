@@ -34,13 +34,15 @@
 </table>
 
 {if $modules.Config->getCfgVal('wio') == 1}
-{* 0:guests - 1:members *}
+{assign var="wioUser" value=$modules.WhoIsOnline->getUser()}
+{* 0:guests - 1:ghosts - 2:members *}
 <br />
 <!-- WIO -->
 <table class="tbl" cellpadding="{$modules.Config->getCfgVal('tpadding')}" cellspacing="{$modules.Config->getCfgVal('tspacing')}" style="width:{$modules.Config->getCfgVal('twidth')}; margin:auto;">
  <tr><th class="thnorm"><span class="thnorm">{$modules.Language->getString('who_is_online')}</span></th></tr>
  <tr><td class="td1"><span class="small">{$modules.Config->getCfgVal('wio_timeout')|string_format:$modules.Language->getString('in_last_x_min_were_active')}<br />
-{if empty($wioUser[1])}{$modules.Language->getString('no_members')}{else}{', '|implode:$wioUser[1]}{/if}<br />
+{if empty($wioUser[2])}{$modules.Language->getString('no_members')}{else}{', '|implode:$wioUser[2]}{/if}<br />
+{if $wioUser[1] == 0}{$modules.Language->getString('no_ghosts')}{elseif $wioUser[1] == 1}{$modules.Language->getString('one_ghost')}{else}{$wioUser[1]|string_format:$modules.Language->getString('x_ghosts')}{/if}<br />
 {if $wioUser[0] == 0}{$modules.Language->getString('no_guests')}{elseif $wioUser[0] == 1}{$modules.Language->getString('one_guest')}{else}{$wioUser[0]|string_format:$modules.Language->getString('x_guests')}{/if}</td></tr>
 </table>
 {/if}

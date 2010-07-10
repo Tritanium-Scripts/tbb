@@ -20,7 +20,7 @@
  *  <li>Posts</li>
  *  <li>Reg date (year+month)</li>
  *  <li>Signature</li>
- *  <li>faccess?</li>
+ *  <li>Forum access permissions</li>
  *  <li>Homepage</li>
  *  <li>Avatar</li>
  *  <li>Update state?</li>
@@ -52,6 +52,8 @@ class Auth
 	 */
 	private $userData = array();
 
+	private $wioID;
+
 	/**
 	 * Loads user data from XBB file according to user ID in the session or cookie.
 	 */
@@ -73,6 +75,8 @@ class Auth
 				$this->userData = $cUserData;
 			}
 		}
+		//Set special ID for WIO
+		$this->wioID = $this->loggedIn ? $this->getUserID() : (isset($_SESSION['session_upbwio']) ? $_SESSION['session_upbwio'] : ($_SESSION['session_upbwio'] = 'guest' . mt_rand(10000, 99999)));
 	}
 
 	/**
@@ -86,13 +90,23 @@ class Auth
 	}
 
 	/**
-	 * Returns ID of user.
+	 * Returns either User ID (if logged in) or special guest ID.
+	 *
+	 * @return int|string Speical ID for WIO list
+	 */
+	public function getWIOID()
+	{
+		return $this->wioID;
+	}
+
+	/**
+	 * Returns ID of user. 0 = Guest!
 	 *
 	 * @return int User ID
 	 */
 	public function getUserID()
 	{
-		return intval($this->userData[0]);
+		return intval($this->userData[1]);
 	}
 
 	/**
