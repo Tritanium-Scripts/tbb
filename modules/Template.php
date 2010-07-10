@@ -127,12 +127,17 @@ class Template
 	}
 
 	/**
-	 * Prints a full page with provided template file and exists program execution.
+	 * Prints a full page with provided template file, optional values to assign before and exists program execution.
 	 *
 	 * @param string $tplName Name of template file
+	 * @param mixed $tplVar Name of single value or array with name+value pairs
+	 * @param mixed $value Value for single var
 	 */
-	public function printPage($tplName)
+	public function printPage($tplName, $tplVar=null, $value=null)
 	{
+		if(!empty($tplVar))
+			$this->assign($tplVar, $value);
+		Main::getModule('WhoIsOnline')->setLocation($tplName);
 		$this->printHeader();
 		$this->display($tplName);
 		exit($this->printTail());

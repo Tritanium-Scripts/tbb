@@ -98,11 +98,23 @@ class FunctionsBasic
 		return in_array(Main::getModule('Auth')->getUserID(), self::explodeByComma($forum[11]));
 	}
 
+	/**
+	 * Explodes a string by comma.
+	 *
+	 * @param string $string String to explode
+	 * @return array Resulting array
+	 */
 	public static function explodeByComma($string)
 	{
 		return explode(',', $string);
 	}
 
+	/**
+	 * Explodes a string by tabulator.
+	 *
+	 * @param string $string String to explode
+	 * @return array Resulting array
+	 */
 	public static function explodeByTab($string)
 	{
 		return explode("\t", $string);

@@ -28,7 +28,7 @@ class Forum implements Module
 	 *
 	 * @var array Mode and template counterparts
 	 */
-	private static $modeTable = array('' => 'ForumIndex', 'viewforum' => 'ViewForum', 'viewthread' => 'ViewThread');
+	private static $modeTable = array('' => 'ForumIndex', 'viewforum' => 'ViewForum', 'viewthread' => 'ViewTopic');
 
 	/**
 	 * ID of queried topic.
@@ -113,7 +113,7 @@ class Forum implements Module
 				{
 					$curPerms = Functions::explodeByComma($curForum[10]);
 					//not logged in ? check guest : check member
-					$showCurForum = !Main::getModule('Auth')->isLoggedIn() ? $curPerms[6] == '1' : Functions::checkMemberAccess($curForum, 0, $curPerms);
+					$showCurForum = !Main::getModule('Auth')->isLoggedIn() ? $curPerms[6] == '1' : Functions::checkMemberAccess($curForum, 0);
 				}
 				if($showCurForum)
 				{
@@ -176,7 +176,6 @@ class Forum implements Module
 				//WIO data
 				(Main::getModule('Config')->getCfgVal('wio') == 1 ? array(
 				'wioUser' => Main::getModule('WhoIsOnline')->getUser()) : array()));
-			Main::getModule('WhoIsOnline')->setLocation();
 			break;
 		}
 		Main::getModule('Template')->printPage(self::$modeTable[$this->mode]);

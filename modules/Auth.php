@@ -116,6 +116,16 @@ class Auth
 	}
 
 	/**
+	 * Returns user is logged in (if he really is!) as a ghost.
+	 *
+	 * @return bool User hides from WIO
+	 */
+	public function isGhost()
+	{
+		return isset($_SESSION['bewio']);
+	}
+
+	/**
 	 * Returns login state of user.
 	 *
 	 * @return bool User logged in
