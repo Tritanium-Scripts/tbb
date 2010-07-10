@@ -9,7 +9,7 @@
   <th class="thsmall"><span class="thsmall">{$modules.Language->getString('moderators')}</span></th>
  </tr>
 {if $modules.Config->getCfgVal('news_position') == 2}{include file='News.tpl'}{/if}
-{foreach from=$cats item=curCat}
+{foreach $cats as $curCat}
 {* 0:id - 1:name *}
 {if $modules.Config->getCfgVal('show_kats')} <tr><td class="kat" colspan="6"><span class="kat">{$curCat[1]}</span></td></tr>{/if}
 {foreach from=$forums item=curForum name=forums}
@@ -34,19 +34,20 @@
 </table>
 
 {if $modules.Config->getCfgVal('wio') == 1}
-{assign var="guests" value=$modules.WhoIsOnline->getGuests()}
+{* 0:guests - 1:members *}
 <br />
 <!-- WIO -->
 <table class="tbl" cellpadding="{$modules.Config->getCfgVal('tpadding')}" cellspacing="{$modules.Config->getCfgVal('tspacing')}" style="width:{$modules.Config->getCfgVal('twidth')}; margin:auto;">
  <tr><th class="thnorm"><span class="thnorm">{$modules.Language->getString('who_is_online')}</span></th></tr>
  <tr><td class="td1"><span class="small">{$modules.Config->getCfgVal('wio_timeout')|string_format:$modules.Language->getString('in_last_x_min_were_active')}<br />
-{foreach $modules.WhoIsOnline->getMembers() as $curMember}{$curMember}, {foreachelse}{$modules.Language->getString('no_members')}{/foreach}<br />
-{if $guests == 0}{$modules.Language->getString('no_guests')}{elseif $guests == 1}{$modules.Language->getString('one_guest')}{else}{$guests|string_format:$modules.Language->getString('x_guests')}{/if}</td></tr>
+{if empty($wioUser[1])}{$modules.Language->getString('no_members')}{else}{', '|implode:$wioUser[1]}{/if}<br />
+{if $wioUser[0] == 0}{$modules.Language->getString('no_guests')}{elseif $wioUser[0] == 1}{$modules.Language->getString('one_guest')}{else}{$wioUser[0]|string_format:$modules.Language->getString('x_guests')}{/if}</td></tr>
 </table>
 {/if}
 
 {if $modules.Config->getCfgVal('show_board_stats') == 1}
 <br />
+<!-- BoardStatistics -->
 <table class="tbl" cellpadding="{$modules.Config->getCfgVal('tpadding')}" cellspacing="{$modules.Config->getCfgVal('tspacing')}" style="width:{$modules.Config->getCfgVal('twidth')}; margin:auto;">
  <tr><th class="thnorm"><span class="thnorm">{$modules.Language->getString('board_statistics')}</span></th></tr>
  <tr><td class="td1"><span class="small">{$modules.Language->getString('registered_members')} {$memberCounter}<br />{$modules.Language->getString('newest_member')} {$newestMember}<br />{$modules.Language->getString('total_amount_of_topics_posts')} {$topicCounter}/{$postCounter}</span></td></tr>
@@ -55,8 +56,9 @@
 
 {if $modules.Config->getCfgVal('show_lposts') == 1}
 <br />
+<!-- NewestPosts -->
 <table class="tbl" cellpadding="{$modules.Config->getCfgVal('tpadding')}" cellspacing="{$modules.Config->getCfgVal('tspacing')}" style="width:{$modules.Config->getCfgVal('twidth')}; margin:auto;">
  <tr><th class="thnorm"><span class="thnorm">{$modules.Language->getString('newest_posts')}</span></th></tr>
- <tr><td class="td1"><span class="small">{foreach $newestPosts as $curNewestPost}{$curNewestPost}<br />{foreachelse}{$modules.Language->getString('no_newest_posts')}{/foreach}</span></td></tr>
+ <tr><td class="td1"><span class="small">{if !empty($newestPosts)}{'<br />'|implode:$newestPosts}{else}{$modules.Language->getString('no_newest_posts')}{/if}</span></td></tr>
 </table>
 {/if}

@@ -158,7 +158,7 @@ class Config// extends Module
 	 */
 	function __construct()
 	{
-		$this->cfgValues = array_combine(self::$cfgKeys, file_exists(self::$cfgFile) ? Functions::file(self::$cfgFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) : self::$cfgDefaults);
+		$this->cfgValues = array_combine(self::$cfgKeys, Functions::file_exists(self::$cfgFile) ? Functions::file(self::$cfgFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) : self::$cfgDefaults);
 	}
 
 	/**

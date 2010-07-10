@@ -34,14 +34,14 @@ class Template
 	{
 		$this->smarty = new Smarty;
 		$this->smarty->setErrorReporting(E_ALL);
-		$this->smarty->setCacheDir('cache');
-		$this->smarty->setCompileDir('cache');
+		$this->smarty->setCacheDir('cache/');
+		$this->smarty->setCompileDir('cache/');
 		$this->tplDir = 'templates/' . Main::getModule('Config')->getCfgVal('default_tpl') . '/';
-		$this->smarty->setTemplateDir($this->tplDir . 'templates');
+		$this->smarty->setTemplateDir($this->tplDir . 'templates/');
 		#$this->smarty->setConfigDir($this->tplDir . 'config');
 		$this->smarty->setCompileId($this->tplDir);
-		#$this->smarty->setCaching(Main::getModule('Config')->getCfgVal('use_file_caching') == 1);
 		$this->smarty->assignByRef('modules', Main::getModules());
+		$this->smarty->assignByRef('smartyTime', $this->smarty->start_time);
 	}
 
 	/**
@@ -145,8 +145,7 @@ class Template
 	{
 		$this->display('PageTail', array('creationTime' => microtime(true)-SCRIPTSTART,
 			'processedFiles' => Functions::getFileCounter(),
-			'memoryUsage' => memory_get_usage()/1024/*,
-			'smartyTime' => $this->smarty->getStartTime()*/));
+			'memoryUsage' => memory_get_usage()/1024));
 	}
 }
 ?>

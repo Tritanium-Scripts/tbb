@@ -29,7 +29,7 @@ class Logger
 	function __construct()
 	{
 		$this->logFile = 'logs/' . gmdate('dmY') . '.log';
-		$this->logLevels = explode(',', Main::getModule('Config')->getCfgVal('log_options'));
+		$this->logLevels = Functions::explodeByComma(Main::getModule('Config')->getCfgVal('log_options'));
 	}
 
 	/**

@@ -50,6 +50,14 @@ class Functions extends FunctionsBasic
 	}
 
 	/**
+	 * PHP's {@link strtolower()}.
+	 */
+	public static function strtolower($str)
+	{
+		return strtolower($str);
+	}
+
+	/**
 	 * PHP's {@link strtoupper()}.
 	 */
 	public static function strtoupper($string)

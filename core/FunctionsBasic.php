@@ -26,7 +26,7 @@ class FunctionsBasic
 	{
 		foreach(self::file('vars/ip.var') as $curIP)
 		{
-			$curIP = explode("\t", $curIP);
+			$curIP = self::explodeByTab($curIP);
 			if($curIP[0] == $_SERVER['REMOTE_ADDR'] && $curIP[2] == $forumID && ($curIP[1] > time() || $curIP[1] == '-1'))
 				return (int) $curIP[1];
 		}
@@ -56,7 +56,7 @@ class FunctionsBasic
 		//...and check with special ones
 		foreach(self::file('foren/' . $forum[0] . '-rights.xbb') as $curSpecialPerm)
 		{
-			$curSpecialPerm = explode("\t", $curSpecialPerm);
+			$curSpecialPerm = self::explodeByTab($curSpecialPerm);
 			if($curSpecialPerm[1] == '1' && $curSpecialPerm[2] == Main::getModule('Auth')->getUserID() || ($curSpecialPerm[1] == '2' && Main::getModule('Auth')->getGroupID() == $curSpecialPerm[2]))
 			{
 				if(($canAccess && $curSpecialPerm[$what+3] != '1') || (!$canAccess && $curSpecialPerm[$what+3] == '1'))
@@ -77,7 +77,7 @@ class FunctionsBasic
 	{
 		foreach(self::file('vars/cwords.var') as $curWord)
 		{
-			$curWord = explode("\t", $curWord);
+			$curWord = self::explodeByTab($curWord);
 			$string = Functions::str_ireplace($curWord[1], $curWord[2], $string);
 		}
 		return $string;
@@ -95,16 +95,26 @@ class FunctionsBasic
 		if(is_numeric($forum))
 			$forum = self::getForumData($forum);
 		//Check moderator permissions
-		return in_array(Main::getModule('Auth')->getUserID(), explode(',', $forum[11]));
+		return in_array(Main::getModule('Auth')->getUserID(), self::explodeByComma($forum[11]));
+	}
+
+	public static function explodeByComma($string)
+	{
+		return explode(',', $string);
+	}
+
+	public static function explodeByTab($string)
+	{
+		return explode("\t", $string);
 	}
 
 	/**
 	 * Extending PHP's {@link file()} with file counting, trim and global data path.
 	 */
-	public static function file($filename, $flags=null, $context=null)
+	public static function file($filename, $flags=null)
 	{
 		self::$fileCounter++;
-		return array_map('trim', file(DATAPATH . $filename, $flags, $context));
+		return array_map('trim', file(DATAPATH . $filename, $flags));
 	}
 
 	/**
@@ -118,19 +128,19 @@ class FunctionsBasic
 	/**
 	 * Extending PHP's {@link file_get_contents()} with file counting and global data path.
 	 */
-	public static function file_get_contents($filename, $flags=null, $context=null, $offset=null, $maxlen=null)
+	public static function file_get_contents($filename)
 	{
 		self::$fileCounter++;
-		return file_get_contents(DATAPATH . $filename, $flags, $context, $offset, $maxlen);
+		return file_get_contents(DATAPATH . $filename);
 	}
 
 	/**
 	 * Extending PHP's {@link file_put_contents()} with file counting and global data path.
 	 */
-	public static function file_put_contents($filename, $data, $flags=LOCK_EX, $context=null)
+	public static function file_put_contents($filename, $data, $flags=LOCK_EX)
 	{
 		self::$fileCounter++;
-		return file_put_contents(DATAPATH . $filename, $data, $flags, $context);
+		return file_put_contents(DATAPATH . $filename, $data, $flags);
 	}
 
 	/**
@@ -166,11 +176,11 @@ class FunctionsBasic
 	{
 		foreach(self::file('vars/foren.var') as $curForum)
 		{
-			$curForum = explode("\t", $curForum);
+			$curForum = self::explodeByTab($curForum);
 			if($curForum[0] == $forumID)
 			{
-				$curForum[7] = explode(',', $curForum[7]);
-				$curForum[10] = explode(',', $curForum[10]);
+				$curForum[7] = self::explodeByComma($curForum[7]);
+				$curForum[10] = self::explodeByComma($curForum[10]);
 				return $curForum;
 			}
 		}
@@ -182,14 +192,15 @@ class FunctionsBasic
 	 *
 	 * @param int|string $userID Single or multiple user IDs separated with comma
 	 * @param bool $isValid Performs an additional check if user(s) exists to prevent linking deleted profiles
+	 * @param string $aAttributes Additional attributes for profile link tag, start with space!
 	 * @return string Linked user profile(s) as one string
 	 */
-	public static function getProfileLink($userID, $isValid=false)
+	public static function getProfileLink($userID, $isValid=false, $aAttributes=null)
 	{
 		$userLinks = array();
 		if(!empty($userID))
-			foreach(explode(',', $userID) as $curUserID)
-				$userLinks[] = $isValid && !self::file_exists('members/' . $curUserID . '.xbb') ? Main::getModule('Language')->getString('deleted') : '<a href="' . INDEXFILE . '?faction=profile&amp;profile_id=' . $curUserID . SID_AMPER . '">' . current(Functions::file('members/' . $curUserID . '.xbb')) . '</a>';
+			foreach(self::explodeByComma($userID) as $curUserID)
+				$userLinks[] = $isValid && !self::file_exists('members/' . $curUserID . '.xbb') ? Main::getModule('Language')->getString('deleted') : '<a' . $aAttributes . ' href="' . INDEXFILE . '?faction=profile&amp;profile_id=' . $curUserID . SID_AMPER . '">' . current(Functions::file('members/' . $curUserID . '.xbb')) . '</a>';
 		return implode(', ', $userLinks);
 	}
 
@@ -202,7 +213,7 @@ class FunctionsBasic
 	 */
 	public static function getTopicName($forumID, $topicID)
 	{
-		return !($topic = self::file('foren/' . $forumID . '-' . $topicID . '.xbb')) ? Main::getModule('Language')->getString('deleted_moved') : next(explode("\t", $topic[0]));
+		return !($topic = self::file('foren/' . $forumID . '-' . $topicID . '.xbb')) ? Main::getModule('Language')->getString('deleted_moved') : next(self::explodeByTab($topic[0]));
 	}
 
 	/**
@@ -215,7 +226,7 @@ class FunctionsBasic
 	{
 		foreach(self::file('vars/tsmilies.var') as $curTSmiley)
 		{
-			$curTSmiley = explode("\t", $curTSmiley);
+			$curTSmiley = self::explodeByTab($curTSmiley);
 			if($curTSmiley[0] == $tSmileyID)
 				return $curTSmiley[1];
 		}

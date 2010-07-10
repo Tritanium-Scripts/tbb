@@ -50,6 +50,14 @@ class Functions extends FunctionsBasic
 	}
 
 	/**
+	 * Wraps PHP's {@link strtolower()} to Multibyte's {@link mb_strtolower()}.
+	 */
+	public static function strtolower($str)
+	{
+		return mb_strtolower($str);
+	}
+
+	/**
 	 * Wraps PHP's {@link strtoupper()} to Multibyte's {@link mb_strtoupper()}.
 	 */
 	public static function strtoupper($string)
