@@ -12,10 +12,10 @@
  *   <ol>
  *    <li>Admin</li>
  *    <li>Mod</li>
- *    <li>User</li>
+ *    <li>Member</li>
  *    <li>Banned</li>
  *    <li>Deleted</li>
- *    <li>[SuperMod]</li>
+ *    <li>[Super Mod]</li>
  *   </ol>
  *  </li>
  *  <li>Posts</li>

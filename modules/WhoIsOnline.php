@@ -93,7 +93,7 @@ class WhoIsOnline implements Module
 		$members = array();
 		if($this->enabled)
 			foreach($this->refreshVar() as $curWIOEntry)
-				is_numeric($curWIOEntry[1]) ? ($curWIOEntry[4] != '1' ? $members[] = Functions::getProfileLink($curWIOEntry[1], false, ' class="small"') : $ghosts++) : $guests++;
+				is_numeric($curWIOEntry[1]) ? ($curWIOEntry[4] != '1' ? $members[] = Functions::getProfileLink($curWIOEntry[1], false, ' class="small"', true) : $ghosts++) : $guests++;
 		return array($guests, $ghosts, $members);
 	}
 

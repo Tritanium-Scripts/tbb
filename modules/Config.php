@@ -72,7 +72,12 @@ class Config// extends Module
 		1,
 		//New TBB 1.5 config values
 		'std',
-		0);
+		0,
+		'#FF0000',
+		'#008000',
+		'#000000',
+		'#CC6600',
+		'#0000FF');
 
 	/**
 	 * Name of config file to work with.
@@ -144,7 +149,12 @@ class Config// extends Module
 		'notify_new_replies',
 		//New TBB 1.5 config values
 		'default_tpl',
-		'clickjacking');
+		'clickjacking',
+		'wio_color_admin',
+		'wio_color_mod',
+		'wio_color_user',
+		'wio_color_banned',
+		'wio_color_smod');
 
 	/**
 	 * Loaded configuration values are stored here.

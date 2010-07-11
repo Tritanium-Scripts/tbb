@@ -211,14 +211,46 @@ class FunctionsBasic
 	 * @param int|string $userID Single or multiple user IDs separated with comma
 	 * @param bool $isValid Performs an additional check if user(s) exists to prevent linking deleted profiles
 	 * @param string $aAttributes Additional attributes for profile link tag, start with space!
+	 * @param bool $colorRank Emphasize linked names with corresponding color
 	 * @return string Linked user profile(s) as one string
 	 */
-	public static function getProfileLink($userID, $isValid=false, $aAttributes=null)
+	public static function getProfileLink($userID, $isValid=false, $aAttributes=null, $colorRank=false)
 	{
 		$userLinks = array();
 		if(!empty($userID))
 			foreach(self::explodeByComma($userID) as $curUserID)
-				$userLinks[] = $isValid && !self::file_exists('members/' . $curUserID . '.xbb') ? Main::getModule('Language')->getString('deleted') : '<a' . $aAttributes . ' href="' . INDEXFILE . '?faction=profile&amp;profile_id=' . $curUserID . SID_AMPER . '">' . current(Functions::file('members/' . $curUserID . '.xbb')) . '</a>';
+			{
+				$curUser = Functions::file('members/' . $curUserID . '.xbb');
+				$curColor = '';
+				if($colorRank)
+				{
+					switch($curUser[4])
+					{
+						case '1':
+						$curColor = Main::getModule('Config')->getCfgVal('wio_color_admin');
+						break;
+
+						case '2':
+						$curColor = Main::getModule('Config')->getCfgVal('wio_color_mod');
+						break;
+
+						case '3':
+						$curColor = Main::getModule('Config')->getCfgVal('wio_color_member');
+						break;
+
+						case '4':
+						$curColor = Main::getModule('Config')->getCfgVal('wio_color_banned');
+						break;
+
+						case '6':
+						$curColor = Main::getModule('Config')->getCfgVal('wio_color_smod');
+						break;
+					}
+					if(!empty($curColor))
+						$curColor = sprintf(' style="color:%s";', $curColor);
+				}
+				$userLinks[] = $isValid && !self::file_exists('members/' . $curUserID . '.xbb') ? Main::getModule('Language')->getString('deleted') : '<a' . $aAttributes . ' href="' . INDEXFILE . '?faction=profile&amp;profile_id=' . $curUserID . SID_AMPER . '"' . $curColor . '>' . $curUser[0] . '</a>';
+			}
 		return implode(', ', $userLinks);
 	}
 

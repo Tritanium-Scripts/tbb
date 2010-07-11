@@ -5,7 +5,7 @@ Last changed: 2010 (Version 1.5 Alpha)
 
 2010: Version 1.5 Alpha (offiziell)
 	-Alle Features des TBB 1.2.3 übernommen
-	-Komplett neuer technischer Unterbau für PHP 5.1 (=Mindestvoraussetzung) oder höher
+	-Komplett neuer technischer Unterbau für PHP 5.1 (= Mindestvoraussetzung) oder höher
 	-Komplett valides XHTML 1.0 transitional
 	-PHP 6 kompatibel
 	-Design als Template ausgelagert mit Smarty 3.0 als Engine
@@ -30,6 +30,10 @@ Last changed: 2010 (Version 1.5 Alpha)
 	-WIO mit mehr Details zu Position und Zeit des letzten Klicks
 	-Anzeige von Geistern in WIO für Admins
 	-Anzahl von Geistern in WIO-Box in der Forenübersicht
+	-Zähler von Themen und Beiträgen neu berechnen lassen im ACP
+	-Farbige Hervorhebung von Admins, (S-)Mods, Nutzer und Verbannten in WIO-Box
+	-Credits nicht mehr IE-only
+	-WWO-Box unter der WIO-Box
 
 Written by Chrissyx
 (c) 2010 Tritanium Scripts
