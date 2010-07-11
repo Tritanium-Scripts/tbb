@@ -5,6 +5,9 @@
  * WIO var file structure:
  * 0:timestamp - 1:user/guestSpecialID - 2:location - 3:? - [ - 4:isGhost]
  *
+ * WWO var file structure:
+ * 0:todaysDate - 1:0:recordMember - 1:1:recordDate[ - 2:guestCounter - 3:members]
+ *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
  * @copyright Copyright (c) 2010 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
@@ -27,12 +30,47 @@ class WhoIsOnline implements Module
 	private $timeout;
 
 	/**
-	 * Sets config values.
+	 * Contents of WWO var file.
+	 *
+	 * @var array WWO data
+	 */
+	private $wwoFile;
+
+	/**
+	 * Sets config values and prepares WWO data.
 	 */
 	public function __construct()
 	{
 		$this->enabled = Main::getModule('Config')->getCfgVal('wio') == 1;
 		$this->timeout = Main::getModule('Config')->getCfgVal('wio_timeout')*60;
+		if(!$this->enabled)
+			return;
+		//Check WWO file
+		$this->wwoFile = file_exists('vars/today.var') ? explode("\n", Functions::file_get_contents('vars/today.var')) : array('', "0\t" . date('dmYHis'));
+		$update = false;
+		if($this->wwoFile[0] != date('dmY'))
+		{
+			//Reset WWO statistics for new day
+			$this->wwoFile = array(date('dmY'), $this->wwoFile[1], 0, '');
+			$update = true;
+		}
+		if(!Main::getModule('Auth')->isConnected() && !Main::getModule('Auth')->isLoggedIn())
+		{
+			$this->wwoFile[2]++;
+			$update = true;
+		}
+		elseif(Main::getModule('Auth')->isLoggedIn() && !in_array(Main::getModule('Auth')->getUserID . '#' . Main::getModule('Auth')->isGhost(), Functions::explodeByComma($this->wwoFile[3])))
+		{
+			//Add member with ghost state
+			$this->wwoFile[3] .= ',' . Main::getModule('Auth')->getUserID . '#' . Main::getModule('Auth')->isGhost();
+			$record = Functions::explodeByTab($this->wwoFile[1]);
+			//Check record
+			if($record[0] < ($size = count(Functions::explodeByComma($this->wwoFile[3]))))
+				$this->wwoFile[1] = $size . "\t" . date('dmYHis');
+			$update = true;
+		}
+		if($update)
+			Functions::file_put_contents('vars/today.var', implode("\n", $this->wwoFile));
 	}
 
 	/**
@@ -83,11 +121,23 @@ class WhoIsOnline implements Module
 	}
 
 	/**
+	 * Returns most active members with date.
+	 *
+	 * @return array Members / date couple
+	 */
+	public function getRecord()
+	{
+		$record = Functions::explodeByTab($this->wwoFile[1]);
+		$record[1] = Functions::formatDate(Functions::substr($record[1], 4, 4) . Functions::substr($record[1], 2, 2) . Functions::substr($record[1], 0, 2) . Functions::substr($record[1], 8));
+		return $record;
+	}
+
+	/**
 	 * Returns current active members and amount of guests and ghosts.
 	 *
-	 * @return array Guests / ghosts / members triple
+	 * @return array Guests / ghosts / memberProfiles triple
 	 */
-	public function getUser()
+	public function getUserWIO()
 	{
 		$guests = $ghosts = 0;
 		$members = array();
@@ -95,6 +145,31 @@ class WhoIsOnline implements Module
 			foreach($this->refreshVar() as $curWIOEntry)
 				is_numeric($curWIOEntry[1]) ? ($curWIOEntry[4] != '1' ? $members[] = Functions::getProfileLink($curWIOEntry[1], false, ' class="small"', true) : $ghosts++) : $guests++;
 		return array($guests, $ghosts, $members);
+	}
+
+	/**
+	 * Returns todays active members and amount of guests and ghosts.
+	 *
+	 * @return array Guests / ghosts / members / memberProfiles-isGhost-couple quadruple
+	 */
+	public function getUserWWO()
+	{
+		$ghosts = 0;
+		$members = array();
+		if($this->enabled && !empty($this->wwoFile[3]))
+			foreach(Functions::explodeByComma($this->wwoFile[3]) as $curWWOEntry)
+			{
+				$curWWOEntry = explode('#', $curWWOEntry);
+				if(!empty($curWWOEntry[1]))
+				{
+					$ghosts++;
+					if(Main::getModule('Auth')->isAdmin())
+						$members[] = array(Functions::getProfileLink($curWWOEntry[0]), true);
+				}
+				else
+					$members[] = array(Functions::getProfileLink($curWWOEntry[0]), false);
+			}
+		return array($this->wwoFile[2], $ghosts, count($members), $members);
 	}
 
 	/**

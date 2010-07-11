@@ -107,6 +107,8 @@ class Main implements Module
 		//Revert quoted strings on GPC vars, if needed
 		if(ini_get('magic_quotes_gpc') == '1')
 			list($_GET, $_POST, $_COOKIE) = Functions::stripSlashesDeep(array($_GET, $_POST, $_COOKIE));
+		//Qick 'n' dirty fix to set "proper" timezone
+		@date_default_timezone_set(date_default_timezone_get());
 	}
 
 	/**
@@ -115,7 +117,7 @@ class Main implements Module
 	public function execute()
 	{
 		//Set locale for dates and number formats
-		setlocale(LC_ALL, str_replace('-', '_', self::getModule('Language')->getLangCode()));
+		setlocale(LC_ALL, Functions::explodeByComma(self::getModule('Language')->getString('locale', 'Main')));
 		//Check available disk space
 		if(self::getModule('Config')->getCfgVal('use_diskfreespace') == 1 && (($fds = round(disk_free_space('.')/1024)) <= self::getModule('Config')->getCfgVal('warn_admin_fds')*1024))
 		{
@@ -165,10 +167,7 @@ class Main implements Module
 		}
 		//Log connected state of user
 		if(!self::getModule('Auth')->isConnected())
-		{
 			self::getModule('Logger')->log('User connected', LOG_USER_CONNECT);
-			self::getModule('Auth')->setConnected();
-		}
 		//Set root of NavBar
 		Main::getModule('NavBar')->addElement(Main::getModule('Config')->getCfgVal('forum_name'), INDEXFILE . SID_QMARK);
 		//Check maintenance mode
@@ -182,8 +181,7 @@ class Main implements Module
 		//Check force login
 		if(self::getModule('Config')->getCfgVal('must_be_logged_in') == 1 && !self::getModule('Auth')->isLoggedIn() && !in_array(self::$actionTable[$this->action], array('Register', 'Login', 'Help')))
 			self::getModule('Template')->printMessage('members_only', INDEXFILE . '?faction=register' . SID_AMPER, INDEXFILE . '?faction=login' . SID_AMPER);
-		//Autoload common and translation of module
-		self::getModule('Language')->parseFile('Main');
+		//Autoload translation of module
 		self::getModule('Language')->parseFile(self::$actionTable[$this->action]);
 		//Execute module
 		self::getModule(self::$actionTable[$this->action])->execute();

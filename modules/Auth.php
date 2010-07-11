@@ -40,6 +40,13 @@
 class Auth
 {
 	/**
+	 * User connected first time to board.
+	 *
+	 * @var bool Connection state
+	 */
+	private $connected = false;
+
+	/**
 	 * Login state of current user.
 	 *
 	 * @var bool Login state
@@ -81,8 +88,12 @@ class Auth
 				$this->userData = $cUserData;
 			}
 		}
-		//Set special ID for WIO
-		$this->wioID = $this->loggedIn ? $this->getUserID() : (isset($_SESSION['session_upbwio']) ? $_SESSION['session_upbwio'] : ($_SESSION['session_upbwio'] = 'guest' . mt_rand(10000, 99999)));
+		//Set connection state and special ID for WIO
+		if(!isset($_SESSION['session_upbwio']))
+			$_SESSION['session_upbwio'] = 'guest' . mt_rand(10000, 99999);
+		else
+			$this->connected = true;
+		$this->wioID = $this->loggedIn ? $this->getUserID() : $_SESSION['session_upbwio'];
 	}
 
 	/**
@@ -132,7 +143,7 @@ class Auth
 	 */
 	public function isConnected()
 	{
-		return isset($_SESSION['connected']);
+		return $this->connected;
 	}
 
 	/**
@@ -173,14 +184,6 @@ class Auth
 	public function isSuperMod()
 	{
 		return $this->userData[4] == '6';
-	}
-
-	/**
-	 * Sets user has connected to board.
-	 */
-	public function setConnected()
-	{
-		$_SESSION['connected'] = true;
 	}
 }
 ?>

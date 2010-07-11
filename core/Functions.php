@@ -70,7 +70,7 @@ class Functions extends FunctionsBasic
 	 */
 	public static function substr($string, $start, $length=null)
 	{
-		return substr($string, $start, $length);
+		return isset($length) ? substr($string, $start, $length) : substr($string, $start);
 	}
 }
 ?>

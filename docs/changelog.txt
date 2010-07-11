@@ -28,12 +28,13 @@ Last changed: 2010 (Version 1.5 Alpha)
 	-Optionaler ClickJacking Schutz
 	-Speichernutzung in technischen Statistiken
 	-WIO mit mehr Details zu Position und Zeit des letzten Klicks
-	-Anzeige von Geistern in WIO für Admins
+	-Anzeige von Geistern in WIO und WWO für Admins
 	-Anzahl von Geistern in WIO-Box in der Forenübersicht
 	-Zähler von Themen und Beiträgen neu berechnen lassen im ACP
 	-Farbige Hervorhebung von Admins, (S-)Mods, Nutzer und Verbannten in WIO-Box
 	-Credits nicht mehr IE-only
-	-WWO-Box unter der WIO-Box
+	-WWO-Box mit Rekordanzeige unter der WIO-Box
+	-Datum von letzten Beiträgen als fett bei bestimmten Alter
 
 Written by Chrissyx
 (c) 2010 Tritanium Scripts

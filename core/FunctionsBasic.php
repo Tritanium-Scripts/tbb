@@ -125,14 +125,17 @@ class FunctionsBasic
 	}
 
 	/**
-	 * Extending PHP's {@link file()} with file counting, light trimming and global data path.
+	 * Extending PHP's {@link file()} with file counting, custom trimming and global data path.
+	 *
+	 * @param string $filename Name of file
+	 * @param int $flags Optional constants
+	 * @param string $trimCharList Characters to trim from each entry (default: all except \t)
 	 */
-	public static function file($filename, $flags=null)
+	public static function file($filename, $flags=null, $trimCharList=null)
 	{
 		self::$fileCounter++;
-		$trimNoTab = create_function('$entry', 'return trim($entry, " \n\r\0\x0B");');
-		//Trim all except tabulator
-		return array_map($trimNoTab, file(DATAPATH . $filename, $flags));
+		$trimCallback = create_function('$entry', 'return trim($entry, "' . (empty($trimCharList) ? ' \n\r\0\x0B' : $trimCharList) . '");');
+		return array_map($trimCallback, file(DATAPATH . $filename, $flags));
 	}
 
 	/**
@@ -164,7 +167,7 @@ class FunctionsBasic
 	/**
 	 * Returns a formatted date string from proprietary date format.
 	 *
-	 * @param string $date Proprietary date format
+	 * @param string $date Proprietary date format (YYYYMMDDhhmmss)
 	 * @return string Ready-for-use date
 	 */
 	public static function formatDate($date)
@@ -211,7 +214,7 @@ class FunctionsBasic
 	 * @param int|string $userID Single or multiple user IDs separated with comma
 	 * @param bool $isValid Performs an additional check if user(s) exists to prevent linking deleted profiles
 	 * @param string $aAttributes Additional attributes for profile link tag, start with space!
-	 * @param bool $colorRank Emphasize linked names with corresponding color
+	 * @param bool $colorRank Emphasize linked names with corresponding rank color
 	 * @return string Linked user profile(s) as one string
 	 */
 	public static function getProfileLink($userID, $isValid=false, $aAttributes=null, $colorRank=false)
