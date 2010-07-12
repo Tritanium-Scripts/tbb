@@ -85,10 +85,16 @@ class Forum implements Module
 				Main::getModule('Template')->printMessage('forum_' . (Main::getModule('Auth')->isLoggedIn() ? 'no_access' : 'need_login'));
 			$topicFile = array_reverse(Functions::file('foren/' . $this->forumID . '-threads.xbb'));
 			$pages = ceil(($size = count($topicFile)) / Main::getModule('Config')->getCfgVal('topics_per_page'));
-			//Build page navigation bar
 			$pageBar = $topics = array();
+			//Manage sticky topics
+			$stickyFile = Functions::file('foren/' . $this->forumID . '-sticker.xbb', FILE_SKIP_EMPTY_LINES) or array();
+			if(!empty($stickyFile))
+				//Move stickies to top with some 1337 h4x array magic :)
+				$topicFile = array_merge(array_reverse(array_intersect($stickyFile, $topicFile)), array_values(array_diff($topicFile, $stickyFile)));
+			//Build page navigation bar
 			for($i=1; $i<=$pages; $i++)
 				$pageBar[] = $i != $this->page ? '<a href="' . INDEXFILE . '?mode=viewforum&amp;forum_id=' . $this->forumID . '&amp;z=' . $i . SID_AMPER . '">' . $i . '</a>' : $i;
+			//Only add bar by having more than one page
 			Main::getModule('NavBar')->addElement($forum[1] . ($pageBar = count($pageBar) < 2 ? '' : ' ' . sprintf(Main::getModule('Language')->getString('pages'), implode(' ', $pageBar))));
 			//Process topics for current page
 			$end = $this->page*Main::getModule('Config')->getCfgVal('topics_per_page');
@@ -96,7 +102,7 @@ class Forum implements Module
 			{
 				$curLastPost = Functions::explodeByTab(@end($curTopic = Functions::file('foren/' . $this->forumID . '-' . $topicFile[$i] . '.xbb')));
 				$curEnd = ceil(($curSize = count($curTopic)-1) / Main::getModule('Config')->getCfgVal('posts_per_page'));
-				#0:open/close - 1:title - 2:userID - 3:tSmileyID - 4: - 5:timestamp - 6:views - 7:pollID - ...
+				#0:open/close[/moved] - 1:title - 2:userID - 3:tSmileyID - 4:[/movedForumID] - 5:timestamp[/movedTopicID] - 6:views - 7:pollID - ...
 				$curTopic = Functions::explodeByTab($curTopic[0]);
 				//Detect new posts
 				$curCookieID = 'topic.' . $this->forumID . '.' . $topicFile[$i];
@@ -105,17 +111,25 @@ class Forum implements Module
 					case '1':
 					case 'open': //Downward compatibility
 					$curTopicIcon = !isset($_COOKIE[$curCookieID]) || $_COOKIE[$curCookieID] < $curTopic[5] ? ($size <= Main::getModule('Config')->getCfgVal('topic_is_hot') ? 'ontopic' : 'onstopic') : ($size <= Main::getModule('Config')->getCfgVal('topic_is_hot') ? 'onntopic' : 'onnstopic');
+					$isMoved = false;
 					break;
 
 					case '2':
 					case 'close': //Downward compatibility
 					$curTopicIcon = !isset($_COOKIE[$curCookieID]) || $_COOKIE[$curCookieID] < $curTopic[5] ? 'cntopic' : 'cnntopic';
+					$isMoved = false;
+					break;
+
+					case 'm': //Moved topic
+					$curTopicIcon = 'movetopic';
+					$isMoved = true;
 					break;
 				}
 				//Build page navigation bar for current topic
 				$curTopicPageBar = array();
 				for($j=1; $j<=$curEnd; $j++)
 					$curTopicPageBar[] = '<a href="' . INDEXFILE . '?mode=viewforum&amp;forum_id=' . $this->forumID . '&amp;thread=' . $topicFile[$i] . '&amp;z=' . $j . SID_AMPER . '">' . $j . '</a>';
+				//Only show bar by having more than one page
 				$curTopicPageBar = count($curTopicPageBar) < 2 ? '' : ' ' . sprintf(Main::getModule('Language')->getString('pages'), implode(' ', $curTopicPageBar));
 				//Censor title and add to parsed topics
 				if(Main::getModule('Config')->getCfgVal('censored') == 1)
@@ -124,12 +138,22 @@ class Forum implements Module
 					'tSmileyURL' => Functions::getTSmileyURL($curTopic[3]),
 					'isPoll' => !empty($curTopic[7]),
 					'topicID' => $topicFile[$i],
-					'topicTitle' => utf8_encode($curTopic[1]),
+					'topicTitle' => wordwrap($curTopic[1], 80, '<br />', true),
 					'topicPageBar' => $curTopicPageBar,
-					'topicStarter' => utf8_encode(Functions::getProfileLink($curTopic[2], true)),
+					'topicStarter' => Functions::getProfileLink($curTopic[2], true),
+					'isSticky' => in_array($topicFile[$i], $stickyFile),
+					'isMoved' => $isMoved) +
+					//Some values are not set for moved topics, but others needed
+					($isMoved ? array(
+					'postCounter' => '-',
+					'views' => '-',
+					'lastPost' => '-',
+					'movedForumID' => $curTopic[4],
+					'movedTopicID' => $curTopic[5]) : array(
+					//Set needed values for non-moved topic
 					'postCounter' => $curSize-1, #todo: evtl kein minus!!
 					'views' => $curTopic[6],
-					'lastPost' => sprintf(Main::getModule('Language')->getString('last_post_x_from_x'), Functions::formatDate($curLastPost[2]), utf8_encode(Functions::getProfileLink($curLastPost[1], true))));
+					'lastPost' => sprintf(Main::getModule('Language')->getString('last_post_x_from_x'), Functions::formatDate($curLastPost[2]), Functions::getProfileLink($curLastPost[1], true))));
 			}
 			Main::getModule('Template')->assign(array('pageBar' => $pageBar,
 				'topics' => $topics,

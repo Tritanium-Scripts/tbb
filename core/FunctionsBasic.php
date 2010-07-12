@@ -125,7 +125,7 @@ class FunctionsBasic
 	}
 
 	/**
-	 * Extending PHP's {@link file()} with file counting, custom trimming and global data path.
+	 * Extending PHP's {@link file()} with file counting, custom trimming, UTF-8 converting and global data path.
 	 *
 	 * @param string $filename Name of file
 	 * @param int $flags Optional constants
@@ -135,7 +135,7 @@ class FunctionsBasic
 	{
 		self::$fileCounter++;
 		$trimCallback = create_function('$entry', 'return trim($entry, "' . (empty($trimCharList) ? ' \n\r\0\x0B' : $trimCharList) . '");');
-		return array_map($trimCallback, file(DATAPATH . $filename, $flags));
+		return array_map('utf8_encode', array_map($trimCallback, file(DATAPATH . $filename, $flags)));
 	}
 
 	/**
@@ -147,21 +147,21 @@ class FunctionsBasic
 	}
 
 	/**
-	 * Extending PHP's {@link file_get_contents()} with file counting and global data path.
+	 * Extending PHP's {@link file_get_contents()} with file counting, UTF-8 converting and global data path.
 	 */
 	public static function file_get_contents($filename)
 	{
 		self::$fileCounter++;
-		return file_get_contents(DATAPATH . $filename);
+		return utf8_encode(file_get_contents(DATAPATH . $filename));
 	}
 
 	/**
-	 * Extending PHP's {@link file_put_contents()} with file counting and global data path.
+	 * Extending PHP's {@link file_put_contents()} with file counting, UTF-8 converting and global data path.
 	 */
 	public static function file_put_contents($filename, $data, $flags=LOCK_EX)
 	{
 		self::$fileCounter++;
-		return file_put_contents(DATAPATH . $filename, $data, $flags);
+		return utf8_decode(file_put_contents(DATAPATH . $filename, $data, $flags));
 	}
 
 	/**

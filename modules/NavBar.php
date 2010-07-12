@@ -24,7 +24,7 @@ class NavBar
 	*/
 	public function addElement($name, $link=null)
 	{
-		$this->elements[] = array(utf8_encode($name), $link);
+		$this->elements[] = array($name, $link);
 	}
 
 	/**

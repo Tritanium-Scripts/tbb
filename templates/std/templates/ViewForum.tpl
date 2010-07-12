@@ -11,14 +11,14 @@
  <tr>
   <td class="td1" style="text-align:center;"><img src="{$modules.Template->getTplDir()}images/{$curTopic.topicIcon}.gif" alt="" /></td>
   <td class="td2" style="text-align:center;"><img src="{$curTopic.tSmileyURL}" alt="" /></td>
-  <td class="td1"><span class="topiclink">{if $curTopic.isPoll}{$modules.Language->getString('poll')} {/if}<a class="topiclink" href="{$smarty.const.INDEXFILE}?mode=viewthread&amp;forum_id={$forumID}&amp;thread={$curTopic.topicID}{$smarty.const.SID_AMPER}">{$curTopic.topicTitle}</a></span> <span class="small">{$curTopic.topicPageBar}</span></td>
+  <td class="td1"><span class="topiclink">{if $curTopic.isMoved}<b>{$modules.Language->getString('moved')}</b> {/if}{if $curTopic.isSticky}<b>{$modules.Language->getString('sticker')|upper}</b> {/if}{if $curTopic.isPoll}{$modules.Language->getString('poll')} {/if}<a class="topiclink" href="{$smarty.const.INDEXFILE}?mode=viewthread&amp;forum_id={if $curTopic.isMoved}{$curTopic.movedForumID}{else}{$forumID}{/if}&amp;thread={if $curTopic.isMoved}{$curTopic.movedTopicID}{else}{$curTopic.topicID}{/if}{$smarty.const.SID_AMPER}">{$curTopic.topicTitle}</a></span> <span class="small">{$curTopic.topicPageBar}</span></td>
   <td class="td2"><span class="norm">{$curTopic.topicStarter}</span></td>
   <td class="td1" style="text-align:center;"><span class="norm">{$curTopic.postCounter}</span></td>
   <td class="td2" style="text-align:center;"><span class="norm">{$curTopic.views}</span></td>
   <td class="td1" style="text-align:center;"><span class="small">{$curTopic.lastPost}</span></td>
  </tr>
 {foreachelse}
- <tr><td class="td1" colspan="7" style="text-align:center;"><span class="norm"><b>{$modules.Language->getString('no_topics_available')}</b></span></td></tr>
+ <tr><td class="td1" colspan="7" style="font-weight:bold; text-align:center;"><span class="norm">{$modules.Language->getString('no_topics_available')}</span></td></tr>
 {/foreach}
 </table>
 <!-- Toolbar -->
