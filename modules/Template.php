@@ -81,7 +81,7 @@ class Template
 	{
 		if(!empty($tplVar))
 			$this->assign($tplVar, $value);
-		return $this->smarty->fetch($tplName);
+		return $this->smarty->fetch($tplName . '.tpl');
 	}
 
 	/**
@@ -127,17 +127,18 @@ class Template
 	}
 
 	/**
-	 * Prints a full page with provided template file, optional values to assign before and exists program execution.
+	 * Prints a full page with provided template file, optional values to assign before, additional WIO location and exists program execution.
 	 *
 	 * @param string $tplName Name of template file
 	 * @param mixed $tplVar Name of single value or array with name+value pairs
 	 * @param mixed $value Value for single var
+	 * @param string $addToWIOLoc Additional value to append to WIO location
 	 */
-	public function printPage($tplName, $tplVar=null, $value=null)
+	public function printPage($tplName, $tplVar=null, $value=null, $addToWIOLoc=null)
 	{
 		if(!empty($tplVar))
 			$this->assign($tplVar, $value);
-		Main::getModule('WhoIsOnline')->setLocation($tplName);
+		Main::getModule('WhoIsOnline')->setLocation($tplName . $addToWIOLoc);
 		$this->printHeader();
 		$this->display($tplName);
 		exit($this->printTail());

@@ -45,7 +45,7 @@ class FunctionsBasic
 		//Provide proper forum data and permissions
 		if(is_numeric($forum))
 			$forum = self::getForumData($forum);
-		$perms = Functions::explodeByComma($forum[10]);
+		$perms = is_array($forum[10]) ? $forum[10] : Functions::explodeByComma($forum[10]);
 		//Check guests
 		if(!Main::getModule('Auth')->isLoggedIn())
 			return $perms[6] == '1';
@@ -174,7 +174,9 @@ class FunctionsBasic
 	{
 		$gmtOffset = Main::getModule('Config')->getCfgVal('gmt_offset');
 		$offset = Functions::substr($gmtOffset, 1, 2)*3600 + Functions::substr($gmtOffset, 3, 2)*60;
-		return gmstrftime(Main::getModule('Language')->getString('DATEFORMAT'), mktime(substr($date, 8, 2), substr($date, 10, 2), 0, substr($date, 4, 2), substr($date, 6, 2), substr($date, 0, 4)) + ($gmtOffset[0] == '-' ? $offset*-1 : $offset) + date('Z'));
+		$timestamp = mktime(substr($date, 8, 2), substr($date, 10, 2), 0, substr($date, 4, 2), substr($date, 6, 2), substr($date, 0, 4)) + ($gmtOffset[0] == '-' ? $offset*-1 : $offset) + date('Z');
+		//Encode as UTF-8, because month names lacks proper encoding
+		return sprintf((time()-$timestamp) < Main::getModule('Config')->getCfgVal('emph_date_hours')*3600 ? '<b>%s</b>' : '%s', utf8_encode(gmstrftime(Main::getModule('Language')->getString('DATEFORMAT'), $timestamp)));
 	}
 
 	/**

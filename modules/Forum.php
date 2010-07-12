@@ -31,6 +31,13 @@ class Forum implements Module
 	private static $modeTable = array('' => 'ForumIndex', 'viewforum' => 'ViewForum', 'viewthread' => 'ViewTopic');
 
 	/**
+	 * Page of queried topic.
+	 *
+	 * @var int Page number
+	 */
+	private $page;
+
+	/**
 	 * ID of queried topic.
 	 *
 	 * @var int Topic ID
@@ -38,13 +45,14 @@ class Forum implements Module
 	private $topicID;
 
 	/**
-	 * Detects IDs and sets mode.
+	 * Detects IDs, page and sets mode.
 	 */
 	function __construct()
 	{
-		$this->forumID = isset($_GET['forum_id']) ? intval($_GET['forum_id']) : -1;
 		$this->mode = isset($_GET['mode']) && in_array($_GET['mode'], array('viewforum', 'viewthread')) ? $_GET['mode'] : '';
+		$this->forumID = isset($_GET['forum_id']) ? intval($_GET['forum_id']) : -1;
 		$this->topicID = isset($_GET['thread']) ? intval($_GET['thread']) : -1;
+		$this->page = isset($_GET['z']) ? intval($_GET['z']) : 1;
 	}
 
 	/**
@@ -71,21 +79,75 @@ class Forum implements Module
 			//Manage cookies
 			setcookie('upbwhere', INDEXFILE . '?mode=viewforum&forum_id=' . $this->forumID); //Redir cookie after login
 			setcookie('forum.' . $this->forumID, time(), time()+60*60*24*365, Main::getModule('Config')->getCfgVal('path_to_forum')); //Cookie to detect last visit
+			//Process forum and its topics
+			$forum = Functions::getForumData($this->forumID) or Main::getModule('Template')->printMessage('forum_not_found');
+			if(!Functions::checkUserAccess($forum, 0))
+				Main::getModule('Template')->printMessage('forum_' . (Main::getModule('Auth')->isLoggedIn() ? 'no_access' : 'need_login'));
+			$topicFile = array_reverse(Functions::file('foren/' . $this->forumID . '-threads.xbb'));
+			$pages = ceil(($size = count($topicFile)) / Main::getModule('Config')->getCfgVal('topics_per_page'));
+			//Build page navigation bar
+			$pageBar = $topics = array();
+			for($i=1; $i<=$pages; $i++)
+				$pageBar[] = $i != $this->page ? '<a href="' . INDEXFILE . '?mode=viewforum&amp;forum_id=' . $this->forumID . '&amp;z=' . $i . SID_AMPER . '">' . $i . '</a>' : $i;
+			Main::getModule('NavBar')->addElement($forum[1] . ($pageBar = count($pageBar) < 2 ? '' : ' ' . sprintf(Main::getModule('Language')->getString('pages'), implode(' ', $pageBar))));
+			//Process topics for current page
+			$end = $this->page*Main::getModule('Config')->getCfgVal('topics_per_page');
+			for($i=$end-Main::getModule('Config')->getCfgVal('topics_per_page'); $i<($end > $size ? $size : $end); $i++)
+			{
+				$curLastPost = Functions::explodeByTab(@end($curTopic = Functions::file('foren/' . $this->forumID . '-' . $topicFile[$i] . '.xbb')));
+				$curEnd = ceil(($curSize = count($curTopic)-1) / Main::getModule('Config')->getCfgVal('posts_per_page'));
+				#0:open/close - 1:title - 2:userID - 3:tSmileyID - 4: - 5:timestamp - 6:views - 7:pollID - ...
+				$curTopic = Functions::explodeByTab($curTopic[0]);
+				//Detect new posts
+				$curCookieID = 'topic.' . $this->forumID . '.' . $topicFile[$i];
+				switch($curTopic[0])
+				{
+					case '1':
+					case 'open': //Downward compatibility
+					$curTopicIcon = !isset($_COOKIE[$curCookieID]) || $_COOKIE[$curCookieID] < $curTopic[5] ? ($size <= Main::getModule('Config')->getCfgVal('topic_is_hot') ? 'ontopic' : 'onstopic') : ($size <= Main::getModule('Config')->getCfgVal('topic_is_hot') ? 'onntopic' : 'onnstopic');
+					break;
+
+					case '2':
+					case 'close': //Downward compatibility
+					$curTopicIcon = !isset($_COOKIE[$curCookieID]) || $_COOKIE[$curCookieID] < $curTopic[5] ? 'cntopic' : 'cnntopic';
+					break;
+				}
+				//Build page navigation bar for current topic
+				$curTopicPageBar = array();
+				for($j=1; $j<=$curEnd; $j++)
+					$curTopicPageBar[] = '<a href="' . INDEXFILE . '?mode=viewforum&amp;forum_id=' . $this->forumID . '&amp;thread=' . $topicFile[$i] . '&amp;z=' . $j . SID_AMPER . '">' . $j . '</a>';
+				$curTopicPageBar = count($curTopicPageBar) < 2 ? '' : ' ' . sprintf(Main::getModule('Language')->getString('pages'), implode(' ', $curTopicPageBar));
+				//Censor title and add to parsed topics
+				if(Main::getModule('Config')->getCfgVal('censored') == 1)
+					$curTopic[1] = Functions::censor($curTopic[1]);
+				$topics[] = array('topicIcon' => $curTopicIcon,
+					'tSmileyURL' => Functions::getTSmileyURL($curTopic[3]),
+					'isPoll' => !empty($curTopic[7]),
+					'topicID' => $topicFile[$i],
+					'topicTitle' => utf8_encode($curTopic[1]),
+					'topicPageBar' => $curTopicPageBar,
+					'topicStarter' => utf8_encode(Functions::getProfileLink($curTopic[2], true)),
+					'postCounter' => $curSize-1, #todo: evtl kein minus!!
+					'views' => $curTopic[6],
+					'lastPost' => sprintf(Main::getModule('Language')->getString('last_post_x_from_x'), Functions::formatDate($curLastPost[2]), utf8_encode(Functions::getProfileLink($curLastPost[1], true))));
+			}
+			Main::getModule('Template')->assign(array('pageBar' => $pageBar,
+				'topics' => $topics,
+				'forumID' => $this->forumID));
 			break;
 
 			case 'viewthread':
 			//Manage cookies
 			setcookie('upbwhere', INDEXFILE . '?mode=viewforum&forum_id=' . $this->forumID . '&thread=' . $this->topicID);
 			setcookie('forum.' . $this->forumID . '.' . $this->topicID, time(), time()+60*60*24*365, Main::getModule('Config')->getCfgVal('path_to_forum'));
-
 			//lol?
-			$tempVar = 'session.tview.' . $this->forumID . '.' . $this->topicID;
-			if($$tempVar != 1)
+			if(!isset($_SESSION['session.tview.' . $this->forumID . '.' . $this->topicID]))
 			{
-				$$tempVar = 1;
 				#increase_topic_views
-				$_SESSION[$tempVar] = $$tempVar;
+				$_SESSION['session.tview.' . $this->forumID . '.' . $this->topicID] = 1;
 			}
+			//Process topic and its posts
+			
 			break;
 
 			default:
@@ -122,7 +184,7 @@ class Forum implements Module
 					else
 					{
 						//Prepare topic title of current last posting
-						$curTopicTitle = next(Functions::explodeByTab(current(Functions::file($curTopicFile))));
+						$curTopicTitle = @next(Functions::explodeByTab(current(Functions::file($curTopicFile))));
 						if(Main::getModule('Config')->getCfgVal('censored') == 1)
 							$curTopicTitle = Functions::censor($curTopicTitle);
 						//Query template for formatting current last posting
@@ -169,7 +231,8 @@ class Forum implements Module
 				'memberCounter' => Functions::file_get_contents('vars/member_counter.var')) : array()));
 			break;
 		}
-		Main::getModule('Template')->printPage(self::$modeTable[$this->mode]);
+		//Always append IDs to WIO location. WIO will not parse them in inapplicable mode.
+		Main::getModule('Template')->printPage(self::$modeTable[$this->mode], null, null, ',' . $this->forumID . ',' . $this->topicID);
 	}
 }
 ?>

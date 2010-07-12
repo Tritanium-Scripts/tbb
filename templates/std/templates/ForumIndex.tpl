@@ -19,8 +19,8 @@
   <td class="td1"><img src="{$modules.Template->getTplDir()}images/{if !$curForum[6]}no_{/if}new_post.gif" alt="" /></td>
   <td class="td2"><span class="forumlink"><a class="forumlink" href="{$smarty.const.INDEXFILE}?mode=viewforum&amp;forum_id={$curForum[0]}{$smarty.const.SID_AMPER}">{$curForum[1]}</a></span><br /><span class="small">{$curForum[2]}</span></td>
   <td class="td1" style="text-align:center;"><span class="norm">{$curForum[3]}</span></td>
-  <td class="td1" style="text-align:center;"><span class="norm">{$curForum[4]}</span></td>
-  <td class="td1" style="text-align:center;"><span class="small">{$curForum[7]}</span></td>
+  <td class="td2" style="text-align:center;"><span class="norm">{$curForum[4]}</span></td>
+  <td class="td1 small" style="text-align:center;">{$curForum[7]}</td>
   <td class="td2" style="text-align:center;"><span class="small">{$curForum[8]}</span></td>
  </tr>
 <?php unset($forums[$smarty.foreach.forums.index]); ?>

@@ -157,7 +157,7 @@ class Main implements Module
 		{
 			//URL-based
 			define('SID_QMARK', '?sid=' . session_id());
-			define('SID_AMPER', '&sid=' . session_id());
+			define('SID_AMPER', '&amp;sid=' . session_id());
 		}
 		else
 		{

@@ -35,6 +35,8 @@ Last changed: 2010 (Version 1.5 Alpha)
 	-Credits nicht mehr IE-only
 	-WWO-Box mit Rekordanzeige unter der WIO-Box
 	-Datum von letzten Beiträgen als fett bei bestimmten Alter
+	-Keine Cookie-Probleme mehr unter PHP5
+	-SID-Parameter in URL optional
 
 Written by Chrissyx
 (c) 2010 Tritanium Scripts
