@@ -41,13 +41,13 @@
    <span class="small">{$curPost.userState}<br />
    {if !empty($curPost.userGroup)}{$curPost.userGroup}<br />{/if}{$curPost.userRank}<br />
    {$curPost.userID|string_format:$modules.Language->getString('id_x')}<br /><br />
-   <img src="{$curPost.userAvatar}" alt="" style="height:64px; width;64px;" />{if !empty($curPost.userICQ)}<br /><br />
-   <a href="http://www.icq.com/people/about_me.php?uin={$curPost.userICQ}" target="_blank"><img src="http://status.icq.com/online.gif?icq={$curPost.userICQ}&amp;img=5" alt="" style="vertical-align:middle;" /> {$curPost.userICQ}</a>{/if}</span>
+   {$curPost.userAvatar}{if !empty($curPost.userICQ)}<br /><br />
+   <a href="http://www.icq.com/people/about_me.php?uin={$curPost.userICQ}" target="_blank"><img src="http://status.icq.com/online.gif?icq={$curPost.userICQ}&amp;img=5" alt="" style="vertical-align:middle;" /> {$curPost.userICQ|wordwrap:3:"-":true}</a>{/if}</span>
   </td>
   <td class="{cycle values="td1,td2" advance=false}" style="vertical-align:top; width:85%;">
    <span class="small"><img src="{$curPost.tSmileyURL}" alt="" />
    &nbsp;&nbsp;{$curPost.date|string_format:$modules.Language->getString('posted_on_x')}
-   &nbsp;<img src="{$modules.Template->getTplDir()}images/trenner.gif" alt="" />
+   &nbsp;<img src="{$modules.Template->getTplDir()}images/trenner.gif" alt="|" />
    {if $curPost.canEdit}&nbsp;<a href="{$smarty.const.INDEXFILE}?faction=edit&amp;forum_id={$forumID}&amp;topic_id={$topicID}&amp;post_id={$curPost.postID}{$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/edit.gif" alt="{$modules.Language->getString('edit')}" /></a> {$modules.Language->getString('edit')}{/if}
    &nbsp;<a href="{$smarty.const.INDEXFILE}?faction=reply&amp;thread_id={$topicID}&amp;forum_id={$forumID}&amp;quote={$curPost.postID}{$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/quote.gif" alt="{$modules.Language->getString('quote')}" /></a> {$modules.Language->getString('quote')}
    {if $curPost.sendPM}&nbsp;&nbsp;<a href="{$smarty.const.INDEXFILE}?faction=pm&amp;mode=send&amp;target_id={$curPost.userID}{$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/pm.gif" alt="{$modules.Language->getString('pm')}" /></a> {$modules.Language->getString('pm')}{/if}
@@ -57,7 +57,7 @@
    <span class="norm">{$curPost.post}{if $curPost.userSig != false}<br /><br />-----------------------<br />{$curPost.userSig}{/if}</span>
   </td>
  </tr>
- <tr><td class="{cycle values="td1,td2"}" style="width:85%;">{if $modules.Config->getCfgVal('tspacing') < 1}<hr />{/if}<span style="font-family:Verdana; font-size:xx-small;">{$curPost.userPosts|string_format:$modules.Language->getString('x_posts')} | {$curPost.userRegDate|string_format:$modules.Language->getString('member_since_x')} | {$curPost.postIPText}</span></td></tr>
+ <tr><td class="{cycle values="td1,td2"}" style="vertical-align:bottom; width:85%;">{if $modules.Config->getCfgVal('tspacing') < 1}<hr />{/if}<span style="font-family:Verdana; font-size:xx-small;">{if $curPost.sendPM}{$curPost.userPosts|string_format:$modules.Language->getString('x_posts')} | {/if}{if $curPost.sendPM}{$curPost.userRegDate|string_format:$modules.Language->getString('member_since_x')} | {/if}{$curPost.postIPText}</span></td></tr>
 {/foreach}
 </table>
 

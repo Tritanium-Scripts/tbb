@@ -40,6 +40,9 @@ Last changed: 2010 (Version 1.5 Alpha)
 	-Hinweis-Link bei verschobenen Themen
 	-Themen als wichtig anpinnen
 	-Registrierungsdaten exakt, nicht mehr Monats-weise
+	-Verwendung von getimagesize() ist nun schneller
+	-Abwärtskompatibel mit vielen "Hacks" für das TBB 1.2.3
+	-Wesentlich mehr BBCode
 
 Written by Chrissyx
 (c) 2010 Tritanium Scripts

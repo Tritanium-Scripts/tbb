@@ -10,32 +10,11 @@
 class FunctionsBasic
 {
 	/**
-	 * Cached IPs to block.
+	 * Various cached (loaded and fully exploded) data.
 	 *
-	 * @var array Banned IPs
+	 * @var array Cached data
 	 */
-	private static $cacheBannedIPs;
-
-	/**
-	 * Cached words to censor.
-	 *
-	 * @var array Censored words
-	 */
-	private static $cacheCensoredWords;
-
-	/**
-	 * Cached forums.
-	 *
-	 * @var array Forums data
-	 */
-	private static $cacheForums;
-
-	/**
-	 * Cached URLs of topic smilies.
-	 *
-	 * @var array Topic smiley URLs
-	 */
-	private static $cacheTSmileyURLs;
+	private static $cache = array();
 
 	/**
 	 * Counter for file accesses.
@@ -63,9 +42,9 @@ class FunctionsBasic
 	 */
 	public static function checkIPAccess($forumID=-1)
 	{
-		if(!isset(self::$cacheBannedIPs))
-			self::$cacheBannedIPs = array_map(array('self', 'explodeByTab'), self::file('vars/ip.var'));
-		foreach(self::$cacheBannedIPs as $curIP)
+		if(!isset(self::$cache['bannedIPs']))
+			self::$cache['bannedIPs'] = array_map(array('self', 'explodeByTab'), self::file('vars/ip.var'));
+		foreach(self::$cache['bannedIPs'] as $curIP)
 			if($curIP[0] == $_SERVER['REMOTE_ADDR'] && $curIP[2] == $forumID && ($curIP[1] > time() || $curIP[1] == '-1'))
 				return (int) $curIP[1];
 		return true;
@@ -114,9 +93,9 @@ class FunctionsBasic
 	 */
 	public static function censor($string)
 	{
-		if(!isset(self::$cacheCensoredWords))
-			self::$cacheCensoredWords = array_map(array('self', 'explodeByTab'), self::file('vars/cwords.var'));
-		foreach(self::$cacheCensoredWords as $curWord)
+		if(!isset(self::$cache['censoredWords']))
+			self::$cache['censoredWords'] = array_map(array('self', 'explodeByTab'), self::file('vars/cwords.var'));
+		foreach(self::$cache['censoredWords'] as $curWord)
 			$string = Functions::str_ireplace($curWord[1], $curWord[2], $string);
 		return $string;
 	}
@@ -235,17 +214,17 @@ class FunctionsBasic
 	 */
 	public static function getForumData($forumID)
 	{
-		if(!isset(self::$cacheForums))
+		if(!isset(self::$cache['forums']))
 		{
-			self::$cacheForums = self::file('vars/foren.var');
-			foreach(self::$cacheForums as &$curForum)
+			self::$cache['forums'] = self::file('vars/foren.var');
+			foreach(self::$cache['forums'] as &$curForum)
 			{
 				$curForum = self::explodeByTab($curForum);
-				$curForum[7] = self::explodeByComma($curForum[7]);
-				$curForum[10] = self::explodeByComma($curForum[10]);
+				$curForum[7] = self::explodeByComma($curForum[7]); //BBCode options
+				$curForum[10] = self::explodeByComma($curForum[10]); //Permissions
 			}
 		}
-		foreach(self::$cacheForums as $curForum)
+		foreach(self::$cache['forums'] as $curForum)
 			if($curForum[0] == $forumID)
 				return $curForum;
 		return false;
@@ -259,7 +238,13 @@ class FunctionsBasic
 	 */
 	public static function getGroupData($groupID)
 	{
-		foreach(array_map(array('self', 'explodeByTab'), self::file('vars/groups.var')) as $curGroup)
+		if(!isset(self::$cache['groups']))
+		{
+			self::$cache['groups'] = self::file('vars/groups.var');
+			foreach(self::$cache['groups'] as &$curGroup)
+				$curGroup[3] = self::explodeByComma($curGroup[3]);
+		}
+		foreach(self::$cache['groups'] as $curGroup)
 			if($curGroup[0] == $groupID)
 			{
 				$curGroup[3] = self::explodeByComma($curGroup[3]);
@@ -343,7 +328,9 @@ class FunctionsBasic
 
 			case '3':
 			case '4':
-			foreach(array_map(array('self', 'explodeByTab'), self::file('vars/rank.var')) as $curRank)
+			if(!isset(self::$cache['ranks']))
+				self::$cache['ranks'] = array_map(array('self', 'explodeByTab'), self::file('vars/rank.var'));
+			foreach(self::$cache['ranks'] as $curRank)
 				if($userPosts >= $curRank[2] && $userPosts <= $curRank[3])
 					$rankImage = array_fill(0, $curRank[4], 'ystar');
 			break;
@@ -375,7 +362,9 @@ class FunctionsBasic
 			break;
 
 			case '3':
-			foreach(array_map(array('self', 'explodeByTab'), self::file('vars/rank.var')) as $curRank)
+			if(!isset(self::$cache['ranks']))
+				self::$cache['ranks'] = array_map(array('self', 'explodeByTab'), self::file('vars/rank.var'));
+			foreach(self::$cache['ranks'] as $curRank)
 				if($userPosts >= $curRank[2] && $userPosts <= $curRank[3])
 					return $curRank[1];
 			break;
@@ -432,9 +421,9 @@ class FunctionsBasic
 	 */
 	public static function getTSmileyURL($tSmileyID)
 	{
-		if(!isset(self::$cacheTSmileyURLs))
-			self::$cacheTSmileyURLs = array_map(array('self', 'explodeByTab'), self::file('vars/tsmilies.var'));
-		foreach(self::$cacheTSmileyURLs as $curTSmiley)
+		if(!isset(self::$cache['tSmileyURLs']))
+			self::$cache['tSmileyURLs'] = array_map(array('self', 'explodeByTab'), self::file('vars/tsmilies.var'));
+		foreach(self::$cache['tSmileyURLs'] as $curTSmiley)
 			if($curTSmiley[0] == $tSmileyID)
 				return $curTSmiley[1];
 		return 'images/tsmilies/1.gif';

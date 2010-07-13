@@ -44,6 +44,11 @@ class Forum implements Module
 	 */
 	private $topicID;
 
+	/**
+	 * Provides named keys for user data according to template and file structure of XBB member files.
+	 *
+	 * @var array Named keys sorted by layout of XBB files
+	 */
 	private static $userKeys = array('userNick', 'userID', 'userPassHash', 'userEMail', 'userState', 'userPosts', 'userRegDate', 'userSig', 'userForumAcc', 'userHP', 'userAvatar', 'userUpdateState', 'userName', 'userICQ', 'userMailOpts', 'userGroup', 'userTimestamp');
 
 	/**
@@ -130,7 +135,7 @@ class Forum implements Module
 				//Build page navigation bar for current topic
 				$curTopicPageBar = array();
 				for($j=1; $j<=$curEnd; $j++)
-					$curTopicPageBar[] = '<a href="' . INDEXFILE . '?mode=viewforum&amp;forum_id=' . $this->forumID . '&amp;thread=' . $topicFile[$i] . '&amp;z=' . $j . SID_AMPER . '">' . $j . '</a>';
+					$curTopicPageBar[] = '<a href="' . INDEXFILE . '?mode=viewthread&amp;forum_id=' . $this->forumID . '&amp;thread=' . $topicFile[$i] . '&amp;z=' . $j . SID_AMPER . '">' . $j . '</a>';
 				//Only show bar by having more than one page
 				$curTopicPageBar = count($curTopicPageBar) < 2 ? '' : ' ' . sprintf(Main::getModule('Language')->getString('pages'), implode(' ', $curTopicPageBar));
 				//Censor title and add to parsed topics
@@ -164,29 +169,31 @@ class Forum implements Module
 
 			case 'viewthread':
 			//Manage cookies
-			setcookie('upbwhere', INDEXFILE . '?mode=viewforum&forum_id=' . $this->forumID . '&thread=' . $this->topicID);
+			setcookie('upbwhere', INDEXFILE . '?mode=viewthread&forum_id=' . $this->forumID . '&thread=' . $this->topicID);
 			setcookie('forum.' . $this->forumID . '.' . $this->topicID, time(), time()+60*60*24*365, Main::getModule('Config')->getCfgVal('path_to_forum'));
-			//lol?
-			if(!isset($_SESSION['session.tview.' . $this->forumID . '.' . $this->topicID]))
-			{
-				#increase_topic_views
-				$_SESSION['session.tview.' . $this->forumID . '.' . $this->topicID] = 1;
-			}
 			//Process topic and its posts
 			$forum = Functions::getForumData($this->forumID) or Main::getModule('Template')->printMessage('forum_not_found');
 			if(!Functions::checkUserAccess($forum, 0))
 				Main::getModule('Template')->printMessage('forum_' . (Main::getModule('Auth')->isLoggedIn() ? 'no_access' : 'need_login'));
-			$topicFile = Functions::file('foren/' . $this->forumID . '-' . $this->topicID . '.xbb') or Main::getModule('Template')->printMessage('topic_not_found');
+			$topicFile = @Functions::file('foren/' . $this->forumID . '-' . $this->topicID . '.xbb') or Main::getModule('Template')->printMessage('topic_not_found');
 			$topic = Functions::explodeByTab(array_shift($topicFile));
+			//Manage topic views
+			if(!isset($_SESSION['session.tview.' . $this->forumID . '.' . $this->topicID]))
+			{
+				$topic[6]++;
+				//Not using array_unshift to avoid changes in $topicFile
+				Functions::file_put_contents('foren/' . $this->forumID . '-' . $this->topicID . '.xbb', implode("\n", array_merge(array(implode("\t", $topic)), $topicFile)));
+				$_SESSION['session.tview.' . $this->forumID . '.' . $this->topicID] = true;
+			}
 			if(Main::getModule('Config')->getCfgVal('censored') == 1)
 				$topic[1] = Functions::censor($topic[1]);
 			//Build page navigation bar
 			$pages = ceil(($size = count($topicFile)) / Main::getModule('Config')->getCfgVal('posts_per_page'));
 			if($this->page == 'last')
 				$this->page = $pages;
-			$pageBar = $posts = array();
+			$pageBar = $posts = $parsedSignatures = array();
 			for($i=1; $i<=$pages; $i++)
-				$pageBar[] = $i != $this->page ? '<a href="' . INDEXFILE . '?mode=viewforum&amp;forum_id=' . $this->forumID . '&amp;thread=' . $this->topicID . '&amp;z=' . $i . SID_AMPER . '">' . $i . '</a>' : $i;
+				$pageBar[] = $i != $this->page ? '<a href="' . INDEXFILE . '?mode=viewthread&amp;forum_id=' . $this->forumID . '&amp;thread=' . $this->topicID . '&amp;z=' . $i . SID_AMPER . '">' . $i . '</a>' : $i;
 			//Only add bar by having more than one page
 			Main::getModule('NavBar')->addElement(array(array($forum[1], INDEXFILE . '?mode=viewforum&amp;forum_id=' . $this->forumID . SID_AMPER), array($topic[1] . ($pageBar = count($pageBar) < 2 ? '' : ' ' . sprintf(Main::getModule('Language')->getString('pages'), implode(' ', $pageBar))))));
 			//Process possible poll
@@ -244,19 +251,34 @@ class Forum implements Module
 					{
 						$curGroup = Functions::getGroupData($curPoster['userGroup']);
 						$curPoster['userGroup'] = $curGroup[1];
+						//Use the group's avatar if user has none
 						if(empty($curPoster['userAvatar']))
 							$curPoster['userAvatar'] = $curGroup[2];
+					}
+					//Prepare avatar
+					if(!empty($curPoster['userAvatar']))
+					{
+						$curPoster['userAvatar'] = Functions::addHTTP($curPoster['userAvatar']);
+						list($curWidth, $curHeight) = array(Main::getModule('Config')->getCfgVal('avatar_width'), Main::getModule('Config')->getCfgVal('avatar_height'));
+						if(Main::getModule('Config')->getCfgVal('use_getimagesize') == 1 && !($avatar = @getimagesize($curPoster['userAvatar'])))
+						{
+							if($curWidth > $avatar[0])
+								$curWidth = $avatar[0];
+							if($curHeight > $avatar[1])
+								$curHeight = $avatar[1];
+						}
+						$curPoster['userAvatar'] = '<img src="' . $curPoster['userAvatar'] . '" alt="" style="height:' . $curHeight . 'px; width:' . $curWidth . 'px;" />';
 					}
 					//Rank images
 					$curPoster['userRank'] = Functions::getRankImage($curPoster['userState'], $curPoster['userPosts']);
 					//Detect rank
 					$curPoster['userState'] = Functions::getStateName($curPoster['userState'], $curPoster['userPosts']);
-					//Signature
-					$curPoster['userSig'] = !empty($curPoster['userSig']) && ($curPost[5] == '1' || $curPost[5] == 'yes') ? (Main::getModule('Config')->getCfgVal('censored') == 1 ? Functions::censor($curPoster['userSig']) : $curPoster['userSig']) : '';
+					//Signature incl. cache check =)
+					$curPoster['userSig'] = !empty($curPoster['userSig']) && ($curPost[5] == '1' || $curPost[5] == 'yes') ? (isset($parsedSignatures[$curPost[1]]) ? $parsedSignatures[$curPost[1]] : ($parsedSignatures[$curPost[1]] = Main::getModule('BBCode')->parse(Main::getModule('Config')->getCfgVal('censored') == 1 ? Functions::censor($curPoster['userSig']) : $curPoster['userSig']))) : '';
 				}
 				unset($curPoster['userMailOpts'], $curPoster['userPassHash'], $curPoster['userForumAcc']);
 				//User values done, proceed with post
-				#$curPost[3] = Main::getModule('BBCode')->parse($curPost[3], $curPost[9] == '1', $curPost[7] == '1', $curPost[8] == '1');
+				$curPost[3] = Main::getModule('BBCode')->parse($curPost[3], $curPost[9] == '1' && $forum[7][1] == '1', $curPost[7] == '1' || $curPost[7] == 'yes', $forum[7][0] == '1' && ($curPost[8] == '1' || $curPost[8] == 'yes'));
 				if(Main::getModule('Config')->getCfgVal('censored') == 1)
 					$curPost[3] = Functions::censor($curPost[3]);
 				//Add user and post data
@@ -266,7 +288,7 @@ class Forum implements Module
 					'postIPText' => !empty($curPost[4]) ? sprintf(Main::getModule('Language')->getString('ip_saved'), INDEXFILE . '?faction=viewip&amp;forum_id=' . $this->forumID . '&amp;topic_id=' . $this->topicID . '&amp;post_id=' . $curPost[0] . SID_AMPER) : Main::getModule('Language')->getString('ip_not_saved'),
 					'canEdit' => ($curCanKill = $curPoster['userState'] == '1' || Functions::checkModOfForum($this->forumID) || ($forum[10][4] == '1' && Main::getModule('Auth')->getUserID() == $curPost[1])),
 					'canKill' => $curCanKill,
-					'post' => $curPost[3]);
+					'post' => $curPost[3]); //Prepared user data
 			}
 			Main::getModule('Template')->assign(array('topicTitle' => $topic[1],
 				'isPoll' => $isPoll,
@@ -365,14 +387,26 @@ class Forum implements Module
 		Main::getModule('Template')->printPage(self::$modeTable[$this->mode], null, null, ',' . $this->forumID . ',' . $this->topicID);
 	}
 
+	/**
+	 * Returns user data with default values for a guest.
+	 *
+	 * @param string $nick Guest name
+	 * @return array Guest data with named keys ready-for-use in template
+	 */
 	private function getGuestTemplate($nick)
 	{
-		return array_combine(self::$userKeys, array($nick, 0, '', '', Main::getModule('Language')->getString('guest'), '', '', '', '', '', '', '', '', '', '', '', '')) + array('userRank' => '', 'sendPM' => false);
+		return array_combine(self::$userKeys, array($nick, 0, '', false, Main::getModule('Language')->getString('guest'), '', '', '', '', '', '', '', '', '', '', '', '')) + array('userRank' => '', 'sendPM' => false);
 	}
 
+	/**
+	 * Returns user data with default values for a deleted user.
+	 *
+	 * @param int $userID Former user ID
+	 * @return array Deleted user data with named keys ready-for-use in template
+	 */
 	private function getKilledTemplate($userID)
 	{
-		return array_combine(self::$userKeys, array(Main::getModule('Config')->getCfgVal('var_killed'), $userID, '', '', Main::getModule('Language')->getString('deleted'), '', '', '', '', '', '', '', '', '', '', '', '')) + array('userRank' => '', 'sendPM' => false);
+		return array_combine(self::$userKeys, array(Main::getModule('Config')->getCfgVal('var_killed'), $userID, '', false, Main::getModule('Language')->getString('deleted'), '', '', '', '', '', '', '', '', '', '', '', '')) + array('userRank' => '', 'sendPM' => false);
 	}
 }
 ?>
