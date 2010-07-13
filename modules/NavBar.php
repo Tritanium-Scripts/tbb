@@ -17,14 +17,18 @@ class NavBar
 	private $elements = array();
 
 	/**
-	* Adds a new element pair.
-	*
-	* @param string $name Name of navbar element
-	* @param string $link Optional link of navbar element
-	*/
+	 * Adds new element pair(s).
+	 *
+	 * @param string|array $name Name of navbar element or multiple element pairs with name and optional link (that means array(array(), array()) at least).
+	 * @param string $link Optional link of navbar element
+	 */
 	public function addElement($name, $link=null)
 	{
-		$this->elements[] = array($name, $link);
+		if(is_array($name))
+			foreach($name as $curElement)
+				$this->elements[] = array($curElement[0], isset($curElement[1]) ? $curElement[1] : null);
+		else
+			$this->elements[] = array($name, $link);
 	}
 
 	/**

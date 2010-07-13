@@ -10,11 +10,50 @@
 class FunctionsBasic
 {
 	/**
+	 * Cached IPs to block.
+	 *
+	 * @var array Banned IPs
+	 */
+	private static $cacheBannedIPs;
+
+	/**
+	 * Cached words to censor.
+	 *
+	 * @var array Censored words
+	 */
+	private static $cacheCensoredWords;
+
+	/**
+	 * Cached forums.
+	 *
+	 * @var array Forums data
+	 */
+	private static $cacheForums;
+
+	/**
+	 * Cached URLs of topic smilies.
+	 *
+	 * @var array Topic smiley URLs
+	 */
+	private static $cacheTSmileyURLs;
+
+	/**
 	 * Counter for file accesses.
 	 *
 	 * @var int Amount of file reading and writing
 	 */
 	private static $fileCounter = 0;
+
+	/**
+	 * Adds 'http://' to a link, if needed.
+	 *
+	 * @param string $link Link to extend with 'http://'
+	 * @return string Extended link
+	 */
+	public static function addHTTP($link)
+	{
+		return !empty($link) && Functions::substr($link, 0, 7) != 'http://' ? 'http://' . $link : $link;
+	}
 
 	/**
 	 * Checks current IP for access permission.
@@ -24,12 +63,11 @@ class FunctionsBasic
 	 */
 	public static function checkIPAccess($forumID=-1)
 	{
-		foreach(self::file('vars/ip.var') as $curIP)
-		{
-			$curIP = self::explodeByTab($curIP);
+		if(!isset(self::$cacheBannedIPs))
+			self::$cacheBannedIPs = array_map(array('self', 'explodeByTab'), self::file('vars/ip.var'));
+		foreach(self::$cacheBannedIPs as $curIP)
 			if($curIP[0] == $_SERVER['REMOTE_ADDR'] && $curIP[2] == $forumID && ($curIP[1] > time() || $curIP[1] == '-1'))
 				return (int) $curIP[1];
-		}
 		return true;
 	}
 
@@ -76,11 +114,10 @@ class FunctionsBasic
 	 */
 	public static function censor($string)
 	{
-		foreach(self::file('vars/cwords.var') as $curWord)
-		{
-			$curWord = self::explodeByTab($curWord);
+		if(!isset(self::$cacheCensoredWords))
+			self::$cacheCensoredWords = array_map(array('self', 'explodeByTab'), self::file('vars/cwords.var'));
+		foreach(self::$cacheCensoredWords as $curWord)
 			$string = Functions::str_ireplace($curWord[1], $curWord[2], $string);
-		}
 		return $string;
 	}
 
@@ -99,7 +136,7 @@ class FunctionsBasic
 		if(is_numeric($forum))
 			$forum = self::getForumData($forum);
 		//Check moderator permissions
-		return in_array(Main::getModule('Auth')->getUserID(), self::explodeByComma($forum[11]));
+		return !empty($forum[11]) && in_array(Main::getModule('Auth')->getUserID(), self::explodeByComma($forum[11]));
 	}
 
 	/**
@@ -168,15 +205,16 @@ class FunctionsBasic
 	 * Returns a formatted date string from proprietary date format.
 	 *
 	 * @param string $date Proprietary date format (YYYYMMDDhhmmss)
+	 * @param string $format Alternative pattern to use
 	 * @return string Ready-for-use date
 	 */
-	public static function formatDate($date)
+	public static function formatDate($date, $format=null)
 	{
 		$gmtOffset = Main::getModule('Config')->getCfgVal('gmt_offset');
 		$offset = Functions::substr($gmtOffset, 1, 2)*3600 + Functions::substr($gmtOffset, 3, 2)*60;
 		$timestamp = mktime(substr($date, 8, 2), substr($date, 10, 2), 0, substr($date, 4, 2), substr($date, 6, 2), substr($date, 0, 4)) + ($gmtOffset[0] == '-' ? $offset*-1 : $offset) + date('Z');
 		//Encode as UTF-8, because month names lacks proper encoding
-		return sprintf((time()-$timestamp) < Main::getModule('Config')->getCfgVal('emph_date_hours')*3600 ? '<b>%s</b>' : '%s', utf8_encode(gmstrftime(Main::getModule('Language')->getString('DATEFORMAT'), $timestamp)));
+		return sprintf((time()-$timestamp) < Main::getModule('Config')->getCfgVal('emph_date_hours')*3600 ? '<b>%s</b>' : '%s', utf8_encode(gmstrftime(isset($format) ? $format : Main::getModule('Language')->getString('DATEFORMAT'), $timestamp)));
 	}
 
 	/**
@@ -197,16 +235,36 @@ class FunctionsBasic
 	 */
 	public static function getForumData($forumID)
 	{
-		foreach(self::file('vars/foren.var') as $curForum)
+		if(!isset(self::$cacheForums))
 		{
-			$curForum = self::explodeByTab($curForum);
-			if($curForum[0] == $forumID)
+			self::$cacheForums = self::file('vars/foren.var');
+			foreach(self::$cacheForums as &$curForum)
 			{
+				$curForum = self::explodeByTab($curForum);
 				$curForum[7] = self::explodeByComma($curForum[7]);
 				$curForum[10] = self::explodeByComma($curForum[10]);
-				return $curForum;
 			}
 		}
+		foreach(self::$cacheForums as $curForum)
+			if($curForum[0] == $forumID)
+				return $curForum;
+		return false;
+	}
+
+	/**
+	 * Returns data of a group.
+	 *
+	 * @param int $groupID ID of group
+	 * @return array|bool Group data or false if group was not found
+	 */
+	public static function getGroupData($groupID)
+	{
+		foreach(array_map(array('self', 'explodeByTab'), self::file('vars/groups.var')) as $curGroup)
+			if($curGroup[0] == $groupID)
+			{
+				$curGroup[3] = self::explodeByComma($curGroup[3]);
+				return $curGroup;
+			}
 		return false;
 	}
 
@@ -224,39 +282,134 @@ class FunctionsBasic
 		$userLinks = array();
 		if(!empty($userID))
 			foreach(self::explodeByComma($userID) as $curUserID)
-			{
-				$curUser = Functions::file('members/' . $curUserID . '.xbb');
-				$curColor = '';
-				if($colorRank)
+				if($isValid && !self::file_exists('members/' . $curUserID . '.xbb'))
+					$userLinks[] = Main::getModule('Language')->getString('deleted');
+				else
 				{
-					switch($curUser[4])
+					$curUser = Functions::file('members/' . $curUserID . '.xbb');
+					$curColor = '';
+					if($colorRank)
 					{
-						case '1':
-						$curColor = Main::getModule('Config')->getCfgVal('wio_color_admin');
-						break;
+						switch($curUser[4])
+						{
+							case '1':
+							$curColor = Main::getModule('Config')->getCfgVal('wio_color_admin');
+							break;
 
-						case '2':
-						$curColor = Main::getModule('Config')->getCfgVal('wio_color_mod');
-						break;
+							case '2':
+							$curColor = Main::getModule('Config')->getCfgVal('wio_color_mod');
+							break;
 
-						case '3':
-						$curColor = Main::getModule('Config')->getCfgVal('wio_color_member');
-						break;
+							case '3':
+							$curColor = Main::getModule('Config')->getCfgVal('wio_color_member');
+							break;
 
-						case '4':
-						$curColor = Main::getModule('Config')->getCfgVal('wio_color_banned');
-						break;
+							case '4':
+							$curColor = Main::getModule('Config')->getCfgVal('wio_color_banned');
+							break;
 
-						case '6':
-						$curColor = Main::getModule('Config')->getCfgVal('wio_color_smod');
-						break;
+							case '6':
+							$curColor = Main::getModule('Config')->getCfgVal('wio_color_smod');
+							break;
+						}
+						if(!empty($curColor))
+							$curColor = sprintf(' style="color:%s";', $curColor);
 					}
-					if(!empty($curColor))
-						$curColor = sprintf(' style="color:%s";', $curColor);
+					$userLinks[] = '<a' . $aAttributes . ' href="' . INDEXFILE . '?faction=profile&amp;profile_id=' . $curUserID . SID_AMPER . '"' . $curColor . '>' . $curUser[0] . '</a>';
 				}
-				$userLinks[] = $isValid && !self::file_exists('members/' . $curUserID . '.xbb') ? Main::getModule('Language')->getString('deleted') : '<a' . $aAttributes . ' href="' . INDEXFILE . '?faction=profile&amp;profile_id=' . $curUserID . SID_AMPER . '"' . $curColor . '>' . $curUser[0] . '</a>';
-			}
 		return implode(', ', $userLinks);
+	}
+
+	/**
+	 * Returns calculated rank images according to user state and/or amount of posts.
+	 *
+	 * @param int $userState State of user
+	 * @param int $userPosts Posts of user
+	 * @return string Rank image(s)
+	 */
+	public static function getRankImage($userState, $userPosts)
+	{
+		if($userPosts < 0)
+			return '';
+		switch($userState)
+		{
+			case '1':
+			$rankImage = array_fill(0, Main::getModule('Config')->getCfgVal('stars_admin'), 'rstar');
+			break;
+
+			case '2':
+			$rankImage = array_fill(0, Main::getModule('Config')->getCfgVal('stars_mod'), 'gstar');
+			break;
+
+			case '3':
+			case '4':
+			foreach(array_map(array('self', 'explodeByTab'), self::file('vars/rank.var')) as $curRank)
+				if($userPosts >= $curRank[2] && $userPosts <= $curRank[3])
+					$rankImage = array_fill(0, $curRank[4], 'ystar');
+			break;
+
+			case '6':
+			$rankImage = array_fill(0, Main::getModule('Config')->getCfgVal('stars_smod'), 'bstar');
+			break;
+		}
+		return '<img src="images/ranks/' . implode('.gif" alt="*" /><img src="images/ranks/', $rankImage) . '.gif" alt="*" />';
+	}
+
+	/**
+	 * Returns display name from an user state.
+	 *
+	 * @param int $userState State of user
+	 * @param int $userPosts Posts of user
+	 * @return string Display name for user state
+	 */
+	public static function getStateName($userState, $userPosts)
+	{
+		switch($userState)
+		{
+			case '1':
+			return Main::getModule('Config')->getCfgVal('var_admin');
+			break;
+
+			case '2':
+			return Main::getModule('Config')->getCfgVal('var_mod');
+			break;
+
+			case '3':
+			foreach(array_map(array('self', 'explodeByTab'), self::file('vars/rank.var')) as $curRank)
+				if($userPosts >= $curRank[2] && $userPosts <= $curRank[3])
+					return $curRank[1];
+			break;
+
+			case '4':
+			return Main::getModule('Config')->getCfgVal('var_banned');
+			break;
+
+			case '5':
+			return Main::getModule('Config')->getCfgVal('var_killed');
+			break;
+
+			case '6':
+			return Main::getModule('Config')->getCfgVal('var_smod');
+			break;
+
+			default:
+			return '';
+			break;
+		}
+	}
+
+	/**
+	 * Returns data of an user.
+	 *
+	 * @param int $userID ID of user
+	 * @return array|bool User data or false if user was not found, is a guest or is deleted
+	 */
+	public static function getUserData($userID)
+	{
+		if($userID == 0 || !($user = self::file('members/' . $userID . '.xbb')) || $user[4] == '5')
+			return false;
+		$user[14] = self::explodeByComma($user[14]);
+		return $user;
 	}
 
 	/**
@@ -279,12 +432,11 @@ class FunctionsBasic
 	 */
 	public static function getTSmileyURL($tSmileyID)
 	{
-		foreach(self::file('vars/tsmilies.var') as $curTSmiley)
-		{
-			$curTSmiley = self::explodeByTab($curTSmiley);
+		if(!isset(self::$cacheTSmileyURLs))
+			self::$cacheTSmileyURLs = array_map(array('self', 'explodeByTab'), self::file('vars/tsmilies.var'));
+		foreach(self::$cacheTSmileyURLs as $curTSmiley)
 			if($curTSmiley[0] == $tSmileyID)
 				return $curTSmiley[1];
-		}
 		return 'images/tsmilies/1.gif';
 	}
 

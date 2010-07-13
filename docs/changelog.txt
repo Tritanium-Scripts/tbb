@@ -17,7 +17,7 @@ Last changed: 2010 (Version 1.5 Alpha)
 	-Automatische Spracherkennung
 	-Aufwärtskompatibel für TBB 2.0 oder höher
 	-Rang für Supermoderatoren
-	-Neue Rangbilder
+	-Neue Sterne bei Rangbilder
 	-Admin- & Moderatoren-Smileys
 	-Neues Format für Übersetzungen auf Basis von INI-Dateien
 	-Upload-Funktion für Dateien
@@ -39,6 +39,7 @@ Last changed: 2010 (Version 1.5 Alpha)
 	-SID-Parameter in URL optional
 	-Hinweis-Link bei verschobenen Themen
 	-Themen als wichtig anpinnen
+	-Registrierungsdaten exakt, nicht mehr Monats-weise
 
 Written by Chrissyx
 (c) 2010 Tritanium Scripts

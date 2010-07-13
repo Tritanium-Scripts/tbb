@@ -1,0 +1,77 @@
+<!-- ViewTopic -->
+{if $isPoll}
+<!-- Poll -->
+<form method="post" action="{$smarty.const.INDEXFILE}?faction=vote&amp;forum_id={$forumID}&amp;topic_id={$topicID}&amp;poll_id={$pollID}{$smarty.const.SID_AMPER}">
+<table class="tbl" cellpadding="{$modules.Config->getCfgVal('tpadding')}" cellspacing="{$modules.Config->getCfgVal('tspacing')}" style="width:{$modules.Config->getCfgVal('twidth')}; margin:auto;">
+ <tr><th class="thnorm"><span class="thnorm">{$modules.Language->getString('poll')}</span></th></tr>
+ <tr>
+  <td class="td1">
+   <span class="norm" style="font-weight:bold;">{$pollTitle}</span> <span class="small">{$totalVotes|string_format:$modules.Language->getString('x_votes_total')}</span><br />
+   <table cellpadding="0" cellspacing="4">
+    {foreach from=$pollOptions item=curOption name=pollOptions}<tr>
+     <td style="text-align:right;"><span class="norm">{$smarty.foreach.pollOptions.iteration}. </span><input type="radio" name="vote_id" value="{$curOption.optionID}" style="vertical-align:middle;" /></td>
+     <td><span class="norm">{$curOption.pollOption}</span></td>
+     <td><img src="{$modules.Template->getTplDir()}images/pollbar.gif" alt="" style="height:10px; vertical-align:middle; width:{round($curOption.percent)}px;" /></td>
+     <td><span class="small">{$curOption.voteText}</span></td>
+    </tr>{/foreach}
+   </table>
+   <span class="norm">
+   {if $isPollClosed}<span class="small">{$modules.Language->getString('the_poll_is_closed')}</span>
+   {elseif $hasVoted}<span class="small">{$modules.Language->getString('you_already_voted')}</span>
+   {elseif $needsLogin}<span class="small">{$modules.Language->getString('need_login_to_vote')}</span>
+   {else}<input type="submit" value="{$modules.Language->getString('vote')}" />{/if}
+   {if $canEdit}&nbsp;&nbsp;&nbsp;<input type="submit" name="edit" value="{$modules.Language->getString('edit')}" />{/if}
+   </span>
+  </td>
+ </tr>
+</table>
+</form><br />
+{/if}
+
+<!-- Posts -->
+<table class="tbl" cellpadding="{$modules.Config->getCfgVal('tpadding')}" cellspacing="{$modules.Config->getCfgVal('tspacing')}" style="width:{$modules.Config->getCfgVal('twidth')}; margin:auto;">
+ <tr>
+  <th class="thsmall" style="text-align:left; width:15%;"><span class="thsmall">{$modules.Language->getString('author')}</span></th>
+  <th class="thsmall" style="text-align:left; width:85%;"><span class="thsmall">{$modules.Language->getString('topic_colon')} {$topicTitle}</span></th>
+ </tr>
+{foreach $posts as $curPost}
+ <tr>
+  <td rowspan="2" class="{cycle values="td1,td2" advance=false}" style="vertical-align:top; width:15%;">
+   <span class="norm" style="font-weight:bold;">{$curPost.userNick}</span><br />
+   <span class="small">{$curPost.userState}<br />
+   {if !empty($curPost.userGroup)}{$curPost.userGroup}<br />{/if}{$curPost.userRank}<br />
+   {$curPost.userID|string_format:$modules.Language->getString('id_x')}<br /><br />
+   <img src="{$curPost.userAvatar}" alt="" style="height:64px; width;64px;" />{if !empty($curPost.userICQ)}<br /><br />
+   <a href="http://www.icq.com/people/about_me.php?uin={$curPost.userICQ}" target="_blank"><img src="http://status.icq.com/online.gif?icq={$curPost.userICQ}&amp;img=5" alt="" style="vertical-align:middle;" /> {$curPost.userICQ}</a>{/if}</span>
+  </td>
+  <td class="{cycle values="td1,td2" advance=false}" style="vertical-align:top; width:85%;">
+   <span class="small"><img src="{$curPost.tSmileyURL}" alt="" />
+   &nbsp;&nbsp;{$curPost.date|string_format:$modules.Language->getString('posted_on_x')}
+   &nbsp;<img src="{$modules.Template->getTplDir()}images/trenner.gif" alt="" />
+   {if $curPost.canEdit}&nbsp;<a href="{$smarty.const.INDEXFILE}?faction=edit&amp;forum_id={$forumID}&amp;topic_id={$topicID}&amp;post_id={$curPost.postID}{$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/edit.gif" alt="{$modules.Language->getString('edit')}" /></a> {$modules.Language->getString('edit')}{/if}
+   &nbsp;<a href="{$smarty.const.INDEXFILE}?faction=reply&amp;thread_id={$topicID}&amp;forum_id={$forumID}&amp;quote={$curPost.postID}{$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/quote.gif" alt="{$modules.Language->getString('quote')}" /></a> {$modules.Language->getString('quote')}
+   {if $curPost.sendPM}&nbsp;&nbsp;<a href="{$smarty.const.INDEXFILE}?faction=pm&amp;mode=send&amp;target_id={$curPost.userID}{$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/pm.gif" alt="{$modules.Language->getString('pm')}" /></a> {$modules.Language->getString('pm')}{/if}
+   {if $curPost.userEMail !== false}&nbsp;&nbsp;<a href="{if $curPost.userEMail === true}{$smarty.const.INDEXFILE}?faction=formmail&amp;target_id={$curPost.userID}{$smarty.const.SID_AMPER}{else}mailto:{$curPost.userEMail}{/if}"><img src="{$modules.Template->getTplDir()}images/mailto.gif" alt="{$modules.Language->getString('email')}" /></a> {$modules.Language->getString('email')}{/if}
+   {if !empty($curPost.userHP)}&nbsp;&nbsp;<a href="{$curPost.userHP}" target="_blank"><img src="{$modules.Template->getTplDir()}images/hp.gif" alt="{$modules.Language->getString('homepage')}" /></a> {$modules.Language->getString('homepage')}{/if}
+   {if $curPost.canKill}&nbsp;&nbsp;<a href="{$smarty.const.INDEXFILE}?faction=edit&amp;mode=kill&amp;forum_id={$forumID}&amp;topic_id={$topicID}&amp;post_id={$curPost.postID}{$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/deltopic.gif" alt="" /></a>{/if}</span><hr />
+   <span class="norm">{$curPost.post}{if $curPost.userSig != false}<br /><br />-----------------------<br />{$curPost.userSig}{/if}</span>
+  </td>
+ </tr>
+ <tr><td class="{cycle values="td1,td2"}" style="width:85%;">{if $modules.Config->getCfgVal('tspacing') < 1}<hr />{/if}<span style="font-family:Verdana; font-size:xx-small;">{$curPost.userPosts|string_format:$modules.Language->getString('x_posts')} | {$curPost.userRegDate|string_format:$modules.Language->getString('member_since_x')} | {$curPost.postIPText}</span></td></tr>
+{/foreach}
+</table>
+
+<!-- NavBar -->
+<br />
+<table class="navbar" cellspacing="0" cellpadding="0" style="width:{$modules.Config->getCfgVal('twidth')}; margin:auto;">
+ <tr><td class="navbar"><span class="navbar">&nbsp;{foreach from=$modules.NavBar->getNavBar() item=curElement name=navBar}{if !empty($curElement[1])}<a href="{$curElement[1]}" class="navbar">{$curElement[0]}</a>{else}{$curElement[0]}{/if}{if !$smarty.foreach.navBar.last}&nbsp;&#187;&nbsp;{/if}{/foreach}</span></td></tr>
+</table>
+
+<!-- Toolbar -->
+<br />
+<table class="navbar" cellpadding="0" cellspacing="0" style="width:{$modules.Config->getCfgVal('twidth')}; margin:auto;">
+ <tr>
+   <td class="navbar" style="width:51%;"><span class="small">&nbsp;<a href="{$smarty.const.INDEXFILE}?faction=newtopic&amp;forum_id={$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/newtopic.gif" alt="" style="vertical-align:middle;" /></a>&nbsp;<a href="{$smarty.const.INDEXFILE}?faction=newpoll&amp;forum_id={$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/newpoll.gif" alt="" style="vertical-align:middle;" /></a>&nbsp;<a href="{$smarty.const.INDEXFILE}?faction=reply&amp;thread_id={$topicID}&amp;forum_id={$forumID}{$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/newreply.gif" alt="" style="vertical-align:middle;" /></a></span></td>
+   <td class="navbar" style="width:50%; text-align:right;"><span class="small">{$pageBar}</span></td>
+ </tr>
+</table>

@@ -29,7 +29,7 @@
  *  <li>ICQ</li>
  *  <li>Mail options</li>
  *  <li>Group ID</li>
- *  <li>?</li>
+ *  <li>timestamp?</li>
  * </ol>
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>

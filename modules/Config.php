@@ -78,7 +78,9 @@ class Config// extends Module
 		'#000000',
 		'#CC6600',
 		'#0000FF',
-		48);
+		48,
+		6,
+		'Supermoderator');
 
 	/**
 	 * Name of config file to work with.
@@ -156,7 +158,9 @@ class Config// extends Module
 		'wio_color_user',
 		'wio_color_banned',
 		'wio_color_smod',
-		'emph_date_hours');
+		'emph_date_hours',
+		'stars_smod',
+		'var_smod');
 
 	/**
 	 * Loaded configuration values are stored here.

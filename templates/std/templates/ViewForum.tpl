@@ -11,7 +11,7 @@
  <tr>
   <td class="td1" style="text-align:center;"><img src="{$modules.Template->getTplDir()}images/{$curTopic.topicIcon}.gif" alt="" /></td>
   <td class="td2" style="text-align:center;"><img src="{$curTopic.tSmileyURL}" alt="" /></td>
-  <td class="td1"><span class="topiclink">{if $curTopic.isMoved}<b>{$modules.Language->getString('moved')}</b> {/if}{if $curTopic.isSticky}<b>{$modules.Language->getString('sticker')|upper}</b> {/if}{if $curTopic.isPoll}{$modules.Language->getString('poll')} {/if}<a class="topiclink" href="{$smarty.const.INDEXFILE}?mode=viewthread&amp;forum_id={if $curTopic.isMoved}{$curTopic.movedForumID}{else}{$forumID}{/if}&amp;thread={if $curTopic.isMoved}{$curTopic.movedTopicID}{else}{$curTopic.topicID}{/if}{$smarty.const.SID_AMPER}">{$curTopic.topicTitle}</a></span> <span class="small">{$curTopic.topicPageBar}</span></td>
+  <td class="td1"><span class="topiclink">{if $curTopic.isMoved}<b>{$modules.Language->getString('moved')}</b> {/if}{if $curTopic.isSticky}<b>{$modules.Language->getString('sticker')|upper}</b> {/if}{if $curTopic.isPoll}{$modules.Language->getString('poll_colon')} {/if}<a class="topiclink" href="{$smarty.const.INDEXFILE}?mode=viewthread&amp;forum_id={if $curTopic.isMoved}{$curTopic.movedForumID}{else}{$forumID}{/if}&amp;thread={if $curTopic.isMoved}{$curTopic.movedTopicID}{else}{$curTopic.topicID}{/if}{$smarty.const.SID_AMPER}">{$curTopic.topicTitle}</a></span> <span class="small">{$curTopic.topicPageBar}</span></td>
   <td class="td2"><span class="norm">{$curTopic.topicStarter}</span></td>
   <td class="td1" style="text-align:center;"><span class="norm">{$curTopic.postCounter}</span></td>
   <td class="td2" style="text-align:center;"><span class="norm">{$curTopic.views}</span></td>

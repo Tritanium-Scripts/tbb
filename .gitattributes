@@ -1,10 +1,7 @@
 * text=auto !eol
-images/ranks/admin.gif -text
 images/ranks/bstar.gif -text
 images/ranks/gstar.gif -text
-images/ranks/mod.gif -text
 images/ranks/rstar.gif -text
-images/ranks/supermod.gif -text
 images/ranks/ystar.gif -text
 images/smilies/1.gif -text
 images/smilies/10.gif -text
@@ -33,7 +30,10 @@ images/tsmilies/8.gif -text
 images/tsmilies/9.gif -text
 templates/std/images/cnntopic.gif -text
 templates/std/images/cntopic.gif -text
+templates/std/images/edit.gif -text
 templates/std/images/ghost.png -text
+templates/std/images/hp.gif -text
+templates/std/images/mailto.gif -text
 templates/std/images/movetopic.gif -text
 templates/std/images/new_post.gif -text
 templates/std/images/newpoll.gif -text
@@ -44,3 +44,7 @@ templates/std/images/onnstopic.gif -text
 templates/std/images/onntopic.gif -text
 templates/std/images/onstopic.gif -text
 templates/std/images/ontopic.gif -text
+templates/std/images/pm.gif -text
+templates/std/images/pollbar.gif -text
+templates/std/images/quote.gif -text
+templates/std/images/trenner.gif -text

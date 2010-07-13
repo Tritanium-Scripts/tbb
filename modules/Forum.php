@@ -44,6 +44,8 @@ class Forum implements Module
 	 */
 	private $topicID;
 
+	private static $userKeys = array('userNick', 'userID', 'userPassHash', 'userEMail', 'userState', 'userPosts', 'userRegDate', 'userSig', 'userForumAcc', 'userHP', 'userAvatar', 'userUpdateState', 'userName', 'userICQ', 'userMailOpts', 'userGroup', 'userTimestamp');
+
 	/**
 	 * Detects IDs, page and sets mode.
 	 */
@@ -52,7 +54,7 @@ class Forum implements Module
 		$this->mode = isset($_GET['mode']) && in_array($_GET['mode'], array('viewforum', 'viewthread')) ? $_GET['mode'] : '';
 		$this->forumID = isset($_GET['forum_id']) ? intval($_GET['forum_id']) : -1;
 		$this->topicID = isset($_GET['thread']) ? intval($_GET['thread']) : -1;
-		$this->page = isset($_GET['z']) ? intval($_GET['z']) : 1;
+		$this->page = isset($_GET['z']) ? ($_GET['z'] != 'last' ? intval($_GET['z']) : 'last') : 1;
 	}
 
 	/**
@@ -84,14 +86,14 @@ class Forum implements Module
 			if(!Functions::checkUserAccess($forum, 0))
 				Main::getModule('Template')->printMessage('forum_' . (Main::getModule('Auth')->isLoggedIn() ? 'no_access' : 'need_login'));
 			$topicFile = array_reverse(Functions::file('foren/' . $this->forumID . '-threads.xbb'));
-			$pages = ceil(($size = count($topicFile)) / Main::getModule('Config')->getCfgVal('topics_per_page'));
-			$pageBar = $topics = array();
 			//Manage sticky topics
-			$stickyFile = Functions::file('foren/' . $this->forumID . '-sticker.xbb', FILE_SKIP_EMPTY_LINES) or array();
+			$stickyFile = @Functions::file('foren/' . $this->forumID . '-sticker.xbb', FILE_SKIP_EMPTY_LINES) or $stickyFile = array();
 			if(!empty($stickyFile))
 				//Move stickies to top with some 1337 h4x array magic :)
 				$topicFile = array_merge(array_reverse(array_intersect($stickyFile, $topicFile)), array_values(array_diff($topicFile, $stickyFile)));
 			//Build page navigation bar
+			$pages = ceil(($size = count($topicFile)) / Main::getModule('Config')->getCfgVal('topics_per_page'));
+			$pageBar = $topics = array();
 			for($i=1; $i<=$pages; $i++)
 				$pageBar[] = $i != $this->page ? '<a href="' . INDEXFILE . '?mode=viewforum&amp;forum_id=' . $this->forumID . '&amp;z=' . $i . SID_AMPER . '">' . $i . '</a>' : $i;
 			//Only add bar by having more than one page
@@ -171,7 +173,106 @@ class Forum implements Module
 				$_SESSION['session.tview.' . $this->forumID . '.' . $this->topicID] = 1;
 			}
 			//Process topic and its posts
-			
+			$forum = Functions::getForumData($this->forumID) or Main::getModule('Template')->printMessage('forum_not_found');
+			if(!Functions::checkUserAccess($forum, 0))
+				Main::getModule('Template')->printMessage('forum_' . (Main::getModule('Auth')->isLoggedIn() ? 'no_access' : 'need_login'));
+			$topicFile = Functions::file('foren/' . $this->forumID . '-' . $this->topicID . '.xbb') or Main::getModule('Template')->printMessage('topic_not_found');
+			$topic = Functions::explodeByTab(array_shift($topicFile));
+			if(Main::getModule('Config')->getCfgVal('censored') == 1)
+				$topic[1] = Functions::censor($topic[1]);
+			//Build page navigation bar
+			$pages = ceil(($size = count($topicFile)) / Main::getModule('Config')->getCfgVal('posts_per_page'));
+			if($this->page == 'last')
+				$this->page = $pages;
+			$pageBar = $posts = array();
+			for($i=1; $i<=$pages; $i++)
+				$pageBar[] = $i != $this->page ? '<a href="' . INDEXFILE . '?mode=viewforum&amp;forum_id=' . $this->forumID . '&amp;thread=' . $this->topicID . '&amp;z=' . $i . SID_AMPER . '">' . $i . '</a>' : $i;
+			//Only add bar by having more than one page
+			Main::getModule('NavBar')->addElement(array(array($forum[1], INDEXFILE . '?mode=viewforum&amp;forum_id=' . $this->forumID . SID_AMPER), array($topic[1] . ($pageBar = count($pageBar) < 2 ? '' : ' ' . sprintf(Main::getModule('Language')->getString('pages'), implode(' ', $pageBar))))));
+			//Process possible poll
+			$isPoll = false;
+			if(!empty($topic[7]) && ($pollFile = @Functions::file('polls/' . $topic[7] . '-1.xbb')) != false)
+			{
+				$isPoll = true;
+				#0:pollState - 1:creatorID - 2:proprietaryDate - 3:title/question - 4:totalVotes - 5:forumID,topicID
+				$poll = Functions::explodeByTab(array_shift($pollFile));
+				$pollVoters = Functions::explodeByComma(Functions::file_get_contents('polls/' . $topic[7] . '-2.xbb'));
+				//Process each vote option
+				$pollOptions = array();
+				foreach(array_map(array('Functions', 'explodeByTab'), $pollFile) as $curPoll)
+					$pollOptions[] = array('optionID' => $curPoll[0],
+						'pollOption' => $curPoll[1],
+						'percent' => ($curPercent = $curPoll[2] == '0' ? 0 : round(($curPoll[2]/$poll[4])*100, 1)),
+						'voteText' => sprintf(Main::getModule('Language')->getString('x_percent_x_votes'), $curPercent, $curPoll[2]));
+				Main::getModule('Template')->assign(array('pollID' => $topic[7],
+					'pollTitle' => $poll[3],
+					'isPollClosed' => $poll[0] > '2',
+					'hasVoted' => isset($_SESSION['session_poll_' . $topic[7]]) || isset($_COOKIE['cookie_poll_' . $topic[7]]) || in_array(Main::getModule('Auth')->getUserID(), $pollVoters),
+					'needsLogin' => !(Main::getModule('Auth')->isLoggedIn() || $poll[0] == '1'),
+					'canEdit' => Main::getModule('Auth')->isAdmin() || Functions::checkModOfForum($forum) || (Main::getModule('Auth')->isLoggedIn() && Main::getModule('Auth')->getUserID() == $poll[1]),
+					'pollOptions' => $pollOptions,
+					'totalVotes' => $poll[4]));
+			}
+			//Process user and posts
+			$end = $this->page*Main::getModule('Config')->getCfgVal('posts_per_page');
+			for($i=$end-Main::getModule('Config')->getCfgVal('posts_per_page'); $i<($end > $size ? $size : $end); $i++)
+			{
+				#0:postID - 1:posterID - 2:proprietaryDate - 3:post - 4:ip - 5:sig - 6:tSmileyURL - 7:smiliesOn - 8:BBCodeOn - 9:HTMLon
+				$curPost = Functions::explodeByTab($topicFile[$i]);
+				//Prepare user data of current post
+				if($curPost[1][0] == '0')
+					//Guest values
+					$curPoster = $this->getGuestTemplate(Functions::substr($curPost[1], 1));
+				elseif(!($curPoster = @Functions::getUserData($curPost[1])))
+					//Deleted user values
+					$curPoster = $this->getKilledTemplate($curPost[1]);
+				else
+				{
+					//User values
+					$curPoster = array_combine(self::$userKeys, array_slice($curPoster, 0, 17)) + array('sendPM' => true);
+					//Check user mail settings
+					if($curPoster['userMailOpts'][0] != '1' && $curPoster['userMailOpts'][1] != '1')
+						$curPoster['userEMail'] = false;
+					elseif(!($curPoster['userMailOpts'][0] != '1' && $curPoster['userMailOpts'][1] == '1'))
+						$curPoster['userEMail'] = true;
+					//Nick + Date + HP
+					$curPoster['userNick'] = Functions::getProfileLink($curPoster['userID'], true);
+					$curPoster['userRegDate'] = Functions::formatDate($curPoster['userRegDate'] . (Functions::strlen($curPoster['userRegDate']) == 6 ? '01000000' : ''), Main::getModule('Language')->getString('REGDATEFORMAT'));
+					$curPoster['userHP'] = Functions::addHTTP($curPoster['userHP']);
+					//Group stuff
+					if(!empty($curPoster['userGroup']))
+					{
+						$curGroup = Functions::getGroupData($curPoster['userGroup']);
+						$curPoster['userGroup'] = $curGroup[1];
+						if(empty($curPoster['userAvatar']))
+							$curPoster['userAvatar'] = $curGroup[2];
+					}
+					//Rank images
+					$curPoster['userRank'] = Functions::getRankImage($curPoster['userState'], $curPoster['userPosts']);
+					//Detect rank
+					$curPoster['userState'] = Functions::getStateName($curPoster['userState'], $curPoster['userPosts']);
+					//Signature
+					$curPoster['userSig'] = !empty($curPoster['userSig']) && ($curPost[5] == '1' || $curPost[5] == 'yes') ? (Main::getModule('Config')->getCfgVal('censored') == 1 ? Functions::censor($curPoster['userSig']) : $curPoster['userSig']) : '';
+				}
+				unset($curPoster['userMailOpts'], $curPoster['userPassHash'], $curPoster['userForumAcc']);
+				//User values done, proceed with post
+				#$curPost[3] = Main::getModule('BBCode')->parse($curPost[3], $curPost[9] == '1', $curPost[7] == '1', $curPost[8] == '1');
+				if(Main::getModule('Config')->getCfgVal('censored') == 1)
+					$curPost[3] = Functions::censor($curPost[3]);
+				//Add user and post data
+				$posts[] = $curPoster + array('postID' => $curPost[0],
+					'tSmileyURL' => Functions::getTSmileyURL($curPost[6]),
+					'date' => Functions::formatDate($curPost[2]),
+					'postIPText' => !empty($curPost[4]) ? sprintf(Main::getModule('Language')->getString('ip_saved'), INDEXFILE . '?faction=viewip&amp;forum_id=' . $this->forumID . '&amp;topic_id=' . $this->topicID . '&amp;post_id=' . $curPost[0] . SID_AMPER) : Main::getModule('Language')->getString('ip_not_saved'),
+					'canEdit' => ($curCanKill = $curPoster['userState'] == '1' || Functions::checkModOfForum($this->forumID) || ($forum[10][4] == '1' && Main::getModule('Auth')->getUserID() == $curPost[1])),
+					'canKill' => $curCanKill,
+					'post' => $curPost[3]);
+			}
+			Main::getModule('Template')->assign(array('topicTitle' => $topic[1],
+				'isPoll' => $isPoll,
+				'forumID' => $this->forumID,
+				'topicID' => $this->topicID,
+				'posts' => $posts));
 			break;
 
 			default:
@@ -221,11 +322,16 @@ class Forum implements Module
 							'date' => Functions::formatDate($curLastPostData[2])));
 					}
 					//Compile (into) array with all the data for template
-					$forums[] = array($curForum[0], $curForum[1], $curForum[2], $curForum[3], $curForum[4], $curForum[5],
+					$forums[] = array('forumID' => $curForum[0],
+						'forumTitle' => $curForum[1],
+						'forumDescr' => $curForum[2],
+						'forumTopics' => $curForum[3],
+						'forumPosts' => $curForum[4],
+						'catID' => $curForum[5],
 						//Cookie check to detect new posts in current forum since last visit
-						!isset($_COOKIE['forum.' . $curForum[0]]) || $_COOKIE['forum.' . $curForum[0]] < $curForum[6],
-						$curLastPost,
-						Functions::getProfileLink($curForum[11]));
+						'isNewPost' => !isset($_COOKIE['forum.' . $curForum[0]]) || $_COOKIE['forum.' . $curForum[0]] < $curForum[6],
+						'lastPost' => $curLastPost,
+						'mods' => Functions::getProfileLink($curForum[11]));
 					$topicCounter += $curForum[3];
 					$postCounter += $curForum[4];
 				}
@@ -251,12 +357,22 @@ class Forum implements Module
 				'newestPosts' => $newestPosts) + 
 				//Add board statistics
 				(Main::getModule('Config')->getCfgVal('show_board_stats') == 1 ? array(
-				'newestMember' => Functions::getProfileLink(Functions::file_get_contents('vars/last_user_id.var')),
+				'newestMember' => Functions::getProfileLink(Functions::file_get_contents('vars/last_user_id.var'), true),
 				'memberCounter' => Functions::file_get_contents('vars/member_counter.var')) : array()));
 			break;
 		}
 		//Always append IDs to WIO location. WIO will not parse them in inapplicable mode.
 		Main::getModule('Template')->printPage(self::$modeTable[$this->mode], null, null, ',' . $this->forumID . ',' . $this->topicID);
+	}
+
+	private function getGuestTemplate($nick)
+	{
+		return array_combine(self::$userKeys, array($nick, 0, '', '', Main::getModule('Language')->getString('guest'), '', '', '', '', '', '', '', '', '', '', '', '')) + array('userRank' => '', 'sendPM' => false);
+	}
+
+	private function getKilledTemplate($userID)
+	{
+		return array_combine(self::$userKeys, array(Main::getModule('Config')->getCfgVal('var_killed'), $userID, '', '', Main::getModule('Language')->getString('deleted'), '', '', '', '', '', '', '', '', '', '', '', '')) + array('userRank' => '', 'sendPM' => false);
 	}
 }
 ?>
