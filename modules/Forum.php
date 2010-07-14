@@ -278,7 +278,7 @@ class Forum implements Module
 				}
 				unset($curPoster['userMailOpts'], $curPoster['userPassHash'], $curPoster['userForumAcc']);
 				//User values done, proceed with post
-				$curPost[3] = Main::getModule('BBCode')->parse($curPost[3], $curPost[9] == '1' && $forum[7][1] == '1', $curPost[7] == '1' || $curPost[7] == 'yes', $forum[7][0] == '1' && ($curPost[8] == '1' || $curPost[8] == 'yes'));
+				$curPost[3] = Main::getModule('BBCode')->parse($curPost[3], $curPost[9] == '1' && $forum[7][1] == '1', $curPost[7] == '1' || $curPost[7] == 'yes', $forum[7][0] == '1' && ($curPost[8] == '1' || $curPost[8] == 'yes'), $topicFile);
 				if(Main::getModule('Config')->getCfgVal('censored') == 1)
 					$curPost[3] = Functions::censor($curPost[3]);
 				//Add user and post data

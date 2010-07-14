@@ -34,6 +34,14 @@ class Functions extends FunctionsBasic
 	}
 
 	/**
+	 * PHP's {@link str_replace()}. No Multibyte version available.
+	 */
+	public static function str_replace($search, $replace, $subject, $count=null)
+	{
+		return str_replace($search, $replace, $subject, $count);
+	}
+
+	/**
 	 * Wraps PHP's {@link strlen()} to Multibyte's {@link mb_strlen()}.
 	 */
 	public static function strlen($string)

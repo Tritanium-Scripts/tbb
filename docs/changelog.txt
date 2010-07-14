@@ -10,7 +10,8 @@ Last changed: 2010 (Version 1.5 Alpha)
 	-PHP 6 kompatibel
 	-Design als Template ausgelagert mit Smarty 3.0 als Engine
 	-Abwärtskompatibel mit TBB 1.2.3 CSS-Dateien
-	-UTF-8 fähig, schreibt aber intern zwecks Abwärtskompatiblität noch im Zeichensatz des Benutzers
+	-Schreibt Daten nicht mehr im Zeichensatz des Benutzers
+	-UTF-8 fähig, schreibt aber intern zwecks Ab- und Aufwärtskompatiblität in ISO-8859-1
 	-Nutzt Multibyte, wenn möglich
 	-Abwärtskompatibel mit TBB 1.2.3 Daten (Foren, Themen, Umfragen, Mitgliedern, Logs, Einstellungen, News usw.)
 	-Cache-Funktionalität persistent

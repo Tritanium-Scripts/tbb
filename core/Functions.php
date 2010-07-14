@@ -34,6 +34,14 @@ class Functions extends FunctionsBasic
 	}
 
 	/**
+	 * PHP's {@link str_replace()}.
+	 */
+	public static function str_replace($search, $replace, $subject, $count=null)
+	{
+		return str_replace($search, $replace, $subject, $count);
+	}
+
+	/**
 	 * PHP's {@link strlen()}.
 	 */
 	public static function strlen($string)
