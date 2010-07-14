@@ -173,11 +173,12 @@ class FunctionsBasic
 
 	/**
 	 * Extending PHP's {@link file_put_contents()} with file counting, UTF-8 converting and global data path.
+	 * <b>Be very careful changing the $decUTF8 parameter and disabling the UTF-8 decoder! There is usually no need to do this.</b>
 	 */
-	public static function file_put_contents($filename, $data, $flags=LOCK_EX)
+	public static function file_put_contents($filename, $data, $flags=LOCK_EX, $decUTF8=true)
 	{
 		self::$fileCounter++;
-		return utf8_decode(file_put_contents(DATAPATH . $filename, $data, $flags));
+		return file_put_contents(DATAPATH . $filename, $decUTF8 ? utf8_decode($data) : $data, $flags);
 	}
 
 	/**

@@ -1,6 +1,6 @@
 <?php
 /**
- * Starts the board.
+ * Runs the board software.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
  * @copyright Copyright (c) 2010 Tritanium Scripts

@@ -21,11 +21,12 @@
  <tr><td class="td1" colspan="7" style="font-weight:bold; text-align:center;"><span class="norm">{$modules.Language->getString('no_topics_available')}</span></td></tr>
 {/foreach}
 </table>
-<!-- Toolbar -->
 <br />
+
+<!-- Toolbar -->
 <table class="navbar" cellpadding="0" cellspacing="0" style="width:{$modules.Config->getCfgVal('twidth')}; margin:auto;">
  <tr>
-   <td class="navbar" style="width:51%;"><span class="small">&nbsp;<a href="{$smarty.const.INDEXFILE}?faction=newtopic&amp;forum_id={$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/newtopic.gif" alt="" style="vertical-align:middle;" /></a>&nbsp;<a href="{$smarty.const.INDEXFILE}?faction=newpoll&amp;forum_id={$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/newpoll.gif" alt="" style="vertical-align:middle;" /></a></span></td>
-   <td class="navbar" style="width:50%; text-align:right;"><span class="small">{$pageBar}</span></td>
+   <td class="navbar" style="width:50%;"><span class="navbar">&nbsp;<a href="{$smarty.const.INDEXFILE}?faction=newtopic&amp;forum_id={$forumID}{$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/newtopic.gif" alt="" style="vertical-align:middle;" /></a>&nbsp;<a href="{$smarty.const.INDEXFILE}?faction=newpoll&amp;forum_id={$forumID}{$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/newpoll.gif" alt="" style="vertical-align:middle;" /></a></span></td>
+   <td class="navbar" style="width:49%; text-align:right;"><span class="navbar">{$pageBar}</span></td>
  </tr>
 </table>

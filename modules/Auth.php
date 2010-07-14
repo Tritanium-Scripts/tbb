@@ -127,6 +127,16 @@ class Auth
 	}
 
 	/**
+	 * Returns nick of user.
+	 *
+	 * @return string User nick
+	 */
+	public function getUserNick()
+	{
+		return $this->userData[0];
+	}
+
+	/**
 	 * Returns user has admin permissions.
 	 *
 	 * @return bool Admin permissions
@@ -170,12 +180,12 @@ class Auth
 	 * Returns user has moderator rank.
 	 *
 	 * @return bool Moderator rank
-	 */
+	 *
 	public function isMod()
 	{
 		return $this->userData[4] <= '2';
 	}
-
+*/
 	/**
 	 * Returns user has super moderator permissions.
 	 *

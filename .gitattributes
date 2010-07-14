@@ -28,9 +28,12 @@ images/tsmilies/6.gif -text
 images/tsmilies/7.gif -text
 images/tsmilies/8.gif -text
 images/tsmilies/9.gif -text
+templates/std/images/closetopic.gif -text
 templates/std/images/cnntopic.gif -text
 templates/std/images/cntopic.gif -text
+templates/std/images/deltopic.gif -text
 templates/std/images/edit.gif -text
+templates/std/images/favicon.ico -text
 templates/std/images/ghost.png -text
 templates/std/images/hp.gif -text
 templates/std/images/mailto.gif -text
@@ -44,6 +47,7 @@ templates/std/images/onnstopic.gif -text
 templates/std/images/onntopic.gif -text
 templates/std/images/onstopic.gif -text
 templates/std/images/ontopic.gif -text
+templates/std/images/opentopic.gif -text
 templates/std/images/pm.gif -text
 templates/std/images/pollbar.gif -text
 templates/std/images/quote.gif -text

@@ -42,13 +42,13 @@ class Main implements Module
 	 * n = amount of modules
 	 * x = amount of language file
 	 * y = amount of template files
-	 * => n < m
-	 * => n = x
-	 * => x > y
+	 * -> m >= n
+	 * -> n == x
+	 * -> x <= y
 	 *
 	 * @var array Translation table
 	 */
-	private static $actionTable = array('reply' => 'Posts',
+	private static $actionTable = array('reply' => 'Post',
 		'newtopic' => 'Topic',
 		'editpoll' => 'Poll',
 		'vote' => 'Poll',
@@ -180,21 +180,21 @@ class Main implements Module
 		if(($endtime = Functions::checkIPAccess()) !== true)
 			self::getModule('Template')->printMessage(($endtime == -1 ? 'banned_forever_everywhere' : 'banned_for_x_minutes_everywhere'), ceil(($endtime-time())/60));
 		//Detect action
-		$this->action = isset($_GET['faction']) ? $_GET['faction'] : (isset($_POST['faction']) ? $_POST['faction'] : '');
+		$this->action = self::$actionTable[isset($_GET['faction']) ? $_GET['faction'] : (isset($_POST['faction']) ? $_POST['faction'] : '')];
 		//Check force login
-		if(self::getModule('Config')->getCfgVal('must_be_logged_in') == 1 && !self::getModule('Auth')->isLoggedIn() && !in_array(self::$actionTable[$this->action], array('Register', 'Login', 'Help')))
+		if(self::getModule('Config')->getCfgVal('must_be_logged_in') == 1 && !self::getModule('Auth')->isLoggedIn() && !in_array($this->action, array('Register', 'Login', 'Help')))
 			self::getModule('Template')->printMessage('members_only', INDEXFILE . '?faction=register' . SID_AMPER, INDEXFILE . '?faction=login' . SID_AMPER);
 		//Autoload translation of module
-		self::getModule('Language')->parseFile(self::$actionTable[$this->action]);
+		self::getModule('Language')->parseFile($this->action);
 		//Execute module
-		self::getModule(self::$actionTable[$this->action])->execute();
+		self::getModule($this->action)->execute();
 	}
 
 	/**
 	 * Loads the stated module. Triggers an error if module could not be found.
 	 *
 	 * @param string $module The module to load
-	 * @return mixed The loaded class or false on failure.
+	 * @return mixed Reference to the loaded class or false on failure.
 	 */
 	public static function &getModule($module)
 	{
@@ -209,7 +209,7 @@ class Main implements Module
 	}
 
 	/**
-	 * Returns all loaded modules.
+	 * Returns reference to all loaded modules.
 	 *
 	 * @return array Loaded modules
 	 */

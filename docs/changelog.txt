@@ -9,6 +9,7 @@ Last changed: 2010 (Version 1.5 Alpha)
 	-Komplett valides XHTML 1.0 transitional
 	-PHP 6 kompatibel
 	-Design als Template ausgelagert mit Smarty 3.0 als Engine
+	-Leichte Anpassungen am Design an heutige Forenstandards
 	-Abwärtskompatibel mit TBB 1.2.3 CSS-Dateien
 	-Schreibt Daten nicht mehr im Zeichensatz des Benutzers
 	-UTF-8 fähig, schreibt aber intern zwecks Ab- und Aufwärtskompatiblität in ISO-8859-1

@@ -17,6 +17,11 @@ class BBCode
 	 */
 	private $smilies = array();
 
+	/**
+	 * Needed topic data in case of [lock]-BBCode.
+	 *
+	 * @var array Reference to topic data without meta infos (first row of XBB file)
+	 */
 	private $topic;
 
 	/**
@@ -35,7 +40,7 @@ class BBCode
 				$toCache[] = $curSmiley[1] . '\' => \'' . end($this->smilies);
 			}
 			if(Main::getModule('Config')->getCfgVal('use_file_caching') == 1)
-				Functions::file_put_contents('cache/BBCode.cache.php', '<?php $this->smilies = array(\'' . implode('\', \'', $toCache) . '\'); ?>');
+				Functions::file_put_contents('cache/BBCode.cache.php', '<?php $this->smilies = array(\'' . implode('\', \'', $toCache) . '\'); ?>', LOCK_EX, false);
 		}
 	}
 
@@ -46,6 +51,7 @@ class BBCode
 	 * @param bool $enableHTML Allow HTML tags
 	 * @param bool $enableSmilies Parse smilies
 	 * @param bool $enableBBCode Parse BBCode
+	 * @param array $topic Reference to current topic data, needed for [lock]-BBCode
 	 * @return string Formatted string
 	 */
 	public function parse($string, $enableHTML=false, $enableSmilies=true, $enableBBCode=true, &$topic=array())
@@ -67,10 +73,10 @@ class BBCode
 			$string = preg_replace_callback("/\[sub\](.*?)\[\/sub\]/si", create_function('$elements', 'return Main::getModule(\'Template\')->fetch(\'BBCode\', array(\'type\' => BBCODE_SUBSCRIPT, \'subText\' => $elements[1]));'), $string);
 			$string = preg_replace_callback("/\[hide\](.*?)\[\/hide\]/si", create_function('$elements', 'return Main::getModule(\'Template\')->fetch(\'BBCode\', array(\'type\' => BBCODE_HIDE, \'hideText\' => $elements[1]));'), $string);
 			$string = preg_replace_callback("/\[lock\](.*?)\[\/lock\]/si", array(&$this, 'cbLock'), $string);
-			#create_function('$elements', 'global $topic; return Main::getModule(\'Template\')->fetch(\'BBCode\', array(\'type\' => BBCODE_LOCK, \'lockText\' => in_array(Main::getModule(\'Auth\')->getUserID(), array_map(create_function(\'$post\', \'return $post[1];\'), array_map(array(\'Functions\', \'explodeByTab\'), $topic))) ? $elements[1] : \'\'));')
+			#create_function('$elements', 'return Main::getModule(\'Template\')->fetch(\'BBCode\', array(\'type\' => BBCODE_LOCK, \'lockText\' => in_array(Main::getModule(\'Auth\')->getUserID(), array_map(\'next\', array_map(array(\'Functions\', \'explodeByTab\'), $this->topic))) ? $elements[1] : \'\'));')
 			$string = preg_replace_callback("/\[center\](.*?)\[\/center\]/si", create_function('$elements', 'return Main::getModule(\'Template\')->fetch(\'BBCode\', array(\'type\' => BBCODE_CENTER, \'centerText\' => $elements[1]));'), $string);
 			$string = preg_replace_callback("/\[code\](.*?)\[\/code\]/si", create_function('$elements', 'return Main::getModule(\'Template\')->fetch(\'BBCode\', array(\'type\' => BBCODE_CODE, \'codeLines\' => $elements[1]));'), $string);
-			$string = preg_replace_callback("/\[php\](.*?)\[\/php\]/si", create_function('$elements', 'return Main::getModule(\'Template\')->fetch(\'BBCode\', array(\'type\' => BBCODE_CODE, \'codeLines\' => $elements[1]));'), $string);
+			$string = preg_replace_callback("/\[php\](.*?)\[\/php\]/si", create_function('$elements', 'return Main::getModule(\'Template\')->fetch(\'BBCode\', array(\'type\' => BBCODE_CODE, \'codeLines\' => Functions::str_replace(array(\'<code>\', \'</code>\'), \'\', highlight_string($elements[1], true))));'), $string);
 			$string = preg_replace_callback("/\[email\](.*?)\[\/email\]/si", create_function('$elements', 'return Main::getModule(\'Template\')->fetch(\'BBCode\', array(\'type\' => BBCODE_EMAIL, \'eMailAddress\' => $elements[1], \'eMailText\' => $elements[1]));'), $string);
 			$string = preg_replace_callback("/\[email=(.*?)\](.*?)\[\/email\]/si", create_function('$elements', 'return Main::getModule(\'Template\')->fetch(\'BBCode\', array(\'type\' => BBCODE_EMAIL, \'eMailAddress\' => $elements[1], \'eMailText\' => $elements[2]));'), $string);
 			$string = preg_replace_callback("/\[img\](.*?)\[\/img\]/si", create_function('$elements', 'return Functions::substr($elements[1], 0, 11) == \'javascript:\' ? $elements[0] : Main::getModule(\'Template\')->fetch(\'BBCode\', array(\'type\' => BBCODE_IMAGE, \'imageAddress\' => $elements[1], \'imageText\' => \'\'));'), $string);
@@ -101,7 +107,7 @@ class BBCode
 	 */
 	private function cbLock($elements)
 	{
-		return Main::getModule('Template')->fetch('BBCode', array('type' => BBCODE_LOCK, 'lockText' => in_array(Main::getModule('Auth')->getUserID(), array_map(create_function('$post', 'return $post[1];'), array_map(array('Functions', 'explodeByTab'), $this->topic))) ? $elements[1] : ''));
+		return Main::getModule('Template')->fetch('BBCode', array('type' => BBCODE_LOCK, 'lockText' => in_array(Main::getModule('Auth')->getUserID(), array_map('next', array_map(array('Functions', 'explodeByTab'), $this->topic))) ? $elements[1] : ''));
 	}
 }
 ?>

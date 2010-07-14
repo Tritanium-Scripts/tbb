@@ -43,7 +43,7 @@ class Language
 			foreach(glob('languages/*') as $curLangCode)
 				$this->availableLangs[] = basename($curLangCode);
 			if(Main::getModule('Config')->getCfgVal('use_file_caching') == 1)
-				Functions::file_put_contents('cache/Languages.cache.php', '<?php $this->availableLangs = array(\'' . implode('\', \'', $this->availableLangs) . '\'); ?>');
+				Functions::file_put_contents('cache/Languages.cache.php', '<?php $this->availableLangs = array(\'' . implode('\', \'', $this->availableLangs) . '\'); ?>', LOCK_EX, false);
 		}
 		$this->setPrefLang();
 	}
@@ -111,7 +111,7 @@ class Language
 			$toCache[] = '$this->langStrings[\'' . $this->langCode . '\'][\'' . $curKey . '\'] = \'' . addcslashes(($this->langStrings[$this->langCode][$curKey] = $curString), '\'') . '\';';
 		//Cache file
 		if(Main::getModule('Config')->getCfgVal('use_file_caching') == 1)
-			Functions::file_put_contents($cacheFile, '<?php ' . implode("\n", $toCache) . ' ?>');
+			Functions::file_put_contents($cacheFile, '<?php ' . implode("\n", $toCache) . ' ?>', LOCK_EX, false);
 		return ($this->langStrings[$this->langCode][$file] = true);
 	}
 

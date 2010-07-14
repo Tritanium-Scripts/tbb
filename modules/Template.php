@@ -121,7 +121,8 @@ class Template
 		//Print message
 		$this->printHeader();
 		$temp = func_get_args();
-		$this->display('Message', array('msgTitle' => Main::getModule('Language')->getString('title_' . $msgIndex),
+		$this->display('Message', array('action' => 'Message',
+			'msgTitle' => Main::getModule('Language')->getString('title_' . $msgIndex),
 			'msgText' => vsprintf(Main::getModule('Language')->getString('text_' . $msgIndex), array_splice($temp, 1))));
 		exit($this->printTail());
 	}
@@ -138,6 +139,7 @@ class Template
 	{
 		if(!empty($tplVar))
 			$this->assign($tplVar, $value);
+		$this->assign('action', $tplName);
 		Main::getModule('WhoIsOnline')->setLocation($tplName . $addToWIOLoc);
 		$this->printHeader();
 		$this->display($tplName);

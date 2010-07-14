@@ -82,6 +82,7 @@ class Forum implements Module
 		//Perform mode
 		switch($this->mode)
 		{
+//ViewForum
 			case 'viewforum':
 			//Manage cookies
 			setcookie('upbwhere', INDEXFILE . '?mode=viewforum&forum_id=' . $this->forumID); //Redir cookie after login
@@ -163,10 +164,11 @@ class Forum implements Module
 					'lastPost' => sprintf(Main::getModule('Language')->getString('last_post_x_from_x'), Functions::formatDate($curLastPost[2]), Functions::getProfileLink($curLastPost[1], true))));
 			}
 			Main::getModule('Template')->assign(array('pageBar' => $pageBar,
-				'topics' => $topics,
+				'topics' => $topics, //Prepared topics
 				'forumID' => $this->forumID));
 			break;
 
+//ViewTopic
 			case 'viewthread':
 			//Manage cookies
 			setcookie('upbwhere', INDEXFILE . '?mode=viewthread&forum_id=' . $this->forumID . '&thread=' . $this->topicID);
@@ -198,6 +200,7 @@ class Forum implements Module
 			Main::getModule('NavBar')->addElement(array(array($forum[1], INDEXFILE . '?mode=viewforum&amp;forum_id=' . $this->forumID . SID_AMPER), array($topic[1] . ($pageBar = count($pageBar) < 2 ? '' : ' ' . sprintf(Main::getModule('Language')->getString('pages'), implode(' ', $pageBar))))));
 			//Process possible poll
 			$isPoll = false;
+			$isMod = Functions::checkModOfForum($forum);
 			if(!empty($topic[7]) && ($pollFile = @Functions::file('polls/' . $topic[7] . '-1.xbb')) != false)
 			{
 				$isPoll = true;
@@ -216,7 +219,7 @@ class Forum implements Module
 					'isPollClosed' => $poll[0] > '2',
 					'hasVoted' => isset($_SESSION['session_poll_' . $topic[7]]) || isset($_COOKIE['cookie_poll_' . $topic[7]]) || in_array(Main::getModule('Auth')->getUserID(), $pollVoters),
 					'needsLogin' => !(Main::getModule('Auth')->isLoggedIn() || $poll[0] == '1'),
-					'canEdit' => Main::getModule('Auth')->isAdmin() || Functions::checkModOfForum($forum) || (Main::getModule('Auth')->isLoggedIn() && Main::getModule('Auth')->getUserID() == $poll[1]),
+					'canEdit' => Main::getModule('Auth')->isAdmin() || $isMod || (Main::getModule('Auth')->isLoggedIn() && Main::getModule('Auth')->getUserID() == $poll[1]),
 					'pollOptions' => $pollOptions,
 					'totalVotes' => $poll[4]));
 			}
@@ -281,22 +284,25 @@ class Forum implements Module
 				$curPost[3] = Main::getModule('BBCode')->parse($curPost[3], $curPost[9] == '1' && $forum[7][1] == '1', $curPost[7] == '1' || $curPost[7] == 'yes', $forum[7][0] == '1' && ($curPost[8] == '1' || $curPost[8] == 'yes'), $topicFile);
 				if(Main::getModule('Config')->getCfgVal('censored') == 1)
 					$curPost[3] = Functions::censor($curPost[3]);
-				//Add user and post data
+				//Add prepared user data and post data
 				$posts[] = $curPoster + array('postID' => $curPost[0],
 					'tSmileyURL' => Functions::getTSmileyURL($curPost[6]),
 					'date' => Functions::formatDate($curPost[2]),
 					'postIPText' => !empty($curPost[4]) ? sprintf(Main::getModule('Language')->getString('ip_saved'), INDEXFILE . '?faction=viewip&amp;forum_id=' . $this->forumID . '&amp;topic_id=' . $this->topicID . '&amp;post_id=' . $curPost[0] . SID_AMPER) : Main::getModule('Language')->getString('ip_not_saved'),
-					'canEdit' => ($curCanKill = $curPoster['userState'] == '1' || Functions::checkModOfForum($this->forumID) || ($forum[10][4] == '1' && Main::getModule('Auth')->getUserID() == $curPost[1])),
-					'canKill' => $curCanKill,
-					'post' => $curPost[3]); //Prepared user data
+					'canModify' => Main::getModule('Auth')->isAdmin() || $isMod || ($forum[10][4] == '1' && Main::getModule('Auth')->getUserID() == $curPost[1]),
+					'post' => $curPost[3]);
 			}
-			Main::getModule('Template')->assign(array('topicTitle' => $topic[1],
+			Main::getModule('Template')->assign(array('pageBar' => $pageBar,
+				'topicTitle' => $topic[1],
 				'isPoll' => $isPoll,
 				'forumID' => $this->forumID,
 				'topicID' => $this->topicID,
-				'posts' => $posts));
+				'canModify' => Main::getModule('Auth')->isAdmin() || $isMod,
+				'isOpen' => $topic[0] == '1' || $topic[0] == 'open',
+				'posts' => $posts)); //Prepared posts with users
 			break;
 
+//ForumIndex
 			default:
 			//Manage cookie
 			setcookie('upbwhere', INDEXFILE);
