@@ -97,7 +97,7 @@ class BBCode extends ModuleTemplate {
 	* @return string Parsed text with BBCode applied
 	*/
 	protected function parse($text) {
-		$text = preg_replace_callback("/\[list\](.*?)\[\/list\]/si", array($this, 'cbList'), $text); //[list][*]xxx[/list]
+		$text = preg_replace_callback("/\[list\][<br \/>\r\n]*?\[\*\](.*?)\[\/list\]/si", array(&$this, 'cbList'), $text); //[list][*]xxx[/list]
 		$text = preg_replace_callback("/\[b\](.*?)\[\/b\]/si",array($this,'cbBold'),$text); // [b]xxx[/b]
 		$text = preg_replace_callback("/\[i\](.*?)\[\/i\]/si",array($this,'cbItalic'),$text); // [i]xxx[/i]
 		$text = preg_replace_callback("/\[u\](.*?)\[\/u\]/si",array($this,'cbUnderline'),$text); // [u]xxx[/u]
@@ -192,11 +192,9 @@ class BBCode extends ModuleTemplate {
 	}
 
 	protected function cbList($elements) {
-		$listElements = preg_split("/<br \/>\r\n\[\*\](.*?)/si", $elements[1], -1, PREG_SPLIT_NO_EMPTY);
-
 		$this->modules['Template']->assign('b',array(
 			'bbCodeType'=>BBCODE_LIST,
-			'listElements'=>$listElements
+			'listElements'=>explode('[*]', $elements[1])
 		));
 		return $this->modules['Template']->fetch('BBCodeHtml.tpl');
 	}
