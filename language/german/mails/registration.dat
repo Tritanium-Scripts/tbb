@@ -1,0 +1,8 @@
+Hi {USERNAME}!
+Sie wurden erfolgreich bei {FORUMNAME} registriert!
+
+Ihre Zugangsdaten:
+Nick: {USERNAME}
+Passwort: {USERPW}
+
+Sie können das Forum unter {FORUMLINK} erreichen!

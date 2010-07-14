@@ -1,0 +1,395 @@
+***********************************************
+Tritanium Bulletin Board - History (German version)
+Last changed: 26.05.2002 (Version 1.2 Final)
+***********************************************
+
+29.07.2001: Version 0.00001 PreAlpha
+	- Erste Versuche mit cookies gestartet
+	- Name: XBB (eXtendet Bulletin Board)
+30.07.2001: Version 0.00002 PreAlpha
+	- Es können nun unendlich Threads erstellt und gelesen werden
+	- Zu den einzelnen Threads können schon (einzeilige) Antworten erstellt werden
+	- Erste grafische "Studien"
+	- Navigation hinzugefügt
+	- Thread-Aufbau verändert => haben nun neue Funktionen (offen/geschlossen)
+	- Foren hinzugefügt
+	- Mitglieder-Funktion extrem stark eingeschränkt schon verfügbar
+	- Berechnung der Zeit für den Seitenaufbau
+31.07.2001: Version 0.0001 Alpha
+	- Logo eingefügt
+	- einige Funktionen hinzugefügt
+	- Seitenaufbau durch pageheader.php und pagetail.php umstrukturiert
+	- Navigation im Forum wesentlich erleichtert (Navigationsleiste)
+	- "Neues Thema erstellen" und "Antwort erstellen" durch Buttons ersetzt
+	- Status Eingeloggt/Nichteingeloggt wird nun per Cookie erkannt
+	- Login-Script erstellt
+	- index.php ruft nun readforum.php auf und nimmt auch Variablen dafür entgegen
+	- Einige Fehler beseitigt
+	- Mehrzeilige Texte nun möglich
+01.08.2001: Version 0.001 Alpha
+	- Anmelde Script erstellt
+	- Crypt-Verschlüsselung für Passwort eingebaut
+	- reply.php, newtopic.php und readforum.php grafisch überarbeitet
+	- Es wird nun angezeigt ob und mit welchen Namen man angemeldet ist
+	- In der Forenübersicht wird nun die Anzahl der Themen und Posts angezeigt
+	- Kleinere Logik-Fehler beseitigt
+02.08.2001: Version 0.01 Alpha
+	- Es wird nun korrekt erkannt, wer einen Beitrag/eine Antwort verfasst hat
+	- Bei einem neuen Beitrag/einer neuen Antwort werden nun auch die Gesamtzahlen erhöht
+	- Neuster Beitrag wird nun in der Forenübersicht korrekt angezeigt
+	- Fehler in makedatum() beseitigt: Jetzt werden alle Monatszahlen in -namen umgewandelt
+	- Wenn Themen geschlossen sind, kann man nun nichts mehr posten
+	- Beiträge können nun von autorisierten Usern (Ersteller, Moderator, Admin) editiert
+	  werden
+	- Ab jetzt können durch flock() auch mehrere User gleichzeitig auf eine Datei zugreifen
+	- In der Forumübersicht werden nun die Moderatoren angezeigt und User können darauf
+	  überprüft werden, ob sie Moderator eines Forums sind.
+	- Ist man Moderator eines Forums oder Administrator erscheind nun unten eine "Toolbar",
+	  mit der man später Threads löschen, verschieben und schließen/öffnen können wird
+03.08.2001: Version 0.1 Alpha
+	- Nun wird der aktuellste Topic an erster Stelle angezeigt
+	- Einige Copyrightinfos korrigiert
+	- profile.php erstellt. Nun kann ein Profil angesehen werden und bearbeitet werden
+	- Komplette grafische Überarbeitung
+	- Name zu Ultimate PHP Board (UPB) geändert und neues Logo erstellt
+	- Kleiner Fehler in pageheader.php beseitigt (das Profil wurde nicht angezeigt)
+04.08.2001: Version 0.2 Alpha
+	- Weiter das Design überarbeitet
+	- profile.php fertiggestellt
+	- Mit topic.php begonnen. Damit werden Themen gelöscht, geöffnet/geschlossen und
+	  verschoben
+05.08.2001: Version 0.3 Alpha
+	- Wenn das Passwort im Profil geändert wird, wird nun auch das Cookie geupdatet
+	- Themen können nun gelöscht und geschlossen/geöffnet werden
+	- Der offen/geschlossen Zustand eines Topics wird nun in der Themenübersicht per Bild
+	  angezeigt
+	- Man kann sich nun nicht mehr mit einem Namen registrieren, der schon existiert
+	- Beim Antworten und Topic erstellen wird nun die Anzahl der Posts des Users um 1 erhöht
+06.08.2001: Version 0.4 Alpha
+	- Signatur-Feature hinzugefügt
+	- Einige grafische Fehler verbessert
+	- Alle Farbangaben liegen nun in einer externen Datei (settings.php) und sind nun so
+	  leichter zu editieren
+07.08.2001: Version 0.5 Alpha
+	- User können nun gelöscht werden, die Beiträge werden aber nicht gelöscht
+	- Umstrukturierung des Topic-Anzeigen Quellcode
+08.08.2001: Version 0.6 Alpha
+	- Mit der Administration begonnen
+	- Nun können neue Foren erstellt werden
+	- Falls ein Forum keine Beiträge hat, wird das nun auch angezeigt
+	- Wenn ein User nicht eingeloggt ist, bekommt er die ID 0 (=Gast)
+	- Foren können nun offen und privat sein, wenn sie privat sind, dürfen nur User, die
+	  speziell für dieses Forum autorisiert sind, darauf zugreifen
+14.08.2001: Version 0.7 Alpha
+	- Einige Sicherheitslücken beseitigt
+	- Beim neue-Foren-erstellen werden nun auch die benötigten Ordner/Dateien erstellt
+	- settings.php erweitert
+	- ad_user.php erstellt: nun können Status und Forumzugriff bestimmt werden
+	- ad_forum.php erweitert: Foren können nun geändert werden
+	- Es können nun überall die Sonderzeichen "'$\ verwendet werden
+	- Ein Fehler in register.php beseitigt (es wurde eine Zeile zu wenig geschrieben)
+	- Fehler in der Verlinkung, nachdem man eine Antwort erstellt hat, beseitigt
+	- HTML Befehle können nun nicht mehr verwendet werden
+15.08.2001: Version 0.8 Beta
+	- 1. öffentlicher Test erfolgreich => Beta Status
+	- Smilies hinzugefügt
+	- Topicbild-Feature hinzugefügt
+	- edit.php vervollständigt
+	- einige kleinere Fehler beseitigt
+	- Rankingbilder hinzugefügt
+	- regeln.php erstellt
+	- Zum registrieren müssen nun die Boardregeln akzeptiert werden
+	- Einzelne Beiträge können nun gelöscht werden
+16.08.2001: Version 0.9 Beta
+	- Fehler beim Forumerstellen beseitigt (neue Ordner/Dateien bekamen nicht 777)
+	- Kategorien erstellt, voll funtionsfähig (in ad_forum.php integriert)
+	- Mit den PMs begonnen
+	- Wartungsmodus eingebaut (nicht sehr effizient :-), sperrt aber die wichtigsten
+	  Funktionen)
+	- settings.php erweitert
+17.08.2001: Version 0.91 Beta
+	- Administration übersichtlicher und "ansprechender" gemacht
+	- functions.php erweitert
+20.08.2001: Version 0.92 Beta
+	- pagetail.php zeigt nun bei Admin-Status auch einen Link zur Administration an
+	- Bei PMs wird nun erkannt und angezeigt, ob sie gelesen oder ungelesen sind
+	- PMs können nun gelöscht werden
+21.08.2001: Version 0.93 Beta
+	- Formular um PMs zu verschicken erstellt
+	- pageheader.php zeigt nun bei Bedarf "Thema", "Antwort" usw. anstatt des UPB Namen an
+	- Richtiges User Ranking eingebaut (3 Stufen)
+	- functions.php um die PM-Funktionen erweitert
+22.08.2001: Version 0.94 Beta
+	- UPB-Code angefangen (fett und kursiv)
+	- PMs können nun verschickt werden
+23.08.2001: Version 0.95 Beta
+	- UPB-Code erweitert: Nun können auch URLs, Emailadressen und Bilder eingefügt werden
+	- Fehler in faq.php beseitigt
+	- "News"-System eingebaut (aber noch kein Web-Interface verfügbar)
+	- in reply.php und newtopic.php jeweils ein Sicherheitloch beseitigt
+	- PM-System fast fertig gestellt
+	- faq.php fertiggestellt
+	- wenn ein Thema geschlossen ist, man aber Mod des Forums oder Admin ist, kann man
+	  nun trotzdem noch Antworten erstellen
+24.08.2001: Version 0.96 Beta
+	- Fehler in reply.php und newtopic.php beseitigt (Es konnte niemand mehr posten...)
+	- PMs fertiggestellt, d.h. PMs können nun beantwortet werden und es wird eine PM-Box
+	  Statistik unten angezeigt (ungelesene Nachrichten...)
+25.08.2001: Version 0.97 Beta
+	- Es wird nun nur noch die gewünschte Anzahl Themen/Beiträge pro Seite angezeigt
+	- Administration komplett überarbeitet (Nav-Leiste, Login...)
+	- Fehler in pm.php beseitigt (es wurde immer nur bis zum ersten Leerzeichen gesendet)
+26.08.2001: Version 0.98 Beta
+	- Webinterface für die News hinzugefügt (ad_news.php)
+31.08.2001: Version 0.99 Beta
+	- Fehler in newtopic.php beseitigt (Smilies wurden falsch angezeigt)
+	- Downloadversion erstellt
+	- Forumsystem komplett umgestellt (es werden nun keine neuen Ordner mehr gebraucht)
+01.09.2001: Version 0.991 Beta
+	- Einige Fehler beseitigt
+	- Suche eingebaut(search.php)
+	- ad_user.php bei "Userstatus" überarbeitet
+02.09.2001: Version 0.992 Beta
+	- "Read-Only" Status für Foren eingebaut (auch in der Administration)
+	- Darstellungsfehler beseitigt
+	- viewip.php eingebaut, zeigt die IP eines beliebigen Beitrages an (nur Admins und Mods)
+03.09.2001: Version 0.993 Beta (offiziell)
+	- Rankings können nun selber bestimmt werden
+04.09.2001: Version 0.994 Beta (offiziell)
+	- Fehler in ad_user.php beseitigt (es wurde nicht der richtige Status angezeigt)
+	- pageheader.php und pagetail.php in Administration integriert
+06.09.2001: Version 0.995 Beta
+	- Status "banned" und "killed" für User eingebaut
+	- Kleine Überarbeitung von ad_user.php
+21.09.2001: Version 0.996 Beta
+	- WhoIsOnline begonnen (wio.php), Grundgerüst steht schon
+	- Viele kleinere Fehler beseitigt
+22.09.2001: Version 0.997 Beta
+	- WhoIsOnline komplett integriert
+	- User können nun beim Login wählen, ob sie als "online" angezeigt werden sollen
+	- Überarbeitung von login.php
+	- Einige Fehler beseitigt (vor allem mit WhoIsOnline)
+	- Anzahl der Seiten eines Themas wird nun auch in der Topic-Übersicht angezeigt
+	- Administration überarbeitet
+23.09.2001: Version 0.998 Beta
+	- Eingabefelder für neue Beiträge vergrößert
+	- Webinterface um Rankings zu bearbeiten erstellt (Administration)
+	- WhoIsOnline in Administration integriert
+	- Fehler in newtopic.php und reply.php beseitigt (Administratoren wurden nicht erkannt)
+08.10.2001: Version 0.999 Beta (offiziell)
+	- ad_rank.php fertiggestellt
+	- Smilie-System komplett umgestellt, es können nun eigene Smilies bestimmt werden
+	- ad_smilies.php erstellt - Webinterface für eigene (T-)Smilies
+	- WhoIsOnline kann nun bei Bedarf (de-)aktiviert werden
+	- Mit kompletter Überarbeitung des Codes begonnen, Kommentare werden nun auch eingebaut
+	- Fehler in readforum.php beseitigt, die Seitenanzahl eines Themas wurde falsch
+	  angezeigt und eigene T-Smilies wurden gar nicht angezeigt
+	- Fehler in topic.php beseitigt, Mods wurden nicht erkannt
+	- Durch ein Cookie wird man nun nach dem Einloggen wieder dorthin gebracht, wo man
+	  vorher war, falls man sich ein Forum oder Thema angesehen hatte
+	- Fehler in edit.php beseitigt, falls ein Thema ganz gelöscht wurde, wurde zu viel (1)
+	  von der Gesamtzahl abgezogen
+	- In ad_rank.php müssen nun nur noch die Anzahl der Sterne angegeben werden und nicht
+	  der gesamte HTML-Code
+	- User können nun ihre Homepage angeben
+	- Fehler in functions.php beseitigt, der "gelöscht"-Status eines Users wurde nicht
+	  korrekt erkannt
+	- Themen können nun verschoben werden
+	- Viele Fehler in functions.php beseitigt, Daten wurden machmal nicht "imploded"
+30.10.2001: Version 1.0 Beta (offiziell)
+	- Beschriftungsfehler in ad_forum.php beseitigt
+	- Codeüberarbeitung zum größten Teil abgeschlossen
+	- Beim Forenerstellen stehen nun wesentlich mehr Optionen zur Verfügung
+	- Fehler beseitigt (viewip.php) : Man konnte nur eine IP sehen, wenn man Mod UND
+	  Administrator war
+	- Fehler beseitigt (readforum.php): Wenn man keine hp hatte, hatte man trotzdem die
+	  des "Vorbeitrags" bekommen, falls es einen gab
+	- Neuer UPB-Code: Zitat ([quote][/quote]), es kann nun auch mit Zitat geantwortet
+	  werden
+	- Neuer UPB-Code: Unterstrichen ([u][/u])
+	- Neuer UPB-Code: Durchgestrichen ([s][/s])
+	- Neuer UPB-Code: Code ([code][/code])
+	- Neuer UPB-Code: Textfarbe ([color=][/color])
+	- Neue Funktion: Bei jedem Beitrag ist nun ein Link, um dem Ersteller eine PM zu senden
+	- User können nun ein Bild angeben, dass bei jedem Beitrag angezeigt wird und automatisch
+	  verkleinert wird, falls es zu groß ist
+	- Mail-Einstellungen liegen nun in mailsettings.php
+	- User können sich nun über neue Antworten auf ihr Thema per Mail benachrichtigen lassen
+	- Neue Funktion: Newsletter. Über die Administration kann nun ein Newsletter geschrieben
+	  werden, wahlweise per PM oder Email und wahlweise an Alle, nur an Admins oder nur an Mods.
+	- Fehler beseitigt: get_pm_status() hat nicht das richtige Ergebnis geliefert
+	- Fehler beseitigt: Falls PMs Anführungszeichen enthielten, wurden sie komplett falsch
+	  gesendet
+	- Einige Farbwerte in settings.php ausgelagert
+	- Die Seitenaufbauzeit wird nun nur noch bei Bedarf angezeigt
+	- Fehler beseitigt: An manchen Stellen wurde der Userstatus nicht richtig erkannt
+	  ("Gelöscht" anstatt "killed")
+	- Foren können nun endlich verschoben werden
+	- Verschieben von Kategorien ist nun "sicherer"
+	- Es wird nun "1" anstatt "yes" für die verschiedenen Stati von Beiträgen verwendet, was
+	  Speicherplatz spart
+	- Der letzte Beitrag eines Forums wird nun detaillierter angezeigt
+	- Der User ist nun (endlich!) immer noch eingeloggt, auch wenn er den Browser beendet
+	  und wieder startet. Zum Löschen des Cookies muss der User sich einfach nur ausloggen
+	- Alle Userstati werden nun durch Zahlen erkannt (1,2,3,4,5), was wiederum Platz spart
+	- Alle Forenstati werden nun durch Zahlen erkannt (wie bei Userstati)
+	- In settings.php kann nun selbst die Bezeichnung für Admin, Mod, Verbannt und Gelöscht
+	  angegeben werden
+	- Fehler in WIO beseitigt: Der User wurde nicht korekkt zu Themen weitergeleitet
+	- Wartungsmodus nun wesentlich effektiver
+	- Per settings.php kann nun eingestellt werden, dass nur eingeloggte User das Forum
+	  betreten können
+	- Alle Scripte außer der Administration werden nun über index.php aufgerufen, was nun
+	  vieles einfacher macht (für mich zumindest :-)
+	- In der Signatur kann nun auch UPB-Code verwendet werden, aber nicht [quote][/quote]
+	- Wenn User Moderatoren beim Forenändern/erstellen werden, wird der Status nun
+	  automatisch zugewiesen (endlich!)
+	- Die weiterleitung durch ein Cookie nach dem Einloggen wurde erweitert, funktioniert
+	  nun auch mit newtopic.php und reply.php
+	- In der Themenübersicht werden nun andere Icons verwendet, wenn der Beitrag über 15
+	  Antworten hat
+	- Endlich wird nun auch sowohl in der Forenübersicht, als auch in der Themenübersicht
+	  abgezeigt, ob ein neuer Beitrag seit dem letzten Besuch vorhanden ist
+	- Auf Wunsch wird nun in der Forenübersicht eine Boardstatistik angezeigt
+	- In den Navigationsleisten der Administration ist nun auch ein Link zurück zum Forum
+	  integriert
+	- Neue Funktion: Mitgliederliste. Man kann sich diese anzeigen lassen und sogar nach
+	  verschiedenen Aspekten sortieren
+	- Im Profil und in der Mitgliederliste werden nun, falls man Admin ist, direkt Links
+	  zur Administration angezeigt um die User dort direkt bearbeiten zu können
+	- Neue Funktion: IP-Sperre. IPs können nun gesperrt werden, wahlweise für ein bestimmtes
+	  Forum oder für das gesamte UPB. Die Sperrzeit kann auch festgelegt werden bzw. die IP
+	  für immer gesperrt werden. Dazu ad_ip.php erstellt.
+	- Fehler beseitigt: Wenn ein Forum keinen Mod hatte und es privat war, hatte trotzdem
+	  jeder Zugang
+23.01.2002: Version 1.1 Final (offiziell)
+	- 1. Finalversion
+	- Bei Themen wird nun überprüft, ob auch ein Titel eingegeben wurde
+	- Bei den Memberbildern wird nun keine Fehlermeldung mehr ausgegeben
+	- ad.php heißt jetzt adminpanel.php, was ein Problem mit zu kurzen Dateinamen beseitigt
+	- Bei der automatischen Mail-Benachrichtigung wird nun auch ein Link zum Thema angegeben
+	- Der Text für die automatische Mail-Benachrichtigung kann nun selber bestimmt werden
+	- Zitate haben nun eine größere Schrift
+	- Bei neuen Themen und neuen Antworten kann man sich nun auf Wunsch erst eine Vorschau
+	  anzeigen lassen
+	- Alle Themen, deren letzter Beitrag ein bestimmtes Alter hat, können nun auf einmal
+	  über die Administration gelöscht werden (auf Wunsch in allen oder nur einem Forum)
+	- Mods werden nun je nach Einstellung des jew. Forums bei neuen Themen per Mail
+	  benachrichtig
+	- Alle globalen Cookie-Variablen wurden nun durch "normale" ersetzt, was Probleme mit
+	  bestimmten PHP-Pugins beseitigt
+	- Es kann nun festgelegt werden, ab wievielen Einträgen ein Thema als "hot" gilt
+	- Die Zeiten werden nun richtig angezeigt (wenn die Zeitzone korrekt angegeben wird...)
+	- Fehler beseitigt: Beim Bearbeiten von Kategorien wurde manchmal der Name nicht
+	  richtig angezeigt
+	- Beim Forenerstellen/-ändern werden nun alle Kategorien in einer Auswahlliste angezeigt
+	- Viele Meldungen werden nun per Template angezeigt, was die Forenmodifizierung
+	  einfacher macht
+	- Man kann man sich, falls man sein PW vergessen hat, ein neues zuschicken lassen
+	- Ab jetzt liegen nur noch Beiträge in /foren, alles andere in /vars
+	- User können nun ihren Namen und ihre ICQ-Nummer eingeben
+	- ad_user.php überarbeitet, hat nun mehr Funktionen und ist "besser"
+	- Falls das Forum geupdatet wurde, wird nun jeder User nach dem Einloggen erst mal zu
+	  seinem Profil geleitet, um die Angaben zu ergänzen
+	- Fehler beseitigt: User konnten maximal nur zu einem privaten Forum Zutritt haben
+	- Einige Dateien überarbeitet: Gesamtperformance sollte nun besser/höher sein
+	- News komplett überarbeitet: Haben nun wesentlich mehr Konfigurationsmöglichkeiten, es
+	  gibt sogar 2 verschiedene Anzeigemöglichkeiten
+	- Beim Verschieben wird nun nicht mehr das Ursprungsforum als Zielforum zur Auswahl
+	  gestellt
+	- umfangreiche Logging-Funktion eingebaut
+	- Nach Antwortenerstellen und in der Forenübersicht beim letzten Beitrag wird man direkt
+	  auf die Seite des letzten Beitrags gelinkt (falls es mehrere Seiten sind...)
+	- Einige "kosmetische" Korrekturen
+	- Zur technischen Statistik ist nun die Anzahl der Dateien, die per file() geöffnet wurden,
+	  hinzugekommen
+	- Foren können nun auch gelöscht werden
+	- Fehler beim Forenbearbeiten beseitigt: Mods wurden nicht korrekt in ihrem Status
+	  umgestellt
+	- Die Mitgliederliste zeigt nun nach Status sortiert korrekt an (also sekundär nach
+	  Posts sortiert) und wurde außerdem überarbeitet
+	- Admins können nun nicht mehr fremde PM-Boxen einsehen
+	- SID in alle URLs integriert
+	- Es wird nun angezeigt, wie oft ein Thema schon "besucht" wurde
+	- Logindaten und WIO werden nun per Session gespeichert, was viel Kompatiblität schafft
+	  und viele Cookieprobleme beseitigt
+	- Forum komplett auf CSS umgestellt
+	- Bei Mails vom Forum wird nun auch eine Absenderadresse angegeben
+	- Bei geringem Speicherplatz wird der nun Admin gewarnt, bzw. das Forum gesperrt
+	- Viele Mailfunktionen hinzugefügt
+	- Funktion eingebaut, um das Forum schnell und komplett per Browser zu sperren
+	- Wenn ein Forum privat ist, wird beim letzten Beitrag nur das Datum angezeigt
+	- Die Anzahl der Sterne für Mods und Admins können nun selber bestimmt werden
+	- GZIP Kompression eingebaut, was Traffic spart (wenn zlib-Modul installiert ist und der
+	  Server nicht sowieso schon alles komprimiert)
+	- In Beiträgen ist nun HTML-Code möglich
+	- Es kann nun für jedes Forum extra bestimmt werden, ob HTML-Code aktiviert sein soll
+	  oder nicht
+	- In der Forenübersicht werden nun auf Wunsch die letzten 5 Beiträge angezeigt
+	- User werden nun bei Bedarf wirklich gelöscht (d.h. auch die Dateien)
+	- Durch Filecaching konnte die Anzahl der geöffneten Dateien zum Teil um bis zu 85%
+	  gesenkt werden (Geschwinidgkeitszuwachs vor allem bei mehreren Benutzern)
+	- Ein User kann nun bestimmen, ob er Emails vom Forum erhalten will und ob seine
+	  Emailadresse angezeigt werden soll
+	- formmail.php erstellt: Dient zum Verschicken von Mails an User, die ihre Emailadresse
+	  nicht anzeigen lassen wollen
+	- Mitgliederliste kann nun bei Bedarf deaktiviert werden (da sie später unheimlich viele
+	  Ressourcen verbrauchen könnte)
+	- Nun kann per externe Dateien WIO und letzte x Beiträge auf der Website angezeigt werden
+	- Suche stark verbessert, es kann nun in verschiedenen Dingen gesucht werden, eine
+	  "Altersgrenze" ist nun auch verfügbar
+26.05.2002: Version 1.2 (offiziell):
+	- Name geändert in "Tritanium Bulletin Board" (TBB)
+	- Fehler in auth.php beseitigt: Login-Cookies wurden nicht erkannt
+	- Fehler in sendpw.php beseitigt: Mails wurden gar nicht abgeschickt
+	- Fehler in ad_newsletter beseitigt: Anstatt an die Emailadrese wurde an die ID verschickt
+	- Ab jetzt muss ein Betreff für eine PM eingegeben werden
+	- Die gesamte Sprache des Forums ist nun per language-Datei konfigurierbar
+	- "Datenbank" komplett geändert, nun gibt es keine Probleme mehr mit bestimmten Zeichen
+	- Es werden nun nur noch die benötigten Backslashes gelöscht
+	- Die Forenübersicht arbeitet nun vor allem bei mehreren Kategorien und vielen Foren
+	  schneller
+	- Gruppensystem eingebaut
+	- Forenrechte komplett umgestellt, nun wesentlich umfangreicher und exakter zu
+	  konfigurieren
+	- In der Forenübersicht werden nun beim letzten Beitrag eines Forums auch der
+	  entsprechende Smilie angezeigt
+	- Beim Passwortsenden wird nun nicht mehr die Emailadresse angezeigt
+	- search.php zeigt nun korrekt an, dass kein Ergebnis gefunden wurde
+	- ext_lposts.php zeigt nun die richtigen Links an (ohne Pfad)
+	- Falls ein Moderator nicht mehr existiert wird dieser nun in der Forenübersicht auch
+	  nicht mehr angezeigt
+	- Wenn in der Mitgliederliste weitergeblättert wird, dann bleibt die Sortiermethode nun
+	  erhalten
+	- Gastposting eingebaut
+	- Umfragen eingebaut
+	- Fehler beseitigt: Beim Themenerstellen können nun keine Foren mehr angeben werden, die
+	  nicht existieren
+	- Newsletterfunktion sollte nun korrekt arbeiten
+	- Es wird nun die "echte" Anzahl der momentan registrierten Besucher angezeigt und nicht
+	  mehr die Anzahl der insgesamt bisher überhaupt registrierten Besucher
+	- Es ist nun möglich, das Forum mit einer anderen CSS-Datei aufzurufen
+	- In der Themenübersicht werden nun zulange Thementitel automatisch "umgebrochen"
+	- "Letzte Beiträge" und die Signatur werden nun auch gegebenenfalls zensiert
+	- TBB-Codes [center][/center] und [marquee][/marquee] hinzugefügt
+	- ad_user.php verfügt nun über eine "echte" Suche
+	- Man kann nun die Registrierung sperren und eine maximale Userzahl festlegen
+	- In der Administration können nun auch neue User erstellt werden
+	- Die Userverwaltung in der Administration verfügt nun über eine "echte" Suche
+	- Kategorien werden nun nur noch angezeigt, wenn ihr ein Forum zugewiesen wurde
+	- User können sich in ihrem Profil nun selbst löschen
+	- Bei "Passwort vergessen" muss man nun den Nick und nicht die ID angeben
+	- Es kann nun angegeben werden, ob Foren, zu denen man keinen Zugriff hat, angezeigt
+	  werden sollen
+	- Es können nun beliebig viele PMs auf einmal gelöscht werden
+	- Alle Einstellungen können nun auch per Administration vorgenommen werden
+	- Es ist nun nicht mehr möglich sich mit einem Trick mehrmals mit dem selben Namen zu
+	  registrieren
+	- Per [img][/img] kann nun kein Javascript mehr verwendet werden
+	- TBB-Code kann nun wesentlich einfacher per Buttons eingefügt werden
+	- Das Forum kann nun mit einer anderen CSS-Datei, als in den settings angegeben
+	  aufgerufen werden
+
+
+(c) 2001-2002 Tritanium Scripts
+http://www.tritanium-scripts.de
