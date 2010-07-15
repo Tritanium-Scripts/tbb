@@ -45,6 +45,9 @@ Last changed: 2010 (Version 1.5 Alpha)
 	-Verwendung von getimagesize() ist nun schneller
 	-Abwärtskompatibel mit vielen "Hacks" für das TBB 1.2.3
 	-Wesentlich mehr BBCode
+	-Kein separates Login für Admins im Wartungsmodus mehr nötig
+	-Vorhandene Passwörter bleiben solange gültig, bis man ein neues, angeforderte Passwort auch benutzt hat
+	-Hashes von Passwörtern basieren nun auf SHA-512, wenn vom System unterstützt, ansonsten DES zwecks Abwärtskompatiblität
 
 Written by Chrissyx
 (c) 2010 Tritanium Scripts

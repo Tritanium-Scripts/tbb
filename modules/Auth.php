@@ -80,7 +80,7 @@ class Auth
 		elseif(isset($_COOKIE['cookie_xbbuser']))
 		{
 			$cUser = Functions::explodeByTab($_COOKIE['cookie_xbbuser']);
-			if(!empty($cUser[1]) && ($cUserData = Functions::file('members/' . $cUser[0] . '.xbb') != false) && $cUser[1] == $cUserData[2])
+			if(!empty($cUser[1]) && ($cUserData = Functions::file('members/' . $cUser[0] . '.xbb')) != false && $cUser[1] == $cUserData[2])
 			{
 				$this->loggedIn = true;
 				$_SESSION['userID'] = $cUser[0];

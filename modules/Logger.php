@@ -41,7 +41,7 @@ class Logger
 	public function log($data, $level)
 	{
 		if(in_array($level, $this->logLevels))
-			Functions::file_put_contents($this->logFile, date('r') . ' [IP: ' . $_SERVER['REMOTE_ADDR'] . ']: ' . sprintf($data, Main::getModule('Auth')->getUserNick() . ' (ID: ' . Main::getModule('Auth')->getWIOID() . ')'), FILE_APPEND);
+			Functions::file_put_contents($this->logFile, date('r') . ' [IP: ' . $_SERVER['REMOTE_ADDR'] . ']: ' . sprintf(htmlspecialchars_decode($data), htmlspecialchars_decode(Main::getModule('Auth')->getUserNick()) . ' (ID: ' . Main::getModule('Auth')->getWIOID() . ')') . "\n", FILE_APPEND);
 	}
 }
 ?>

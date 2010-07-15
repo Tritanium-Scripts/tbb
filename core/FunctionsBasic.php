@@ -209,8 +209,9 @@ class FunctionsBasic
 
 	/**
 	 * Returns hash value for stated string.
+	 * If supported, SHA-2 (SHA-512) will be used, DES as fallback and downward compatibility to TBB 1.2.3 otherwise.
 	 *
-	 * @param string $data String to hash
+	 * @param string $data String to hash with SHA-2 (or DES)
 	 * @return string Hash value of string
 	 */
 	public static function getHash($string)
@@ -320,6 +321,18 @@ class FunctionsBasic
 					$userLinks[] = '<a' . $aAttributes . ' href="' . INDEXFILE . '?faction=profile&amp;profile_id=' . $curUserID . SID_AMPER . '"' . $curColor . '>' . $curUser[0] . '</a>';
 				}
 		return implode(', ', $userLinks);
+	}
+
+	/**
+	 * Generates a 10-character random password incl. special ones.
+	 *
+	 * @return string Random password
+	 */
+	public static function getRandomPass()
+	{
+		for($i=0,$newPass=''; $i<10; $i++)
+			$newPass .= chr(mt_rand(33, 126));
+		return $newPass;
 	}
 
 	/**

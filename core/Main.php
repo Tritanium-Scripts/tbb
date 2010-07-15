@@ -127,7 +127,7 @@ class Main implements Module
 			$fdsVar = intval(Functions::file_get_contents('vars/fds.var')); //false = 0, if file does not exist or if file is empty
 			if($fdsVar == 0) //Is this first time warning?
 			{
-				Functions::mail(self::getModule('Config')->getCfgVal('admin_email'), self::getModule('Language')->getString('fds_warning_subject', 'Mails'), sprintf(self::getModule('Language')->getString('fds_warning_message'), self::getModule('Config')->getCfgVal('address_to_forum') . '/index.php?faction=login'));
+				Functions::mail(self::getModule('Config')->getCfgVal('admin_email'), 'fds_warning', self::getModule('Config')->getCfgVal('address_to_forum') . '/' . INDEXFILE . '?faction=login');
 				self::getModule('Logger')->log('Disk space warning! Admin notified', LOG_FILESYSTEM);
 				Functions::file_put_contents('vars/fds.var', ++$fdsVar);
 			}
@@ -136,7 +136,7 @@ class Main implements Module
 				self::getModule('Config')->setCfgVal('uc', 1); //Emergency closure
 				if($fdsVar != 2)
 				{
-					Functions::mail(self::getModule('Config')->getCfgVal('admin_email'), self::getModule('Language')->getString('fds_alert_subject', 'Mails'), sprintf(self::getModule('Language')->getString('fds_alert_message'), self::getModule('Config')->getCfgVal('address_to_forum') . '/index.php?faction=login'));
+					Functions::mail(self::getModule('Config')->getCfgVal('admin_email'), 'fds_alert', self::getModule('Config')->getCfgVal('address_to_forum') . '/' . INDEXFILE . '?faction=login');
 					self::getModule('Logger')->log('Disk space alert! Admin notified; Board closed', LOG_FILESYSTEM);
 					Functions::file_put_contents('vars/fds.var', 2);
 				}
@@ -161,16 +161,18 @@ class Main implements Module
 			//URL-based
 			define('SID_QMARK', '?sid=' . session_id());
 			define('SID_AMPER', '&amp;sid=' . session_id());
+			define('SID_AMPER_RAW', '&sid=' . session_id());
 		}
 		else
 		{
 			//Cookie-based
 			define('SID_QMARK', '');
 			define('SID_AMPER', '');
+			define('SID_AMPER_RAW', '');
 		}
 		//Log connected state of user
 		if(!self::getModule('Auth')->isConnected())
-			self::getModule('Logger')->log('User connected', LOG_USER_CONNECT);
+			self::getModule('Logger')->log((self::getModule('Auth')->isLoggedIn() ? '%s' : 'User') . ' connected', LOG_USER_CONNECT);
 		//Set root of NavBar
 		Main::getModule('NavBar')->addElement(Main::getModule('Config')->getCfgVal('forum_name'), INDEXFILE . SID_QMARK);
 		//Check maintenance mode

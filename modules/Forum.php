@@ -118,7 +118,7 @@ class Forum implements Module
 				{
 					case '1':
 					case 'open': //Downward compatibility
-					$curTopicIcon = !isset($_COOKIE[$curCookieID]) || $_COOKIE[$curCookieID] < $curTopic[5] ? ($size <= Main::getModule('Config')->getCfgVal('topic_is_hot') ? 'ontopic' : 'onstopic') : ($size <= Main::getModule('Config')->getCfgVal('topic_is_hot') ? 'onntopic' : 'onnstopic');
+					$curTopicIcon = !isset($_COOKIE[$curCookieID]) || $_COOKIE[$curCookieID] < $curTopic[5] ? ($curSize <= Main::getModule('Config')->getCfgVal('topic_is_hot') ? 'ontopic' : 'onstopic') : ($curSize <= Main::getModule('Config')->getCfgVal('topic_is_hot') ? 'onntopic' : 'onnstopic');
 					$isMoved = false;
 					break;
 

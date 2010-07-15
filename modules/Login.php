@@ -37,9 +37,16 @@ class Login implements Module
 	 */
 	private $mode;
 
+	/**
+	 * Translates a mode to its template file.
+	 *
+	 * @var array Mode and template counterparts
+	 */
+	private static $modeTable = array('' => 'Login', 'login' => 'Login', 'verify' => 'Login', 'sendpw' => 'RequestPassword');
+
 	function __construct($fAction)
 	{
-		$this->loginName = Functions::getValueFromGlobals('login_name');
+		$this->loginName = htmlspecialchars(Functions::getValueFromGlobals('login_name'));
 		$this->loginPass = Functions::getValueFromGlobals('login_pw');
 		$this->mode = $fAction;
 	}
@@ -49,6 +56,7 @@ class Login implements Module
 	 */
 	public function execute()
 	{
+		Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('login'));
 		//If user is already logged in
 		if(Main::getModule('Auth')->isLoggedIn() && $this->mode == 'login')
 		{
@@ -56,48 +64,138 @@ class Login implements Module
 			header('Location: ' . INDEXFILE . SID_QMARK);
 			Main::getModule('Template')->printMessage('already_logged_in', INDEXFILE . SID_QMARK);
 		}
-		//Check login data
-		if($this->mode == 'verify')
+//Login
+		switch($this->mode)
 		{
+			//Check login data
+			case 'verify':
 			if(empty($this->loginName))
 				$this->errors[] = Main::getModule('Language')->getString('please_enter_a_name');
 			if(empty($this->loginPass))
 				$this->errors[] = Main::getModule('Language')->getString('please_enter_a_password');
 			else
 			{
-				//Prerequisite were met, prepare data
-				$this->loginName = strtolower($this->loginName);
+				//Prerequisite are met, prepare data
+				$this->loginName = Functions::strtolower($this->loginName);
 				$this->loginPass = Functions::getHash($this->loginPass);
+				$found = false;
 				//Start crawling by ignoring XBB files with leading zeros (=skip guest)
 				foreach(glob(DATAPATH . 'members/[!0]*.xbb') as $curMember)
 				{
 					$curMember = Functions::file($curMember);
-					if($this->loginName == strtolower($curMember[0]))
+					if($this->loginName == Functions::strtolower($curMember[0]))
+					{
+						$found = true;
+						//Deleted user
 						if($curMember[4] == '5')
 						{
 							$this->errors[] = Main::getModule('Language')->getString('user_not_found');
-							Main::getModule('Logger')->log('Login with deleted user "' . $this->loginName . '" failed', LOG_LOGIN_LOGOUT);
+							$this->loginName = $curMember[0]; //Undo strtolower for template and log
+							Main::getModule('Logger')->log('Login with deleted user "' . $curMember[0] . '" (ID: ' . $curMember[1] . ') failed', LOG_FAILED_LOGIN);
 							break;
 						}
-						elseif($curMember[2] != $this->loginPass)
+						//Don't allow login for non-admins in case of active maintenance mode
+						elseif(Main::getModule('Config')->getCfgVal('uc') == 1 && $curMember[4] != '1')
+							Main::getModule('Template')->printMessage('maintenance_mode_on');
+						//Wrong password
+						elseif(!in_array($this->loginPass, ($curPasses = (Functions::explodeByTab($curMember[2] . "\t"))))) //Attach additional tab to make sure [1] is set in any case
 						{
 							$this->errors[] = Main::getModule('Language')->getString('wrong_password');
-							Main::getModule('Logger')->log('Login with wrong password for user "' . $this->loginName . '" failed', LOG_LOGIN_LOGOUT);
+							$this->loginName = $curMember[0]; //Undo strtolower for template
+							Main::getModule('Logger')->log('Login with wrong password for user "' . $curMember[0] . '" (ID: ' . $curMember[1] . ') failed', LOG_FAILED_LOGIN);
 							break;
 						}
+						//All ok, do login
 						else
 						{
-							//todo...
-							header('Location: ' . INDEXFILE . SID_QMARK);
+							//Set a new requested password as new default one
+							if($this->loginPass == $curPasses[1])
+							{
+								$curMember[2] = $curPasses[1];
+								Functions::file_put_contents('members/' . $curMember[1]. '.xbb', implode("\n", $curMember));
+								Main::getModule('Logger')->log('Requested password set as new one for "' . $curMember[0] . '" (ID: ' . $curMember[1] . ')', LOG_NEW_PASSWORD);
+							}
+							//Login session-based
+							$_SESSION['userID'] = $curMember[1];
+							$_SESSION['userHash'] = $this->loginPass;
+							//Login cookie-based
+							setcookie('cookie_xbbuser', $curMember[1] . "\t" . $this->loginPass, Functions::getValueFromGlobals('stayli') == 'yes' ? time()+60*60*24*365 : 0, '/');
+							//Delete guest ID from WIO to work with user ID form now on
+							Main::getModule('WhoIsOnline')->delete($_SESSION['session_upbwio']);
+							//Set ghost state
+							if(Functions::getValueFromGlobals('bewio') == 'yes')
+								$_SESSION['bewio'] = true;
+							//That's it
+							Main::getModule('Logger')->log($curMember[0] . ' (ID: ' . $curMember[1] . ') logged in', LOG_LOGIN_LOGOUT);
+							//Detect loction to redir
+							$location = $curMember[11] == '1' ? INDEXFILE . '?faction=profile&mode=edit' . SID_AMPER_RAW : (isset($_COOKIE['upbwhere']) && !empty($_COOKIE['upbwhere']) ? $location = $_COOKIE['upbwhere'] : INDEXFILE . SID_QMARK);
+							header('Location: ' . $location);
+							Main::getModule('Template')->printMessage('successfully_logged_in', $location);
 						}
+					}
 				}
-				$this->errors[] = Main::getModule('Language')->getString('user_not_found');
-				Main::getModule('Logger')->log('Login with unknown user "' . $this->loginName . '" failed', LOG_LOGIN_LOGOUT);
+				//Not found in "member DB"
+				if(!$found)
+				{
+					$this->errors[] = Main::getModule('Language')->getString('user_not_found');
+					Main::getModule('Logger')->log('Login with unknown user "' . $this->loginName . '" failed', LOG_FAILED_LOGIN);
+				}
 			}
+			break;
+
+//RequestPassword
+			case 'sendpw':
+			if(Main::getModule('Config')->getCfgVal('activate_mail') != 1)
+				Main::getModule('Template')->printMessage('function_deactivated');
+			$this->loginName = Functions::getValueFromGlobals('nick');
+			if(Functions::getValueFromGlobals('send') == '1')
+				if(empty($this->loginName))
+					$this->errors[] = Main::getModule('Language')->getString('please_enter_a_name');
+				else
+				{
+					//Prerequisite are met, prepare data and start crawling
+					$this->loginName = Functions::strtolower($this->loginName);
+					foreach(glob(DATAPATH . 'members/[!0]*.xbb') as $curMember)
+					{
+						$curMember = Functions::file($curMember);
+						if($this->loginName == Functions::strtolower($curMember[0]))
+						{
+							$curMember[2] = current(Functions::explodeByTab($curMember[2])) . "\t" . Functions::getHash($newPass = Functions::getRandomPass());
+							Functions::file_put_contents('members/' . $curMember[1]. '.xbb', implode("\n", $curMember));
+							if(!Functions::mail($curMember[3], 'new_password_requested', $_SERVER['REMOTE_ADDR'], $this->loginName, $newPass, Main::getModule('Config')->getCfgVal('address_to_forum') . '/' . INDEXFILE . '?faction=login'))
+								Main::getModule('Template')->printMessage('sending_mail_failed');
+							Main::getModule('Logger')->log('New password requested and sent to "' . $curMember[0] . '" (ID: ' . $curMember[1] . ')', LOG_NEW_PASSWORD);
+							Main::getModule('Template')->printMessage('new_password_created');
+						}
+					}
+					$this->errors[] = Main::getModule('Language')->getString('user_not_found');
+					Main::getModule('Logger')->log('New password request for unknown user "' . $this->loginName . '" failed', LOG_NEW_PASSWORD);
+				}
+			else
+				//In case the nick was submitted from login formular (send != 1) additional decode is needed
+				$this->loginName = urldecode($this->loginName);
+			break;
+
+//Logout
+			case 'logout':
+			if(!Main::getModule('Auth')->isLoggedIn())
+				break;
+			Main::getModule('Logger')->log('%s logged out', LOG_LOGIN_LOGOUT);
+			//Delete user ID from WIO to work with previous guest ID form now on
+			Main::getModule('WhoIsOnline')->delete($_SESSION['userID']);
+			//Logout cookie-based
+			setcookie('cookie_xbbuser', '', time()-1000, '/');
+			//Logout session-based
+			unset($_SESSION['userID'], $_SESSION['userHash']);
+			if(Main::getModule('Auth')->isGhost())
+				unset($_SESSION['bewio']);
+			//Done, redir to forum index
+			header('Location: ' . INDEXFILE . SID_QMARK);
+			Main::getModule('Template')->printMessage('successfully_logged_out', INDEXFILE . SID_QMARK);
+			break;
 		}
 		//Show formular (again)
-		Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('login'));
-		Main::getModule('Template')->printPage('Login', array('loginName' => $this->loginName,
+		Main::getModule('Template')->printPage(self::$modeTable[$this->mode], array('loginName' => $this->loginName,
 			'errors' => $this->errors));
 	}
 }

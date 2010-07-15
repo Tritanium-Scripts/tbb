@@ -59,10 +59,10 @@ class WhoIsOnline implements Module
 			$this->wwoFile[2]++;
 			$update = true;
 		}
-		elseif(Main::getModule('Auth')->isLoggedIn() && !in_array(Main::getModule('Auth')->getUserID . '#' . Main::getModule('Auth')->isGhost(), Functions::explodeByComma($this->wwoFile[3])))
+		elseif(Main::getModule('Auth')->isLoggedIn() && !in_array(Main::getModule('Auth')->getUserID() . '#' . Main::getModule('Auth')->isGhost(), Functions::explodeByComma($this->wwoFile[3])))
 		{
 			//Add member with ghost state
-			$this->wwoFile[3] .= ',' . Main::getModule('Auth')->getUserID . '#' . Main::getModule('Auth')->isGhost();
+			$this->wwoFile[3] .= (!empty($this->wwoFile[3]) ? ',' : '') . Main::getModule('Auth')->getUserID() . '#' . Main::getModule('Auth')->isGhost();
 			$record = Functions::explodeByTab($this->wwoFile[1]);
 			//Check record
 			if($record[0] < ($size = count(Functions::explodeByComma($this->wwoFile[3]))))
@@ -71,6 +71,12 @@ class WhoIsOnline implements Module
 		}
 		if($update)
 			Functions::file_put_contents('vars/today.var', implode("\n", $this->wwoFile));
+	}
+
+	public function delete($wioID)
+	{
+		if($this->enabled)
+			$this->refreshVar($wioID);
 	}
 
 	/**
@@ -109,6 +115,10 @@ class WhoIsOnline implements Module
 
 					case 'WhoIsOnline':
 					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('views_the_wio_list'), $curWIOEntryIsGhost, $curTime);
+					break;
+
+					case 'Login':
+					$wioLocations[] = array();
 					break;
 
 					default:
@@ -202,9 +212,10 @@ class WhoIsOnline implements Module
 	/**
 	 * Refreshes contents of the WIO data file by removing outdated entries.
 	 *
+	 * @param string $deleteID Optional WIOID to delete nevertheless
 	 * @return array Already exploded contents of refreshed WIO file.
 	 */
-	private function refreshVar()
+	private function refreshVar($deleteWIOID='')
 	{
 		$update = false;
 		$wioFile = Functions::file('vars/wio.var');
@@ -212,7 +223,7 @@ class WhoIsOnline implements Module
 		for($i=0; $i<$size; $i++)
 		{
 			$wioFile[$i] = Functions::explodeByTab($wioFile[$i]);
-			if($wioFile[$i][0] + $this->timeout < time())
+			if($wioFile[$i][0] + $this->timeout < time() || $wioFile[$i][1] == $deleteWIOID)
 			{
 				//Delete outdated
 				unset($wioFile[$i]);

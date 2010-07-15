@@ -10,18 +10,24 @@
 class Functions extends FunctionsBasic
 {
 	/**
-	 * Wraps PHP's {@link mail()} to Multibyte's {@link mb_send_mail()}.
+	 * Sends an E-Mail to given address by wrapping PHP's {@link mail()} to Multibyte's {@link mb_send_mail()}.
+	 *
+	 * @param string $to Recipient address
+	 * @param string $msgIndex Identifier part of message subject and text
+	 * @param mixed $args,... Optional arguments to be replaced in message text
 	 */
-	public static function mail($to, $subject, $message)
+	public static function mail($to, $msgIndex, $args=null)
 	{
 		if(Main::getModule('Config')->getCfgVal('activate_mail') == 1)
 		{
-			mb_send_mail($to, $subject, $message,
+			$temp = func_get_args();
+			$isAccepted = @mb_send_mail($to, Main::getModule('Language')->getString('subject_' . $msgIndex, 'Mails'), vsprintf(Main::getModule('Language')->getString('message_' . $msgIndex), array_splice($temp, 2)),
 				'From: ' . Main::getModule('Config')->getCfgVal('forum_name') . ' <' . Main::getModule('Config')->getCfgVal('forum_email') . '>' . "\r\n" .
 				'Reply-To: ' . Main::getModule('Config')->getCfgVal('forum_name') . ' <' . Main::getModule('Config')->getCfgVal('forum_email') . '>' . "\r\n" .
 				'X-Mailer: PHP/' . phpversion() . "\r\n" .
 				'Content-Type: text/plain; charset=' . Main::getModule('Language')->getString('encoding', 'Mails'));
-			Main::getModule('Logger')->log('Mail sent to ' . $to, LOG_USER_TRAFFIC);
+			Main::getModule('Logger')->log('Mail ' . ($isAccepted ? 'sent to ' : 'FAILED to sent to ') . $to, LOG_USER_TRAFFIC);
+			return $isAccepted;
 		}
 	}
 
