@@ -4,10 +4,9 @@
   <table class="tbl" cellpadding="{$modules.Config->getCfgVal('tpadding')}" cellspacing="{$modules.Config->getCfgVal('tspacing')}" style="width:{$modules.Config->getCfgVal('twidth')}; margin:auto;">
    <tr><td class="td1"><span class="small"><a class="small" href="{$smarty.const.INDEXFILE}?faction={$smarty.const.SID_AMPER}">pms</a></span></td></tr>
   </table>
+  <br />
   {/if}
-  <br />
-  {if $modules.Auth->isAdmin()}<p class="norm" style="text-align:center;"><a class="norm" href="{$smarty.const.INDEXFILE}?action=adminpanel{$smarty.const.SID_AMPER}">{$modules.Language->getString('administration')}</a></p>{/if}
-  <br />
+  {if $modules.Auth->isAdmin()}<p class="norm" style="text-align:center;"><a class="norm" href="{$smarty.const.INDEXFILE}?action=adminpanel{$smarty.const.SID_AMPER}">{$modules.Language->getString('administration')}</a></p><br />{/if}
   <p class="norm" style="text-align:center;">{mailto address=$modules.Config->getCfgVal('site_contact') text=$modules.Language->getString('contact') extra='class="norm"' encode="javascript"} | <a class="norm" href="{$modules.Config->getCfgVal('site_address')}">{$modules.Config->getCfgVal('site_name')}</a> | <a class="norm" href="{$smarty.const.INDEXFILE}?faction=regeln{$smarty.const.SID_AMPER}">{$modules.Language->getString('board_rules')}</a></p>
   <br />
   <p class="copyr" style="text-align:center;">

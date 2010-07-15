@@ -22,7 +22,7 @@ class BBCode
 	 *
 	 * @var array Reference to topic data without meta infos (first row of XBB file)
 	 */
-	private $topic;
+	private $topicIDs;
 
 	/**
 	 * Prepares smilies.
@@ -56,14 +56,19 @@ class BBCode
 	 */
 	public function parse($string, $enableHTML=false, $enableSmilies=true, $enableBBCode=true, &$topic=array())
 	{
-		if(!$enableHTML)
+		if($enableHTML)
 			$string = htmlspecialchars_decode($string, ENT_COMPAT);
 		if($enableSmilies)
 			$string = strtr($string, $this->smilies);
 		if($enableBBCode)
 		{
-			$this->topic = $topic;
+			//Cache topic IDs (if any)
+			if(!isset($this->topicIDs))
+				//Only consider numeric IDs (guest IDs are strings) and filter out dublicate ones
+				$this->topicIDs = array_filter(array_unique(array_map('next', array_map(array('Functions', 'explodeByTab'), $topic))), 'is_numeric'); #SORT_NUMERIC
+			//Filter out ignored BBCode
 			$string = preg_replace_callback("/\[noparse\](.*?)\[\/noparse\]/si", create_function('$elements', 'return Functions::str_replace(array(\'[\', \']\'), array(\'&#91;\', \'&#93;\'), $elements[1]);'), $string);
+			//Start parsing
 			$string = preg_replace_callback("/\[list\][<br \/>\r\n]*?\[\*\](.*?)\[\/list\]/si", create_function('$elements', 'return Main::getModule(\'Template\')->fetch(\'BBCode\', array(\'type\' => BBCODE_LIST, \'listEntries\' => explode(\'[*]\', $elements[1])));') , $string);
 			$string = preg_replace_callback("/\[b\](.*?)\[\/b\]/si", create_function('$elements', 'return Main::getModule(\'Template\')->fetch(\'BBCode\', array(\'type\' => BBCODE_BOLD, \'boldText\' => $elements[1]));'), $string);
 			$string = preg_replace_callback("/\[i\](.*?)\[\/i\]/si", create_function('$elements', 'return Main::getModule(\'Template\')->fetch(\'BBCode\', array(\'type\' => BBCODE_ITALIC, \'italicText\' => $elements[1]));'), $string);
@@ -73,7 +78,7 @@ class BBCode
 			$string = preg_replace_callback("/\[sub\](.*?)\[\/sub\]/si", create_function('$elements', 'return Main::getModule(\'Template\')->fetch(\'BBCode\', array(\'type\' => BBCODE_SUBSCRIPT, \'subText\' => $elements[1]));'), $string);
 			$string = preg_replace_callback("/\[hide\](.*?)\[\/hide\]/si", create_function('$elements', 'return Main::getModule(\'Template\')->fetch(\'BBCode\', array(\'type\' => BBCODE_HIDE, \'hideText\' => $elements[1]));'), $string);
 			$string = preg_replace_callback("/\[lock\](.*?)\[\/lock\]/si", array(&$this, 'cbLock'), $string);
-			#create_function('$elements', 'return Main::getModule(\'Template\')->fetch(\'BBCode\', array(\'type\' => BBCODE_LOCK, \'lockText\' => in_array(Main::getModule(\'Auth\')->getUserID(), array_map(\'next\', array_map(array(\'Functions\', \'explodeByTab\'), $this->topic))) ? $elements[1] : \'\'));')
+			#create_function('$elements', 'return Main::getModule(\'Template\')->fetch(\'BBCode\', array(\'type\' => BBCODE_LOCK, \'lockText\' => in_array(Main::getModule(\'Auth\')->getUserID(), $this->topicIDs) ? $elements[1] : \'\'));')
 			$string = preg_replace_callback("/\[center\](.*?)\[\/center\]/si", create_function('$elements', 'return Main::getModule(\'Template\')->fetch(\'BBCode\', array(\'type\' => BBCODE_CENTER, \'centerText\' => $elements[1]));'), $string);
 			$string = preg_replace_callback("/\[code\](.*?)\[\/code\]/si", create_function('$elements', 'return Main::getModule(\'Template\')->fetch(\'BBCode\', array(\'type\' => BBCODE_CODE, \'codeLines\' => $elements[1]));'), $string);
 			$string = preg_replace_callback("/\[php\](.*?)\[\/php\]/si", create_function('$elements', 'return Main::getModule(\'Template\')->fetch(\'BBCode\', array(\'type\' => BBCODE_CODE, \'codeLines\' => Functions::str_replace(array(\'<code>\', \'</code>\'), \'\', highlight_string($elements[1], true))));'), $string);
@@ -107,7 +112,7 @@ class BBCode
 	 */
 	private function cbLock($elements)
 	{
-		return Main::getModule('Template')->fetch('BBCode', array('type' => BBCODE_LOCK, 'lockText' => in_array(Main::getModule('Auth')->getUserID(), array_map('next', array_map(array('Functions', 'explodeByTab'), $this->topic))) ? $elements[1] : ''));
+		return Main::getModule('Template')->fetch('BBCode', array('type' => BBCODE_LOCK, 'lockText' => in_array(Main::getModule('Auth')->getUserID(), $this->topicIDs) ? $elements[1] : ''));
 	}
 }
 ?>

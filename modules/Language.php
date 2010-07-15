@@ -96,13 +96,13 @@ class Language
 		if(isset($this->langStrings[$this->langCode][$file]))
 			return true;
 		$cacheFile = 'cache/Language-' . $this->langCode . '-' . $file . '.cache.php';
+		$iniFile = 'languages/' . $this->langCode . '/' . $file . '.ini';
 		//Already parsed?
-		if(file_exists($cacheFile))
+		if(file_exists($cacheFile) && (filemtime($cacheFile) > filemtime($iniFile)))
 		{
 			include($cacheFile);
 			return true;
 		}
-		$iniFile = 'languages/' . $this->langCode . '/' . $file . '.ini';
 		if(!file_exists($iniFile))
 			return !trigger_error('Language file ' . $iniFile . ' does not exist!', E_USER_WARNING);
 		//Parse file and add to strings

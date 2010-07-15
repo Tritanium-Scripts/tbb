@@ -24,7 +24,7 @@
  *  <li>Forum access permissions</li>
  *  <li>Homepage</li>
  *  <li>Avatar</li>
- *  <li>Update state?</li>
+ *  <li>Forum updated state</li>
  *  <li>Real name</li>
  *  <li>ICQ</li>
  *  <li>Mail options</li>

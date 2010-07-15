@@ -33,7 +33,7 @@ class Logger
 	}
 
 	/**
-	 * Writes an entry based on log level settings to log file. %s will be replaced with WIO ID.
+	 * Writes an entry based on log level settings to log file. %s will be replaced with user nick and WIO ID.
 	 *
 	 * @param mixed $data Data of entry to write
 	 * @param int $level Log level of this entry (1-12)
@@ -41,7 +41,7 @@ class Logger
 	public function log($data, $level)
 	{
 		if(in_array($level, $this->logLevels))
-			Functions::file_put_contents($this->logFile, date('r') . ' [IP: ' . $_SERVER['REMOTE_ADDR'] . ']: ' . sprintf($data, Main::getModule('Auth')->getWIOID), FILE_APPEND);
+			Functions::file_put_contents($this->logFile, date('r') . ' [IP: ' . $_SERVER['REMOTE_ADDR'] . ']: ' . sprintf($data, Main::getModule('Auth')->getUserNick() . ' (ID: ' . Main::getModule('Auth')->getWIOID() . ')'), FILE_APPEND);
 	}
 }
 ?>

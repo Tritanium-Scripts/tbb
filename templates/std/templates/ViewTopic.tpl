@@ -40,7 +40,7 @@
    <span class="norm" style="font-weight:bold;">{$curPost.userNick}</span><br />
    <span class="small">{$curPost.userState}<br />
    {if !empty($curPost.userGroup)}{$curPost.userGroup}<br />{/if}{$curPost.userRank}<br />
-   {$curPost.userID|string_format:$modules.Language->getString('id_x')}<br /><br />
+   {if $curPost.userID != 0}{$curPost.userID|string_format:$modules.Language->getString('id_x')}{/if}<br /><br />
    {$curPost.userAvatar}{if !empty($curPost.userICQ)}<br /><br />
    <a href="http://www.icq.com/people/about_me.php?uin={$curPost.userICQ}" target="_blank"><img src="http://status.icq.com/online.gif?icq={$curPost.userICQ}&amp;img=5" alt="" style="vertical-align:middle;" /> {$curPost.userICQ|wordwrap:3:"-":true}</a>{/if}</span>
   </td>
@@ -54,7 +54,7 @@
    {if $curPost.userEMail !== false}&nbsp;&nbsp;<a href="{if $curPost.userEMail === true}{$smarty.const.INDEXFILE}?faction=formmail&amp;target_id={$curPost.userID}{$smarty.const.SID_AMPER}{else}mailto:{$curPost.userEMail}{/if}"><img src="{$modules.Template->getTplDir()}images/mailto.gif" alt="{$modules.Language->getString('email')}" /></a> {$modules.Language->getString('email')}{/if}
    {if !empty($curPost.userHP)}&nbsp;&nbsp;<a href="{$curPost.userHP}" target="_blank"><img src="{$modules.Template->getTplDir()}images/hp.gif" alt="{$modules.Language->getString('homepage')}" /></a> {$modules.Language->getString('homepage')}{/if}
    {if $curPost.canModify}&nbsp;&nbsp;<a href="{$smarty.const.INDEXFILE}?faction=edit&amp;mode=kill&amp;forum_id={$forumID}&amp;topic_id={$topicID}&amp;post_id={$curPost.postID}{$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/deltopic.gif" alt="" /></a>{/if}</span><hr />
-   <span class="norm">{$curPost.post}{if $curPost.userSig != false}<br /><br />-----------------------<br />{$curPost.userSig}{/if}</span>
+   <div class="norm">{$curPost.post}{if $curPost.userSig != false}<br /><br />-----------------------<br />{$curPost.userSig}{/if}</div>
   </td>
  </tr>
  <tr><td class="{cycle values="td1,td2"}" style="vertical-align:bottom; width:85%;">{if $modules.Config->getCfgVal('tspacing') < 1}<hr />{/if}<span style="font-family:Verdana; font-size:xx-small;">{* reuse sendPM value here *}{if $curPost.sendPM}{$curPost.userPosts|string_format:$modules.Language->getString('x_posts')} | {/if}{if $curPost.sendPM}{$curPost.userRegDate|string_format:$modules.Language->getString('member_since_x')} | {/if}{$curPost.postIPText}</span></td></tr>

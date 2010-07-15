@@ -8,7 +8,7 @@
  * @package TBB1.5
  */
 /**
- * Interface template for every implementing module.
+ * Interface template for every implementing module which can be call "directly" from an user.
  *
  * @package TBB1.5
  */
@@ -180,30 +180,31 @@ class Main implements Module
 		if(($endtime = Functions::checkIPAccess()) !== true)
 			self::getModule('Template')->printMessage(($endtime == -1 ? 'banned_forever_everywhere' : 'banned_for_x_minutes_everywhere'), ceil(($endtime-time())/60));
 		//Detect action
-		$this->action = self::$actionTable[isset($_GET['faction']) ? $_GET['faction'] : (isset($_POST['faction']) ? $_POST['faction'] : '')];
+		$this->action = self::$actionTable[($fAction = Functions::getValueFromGlobals('faction'))];
 		//Check force login
 		if(self::getModule('Config')->getCfgVal('must_be_logged_in') == 1 && !self::getModule('Auth')->isLoggedIn() && !in_array($this->action, array('Register', 'Login', 'Help')))
 			self::getModule('Template')->printMessage('members_only', INDEXFILE . '?faction=register' . SID_AMPER, INDEXFILE . '?faction=login' . SID_AMPER);
 		//Autoload translation of module
 		self::getModule('Language')->parseFile($this->action);
-		//Execute module
-		self::getModule($this->action)->execute();
+		//Execute module with mode or forum action as mode replacement
+		self::getModule($this->action, ($mode = Functions::getValueFromGlobals('mode')) == '' ? $fAction : $mode)->execute();
 	}
 
 	/**
 	 * Loads the stated module. Triggers an error if module could not be found.
 	 *
 	 * @param string $module The module to load
+	 * @param string $mode Optional mode for not yet loaded module
 	 * @return mixed Reference to the loaded class or false on failure.
 	 */
-	public static function &getModule($module)
+	public static function &getModule($module, $mode=null)
 	{
 		if(!isset(self::$loadedModules[$module]))
 		{
 			if(!file_exists('modules/' . $module . '.php'))
 				return !trigger_error('Module ' . $module . ' does not exists', E_USER_WARNING);
 			include('modules/' . $module . '.php');
-			self::$loadedModules[$module] = new $module;
+			self::$loadedModules[$module] = !isset($mode) ? new $module : new $module($mode);
 		}
 		return self::$loadedModules[$module];
 	}

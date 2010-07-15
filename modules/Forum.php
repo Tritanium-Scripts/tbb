@@ -54,9 +54,9 @@ class Forum implements Module
 	/**
 	 * Detects IDs, page and sets mode.
 	 */
-	function __construct()
+	function __construct($mode)
 	{
-		$this->mode = isset($_GET['mode']) && in_array($_GET['mode'], array('viewforum', 'viewthread')) ? $_GET['mode'] : '';
+		$this->mode = $mode;
 		$this->forumID = isset($_GET['forum_id']) ? intval($_GET['forum_id']) : -1;
 		$this->topicID = isset($_GET['thread']) ? intval($_GET['thread']) : -1;
 		$this->page = isset($_GET['z']) ? ($_GET['z'] != 'last' ? intval($_GET['z']) : 'last') : 1;
@@ -178,6 +178,7 @@ class Forum implements Module
 			if(!Functions::checkUserAccess($forum, 0))
 				Main::getModule('Template')->printMessage('forum_' . (Main::getModule('Auth')->isLoggedIn() ? 'no_access' : 'need_login'));
 			$topicFile = @Functions::file('foren/' . $this->forumID . '-' . $this->topicID . '.xbb') or Main::getModule('Template')->printMessage('topic_not_found');
+			#0:open/close[/moved] - 1:title - 2:userID - 3:tSmileyID - 4:[/movedForumID] - 5:timestamp[/movedTopicID] - 6:views - 7:pollID - ...
 			$topic = Functions::explodeByTab(array_shift($topicFile));
 			//Manage topic views
 			if(!isset($_SESSION['session.tview.' . $this->forumID . '.' . $this->topicID]))
@@ -263,7 +264,7 @@ class Forum implements Module
 					{
 						$curPoster['userAvatar'] = Functions::addHTTP($curPoster['userAvatar']);
 						list($curWidth, $curHeight) = array(Main::getModule('Config')->getCfgVal('avatar_width'), Main::getModule('Config')->getCfgVal('avatar_height'));
-						if(Main::getModule('Config')->getCfgVal('use_getimagesize') == 1 && !($avatar = @getimagesize($curPoster['userAvatar'])))
+						if(Main::getModule('Config')->getCfgVal('use_getimagesize') == 1 && ($avatar = @getimagesize($curPoster['userAvatar'])) != false)
 						{
 							if($curWidth > $avatar[0])
 								$curWidth = $avatar[0];
@@ -277,7 +278,7 @@ class Forum implements Module
 					//Detect rank
 					$curPoster['userState'] = Functions::getStateName($curPoster['userState'], $curPoster['userPosts']);
 					//Signature incl. cache check =)
-					$curPoster['userSig'] = !empty($curPoster['userSig']) && ($curPost[5] == '1' || $curPost[5] == 'yes') ? (isset($parsedSignatures[$curPost[1]]) ? $parsedSignatures[$curPost[1]] : ($parsedSignatures[$curPost[1]] = Main::getModule('BBCode')->parse(Main::getModule('Config')->getCfgVal('censored') == 1 ? Functions::censor($curPoster['userSig']) : $curPoster['userSig']))) : '';
+					$curPoster['userSig'] = !empty($curPoster['userSig']) && ($curPost[5] == '1' || $curPost[5] == 'yes') ? (isset($parsedSignatures[$curPost[1]]) ? $parsedSignatures[$curPost[1]] : ($parsedSignatures[$curPost[1]] = Main::getModule('BBCode')->parse(Main::getModule('Config')->getCfgVal('censored') == 1 ? Functions::censor($curPoster['userSig']) : $curPoster['userSig'], false, true, true, $topicFile))) : '';
 				}
 				unset($curPoster['userMailOpts'], $curPoster['userPassHash'], $curPoster['userForumAcc']);
 				//User values done, proceed with post

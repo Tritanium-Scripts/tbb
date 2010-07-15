@@ -208,6 +208,17 @@ class FunctionsBasic
 	}
 
 	/**
+	 * Returns hash value for stated string.
+	 *
+	 * @param string $data String to hash
+	 * @return string Hash value of string
+	 */
+	public static function getHash($string)
+	{
+		return function_exists('hash') ? hash('sha512', $string) : crypt($string, 'Xb');
+	}
+
+	/**
 	 * Returns data of a forum.
 	 *
 	 * @param int $forumID ID of forum
@@ -260,7 +271,7 @@ class FunctionsBasic
 	 * @param int|string $userID Single or multiple user IDs separated with comma
 	 * @param bool $isValid Performs an additional check if user(s) exists to prevent linking deleted profiles
 	 * @param string $aAttributes Additional attributes for profile link tag, start with space!
-	 * @param bool $colorRank Emphasize linked names with corresponding rank color
+	 * @param bool $colorRank Emphasize linked names with corresponding rank color - setting $isValid to true would be a good idea
 	 * @return string Linked user profile(s) as one string
 	 */
 	public static function getProfileLink($userID, $isValid=false, $aAttributes=null, $colorRank=false)
@@ -268,8 +279,13 @@ class FunctionsBasic
 		$userLinks = array();
 		if(!empty($userID))
 			foreach(self::explodeByComma($userID) as $curUserID)
-				if($isValid && !self::file_exists('members/' . $curUserID . '.xbb'))
+				//Guest check
+				if($curUserID == 0)
+					return Functions::substr($userID, 1);
+				//(Optional) deleted check
+				elseif($isValid && !self::file_exists('members/' . $curUserID . '.xbb'))
 					$userLinks[] = Main::getModule('Language')->getString('deleted');
+				//Create profile link
 				else
 				{
 					$curUser = Functions::file('members/' . $curUserID . '.xbb');
@@ -389,20 +405,6 @@ class FunctionsBasic
 	}
 
 	/**
-	 * Returns data of an user.
-	 *
-	 * @param int $userID ID of user
-	 * @return array|bool User data or false if user was not found, is a guest or is deleted
-	 */
-	public static function getUserData($userID)
-	{
-		if($userID == 0 || !($user = self::file('members/' . $userID . '.xbb')) || $user[4] == '5')
-			return false;
-		$user[14] = self::explodeByComma($user[14]);
-		return $user;
-	}
-
-	/**
 	 * Returns the name of a topic.
 	 *
 	 * @param int|string $forumID ID of forum
@@ -428,6 +430,31 @@ class FunctionsBasic
 			if($curTSmiley[0] == $tSmileyID)
 				return $curTSmiley[1];
 		return 'images/tsmilies/1.gif';
+	}
+
+	/**
+	 * Returns data of an user.
+	 *
+	 * @param int $userID ID of user
+	 * @return array|bool User data or false if user was not found, is a guest or is deleted
+	 */
+	public static function getUserData($userID)
+	{
+		if($userID == 0 || !($user = self::file('members/' . $userID . '.xbb')) || $user[4] == '5')
+			return false;
+		$user[14] = self::explodeByComma($user[14]);
+		return $user;
+	}
+
+	/**
+	 * Returns a value from superglobals in order GET and POST.
+	 *
+	 * @param string $key Key identifier for array access in superglobals
+	 * @return mixed Value from one of the superglobals or empty string if it was not found
+	 */
+	public static function getValueFromGlobals($key)
+	{
+		return isset($_GET[$key]) ? $_GET[$key] : (isset($_POST[$key]) ? $_POST[$key] : '');
 	}
 
 	/**
