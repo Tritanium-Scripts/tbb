@@ -53,6 +53,8 @@ class Forum implements Module
 
 	/**
 	 * Detects IDs, page and sets mode.
+	 *
+	 * @return Forum New instance of this class
 	 */
 	function __construct($mode)
 	{
@@ -103,7 +105,7 @@ class Forum implements Module
 			for($i=1; $i<=$pages; $i++)
 				$pageBar[] = $i != $this->page ? '<a href="' . INDEXFILE . '?mode=viewforum&amp;forum_id=' . $this->forumID . '&amp;z=' . $i . SID_AMPER . '">' . $i . '</a>' : $i;
 			//Only add bar by having more than one page
-			Main::getModule('NavBar')->addElement($forum[1] . ($pageBar = count($pageBar) < 2 ? '' : ' ' . sprintf(Main::getModule('Language')->getString('pages'), implode(' ', $pageBar))));
+			Main::getModule('NavBar')->addElement($forum[1], '', ($pageBar = count($pageBar) < 2 ? '' : ' ' . sprintf(Main::getModule('Language')->getString('pages'), implode(' ', $pageBar))));
 			//Process topics for current page
 			$end = $this->page*Main::getModule('Config')->getCfgVal('topics_per_page');
 			for($i=$end-Main::getModule('Config')->getCfgVal('topics_per_page'); $i<($end > $size ? $size : $end); $i++)
@@ -198,7 +200,7 @@ class Forum implements Module
 			for($i=1; $i<=$pages; $i++)
 				$pageBar[] = $i != $this->page ? '<a href="' . INDEXFILE . '?mode=viewthread&amp;forum_id=' . $this->forumID . '&amp;thread=' . $this->topicID . '&amp;z=' . $i . SID_AMPER . '">' . $i . '</a>' : $i;
 			//Only add bar by having more than one page
-			Main::getModule('NavBar')->addElement(array(array($forum[1], INDEXFILE . '?mode=viewforum&amp;forum_id=' . $this->forumID . SID_AMPER), array($topic[1] . ($pageBar = count($pageBar) < 2 ? '' : ' ' . sprintf(Main::getModule('Language')->getString('pages'), implode(' ', $pageBar))))));
+			Main::getModule('NavBar')->addElement(array(array($forum[1], INDEXFILE . '?mode=viewforum&amp;forum_id=' . $this->forumID . SID_AMPER), array($topic[1], '', ($pageBar = count($pageBar) < 2 ? '' : ' ' . sprintf(Main::getModule('Language')->getString('pages'), implode(' ', $pageBar))))));
 			//Process possible poll
 			$isPoll = false;
 			$isMod = Functions::checkModOfForum($forum);

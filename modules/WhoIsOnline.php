@@ -38,6 +38,8 @@ class WhoIsOnline implements Module
 
 	/**
 	 * Sets config values and prepares WWO data.
+	 *
+	 * @return WhoIsOnline New instance of this class
 	 */
 	public function __construct()
 	{
@@ -73,6 +75,11 @@ class WhoIsOnline implements Module
 			Functions::file_put_contents('vars/today.var', implode("\n", $this->wwoFile));
 	}
 
+	/**
+	 * Deletes a WIO ID from WIO list in case of logins or logouts.
+	 *
+	 * @param string $wioID WIO ID to remove from WIO
+	 */
 	public function delete($wioID)
 	{
 		if($this->enabled)
@@ -117,8 +124,16 @@ class WhoIsOnline implements Module
 					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('views_the_wio_list'), $curWIOEntryIsGhost, $curTime);
 					break;
 
+					case 'Message':
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('views_a_message'), $curWIOEntryIsGhost, $curTime);
+					break;
+
 					case 'Login':
-					$wioLocations[] = array();
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('logs_in'), $curWIOEntryIsGhost, $curTime);
+					break;
+
+					case 'RequestPassword':
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('requests_a_new_password'), $curWIOEntryIsGhost, $curTime);
 					break;
 
 					default:
@@ -206,13 +221,13 @@ class WhoIsOnline implements Module
 			$curWIOEntry = implode("\t", $curWIOEntry);
 		}
 		//If user was found in WIO, write updated data, otherwise append new entry
-		$found ? Functions::file_put_contents('vars/wio.var', implode("\n", $wioFile)) : Functions::file_put_contents('vars/wio.var', time() . "\t" . Main::getModule('Auth')->getWIOID() . "\t" . $id . "\t\t" . Main::getModule('Auth')->isGhost()/* . "\n"*/, FILE_APPEND);
+		$found ? Functions::file_put_contents('vars/wio.var', implode("\n", $wioFile)) : Functions::file_put_contents('vars/wio.var', (count($wioFile) > 0 ? "\n" : '') . time() . "\t" . Main::getModule('Auth')->getWIOID() . "\t" . $id . "\t\t" . Main::getModule('Auth')->isGhost(), FILE_APPEND);
 	}
 
 	/**
 	 * Refreshes contents of the WIO data file by removing outdated entries.
 	 *
-	 * @param string $deleteID Optional WIOID to delete nevertheless
+	 * @param string $deleteID Optional WIO ID to delete nevertheless
 	 * @return array Already exploded contents of refreshed WIO file.
 	 */
 	private function refreshVar($deleteWIOID='')

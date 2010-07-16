@@ -29,17 +29,25 @@ class Template
 
 	/**
 	 * Sets up Smarty instance.
+	 *
+	 * @return Template New instance of this class
 	 */
 	function __construct()
 	{
 		$this->smarty = new Smarty;
+		//Settings
 		$this->smarty->setErrorReporting(E_ALL);
+		$this->smarty->setErrorUnassigned(true);
 		$this->smarty->setCacheDir('cache/');
 		$this->smarty->setCompileDir('cache/');
 		$this->tplDir = 'templates/' . Main::getModule('Config')->getCfgVal('default_tpl') . '/';
 		$this->smarty->setTemplateDir($this->tplDir . 'templates/');
-		#$this->smarty->setConfigDir($this->tplDir . 'config');
+		$this->smarty->setConfigDir($this->tplDir . 'config/');
 		$this->smarty->setCompileId($this->tplDir);
+		//Load config(s)
+		foreach(glob($this->tplDir . 'config/*.conf') as $curConfig)
+			$this->smarty->configLoad($curConfig);
+		//Assign defaults
 		$this->smarty->assignByRef('modules', Main::getModules());
 		$this->smarty->assignByRef('smartyTime', $this->smarty->start_time);
 	}
@@ -113,11 +121,9 @@ class Template
 	 */
 	public function printMessage($msgIndex, $args=null)
 	{
-		//Make sure needed message strings are ready
-		Main::getModule('Language')->parseFile('Messages');
-		Main::getModule('Language')->parseFile('Forum');
-		//Update NavBar
-		Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('title_' . $msgIndex));
+		//Update NavBar + WIO
+		Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('title_' . $msgIndex, 'Messages'));
+		Main::getModule('WhoIsOnline')->setLocation('Message');
 		//Print message
 		$this->printHeader();
 		$temp = func_get_args();

@@ -7,7 +7,7 @@
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1.5
  */
-class Config// extends Module
+class Config
 {
 	/**
 	 * The default configuration values.
@@ -171,6 +171,8 @@ class Config// extends Module
 
 	/**
 	 * Loads configuration values.
+	 *
+	 * @return Config New instance of this class
 	 */
 	function __construct()
 	{

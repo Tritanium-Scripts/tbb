@@ -69,6 +69,8 @@ class Auth
 
 	/**
 	 * Loads user data from XBB file according to user ID in the session or cookie.
+	 *
+	 * @return Auth New instance of this class
 	 */
 	function __construct()
 	{
@@ -194,6 +196,14 @@ class Auth
 	public function isSuperMod()
 	{
 		return $this->userData[4] == '6';
+	}
+
+	/**
+	 * Reloads the WIO ID after user logs in or out to supply correct IDs to WIO list.
+	 */
+	public function loginChanged()
+	{
+		$this->wioID = isset($_SESSION['userID']) ? $_SESSION['userID'] : $_SESSION['session_upbwio'];
 	}
 }
 ?>

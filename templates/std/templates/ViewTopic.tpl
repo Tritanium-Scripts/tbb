@@ -64,7 +64,7 @@
 <!-- NavBar -->
 <br />
 <table class="navbar" cellspacing="0" cellpadding="0" style="width:{$modules.Config->getCfgVal('twidth')}; margin:auto;">
- <tr><td class="navbar"><span class="navbar">&nbsp;{foreach from=$modules.NavBar->getNavBar() item=curElement name=navBar}{if !empty($curElement[1])}<a href="{$curElement[1]}" class="navbar">{$curElement[0]}</a>{else}{$curElement[0]}{/if}{if !$smarty.foreach.navBar.last}&nbsp;&#187;&nbsp;{/if}{/foreach}</span></td></tr>
+ <tr><td class="navbar"><span class="navbar">&nbsp;{foreach from=$modules.NavBar->getNavBar() item=curElement name=navBar}{if !$smarty.foreach.navBar.last}<a href="{$curElement[1]}" class="navbar">{$curElement[0]}</a>{$smarty.config.navBarDelim}{else}{$curElement[0]}{/if}{/foreach}</span></td></tr>
 </table>
 
 <!-- Toolbar -->

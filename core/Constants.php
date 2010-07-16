@@ -34,7 +34,7 @@ define('BBCODE_SUPERSCRIPT', 5);//Superscript
 define('BBCODE_SUBSCRIPT', 6);	//Subscript
 define('BBCODE_HIDE', 7);		//Spoiler
 define('BBCODE_LOCK', 8);		//Hidden
-define('BBCODE_CENTER', 9);	//Center
+define('BBCODE_CENTER', 9);		//Center
 define('BBCODE_EMAIL', 10);		//E-mail
 define('BBCODE_IMAGE', 11);		//Image
 define('BBCODE_LINK', 12);		//URL

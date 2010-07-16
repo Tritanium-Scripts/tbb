@@ -97,6 +97,8 @@ class Main implements Module
 
 	/**
 	 * Some initial PHP stuff and preparations.
+	 *
+	 * @return Main New instance of this class
 	 */
 	function __construct()
 	{
@@ -177,7 +179,7 @@ class Main implements Module
 		Main::getModule('NavBar')->addElement(Main::getModule('Config')->getCfgVal('forum_name'), INDEXFILE . SID_QMARK);
 		//Check maintenance mode
 		if(self::getModule('Config')->getCfgVal('uc') == 1)
-			self::getModule('Template')->printMessage('maintenance_mode_on');
+			self::getModule('Template')->printMessage('maintenance_mode_on'); //Lang strings from Main are already loaded via setlocale()
 		//Check IP address
 		if(($endtime = Functions::checkIPAccess()) !== true)
 			self::getModule('Template')->printMessage(($endtime == -1 ? 'banned_forever_everywhere' : 'banned_for_x_minutes_everywhere'), ceil(($endtime-time())/60));
@@ -188,6 +190,7 @@ class Main implements Module
 			self::getModule('Template')->printMessage('members_only', INDEXFILE . '?faction=register' . SID_AMPER, INDEXFILE . '?faction=login' . SID_AMPER);
 		//Autoload translation of module
 		self::getModule('Language')->parseFile($this->action);
+		self::getModule('Template')->assign('action', $this->action);
 		//Execute module with mode or forum action as mode replacement
 		self::getModule($this->action, ($mode = Functions::getValueFromGlobals('mode')) == '' ? $fAction : $mode)->execute();
 	}

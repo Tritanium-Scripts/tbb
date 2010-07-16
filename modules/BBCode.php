@@ -26,6 +26,8 @@ class BBCode
 
 	/**
 	 * Prepares smilies.
+	 *
+	 * @return BBCode New instance of this class
 	 */
 	function __construct()
 	{

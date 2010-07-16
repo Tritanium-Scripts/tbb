@@ -1,6 +1,6 @@
 <?php
 /**
- * Manages the login process.
+ * Manages the login, request of new password and logout.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
  * @copyright Copyright (c) 2010 Tritanium Scripts
@@ -44,6 +44,12 @@ class Login implements Module
 	 */
 	private static $modeTable = array('' => 'Login', 'login' => 'Login', 'verify' => 'Login', 'sendpw' => 'RequestPassword');
 
+	/**
+	 * Prepares and sets login name, login password and mode.
+	 *
+	 * @param string $fAction Mode to execute
+	 * @return Login New instance of this class
+	 */
 	function __construct($fAction)
 	{
 		$this->loginName = htmlspecialchars(Functions::getValueFromGlobals('login_name'));
@@ -52,11 +58,11 @@ class Login implements Module
 	}
 
 	/**
-	 * Performs the login.
+	 * Performs login, sending new password or logout.
 	 */
 	public function execute()
 	{
-		Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('login'));
+		Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('login'), INDEXFILE . '?faction=login' . SID_AMPER);
 		//If user is already logged in
 		if(Main::getModule('Auth')->isLoggedIn() && $this->mode == 'login')
 		{
@@ -125,6 +131,7 @@ class Login implements Module
 							//Set ghost state
 							if(Functions::getValueFromGlobals('bewio') == 'yes')
 								$_SESSION['bewio'] = true;
+							Main::getModule('Auth')->loginChanged();
 							//That's it
 							Main::getModule('Logger')->log($curMember[0] . ' (ID: ' . $curMember[1] . ') logged in', LOG_LOGIN_LOGOUT);
 							//Detect loction to redir
@@ -145,10 +152,12 @@ class Login implements Module
 
 //RequestPassword
 			case 'sendpw':
+			Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('request_new_password'), INDEXFILE . '?faction=sendpw' . SID_AMPER);
 			if(Main::getModule('Config')->getCfgVal('activate_mail') != 1)
 				Main::getModule('Template')->printMessage('function_deactivated');
 			$this->loginName = Functions::getValueFromGlobals('nick');
 			if(Functions::getValueFromGlobals('send') == '1')
+			{
 				if(empty($this->loginName))
 					$this->errors[] = Main::getModule('Language')->getString('please_enter_a_name');
 				else
@@ -171,6 +180,7 @@ class Login implements Module
 					$this->errors[] = Main::getModule('Language')->getString('user_not_found');
 					Main::getModule('Logger')->log('New password request for unknown user "' . $this->loginName . '" failed', LOG_NEW_PASSWORD);
 				}
+			}
 			else
 				//In case the nick was submitted from login formular (send != 1) additional decode is needed
 				$this->loginName = urldecode($this->loginName);
@@ -189,6 +199,7 @@ class Login implements Module
 			unset($_SESSION['userID'], $_SESSION['userHash']);
 			if(Main::getModule('Auth')->isGhost())
 				unset($_SESSION['bewio']);
+			Main::getModule('Auth')->loginChanged();
 			//Done, redir to forum index
 			header('Location: ' . INDEXFILE . SID_QMARK);
 			Main::getModule('Template')->printMessage('successfully_logged_out', INDEXFILE . SID_QMARK);

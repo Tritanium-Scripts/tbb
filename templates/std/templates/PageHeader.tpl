@@ -2,10 +2,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" dir="{$modules.Language->getString('html_direction')}" lang="{$modules.Language->getLangCode()}" xml:lang="{$modules.Language->getLangCode()}">
  <head>
-  <title>{$modules.Config->getCfgVal('forum_name')}</title>
+  <title>{$smarty.config.navBarDelim|implode:$modules.NavBar->getNavBar(false)}</title>
   <meta name="author" content="Chrissyx" />
   <meta name="copyright" content="&copy; 2010 Tritanium Scripts" />
-  <meta name="keywords" content="TBB,Tritanium,Tritanium Scripts,TBB 1.5,Tritanium Bulletin Board,{$modules.Config->getCfgVal('site_name')},{$modules.Config->getCfgVal('forum_name')}" />
+  <meta name="keywords" content="TBB,Tritanium,Tritanium Scripts,TBB 1.5,Tritanium Bulletin Board,{$modules.Config->getCfgVal('site_name')},{','|implode:$modules.NavBar->getNavBar(false)}" />
   <meta name="description" content="{$modules.Config->getCfgVal('site_name')|string_format:$modules.Language->getString('html_description')}" />
   <meta name="revisit-after" content="7 days" />
   <meta name="generator" content="Notepad 4.10.1998" />
@@ -60,7 +60,7 @@
   <!-- NavBar -->
   <table class="navbar" cellspacing="0" cellpadding="0" style="width:{$modules.Config->getCfgVal('twidth')}; margin:auto;">
    <tr>
-    <td class="navbar" style="width:50%;"><span class="navbar">&nbsp;{foreach from=$modules.NavBar->getNavBar() item=curElement name=navBar}{if !empty($curElement[1])}<a href="{$curElement[1]}" class="navbar">{$curElement[0]}</a>{else}{$curElement[0]}{/if}{if !$smarty.foreach.navBar.last}&nbsp;&#187;&nbsp;{/if}{/foreach}</span></td>
+    <td class="navbar" style="width:50%;"><span class="navbar">&nbsp;{foreach from=$modules.NavBar->getNavBar() item=curElement name=navBar}{if !$smarty.foreach.navBar.last}<a href="{$curElement[1]}" class="navbar">{$curElement[0]}</a>{$smarty.config.navBarDelim}{else}{$curElement[0]}{/if}{/foreach}</span></td>
 {*
 todo: forum_id check könnte raus wenn andere var namen in ACP
 evtl auch direkt auf $forumID und $topicID prüfen, ohne action
