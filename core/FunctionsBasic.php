@@ -17,6 +17,13 @@ class FunctionsBasic
 	private static $cache = array();
 
 	/**
+	 * All read in contents from files is cached here.
+	 *
+	 * @var array Cached file contents
+	 */
+	private static $fileCache = array();
+
+	/**
 	 * Counter for file accesses.
 	 *
 	 * @var int Amount of file reading and writing
@@ -149,6 +156,8 @@ class FunctionsBasic
 	 */
 	public static function file($filename, $flags=null, $trimCharList=null)
 	{
+		#if(isset(self::$fileCache[$filename]) && Main::getModule('Config')->getCfgVal('use_file_caching') == 1)
+		#	return self::$fileCache[$filename];
 		self::$fileCounter++;
 		$trimCallback = create_function('$entry', 'return trim($entry, "' . (empty($trimCharList) ? ' \n\r\0\x0B' : $trimCharList) . '");');
 		return array_map('utf8_encode', array_map($trimCallback, file(DATAPATH . $filename, $flags)));
@@ -167,6 +176,8 @@ class FunctionsBasic
 	 */
 	public static function file_get_contents($filename)
 	{
+		#if(isset(self::$fileCache[$filename]) && Main::getModule('Config')->getCfgVal('use_file_caching') == 1)
+		#	return self::$fileCache[$filename];
 		self::$fileCounter++;
 		return utf8_encode(file_get_contents(DATAPATH . $filename));
 	}
@@ -177,6 +188,7 @@ class FunctionsBasic
 	 */
 	public static function file_put_contents($filename, $data, $flags=LOCK_EX, $decUTF8=true)
 	{
+		#self::$fileCache[$filename] = $data;
 		self::$fileCounter++;
 		return file_put_contents(DATAPATH . $filename, $decUTF8 ? utf8_decode($data) : $data, $flags);
 	}

@@ -10,18 +10,13 @@
 class Functions extends FunctionsBasic
 {
 	/**
-	 * Sends an E-Mail to given address with PHP's {@link mail()}.
-	 *
-	 * @param string $to Recipient address
-	 * @param string $msgIndex Identifier part of message subject and text
-	 * @param mixed $args,... Optional arguments to be replaced in message text
+	 * PHP's {@link mail()}.
 	 */
-	public static function mail($to, $msgIndex, $args=null)
+	public static function mail($to, $subject, $message)
 	{
 		if(Main::getModule('Config')->getCfgVal('activate_mail') == 1)
 		{
-			$temp = func_get_args();
-			$isAccepted = @mail($to, Main::getModule('Language')->getString('subject_' . $msgIndex, 'Mails'), vsprintf(Main::getModule('Language')->getString('message_' . $msgIndex), array_splice($temp, 2)),
+			$isAccepted = @mail($to, $subject, $message,
 				'From: ' . Main::getModule('Config')->getCfgVal('forum_name') . ' <' . Main::getModule('Config')->getCfgVal('forum_email') . '>' . "\r\n" .
 				'Reply-To: ' . Main::getModule('Config')->getCfgVal('forum_name') . ' <' . Main::getModule('Config')->getCfgVal('forum_email') . '>' . "\r\n" .
 				'X-Mailer: PHP/' . phpversion() . "\r\n" .
@@ -29,6 +24,21 @@ class Functions extends FunctionsBasic
 			Main::getModule('Logger')->log('Mail ' . ($isAccepted ? 'sent to ' : 'FAILED to sent to ') . $to, LOG_USER_TRAFFIC);
 			return $isAccepted;
 		}
+		return false;
+	}
+
+	/**
+	 * Sends an e-mail message.
+	 *
+	 * @param string $to Recipient address
+	 * @param string $msgIndex Identifier part of message subject and text
+	 * @param mixed $args,... Optional arguments to be replaced in message text
+	 * @return bool Message was accepted for sending
+	 */
+	public static function sendMessage($to, $msgIndex, $args=null)
+	{
+		$temp = func_get_args();
+		return self::mail($to, Main::getModule('Language')->getString('subject_' . $msgIndex, 'Mails'), vsprintf(Main::getModule('Language')->getString('message_' . $msgIndex), array_splice($temp, 2)));
 	}
 
 	/**

@@ -76,7 +76,7 @@ class Auth
 	{
 		$this->userData = Functions::file('members/' . (isset($_SESSION['userID'], $_SESSION['userHash']) && Functions::file_exists('members/' . $_SESSION['userID'] . '.xbb') ? $_SESSION['userID'] : '0') . '.xbb');
 		//Check session-based login
-		if(isset($_SESSION['userHash']) && $_SESSION['userHash'] == $this->userData[2])
+		if(isset($_SESSION['userHash']) && $_SESSION['userHash'] == current(Functions::explodeByTab($this->userData[2])))
 			$this->loggedIn = true;
 		//Check cookie-based login
 		elseif(isset($_COOKIE['cookie_xbbuser']))

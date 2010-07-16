@@ -138,7 +138,7 @@ class Main implements Module
 				self::getModule('Config')->setCfgVal('uc', 1); //Emergency closure
 				if($fdsVar != 2)
 				{
-					Functions::mail(self::getModule('Config')->getCfgVal('admin_email'), 'fds_alert', self::getModule('Config')->getCfgVal('address_to_forum') . '/' . INDEXFILE . '?faction=login');
+					Functions::sendMessage(self::getModule('Config')->getCfgVal('admin_email'), 'fds_alert', self::getModule('Config')->getCfgVal('address_to_forum') . '/' . INDEXFILE . '?faction=login');
 					self::getModule('Logger')->log('Disk space alert! Admin notified; Board closed', LOG_FILESYSTEM);
 					Functions::file_put_contents('vars/fds.var', 2);
 				}
