@@ -49,6 +49,7 @@ Last changed: 2010 (Version 1.5 Alpha)
 	-Vorhandene Passwörter bleiben solange gültig, bis man ein neues, angeforderte Passwort auch benutzt hat
 	-Hashes von Passwörtern basieren nun auf SHA-512, wenn vom System unterstützt, ansonsten DES zwecks Abwärtskompatiblität
 	-Aktuelle Uhrzeit wird im eingeloggten Zustand über der Werkzeugleiste angezeigt
+	-Mitgliederliste lässt sich nun ab- und aufsteigend für alle Kritieren sortieren
 
 Written by Chrissyx
 (c) 2010 Tritanium Scripts

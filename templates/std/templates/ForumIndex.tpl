@@ -4,7 +4,7 @@
  <tr class="thsmall">
   <th class="thsmall" colspan="2"><span class="thsmall">{$modules.Language->getString('forum')}</span></th>
   <th class="thsmall"><span class="thsmall">{$modules.Language->getString('topics')}</span></th>
-  <th class="thsmall"><span class="thsmall">{$modules.Language->getString('postings')}</span></th>
+  <th class="thsmall"><span class="thsmall">{$modules.Language->getString('posts')}</span></th>
   <th class="thsmall" style="width:28%;"><span class="thsmall">{$modules.Language->getString('last_post')}</span></th>
   <th class="thsmall"><span class="thsmall">{$modules.Language->getString('moderators')}</span></th>
  </tr>
@@ -20,7 +20,7 @@
   <td class="td1" style="text-align:center;"><span class="norm">{$curForum.forumTopics}</span></td>
   <td class="td2" style="text-align:center;"><span class="norm">{$curForum.forumPosts}</span></td>
   <td class="td1 small" style="text-align:center;">{$curForum.lastPost}</td>
-  <td class="td2" style="text-align:center;"><span class="small">{$curForum.mods}</span></td>
+  <td class="td2" style="text-align:center;"><span class="small">{if count($curForum.mods) > 1}{', '|implode:$curForum.mods}{else}{$curForum.mods}{/if}</span></td>
  </tr>
 {* todo: unset($forums[$smarty.foreach.forums.index]); *}
 {/if}

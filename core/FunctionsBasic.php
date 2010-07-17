@@ -17,9 +17,11 @@ class FunctionsBasic
 	private static $cache = array();
 
 	/**
-	 * All read in contents from files is cached here.
+	 * All read in contents from files are cached here.
+	 * 0: Exploded data
+	 * 1: Single string
 	 *
-	 * @var array Cached file contents
+	 * @var array Cached file contents subdivided in exploded (file()) and single lines (f_g_c())
 	 */
 	private static $fileCache = array();
 
@@ -156,8 +158,8 @@ class FunctionsBasic
 	 */
 	public static function file($filename, $flags=null, $trimCharList=null)
 	{
-		#if(isset(self::$fileCache[$filename]) && Main::getModule('Config')->getCfgVal('use_file_caching') == 1)
-		#	return self::$fileCache[$filename];
+		if(isset(self::$fileCache[$filename][0]) && Main::getModule('Config')->getCfgVal('use_file_caching') == 1)
+			return self::$fileCache[$filename][0];
 		self::$fileCounter++;
 		$trimCallback = create_function('$entry', 'return trim($entry, "' . (empty($trimCharList) ? ' \n\r\0\x0B' : $trimCharList) . '");');
 		return array_map('utf8_encode', array_map($trimCallback, file(DATAPATH . $filename, $flags)));
@@ -176,8 +178,8 @@ class FunctionsBasic
 	 */
 	public static function file_get_contents($filename)
 	{
-		#if(isset(self::$fileCache[$filename]) && Main::getModule('Config')->getCfgVal('use_file_caching') == 1)
-		#	return self::$fileCache[$filename];
+		if(isset(self::$fileCache[$filename][1]) && Main::getModule('Config')->getCfgVal('use_file_caching') == 1)
+			return self::$fileCache[$filename][1];
 		self::$fileCounter++;
 		return utf8_encode(file_get_contents(DATAPATH . $filename));
 	}
@@ -188,7 +190,7 @@ class FunctionsBasic
 	 */
 	public static function file_put_contents($filename, $data, $flags=LOCK_EX, $decUTF8=true)
 	{
-		#self::$fileCache[$filename] = $data;
+		unset(self::$fileCache[$filename]);
 		self::$fileCounter++;
 		return file_put_contents(DATAPATH . $filename, $decUTF8 ? utf8_decode($data) : $data, $flags);
 	}
@@ -285,7 +287,7 @@ class FunctionsBasic
 	 * @param bool $isValid Performs an additional check if user(s) exists to prevent linking deleted profiles
 	 * @param string $aAttributes Additional attributes for profile link tag, start with space!
 	 * @param bool $colorRank Emphasize linked names with corresponding rank color - setting $isValid to true would be a good idea
-	 * @return string Linked user profile(s) as one string
+	 * @return string|array Linked user profile(s) or unlinked state
 	 */
 	public static function getProfileLink($userID, $isValid=false, $aAttributes=null, $colorRank=false)
 	{
@@ -293,8 +295,8 @@ class FunctionsBasic
 		if(!empty($userID))
 			foreach(self::explodeByComma($userID) as $curUserID)
 				//Guest check
-				if($curUserID == 0)
-					return Functions::substr($userID, 1);
+				if($curUserID == 0) //0Guest == 0!
+					$userLinks[] = Functions::substr($userID, 1);
 				//(Optional) deleted check
 				elseif($isValid && !self::file_exists('members/' . $curUserID . '.xbb'))
 					$userLinks[] = Main::getModule('Language')->getString('deleted');
@@ -332,11 +334,11 @@ class FunctionsBasic
 					}
 					$userLinks[] = '<a' . $aAttributes . ' href="' . INDEXFILE . '?faction=profile&amp;profile_id=' . $curUserID . SID_AMPER . '"' . $curColor . '>' . $curUser[0] . '</a>';
 				}
-		return implode(', ', $userLinks);
+		return count($userLinks) < 2 ? current($userLinks) : $userLinks;
 	}
 
 	/**
-	 * Generates a 10-character random password incl. special ones.
+	 * Generates a 10-character random password incl. special chars.
 	 *
 	 * @return string Random password
 	 */
@@ -492,7 +494,7 @@ class FunctionsBasic
 	public static function shorten($string, $maxLength)
 	{
 		if(Functions::strlen($string) > $maxLength)
-			$string = Functions::substr($curTopicTitle, 0, $maxLength-3) . Main::getModule('Language')->getString('dots');
+			$string = Functions::substr($string, 0, $maxLength-3) . Main::getModule('Language')->getString('dots');
 		return $string;
 	}
 

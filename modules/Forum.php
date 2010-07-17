@@ -320,7 +320,7 @@ class Forum implements Module
 			$showPrivateForums = Main::getModule('Config')->getCfgVal('show_private_forums') == 1;
 			foreach(Functions::file('vars/foren.var') as $curForum)
 			{
-				#0:id - 1:name - 2:descr - 3:topics - 4:postings - 5:catID - 6:lastPostTstamp - 7:options - 8:status? - 9:lastPostData - 10:permissions - 11:modIDs
+				#0:id - 1:name - 2:descr - 3:topics - 4:posts - 5:catID - 6:lastPostTstamp - 7:options - 8:status? - 9:lastPostData - 10:permissions - 11:modIDs
 				#7:0:bbCode - 7:1:html - 7:2:notifyMods
 				#9:0:topicID - 9:1:userID - 9:2:proprietaryDate - #9:3:tSmileyID
 				#10:0:memberAccess - 10:1:memberNewTopic - 10:2:memberPostReply - 10:3:memberPostPolls - 10:4:memberEditOwnPosts - 10:5:memberEditPolls - 10:6:guestAccess - 10:7:guestNewTopic - 10:8:guestPostReply - 10:9:guestPostPolls

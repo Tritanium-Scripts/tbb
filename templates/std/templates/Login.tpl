@@ -4,7 +4,7 @@
  <tr><th colspan="2" class="thnorm" style="text-align:left;"><span class="thnorm">{$modules.Language->getString('login')}</span></th></tr>
  <tr><td colspan="2" class="kat"><span class="kat">{$modules.Language->getString('login_data')}</span></td></tr>
  <tr>
-  <td width="20%" class="td1"><span class="norm">{$modules.Language->getString('user_name')}</span></td>
+  <td width="20%" class="td1"><span class="norm">{$modules.Language->getString('user_name_colon')}</span></td>
   <td width="80%" class="td1"><input type="text" name="login_name" value="{$loginName}" style="width:150px;" /></td>
  </tr>
  <tr>
