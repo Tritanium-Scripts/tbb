@@ -134,6 +134,16 @@ class Auth
 	}
 
 	/**
+	 * Returns e-mail of user.
+	 *
+	 * @return string User e-mail address
+	 */
+	public function getUserMail()
+	{
+		return $this->userData[3];
+	}
+
+	/**
 	 * Returns nick of user.
 	 *
 	 * @return string User nick

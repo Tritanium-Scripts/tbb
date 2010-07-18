@@ -70,7 +70,7 @@ class MemberList implements Module
 		for($i=1; $i<=$pages; $i++)
 			$pageBar[] = $i != $this->page ? '<a href="' . INDEXFILE . '?faction=mlist&amp;sortmethod=' . $this->sortMethod . '&amp;z=' . $i . '&amp;orderType=' . $this->orderType . SID_AMPER . '">' . $i . '</a>' : $i;
 		//Only add bar by having more than one page
-		Main::getModule('NavBar')->addElement(array(array(Main::getModule('Language')->getString('member_list'), INDEXFILE . '?faction=mlist' . SID_AMPER, ($pageBar = ' ' . sprintf(Main::getModule('Language')->getString('pages'), implode(' ', $pageBar))))));
+		Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('member_list'), INDEXFILE . '?faction=mlist' . SID_AMPER, ($pageBar = ' ' . sprintf(Main::getModule('Language')->getString('pages'), implode(' ', $pageBar))));
 		//Apply order type, one of them wil be changed depending on current sort methode
 		$orderTypeID = $orderTypeName = $orderTypeRank = $orderTypePosts = false;
 		//Process members

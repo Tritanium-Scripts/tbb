@@ -430,7 +430,7 @@ class FunctionsBasic
 	}
 
 	/**
-	 * Returns a unix timestamp from a proprietary date.
+	 * Returns an unix timestamp with offset from a proprietary date.
 	 *
 	 * @param string $date Proprietary date format (YYYYMMDDhhmmss)
 	 * @return int Unix timestamp
@@ -493,6 +493,17 @@ class FunctionsBasic
 	public static function getValueFromGlobals($key)
 	{
 		return isset($_GET[$key]) ? $_GET[$key] : (isset($_POST[$key]) ? $_POST[$key] : '');
+	}
+
+	/**
+	 * Verifies an e-mail address.
+	 *
+	 * @param string $mailAddress The e-mail address to check
+	 * @return bool Valid e-mail address
+	 */
+	public static function isValidMail($mailAddress)
+	{
+		return (bool) preg_match('/[\.0-9a-z_-]+@[\.0-9a-z-]+\.[a-z]+/si', $mailAddress);
 	}
 
 	/**

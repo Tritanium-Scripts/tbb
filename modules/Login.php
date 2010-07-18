@@ -76,10 +76,10 @@ class Login implements Module
 			//Check login data
 			case 'verify':
 			if(empty($this->loginName))
-				$this->errors[] = Main::getModule('Language')->getString('please_enter_a_name');
+				$this->errors[] = Main::getModule('Language')->getString('please_enter_your_user_name');
 			if(empty($this->loginPass))
-				$this->errors[] = Main::getModule('Language')->getString('please_enter_a_password');
-			else
+				$this->errors[] = Main::getModule('Language')->getString('please_enter_your_password');
+			if(empty($this->errors))
 			{
 				//Prerequisite are met, prepare data
 				$this->loginName = Functions::strtolower($this->loginName);
@@ -159,7 +159,7 @@ class Login implements Module
 			if(Functions::getValueFromGlobals('send') == '1')
 			{
 				if(empty($this->loginName))
-					$this->errors[] = Main::getModule('Language')->getString('please_enter_a_name');
+					$this->errors[] = Main::getModule('Language')->getString('please_enter_your_user_name');
 				else
 				{
 					//Prerequisite are met, prepare data and start crawling

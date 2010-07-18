@@ -15,11 +15,11 @@
  </tr>
  <tr>
   <td class="td1" style="font-weight:bold; width:20%;"><span class="norm">{$modules.Language->getString('email_address_colon')}</span></td>
-  <td class="td1" style="width:80%;"><span class="norm">{if $userData[3] === false}{$modules.Language->getString('is_not_shown')}{else}{mailto address=$userData[3] encode="javascript"}{/if}&nbsp;{if $userData[14]}<a href="{$smarty.const.INDEXFILE}?faction=formmail&amp;target_id={$userData[1]}{$smarty.const.SID_AMPER}">{$modules.Language->getString('send_mail')}</a>{/if}</span></td>
+  <td class="td1" style="width:80%;"><span class="norm">{if $userData[3] === false}{$modules.Language->getString('is_not_shown')}{else}{mailto address=$userData[3] encode="javascript"}{/if}&nbsp;{if $userData[14]}<a href="{$smarty.const.INDEXFILE}?faction=formmail&amp;target_id={$userData[1]}{$smarty.const.SID_AMPER}">{$modules.Language->getString('send_mail_brackets')}</a>{/if}</span></td>
  </tr>{if $userData[14]}
  <tr>
   <td class="td1" style="font-weight:bold; width:20%;"><span class="norm">{$modules.Language->getString('pm_colon')}</span></td>
-  <td class="td1" style="width:80%;"><span class="norm"><a href="{$smarty.const.INDEXFILE}?faction=pm&amp;mode=send&amp;target_id={$userData[1]}{$smarty.const.SID_AMPER}">{$modules.Language->getString('send_pm')}</a></span></td>
+  <td class="td1" style="width:80%;"><span class="norm"><a href="{$smarty.const.INDEXFILE}?faction=pm&amp;mode=send&amp;target_id={$userData[1]}{$smarty.const.SID_AMPER}">{$modules.Language->getString('send_pm_brackets')}</a></span></td>
  </tr>{/if}
  <tr>
   <td class="td1" style="font-weight:bold; width:20%;"><span class="norm">{$modules.Language->getString('real_name_colon')}</span></td>
@@ -61,5 +61,5 @@
   <td class="td1" style="font-weight:bold; width:20%;"><span class="norm">{$modules.Language->getString('icq_number_colon')}</span></td>
   <td class="td1" style="width:80%;"><span class="norm">{if empty($userData[13])}<span style="font-style:italic;">{$modules.Language->getString('not_given')}</span>{else}<a href="http://www.icq.com/people/about_me.php?uin={$userData[13]}" target="_blank"><img src="http://status.icq.com/online.gif?icq={$userData[13]}&amp;img=5" alt="" style="vertical-align:middle;" /> {$userData[13]|wordwrap:3:"-":true}</a>{/if}</span></td>
  </tr>{if $modules.Auth->isAdmin()}
- <tr><td class="td1" colspan="2"><span class="norm"><a class="norm" href="{$smarty.const.INDEXFILE}?faction=ad_user&amp;mode=edit&amp;id={$userData[1]}{$smarty.const.SID_AMPER}">{$modules.Language->getString('edit_user')}</a></span></td></tr>{/if}
+ <tr><td class="td1" colspan="2"><span class="norm"><a class="norm" href="{$smarty.const.INDEXFILE}?faction=ad_user&amp;mode=edit&amp;id={$userData[1]}{$smarty.const.SID_AMPER}">{$modules.Language->getString('edit_user_brackets')}</a></span></td></tr>{/if}
 </table>

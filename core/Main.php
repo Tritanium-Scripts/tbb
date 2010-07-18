@@ -34,7 +34,8 @@ class Main implements Module
 	private $action;
 
 	/**
-	 * Translates the TBB1 faction value to a module.
+	 * Translates the old TBB1 faction value to a module.
+	 *
 	 * Each module (incl. Main) has a language file with the same name.
 	 * But each module can rely on multiple template files.
 	 *
@@ -72,20 +73,22 @@ class Main implements Module
 		'viewforum' => 'Forum',
 		'viewthread' => 'Topic',
 		'credits' => 'Credits',
-		//adminpanel actions
+		//Adminpanel actions
 		'adminpanel' => 'AdminIndex',
-		'adminforum' => 'AdminForum',
+		'ad_forum' => 'AdminForum',
 		'ad_user' => 'AdminUser',
-		'admingroups' => 'AdminGroups',
-		'adminranks' => 'AdminRanks',
-		'adminsmilies' => 'AdminSmilies',
-		'adminips' => 'AdminIPs',
-		'admincensor' => 'AdminCensor',
-		'adminsettings' => 'AdminConfig',
-		'adminnews' => 'AdminNews',
-		'adminnewsletter' => 'AdminNewsletter',
-		'adminmaillist' => 'AdminMailList',
-		'adminkillposts' => 'AdminKillPosts');
+		'ad_groups' => 'AdminGroups',
+		'ad_rank' => 'AdminRanks',
+		'ad_smilies' => 'AdminSmilies',
+		'ad_ip' => 'AdminIPs',
+		'ad_censor' => 'AdminCensor',
+		'ad_settings' => 'AdminConfig',
+		'ad_news' => 'AdminNews',
+		'ad_newsletter' => 'AdminNewsletter',
+		'ad_emaillist' => 'AdminMailList',
+		'ad_killposts' => 'AdminKillPosts',
+		'ad_login' => 'Login',
+		'AdminLogfile' => 'AdminLogfile');
 
 	/**
 	 * Loaded modules are stored here after first execution.
