@@ -1,6 +1,6 @@
 <?php
 /**
- * Displays specific forum or all forums index with additional stats.
+ * Displays specific forum, topic or all forums index with additional stats.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
  * @copyright Copyright (c) 2010 Tritanium Scripts
@@ -59,8 +59,8 @@ class Forum implements Module
 	function __construct($mode)
 	{
 		$this->mode = $mode;
-		$this->forumID = isset($_GET['forum_id']) ? intval($_GET['forum_id']) : -1;
-		$this->topicID = isset($_GET['thread']) ? intval($_GET['thread']) : -1;
+		$this->forumID = intval(Functions::getValueFromGlobals('forum_id')) or $this->forumID = -1;
+		$this->topicID = intval(Functions::getValueFromGlobals('thread')) or $this->topicID = -1;
 		$this->page = isset($_GET['z']) ? ($_GET['z'] != 'last' ? intval($_GET['z']) : 'last') : 1;
 	}
 

@@ -17,8 +17,10 @@
   <td class="td2"><span class="norm">{$curMember.posts}</span></td>
   <td class="td1" style="text-align:center; white-space:nowrap;"><span class="small">{if $curMember.eMail !== false}<a href="{if $curMember.eMail === true}{$smarty.const.INDEXFILE}?faction=formmail&amp;target_id={$curMember.id}{$smarty.const.SID_AMPER}{else}mailto:{$curMember.eMail}{/if}"><img src="{$modules.Template->getTplDir()}images/mailto.gif" alt="{$modules.Language->getString('email')}" /></a> {$modules.Language->getString('email')}{/if}</span></td>
   <td class="td2" style="text-align:center; white-space:nowrap;"><span class="small"><a class="small" href="{$smarty.const.INDEXFILE}?faction=pm&amp;mode=send&amp;target_id={$curMember.id}{$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/pm.gif" alt="" /></a> {$modules.Language->getString('pm')}</span></td>{if $isAdmin}
-  <td class="td1" align="center"><span class="small"><a class="small" href="{$smarty.const.INDEXFILE}?faction=adminuser&amp;mode=edit&amp;id={$curMember.id}{$smarty.const.SID_AMPER}">{$modules.Language->getString('edit_user')}</a></span></td>{/if}
+  <td class="td1" align="center"><span class="small"><a class="small" href="{$smarty.const.INDEXFILE}?faction=ad_user&amp;mode=edit&amp;id={$curMember.id}{$smarty.const.SID_AMPER}">{$modules.Language->getString('edit_user')}</a></span></td>{/if}
  </tr>
+{foreachelse}
+ <tr><td class="td1" colspan="{if $isAdmin}7{else}6{/if}" style="font-weight:bold; text-align:center;"><span class="norm">{$modules.Language->getString('no_user_available')}</span></td></tr>
 {/foreach}
 </table>
 

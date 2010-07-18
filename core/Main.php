@@ -75,7 +75,7 @@ class Main implements Module
 		//adminpanel actions
 		'adminpanel' => 'AdminIndex',
 		'adminforum' => 'AdminForum',
-		'adminuser' => 'AdminUser',
+		'ad_user' => 'AdminUser',
 		'admingroups' => 'AdminGroups',
 		'adminranks' => 'AdminRanks',
 		'adminsmilies' => 'AdminSmilies',

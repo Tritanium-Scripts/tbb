@@ -9,7 +9,14 @@
  */
 define('SCRIPTSTART', microtime(true));
 define('INDEXFILE', 'index.php');
-//Define data path
+/*
+ * Two version numbers of this script are used
+ * to prevent selective bug using in case of
+ * security vulnerabilities of a specific version.
+ */
+define('VERSION_PUBLIC', '1.5');
+define('VERSION_PRIVATE', VERSION_PUBLIC . '.0.0-alpha');
+//Define global data path
 include('DataPath.php');
 //Logging constants
 define('LOG_FILESYSTEM', 1);	//Problems with filesystem

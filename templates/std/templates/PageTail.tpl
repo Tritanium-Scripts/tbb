@@ -10,7 +10,7 @@
   <p class="norm" style="text-align:center;">{mailto address=$modules.Config->getCfgVal('site_contact') text=$modules.Language->getString('contact') extra='class="norm"' encode="javascript"} | <a class="norm" href="{$modules.Config->getCfgVal('site_address')}">{$modules.Config->getCfgVal('site_name')}</a> | <a class="norm" href="{$smarty.const.INDEXFILE}?faction=regeln{$smarty.const.SID_AMPER}">{$modules.Language->getString('board_rules')}</a></p>
   <br />
   <p class="copyr" style="text-align:center;">
-   Tritanium Bulletin Board 1.5<br />
+   Tritanium Bulletin Board {$smarty.const.VERSION_PUBLIC}<br />
    &copy; 2010 <a class="copyr" href="http://www.tritanium-scripts.com/" target="_blank">Tritanium Scripts</a>
   </p>
   <br />

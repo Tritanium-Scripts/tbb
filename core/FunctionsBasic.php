@@ -204,9 +204,7 @@ class FunctionsBasic
 	 */
 	public static function formatDate($date, $format=null)
 	{
-		$gmtOffset = Main::getModule('Config')->getCfgVal('gmt_offset');
-		$offset = Functions::substr($gmtOffset, 1, 2)*3600 + Functions::substr($gmtOffset, 3, 2)*60;
-		$timestamp = mktime(substr($date, 8, 2), substr($date, 10, 2), 0, substr($date, 4, 2), substr($date, 6, 2), substr($date, 0, 4)) + ($gmtOffset[0] == '-' ? $offset*-1 : $offset) + date('Z');
+		$timestamp = self::getTimestamp($date);
 		//Encode as UTF-8, because month names lacks proper encoding
 		return sprintf((time()-$timestamp) < Main::getModule('Config')->getCfgVal('emph_date_hours')*3600 ? '<b>%s</b>' : '%s', utf8_encode(gmstrftime(isset($format) ? $format : Main::getModule('Language')->getString('DATEFORMAT'), $timestamp)));
 	}
@@ -429,6 +427,19 @@ class FunctionsBasic
 			return '';
 			break;
 		}
+	}
+
+	/**
+	 * Returns a unix timestamp from a proprietary date.
+	 *
+	 * @param string $date Proprietary date format (YYYYMMDDhhmmss)
+	 * @return int Unix timestamp
+	 */
+	public static function getTimestamp($date)
+	{
+		$gmtOffset = Main::getModule('Config')->getCfgVal('gmt_offset');
+		$offset = Functions::substr($gmtOffset, 1, 2)*3600 + Functions::substr($gmtOffset, 3, 2)*60;
+		return mktime(substr($date, 8, 2), substr($date, 10, 2), 0, substr($date, 4, 2), substr($date, 6, 2), substr($date, 0, 4)) + ($gmtOffset[0] == '-' ? $offset*-1 : $offset) + date('Z');
 	}
 
 	/**

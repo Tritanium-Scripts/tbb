@@ -27,7 +27,7 @@ Last changed: 2010 (Version 1.5 Alpha)
 	-Logansicht im ACP
 	-Kontakt-Mail-Adresse verschlüsselt mit JavaScript
 	-Newsfader (Newstyp "2") wurde deaktiviert (IE only)
-	-Optionaler ClickJacking Schutz
+	-Optionaler ClickJacking-Schutz
 	-Speichernutzung in technischen Statistiken
 	-WIO mit mehr Details zu Position und Zeit des letzten Klicks
 	-Anzeige von Geistern in WIO und WWO für Admins
@@ -38,7 +38,7 @@ Last changed: 2010 (Version 1.5 Alpha)
 	-WWO-Box mit Rekordanzeige unter der WIO-Box
 	-Datum von letzten Beiträgen als fett bei bestimmten Alter
 	-Keine Cookie-Probleme mehr unter PHP5
-	-SID-Parameter in URL optional
+	-SID-Parameter in URL komplett optional
 	-Hinweis-Link bei verschobenen Themen
 	-Themen als wichtig anpinnen
 	-Registrierungsdaten exakt, nicht mehr Monats-weise
@@ -50,6 +50,10 @@ Last changed: 2010 (Version 1.5 Alpha)
 	-Hashes von Passwörtern basieren nun auf SHA-512, wenn vom System unterstützt, ansonsten DES zwecks Abwärtskompatiblität
 	-Aktuelle Uhrzeit wird im eingeloggten Zustand über der Werkzeugleiste angezeigt
 	-Mitgliederliste lässt sich nun ab- und aufsteigend für alle Kritieren sortieren
+	-Mitglieder pro Seite lassen sich für die Mitgliederliste einstellen
+	-Mitgliederliste mit Sortierung nach ID weniger speicherhungrig
+	-Profilansicht mit PN-Link und vCard-Download
+	-Profilansicht mit Details zu Anmeldedatum, vor x Wochen registriert, durchschnittliche Beiträge pro Tag und letzte Aktivität
 
 Written by Chrissyx
 (c) 2010 Tritanium Scripts

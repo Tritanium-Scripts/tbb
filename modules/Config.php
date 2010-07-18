@@ -80,7 +80,8 @@ class Config
 		'#0000FF',
 		48,
 		6,
-		'Supermoderator');
+		'Supermoderator',
+		30);
 
 	/**
 	 * Name of config file to work with.
@@ -160,7 +161,8 @@ class Config
 		'wio_color_smod',
 		'emph_date_hours',
 		'stars_smod',
-		'var_smod');
+		'var_smod',
+		'members_per_page');
 
 	/**
 	 * Loaded configuration values are stored here.

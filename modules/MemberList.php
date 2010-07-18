@@ -14,7 +14,7 @@ class MemberList implements Module
 	 *
 	 * @var int Amount of members per page
 	 */
-	private $limit = 30;
+	private $limit;
 
 	/**
 	 * Contains states inferior to super mod state (6).
@@ -51,6 +51,7 @@ class MemberList implements Module
 	 */
 	public function __construct()
 	{
+		$this->limit = Main::getModule('Config')->getCfgVal('members_per_page');
 		$this->orderType = Functions::getValueFromGlobals('orderType') == '1';
 		$this->page = intval(Functions::getValueFromGlobals('z')) or $this->page = 1;
 		$this->sortMethod = Functions::getValueFromGlobals('sortmethod') or $this->sortMethod = 'id';

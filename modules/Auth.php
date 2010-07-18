@@ -27,7 +27,12 @@
  *  <li>Forum updated state</li>
  *  <li>Real name</li>
  *  <li>ICQ</li>
- *  <li>Mail options</li>
+ *  <li>Mail options:
+ *   <ol>
+ *    <li>mails from forum</li>
+ *    <li>show mail</li>
+ *   </ol>
+ *  </li>
  *  <li>Group ID</li>
  *  <li>timestamp?</li>
  * </ol>
