@@ -118,7 +118,7 @@ class Profile implements Module
 					if(!empty($this->userData[19]) && empty($this->userData[18]))
 						$this->errors[] = Main::getModule('Language')->getString('please_enter_your_steam_profile_name');
 					if(($newPass = Functions::getValueFromGlobals('new_pw1')) != Functions::getValueFromGlobals('new_pw2'))
-						$this->errors[] = Main::getModule('Language')->getString('passwords_do_not_match');
+						$this->errors[] = Main::getModule('Language')->getString('new_passwords_do_not_match');
 					//Write updates?
 					if(empty($this->errors))
 					{

@@ -568,5 +568,23 @@ class FunctionsBasic
 	{
 		return is_array($value) ? array_map(array('Functions', 'stripSlashesDeep'), $value) : stripslashes($value);
 	}
+
+	/**
+	 * Unifies an user name.
+	 *
+	 * @param string $userName Name to check
+	 * @return bool User name already exists
+	 */
+	public static function unifyUserName($userName, $ignoreID=-1)
+	{
+		$userName = Functions::strtolower($userName);
+		foreach(glob(DATAPATH . 'members/[!0]*.xbb') as $curMember)
+		{
+			$curMember = self::file($curMember);
+			if(Functions::strtolower($curMember[0]) == $userName && $curMember[4] != '5' && $curMember[1] != $ignoreID)
+				return true;
+		}
+		return false;
+	}
 }
 ?>
