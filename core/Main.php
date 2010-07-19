@@ -188,12 +188,12 @@ class Main implements Module
 			self::getModule('Template')->printMessage(($endtime == -1 ? 'banned_forever_everywhere' : 'banned_for_x_minutes_everywhere'), ceil(($endtime-time())/60));
 		//Detect action
 		$this->action = self::$actionTable[($fAction = Functions::getValueFromGlobals('faction'))];
+		self::getModule('Template')->assign('action', $this->action);
 		//Check force login
 		if(self::getModule('Config')->getCfgVal('must_be_logged_in') == 1 && !self::getModule('Auth')->isLoggedIn() && !in_array($this->action, array('Register', 'Login', 'Help')))
 			self::getModule('Template')->printMessage('members_only', INDEXFILE . '?faction=register' . SID_AMPER, INDEXFILE . '?faction=login' . SID_AMPER);
 		//Autoload translation of module
 		self::getModule('Language')->parseFile($this->action);
-		self::getModule('Template')->assign('action', $this->action);
 		//Execute module with mode or forum action as mode replacement
 		self::getModule($this->action, ($mode = Functions::getValueFromGlobals('mode')) == '' ? $fAction : $mode)->execute();
 	}

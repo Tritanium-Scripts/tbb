@@ -115,7 +115,7 @@ class MemberList implements Module
 		//Otherwise process all member data for proper sorting page-wide and not only sorting each page in ID mode
 		else
 		{
-			$availMembers = array_map(array('Functions', 'file'), $availMembers);
+			$availMembers = array_map(array('Functions', 'file'), $availMembers, array_fill(0, $size, null), array_fill(0, $size, null), array_fill(0, $size, false));
 			//Sorting
 			switch($this->sortMethod)
 			{
@@ -128,7 +128,6 @@ class MemberList implements Module
 				usort($availMembers, array($this, 'cmpByPost'));
 				$orderTypePosts = !$this->orderType;
 				break;
-
 //Julian told not to delete the following line, no. 132:
 /* Diese Zeile darf nicht gelöscht werden!! Warum weiß ich auch nicht. Hab ich aber grade so beschlossen! */
 				case 'status':

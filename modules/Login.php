@@ -88,7 +88,7 @@ class Login implements Module
 				//Start crawling by ignoring XBB files with leading zeros (=skip guest)
 				foreach(glob(DATAPATH . 'members/[!0]*.xbb') as $curMember)
 				{
-					$curMember = Functions::file($curMember);
+					$curMember = Functions::file($curMember, null, null, false);
 					if($this->loginName == Functions::strtolower($curMember[0]))
 					{
 						$found = true;

@@ -166,14 +166,16 @@ class FunctionsBasic
 	 * @param string $filename Name of file
 	 * @param int $flags Optional constants
 	 * @param string $trimCharList Characters to trim from each entry (default: all except \t)
+	 * @param bool $datapath Apply the global datapath to filename, there is usually no need to change this
+	 * @return array Read in file contents as array
 	 */
-	public static function file($filename, $flags=null, $trimCharList=null)
+	public static function file($filename, $flags=null, $trimCharList=null, $datapath=true)
 	{
 		if(isset(self::$fileCache[$filename][0]) && Main::getModule('Config')->getCfgVal('use_file_caching') == 1)
 			return self::$fileCache[$filename][0];
 		self::$fileCounter++;
 		$trimCallback = create_function('$entry', 'return trim($entry, "' . (empty($trimCharList) ? ' \n\r\0\x0B' : $trimCharList) . '");');
-		return array_map('utf8_encode', array_map($trimCallback, file(DATAPATH . $filename, $flags)));
+		return array_map('utf8_encode', array_map($trimCallback, file(($datapath ? DATAPATH : '') . $filename, $flags)));
 	}
 
 	/**
@@ -198,12 +200,18 @@ class FunctionsBasic
 	/**
 	 * Extending PHP's {@link file_put_contents()} with file counting, UTF-8 converting and global data path.
 	 * <b>Be very careful changing the $decUTF8 parameter and disabling the UTF-8 decoder! There is usually no need to do this.</b>
+	 *
+	 * @param string $filename Name of file
+	 * @param mixed $data Data to write
+	 * @param int $flags Optional constants
+	 * @param bool $decUTF8 Decode UTF-8 data to ISO-8859-1, <b>do not change this unless you really know what you are doing!</b>
+	 * @param bool $datapath Apply the global datapath to filename, there is usually no need to change this
 	 */
-	public static function file_put_contents($filename, $data, $flags=LOCK_EX, $decUTF8=true)
+	public static function file_put_contents($filename, $data, $flags=LOCK_EX, $decUTF8=true, $datapath=true)
 	{
 		unset(self::$fileCache[$filename]);
 		self::$fileCounter++;
-		return file_put_contents(DATAPATH . $filename, $decUTF8 ? utf8_decode($data) : $data, $flags);
+		return file_put_contents(($datapath ? DATAPATH : '') . $filename, $decUTF8 ? utf8_decode($data) : $data, $flags);
 	}
 
 	/**
@@ -276,7 +284,7 @@ class FunctionsBasic
 	{
 		if(!isset(self::$cache['groups']))
 		{
-			self::$cache['groups'] = self::file('vars/groups.var');
+			self::$cache['groups'] = array_map(array('self', 'explodeByTab'), self::file('vars/groups.var'));
 			foreach(self::$cache['groups'] as &$curGroup)
 				$curGroup[3] = self::explodeByComma($curGroup[3]);
 		}

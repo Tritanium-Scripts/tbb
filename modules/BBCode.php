@@ -42,7 +42,7 @@ class BBCode
 				$toCache[] = $curSmiley[1] . '\' => \'' . end($this->smilies);
 			}
 			if(Main::getModule('Config')->getCfgVal('use_file_caching') == 1)
-				Functions::file_put_contents('cache/BBCode.cache.php', '<?php $this->smilies = array(\'' . implode('\', \'', $toCache) . '\'); ?>', LOCK_EX, false);
+				Functions::file_put_contents('cache/BBCode.cache.php', '<?php $this->smilies = array(\'' . implode('\', \'', $toCache) . '\'); ?>', LOCK_EX, false, false);
 		}
 	}
 
