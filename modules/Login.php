@@ -125,7 +125,7 @@ class Login implements Module
 							$_SESSION['userID'] = $curMember[1];
 							$_SESSION['userHash'] = $this->loginPass;
 							//Login cookie-based
-							setcookie('cookie_xbbuser', $curMember[1] . "\t" . $this->loginPass, Functions::getValueFromGlobals('stayli') == 'yes' ? time()+60*60*24*365 : 0, '/');
+							setcookie('cookie_xbbuser', $curMember[1] . "\t" . $this->loginPass, Functions::getValueFromGlobals('stayli') == 'yes' ? time()+60*60*24*365 : 0, Main::getModule('Config')->getCfgVal('path_to_forum'));
 							//Delete guest ID from WIO to work with user ID form now on
 							Main::getModule('WhoIsOnline')->delete($_SESSION['session_upbwio']);
 							//Set ghost state
@@ -194,7 +194,7 @@ class Login implements Module
 			//Delete user ID from WIO to work with previous guest ID form now on
 			Main::getModule('WhoIsOnline')->delete($_SESSION['userID']);
 			//Logout cookie-based
-			setcookie('cookie_xbbuser', '', time()-1000, '/');
+			setcookie('cookie_xbbuser', '', time()-1000, Main::getModule('Config')->getCfgVal('path_to_forum'));
 			//Logout session-based
 			unset($_SESSION['userID'], $_SESSION['userHash']);
 			if(Main::getModule('Auth')->isGhost())

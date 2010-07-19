@@ -44,6 +44,17 @@ class FunctionsBasic
 	}
 
 	/**
+	 * Reverts PHP's {@link nl2br()} incl. XHTML versions.
+	 *
+	 * @param string $string String for search and replace of br-tags
+	 * @return string Processed string
+	 */
+	public static function br2nl($string)
+	{
+		return Functions::str_replace(array('<br>', '<br/>', '<br />'), "\n", $string);
+	}
+
+	/**
 	 * Checks current IP for access permission.
 	 *
 	 * @param int $forumID Only check for a specific forum, whole board otherwise
@@ -471,7 +482,7 @@ class FunctionsBasic
 	}
 
 	/**
-	 * Returns data of an user.
+	 * Returns fully exploded data of an user.
 	 *
 	 * @param int $userID ID of user
 	 * @return array|bool User data or false if user was not found, is a guest or is deleted
@@ -480,7 +491,15 @@ class FunctionsBasic
 	{
 		if($userID == 0 || !($user = self::file('members/' . $userID . '.xbb')) || $user[4] == '5')
 			return false;
-		$user[14] = self::explodeByComma($user[14]);
+		$user[14] = self::explodeByComma($user[14]); //Mail options
+		//Downward compatibility: Create fields that does't exist in TBB 1.2.3
+		if(!isset($user[16]))
+			$user[16] = '';
+		if(!isset($user[17]))
+			$user[17] = '';
+		if(!isset($user[18]))
+			$user[18] = '';
+		$user[19] = isset($user[19]) ? self::explodeByTab($user[19]) : array();
 		return $user;
 	}
 
@@ -504,6 +523,17 @@ class FunctionsBasic
 	public static function isValidMail($mailAddress)
 	{
 		return (bool) preg_match('/[\.0-9a-z_-]+@[\.0-9a-z-]+\.[a-z]+/si', $mailAddress);
+	}
+
+	/**
+	 * Extending PHP's {@link nl2br()} with stripping of all newline chars.
+	 *
+	 * @param string $string String for search and replace of newlines
+	 * @return string Processed string
+	 */
+	public static function nl2br($string)
+	{
+		return str_replace(array("\n", "\r"), '', nl2br($string));
 	}
 
 	/**

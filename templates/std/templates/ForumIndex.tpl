@@ -54,6 +54,9 @@
   {if $wwoUser[2] == 1 && $wwoUser[1] != 1 && $wwoUser[0] != 1}{sprintf($modules.Language->getString('total_one_member_x_ghosts_and_x_guests'), $wwoUser[1], $wwoUser[0])}
   {elseif $wwoUser[2] != 1 && $wwoUser[1] == 1 && $wwoUser[0] != 1}{sprintf($modules.Language->getString('total_x_member_one_ghost_and_x_guests'), $wwoUser[2], $wwoUser[0])}
   {elseif $wwoUser[2] != 1 && $wwoUser[1] != 1 && $wwoUser[0] == 1}{sprintf($modules.Language->getString('total_x_member_x_ghosts_and_one_guest'), $wwoUser[2], $wwoUser[1])}
+  {elseif $wwoUser[2] == 1 && $wwoUser[1] == 1 && $wwoUser[0] != 1}{$wwoUser[0]|string_format:$modules.Language->getString('total_one_member_one_ghost_and_x_guests')}
+  {elseif $wwoUser[2] == 1 && $wwoUser[1] != 1 && $wwoUser[0] == 1}{$wwoUser[1]|string_format:$modules.Language->getString('total_one_member_x_ghosts_and_one_guest')}
+  {elseif $wwoUser[2] != 1 && $wwoUser[1] == 1 && $wwoUser[0] == 1}{$wwoUser[2]|string_format:$modules.Language->getString('total_x_member_one_ghost_and_one_guest')}
   {else}{sprintf($modules.Language->getString('total_x_members_x_ghosts_and_x_guests'), $wwoUser[2], $wwoUser[1], $wwoUser[0])}{/if}<br /><br />
   <b>{$modules.Language->getString('record_colon')}</b> {sprintf($modules.Language->getString('x_members_on_x'), $record[0], $record[1])}</span></td></tr>
 </table>

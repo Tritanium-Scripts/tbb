@@ -244,7 +244,7 @@ class Forum implements Module
 				else
 				{
 					//User values
-					$curPoster = array_combine(self::$userKeys, array_slice($curPoster, 0, 17)) + array('sendPM' => true);
+					$curPoster = array_combine(self::$userKeys, array_slice($curPoster, 0, count(self::$userKeys))) + array('sendPM' => true);
 					//Check user mail settings
 					if($curPoster['userMailOpts'][0] != '1' && $curPoster['userMailOpts'][1] != '1')
 						$curPoster['userEMail'] = false;

@@ -81,7 +81,8 @@ class Config
 		48,
 		6,
 		'Supermoderator',
-		30);
+		30,
+		1);
 
 	/**
 	 * Name of config file to work with.
@@ -162,7 +163,8 @@ class Config
 		'emph_date_hours',
 		'stars_smod',
 		'var_smod',
-		'members_per_page');
+		'members_per_page',
+		'achievements');
 
 	/**
 	 * Loaded configuration values are stored here.

@@ -21,6 +21,11 @@
    {
     border:none;
    }
+
+   label
+   {
+	   cursor:hand;
+   }
   </style>
  </head>
  <body style="padding-top:1em;">

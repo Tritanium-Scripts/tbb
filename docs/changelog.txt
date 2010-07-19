@@ -5,7 +5,7 @@ Last changed: 2010 (Version 1.5 Alpha)
 
 2010: Version 1.5 Alpha (offiziell)
 	-Alle Features des TBB 1.2.3 übernommen
-	-Komplett neuer technischer Unterbau für PHP 5.1 (= Mindestvoraussetzung) oder höher
+	-Komplett neuer technischer Unterbau in PHP 5.1 (= Mindestvoraussetzung) oder höher
 	-Komplett valides XHTML 1.0 transitional
 	-PHP 6 kompatibel
 	-Design als Template ausgelagert mit Smarty 3.0 als Engine
@@ -13,27 +13,27 @@ Last changed: 2010 (Version 1.5 Alpha)
 	-Abwärtskompatibel mit TBB 1.2.3 CSS-Dateien
 	-Schreibt Daten nicht mehr im Zeichensatz des Benutzers
 	-UTF-8 fähig, schreibt aber intern zwecks Ab- und Aufwärtskompatiblität in ISO-8859-1
-	-Nutzt Multibyte, wenn möglich
+	-Nutzt Multibyte für UTF-8, wenn möglich
 	-Abwärtskompatibel mit TBB 1.2.3 Daten (Foren, Themen, Umfragen, Mitgliedern, Logs, Einstellungen, News usw.)
-	-Cache-Funktionalität persistent
-	-Automatische Spracherkennung
+	-Cache-Funktionalität teils persistent
+	-Automatische Spracherkennung und -auswahl
 	-Aufwärtskompatibel für TBB 2.0 oder höher
 	-Rang für Supermoderatoren
 	-Neue Sterne bei Rangbilder
 	-Admin- & Moderatoren-Smileys
-	-Neues Format für Übersetzungen auf Basis von INI-Dateien
+	-Neues Format für Übersetzungen auf Basis von INI-Dateien (nicht abwärtskompatibel)
 	-Upload-Funktion für Dateien
 	-"Cache leeren"-Funktion im ACP
 	-Logansicht im ACP
-	-Kontakt-Mail-Adresse verschlüsselt mit JavaScript
+	-Kontakt-Mail-Adresse(n) verschlüsselt mit JavaScript
 	-Newsfader (Newstyp "2") wurde deaktiviert (IE only)
-	-Optionaler ClickJacking-Schutz
+	-Optionaler ClickJacking-Schutz für IE 8.0 oder höher
 	-Speichernutzung in technischen Statistiken
 	-WIO mit mehr Details zu Position und Zeit des letzten Klicks
 	-Anzeige von Geistern in WIO und WWO für Admins
 	-Anzahl von Geistern in WIO-Box in der Forenübersicht
-	-Zähler von Themen und Beiträgen neu berechnen lassen im ACP
-	-Farbige Hervorhebung von Admins, (S-)Mods, Nutzer und Verbannten in WIO-Box
+	-Zähler von Themen, Beiträgen und Mitglieder neu berechnen lassen im ACP
+	-Einstellbare, farbige Hervorhebung von Admins, (S-)Mods, Nutzer und Verbannten in WIO-Box
 	-Credits nicht mehr IE-only
 	-WWO-Box mit Rekordanzeige unter der WIO-Box
 	-Datum von letzten Beiträgen als fett bei bestimmten Alter
@@ -50,10 +50,17 @@ Last changed: 2010 (Version 1.5 Alpha)
 	-Hashes von Passwörtern basieren nun auf SHA-512, wenn vom System unterstützt, ansonsten DES zwecks Abwärtskompatiblität
 	-Aktuelle Uhrzeit wird im eingeloggten Zustand über der Werkzeugleiste angezeigt
 	-Mitgliederliste lässt sich nun ab- und aufsteigend für alle Kritieren sortieren
-	-Mitglieder pro Seite lassen sich für die Mitgliederliste einstellen
-	-Mitgliederliste mit Sortierung nach ID weniger speicherhungrig
+	-Mitglieder pro Seite in der Mitgliederliste einstellbar
+	-Mitgliederliste mit Sortierung nach ID weniger speicherintensiv
 	-Profilansicht mit PN-Link und vCard-Download
-	-Profilansicht mit Details zu Anmeldedatum, vor x Wochen registriert, durchschnittliche Beiträge pro Tag und letzte Aktivität
+	-Profilansicht mit Details zu Anmeldedatum, vor x Wochen registriert, durchschnittliche Beiträge pro Tag und letzter Aktivität
+	-Automatische Generierung von Metatags zu Keywords und Description
+	-Fehlermeldungen vereinheitlicht in separaten Boxen
+	-Zusätzliche Erklärungen zu den E-Mail-Einstellungen im eigenen Profil
+	-Unterstützung zur Präsentation von Errungenschaften aus Steam-Spielen
+	-Angabe von Steam-Spielen mit Errungenschaften im eigenen Profil
+	-Profilansicht mit Errungenschafts-Liste von Steam-Spielen
+	-Vergabe von eigenen Titel, die normale Ränge überschreiben
 
 Written by Chrissyx
 (c) 2010 Tritanium Scripts

@@ -123,8 +123,8 @@ class Main implements Module
 	{
 		//Set locale for dates and number formats
 		setlocale(LC_ALL, Functions::explodeByComma(self::getModule('Language')->getString('locale', 'Main')));
-		//Set timeout for getting image sizes if it's not available
-		if(self::getModule('Config')->getCfgVal('use_getimagesize') == 1)
+		//Set timeout for getting image sizes or steam achievements if not available
+		if(self::getModule('Config')->getCfgVal('use_getimagesize') == 1 || self::getModule('Config')->getCfgVal('achievements') == 1)
 			@ini_set('default_socket_timeout', 3);
 		//Check available disk space
 		if(self::getModule('Config')->getCfgVal('use_diskfreespace') == 1 && (($fds = round(disk_free_space('.')/1024)) <= self::getModule('Config')->getCfgVal('warn_admin_fds')*1024))
