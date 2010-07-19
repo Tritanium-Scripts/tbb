@@ -1,4 +1,4 @@
-{* 0:nick - 1:id - 2:rankImage(s) - 3:mail - 4:rank - 5:posts - 6:regDate - 7:signature - 9:hp - 10:avatar - 12:realName - 13:icq - 14:mailOptions[ - 17:specialNick - 18:steamProfile - 19:steamGames] *}
+{* 0:nick - 1:id - 2:rankImage(s) - 3:mail - 4:rank - 5:posts - 6:regDate - 7:signature - 9:hp - 10:avatar - 12:realName - 13:icq - 14:mailOptions[ - 17:specialRank - 18:steamProfile - 19:steamGames] *}
 <!-- EditProfile -->
 {include file='Errors.tpl'}
 <form method="post" action="{$smarty.const.INDEXFILE}?faction=profile&amp;mode=edit&amp;profile_id={$userData[1]}{$smarty.const.SID_AMPER}">
@@ -15,7 +15,7 @@
  </tr>
  <tr>
   <td class="td1" style="font-weight:bold; width:20%;"><span class="norm">{$modules.Language->getString('user_rank_colon')}</span></td>
-  <td class="td1" style="width:80%;"><span class="norm">{$userData[4]}&nbsp;{$userData[2]}</span></td>
+  <td class="td1" style="width:80%;"><span class="norm">{if !empty($userData[17])}{$userData[17]}{else}{$userData[4]}{/if}&nbsp;{$userData[2]}</span></td>
  </tr>
  <tr>
   <td class="td1" style="font-weight:bold; width:20%;"><span class="norm">{$modules.Language->getString('posts_colon')}</span></td>

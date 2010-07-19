@@ -49,7 +49,14 @@ class Forum implements Module
 	 *
 	 * @var array Named keys sorted by layout of XBB files
 	 */
-	private static $userKeys = array('userNick', 'userID', 'userPassHash', 'userEMail', 'userState', 'userPosts', 'userRegDate', 'userSig', 'userForumAcc', 'userHP', 'userAvatar', 'userUpdateState', 'userName', 'userICQ', 'userMailOpts', 'userGroup', 'userTimestamp');
+	private static $userKeys = array('userNick', 'userID', 'userPassHash', 'userEMail', 'userState', 'userPosts', 'userRegDate', 'userSig', 'userForumAcc', 'userHP', 'userAvatar', 'userUpdateState', 'userName', 'userICQ', 'userMailOpts', 'userGroup', 'userTimestamp', 'userSpecialTitle');
+
+	/**
+	 * Amount of named keys for user data.
+	 *
+	 * @var int Size of user keys
+	 */
+	private $userKeysSize;
 
 	/**
 	 * Detects IDs, page and sets mode.
@@ -62,6 +69,7 @@ class Forum implements Module
 		$this->forumID = intval(Functions::getValueFromGlobals('forum_id')) or $this->forumID = -1;
 		$this->topicID = intval(Functions::getValueFromGlobals('thread')) or $this->topicID = -1;
 		$this->page = isset($_GET['z']) ? ($_GET['z'] != 'last' ? intval($_GET['z']) : 'last') : 1;
+		$this->userKeysSize = count(self::$userKeys);
 	}
 
 	/**
@@ -238,13 +246,13 @@ class Forum implements Module
 				if($curPost[1][0] == '0')
 					//Guest values
 					$curPoster = $this->getGuestTemplate(Functions::substr($curPost[1], 1));
-				elseif(!($curPoster = @Functions::getUserData($curPost[1])))
+				elseif(($curPoster = @Functions::getUserData($curPost[1])) === false)
 					//Deleted user values
 					$curPoster = $this->getKilledTemplate($curPost[1]);
 				else
 				{
 					//User values
-					$curPoster = array_combine(self::$userKeys, array_slice($curPoster, 0, count(self::$userKeys))) + array('sendPM' => true);
+					$curPoster = array_combine(self::$userKeys, array_slice($curPoster, 0, $this->userKeysSize)) + array('sendPM' => true);
 					//Check user mail settings
 					if($curPoster['userMailOpts'][0] != '1' && $curPoster['userMailOpts'][1] != '1')
 						$curPoster['userEMail'] = false;

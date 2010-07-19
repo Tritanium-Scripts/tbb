@@ -184,30 +184,14 @@ class Config
 	}
 
 	/**
-	 * Alias for {@link getConfigValue()}.
-	 */
-	public function getCfgVal($key)
-	{
-		return $this->getConfigValue($key);
-	}
-
-	/**
 	 * Returns a single configuration value.
 	 *
 	 * @param string $key Identifier of config value
 	 * @return string Requested config value
 	 */
-	public function getConfigValue($key)
+	public function getCfgVal($key)
 	{
 		return isset($this->cfgValues[$key]) ? $this->cfgValues[$key] : false;
-	}
-
-	/**
-	 * Alias for {@link setConfigValue()}
-	 */
-	public function setCfgVal($key, $value, $save=false)
-	{
-		$this->setConfigValue($key, $value, $save);
 	}
 
 	/**
@@ -217,7 +201,7 @@ class Config
 	 * @param mixed $value Configuration entry
 	 * @param bool $save Store all config values to the config file
 	 */
-	public function setConfigValue($key, $value, $save=false)
+	public function setCfgVal($key, $value, $save=false)
 	{
 		$this->cfgValues[$key] = $value;
 		if($save)

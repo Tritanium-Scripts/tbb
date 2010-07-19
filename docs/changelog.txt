@@ -44,23 +44,23 @@ Last changed: 2010 (Version 1.5 Alpha)
 	-Registrierungsdaten exakt, nicht mehr Monats-weise
 	-Verwendung von getimagesize() ist nun schneller
 	-Abwärtskompatibel mit vielen "Hacks" für das TBB 1.2.3
-	-Wesentlich mehr BBCode
+	-Wesentlich mehr BBCode inkl. Liste, Spoiler, erst-antworten-dann-Text, PHP-Code, Farbe, Größe und Flash
 	-Kein separates Login für Admins im Wartungsmodus mehr nötig
-	-Vorhandene Passwörter bleiben solange gültig, bis man ein neues, angeforderte Passwort auch benutzt hat
+	-Vorhandene Passwörter bleiben weiterhin gültig, bis man ein neues, angefordertes Passwort auch benutzt hat
 	-Hashes von Passwörtern basieren nun auf SHA-512, wenn vom System unterstützt, ansonsten DES zwecks Abwärtskompatiblität
 	-Aktuelle Uhrzeit wird im eingeloggten Zustand über der Werkzeugleiste angezeigt
 	-Mitgliederliste lässt sich nun ab- und aufsteigend für alle Kritieren sortieren
 	-Mitglieder pro Seite in der Mitgliederliste einstellbar
 	-Mitgliederliste mit Sortierung nach ID weniger speicherintensiv
-	-Profilansicht mit PN-Link und vCard-Download
-	-Profilansicht mit Details zu Anmeldedatum, vor x Wochen registriert, durchschnittliche Beiträge pro Tag und letzter Aktivität
-	-Automatische Generierung von Metatags zu Keywords und Description
-	-Fehlermeldungen vereinheitlicht in separaten Boxen
-	-Zusätzliche Erklärungen zu den E-Mail-Einstellungen im eigenen Profil
 	-Unterstützung zur Präsentation von Errungenschaften aus Steam-Spielen
 	-Angabe von Steam-Spielen mit Errungenschaften im eigenen Profil
-	-Profilansicht mit Errungenschafts-Liste von Steam-Spielen
+	-Profilansicht mit PN-Link, vCard-Download und Errungenschafts-Listen von Steam-Spielen
+	-Profilansicht mit Details zu Anmeldedatum, vor x Wochen registriert, durchschnittliche Beiträge pro Tag, letzter Aktivität und Gruppe
+	-Zusätzliche Erklärungen zu den E-Mail-Einstellungen im eigenen Profil
+	-Automatische Generierung von Metatags zu Keywords und Description
+	-Fehlermeldungen vereinheitlicht in separaten Boxen
 	-Vergabe von eigenen Titel, die normale Ränge überschreiben
+	-Senden von leeren E-Mails per Formular mit Bestätigung
 
 Written by Chrissyx
 (c) 2010 Tritanium Scripts

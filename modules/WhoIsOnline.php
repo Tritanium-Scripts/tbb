@@ -148,6 +148,10 @@ class WhoIsOnline implements Module
 					$wioLocations[] = array($curUser, sprintf(Main::getModule('Language')->getString('writes_a_mail_to_x'), Functions::getProfileLink($curWIOEntry[2][1])), $curWIOEntryIsGhost, $curTime);
 					break;
 
+					case 'ViewAchievements':
+					$wioLocations[] = array($curUser, sprintf(Main::getModule('Language')->getString('views_achievements_from_x'), Functions::getProfileLink($curWIOEntry[2][1])), $curWIOEntryIsGhost, $curTime);
+					break;
+
 					default:
 					$wioLocations[] = array($curUser, '<b>WARNING: Unknown WIO location!</b>', $curWIOEntryIsGhost, $curTime);
 					break;

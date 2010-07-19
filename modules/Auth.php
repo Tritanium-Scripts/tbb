@@ -35,7 +35,7 @@
  *  </li>
  *  <li>Group ID</li>
  *  <li>[timestamp]</li>
- *  <li>[specialNick]</li>
+ *  <li>[specialRank]</li>
  *  <li>[steamName]</li>
  *  <li>[steamGames]</li>
  * </ol>

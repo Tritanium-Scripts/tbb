@@ -228,6 +228,47 @@ class Profile implements Module
 
 //ViewAchievements
 			case 'viewAchievements':
+			Main::getModule('NavBar')->addElement(array(
+				array(sprintf(Main::getModule('Language')->getString('view_profile_from_x'), $this->userData[0]), INDEXFILE . '?faction=profile&amp;profile_id=' . $this->userData[1] . SID_AMPER),
+				array(Main::getModule('Language')->getString('steam_achievements'), INDEXFILE . '?faction=profile&amp;profile_id=' . $this->userData[1] . '&amp;mode=viewAchievements&amp;game=' . ($game = Functions::getValueFromGlobals('game')) . SID_AMPER)));
+			if(Main::getModule('Config')->getCfgVal('achievements') != 1)
+				Main::getModule('Template')->printMessage('function_deactivated');
+			elseif(!class_exists('DOMDocument', false))
+				Main::getModule('Template')->printMessage('function_not_supported');
+			elseif(empty($this->userData[18]))
+				Main::getModule('Template')->printMessage('no_steam_games');
+			elseif(!in_array($game, $this->userData[19]))
+				Main::getModule('Template')->printMessage('steam_game_not_found');
+			$dom = new DOMDocument;
+			if(!@$dom->loadXML(file_get_contents('http://steamcommunity.com/' . (is_numeric($this->userData[18]) ? 'profiles/' : 'id/') . $this->userData[18] . '/stats/' . $game . '/?tab=achievements&l=' . Main::getModule('Language')->getString('steam_language') . '&xml=1')))
+				$this->errors[] = Main::getModule('Language')->getString('loading_achievements_failed');
+			elseif($dom->getElementsByTagName('error')->length == 0)
+			{
+				$achievementsClosed = $achievementsOpen = array();
+				//Get achievements, sorted by open/close state
+				foreach(($achievements = $dom->getElementsByTagName('achievement')) as $curAchievement)
+					if($curAchievement->attributes->getNamedItem('closed')->nodeValue == '1')
+						$achievementsClosed[] = array('icon' => $curAchievement->getElementsByTagName('iconClosed')->item(0)->nodeValue,
+							'name' => htmlspecialchars($curAchievement->getElementsByTagName('name')->item(0)->nodeValue),
+							'description' => htmlspecialchars($curAchievement->getElementsByTagName('description')->item(0)->nodeValue));
+					else
+						$achievementsOpen[] = array('icon' => $curAchievement->getElementsByTagName('iconOpen')->item(0)->nodeValue,
+							'name' => htmlspecialchars($curAchievement->getElementsByTagName('name')->item(0)->nodeValue),
+							'description' => htmlspecialchars($curAchievement->getElementsByTagName('description')->item(0)->nodeValue));
+				Main::getModule('Template')->assign(array('name' => $dom->getElementsByTagName('gameName')->item(0)->nodeValue,
+					'logo' => $dom->getElementsByTagName('gameLogo')->item(0)->nodeValue,
+					'icon' => $dom->getElementsByTagName('gameIcon')->item(0)->nodeValue,
+					'numTotal' => $achievements->length,
+					'numClosed' => ($done = count($achievementsClosed)),
+					'numOpen' => count($achievementsOpen),
+					//Calculate progess
+					'percentClosed' => $achievements->length != '0' ? ($done / $achievements->length)*100 : 0,
+					'achievementsClosed' => $achievementsClosed,
+					'achievementsOpen' => $achievementsOpen));
+			}
+			else
+				foreach($dom->getElementsByTagName('error') as $curError)
+					$this->errors[] = $curError->nodeValue;
 			break;
 
 //ViewProfile
@@ -276,10 +317,12 @@ class Profile implements Module
 			if(Main::getModule('Config')->getCfgVal('achievements') == 1 && !empty($this->userData[18]) && !empty($this->userData[19][0]) && class_exists('DOMDocument', false))
 			{
 				$dom = new DOMDocument;
-				if(!@$dom->loadXML(file_get_contents('http://steamcommunity.com/id/' . $this->userData[18] . '/games/?tab=achievements&xml=1')))
+				if(!@$dom->loadXML(file_get_contents('http://steamcommunity.com/' . (is_numeric($this->userData[18]) ? 'profiles/' : 'id/') . $this->userData[18] . '/games/?tab=achievements&l=' . Main::getModule('Language')->getString('steam_language') . '&xml=1')))
 					$this->userData[19] = array();
 				else
 				{
+					$this->userData[18] = array('profileID' => $this->userData[18],
+						'profileName' => $dom->getElementsByTagName('steamID')->item(0)->nodeValue);
 					$games = array();
 					//Extract all steam games from user
 					foreach($dom->getElementsByTagName('game') as $curSteamGame)

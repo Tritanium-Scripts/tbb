@@ -24,7 +24,7 @@
 
    label
    {
-	   cursor:hand;
+	   cursor:pointer;
    }
   </style>
  </head>
