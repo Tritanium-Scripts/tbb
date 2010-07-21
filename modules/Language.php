@@ -88,6 +88,16 @@ class Language
 	}
 
 	/**
+	 * Returns all loaded strings for current language.
+	 *
+	 * @return array Reference to current loaded language strings
+	 */
+	public function &getStrings()
+	{
+		return $this->langStrings[$this->langCode];
+	}
+
+	/**
 	 * Parses a language file and adds its contents to cached strings.
 	 *
 	 * @param string $file Name of language INI file

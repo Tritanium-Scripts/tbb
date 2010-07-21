@@ -205,7 +205,7 @@ class Register implements Module
 						unlink($curPreMember);
 						//Send default reg mail (and random pass, if needed)
 						Functions::sendMessage($newMemberFile[3], 'new_registration', $newMemberFile[0], Main::getModule('Config')->getCfgVal('forum_name'), $newMemberFile[1], $newMemberFile[3], $this->createRegPass ? $newPass : Main::getModule('Language')->getString('already_set_by_yourself'), Main::getModule('Config')->getCfgVal('address_to_forum') . '/' . INDEXFILE);
-						Main::getModule('Logger')->log('New registration: ' . $newMemberFile[0] . ' (ID: ' . $newMemberFile[1] . ')', LOG_REGISTRATION);
+						Main::getModule('Logger')->log('New registration verified: ' . $newMemberFile[0] . ' (ID: ' . $newMemberFile[1] . ')', LOG_REGISTRATION);
 						//Notify admin
 						if(Main::getModule('Config')->getCfgVal('mail_admin_new_registration') == 1)
 							Functions::sendMessage(Main::getModule('Config')->getCfgVal('admin_email'), 'admin_new_registration', Main::getModule('Config')->getCfgVal('forum_name'), $newMemberFile[0], $newMemberFile[1], $newMemberFile[3]);
@@ -229,7 +229,7 @@ class Register implements Module
 		}
 		Main::getModule('Template')->printPage(self::$modeTable[$this->mode], array('newUser' => $newUser,
 			'errors' => $this->errors,
-			'rulesLink' => INDEXFILE . '?faction=regeln'));
+			'rulesLink' => INDEXFILE . '?faction=regeln' . SID_AMPER));
 	}
 }
 ?>

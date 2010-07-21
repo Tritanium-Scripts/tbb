@@ -156,6 +156,14 @@ class WhoIsOnline implements Module
 					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('registers'), $curWIOEntryIsGhost, $curTime);
 					break;
 
+					case 'BoardRules':
+					$wioLocations[] = array($curUser, sprintf(Main::getModule('Language')->getString('reads_board_rules'), INDEXFILE . '?faction=regeln' . SID_AMPER), $curWIOEntryIsGhost, $curTime);
+					break;
+
+					case 'FAQ':
+					$wioLocations[] = array($curUser, sprintf(Main::getModule('Language')->getString('views_the_faq'), INDEXFILE . '?faction=faq' . SID_AMPER), $curWIOEntryIsGhost, $curTime);
+					break;
+
 					default:
 					$wioLocations[] = array($curUser, '<b>WARNING: Unknown WIO location!</b>', $curWIOEntryIsGhost, $curTime);
 					break;

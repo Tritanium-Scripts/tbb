@@ -389,9 +389,7 @@ class FunctionsBasic
 
 			case '3':
 			case '4':
-			if(!isset(self::$cache['ranks']))
-				self::$cache['ranks'] = array_map(array('self', 'explodeByTab'), self::file('vars/rank.var'));
-			foreach(self::$cache['ranks'] as $curRank)
+			foreach(self::getRanks() as $curRank)
 				if($userPosts >= $curRank[2] && $userPosts <= $curRank[3])
 					$rankImage = array_fill(0, $curRank[4], 'ystar');
 			break;
@@ -401,6 +399,18 @@ class FunctionsBasic
 			break;
 		}
 		return '<img src="images/ranks/' . implode('.gif" alt="*" /><img src="images/ranks/', $rankImage) . '.gif" alt="*" />';
+	}
+
+	/**
+	 * Returns fully exploded user ranks.
+	 *
+	 * @return array Exploded user ranks
+	 */
+	public static function getRanks()
+	{
+		if(!isset(self::$cache['ranks']))
+			self::$cache['ranks'] = array_map(array('self', 'explodeByTab'), self::file('vars/rank.var'));
+		return self::$cache['ranks'];
 	}
 
 	/**
@@ -423,9 +433,7 @@ class FunctionsBasic
 			break;
 
 			case '3':
-			if(!isset(self::$cache['ranks']))
-				self::$cache['ranks'] = array_map(array('self', 'explodeByTab'), self::file('vars/rank.var'));
-			foreach(self::$cache['ranks'] as $curRank)
+			foreach(self::getRanks() as $curRank)
 				if($userPosts >= $curRank[2] && $userPosts <= $curRank[3])
 					return $curRank[1];
 			break;

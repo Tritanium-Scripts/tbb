@@ -47,6 +47,16 @@ class BBCode
 	}
 
 	/**
+	 * Returns all smilies.
+	 *
+	 * @return array All current smilies with synonym/image as key/value pairs
+	 */
+	public function getSmilies()
+	{
+		return $this->smilies;
+	}
+
+	/**
 	 * Formats a text with HTML, smilies and BBCode.
 	 *
 	 * @param string $string The string to parse
