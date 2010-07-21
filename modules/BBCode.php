@@ -110,9 +110,9 @@ class BBCode
 			$string = preg_replace_callback("/\[flash[=| ](\d+),(\d+)\](.*?)\[\/flash\]/si", create_function('$elements', 'return Main::getModule(\'Template\')->fetch(\'BBCode\', array(\'type\' => BBCODE_FLASH, \'flashLink\' => $elements[1], \'flashLink\' => $elements[3], \'flashWidth\' => $elements[1], \'flashHeight\' => $elements[2]));'), $string);
 			//Quotes at the end for linked sources
 			while(preg_match("/\[quote\](.*?)\[\/quote\]/si", $string))
-				$string = preg_replace_callback("/\[quote\](.*?)\[\/quote\][\r\n]*/si", create_function('$elements', 'return Main::getModule(\'Template\')->fetch(\'BBCode\', array(\'type\' => BBCODE_QUOTE, \'quoteText\' => $elements[1], \'quoteTitle\' => Main::getModule(\'Language\')->getString(\'quote_colon\')));'), $string);
+				$string = preg_replace_callback("/\[quote\](.*?)\[\/quote\][\r\n]*/si", create_function('$elements', 'return Main::getModule(\'Template\')->fetch(\'BBCode\', array(\'type\' => BBCODE_QUOTE, \'quoteText\' => $elements[1], \'quoteTitle\' => Main::getModule(\'Language\')->getString(\'quote_colon\', \'BBCode\')));'), $string);
 			while(preg_match("/\[quote=(.*?)\](.*?)\[\/quote\]/si", $string))
-				$string = preg_replace_callback("/\[quote=(.*?)\](.*?)\[\/quote\][\r\n]*/si", create_function('$elements', 'return Main::getModule(\'Template\')->fetch(\'BBCode\', array(\'type\' => BBCODE_QUOTE, \'quoteText\' => $elements[2], \'quoteTitle\' => sprintf(Main::getModule(\'Language\')->getString(\'quote_by_x_colon\'), $elements[1])));'), $string);
+				$string = preg_replace_callback("/\[quote=(.*?)\](.*?)\[\/quote\][\r\n]*/si", create_function('$elements', 'return Main::getModule(\'Template\')->fetch(\'BBCode\', array(\'type\' => BBCODE_QUOTE, \'quoteText\' => $elements[2], \'quoteTitle\' => sprintf(Main::getModule(\'Language\')->getString(\'quote_by_x_colon\', \'BBCode\'), $elements[1])));'), $string);
 		}
 		return $string;
 	}

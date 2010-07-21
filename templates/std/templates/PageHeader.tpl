@@ -24,7 +24,7 @@
 
    label
    {
-	   cursor:pointer;
+    cursor:pointer;
    }
   </style>
  </head>
