@@ -114,13 +114,15 @@ class Login implements Module
 						//All ok, do login
 						else
 						{
+							//Update last seen value
+							$curMember[16] = time();
 							//Set a new requested password as new default one
 							if($this->loginPass == $curPasses[1])
 							{
 								$curMember[2] = $curPasses[1];
-								Functions::file_put_contents('members/' . $curMember[1]. '.xbb', implode("\n", $curMember));
 								Main::getModule('Logger')->log('Requested password set as new one for "' . $curMember[0] . '" (ID: ' . $curMember[1] . ')', LOG_NEW_PASSWORD);
 							}
+							Functions::file_put_contents('members/' . $curMember[1]. '.xbb', implode("\n", $curMember));
 							//Login session-based
 							$_SESSION['userID'] = $curMember[1];
 							$_SESSION['userHash'] = $this->loginPass;

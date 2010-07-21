@@ -414,7 +414,7 @@ class Forum implements Module
 	 */
 	private function getGuestTemplate($nick)
 	{
-		return array_combine(self::$userKeys, array($nick, 0, '', false, Main::getModule('Language')->getString('guest'), '', '', '', '', '', '', '', '', '', '', '', '', '')) + array('userRank' => '', 'sendPM' => false);
+		return array_combine(self::$userKeys, array($nick, 0, '', false, Main::getModule('Language')->getString('guest')) + array_fill(0, $this->userKeysSize-5, '')) + array('userRank' => '', 'sendPM' => false);
 	}
 
 	/**
@@ -425,7 +425,7 @@ class Forum implements Module
 	 */
 	private function getKilledTemplate($userID)
 	{
-		return array_combine(self::$userKeys, array(Main::getModule('Config')->getCfgVal('var_killed'), $userID, '', false, Main::getModule('Language')->getString('deleted'), '', '', '', '', '', '', '', '', '', '', '', '', '')) + array('userRank' => '', 'sendPM' => false);
+		return array_combine(self::$userKeys, array(Main::getModule('Config')->getCfgVal('var_killed'), $userID, '', false, Main::getModule('Language')->getString('deleted')) + array_fill(0, $this->userKeysSize-5, '')) + array('userRank' => '', 'sendPM' => false);
 	}
 }
 ?>

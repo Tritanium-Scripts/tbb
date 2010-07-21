@@ -10,6 +10,13 @@
 class Register implements Module
 {
 	/**
+	 * If passwords for new user should be created automatically.
+	 *
+	 * @var bool User may not choose an own password
+	 */
+	private $createRegPass;
+
+	/**
 	 * Detected errors during registration.
 	 *
 	 * @var array Error messages
@@ -31,6 +38,13 @@ class Register implements Module
 	private $mode;
 
 	/**
+	 * Translates a mode to its template file.
+	 *
+	 * @var array Mode and template counterparts
+	 */
+	private static $modeTable = array('' => 'Register', 'register' => 'Register', 'createuser' => 'Register', 'verifyAccount' => 'RegisterVerfication');
+
+	/**
 	 * Provides named keys for new user data.
 	 *
 	 * @var array Named keys
@@ -45,6 +59,7 @@ class Register implements Module
 	 */
 	function __construct($mode)
 	{
+		$this->createRegPass = Main::getModule('Config')->getCfgVal('create_reg_pw') == 1;
 		$this->memberCounter = intval(Functions::file_get_contents('vars/member_counter.var'));
 		$this->mode = $mode;
 	}
@@ -68,6 +83,7 @@ class Register implements Module
 		}
 		switch($this->mode)
 		{
+//Register
 			case 'createuser':
 			$newUser = array_combine(self::$newUserKeys, array(Functions::getValueFromGlobals('newuser_name'),
 				Functions::getValueFromGlobals('newuser_email'),
@@ -82,21 +98,26 @@ class Register implements Module
 				$this->errors[] = Main::getModule('Language')->getString('the_user_name_is_too_long');
 			elseif(Functions::unifyUserName($newUser['nick']))
 				$this->errors[] = Main::getModule('Language')->getString('the_user_name_already_exists');
-			if(Main::getModule('Config')->getCfgVal('create_reg_pw') != 1)
+			if(!$this->createRegPass)
 			{
+				//In case of not creating a pass for new user, check the given one, too
 				if(($newPass = Functions::getValueFromGlobals('newuser_pw1')) == '')
 					$this->errors[] = Main::getModule('Language')->getString('please_enter_a_password');
 				elseif($newPass != Functions::getValueFromGlobals('newuser_pw2'))
 					$this->errors[] = Main::getModule('Language')->getString('passwords_do_not_match');
 				else
+					//If ok, hash it - the original pw is not longer needed to know
 					$newPass = Functions::getHash($newPass);
 			}
 			else
+				//In case of creating a pass for new user, get it here, but don't hash it yet
 				$newPass = Functions::getRandomPass();
 			if(empty($newUser['mail']))
 				$this->errors[] = Main::getModule('Language')->getString('please_enter_your_mail');
 			elseif(!Functions::isValidMail($newUser['mail']))
 				$this->errors[] = Main::getModule('Language')->getString('please_enter_a_valid_mail');
+			elseif(Functions::unifyUserMail($newUser['mail']))
+				$this->errors[] = Main::getModule('Language')->getString('the_mail_address_already_exists');
 			if(!empty($newUser['icq']) && !is_numeric($newUser['icq']))
 				$this->errors[] = Main::getModule('Language')->getString('please_enter_a_valid_icq_number');
 			if(Functions::getValueFromGlobals('regeln') != 'yes')
@@ -108,10 +129,9 @@ class Register implements Module
 				//Prepare contents of new member file
 				$newMemberFile = array($newUser['nick'],
 					$newUserID,
-					Main::getModule('Config')->getCfgVal('create_reg_pw') != 1 ? $newPass : Functions::getHash($newPass),
+					!$this->createRegPass ? $newPass : Functions::getHash($newPass),
 					$newUser['mail'],
-					//First user is admin
-					$newUserID == 1 ? '1' : '3',
+					$newUserID == 1 ? '1' : '3', //First user is admin
 					'0',
 					date('YmdHis'),
 					$newUser['signature'],
@@ -129,37 +149,87 @@ class Register implements Module
 					'',
 					'');
 				//Register as new member only, if no mail validation is required
-				if(Main::getModule('Config')->getCfgVal('create_reg_pw') != 2)
+				if(Main::getModule('Config')->getCfgVal('confirm_reg_mail') != 1)
 				{
 					Functions::file_put_contents('members/' . $newUserID . '.xbb', implode("\n", $newMemberFile));
 					Functions::file_put_contents('members/' . $newUserID . '.pm', '');
 					Functions::file_put_contents('vars/last_user_id.var', $newUserID);
-					Functions::file_put_contents('vars/member_counter.var', $this->memberCounter+1);
-					//Send random pass, if needed
-					if(Main::getModule('Config')->getCfgVal('create_reg_pw') == 1)
-						Functions::sendMessage($newMemberFile[3], 'new_registration_pass', Main::getModule('Config')->getCfgVal('forum_name'), $newMemberFile[0], $newPass, Main::getModule('Config')->getCfgVal('address_to_forum') . '/' . INDEXFILE);
+					Functions::file_put_contents('vars/member_counter.var', ++$this->memberCounter);
+					//Send reg mail (and random pass, if needed)
+					Functions::sendMessage($newMemberFile[3], 'new_registration', $newMemberFile[0], Main::getModule('Config')->getCfgVal('forum_name'), $newMemberFile[1], $newMemberFile[3], $this->createRegPass ? $newPass : Main::getModule('Language')->getString('already_set_by_yourself'), Main::getModule('Config')->getCfgVal('address_to_forum') . '/' . INDEXFILE);
 					Main::getModule('Logger')->log('New registration: ' . $newMemberFile[0] . ' (ID: ' . $newMemberFile[1] . ')', LOG_REGISTRATION);
+					//Notify admin
 					if(Main::getModule('Config')->getCfgVal('mail_admin_new_registration') == 1)
-						Functions::sendMessage(Main::getModule('Config')->getCfgVal('admin_email'), 'admin_new_registration', $newMemberFile[0], $newMemberFile[1]);
-					Main::getModule('Template')->printMessage('registration_successful');
+						Functions::sendMessage(Main::getModule('Config')->getCfgVal('admin_email'), 'admin_new_registration', Main::getModule('Config')->getCfgVal('forum_name'), $newMemberFile[0], $newMemberFile[1], $newMemberFile[3]);
+					if($this->createRegPass)
+						Main::getModule('Template')->printMessage('registration_successful_pass', $newMemberFile[0]);
+					else
+						Main::getModule('Template')->printMessage('registration_successful_plain', $newMemberFile[0], INDEXFILE . '?faction=login' . SID_AMPER);
 				}
-				//Save data only temporarily until confirmation
+				//Save data only temporarily until mail addy is confirmed
 				else
 				{
 					Functions::file_put_contents('members/temp' . $newMemberFile[16] . '.xbb', implode("\n", $newMemberFile));
-					Functions::sendMessage($newMemberFile[3], 'new_registration_mail', Main::getModule('Config')->getCfgVal('forum_name'), $newMemberFile[0], Main::getModule('Config')->getCfgVal('address_to_forum') . '/' . INDEXFILE);
-					Main::getModule('Template')->printMessage('registration_successful');
+					Functions::sendMessage($newMemberFile[3], 'validate_new_registration', $newMemberFile[0], Main::getModule('Config')->getCfgVal('forum_name'), Main::getModule('Config')->getCfgVal('address_to_forum') . '/' . INDEXFILE . '?faction=register&mode=verifyAccount&code=' . md5('temp' . $newMemberFile[16]), Main::getModule('Config')->getCfgVal('address_to_forum') . '/' . INDEXFILE . '?faction=register&mode=verifyAccount', md5('temp' . $newMemberFile[16]));
+					Main::getModule('Logger')->log('New registration waiting for mail validation: ' . $newMemberFile[0] . ' (preliminary ID: temp' . $newMemberFile[16] . ')', LOG_REGISTRATION);
+					Main::getModule('Template')->printMessage('registration_successful_mail', $newMemberFile[0]);
 				}
 			}
 			break;
 
+//RegisterVerfication
+			case 'verifyAccount':
+			Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('activate_account'), INDEXFILE . '?faction=register&amp;mode=verifyAccount' . SID_AMPER);
+			if(($code = Functions::getValueFromGlobals('code')) != '')
+			{
+				foreach(glob(DATAPATH . 'members/temp*.xbb') as $curPreMember)
+					if($code == md5(basename($curPreMember, '.xbb')))
+					{
+						//Get temporarily data of verfied member
+						$newMemberFile = Functions::file($curPreMember, null, null, false);
+						//Generate password, if needed
+						if($this->createRegPass)
+							$newMemberFile[2] = Functions::getHash($newPass = Functions::getRandomPass());
+						//Update last seen
+						$newMemberFile[16] = time();
+						//Detect new ID
+						$newUserID = Functions::file_get_contents('vars/last_user_id.var')+1;
+						//Apply to new member: update current one
+						$newMemberFile[1] = $newUserID;
+						//Write confirmed data with new ID (and new pass, if needed)
+						Functions::file_put_contents('members/' . $newUserID . '.xbb', implode("\n", $newMemberFile));
+						Functions::file_put_contents('members/' . $newUserID . '.pm', '');
+						Functions::file_put_contents('vars/last_user_id.var', $newUserID);
+						Functions::file_put_contents('vars/member_counter.var', ++$this->memberCounter);
+						//Delete old temporarily data
+						unlink($curPreMember);
+						//Send default reg mail (and random pass, if needed)
+						Functions::sendMessage($newMemberFile[3], 'new_registration', $newMemberFile[0], Main::getModule('Config')->getCfgVal('forum_name'), $newMemberFile[1], $newMemberFile[3], $this->createRegPass ? $newPass : Main::getModule('Language')->getString('already_set_by_yourself'), Main::getModule('Config')->getCfgVal('address_to_forum') . '/' . INDEXFILE);
+						Main::getModule('Logger')->log('New registration: ' . $newMemberFile[0] . ' (ID: ' . $newMemberFile[1] . ')', LOG_REGISTRATION);
+						//Notify admin
+						if(Main::getModule('Config')->getCfgVal('mail_admin_new_registration') == 1)
+							Functions::sendMessage(Main::getModule('Config')->getCfgVal('admin_email'), 'admin_new_registration', Main::getModule('Config')->getCfgVal('forum_name'), $newMemberFile[0], $newMemberFile[1], $newMemberFile[3]);
+						if($this->createRegPass)
+							Main::getModule('Template')->printMessage('registration_successful_pass', $newMemberFile[0]);
+						else
+							Main::getModule('Template')->printMessage('registration_successful_plain', $newMemberFile[0], INDEXFILE . '?faction=login' . SID_AMPER);
+					}
+				$this->errors[] = Main::getModule('Language')->getString('no_account_for_code_found');
+			}
+			elseif(isset($_POST['verify']))
+				$this->errors[] = Main::getModule('Language')->getString('please_enter_your_code');
+			$newUser = array('code' => $code);
+			break;
+
+//Register
 			case 'register':
 			default:
 			$newUser = array_combine(self::$newUserKeys, array('', '', '', '', '', ''));
 			break;
 		}
-		Main::getModule('Template')->printPage('Register', array('newUser' => $newUser,
-			'errors' => $this->errors));
+		Main::getModule('Template')->printPage(self::$modeTable[$this->mode], array('newUser' => $newUser,
+			'errors' => $this->errors,
+			'rulesLink' => INDEXFILE . '?faction=regeln'));
 	}
 }
 ?>

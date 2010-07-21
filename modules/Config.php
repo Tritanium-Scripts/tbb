@@ -82,7 +82,8 @@ class Config
 		6,
 		'Supermoderator',
 		30,
-		1);
+		1,
+		0);
 
 	/**
 	 * Name of config file to work with.
@@ -164,7 +165,8 @@ class Config
 		'stars_smod',
 		'var_smod',
 		'members_per_page',
-		'achievements');
+		'achievements',
+		'confirm_reg_mail');
 
 	/**
 	 * Loaded configuration values are stored here.

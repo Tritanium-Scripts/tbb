@@ -570,9 +570,28 @@ class FunctionsBasic
 	}
 
 	/**
+	 * Unifies an user e-mail address.
+	 *
+	 * @param string $userMail E-mail to check
+	 * @param int $ignoreID Optional user ID to ignore during check
+	 * @return bool User mail address already exists
+	 */
+	public static function unifyUserMail($userMail, $ignoreID=-1)
+	{
+		foreach(glob(DATAPATH . 'members/[!0]*.xbb') as $curMember)
+		{
+			$curMember = self::file($curMember);
+			if($curMember[3] == $userMail && $curMember[1] != $ignoreID)
+				return true;
+		}
+		return false;
+	}
+
+	/**
 	 * Unifies an user name.
 	 *
 	 * @param string $userName Name to check
+	 * @param int $ignoreID Optional user ID to ignore during check
 	 * @return bool User name already exists
 	 */
 	public static function unifyUserName($userName, $ignoreID=-1)

@@ -61,6 +61,8 @@ Last changed: 2010 (Version 1.5 Alpha)
 	-Fehlermeldungen vereinheitlicht in separaten Boxen
 	-Vergabe von eigenen Titel, die normale Ränge überschreiben
 	-Senden von leeren E-Mails per Formular mit Bestätigung
+	-Registrierung überprüft nun auch auf bereits vorhandene E-Mail-Adressen
+	-Registrierungen können zusätzlich eine Freischaltung durch Gültigkeitsprüfung der E-Mail-Adresse durch versenden eines Aktivierungscode erfordern
 
 Written by Chrissyx
 (c) 2010 Tritanium Scripts
