@@ -49,7 +49,7 @@ class Forum implements Module
 	 *
 	 * @var array Named keys sorted by layout of XBB files
 	 */
-	private static $userKeys = array('userNick', 'userID', 'userPassHash', 'userEMail', 'userState', 'userPosts', 'userRegDate', 'userSig', 'userForumAcc', 'userHP', 'userAvatar', 'userUpdateState', 'userName', 'userICQ', 'userMailOpts', 'userGroup', 'userTimestamp', 'userSpecialTitle');
+	private static $userKeys = array('userNick', 'userID', 'userPassHash', 'userEMail', 'userState', 'userPosts', 'userRegDate', 'userSig', 'userForumAcc', 'userHP', 'userAvatar', 'userUpdateState', 'userName', 'userICQ', 'userMailOpts', 'userGroup', 'userTimestamp', 'userSpecialState');
 
 	/**
 	 * Amount of named keys for user data.
@@ -414,7 +414,7 @@ class Forum implements Module
 	 */
 	private function getGuestTemplate($nick)
 	{
-		return array_combine(self::$userKeys, array($nick, 0, '', false, Main::getModule('Language')->getString('guest')) + array_fill(0, $this->userKeysSize-5, '')) + array('userRank' => '', 'sendPM' => false);
+		return array_combine(self::$userKeys, array_merge(array($nick, 0, '', false, Main::getModule('Language')->getString('guest')), array_fill(0, $this->userKeysSize-5, ''))) + array('userRank' => '', 'sendPM' => false);
 	}
 
 	/**
@@ -425,7 +425,7 @@ class Forum implements Module
 	 */
 	private function getKilledTemplate($userID)
 	{
-		return array_combine(self::$userKeys, array(Main::getModule('Config')->getCfgVal('var_killed'), $userID, '', false, Main::getModule('Language')->getString('deleted')) + array_fill(0, $this->userKeysSize-5, '')) + array('userRank' => '', 'sendPM' => false);
+		return array_combine(self::$userKeys, array_merge(array(Main::getModule('Config')->getCfgVal('var_killed'), $userID, '', false, Main::getModule('Language')->getString('deleted')), array_fill(0, $this->userKeysSize-5, ''))) + array('userRank' => '', 'sendPM' => false);
 	}
 }
 ?>

@@ -310,12 +310,13 @@ class FunctionsBasic
 	{
 		$userLinks = array();
 		if(!empty($userID))
-			foreach(self::explodeByComma($userID) as $curUserID)
-				//Guest check
-				if($curUserID == 0) //0Guest == 0!
-					$userLinks[] = Functions::substr($userID, 1);
+			//Guest check
+			if($userID == 0) //0Guest == 0!
+				$userLinks[] = Functions::substr($userID, 1);
+			else
+				foreach(self::explodeByComma($userID) as $curUserID)
 				//(Optional) deleted check
-				elseif($isValid && !self::file_exists('members/' . $curUserID . '.xbb'))
+				if($isValid && !self::file_exists('members/' . $curUserID . '.xbb'))
 					$userLinks[] = Main::getModule('Language')->getString('deleted');
 				//Create profile link
 				else

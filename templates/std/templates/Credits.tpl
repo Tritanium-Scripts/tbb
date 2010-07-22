@@ -116,8 +116,9 @@
    {
     background-color:#000000;
     color:#FFFFFF;
+    font-weight:bold;
     font-family:Verdana;
-    /*font-size:x-small;*/
+    font-size:small;
    }
 
    img
@@ -129,16 +130,18 @@
    {
     filter:alpha(opacity=0);
     left:0;
-    opacity:0;
+    margin-top:15%;
+    opacity:0.0;
     position:absolute;
     text-align:center;
     top:0;
+    width:100%;
    }
   </style>
   <script type="text/javascript">
   	/**
   	 * Fades a span element.
-  	 * Fade out added by Chrissyx.
+  	 * Span support and fade out added by Chrissyx.
   	 *
   	 * @author Felix Riesterer <Felix.Riesterer@gmx.net>
   	 * @link http://aktuell.de.selfhtml.org/artikel/javascript/fader-framework/bilderslideshow.htm
@@ -173,7 +176,7 @@
 		var spans = document.getElementById('fader').getElementsByTagName('span');
 		if(typeof(counter) != 'number')
 		{
-			counter = 1;
+			counter = 0;
 		}
 		counter++;
 		if(counter < spans.length)
@@ -184,9 +187,17 @@
   </script>
  </head>
  <body onload="next();">
-  <p id="fader" style="position:relative; width:99%;">
-    <span class="fade">&nbsp;</span>
+  <!-- Credits -->
+  <p id="fader" style="position:relative; width:100%;">
     {foreach $credits as $curCredit}<span class="fade">{$curCredit}</span>{/foreach}
   </p>
+  <object data="http://www.youtube-nocookie.com/v/8Af372EQLck?rel=0&amp;autoplay=1&amp;hd=1" type="application/x-shockwave-flash" width="1" height="1">
+   <param name="allowFullScreen" value="false "/>
+   <param name="allowScriptAccess" value="sameDomain" />
+   <param name="AutoStart" value="true" />
+   <param name="movie" value="http://www.youtube-nocookie.com/v/8Af372EQLck?rel=0&amp;autoplay=1&amp;hd=1" />
+   <param name="quality" value="autohigh" />
+   <param name="wmode" value="transparent" />
+  </object>
  </body>
 </html>

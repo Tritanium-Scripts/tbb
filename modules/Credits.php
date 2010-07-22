@@ -18,6 +18,7 @@ class Credits implements Module
 		foreach(Main::getModule('Language')->getStrings() as $curIndex => $curString)
 			if(Functions::strpos($curIndex, 'credits') !== false)
 				$credits[] = $curString;
+		array_shift($credits); //Remove title
 		Main::getModule('WhoIsOnline')->setLocation('Credits');
 		Main::getModule('Template')->display('Credits', 'credits', $credits);
 	}
