@@ -67,6 +67,7 @@ Last changed: 2010 (Version 1.5 Alpha)
 	-PN-Box mit "Alle markieren"-Funktion
 	-PNs beantworten mit automatischem Zitat
 	-Erinnerung alle x Minuten für neue PNs
+	-Checkboxen auch per Beschriftung anklickbar
 
 Written by Chrissyx
 (c) 2010 Tritanium Scripts

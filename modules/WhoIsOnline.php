@@ -193,6 +193,10 @@ class WhoIsOnline implements Module
 					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('deletes_a_pm'), $curWIOEntryIsGhost, $curTime);
 					break;
 
+					case 'PostNewTopic':
+					$wioLocations[] = Main::getModule('Config')->getCfgVal('show_private_forums') == 1 || Functions::checkUserAccess($curWIOEntry[2][1], 0) ? array($curUser, sprintf(Main::getModule('Language')->getString('posts_new_topic_in_x'), INDEXFILE . '?mode=viewforum&amp;forum_id=' . $curWIOEntry[2][1] . SID_AMPER, next(Functions::getForumData($curWIOEntry[2][1]))), $curWIOEntryIsGhost, $curTime) : array($curUser, Main::getModule('Language')->getString('posts_new_topic'), $curWIOEntryIsGhost, $curTime);
+					break;
+
 					default:
 					$wioLocations[] = array($curUser, '<b>WARNING: Unknown WIO location!</b>', $curWIOEntryIsGhost, $curTime);
 					break;

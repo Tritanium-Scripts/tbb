@@ -34,7 +34,7 @@ class Main implements Module
 	private $action;
 
 	/**
-	 * Translates the old TBB1 faction value to a module.
+	 * Translates the old TBB 1.2.3 faction value to a module.
 	 *
 	 * action is the proper faction: Name of module
 	 * subAction is the proper mode: Name of template file

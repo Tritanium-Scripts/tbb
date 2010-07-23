@@ -167,6 +167,16 @@ class Auth
 	}
 
 	/**
+	 * Returns user is banned.
+	 *
+	 * @return bool Banned
+	 */
+	public function isBanned()
+	{
+		return $this->userData[4] == '4';
+	}
+
+	/**
 	 * Returns user is already connected to board.
 	 *
 	 * @return bool Connection state

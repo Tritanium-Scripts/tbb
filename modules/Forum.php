@@ -79,7 +79,7 @@ class Forum implements Module
 	{
 		//Check IP for specific forum (and topic, too) only (the global check was performed before in Main)
 		if($this->forumID != -1 && ($endtime = Functions::checkIPAccess()) !== true)
-			self::getModule('Template')->printMessage(($endtime == -1 ? 'banned_forever_one_forum' : 'banned_for_x_minutes_one_forum'), ceil(($endtime-time())/60));
+			Main::getModule('Template')->printMessage(($endtime == -1 ? 'banned_forever_one_forum' : 'banned_for_x_minutes_one_forum'), ceil(($endtime-time())/60));
 		//Process news
 		if(count($news = Functions::file('vars/news.var')) != 0)
 		{

@@ -62,7 +62,7 @@ class PrivateMessage implements Module
 	 * @param string $mode PM mode
 	 * @return PrivateMessage New instance of this class
 	 */
-	function __construct($mode=null)
+	function __construct($mode='overview')
 	{
 		$this->mode = $mode;
 		$this->pmBoxID = Functions::getValueFromGlobals('pmbox_id') or $this->pmBoxID = Main::getModule('Auth')->getUserID();
