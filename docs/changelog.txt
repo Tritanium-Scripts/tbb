@@ -66,6 +66,7 @@ Last changed: 2010 (Version 1.5 Alpha)
 	-FAQ mit Übersicht zu vorhandenen Rängen und mehr Beispielen zu BBCode
 	-PN-Box mit "Alle markieren"-Funktion
 	-PNs beantworten mit automatischem Zitat
+	-Erinnerung alle x Minuten für neue PNs
 
 Written by Chrissyx
 (c) 2010 Tritanium Scripts

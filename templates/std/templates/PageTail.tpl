@@ -2,7 +2,7 @@
   <br />
   {if $modules.Auth->isLoggedIn()}
   <table class="tbl" cellpadding="{$modules.Config->getCfgVal('tpadding')}" cellspacing="{$modules.Config->getCfgVal('tspacing')}" style="width:{$modules.Config->getCfgVal('twidth')}; margin:auto;">
-   <tr><td class="td1"><span class="small"><a class="small" href="{$smarty.const.INDEXFILE}?faction=pm{$smarty.const.SID_QMARK}">PNs oder nicht, das ist hier die offene Abfrage</a></span></td></tr>
+   <tr><td class="td1"><span class="small"><a class="small" href="{$smarty.const.INDEXFILE}?faction=pm{$smarty.const.SID_AMPER}">{if $unreadPMs > 0}<b>{$modules.Language->getString('new_pms_received')}</b>{else}{$modules.Language->getString('no_new_pms')}{/if}</a></span></td></tr>
   </table>
   <br />
   {/if}
