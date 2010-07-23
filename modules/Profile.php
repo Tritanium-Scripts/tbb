@@ -124,7 +124,7 @@ class Profile implements Module
 					{
 						//Prepare for writing
 						$this->userData[14] = implode(',', $this->userData[14]);
-						$this->userData[19] = implode("\t", $this->userData[19]);
+						$this->userData[19] = Functions::implodeByTab($this->userData[19]);
 						if(!empty($newPass))
 						{
 							//Hash new password and update session and cookie logins
@@ -154,7 +154,7 @@ class Profile implements Module
 				$this->userData[11] = '0';
 				//Implode back other data
 				$this->userData[14] = implode(',', $this->userData[14]);
-				$this->userData[19] = implode("\t", $this->userData[19]);
+				$this->userData[19] = Functions::implodeByTab($this->userData[19]);
 				Functions::file_put_contents('members/' . $this->userData[1] . '.xbb', implode("\n", $this->userData));
 				//Reload
 				$this->userData = Functions::getUserData($this->userData[1]);

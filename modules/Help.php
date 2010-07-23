@@ -58,7 +58,7 @@ class Help implements Module
 						break;
 
 						case 'faq_answer_what_is_bbcode':
-						$faqAnswers[] = Main::getModule('BBCode')->parse($curString, true);
+						$faqAnswers[] = Main::getModule('BBCode')->parse($curString);
 						break;
 
 						case 'faq_answer_what_ranks_exist':

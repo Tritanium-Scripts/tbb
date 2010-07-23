@@ -1,6 +1,6 @@
 <?php
 /**
- * Loads main module and executes desired forum action.
+ * Loads main module and executes desired forum action and/or subAction.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
  * @copyright Copyright (c) 2010 Tritanium Scripts
@@ -35,6 +35,13 @@ class Main implements Module
 
 	/**
 	 * Translates the old TBB1 faction value to a module.
+	 *
+	 * action is the proper faction: Name of module
+	 * subAction is the proper mode: Name of template file
+	 * If no mode is set, faction is the mode to execute.
+	 * The translation from mode to subAction is done in each module, if needed.
+	 * action and subAction are both known in the template environment.
+	 * faction and mode are unknown to the template environment.
 	 *
 	 * Each module (incl. Main) has a language file with the same name.
 	 * But each module can rely on multiple template files.
@@ -103,8 +110,7 @@ class Main implements Module
 	 */
 	function __construct()
 	{
-		//Report all errors
-		error_reporting(E_ALL);
+		error_reporting(ERR_REPORTING);
 		//Finalize feature set of Functions class by either using Multibyte string functions and/or (overloaded) default PHP ones
 		include('Functions' . (!extension_loaded('mbstring') || (extension_loaded('mbstring') && ini_set('mbstring.func_overload', '7') !== false) ? '' : 'MB') . '.php');
 		//Revert quoted strings on GPC vars, if needed

@@ -152,6 +152,14 @@ class WhoIsOnline implements Module
 					$wioLocations[] = array($curUser, sprintf(Main::getModule('Language')->getString('views_achievements_from_x'), Functions::getProfileLink($curWIOEntry[2][1])), $curWIOEntryIsGhost, $curTime);
 					break;
 
+					case 'EditProfile':
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('edits_own_profile'), $curWIOEntryIsGhost, $curTime);
+					break;
+
+					case 'EditProfileConfirmDelete':
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('deletes_own_account'), $curWIOEntryIsGhost, $curTime);
+					break;
+
 					case 'Register':
 					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('registers'), $curWIOEntryIsGhost, $curTime);
 					break;
@@ -166,6 +174,23 @@ class WhoIsOnline implements Module
 
 					case 'Credits':
 					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('views_the_credits'), $curWIOEntryIsGhost, $curTime);
+					break;
+
+					case 'PrivateMessageIndex':
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('manages_pms'), $curWIOEntryIsGhost, $curTime);
+					break;
+
+					case 'PrivateMessageViewPM':
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('reads_a_pm'), $curWIOEntryIsGhost, $curTime);
+					break;
+
+					case 'PrivateMessageNewPM':
+					case 'PrivateMessageNewPMConfirmSend':
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('writes_new_pm'), $curWIOEntryIsGhost, $curTime);
+					break;
+
+					case 'PrivateMessageConfirmDelete':
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('deletes_a_pm'), $curWIOEntryIsGhost, $curTime);
 					break;
 
 					default:
@@ -250,7 +275,7 @@ class WhoIsOnline implements Module
 				$found = true;
 			}
 			//Implode all entries (incl. refreshed one) back
-			$curWIOEntry = implode("\t", $curWIOEntry);
+			$curWIOEntry = Functions::implodeByTab($curWIOEntry);
 		}
 		//If user was found in WIO, write updated data, otherwise append new entry
 		$found ? Functions::file_put_contents('vars/wio.var', implode("\n", $wioFile)) : Functions::file_put_contents('vars/wio.var', (count($wioFile) > 0 ? "\n" : '') . time() . "\t" . Main::getModule('Auth')->getWIOID() . "\t" . $id . "\t\t" . Main::getModule('Auth')->isGhost(), FILE_APPEND);
@@ -278,7 +303,7 @@ class WhoIsOnline implements Module
 			}
 		}
 		if($update)
-			Functions::file_put_contents('vars/wio.var', implode("\n", array_map(create_function('$entry', 'return implode("\t", $entry);'), $wioFile)));
+			Functions::file_put_contents('vars/wio.var', implode("\n", array_map(array('Functions', 'implodeByTab'), $wioFile)));
 		return $wioFile;
 	}
 }

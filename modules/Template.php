@@ -1,13 +1,13 @@
 <?php
 /**
- * Inits Smarty, assign values to templates and prints pages.
+ * Inits Smarty, manages configuration, assigns values to template files and prints pages.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
  * @copyright Copyright (c) 2010 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1.5
  */
-include('Template/Smarty.class.php');
+require_once('Template/Smarty.class.php');
 /**
  * Wrapper class for Smarty 3 API.
  */
@@ -28,7 +28,7 @@ class Template
 	private $tplDir;
 
 	/**
-	 * Sets up Smarty instance.
+	 * Sets up Smarty instance, loads configuration values and assigns default vars.
 	 *
 	 * @return Template New instance of this class
 	 */
@@ -36,8 +36,8 @@ class Template
 	{
 		$this->smarty = new Smarty;
 		//Settings
-		$this->smarty->setErrorReporting(E_ALL);
-		$this->smarty->setErrorUnassigned(true);
+		$this->smarty->setErrorReporting(ERR_REPORTING);
+		$this->smarty->setErrorUnassigned(ERR_REPORTING == E_ALL);
 		$this->smarty->setCacheDir('cache/');
 		$this->smarty->setCompileDir('cache/');
 		$this->tplDir = 'templates/' . Main::getModule('Config')->getCfgVal('default_tpl') . '/';
@@ -47,6 +47,7 @@ class Template
 		//Load config(s)
 		foreach(glob($this->tplDir . 'config/*.conf') as $curConfig)
 			$this->smarty->configLoad($curConfig);
+		$this->smarty->setDebugging($this->smarty->getConfigVariable('debug'));
 		//Assign defaults
 		$this->smarty->assignByRef('modules', Main::getModules());
 		$this->smarty->assignByRef('smartyTime', $this->smarty->start_time);
@@ -93,6 +94,16 @@ class Template
 	}
 
 	/**
+	 * Returns configuration values from template config file(s).
+	 *
+	 * @return array All found and loaded config values
+	 */
+	public function getTplCfg()
+	{
+		return $this->smarty->getConfigVars();
+	}
+
+	/**
 	 * Returns used template directory.
 	 *
 	 * @return string Used template folder
@@ -121,6 +132,7 @@ class Template
 	 */
 	public function printMessage($msgIndex, $args=null)
 	{
+		$this->assign('subAction', 'Message');
 		//Update NavBar + WIO
 		Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('title_' . $msgIndex, 'Messages'));
 		Main::getModule('WhoIsOnline')->setLocation('Message');
@@ -145,7 +157,7 @@ class Template
 	{
 		if(!empty($tplVar))
 			$this->assign($tplVar, $value);
-		$this->assign('action', $tplName);
+		$this->assign('subAction', $tplName);
 		Main::getModule('WhoIsOnline')->setLocation($tplName . $addToWIOLoc);
 		$this->printHeader();
 		$this->display($tplName);

@@ -16,6 +16,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=8" />
   <link rel="stylesheet" media="all" href="{$modules.Template->getTplDir()}{$modules.Config->getCfgVal('css_file')}" />
   <link rel="shortcut icon" type="image/x-icon" href="{$modules.Template->getTplDir()}images/favicon.ico" />
+  <script src="{$modules.Template->getTplDir()}scripts/fader.js" type="text/javascript"></script>
   <style type="text/css">
    img
    {
@@ -25,6 +26,17 @@
    label
    {
     cursor:pointer;
+   }
+
+   .fade
+   {
+    filter:alpha(opacity=0);
+    left:0;
+    opacity:0.0;
+    position:absolute;
+    text-align:center;
+    top:0;
+    width:100%;
    }
   </style>
  </head>
@@ -66,11 +78,8 @@
   <table class="navbar" cellspacing="0" cellpadding="0" style="width:{$modules.Config->getCfgVal('twidth')}; margin:auto;">
    <tr>
     <td class="navbar"><span class="navbar">&nbsp;{foreach from=$modules.NavBar->getNavBar() item=curElement name=navBar}{if !$smarty.foreach.navBar.last}<a href="{$curElement[1]}" class="navbar">{$curElement[0]}</a>{$smarty.config.navBarDelim}{else}{$curElement[0]}{/if}{/foreach}</span></td>
-{*
-todo: forum_id check könnte raus wenn andere var namen in ACP
-evtl auch direkt auf $forumID und $topicID prüfen, ohne action
-*}
-    <td class="navbar" style="text-align:right;"><span class="navbar">{if isset($smarty.get.forum_id) && ($action == 'ViewForum' || $action == 'ViewTopic')}<a href="{$smarty.const.INDEXFILE}?faction=newtopic&amp;forum_id={$forumID}{$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/newtopic.gif" alt="" style="vertical-align:middle;" /></a>&nbsp;<a href="{$smarty.const.INDEXFILE}?faction=newpoll&amp;forum_id={$forumID}{$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/newpoll.gif" alt="" style="vertical-align:middle;" /></a>{if $action == 'ViewTopic'}&nbsp;<a href="{$smarty.const.INDEXFILE}?faction=reply&amp;forum_id={$forumID}&amp;thread_id={$topicID}{$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/newreply.gif" alt="" style="vertical-align:middle;" /></a>{/if}{elseif $action == 'PrivateMessage'}<a href="{$smarty.const.INDEXFILE}?faction=pm&amp;pmbox_id=&amp;mode=send{$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/newpm.png" alt="" /></a>{if isset($pmID)}&nbsp;<a href="{$smarty.const.INDEXFILE}?faction=pm&amp;pmbox_id=&amp;mode=reply{$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/newreply.gif" alt="" /></a>&nbsp;<a href="{$smarty.const.INDEXFILE}?faction=pm&amp;pmbox_id=&amp;mode=kill{$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/delete.png" alt="" /></a>{/if}{else}&nbsp;{/if}</span></td>
+{* todo: pmID *}
+    <td class="navbar" style="text-align:right;"><span class="navbar">{if $action == 'Forum' && $subAction != 'Message'}<a href="{$smarty.const.INDEXFILE}?faction=newtopic&amp;forum_id={$forumID}{$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/newtopic.gif" alt="" style="vertical-align:middle;" /></a>&nbsp;<a href="{$smarty.const.INDEXFILE}?faction=newpoll&amp;forum_id={$forumID}{$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/newpoll.gif" alt="" style="vertical-align:middle;" /></a>{if $subAction == 'ViewTopic'}&nbsp;<a href="{$smarty.const.INDEXFILE}?faction=reply&amp;forum_id={$forumID}&amp;thread_id={$topicID}{$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/newreply.gif" alt="" style="vertical-align:middle;" /></a>{/if}{elseif $action == 'PrivateMessage' && $subAction != 'Message'}<a href="{$smarty.const.INDEXFILE}?faction=pm&amp;pmbox_id={$pmBoxID}&amp;mode=send{$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/newpm.png" alt="" style="vertical-align:middle;" /></a>{if !empty($pmID)}&nbsp;<a href="{$smarty.const.INDEXFILE}?faction=pm&amp;pmbox_id={$pmBoxID}&amp;mode=reply&amp;pm_id={$pmID}{$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/newreply.gif" alt="" style="vertical-align:middle;" /></a>&nbsp;<a href="{$smarty.const.INDEXFILE}?faction=pm&amp;pmbox_id={$pmBoxID}&amp;mode=kill&amp;pm_id={$pmID}{$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/delete.png" alt="" style="vertical-align:middle;" /></a>{/if}{else}&nbsp;{/if}{if $smarty.config.debug}{$action}{/if}</span></td>
    </tr>
   </table>
   <br />

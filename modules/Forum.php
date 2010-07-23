@@ -195,7 +195,7 @@ class Forum implements Module
 			{
 				$topic[6]++;
 				//Not using array_unshift to avoid changes in $topicFile
-				Functions::file_put_contents('foren/' . $this->forumID . '-' . $this->topicID . '.xbb', implode("\n", array_merge(array(implode("\t", $topic)), $topicFile)));
+				Functions::file_put_contents('foren/' . $this->forumID . '-' . $this->topicID . '.xbb', implode("\n", array_merge(array(Functions::implodeByTab($topic)), $topicFile)));
 				$_SESSION['session.tview.' . $this->forumID . '.' . $this->topicID] = true;
 			}
 			if(Main::getModule('Config')->getCfgVal('censored') == 1)

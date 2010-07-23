@@ -506,7 +506,7 @@ class FunctionsBasic
 	 */
 	public static function getUserData($userID)
 	{
-		if($userID == 0 || !($user = self::file('members/' . $userID . '.xbb')) || $user[4] == '5')
+		if($userID == 0 || !($user = @self::file('members/' . $userID . '.xbb')) || $user[4] == '5')
 			return false;
 		$user[14] = self::explodeByComma($user[14]); //Mail options
 		//Downward compatibility: Create fields that does't exist in TBB 1.2.3
@@ -529,6 +529,17 @@ class FunctionsBasic
 	public static function getValueFromGlobals($key)
 	{
 		return isset($_GET[$key]) ? $_GET[$key] : (isset($_POST[$key]) ? $_POST[$key] : '');
+	}
+
+	/**
+	 * Implodes an array by tabulator.
+	 *
+	 * @param array $pieces Array to implode
+	 * @return string Resulting string
+	 */
+	public static function implodeByTab($pieces)
+	{
+		return implode("\t", $pieces);
 	}
 
 	/**

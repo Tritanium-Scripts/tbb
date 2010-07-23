@@ -26,7 +26,7 @@ Last changed: 2010 (Version 1.5 Alpha)
 	-"Cache leeren"-Funktion im ACP
 	-Logansicht im ACP
 	-Kontakt-Mail-Adresse(n) verschlüsselt mit JavaScript
-	-Newsfader (Newstyp "2") wurde deaktiviert (IE only)
+	-Newsfader (Newstyp "2") nicht mehr IE-only
 	-Optionaler ClickJacking-Schutz für IE 8.0 oder höher
 	-Speichernutzung in technischen Statistiken
 	-WIO mit mehr Details zu Position und Zeit des letzten Klicks
@@ -64,6 +64,8 @@ Last changed: 2010 (Version 1.5 Alpha)
 	-Registrierung überprüft nun auch auf bereits vorhandene E-Mail-Adressen
 	-Registrierungen können zusätzlich eine Freischaltung durch Gültigkeitsprüfung der E-Mail-Adresse durch versenden eines Aktivierungscode erfordern
 	-FAQ mit Übersicht zu vorhandenen Rängen und mehr Beispielen zu BBCode
+	-PN-Box mit "Alle markieren"-Funktion
+	-PNs beantworten mit automatischem Zitat
 
 Written by Chrissyx
 (c) 2010 Tritanium Scripts

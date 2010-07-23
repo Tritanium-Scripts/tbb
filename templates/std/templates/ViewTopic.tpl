@@ -38,7 +38,7 @@
  <tr>
   <td rowspan="2" class="{cycle values="td1,td2" advance=false}" style="vertical-align:top; width:15%;">
    <span class="norm" style="font-weight:bold;">{$curPost.userNick}</span><br />
-   <span class="small">{if !empty($curPost.userSpecialTitle)}{$curPost.userSpecialTitle}{else}{$curPost.userState}{/if}<br />
+   <span class="small">{if !empty($curPost.userSpecialState)}{$curPost.userSpecialState}{else}{$curPost.userState}{/if}<br />
    {if !empty($curPost.userGroup)}{$curPost.userGroup}<br />{/if}{$curPost.userRank}<br />
    {if $curPost.userID != 0}{$curPost.userID|string_format:$modules.Language->getString('id_x')}{/if}<br /><br />
    {$curPost.userAvatar}{if !empty($curPost.userICQ)}<br /><br />

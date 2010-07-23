@@ -184,7 +184,7 @@ class Config
 	{
 		$this->cfgValues = @array_combine(self::$cfgKeys, Functions::file_exists(self::$cfgFile) ? Functions::file(self::$cfgFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) : self::$cfgDefaults);
 		if($this->cfgValues === false)
-			exit('Your config file invalid! Please verify it has exactly ' . count(self::$cfgDefaults) . ' entries!');
+			exit('Your config file is invalid! Please verify it has exactly ' . count(self::$cfgDefaults) . ' entries!');
 	}
 
 	/**
