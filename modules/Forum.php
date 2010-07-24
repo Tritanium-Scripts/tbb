@@ -188,7 +188,7 @@ class Forum implements Module
 			if(!Functions::checkUserAccess($forum, 0))
 				Main::getModule('Template')->printMessage('forum_' . (Main::getModule('Auth')->isLoggedIn() ? 'no_access' : 'need_login'));
 			$topicFile = @Functions::file('foren/' . $this->forumID . '-' . $this->topicID . '.xbb') or Main::getModule('Template')->printMessage('topic_not_found');
-			#0:open/close[/moved] - 1:title - 2:userID - 3:tSmileyID - 4:[/movedForumID] - 5:timestamp[/movedTopicID] - 6:views - 7:pollID - ...
+			#0:open/close[/moved] - 1:title - 2:userID - 3:tSmileyID - 4:notifyNewReplies[/movedForumID] - 5:timestamp[/movedTopicID] - 6:views - 7:pollID - ...
 			$topic = Functions::explodeByTab(array_shift($topicFile));
 			//Manage topic views
 			if(!isset($_SESSION['session.tview.' . $this->forumID . '.' . $this->topicID]))

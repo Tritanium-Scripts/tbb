@@ -71,13 +71,14 @@ class FunctionsBasic
 	}
 
 	/**
-	 * Checks if member has certain access permissions for a forum.
+	 * Checks if member/guest has certain access permissions for a forum.
 	 *
 	 * @param array|int $forum Forum data or forum ID
 	 * @param int $what Access level
+	 * @param int $whatGuest Access level for guest
 	 * @return bool Access granted
 	 */
-	public static function checkUserAccess($forum, $what)
+	public static function checkUserAccess($forum, $what, $whatGuest=6)
 	{
 		//Provide proper forum data and permissions
 		if(is_numeric($forum))
@@ -85,7 +86,7 @@ class FunctionsBasic
 		$perms = is_array($forum[10]) ? $forum[10] : Functions::explodeByComma($forum[10]);
 		//Check guests
 		if(!Main::getModule('Auth')->isLoggedIn())
-			return $perms[6] == '1';
+			return $perms[$whatGuest] == '1';
 		//Allow access for admins or mods of that forum
 		if(Main::getModule('Auth')->isAdmin() || self::checkModOfForum($forum))
 			return true;
@@ -490,12 +491,22 @@ class FunctionsBasic
 	 */
 	public static function getTSmileyURL($tSmileyID)
 	{
-		if(!isset(self::$cache['tSmileyURLs']))
-			self::$cache['tSmileyURLs'] = array_map(array('self', 'explodeByTab'), self::file('vars/tsmilies.var'));
-		foreach(self::$cache['tSmileyURLs'] as $curTSmiley)
+		foreach(self::getTSmilies() as $curTSmiley)
 			if($curTSmiley[0] == $tSmileyID)
 				return $curTSmiley[1];
 		return 'images/tsmilies/1.gif';
+	}
+
+	/**
+	 * Returns all current topic smiley URLs.
+	 *
+	 * @return array Topic smilies
+	 */
+	public static function getTSmilies()
+	{
+		if(!isset(self::$cache['tSmileyURLs']))
+			self::$cache['tSmileyURLs'] = array_map(array('self', 'explodeByTab'), self::file('vars/tsmilies.var'));
+		return self::$cache['tSmileyURLs'];
 	}
 
 	/**
@@ -624,6 +635,88 @@ class FunctionsBasic
 				return true;
 		}
 		return false;
+	}
+
+	/**
+	 * Updates topic counter, post counter and last post (incl. timestamp) of stated forum.
+	 *
+	 * @param int $forumID Forum ID
+	 * @param int $topicOffset Offset to increase or decrease amount of topics
+	 * @param int $postOffset Offset to increase or decrease amount of posts
+	 * @param int $lastTopicID ID of newest topic in forum
+	 * @param int|string $lastPosterID ID of of last user posted in forum
+	 * @param string $lastDate Proprietary date of last post
+	 * @param int $lastTSmiley Topic smiley ID of last post
+	 */
+	public static function updateForumData($forumID, $topicOffset, $postOffset, $lastTopicID, $lastPosterID, $lastDate, $lastTSmiley)
+	{
+		//Make sure forums are loaded
+		if(!isset(self::$cache['forums']))
+			self::getForumData(0);
+		foreach(self::$cache['forums'] as &$curForum)
+		{
+			if($curForum[0] == $forumID)
+			{
+				$curForum[3] += $topicOffset;
+				$curForum[4] += $postOffset;
+				$curForum[6] = time();
+				$curForum[9] = implode(',', array($lastTopicID, $lastPosterID, $lastDate, $lastTSmiley));
+			}
+			$curForum[7] = implode(',', $curForum[7]);
+			$curForum[10] = implode(',', $curForum[10]);
+			$curForum = self::implodeByTab($curForum);
+		}
+		self::file_put_contents('vars/foren.var', implode("\n", self::$cache['forums']));
+		unset(self::$cache['forums']);
+	}
+
+	/**
+	 * Updates the last posts var file by adding a new one.
+	 *
+	 * @param int $forumID ID of forum of newest post
+	 * @param int $topicID ID of newest topic in forum
+	 * @param int|string $userID ID of of last user posted in forum
+	 * @param string $date Proprietary date of last post
+	 */
+	public static function updateLastPosts($forumID, $topicID, $userID, $date)
+	{
+		if(($max = Main::getModule('Config')->getCfgVal('show_lposts')) < 1)
+			return;
+		if(($lastPosts = self::file_get_contents('vars/lposts.var')) == '')
+			self::file_put_contents('vars/lposts.var', implode(',', array($forumID, $topicID, $userID, $date)));
+		else
+		{
+			$lastPosts = self::explodeByTab($lastPosts);
+			array_unshift($lastPosts, implode(',', array($forumID, $topicID, $userID, $date)));
+			if(count($lastPosts) > $max)
+				array_pop($lastPosts);
+			self::file_put_contents('vars/lposts.var', self::implodeByTab($lastPosts));
+		}
+	}
+
+	/**
+	 * Updates today's posts var file.
+	 *
+	 * @param int $forumID ID of forum of newest post
+	 * @param int $topicID ID of newest topic in forum
+	 * @param int|string $userID ID of of last user posted in forum
+	 * @param string $date Proprietary date of last post
+	 */
+	public static function updateTodaysPosts($forumID, $topicID, $userID, $date)
+	{
+		self::file_put_contents('vars/todayposts.var', (($todaysPosts = self::file_get_contents('vars/todayposts.var')) == '' || current(self::explodeByTab($todaysPosts)) != gmdate('Yd') ? gmdate('Yd') . "\t" : $todaysPosts . '|') . implode(',', array($forumID, $topicID, $userID, $date)));
+	}
+
+	/**
+	 * Increases post counter of stated user. User has to exists!
+	 *
+	 * @param int $userID ID of user
+	 */
+	public static function updateUserPostCounter($userID)
+	{
+		$user = self::file('members/' . $userID . '.xbb') or exit(Main::getModule('Logger')->log('Cannot access user ' . $userID . ' for updating posts!', LOG_FILESYSTEM));
+		$user[5]++;
+		self::file_put_contents('members/' . $userID . '.xbb', implode("\n", $user));
 	}
 }
 ?>

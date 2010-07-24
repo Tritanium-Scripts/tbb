@@ -122,7 +122,7 @@ class Login implements Module
 								$curMember[2] = $curPasses[1];
 								Main::getModule('Logger')->log('Requested password set as new one for "' . $curMember[0] . '" (ID: ' . $curMember[1] . ')', LOG_NEW_PASSWORD);
 							}
-							Functions::file_put_contents('members/' . $curMember[1]. '.xbb', implode("\n", $curMember));
+							Functions::file_put_contents('members/' . $curMember[1] . '.xbb', implode("\n", $curMember));
 							//Login session-based
 							$_SESSION['userID'] = $curMember[1];
 							$_SESSION['userHash'] = $this->loginPass;

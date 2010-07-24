@@ -157,6 +157,16 @@ class Auth
 	}
 
 	/**
+	 * Returns signature of user.
+	 *
+	 * @return string User signature
+	 */
+	public function getUserSig()
+	{
+		return $this->userData[7];
+	}
+
+	/**
 	 * Returns user has admin permissions.
 	 *
 	 * @return bool Admin permissions

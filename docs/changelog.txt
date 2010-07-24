@@ -64,10 +64,12 @@ Last changed: 2010 (Version 1.5 Alpha)
 	-Registrierung überprüft nun auch auf bereits vorhandene E-Mail-Adressen
 	-Registrierungen können zusätzlich eine Freischaltung durch Gültigkeitsprüfung der E-Mail-Adresse durch versenden eines Aktivierungscode erfordern
 	-FAQ mit Übersicht zu vorhandenen Rängen und mehr Beispielen zu BBCode
-	-PN-Box mit "Alle markieren"-Funktion
+	-Postfach mit "Alle markieren"-Funktion
 	-PNs beantworten mit automatischem Zitat
 	-Erinnerung alle x Minuten für neue PNs
 	-Checkboxen auch per Beschriftung anklickbar
+	-Anzahl letzter Beiträge einstellbar
+	-Ausgewählte Themensmileys bleiben nach Vorschau selektiert
 
 Written by Chrissyx
 (c) 2010 Tritanium Scripts
