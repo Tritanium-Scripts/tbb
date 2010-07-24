@@ -268,6 +268,7 @@ class FunctionsBasic
 				$curForum[7] = self::explodeByComma($curForum[7]); //BBCode options
 				$curForum[10] = self::explodeByComma($curForum[10]); //Permissions
 			}
+			unset($curForum); //Delete remaining reference to avoid conflicts
 		}
 		foreach(self::$cache['forums'] as $curForum)
 			if($curForum[0] == $forumID)
@@ -288,13 +289,11 @@ class FunctionsBasic
 			self::$cache['groups'] = array_map(array('self', 'explodeByTab'), self::file('vars/groups.var'));
 			foreach(self::$cache['groups'] as &$curGroup)
 				$curGroup[3] = self::explodeByComma($curGroup[3]);
+			unset($curGroup); //Delete remaining reference to avoid conflicts
 		}
 		foreach(self::$cache['groups'] as $curGroup)
 			if($curGroup[0] == $groupID)
-			{
-				$curGroup[3] = self::explodeByComma($curGroup[3]);
 				return $curGroup;
-			}
 		return false;
 	}
 
@@ -480,7 +479,7 @@ class FunctionsBasic
 	 */
 	public static function getTopicName($forumID, $topicID)
 	{
-		return !($topic = self::file('foren/' . $forumID . '-' . $topicID . '.xbb')) ? Main::getModule('Language')->getString('deleted_moved') : next(self::explodeByTab($topic[0]));
+		return !($topic = self::file('foren/' . $forumID . '-' . $topicID . '.xbb')) ? Main::getModule('Language')->getString('deleted_moved') : @next(self::explodeByTab($topic[0]));
 	}
 
 	/**
@@ -677,17 +676,18 @@ class FunctionsBasic
 	 * @param int $topicID ID of newest topic in forum
 	 * @param int|string $userID ID of of last user posted in forum
 	 * @param string $date Proprietary date of last post
+	 * @param int $tSmileyID ID of topic smiley
 	 */
-	public static function updateLastPosts($forumID, $topicID, $userID, $date)
+	public static function updateLastPosts($forumID, $topicID, $userID, $date, $tSmileyID)
 	{
 		if(($max = Main::getModule('Config')->getCfgVal('show_lposts')) < 1)
 			return;
 		if(($lastPosts = self::file_get_contents('vars/lposts.var')) == '')
-			self::file_put_contents('vars/lposts.var', implode(',', array($forumID, $topicID, $userID, $date)));
+			self::file_put_contents('vars/lposts.var', implode(',', array($forumID, $topicID, $userID, $date, $tSmileyID)));
 		else
 		{
 			$lastPosts = self::explodeByTab($lastPosts);
-			array_unshift($lastPosts, implode(',', array($forumID, $topicID, $userID, $date)));
+			array_unshift($lastPosts, implode(',', array($forumID, $topicID, $userID, $date, $tSmileyID)));
 			if(count($lastPosts) > $max)
 				array_pop($lastPosts);
 			self::file_put_contents('vars/lposts.var', self::implodeByTab($lastPosts));
@@ -701,10 +701,11 @@ class FunctionsBasic
 	 * @param int $topicID ID of newest topic in forum
 	 * @param int|string $userID ID of of last user posted in forum
 	 * @param string $date Proprietary date of last post
+	 * @param int $tSmileyID ID of topic smiley
 	 */
-	public static function updateTodaysPosts($forumID, $topicID, $userID, $date)
+	public static function updateTodaysPosts($forumID, $topicID, $userID, $date, $tSmileyID)
 	{
-		self::file_put_contents('vars/todayposts.var', (($todaysPosts = self::file_get_contents('vars/todayposts.var')) == '' || current(self::explodeByTab($todaysPosts)) != gmdate('Yd') ? gmdate('Yd') . "\t" : $todaysPosts . '|') . implode(',', array($forumID, $topicID, $userID, $date)));
+		self::file_put_contents('vars/todayposts.var', (($todaysPosts = self::file_get_contents('vars/todayposts.var')) == '' || current(self::explodeByTab($todaysPosts)) != gmdate('Yd') ? gmdate('Yd') . "\t" : $todaysPosts . '|') . implode(',', array($forumID, $topicID, $userID, $date, $tSmileyID)));
 	}
 
 	/**

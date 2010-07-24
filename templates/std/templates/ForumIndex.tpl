@@ -71,7 +71,7 @@
 </table>
 {/if}
 
-{if $modules.Config->getCfgVal('show_lposts') == 1}
+{if $modules.Config->getCfgVal('show_lposts') >= 1}
 <br />
 <!-- NewestPosts -->
 <table class="tbl" cellpadding="{$modules.Config->getCfgVal('tpadding')}" cellspacing="{$modules.Config->getCfgVal('tspacing')}" style="width:{$modules.Config->getCfgVal('twidth')}; margin:auto;">

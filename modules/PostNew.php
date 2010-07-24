@@ -1,6 +1,6 @@
 <?php
 /**
- * Manages post process of new topic or poll.
+ * Manages post process of new topic or new poll.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
  * @copyright Copyright (c) 2010 Tritanium Scripts
@@ -10,14 +10,14 @@
 class PostNew implements Module
 {
 	/**
-	 * Detected errors during posting or editing actions.
+	 * Detected errors during posting actions.
 	 *
 	 * @var array Error messages
 	 */
 	private $errors = array();
 
 	/**
-	 * Data of target forum to post in / edit.
+	 * Data of target forum to post in.
 	 *
 	 * @var array|bool Loaded forum data or false
 	 */
@@ -155,12 +155,12 @@ class PostNew implements Module
 					Functions::file_put_contents('foren/' . $this->forum[0] . '-ltopic.xbb', $newLastTopicID);
 					//Update all the counters and stats
 					Functions::updateForumData($this->forum[0], 1, 1, $newLastTopicID, $this->newPost['nick'], $newTopic[15], $this->newPost['tSmiley']);
-					if(is_numeric($this->newPost['nick']))
+					if(Main::getModule('Auth')->isLoggedIn())
 						Functions::updateUserPostCounter($this->newPost['nick']);
 					if($this->forum[10][6] == '1')
 					{
-						Functions::updateLastPosts($this->forum[0], $newLastTopicID, $this->newPost['nick'], $newTopic[15]);
-						Functions::updateTodaysPosts($this->forum[0], $newLastTopicID, $this->newPost['nick'], $newTopic[15]);
+						Functions::updateLastPosts($this->forum[0], $newLastTopicID, $this->newPost['nick'], $newTopic[15], $this->newPost['tSmiley']);
+						Functions::updateTodaysPosts($this->forum[0], $newLastTopicID, $this->newPost['nick'], $newTopic[15], $this->newPost['tSmiley']);
 					}
 					//Notify mods
 					if($this->forum[7][2] == '1')

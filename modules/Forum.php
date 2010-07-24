@@ -378,12 +378,12 @@ class Forum implements Module
 				}
 			}
 			//Process newest posts
-			if(Main::getModule('Config')->getCfgVal('show_lposts') == 1 && ($lastPosts = Functions::file_get_contents('vars/lposts.var')) != '')
+			if(Main::getModule('Config')->getCfgVal('show_lposts') >= 1 && ($lastPosts = Functions::file_get_contents('vars/lposts.var')) != '')
 			{
 				foreach(Functions::explodeByTab($lastPosts) as $curNewestPost);
 				{
-					#0:forumID - 1:topicID - 2:userID - 3:proprietaryDate - 4:tSmileyID
-					$curNewestPost = Functions::explodeByComma($curNewestPost);
+					#0:forumID - 1:topicID - 2:userID - 3:proprietaryDate[ - 4:tSmileyID]
+					$curNewestPost = Functions::explodeByComma($curNewestPost . ',1'); //Make sure index 4 is available
 					$newestPosts[] = sprintf(Main::getModule('Language')->getString('x_by_x_on_x'),
 						//Topic check + link + title preparation
 						!Functions::file_exists('foren/' . $curNewestPost[0] . '-' . $curNewestPost[1] . '.xbb') ? Main::getModule('Language')->getString('deleted_moved') : '<img src="' . Functions::getTSmileyURL($curNewestPost[4]) . '" alt="" /> <a href="' . INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curNewestPost[0] . '&amp;thread=' . $curNewestPost[1] . SID_AMPER . '">' . (Functions::shorten(Main::getModule('Config')->getCfgVal('censored') == 1 ? Functions::censor(Functions::getTopicName($curNewestPost[0], $curNewestPost[1])) : Functions::getTopicName($curNewestPost[0], $curNewestPost[1]), 53)) . '</a>',

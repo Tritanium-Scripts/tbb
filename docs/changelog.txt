@@ -69,7 +69,8 @@ Last changed: 2010 (Version 1.5 Alpha)
 	-Erinnerung alle x Minuten für neue PNs
 	-Checkboxen auch per Beschriftung anklickbar
 	-Anzahl letzter Beiträge einstellbar
-	-Ausgewählte Themensmileys bleiben nach Vorschau selektiert
+	-Ausgewählte Beitragsgrafiken bleiben nach Vorschau selektiert
+	-Anzeige der neuesten Beiträge mit Beitragsgrafik
 
 Written by Chrissyx
 (c) 2010 Tritanium Scripts
