@@ -230,7 +230,7 @@ class Forum implements Module
 				Main::getModule('Template')->assign(array('pollID' => $topic[7],
 					'pollTitle' => $poll[3],
 					'isPollClosed' => $poll[0] > '2',
-					'hasVoted' => isset($_SESSION['session_poll_' . $topic[7]]) || isset($_COOKIE['cookie_poll_' . $topic[7]]) || in_array(Main::getModule('Auth')->getUserID(), $pollVoters),
+					'hasVoted' => isset($_SESSION['session_poll_' . $topic[7]]) || isset($_COOKIE['cookie_poll_' . $topic[7]]) || (Main::getModule('Auth')->isLoggedIn() && in_array(Main::getModule('Auth')->getUserID(), $pollVoters)),
 					'needsLogin' => !(Main::getModule('Auth')->isLoggedIn() || $poll[0] == '1'),
 					'canEdit' => Main::getModule('Auth')->isAdmin() || $isMod || (Main::getModule('Auth')->isLoggedIn() && Main::getModule('Auth')->getUserID() == $poll[1]),
 					'pollOptions' => $pollOptions,
@@ -380,7 +380,7 @@ class Forum implements Module
 			//Process newest posts
 			if(Main::getModule('Config')->getCfgVal('show_lposts') >= 1 && ($lastPosts = Functions::file_get_contents('vars/lposts.var')) != '')
 			{
-				foreach(Functions::explodeByTab($lastPosts) as $curNewestPost);
+				foreach(Functions::explodeByTab($lastPosts) as $curNewestPost)
 				{
 					#0:forumID - 1:topicID - 2:userID - 3:proprietaryDate[ - 4:tSmileyID]
 					$curNewestPost = Functions::explodeByComma($curNewestPost . ',1'); //Make sure index 4 is available

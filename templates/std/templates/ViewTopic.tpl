@@ -8,8 +8,8 @@
   <td class="td1">
    <span class="norm" style="font-weight:bold;">{$pollTitle}</span> <span class="small">{$totalVotes|string_format:$modules.Language->getString('x_votes_total')}</span><br />
    <table cellpadding="0" cellspacing="4">
-    {foreach from=$pollOptions item=curOption name=pollOptions}<tr>
-     <td style="text-align:right;"><span class="norm">{$smarty.foreach.pollOptions.iteration}. </span><input type="radio" name="vote_id" value="{$curOption.optionID}" style="vertical-align:middle;" /></td>
+    {foreach $pollOptions as $curOption}<tr>
+     <td style="text-align:right;"><span class="norm">{$curOption@iteration}. </span><input type="radio" name="vote_id" value="{$curOption.optionID}" style="vertical-align:middle;" /></td>
      <td><span class="norm">{$curOption.pollOption}</span></td>
      <td><img src="{$modules.Template->getTplDir()}images/pollbar.gif" alt="" style="height:10px; vertical-align:middle; width:{round($curOption.percent)}px;" /></td>
      <td><span class="small">{$curOption.voteText}</span></td>
@@ -64,7 +64,7 @@
 <!-- NavBar -->
 <br />
 <table class="navbar" cellspacing="0" cellpadding="0" style="width:{$modules.Config->getCfgVal('twidth')}; margin:auto;">
- <tr><td class="navbar"><span class="navbar">&nbsp;{foreach from=$modules.NavBar->getNavBar() item=curElement name=navBar}{if !$smarty.foreach.navBar.last}<a href="{$curElement[1]}" class="navbar">{$curElement[0]}</a>{$smarty.config.navBarDelim}{else}{$curElement[0]}{/if}{/foreach}</span></td></tr>
+ <tr><td class="navbar"><span class="navbar">&nbsp;{foreach $modules.NavBar->getNavBar() as $curElement}{if !$curElement@last}<a href="{$curElement[1]}" class="navbar">{$curElement[0]}</a>{$smarty.config.navBarDelim}{else}{$curElement[0]}{/if}{/foreach}</span></td></tr>
 </table>
 
 <!-- Toolbar -->

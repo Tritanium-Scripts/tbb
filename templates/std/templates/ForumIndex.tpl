@@ -12,7 +12,7 @@
 {foreach $cats as $curCat}
 {* 0:id - 1:name *}
 {if $modules.Config->getCfgVal('show_kats')} <tr><td class="kat" colspan="6"><span class="kat">{$curCat[1]}</span></td></tr>{/if}
-{foreach from=$forums item=curForum name=forums}
+{foreach $forums as $curForum}
 {if $curForum.catID == $curCat[0]}
  <tr>
   <td class="td1"><img src="{$modules.Template->getTplDir()}images/{if !$curForum.isNewPost}no_{/if}new_post.gif" alt="" /></td>
@@ -22,7 +22,6 @@
   <td class="td1 small" style="text-align:center;">{$curForum.lastPost}</td>
   <td class="td2" style="text-align:center;"><span class="small">{if count($curForum.mods) > 1}{', '|implode:$curForum.mods}{else}{$curForum.mods}{/if}</span></td>
  </tr>
-{* todo: unset($forums[$smarty.foreach.forums.index]); *}
 {/if}
 {foreachelse}
  <tr><td class="td1" colspan="6" style="font-weight:bold; text-align:center;"><span class="norm">{$modules.Language->getString('no_forum_available')}</span></td></tr>
@@ -50,7 +49,7 @@
 {assign var="record" value=$modules.WhoIsOnline->getRecord()}
 {* {$modules.Language->getString('who_was_online')} *}
  <tr><td class="td2"><span class="small">{$modules.Language->getString('today_were_here_colon')}<br />
-  {foreach from=$wwoUser[3] item=curWWOUser name=wwoBox}{if $curWWOUser[1]}<img src="{$modules.Template->getTplDir()}images/ghost.png" alt="{$modules.Language->getString('browses_as_ghost')}" title="{$modules.Language->getString('browses_as_ghost')}" style="vertical-align:middle;" /> {/if}{$curWWOUser[0]}{if !$smarty.foreach.wwoBox.last}, {/if}{foreachelse}{$modules.Language->getString('no_members')}{/foreach}<br />
+  {foreach $wwoUser[3] as $curWWOUser}{if $curWWOUser[1]}<img src="{$modules.Template->getTplDir()}images/ghost.png" alt="{$modules.Language->getString('browses_as_ghost')}" title="{$modules.Language->getString('browses_as_ghost')}" style="vertical-align:middle;" /> {/if}{$curWWOUser[0]}{if !$curWWOUser@last}, {/if}{foreachelse}{$modules.Language->getString('no_members')}{/foreach}<br />
   {if $wwoUser[2] == 1 && $wwoUser[1] != 1 && $wwoUser[0] != 1}{sprintf($modules.Language->getString('total_one_member_x_ghosts_and_x_guests'), $wwoUser[1], $wwoUser[0])}
   {elseif $wwoUser[2] != 1 && $wwoUser[1] == 1 && $wwoUser[0] != 1}{sprintf($modules.Language->getString('total_x_member_one_ghost_and_x_guests'), $wwoUser[2], $wwoUser[0])}
   {elseif $wwoUser[2] != 1 && $wwoUser[1] != 1 && $wwoUser[0] == 1}{sprintf($modules.Language->getString('total_x_member_x_ghosts_and_one_guest'), $wwoUser[2], $wwoUser[1])}

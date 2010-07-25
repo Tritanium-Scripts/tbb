@@ -44,6 +44,17 @@ class FunctionsBasic
 	}
 
 	/**
+	 * Adds [url]-BBCode to links found in a string.
+	 *
+	 * @param string $subject String to search for links and formatting them
+	 * @return string Result string
+	 */
+	public static function addURL($subject)
+	{
+		return preg_replace_callback("/([^ ^>]+?:\/\/|www\.)[^ ^<^\.]+(\.[^ ^<^\.]+)+/si", create_function('$arr', 'return !empty($arr[2]) && Functions::stripos($arr[0], \'[url]\') === false && Functions::strripos($arr[0], \'[/url]\') === false ? \'[url]\' . ($arr[1] == \'www.\' ? \'http://\' : \'\') . $arr[0] . \'[/url]\' : $arr[0];'), $subject);
+	}
+
+	/**
 	 * Reverts PHP's {@link nl2br()} incl. XHTML versions.
 	 *
 	 * @param string $string String for search and replace of br-tags
@@ -195,7 +206,7 @@ class FunctionsBasic
 		if(isset(self::$fileCache[$filename][1]) && Main::getModule('Config')->getCfgVal('use_file_caching') == 1)
 			return self::$fileCache[$filename][1];
 		self::$fileCounter++;
-		return utf8_encode(file_get_contents(DATAPATH . $filename));
+		return utf8_encode(file_get_contents(DATAPATH . $filename, LOCK_SH));
 	}
 
 	/**
@@ -311,7 +322,7 @@ class FunctionsBasic
 		$userLinks = array();
 		if(!empty($userID))
 			//Guest check
-			if($userID == 0) //0Guest == 0!
+			if(Functions::strpos($userID, '0') === 0) //0Guest
 				$userLinks[] = Functions::substr($userID, 1);
 			else
 				foreach(self::explodeByComma($userID) as $curUserID)
@@ -586,6 +597,17 @@ class FunctionsBasic
 		if(Functions::strlen($string) > $maxLength)
 			$string = Functions::substr($string, 0, $maxLength-3) . Main::getModule('Language')->getString('dots');
 		return $string;
+	}
+
+	/**
+	 * Strips SID parameter URLs from a string.
+	 *
+	 * @param string $subject String to strip SIDs off
+	 * @return string String without SID parameters
+	 */
+	public static function stripSIDs($subject)
+	{
+		return preg_replace('/[?&amp;]sid=[0-9a-z]{32}/si', '', $subject);
 	}
 
 	/**

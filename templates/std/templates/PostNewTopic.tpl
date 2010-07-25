@@ -15,7 +15,7 @@
  </tr>{/if}
  <tr>
   <td class="td1" style="font-weight:bold; width:20%;"><span class="norm">{$modules.Language->getString('post_icon_colon')}</span></td>
-  <td class="td1" style="vertical-align:top; width:100%;">{include file='TopicSmilies.tpl' checked=$newPost.tSmiley}</td>
+  <td class="td1" style="vertical-align:top; width:80%;">{include file='TopicSmilies.tpl' checked=$newPost.tSmiley}</td>
  </tr>
  <tr>
   <td class="td1" style="font-weight:bold; width:20%;"><span class="norm">{$modules.Language->getString('title_colon')}</span></td>
@@ -37,7 +37,8 @@
    <input type="checkbox" id="show_signatur" name="show_signatur" value="1" style="vertical-align:middle;"{if !$preview || $newPost.isSignature} checked="checked"{/if} /> <label for="show_signatur" class="norm">{$modules.Language->getString('show_signature')}</label>{/if}{if $forum.isBBCode}<br />
    <input type="checkbox" id="use_upbcode" name="use_upbcode" value="1" style="vertical-align:middle;"{if !$preview || $newPost.isBBCode} checked="checked"{/if} /> <label for="use_upbcode" class="norm">{$modules.Language->getString('enable_bbcode')}</label>{/if}{if $forum.isXHTML}<br />
    <input type="checkbox" id="use_htmlcode" name="use_htmlcode" value="1" style="vertical-align:middle;"{if $newPost.isXHTML} checked="checked"{/if} /> <label for="use_htmlcode" class="norm">{$modules.Language->getString('enable_xhtml')}</label>{/if}{if $modules.Config->getCfgVal('activate_mail') == 1 && $modules.Config->getCfgVal('notify_new_replies') == 1 && $modules.Auth->isLoggedIn()}<br />
-   <input type="checkbox" id="sendmail2" name="sendmail2" value="1" style="vertical-align:middle;"{if $newPost.isNotify} checked="checked"{/if} /> <label for="sendmail2" class="norm">{$modules.Language->getString('notify_on_new_reply')}</label>{/if}
+   <input type="checkbox" id="sendmail2" name="sendmail2" value="1" style="vertical-align:middle;"{if $newPost.isNotify} checked="checked"{/if} /> <label for="sendmail2" class="norm">{$modules.Language->getString('notify_on_new_reply')}</label>{/if}<br />
+   <input type="checkbox" id="isAddURLs" name="isAddURLs" value="true" style="vertical-align:middle;"{if !$preview || $newPost.isAddURLs} checked="checked"{/if} /> <label for="isAddURLs" class="norm">{$modules.Language->getString('auto_transform_links')}</label>
   </td>
  </tr>
 </table>

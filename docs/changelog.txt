@@ -68,9 +68,13 @@ Last changed: 2010 (Version 1.5 Alpha)
 	-PNs beantworten mit automatischem Zitat
 	-Erinnerung alle x Minuten für neue PNs
 	-Checkboxen auch per Beschriftung anklickbar
-	-Anzahl letzter Beiträge einstellbar
-	-Ausgewählte Beitragsgrafiken bleiben nach Vorschau selektiert
+	-Anzahl letzter Beiträge beliebig einstellbar
+	-Ausgewählte Beitragsgrafik bleibt nach Vorschau selektiert
 	-Anzeige der neuesten Beiträge mit Beitragsgrafik
+	-Umfragen mit unbegrenzten Antwortmöglichkeiten, keine Vorauswahlseite mehr nötig
+	-Hinzufügen und löschen von Antwortmöglichkeiten "on-the-fly" wie im TBB 2.0
+	-Automatisches entfernen von SID-Parametern bei jedem neuen Beitrag
+	-URLs in Beiträgen können automatisch mit [url]-BBCode versehen werden
 
 Written by Chrissyx
 (c) 2010 Tritanium Scripts

@@ -58,6 +58,14 @@ class Functions extends FunctionsBasic
 	}
 
 	/**
+	 * PHP's {@link stripos()}.
+	 */
+	public static function stripos($haystack, $needle, $offset=null)
+	{
+		return stripos($haystack, $needle, $offset);
+	}
+
+	/**
 	 * PHP's {@link strlen()}.
 	 */
 	public static function strlen($string)
@@ -71,6 +79,14 @@ class Functions extends FunctionsBasic
 	public static function strpos($haystack, $needle, $offset=null)
 	{
 		return strpos($haystack, $needle, $offset);
+	}
+
+	/**
+	 * PHP's {@link strripos()}.
+	 */
+	public static function strripos($haystack, $needle, $offset=null)
+	{
+		return strripos($haystack, $needle, $offset);
 	}
 
 	/**

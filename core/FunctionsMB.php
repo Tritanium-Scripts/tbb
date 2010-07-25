@@ -58,6 +58,14 @@ class Functions extends FunctionsBasic
 	}
 
 	/**
+	 * Wraps PHP's {@link stripos()} to Multibyte's {@link mb_stripos()}, if PHP >= 5.2.
+	 */
+	public static function stripos($haystack, $needle, $offset=null)
+	{
+		return function_exists('mb_stripos') ? mb_stripos($haystack, $needle, $offset) : stripos($haystack, $needle, $offset);
+	}
+
+	/**
 	 * Wraps PHP's {@link strlen()} to Multibyte's {@link mb_strlen()}.
 	 */
 	public static function strlen($string)
@@ -71,6 +79,14 @@ class Functions extends FunctionsBasic
 	public static function strpos($haystack, $needle, $offset=null)
 	{
 		return mb_strpos($haystack, $needle, $offset);
+	}
+
+	/**
+	 * Wraps PHP's {@link stripos()} to Multibyte's {@link mb_stripos()}, if PHP >= 5.2.
+	 */
+	public static function strripos($haystack, $needle, $offset=null)
+	{
+		return function_exists('mb_strripos') ? mb_strripos($haystack, $needle, $offset) : strripos($haystack, $needle, $offset);
 	}
 
 	/**
