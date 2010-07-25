@@ -79,7 +79,7 @@ function deletePollOption(rowID)
  </tr>
  <tr><td class="kat" colspan="2"><span class="kat">{$modules.Language->getString('choices')}</span></th></tr>
  <tr><td class="td1" colspan="2">
-  <table border="1" cellpadding="1" cellspacing="0" id="idPollOptionsTable">{foreach $newPost.choices as $curChoice}
+  <table cellpadding="1" cellspacing="0" id="idPollOptionsTable">{foreach $newPost.choices as $curChoice}
    <tr id="idOption{$curChoice@iteration}"><td><span class="norm">{$curChoice@iteration}. <input type="text" size="40" name="poll_choice[]" value="{$curChoice}"></span></td><td><span class="small"><a href="javascript:deletePollOption('idOption{$curChoice@iteration}');">{$modules.Language->getString('delete')}</a></span></td></tr>{/foreach}
    <tr><td colspan="2"><span class="small"><a href="javascript:addPollOption();">{$modules.Language->getString('add_choice')}</a></span></td></tr>
   </table></td></tr>

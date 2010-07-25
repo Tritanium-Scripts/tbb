@@ -30,6 +30,7 @@ Last changed: 2010 (Version 1.5 Alpha)
 	-Optionaler ClickJacking-Schutz für IE 8.0 oder höher
 	-Speichernutzung in technischen Statistiken
 	-WIO mit mehr Details zu Position und Zeit des letzten Klicks
+	-WIO unterscheidet zwischen Bots und Gästen
 	-Anzeige von Geistern in WIO und WWO für Admins
 	-Anzahl von Geistern in WIO-Box in der Forenübersicht
 	-Zähler von Themen, Beiträgen und Mitglieder neu berechnen lassen im ACP

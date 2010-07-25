@@ -490,7 +490,7 @@ class FunctionsBasic
 	 */
 	public static function getTopicName($forumID, $topicID)
 	{
-		return !($topic = self::file('foren/' . $forumID . '-' . $topicID . '.xbb')) ? Main::getModule('Language')->getString('deleted_moved') : @next(self::explodeByTab($topic[0]));
+		return ($topic = self::file('foren/' . $forumID . '-' . $topicID . '.xbb')) == false ? Main::getModule('Language')->getString('deleted_moved') : @next(self::explodeByTab($topic[0]));
 	}
 
 	/**
