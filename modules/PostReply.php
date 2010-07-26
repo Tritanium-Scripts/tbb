@@ -79,12 +79,13 @@ class PostReply implements Module
 	 */
 	private static $modeTable = array('reply' => 'PostReply',
 		'save' => 'PostReply',
-		'edit' => 'EditPost',
-		'topic' => 'EditTopic',
+		'vote' => 'EditPoll',
 		'editpoll' => 'EditPoll',
-		'vote' => 'PostVotePoll',
+		'update' => 'EditPoll',
 		'viewip' => 'PostViewIP',
-		'sperren' => 'PostBlockIP');
+		'sperren' => 'PostBlockIP',
+		'edit' => 'EditPost',
+		'topic' => 'EditTopic');
 
 	/**
 	 * Loads various data, sets IDs and mode.
@@ -213,7 +214,7 @@ class PostReply implements Module
 				else
 					$this->errors[] = Main::getModule('Language')->getString('quoted_post_was_not_found');
 			}
-			//Process last x posts
+			//Process last x posts in reverse order
 			$lastReplies = array();
 			foreach($this->topicFile as $curReply)
 				$lastReplies[] = array('nick' => Functions::getProfileLink($curReply[1], true),
@@ -227,6 +228,7 @@ class PostReply implements Module
 
 			case 'vote':
 			case 'update':
+			case 'editpoll':
 			if($this->topic[7] != Functions::getValueFromGlobals('poll_id'))
 				Main::getModule('Template')->printMessage('forum_poll_mismatch');
 			#0:pollState - 1:creatorID - 2:proprietaryDate - 3:title/question - 4:totalVotes - 5:forumID,topicID
@@ -235,28 +237,58 @@ class PostReply implements Module
 			$pollFile = array_map(array('Functions', 'explodeByTab'), $pollFile);
 			$poll = array_shift($pollFile);
 			//Edit poll...
-			if(Functions::getValueFromGlobals('edit') != '')
+			if(Functions::getValueFromGlobals('edit') != '' || $this->mode == 'editpoll' || $this->mode == 'update')
 			{
 //EditPoll
+				Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('edit_poll'), INDEXFILE . '?faction=editpoll&amp;forum_id=' . $this->forum[0] . '&amp;topic_id=' . $this->topicID . '&amp;poll_id=' . $this->topic[7]);
 				if(!Main::getModule('Auth')->isLoggedIn() || !Functions::checkUserAccess($this->forum[0], 5))
 					Main::getModule('Template')->printMessage(Main::getModule('Auth')->isLoggedIn() ? 'forum_no_access' : 'login_only', INDEXFILE . '?faction=register' . SID_AMPER, INDEXFILE . '?faction=login' . SID_AMPER);
 				elseif($poll[1] != Main::getModule('Auth')->getUserID() && Functions::checkModOfForum($this->forum) && !Main::getModule('Auth')->isAdmin())
 					Main::getModule('Template')->printMessage('permission_denied');
 				if($this->mode == 'update')
 				{
-					if(Functions::getValueFromGlobals('open') != '')
+					//Open poll
+					if(Functions::getValueFromGlobals('open') != '' && $poll[0] > '2')
 					{
-						
+						if($poll[0] == '3')
+							$poll[0] = 1;
+						elseif($poll[0] == '4')
+							$poll[0] = 2;
+						Functions::file_put_contents('polls/' . $this->topic[7] . '-1.xbb', Functions::implodeByTab($poll) . "\n" . implode("\n", array_map(array('Functions', 'implodeByTab'), $pollFile)) . "\n");
+						header('Location: ' . INDEXFILE . '?faction=editpoll&poll_id=' . $this->topic[7] . '&forum_id=' . $this->forum[0] . '&topic_id=' . $this->topicID . SID_AMPER_RAW);
+						Main::getModule('Template')->printMessage('poll_edited', '');
 					}
-					elseif(Functions::getValueFromGlobals('close') != '')
+					//Close poll
+					elseif(Functions::getValueFromGlobals('close') != '' && $poll[0] < '3')
 					{
-						
+						if($poll[0] == '1')
+							$poll[0] = 3;
+						elseif($poll[0] == '2')
+							$poll[0] = 4;
+						Functions::file_put_contents('polls/' . $this->topic[7] . '-1.xbb', Functions::implodeByTab($poll) . "\n" . implode("\n", array_map(array('Functions', 'implodeByTab'), $pollFile)) . "\n");
+						header('Location: ' . INDEXFILE . '?faction=editpoll&poll_id=' . $this->topic[7] . '&forum_id=' . $this->forum[0] . '&topic_id=' . $this->topicID . SID_AMPER_RAW);
+						Main::getModule('Template')->printMessage('poll_edited', '');
 					}
+					//Update poll
 					else
 					{
-						
+						$choices = Functions::getValueFromGlobals('poll_choice');
+						foreach($pollFile as &$curPollOption)
+						{
+							//Update each found option if it's not empty
+							if(isset($choices[$curPollOption[0]]) && trim($choices[$curPollOption[0]]) != '')
+								$curPollOption[1] = htmlspecialchars(trim($choices[$curPollOption[0]]));
+							//Implode back for writing in any case
+							$curPollOption = Functions::implodeByTab($curPollOption);
+						}
+						Functions::file_put_contents('polls/' . $this->topic[7] . '-1.xbb', Functions::implodeByTab($poll) . "\n" . implode("\n", $pollFile) . "\n");
+						Main::getModule('Template')->printMessage('poll_edited', Functions::getMsgBackLinks($this->forum[0], $this->topicID));
 					}
 				}
+				Main::getModule('Template')->assign(array('pollTitle' => $poll[3],
+					'isClosed' => $poll[0] > '2',
+					'pollOptions' => $pollFile,
+					'pollID' => $this->topic[7]));
 			}
 			//...or vote it
 			else
@@ -266,7 +298,7 @@ class PostReply implements Module
 				if(!Functions::checkUserAccess($this->forum[0], 0))
 					Main::getModule('Template')->printMessage(Main::getModule('Auth')->isLoggedIn() ? 'forum_no_access' : 'login_only', INDEXFILE . '?faction=register' . SID_AMPER, INDEXFILE . '?faction=login' . SID_AMPER);
 				//Check for vote permission
-				elseif($poll[0] > 2)
+				elseif($poll[0] > '2')
 					Main::getModule('Template')->printMessage('poll_is_closed');
 				elseif(!Main::getModule('Auth')->isLoggedIn() && $poll[0] != 1)
 					Main::getModule('Template')->printMessage('poll_need_login');
@@ -289,24 +321,24 @@ class PostReply implements Module
 						//Mark as voted
 						$_SESSION['session_poll_' . $this->topic[7]] = true;
 						setcookie('cookie_poll_' . $this->topic[7], '1', time()+3600*24*365, Main::getModule('Config')->getCfgVal('path_to_forum'));
-						header('Location: ' . INDEXFILE . '?mode=viewthread&forum_id=' . $this->forum[0] . '&thread=' . $this->topicID . SID_AMPER);
+						header('Location: ' . INDEXFILE . '?mode=viewthread&forum_id=' . $this->forum[0] . '&thread=' . $this->topicID . SID_AMPER_RAW);
 						Main::getModule('Template')->printMessage('vote_added');
 					}
 				Main::getModule('Template')->printMessage('choice_not_found');
 			}
 			break;
 
+//PostViewIP
 			case 'viewip':
 			case 'sperren':
 			Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('view_ip_address'), INDEXFILE . '?faction=viewip&amp;forum_id=' . $this->forum[0] . '&amp;topic_id=' . $this->topicID . '&amp;post_id=' . $this->postID . SID_AMPER);
 			if(!Main::getModule('Auth')->isAdmin() && !Functions::checkModOfForum($this->forum))
 				Main::getModule('Template')->printMessage('permission_denied');
-			if(($post = $this->getPostData(&$this->postID)) == false)
+			elseif(($post = $this->getPostData(&$this->postID)) == false)
 				Main::getModule('Template')->printMessage('post_not_found');
-			switch($this->mode)
-			{
 //PostBlockIP
-				case 'sperren':
+			if($this->mode == 'sperren')
+			{
 				Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('block_ip_address'), INDEXFILE . '?faction=viewip&amp;mode=sperren&amp;forum_id=' . $this->forum[0] . '&amp;topic_id=' . $this->topicID . '&amp;post_id=' . $this->postID . SID_AMPER);
 				if(Functions::checkIPAccess($this->forum[0], $post[4]) !== true)
 					Main::getModule('Template')->printMessage('ip_already_blocked', Functions::getMsgBackLinks($this->forum[0], $this->topicID));
@@ -323,14 +355,9 @@ class PostReply implements Module
 						Main::getModule('Template')->printMessage('ip_blocked_successfully', Functions::getMsgBackLinks($this->forum[0], $this->topicID));
 					}
 				}
-
-//PostViewIP
-				case 'view':
-				default:
-				Main::getModule('Template')->assign('ipAddress', $post[4]);
-				break;
 			}
-			break;
+			//Assign IP to template in any case
+			Main::getModule('Template')->assign('ipAddress', $post[4]);
 		}
 		Main::getModule('Template')->printPage(self::$modeTable[$this->mode], array('forumID' => $this->forum[0],
 			'topicID' => $this->topicID,
