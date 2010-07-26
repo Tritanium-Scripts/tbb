@@ -35,7 +35,7 @@
   <th class="thsmall" style="text-align:left; width:85%;"><span class="thsmall">{$modules.Language->getString('topic_colon')} {$topicTitle}</span></th>
  </tr>
 {foreach $posts as $curPost}
- <tr>
+ <tr id="post{$curPost.postID}">
   <td rowspan="2" class="{cycle values="td1,td2" advance=false}" style="vertical-align:top; width:15%;">
    <span class="norm" style="font-weight:bold;">{$curPost.userNick}</span><br />
    <span class="small">{if !empty($curPost.userSpecialState)}{$curPost.userSpecialState}{else}{$curPost.userState}{/if}<br />

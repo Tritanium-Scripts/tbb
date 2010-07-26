@@ -131,7 +131,7 @@ class PostNew implements Module
 				if(empty($this->errors))
 				{
 					//Set proper nick name
-					$this->newPost['nick'] = Main::getModule('Auth')->isLoggedIn() ? Main::getModule('Auth')->getUserID() : (empty($this->newPost['nick']) ? Main::getModule('Language')->getString('guest') : '0' . $this->newPost['nick']);
+					$this->newPost['nick'] = Main::getModule('Auth')->isLoggedIn() ? Main::getModule('Auth')->getUserID() : '0' . (empty($this->newPost['nick']) ? Main::getModule('Language')->getString('guest') : $this->newPost['nick']);
 					//Prepare choices for writing
 					for($i=0; $i<$size; $i++)
 						$this->newPost['choices'][$i] = ($i+1) . "\t" . $this->newPost['choices'][$i] . "\t0\t\t\t\t";
@@ -160,7 +160,7 @@ class PostNew implements Module
 							Functions::sendMessage($curMod[3], 'notify_mod_new_poll', $curMod[0], Main::getModule('Config')->getCfgVal('address_to_forum') . '/' . INDEXFILE . '?faction=readforum&mode=viewthread&forum_id=' . $this->forum[0] . '&thread=' . $newLastTopicID);
 					//Done
 					Main::getModule('Logger')->log('New poll (' . $this->forum[0] . ',' . $newLastTopicID . ') posted by %s', LOG_NEW_POSTING);
-					Main::getModule('Template')->printMessage('poll_posted', INDEXFILE . '?mode=viewthread&amp;forum_id=' . $this->forum[0] . '&amp;thread=' . $newLastTopicID . SID_AMPER, INDEXFILE . '?mode=viewforum&amp;forum_id=' . $this->forum[0] . SID_AMPER, INDEXFILE . SID_QMARK);
+					Main::getModule('Template')->printMessage('poll_posted', Functions::getMsgBackLinks($this->forum[0], $newLastTopicID, 'view_new_poll'));
 				}
 			}
 			break;
@@ -190,7 +190,7 @@ class PostNew implements Module
 				if(empty($this->errors))
 				{
 					//Set proper nick name
-					$this->newPost['nick'] = Main::getModule('Auth')->isLoggedIn() ? Main::getModule('Auth')->getUserID() : (empty($this->newPost['nick']) ? Main::getModule('Language')->getString('guest') : '0' . $this->newPost['nick']);
+					$this->newPost['nick'] = Main::getModule('Auth')->isLoggedIn() ? Main::getModule('Auth')->getUserID() : '0' . (empty($this->newPost['nick']) ? Main::getModule('Language')->getString('guest') : $this->newPost['nick']);
 					$newLastTopicID = Functions::file_get_contents('foren/' . $this->forum[0] . '-ltopic.xbb')+1;
 					//Build and write topic related stuff
 					$this->writeTopic($newLastTopicID);
@@ -200,7 +200,7 @@ class PostNew implements Module
 							Functions::sendMessage($curMod[3], 'notify_mod_new_topic', $curMod[0], Main::getModule('Config')->getCfgVal('address_to_forum') . '/' . INDEXFILE . '?faction=readforum&mode=viewthread&forum_id=' . $this->forum[0] . '&thread=' . $newLastTopicID);
 					//Done
 					Main::getModule('Logger')->log('New topic (' . $this->forum[0] . ',' . $newLastTopicID . ') posted by %s', LOG_NEW_POSTING);
-					Main::getModule('Template')->printMessage('topic_posted', INDEXFILE . '?mode=viewthread&amp;forum_id=' . $this->forum[0] . '&amp;thread=' . $newLastTopicID . SID_AMPER, INDEXFILE . '?mode=viewforum&amp;forum_id=' . $this->forum[0] . SID_AMPER, INDEXFILE . SID_QMARK);
+					Main::getModule('Template')->printMessage('topic_posted', Functions::getMsgBackLinks($this->forum[0], $newLastTopicID, 'view_new_topic'));
 				}
 			}
 			break;

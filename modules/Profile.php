@@ -141,7 +141,7 @@ class Profile implements Module
 						Functions::file_put_contents('members/' . $this->userData[1] . '.xbb', implode("\n", $this->userData));
 						//And done
 						Main::getModule('Logger')->log('% edited profile from ID: ' . $this->userData[1], LOG_EDIT_PROFILE);
-						Main::getModule('Template')->printMessage('profile_saved', INDEXFILE . '?faction=profile&amp;mode=edit&amp;profile_id=' . $this->userData[1] . SID_AMPER, INDEXFILE . SID_QMARK);
+						Main::getModule('Template')->printMessage('profile_saved', INDEXFILE . '?faction=profile&amp;mode=edit&amp;profile_id=' . $this->userData[1] . SID_AMPER, Functions::getMsgBackLinks());
 					}
 				}
 			}

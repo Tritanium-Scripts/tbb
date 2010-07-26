@@ -68,7 +68,7 @@ class Login implements Module
 		{
 			Main::getModule('Logger')->log('%s tried to log in again', LOG_FAILED_LOGIN);
 			header('Location: ' . INDEXFILE . SID_QMARK);
-			Main::getModule('Template')->printMessage('already_logged_in', INDEXFILE . SID_QMARK);
+			Main::getModule('Template')->printMessage('already_logged_in', Functions::getMsgBackLinks());
 		}
 //Login
 		switch($this->mode)

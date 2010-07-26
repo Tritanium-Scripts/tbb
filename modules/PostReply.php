@@ -82,10 +82,11 @@ class PostReply implements Module
 		'topic' => 'EditTopic',
 		'editpoll' => 'EditPoll',
 		'vote' => 'PostVotePoll',
-		'viewip' => 'PostViewIP');
+		'viewip' => 'PostViewIP',
+		'sperren' => 'PostBlockIP');
 
 	/**
-	 * Loads various data and sets mode.
+	 * Loads various data, sets IDs and mode.
 	 *
 	 * @param string $mode Mode to execute
 	 * @return PostReply New instance of this class
@@ -94,9 +95,14 @@ class PostReply implements Module
 	{
 		$this->mode = $mode;
 		$this->forum = Functions::getForumData($forumID = intval(Functions::getValueFromGlobals('forum_id')));
-		#0:open/close[/moved] - 1:title - 2:userID - 3:tSmileyID - 4:notifyNewReplies[/movedForumID] - 5:timestamp[/movedTopicID] - 6:views - 7:pollID
-		if(($this->topicFile = Functions::file('foren/' . $forumID . '-' . ($this->topicID = intval(Functions::getValueFromGlobals('thread_id'))) . '.xbb')) != false)
-			$this->topic = Functions::explodeByTab(array_shift($this->topicFile));
+		$this->topicID = intval(Functions::getValueFromGlobals('thread_id')) or $this->topicID = intval(Functions::getValueFromGlobals('topic_id'));
+		if(($this->topicFile = Functions::file('foren/' . $forumID . '-' . $this->topicID . '.xbb')) != false)
+		{
+			#0:postID - 1:posterID - 2:proprietaryDate - 3:post - 4:ip - 5:isSignature - 6:tSmileyURL - 7:isSmiliesOn - 8:isBBCode - 9:isHTML
+			$this->topicFile = array_map(array('Functions', 'explodeByTab'), $this->topicFile);
+			#0:open/close[/moved] - 1:title - 2:userID - 3:tSmileyID - 4:notifyNewReplies[/movedForumID] - 5:timestamp[/movedTopicID] - 6:views - 7:pollID
+			$this->topic = array_shift($this->topicFile);
+		}
 		$this->postID = intval(Functions::getValueFromGlobals('post_id')) or $this->postID = intval(Functions::getValueFromGlobals('quote'));
 		$this->preview = Functions::getValueFromGlobals('preview') != '';
 		//Get contents for new reply
@@ -130,11 +136,12 @@ class PostReply implements Module
 		if($this->topicFile == false)
 			Main::getModule('Template')->printMessage('topic_not_found');
 		elseif($this->topic[0] == 'm')
-			Main::getModule('Template')->printMessage('topic_has_moved', INDEXFILE . '?mode=viewthread&amp;forum_id=' . $this->topic[4] . '&amp;thread=' . $this->topic[5] . SID_AMPER, INDEXFILE . '?mode=viewforum&amp;forum_id=' . $this->forum[0] . SID_AMPER);
+			Main::getModule('Template')->printMessage('topic_has_moved', INDEXFILE . '?mode=viewthread&amp;forum_id=' . $this->topic[4] . '&amp;thread=' . $this->topic[5] . SID_AMPER, Functions::getMsgBackLinks($this->forum[0]));
 		//Execute action (and subaction)
 		switch($this->mode)
 		{
 			case 'reply':
+			case 'save':
 			setcookie('upbwhere', INDEXFILE . '?faction=reply&forum_id=' . $this->forum[0] . '&thread_id=' . $this->topicID); //Redir cookie after login
 			//Specific checks and navbar for this mode
 			Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('post_new_reply'), INDEXFILE . '?faction=reply&amp;thread_id=' . $this->topicID . '&amp;forum_id=' . $this->forum[0] . SID_AMPER);
@@ -152,7 +159,7 @@ class PostReply implements Module
 					'post' => Main::getModule('BBCode')->parse(Functions::nl2br($this->newReply['post']), $this->newReply['isXHTML'], $this->newReply['isSmilies'], $this->newReply['isBBCode']),
 					'signature' => $this->newReply['isSignature'] ? Main::getModule('BBCode')->parse(Main::getModule('Auth')->getUserSig()) : false);
 			//...or final save...
-			elseif(Functions::getValueFromGlobals('save') == 'yes')
+			elseif(Functions::getValueFromGlobals('mode') == 'save')#todo
 			{
 				if(!Main::getModule('Auth')->isLoggedIn() && empty($this->newReply['nick']) && Main::getModule('Config')->getCfgVal('nli_must_enter_name') == 1)
 					$this->errors[] = Main::getModule('Language')->getString('please_enter_your_user_name');
@@ -163,7 +170,7 @@ class PostReply implements Module
 					//Set proper nick name
 					$this->newReply['nick'] = Main::getModule('Auth')->isLoggedIn() ? Main::getModule('Auth')->getUserID() : (empty($this->newReply['nick']) ? Main::getModule('Language')->getString('guest') : '0' . $this->newReply['nick']);
 					//Build new post
-					$newPost = array(current(Functions::explodeByTab(end($this->topicFile)))+1,
+					$newPost = array(current(end($this->topicFile))+1,
 						$this->newReply['nick'],
 						gmdate('YmdHis'),
 						Functions::stripSIDs(Functions::nl2br($this->newReply['post'])),
@@ -176,8 +183,8 @@ class PostReply implements Module
 						'', '', "\n");
 					//Write post related stuff
 					$this->topic[5] = time();
-					$this->topicFile[] = Functions::implodeByTab($newPost);
-					Functions::file_put_contents('foren/' . $this->forum[0] . '-' . $this->topicID . '.xbb', Functions::implodeByTab($this->topic) . "\n" . implode("\n", $this->topicFile));
+					$this->topicFile[] = $newPost;
+					Functions::file_put_contents('foren/' . $this->forum[0] . '-' . $this->topicID . '.xbb', Functions::implodeByTab($this->topic) . "\n" . implode("\n", array_map(array('Functions', 'implodeByTab'), $this->topicFile)));
 					$this->setTopicOnTop();
 					//Update all the counters and stats
 					Functions::updateForumData($this->forum[0], 0, 1, $this->topicID, $this->newReply['nick'], $newPost[2], $this->newReply['tSmileyID']);
@@ -193,44 +200,67 @@ class PostReply implements Module
 						Functions::sendMessage($notifyUser[3], 'notify_new_reply', $notifyUser[0], Main::getModule('Config')->getCfgVal('address_to_forum') . '/' . INDEXFILE . '?faction=readforum&mode=viewthread&forum_id=' . $this->forum[0] . '&thread=' . $this->topicID);
 					//Done
 					Main::getModule('Logger')->log('New reply (' . $this->forum[0] . ',' . $this->topicID . ') posted by %s', LOG_NEW_POSTING);
-					Main::getModule('Template')->printMessage('reply_posted', INDEXFILE . '?mode=viewthread&amp;forum_id=' . $this->forum[0] . '&amp;thread=' . $this->topicID . '&amp;z=last' . SID_AMPER . '#' . $newPost[0], INDEXFILE . '?mode=viewforum&amp;forum_id=' . $this->forum[0] . SID_AMPER, INDEXFILE . SID_QMARK);
+					Main::getModule('Template')->printMessage('reply_posted', Functions::getMsgBackLinks($this->forum[0], $this->topicID, 'view_new_reply', $newPost[0]));
 				}
 			}
 			//...or first call and add possible quote with quoted user
 			elseif(!empty($this->postID))
 			{
-				list(,$quoterID,,$this->newReply['post']) = Functions::explodeByTab($this->topicFile[$this->postID-1]);
-				#todo
-				$this->newReply['post'] = '[quote=' . (is_numeric($quoterID) ? current(Functions::getUserData($quoterID)) : ($quoterID != Main::getModule('Language')->getString('guest') ? Functions::substr($quoterID, 1) : $quoterID)) . ']' . Functions::br2nl(preg_replace("/\[lock\](.*?)\[\/lock\]/si", '', $this->newReply['post'])) . '[/quote]';
+				list(,$quoterID,,$this->newReply['post']) = $this->topicFile[$this->postID-1];
+				$posterIDs = array_filter(array_unique(array_map('next', $this->topicFile)), create_function('$id', 'return !Functions::isGuestID($id);'));
+				$this->newReply['post'] = '[quote=' . (!Functions::isGuestID($quoterID) ? current(Functions::getUserData($quoterID)) : Functions::substr($quoterID, 1)) . ']' . Functions::br2nl(in_array($quoterID, $posterIDs) ? $this->newReply['post'] : preg_replace("/\[lock\](.*?)\[\/lock\]/si", '', $this->newReply['post'])) . '[/quote]';
 			}
+	/* Du musst doch echt verrückt sein, wenn du versuchst meinen Code zu verstehen ;) */
+			//Guess I'm a crazy coder^^
 			//Process last x posts
 			$lastReplies = array();
-			foreach(array_map(array('Functions', 'explodeByTab'), $this->topicFile) as $curReply)
+			foreach($this->topicFile as $curReply)
+			{
 				$lastReplies[] = array('nick' => Functions::getProfileLink($curReply[1], true),
 					'post' => Functions::censor(Main::getModule('BBCode')->parse($curReply[3], $curReply[9] == '1' && $this->forum[7][1] == '1', $curReply[7] == '1' || $curReply[7] == 'yes', ($curReply[8] == '1' || $curReply[8] == 'yes') && $this->forum[7][0] == '1', $this->topicFile)));
+			}
 			Main::getModule('Template')->assign(array('newReply' => $this->newReply,
 				'preview' => $this->preview,
-	//Sorta...
-	/* Du musst doch echt verrückt sein, wenn du versuchst meinen Code zu verstehen ;) */
-	//...crazy coder
 				'lastReplies' => array_reverse(array_slice($lastReplies, 0, 10)), //Just the last 10 replies
 				'smilies' => Main::getModule('BBCode')->getSmilies(),
 				'tSmilies' => Functions::getTSmilies()));
 			break;
 
 			case 'viewip':
-			if(!Main::getModule('Auth')->isAdmin() || !Functions::checkModOfForum($this->forum))
-				Main::getModule('Template')->printMessage('no_access');
+			Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('view_ip_address'), INDEXFILE . '?faction=viewip&amp;forum_id=' . $this->forum[0] . '&amp;topic_id=' . $this->topicID . '&amp;post_id=' . $this->postID . SID_AMPER);
+			if(!Main::getModule('Auth')->isAdmin() && !Functions::checkModOfForum($this->forum))
+				Main::getModule('Template')->printMessage('permission_denied');
+			if(($post = $this->getPostData($this->postID)) == false)
+				Main::getModule('Template')->printMessage('post_not_found');
+			Main::getModule('Template')->assign('ipAddress', $post[4]);
+			break;
+
+			case 'sperren':
 			break;
 		}
 		//Always append IDs to WIO location. WIO will not parse them in inapplicable mode.
 		Main::getModule('Template')->printPage(self::$modeTable[$this->mode], array('forumID' => $this->forum[0],
 			'topicID' => $this->topicID,
+			'postID' => $this->postID,
 			//Just give the template what it needs to know
 			'forum' => array('forumID' => $this->forum[0],
 				'isBBCode' => $this->forum[7][0] == '1',
 				'isXHTML' => $this->forum[7][1] == '1'),
 			'errors' => $this->errors), null , ',' . $this->forum[0] . ',' . $this->topicID);
+	}
+
+	/**
+	 * Returns data of a single post.
+	 *
+	 * @param int $postID ID of post of current topic
+	 * @return array Post data
+	 */
+	private function getPostData($postID)
+	{
+		foreach($this->topicFile as $curPost)
+			if($curPost[0] == $postID)
+				return $curPost;
+		return false;
 	}
 
 	/**

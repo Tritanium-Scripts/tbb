@@ -309,25 +309,38 @@ class FunctionsBasic
 	}
 
 	/**
+	 * Compiles back links for forum messages. A link to the forum index will always be generated.
+	 *
+	 * @param int $forumID Generates back link to topics of this forum, if provided
+	 * @param int $topicID Generates back link to posts of this topic, if provided (needs $topicMsgIndex)
+	 * @param string $msgIndex Identifier of message to display for topic link
+	 * @param int $postID Extends back link of this topic with link to single post, if provided
+	 * @param int|string $postOnPage Optional topic page number of single post
+	 */
+	public static function getMsgBackLinks($forumID=null, $topicID=null, $msgIndex='back_to_topic', $postID=null, $postOnPage='last')
+	{
+		return '<br />' . (isset($forumID) ? (isset($topicID) ? sprintf(Main::getModule('Language')->getString($msgIndex, 'Messages'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $forumID . '&amp;thread=' . $topicID . (isset($postID) ? '&amp;z=' . $postOnPage . SID_AMPER . '#post' . $postID : SID_AMPER)) . '<br />'  : '') . sprintf(Main::getModule('Language')->getString('back_to_topic_index', 'Messages'), INDEXFILE . '?mode=viewforum&amp;forum_id=' . $forumID . SID_AMPER) . '<br />' : '') . sprintf(Main::getModule('Language')->getString('back_to_forum_index', 'Messages'), INDEXFILE . SID_QMARK);
+	}
+
+	/**
 	 * Returns linked user profile for given user IDs.
 	 *
 	 * @param int|string $userID Single or multiple user IDs separated with comma
 	 * @param bool $isValid Performs an additional check if user(s) exists to prevent linking deleted profiles
 	 * @param string $aAttributes Additional attributes for profile link tag, start with space!
 	 * @param bool $colorRank Emphasize linked names with corresponding rank color - setting $isValid to true would be a good idea
-	 * @return string|array Linked user profile(s) or unlinked state
+	 * @return string|array Linked user profile(s) or unlinked state(s)
 	 */
 	public static function getProfileLink($userID, $isValid=false, $aAttributes=null, $colorRank=false)
 	{
 		$userLinks = array();
 		if(!empty($userID))
-			//Guest check
-			if(Functions::strpos($userID, '0') === 0) //0Guest
-				$userLinks[] = Functions::substr($userID, 1);
-			else
-				foreach(self::explodeByComma($userID) as $curUserID)
+			foreach(self::explodeByComma($userID) as $curUserID)
+				//Guest check
+				if(self::isGuestID($userID))
+					$userLinks[] = Functions::substr($userID, 1);
 				//(Optional) deleted check
-				if($isValid && !self::file_exists('members/' . $curUserID . '.xbb'))
+				elseif($isValid && !self::file_exists('members/' . $curUserID . '.xbb'))
 					$userLinks[] = Main::getModule('Language')->getString('deleted');
 				//Create profile link
 				else
@@ -527,7 +540,7 @@ class FunctionsBasic
 	 */
 	public static function getUserData($userID)
 	{
-		if($userID == 0 || !($user = @self::file('members/' . $userID . '.xbb')) || $user[4] == '5')
+		if(self::isGuestID($userID) || !($user = @self::file('members/' . $userID . '.xbb')) || $user[4] == '5')
 			return false;
 		$user[14] = self::explodeByComma($user[14]); //Mail options
 		//Downward compatibility: Create fields that does't exist in TBB 1.2.3
@@ -561,6 +574,17 @@ class FunctionsBasic
 	public static function implodeByTab($pieces)
 	{
 		return implode("\t", $pieces);
+	}
+
+	/**
+	 * Tests an user ID for being a guest ID.
+	 *
+	 * @param int|string $id User ID to test
+	 * @return ID is a guest ID
+	 */
+	public static function isGuestID($id)
+	{
+		return strncmp($id, '0', 1) == 0;
 	}
 
 	/**

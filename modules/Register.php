@@ -79,7 +79,7 @@ class Register implements Module
 		{
 			Main::getModule('Logger')->log('%s tried to register again', LOG_REGISTRATION);
 			header('Location: ' . INDEXFILE . SID_QMARK);
-			Main::getModule('Template')->printMessage('already_registered', INDEXFILE . SID_QMARK);
+			Main::getModule('Template')->printMessage('already_registered', Functions::getMsgBackLinks());
 		}
 		switch($this->mode)
 		{

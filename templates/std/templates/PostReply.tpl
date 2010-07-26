@@ -38,7 +38,7 @@
  </tr>
 </table>
 <p style="text-align:center;"><input type="submit" value="{$modules.Language->getString('post_new_reply')}" />&nbsp;&nbsp;&nbsp;<input type="submit" name="preview" value="{$modules.Language->getString('preview')}" style="font-weight:bold;" /></p>
-<input type="hidden" name="thread_id" value="{$topicID}" />
+<input type="hidden" name="topic_id" value="{$topicID}" />
 <input type="hidden" name="forum_id" value="{$forum.forumID}" />
 </form>
 

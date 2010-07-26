@@ -240,7 +240,7 @@ class Forum implements Module
 			$end = $this->page*Main::getModule('Config')->getCfgVal('posts_per_page');
 			for($i=$end-Main::getModule('Config')->getCfgVal('posts_per_page'); $i<($end > $size ? $size : $end); $i++)
 			{
-				#0:postID - 1:posterID - 2:proprietaryDate - 3:post - 4:ip - 5:sig - 6:tSmileyURL - 7:smiliesOn - 8:BBCodeOn - 9:HTMLon
+				#0:postID - 1:posterID - 2:proprietaryDate - 3:post - 4:ip - 5:isSignature - 6:tSmileyURL - 7:isSmiliesOn - 8:isBBCode - 9:isHTML
 				$curPost = Functions::explodeByTab($topicFile[$i]);
 				//Prepare user data of current post
 				if($curPost[1][0] == '0')

@@ -3,7 +3,7 @@
 <table class="tbl" cellpadding="{$modules.Config->getCfgVal('tpadding')}" cellspacing="{$modules.Config->getCfgVal('tspacing')}" style="width:{$modules.Config->getCfgVal('twidth')}; margin:auto;">
  <tr>
   <th class="thnorm"><span class="thnorm">{$modules.Language->getString('view_profile')}</span></th>
-  <th class="thnorm" style="text-align:right;"><span class="thnorm"><a href="{$smarty.const.INDEXFILE}?faction=profile&amp;profile_id={$userData[1]}&amp;mode=vCard{$smarty.const.SID_AMPER}" style="color:yellow;">{$modules.Language->getString('download_as_vcard')}</a></span></th>
+  <th class="thnorm" style="text-align:right;"><span class="thnorm"><a href="{$smarty.const.INDEXFILE}?faction=profile&amp;profile_id={$userData[1]}&amp;mode=vCard{$smarty.const.SID_AMPER}" style="color:yellow;"><img src="{$modules.Template->getTplDir()}images/vcard.png" alt="" style="vertical-align:middle;" /> {$modules.Language->getString('download_as_vcard')}</a></span></th>
  </tr>
  <tr>
   <td class="td1" style="font-weight:bold; width:20%;"><span class="norm">{$modules.Language->getString('user_id_colon')}</span></td>
