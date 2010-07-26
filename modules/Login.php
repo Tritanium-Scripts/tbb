@@ -70,6 +70,9 @@ class Login implements Module
 			header('Location: ' . INDEXFILE . SID_QMARK);
 			Main::getModule('Template')->printMessage('already_logged_in', Functions::getMsgBackLinks());
 		}
+		//Obsolete check?
+		if(Functions::file_exists('vars/alarm.var'))
+			Main::getModule('Template')->printMessage('board_disabled');
 //Login
 		switch($this->mode)
 		{

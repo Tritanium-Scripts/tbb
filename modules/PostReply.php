@@ -225,6 +225,77 @@ class PostReply implements Module
 				'tSmilies' => Functions::getTSmilies()));
 			break;
 
+			case 'vote':
+			case 'update':
+			if($this->topic[7] != Functions::getValueFromGlobals('poll_id'))
+				Main::getModule('Template')->printMessage('forum_poll_mismatch');
+			#0:pollState - 1:creatorID - 2:proprietaryDate - 3:title/question - 4:totalVotes - 5:forumID,topicID
+			$pollFile = Functions::file('polls/' . $this->topic[7] . '-1.xbb') or Main::getModule('Template')->printMessage('poll_not_found');
+			$pollVoters = Functions::explodeByComma(Functions::file_get_contents('polls/' . $this->topic[7] . '-2.xbb'));
+			$pollFile = array_map(array('Functions', 'explodeByTab'), $pollFile);
+			$poll = array_shift($pollFile);
+			//Edit poll...
+			if(Functions::getValueFromGlobals('edit') != '')
+			{
+//EditPoll
+				if(!Main::getModule('Auth')->isLoggedIn() || !Functions::checkUserAccess($this->forum[0], 5))
+					Main::getModule('Template')->printMessage(Main::getModule('Auth')->isLoggedIn() ? 'forum_no_access' : 'login_only', INDEXFILE . '?faction=register' . SID_AMPER, INDEXFILE . '?faction=login' . SID_AMPER);
+				elseif($poll[1] != Main::getModule('Auth')->getUserID() && Functions::checkModOfForum($this->forum) && !Main::getModule('Auth')->isAdmin())
+					Main::getModule('Template')->printMessage('permission_denied');
+				if($this->mode == 'update')
+				{
+					if(Functions::getValueFromGlobals('open') != '')
+					{
+						
+					}
+					elseif(Functions::getValueFromGlobals('close') != '')
+					{
+						
+					}
+					else
+					{
+						
+					}
+				}
+			}
+			//...or vote it
+			else
+			{
+				$voteID = intval(Functions::getValueFromGlobals('vote_id'));
+				Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('vote'), INDEXFILE . '?faction=vote&amp;forum_id=' . $this->forum[0] . '&amp;topic_id=' . $this->topicID . '&amp;poll_id=' . $this->topic[7] . '&amp;vote_id=' . $voteID);
+				if(!Functions::checkUserAccess($this->forum[0], 0))
+					Main::getModule('Template')->printMessage(Main::getModule('Auth')->isLoggedIn() ? 'forum_no_access' : 'login_only', INDEXFILE . '?faction=register' . SID_AMPER, INDEXFILE . '?faction=login' . SID_AMPER);
+				//Check for vote permission
+				elseif($poll[0] > 2)
+					Main::getModule('Template')->printMessage('poll_is_closed');
+				elseif(!Main::getModule('Auth')->isLoggedIn() && $poll[0] != 1)
+					Main::getModule('Template')->printMessage('poll_need_login');
+				elseif((Main::getModule('Auth')->isLoggedIn() && in_array(Main::getModule('Auth')->getUserID(), $pollVoters)) || isset($_SESSION['session_poll_' . $this->topic[7]]) || isset($_COOKIE['cookie_poll_' . $this->topic[7]]))
+					Main::getModule('Template')->printMessage('already_voted');
+				elseif(empty($voteID))
+					Main::getModule('Template')->printMessage('choose_choice');
+				//Do voting
+				foreach($pollFile as &$curPollOption)
+					if($curPollOption[0] == $voteID)
+					{
+						$poll[4]++; //Total votes 1up
+						$curPollOption[2]++; //Vote option 1up
+						Functions::file_put_contents('polls/' . $this->topic[7] . '-1.xbb', Functions::implodeByTab($poll) . "\n" . implode("\n", array_map(array('Functions', 'implodeByTab'), $pollFile)) . "\n");
+						if(Main::getModule('Auth')->isLoggedIn())
+						{
+							$pollVoters[] = Main::getModule('Auth')->getUserID();
+							Functions::file_put_contents('polls/' . $this->topic[7] . '-2.xbb', implode(',', $pollVoters));
+						}
+						//Mark as voted
+						$_SESSION['session_poll_' . $this->topic[7]] = true;
+						setcookie('cookie_poll_' . $this->topic[7], '1', time()+3600*24*365, Main::getModule('Config')->getCfgVal('path_to_forum'));
+						header('Location: ' . INDEXFILE . '?mode=viewthread&forum_id=' . $this->forum[0] . '&thread=' . $this->topicID . SID_AMPER);
+						Main::getModule('Template')->printMessage('vote_added');
+					}
+				Main::getModule('Template')->printMessage('choice_not_found');
+			}
+			break;
+
 			case 'viewip':
 			case 'sperren':
 			Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('view_ip_address'), INDEXFILE . '?faction=viewip&amp;forum_id=' . $this->forum[0] . '&amp;topic_id=' . $this->topicID . '&amp;post_id=' . $this->postID . SID_AMPER);
@@ -261,7 +332,6 @@ class PostReply implements Module
 			}
 			break;
 		}
-		//Always append IDs to WIO location. WIO will not parse them in inapplicable mode.
 		Main::getModule('Template')->printPage(self::$modeTable[$this->mode], array('forumID' => $this->forum[0],
 			'topicID' => $this->topicID,
 			'postID' => $this->postID,
@@ -269,7 +339,9 @@ class PostReply implements Module
 			'forum' => array('forumID' => $this->forum[0],
 				'isBBCode' => $this->forum[7][0] == '1',
 				'isXHTML' => $this->forum[7][1] == '1'),
-			'errors' => $this->errors), null , ',' . $this->forum[0] . ',' . $this->topicID);
+			'errors' => $this->errors),
+			//Always append IDs + page to WIO location. WIO will not parse them in inapplicable mode.
+			null , ',' . $this->forum[0] . ',' . $this->topicID . ',' . $this->postID . ',' . ceil(array_search($this->postID, array_map('current', $this->topicFile)) / Main::getModule('Config')->getCfgVal('posts_per_page')));
 	}
 
 	/**

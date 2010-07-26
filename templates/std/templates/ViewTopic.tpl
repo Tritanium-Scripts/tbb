@@ -9,7 +9,7 @@
    <span class="norm" style="font-weight:bold;">{$pollTitle}</span> <span class="small">{$totalVotes|string_format:$modules.Language->getString('x_votes_total')}</span><br />
    <table cellpadding="0" cellspacing="4">
     {foreach $pollOptions as $curOption}<tr>
-     <td style="text-align:right;"><span class="norm">{$curOption@iteration}. </span><input type="radio" name="vote_id" value="{$curOption.optionID}" style="vertical-align:middle;" /></td>
+     <td style="text-align:right;"><span class="norm">{$curOption@iteration}. </span>{if !$hasVoted}<input type="radio" name="vote_id" value="{$curOption.optionID}" style="vertical-align:middle;" />{/if}</td>
      <td><span class="norm">{$curOption.pollOption}</span></td>
      <td><img src="{$modules.Template->getTplDir()}images/pollbar.gif" alt="" style="height:10px; vertical-align:middle; width:{round($curOption.percent)}px;" /></td>
      <td><span class="small">{$curOption.voteText}</span></td>
