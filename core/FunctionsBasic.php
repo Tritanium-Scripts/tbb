@@ -66,17 +66,18 @@ class FunctionsBasic
 	}
 
 	/**
-	 * Checks current IP for access permission.
+	 * Checks current or stated IP address for access permission.
 	 *
-	 * @param int $forumID Only check for a specific forum, whole board otherwise
+	 * @param int $forumID Only check for a specific forum, entire board otherwise
+	 * @param string $ipAddress Check for this specific IP, current otherwise
 	 * @return bool|int Access permission granted or ban endtime
 	 */
-	public static function checkIPAccess($forumID=-1)
+	public static function checkIPAccess($forumID=-1, $ipAddress=null)
 	{
-		if(!isset(self::$cache['bannedIPs']))
-			self::$cache['bannedIPs'] = array_map(array('self', 'explodeByTab'), self::file('vars/ip.var'));
-		foreach(self::$cache['bannedIPs'] as $curIP)
-			if($curIP[0] == $_SERVER['REMOTE_ADDR'] && $curIP[2] == $forumID && ($curIP[1] > time() || $curIP[1] == '-1'))
+		if(empty($ipAddress))
+			$ipAddress = $_SERVER['REMOTE_ADDR'];
+		foreach(self::getBannedIPs() as $curIP)
+			if($curIP[0] == $ipAddress && $curIP[2] == $forumID && ($curIP[1] > time() || $curIP[1] == '-1'))
 				return (int) $curIP[1];
 		return true;
 	}
@@ -125,6 +126,8 @@ class FunctionsBasic
 	 */
 	public static function censor($string)
 	{
+		if(Main::getModule('Config')->getCfgVal('censored') != 1)
+			return $string;
 		if(!isset(self::$cache['censoredWords']))
 			self::$cache['censoredWords'] = array_map(array('self', 'explodeByTab'), self::file('vars/cwords.var'));
 		foreach(self::$cache['censoredWords'] as $curWord)
@@ -241,6 +244,18 @@ class FunctionsBasic
 	}
 
 	/**
+	 * Returns current blocked IP addresses.
+	 *
+	 * @return array Fully exploded banned IP addresses
+	 */
+	public static function getBannedIPs()
+	{
+		if(!isset(self::$cache['bannedIPs']))
+			self::$cache['bannedIPs'] = array_map(array('self', 'explodeByTab'), self::file('vars/ip.var'));
+		return self::$cache['bannedIPs'];
+	}
+
+	/**
 	 * Returns amount of file accesses.
 	 *
 	 * @return int File counter
@@ -248,18 +263,6 @@ class FunctionsBasic
 	public static function getFileCounter()
 	{
 		return self::$fileCounter;
-	}
-
-	/**
-	 * Returns hash value for stated string.
-	 * If supported, SHA-2 (SHA-512) will be used, DES as fallback and downward compatibility to TBB 1.2.3 otherwise.
-	 *
-	 * @param string $data String to hash with SHA-2 (or DES)
-	 * @return string Hash value of string
-	 */
-	public static function getHash($string)
-	{
-		return function_exists('hash') ? hash('sha512', $string) : crypt($string, 'Xb');
 	}
 
 	/**
@@ -306,6 +309,18 @@ class FunctionsBasic
 			if($curGroup[0] == $groupID)
 				return $curGroup;
 		return false;
+	}
+
+	/**
+	 * Returns hash value for stated string.
+	 * If supported, SHA-2 (SHA-512) will be used, DES as fallback and downward compatibility to TBB 1.2.3 otherwise.
+	 *
+	 * @param string $data String to hash with SHA-2 (or DES)
+	 * @return string Hash value of string
+	 */
+	public static function getHash($string)
+	{
+		return function_exists('hash') ? hash('sha512', $string) : crypt($string, 'Xb');
 	}
 
 	/**

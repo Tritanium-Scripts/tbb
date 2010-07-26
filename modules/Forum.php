@@ -78,7 +78,7 @@ class Forum implements Module
 	public function execute()
 	{
 		//Check IP for specific forum (and topic, too) only (the global check was performed before in Main)
-		if($this->forumID != -1 && ($endtime = Functions::checkIPAccess()) !== true)
+		if($this->forumID != -1 && ($endtime = Functions::checkIPAccess($this->forumID)) !== true)
 			Main::getModule('Template')->printMessage(($endtime == -1 ? 'banned_forever_one_forum' : 'banned_for_x_minutes_one_forum'), ceil(($endtime-time())/60));
 		//Process news
 		if(count($news = Functions::file('vars/news.var')) != 0)
@@ -150,13 +150,11 @@ class Forum implements Module
 				//Only show bar by having more than one page
 				$curTopicPageBar = count($curTopicPageBar) < 2 ? '' : ' ' . sprintf(Main::getModule('Language')->getString('pages'), implode(' ', $curTopicPageBar));
 				//Censor title and add to parsed topics
-				if(Main::getModule('Config')->getCfgVal('censored') == 1)
-					$curTopic[1] = Functions::censor($curTopic[1]);
 				$topics[] = array('topicIcon' => $curTopicIcon,
 					'tSmileyURL' => Functions::getTSmileyURL($curTopic[3]),
 					'isPoll' => !empty($curTopic[7]),
 					'topicID' => $topicFile[$i],
-					'topicTitle' => wordwrap($curTopic[1], 80, '<br />', true),
+					'topicTitle' => wordwrap(Functions::censor($curTopic[1]), 80, '<br />', true),
 					'topicPageBar' => $curTopicPageBar,
 					'topicStarter' => Functions::getProfileLink($curTopic[2], true),
 					'isSticky' => in_array($topicFile[$i], $stickyFile),
@@ -169,7 +167,7 @@ class Forum implements Module
 					'movedForumID' => $curTopic[4],
 					'movedTopicID' => $curTopic[5]) : array(
 					//Set needed values for non-moved topic
-					'postCounter' => $curSize-1, #todo: evtl kein minus!!
+					'postCounter' => $curSize-1,
 					'views' => $curTopic[6],
 					'lastPost' => sprintf(Main::getModule('Language')->getString('last_post_x_from_x'), Functions::formatDate($curLastPost[2]), Functions::getProfileLink($curLastPost[1], true))));
 			}
@@ -198,8 +196,7 @@ class Forum implements Module
 				Functions::file_put_contents('foren/' . $this->forumID . '-' . $this->topicID . '.xbb', implode("\n", array_merge(array(Functions::implodeByTab($topic)), $topicFile)));
 				$_SESSION['session.tview.' . $this->forumID . '.' . $this->topicID] = true;
 			}
-			if(Main::getModule('Config')->getCfgVal('censored') == 1)
-				$topic[1] = Functions::censor($topic[1]);
+			$topic[1] = Functions::censor($topic[1]);
 			//Build page navigation bar
 			$pages = ceil(($size = count($topicFile)) / Main::getModule('Config')->getCfgVal('posts_per_page'));
 			if($this->page == 'last')
@@ -290,20 +287,18 @@ class Forum implements Module
 					//Detect rank
 					$curPoster['userState'] = Functions::getStateName($curPoster['userState'], $curPoster['userPosts']);
 					//Signature incl. cache check =)
-					$curPoster['userSig'] = !empty($curPoster['userSig']) && ($curPost[5] == '1' || $curPost[5] == 'yes') ? (isset($parsedSignatures[$curPost[1]]) ? $parsedSignatures[$curPost[1]] : ($parsedSignatures[$curPost[1]] = Main::getModule('BBCode')->parse(Main::getModule('Config')->getCfgVal('censored') == 1 ? Functions::censor($curPoster['userSig']) : $curPoster['userSig'], false, true, true, $topicFile))) : '';
+					$curPoster['userSig'] = !empty($curPoster['userSig']) && ($curPost[5] == '1' || $curPost[5] == 'yes') ? (isset($parsedSignatures[$curPost[1]]) ? $parsedSignatures[$curPost[1]] : ($parsedSignatures[$curPost[1]] = Main::getModule('BBCode')->parse(Functions::censor($curPoster['userSig']), false, true, true, $topicFile))) : '';
 				}
 				unset($curPoster['userMailOpts'], $curPoster['userPassHash'], $curPoster['userForumAcc']);
 				//User values done, proceed with post
 				$curPost[3] = Main::getModule('BBCode')->parse($curPost[3], $curPost[9] == '1' && $forum[7][1] == '1', $curPost[7] == '1' || $curPost[7] == 'yes', $forum[7][0] == '1' && ($curPost[8] == '1' || $curPost[8] == 'yes'), $topicFile);
-				if(Main::getModule('Config')->getCfgVal('censored') == 1)
-					$curPost[3] = Functions::censor($curPost[3]);
 				//Add prepared user data and post data
 				$posts[] = $curPoster + array('postID' => $curPost[0],
 					'tSmileyURL' => Functions::getTSmileyURL($curPost[6]),
 					'date' => Functions::formatDate($curPost[2]),
 					'postIPText' => !empty($curPost[4]) ? sprintf(Main::getModule('Language')->getString('ip_saved'), INDEXFILE . '?faction=viewip&amp;forum_id=' . $this->forumID . '&amp;topic_id=' . $this->topicID . '&amp;post_id=' . $curPost[0] . SID_AMPER) : Main::getModule('Language')->getString('ip_not_saved'),
 					'canModify' => Main::getModule('Auth')->isAdmin() || $isMod || ($forum[10][4] == '1' && Main::getModule('Auth')->getUserID() == $curPost[1]),
-					'post' => $curPost[3]);
+					'post' => Functions::censor($curPost[3]));
 			}
 			Main::getModule('Template')->assign(array('pageBar' => $pageBar,
 				'topicTitle' => $topic[1],
@@ -349,17 +344,13 @@ class Forum implements Module
 						$curLastPost = Main::getModule('Language')->getString('deleted_moved');
 					else
 					{
-						//Prepare topic title of current last posting
-						$curTopicTitle = @next(Functions::explodeByTab(current(Functions::file($curTopicFile))));
-						if(Main::getModule('Config')->getCfgVal('censored') == 1)
-							$curTopicTitle = Functions::censor($curTopicTitle);
 						//Query template for formatting current last posting
 						$curLastPost = Main::getModule('Template')->fetch('LastPost', array('tSmileyURL' => Functions::getTSmileyURL($curLastPostData[3]),
 							'forumID' => $curForum[0],
 							'topicID' => $curLastPostData[0],
-							'topicTitle' => Functions::shorten($curTopicTitle, 22),
+							'topicTitle' => Functions::shorten(Functions::censor(@next(Functions::explodeByTab(current(Functions::file($curTopicFile))))), 22),
 							//Prepare user of current last posting
-							'user' => $curLastPostData[1][0] == '0' ? Functions::substr($curLastPostData[1], 1) : Functions::getProfileLink($curLastPostData[1], true),
+							'user' => Functions::getProfileLink($curLastPostData[1], true),
 							'date' => Functions::formatDate($curLastPostData[2])));
 					}
 					//Compile (into) array with all the data for template
@@ -386,7 +377,7 @@ class Forum implements Module
 					$curNewestPost = Functions::explodeByComma($curNewestPost . ',1'); //Make sure index 4 is available
 					$newestPosts[] = sprintf(Main::getModule('Language')->getString('x_by_x_on_x'),
 						//Topic check + link + title preparation
-						!Functions::file_exists('foren/' . $curNewestPost[0] . '-' . $curNewestPost[1] . '.xbb') ? Main::getModule('Language')->getString('deleted_moved') : '<img src="' . Functions::getTSmileyURL($curNewestPost[4]) . '" alt="" /> <a href="' . INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curNewestPost[0] . '&amp;thread=' . $curNewestPost[1] . SID_AMPER . '">' . (Functions::shorten(Main::getModule('Config')->getCfgVal('censored') == 1 ? Functions::censor(Functions::getTopicName($curNewestPost[0], $curNewestPost[1])) : Functions::getTopicName($curNewestPost[0], $curNewestPost[1]), 53)) . '</a>',
+						!Functions::file_exists('foren/' . $curNewestPost[0] . '-' . $curNewestPost[1] . '.xbb') ? Main::getModule('Language')->getString('deleted_moved') : '<img src="' . Functions::getTSmileyURL($curNewestPost[4]) . '" alt="" /> <a href="' . INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curNewestPost[0] . '&amp;thread=' . $curNewestPost[1] . SID_AMPER . '">' . (Functions::shorten(Functions::censor(Functions::getTopicName($curNewestPost[0], $curNewestPost[1])), 53)) . '</a>',
 						Functions::getProfileLink($curNewestPost[2], true),
 						Functions::formatDate($curNewestPost[3]));
 				}

@@ -187,12 +187,12 @@ class Main implements Module
 		//Check maintenance mode
 		if(self::getModule('Config')->getCfgVal('uc') == 1)
 			self::getModule('Template')->printMessage('maintenance_mode_on'); //Lang strings from Main are already loaded via setlocale()
-		//Check IP address
-		if(($endtime = Functions::checkIPAccess()) !== true)
-			self::getModule('Template')->printMessage(($endtime == -1 ? 'banned_forever_everywhere' : 'banned_for_x_minutes_everywhere'), ceil(($endtime-time())/60));
 		//Detect action
 		$this->action = self::$actionTable[($fAction = Functions::getValueFromGlobals('faction'))];
 		self::getModule('Template')->assign('action', $this->action);
+		//Check IP address
+		if(($endtime = Functions::checkIPAccess()) !== true)
+			self::getModule('Template')->printMessage(($endtime == -1 ? 'banned_forever_everywhere' : 'banned_for_x_minutes_everywhere'), ceil(($endtime-time())/60));
 		//Check force login
 		if(self::getModule('Config')->getCfgVal('must_be_logged_in') == 1 && !self::getModule('Auth')->isLoggedIn() && !in_array($this->action, array('Register', 'Login', 'Help')))
 			self::getModule('Template')->printMessage('members_only', INDEXFILE . '?faction=register' . SID_AMPER, INDEXFILE . '?faction=login' . SID_AMPER);

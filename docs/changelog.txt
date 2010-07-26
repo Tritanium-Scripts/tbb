@@ -76,6 +76,8 @@ Last changed: 2010 (Version 1.5 Alpha)
 	-Hinzufügen und löschen von Antwortmöglichkeiten "on-the-fly" wie im TBB 2.0
 	-Automatisches entfernen von SID-Parametern bei jedem neuen Beitrag
 	-URLs in Beiträgen können automatisch mit [url]-BBCode versehen werden
+	-Sperren von IP-Adressen für das gesamte Forum von Beiträgen her funktioniert nun
+	-Sperren von IP-Adressen von Beiträgen her mit Rückmeldung
 
 Written by Chrissyx
 (c) 2010 Tritanium Scripts

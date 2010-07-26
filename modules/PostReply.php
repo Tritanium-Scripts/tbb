@@ -78,6 +78,7 @@ class PostReply implements Module
 	 * @var array Mode and template counterparts
 	 */
 	private static $modeTable = array('reply' => 'PostReply',
+		'save' => 'PostReply',
 		'edit' => 'EditPost',
 		'topic' => 'EditTopic',
 		'editpoll' => 'EditPoll',
@@ -132,7 +133,7 @@ class PostReply implements Module
 		Main::getModule('NavBar')->addElement($this->forum[1], INDEXFILE . '?mode=viewforum&amp;forum_id=' . $this->forum[0] . SID_AMPER);
 		if(Main::getModule('Auth')->isBanned())
 			Main::getModule('Template')->printMessage('banned_from_forum');
-		Main::getModule('NavBar')->addElement($this->topic[1], INDEXFILE . '?mode=viewthread&amp;forum_id=' . $this->forum[0] . '&amp;thread=' . $this->topicID . SID_AMPER);
+		Main::getModule('NavBar')->addElement(Functions::censor($this->topic[1]), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $this->forum[0] . '&amp;thread=' . $this->topicID . SID_AMPER);
 		if($this->topicFile == false)
 			Main::getModule('Template')->printMessage('topic_not_found');
 		elseif($this->topic[0] == 'm')
@@ -140,6 +141,7 @@ class PostReply implements Module
 		//Execute action (and subaction)
 		switch($this->mode)
 		{
+//PostReply
 			case 'reply':
 			case 'save':
 			setcookie('upbwhere', INDEXFILE . '?faction=reply&forum_id=' . $this->forum[0] . '&thread_id=' . $this->topicID); //Redir cookie after login
@@ -156,7 +158,7 @@ class PostReply implements Module
 			if($this->preview)
 				$this->newReply['preview'] = array('title' => &$this->newReply['title'],
 					'tSmileyID' => Functions::getTSmileyURL($this->newReply['tSmileyID']),
-					'post' => Main::getModule('BBCode')->parse(Functions::nl2br($this->newReply['post']), $this->newReply['isXHTML'], $this->newReply['isSmilies'], $this->newReply['isBBCode']),
+					'post' => Main::getModule('BBCode')->parse(Functions::nl2br($this->newReply['post']), $this->newReply['isXHTML'], $this->newReply['isSmilies'], $this->newReply['isBBCode'], $this->topicFile),
 					'signature' => $this->newReply['isSignature'] ? Main::getModule('BBCode')->parse(Main::getModule('Auth')->getUserSig()) : false);
 			//...or final save...
 			elseif(Functions::getValueFromGlobals('mode') == 'save')#todo
@@ -206,19 +208,16 @@ class PostReply implements Module
 			//...or first call and add possible quote with quoted user
 			elseif(!empty($this->postID))
 			{
-				list(,$quoterID,,$this->newReply['post']) = $this->topicFile[$this->postID-1];
-				$posterIDs = array_filter(array_unique(array_map('next', $this->topicFile)), create_function('$id', 'return !Functions::isGuestID($id);'));
-				$this->newReply['post'] = '[quote=' . (!Functions::isGuestID($quoterID) ? current(Functions::getUserData($quoterID)) : Functions::substr($quoterID, 1)) . ']' . Functions::br2nl(in_array($quoterID, $posterIDs) ? $this->newReply['post'] : preg_replace("/\[lock\](.*?)\[\/lock\]/si", '', $this->newReply['post'])) . '[/quote]';
+				if(($quote = $this->getPostData(&$this->postID)) != false)
+					$this->newReply['post'] = '[quote=' . (!Functions::isGuestID($quote[1]) ? current(Functions::getUserData($quote[1])) : Functions::substr($quote[1], 1)) . ']' . Functions::br2nl(in_array(Main::getModule('Auth')->getUserID(), array_filter(array_unique(array_map('next', $this->topicFile)), create_function('$id', 'return !Functions::isGuestID($id);'))) ? $quote[3] : preg_replace("/\[lock\](.*?)\[\/lock\]/si", '', $quote[3])) . '[/quote]';
+				else
+					$this->errors[] = Main::getModule('Language')->getString('quoted_post_was_not_found');
 			}
-	/* Du musst doch echt verrückt sein, wenn du versuchst meinen Code zu verstehen ;) */
-			//Guess I'm a crazy coder^^
 			//Process last x posts
 			$lastReplies = array();
 			foreach($this->topicFile as $curReply)
-			{
 				$lastReplies[] = array('nick' => Functions::getProfileLink($curReply[1], true),
 					'post' => Functions::censor(Main::getModule('BBCode')->parse($curReply[3], $curReply[9] == '1' && $this->forum[7][1] == '1', $curReply[7] == '1' || $curReply[7] == 'yes', ($curReply[8] == '1' || $curReply[8] == 'yes') && $this->forum[7][0] == '1', $this->topicFile)));
-			}
 			Main::getModule('Template')->assign(array('newReply' => $this->newReply,
 				'preview' => $this->preview,
 				'lastReplies' => array_reverse(array_slice($lastReplies, 0, 10)), //Just the last 10 replies
@@ -227,15 +226,39 @@ class PostReply implements Module
 			break;
 
 			case 'viewip':
+			case 'sperren':
 			Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('view_ip_address'), INDEXFILE . '?faction=viewip&amp;forum_id=' . $this->forum[0] . '&amp;topic_id=' . $this->topicID . '&amp;post_id=' . $this->postID . SID_AMPER);
 			if(!Main::getModule('Auth')->isAdmin() && !Functions::checkModOfForum($this->forum))
 				Main::getModule('Template')->printMessage('permission_denied');
-			if(($post = $this->getPostData($this->postID)) == false)
+			if(($post = $this->getPostData(&$this->postID)) == false)
 				Main::getModule('Template')->printMessage('post_not_found');
-			Main::getModule('Template')->assign('ipAddress', $post[4]);
-			break;
+			switch($this->mode)
+			{
+//PostBlockIP
+				case 'sperren':
+				Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('block_ip_address'), INDEXFILE . '?faction=viewip&amp;mode=sperren&amp;forum_id=' . $this->forum[0] . '&amp;topic_id=' . $this->topicID . '&amp;post_id=' . $this->postID . SID_AMPER);
+				if(Functions::checkIPAccess($this->forum[0], $post[4]) !== true)
+					Main::getModule('Template')->printMessage('ip_already_blocked', Functions::getMsgBackLinks($this->forum[0], $this->topicID));
+				if(Functions::getValueFromGlobals('sperren') == 'yes')
+				{
+					$blockPeriod = intval(Functions::getValueFromGlobals('spdauer'));
+					$entireBoard = Functions::getValueFromGlobals('foren') == 'ja';
+					if(($blockPeriod != 60 && $blockPeriod != 120 && $blockPeriod != 300 && $blockPeriod != 1440 && $blockPeriod != -1) || ($entireBoard && !Main::getModule('Auth')->isAdmin()))
+						$this->errors[] = Main::getModule('Language')->getString('only_admins_text');
+					else
+					{
+						list(,,,$lastIPID) = @end(Functions::getBannedIPs());
+						Functions::file_put_contents('vars/ip.var', Functions::implodeByTab(array($post[4], $blockPeriod == '-1' ? $blockPeriod : time()+60*$blockPeriod, $entireBoard ? '-1' : $this->forum[0], $lastIPID+1, '')) . "\n", FILE_APPEND);
+						Main::getModule('Template')->printMessage('ip_blocked_successfully', Functions::getMsgBackLinks($this->forum[0], $this->topicID));
+					}
+				}
 
-			case 'sperren':
+//PostViewIP
+				case 'view':
+				default:
+				Main::getModule('Template')->assign('ipAddress', $post[4]);
+				break;
+			}
 			break;
 		}
 		//Always append IDs to WIO location. WIO will not parse them in inapplicable mode.
@@ -274,4 +297,6 @@ class PostReply implements Module
 		Functions::file_put_contents('foren/' . $this->forum[0] . '-threads.xbb', implode("\n", $topicIDs) . "\n" . $this->topicID . "\n");
 	}
 }
+//Guess I'm a crazy coder^^
+	/* Du musst doch echt verrückt sein, wenn du versuchst meinen Code zu verstehen ;) */
 ?>
