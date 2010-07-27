@@ -699,16 +699,17 @@ class FunctionsBasic
 
 	/**
 	 * Updates topic counter, post counter and last post (incl. timestamp) of stated forum.
+	 * Either update just the counters or everything incl. last post data. That means provide 3 or all parameters!
 	 *
 	 * @param int $forumID Forum ID
 	 * @param int $topicOffset Offset to increase or decrease amount of topics
 	 * @param int $postOffset Offset to increase or decrease amount of posts
-	 * @param int $lastTopicID ID of newest topic in forum
-	 * @param int|string $lastPosterID ID of of last user posted in forum
-	 * @param string $lastDate Proprietary date of last post
-	 * @param int $lastTSmiley Topic smiley ID of last post
+	 * @param int $lastTopicID Optional ID of newest topic in forum
+	 * @param int|string $lastPosterID Optional ID of of last user posted in forum
+	 * @param string $lastDate Optional proprietary date of last post
+	 * @param int $lastTSmileyID Optional topic smiley ID of last post
 	 */
-	public static function updateForumData($forumID, $topicOffset, $postOffset, $lastTopicID, $lastPosterID, $lastDate, $lastTSmiley)
+	public static function updateForumData($forumID, $topicOffset, $postOffset, $lastTopicID=null, $lastPosterID=null, $lastDate=null, $lastTSmileyID=null)
 	{
 		//Make sure forums are loaded
 		if(!isset(self::$cache['forums']))
@@ -719,8 +720,11 @@ class FunctionsBasic
 			{
 				$curForum[3] += $topicOffset;
 				$curForum[4] += $postOffset;
-				$curForum[6] = time();
-				$curForum[9] = implode(',', array($lastTopicID, $lastPosterID, $lastDate, $lastTSmiley));
+				if(func_num_args() > 3)
+				{
+					$curForum[6] = time();
+					$curForum[9] = implode(',', array($lastTopicID, $lastPosterID, $lastDate, $lastTSmileyID));
+				}
 			}
 			$curForum[7] = implode(',', $curForum[7]);
 			$curForum[10] = implode(',', $curForum[10]);

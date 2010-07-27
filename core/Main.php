@@ -56,12 +56,12 @@ class Main implements Module
 	 *
 	 * @var array Translation table
 	 */
-	private static $actionTable = array('reply' => 'PostReply',
+	private static $actionTable = array('reply' => 'Posting',
 		'newtopic' => 'PostNew',
-		'editpoll' => 'PostReply',
-		'vote' => 'PostReply',
+		'editpoll' => 'Posting',
+		'vote' => 'Posting',
 		'newpoll' => 'PostNew',
-		'edit' => 'PostReply',
+		'edit' => 'Posting',
 		'profile' => 'Profile',
 		'login' => 'Login',
 		'logout' => 'Login',
@@ -70,9 +70,9 @@ class Main implements Module
 		'pm' => 'PrivateMessage',
 		'regeln' => 'Help',
 		'search' => 'Search',
-		'topic' => 'PostReply',
+		'topic' => 'Posting',
 		'wio' => 'WhoIsOnline',
-		'viewip' => 'PostReply',
+		'viewip' => 'Posting',
 		'mlist' => 'MemberList',
 		'sendpw' => 'Login',
 		'formmail' => 'Profile',

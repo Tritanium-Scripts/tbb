@@ -7,7 +7,7 @@
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1.5
  */
-class PostReply implements Module
+class Posting implements Module
 {
 	/**
 	 * Detected errors during posting or editing actions.
@@ -31,11 +31,34 @@ class PostReply implements Module
 	private $mode;
 
 	/**
+	 * Translates a mode to its template file.
+	 *
+	 * @var array Mode and template counterparts
+	 */
+	private static $modeTable = array('reply' => 'PostReply',
+		'save' => 'PostReply',
+		'vote' => 'EditPoll',
+		'editpoll' => 'EditPoll',
+		#'update' => 'EditPoll',
+		'viewip' => 'PostViewIP',
+		'sperren' => 'PostBlockIP',
+		'edit' => 'EditPost',
+		'kill' => 'EditPostConfirmDelete',
+		'topic' => 'EditTopic');
+
+	/**
 	 * Data of new reply.
 	 *
 	 * @var array New reply data
 	 */
 	private $newReply;
+
+	/**
+	 * Contains calculated page number of post.
+	 *
+	 * @var int Page number
+	 */
+	private $page;
 
 	/**
 	 * ID of post to edit or view IP.
@@ -68,44 +91,30 @@ class PostReply implements Module
 	/**
 	 * ID of topic to reply to / edit.
 	 *
-	 * @var int Topid ID
+	 * @var int Topic ID
 	 */
 	private $topicID;
-
-	/**
-	 * Translates a mode to its template file.
-	 *
-	 * @var array Mode and template counterparts
-	 */
-	private static $modeTable = array('reply' => 'PostReply',
-		'save' => 'PostReply',
-		'vote' => 'EditPoll',
-		'editpoll' => 'EditPoll',
-		'update' => 'EditPoll',
-		'viewip' => 'PostViewIP',
-		'sperren' => 'PostBlockIP',
-		'edit' => 'EditPost',
-		'topic' => 'EditTopic');
 
 	/**
 	 * Loads various data, sets IDs and mode.
 	 *
 	 * @param string $mode Mode to execute
-	 * @return PostReply New instance of this class
+	 * @return Posting New instance of this class
 	 */
 	function __construct($mode)
 	{
 		$this->mode = $mode;
 		$this->forum = Functions::getForumData($forumID = intval(Functions::getValueFromGlobals('forum_id')));
 		$this->topicID = intval(Functions::getValueFromGlobals('thread_id')) or $this->topicID = intval(Functions::getValueFromGlobals('topic_id'));
-		if(($this->topicFile = Functions::file('foren/' . $forumID . '-' . $this->topicID . '.xbb')) != false)
+		$this->postID = intval(Functions::getValueFromGlobals('post_id')) or $this->postID = intval(Functions::getValueFromGlobals('quote'));
+		if(($this->topicFile = @Functions::file('foren/' . $forumID . '-' . $this->topicID . '.xbb')) != false)
 		{
 			#0:postID - 1:posterID - 2:proprietaryDate - 3:post - 4:ip - 5:isSignature - 6:tSmileyURL - 7:isSmiliesOn - 8:isBBCode - 9:isHTML
 			$this->topicFile = array_map(array('Functions', 'explodeByTab'), $this->topicFile);
 			#0:open/close[/moved] - 1:title - 2:userID - 3:tSmileyID - 4:notifyNewReplies[/movedForumID] - 5:timestamp[/movedTopicID] - 6:views - 7:pollID
 			$this->topic = array_shift($this->topicFile);
+			$this->page = ceil(array_search($this->postID, array_map('current', $this->topicFile)) / Main::getModule('Config')->getCfgVal('posts_per_page'));
 		}
-		$this->postID = intval(Functions::getValueFromGlobals('post_id')) or $this->postID = intval(Functions::getValueFromGlobals('quote'));
 		$this->preview = Functions::getValueFromGlobals('preview') != '';
 		//Get contents for new reply
 		$this->newReply = array('nick' => htmlspecialchars(trim(Functions::getValueFromGlobals('nli_name'))),
@@ -116,7 +125,6 @@ class PostReply implements Module
 			'isSignature' => Functions::getValueFromGlobals('show_signatur') == '1',
 			'isBBCode' => Functions::getValueFromGlobals('use_upbcode') == '1',
 			'isXHTML' => Functions::getValueFromGlobals('use_htmlcode') == '1',
-			'isNotify' => Functions::getValueFromGlobals('sendmail2') == '1',
 			'isAddURLs' => Functions::getValueFromGlobals('isAddURLs') == 'true');
 		//Topic smiley fix
 		if(empty($this->newReply['tSmileyID']))
@@ -134,10 +142,10 @@ class PostReply implements Module
 		Main::getModule('NavBar')->addElement($this->forum[1], INDEXFILE . '?mode=viewforum&amp;forum_id=' . $this->forum[0] . SID_AMPER);
 		if(Main::getModule('Auth')->isBanned())
 			Main::getModule('Template')->printMessage('banned_from_forum');
-		Main::getModule('NavBar')->addElement(Functions::censor($this->topic[1]), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $this->forum[0] . '&amp;thread=' . $this->topicID . SID_AMPER);
 		if($this->topicFile == false)
 			Main::getModule('Template')->printMessage('topic_not_found');
-		elseif($this->topic[0] == 'm')
+		Main::getModule('NavBar')->addElement(Functions::censor($this->topic[1]), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $this->forum[0] . '&amp;thread=' . $this->topicID . SID_AMPER);
+		if($this->topic[0] == 'm')
 			Main::getModule('Template')->printMessage('topic_has_moved', INDEXFILE . '?mode=viewthread&amp;forum_id=' . $this->topic[4] . '&amp;thread=' . $this->topic[5] . SID_AMPER, Functions::getMsgBackLinks($this->forum[0]));
 		//Execute action (and subaction)
 		switch($this->mode)
@@ -149,11 +157,11 @@ class PostReply implements Module
 			//Specific checks and navbar for this mode
 			Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('post_new_reply'), INDEXFILE . '?faction=reply&amp;thread_id=' . $this->topicID . '&amp;forum_id=' . $this->forum[0] . SID_AMPER);
 			if(!Functions::checkUserAccess($this->forum, 2, 8))
-				Main::getModule('Template')->printMessage(Main::getModule('Auth')->isLoggedIn() ? 'forum_no_access' : 'login_only', INDEXFILE . '?faction=register' . SID_AMPER, INDEXFILE . '?faction=login' . SID_AMPER);
+				Main::getModule('Template')->printMessage(Main::getModule('Auth')->isLoggedIn() ? 'permission_denied' : 'login_only', INDEXFILE . '?faction=register' . SID_AMPER, INDEXFILE . '?faction=login' . SID_AMPER);
 			elseif($this->topic[0] != '1' && $this->topic[0] != 'open' && !Main::getModule('Auth')->isAdmin() && !Functions::checkModOfForum($this->forum))
 				Main::getModule('Template')->printMessage('topic_is_closed');
 			//Auto URL check
-			if($this->newReply['isAddURLs'])
+			if($this->newReply['isAddURLs'] && $this->newReply['isBBCode'])
 				$this->newReply['post'] = Functions::addURL($this->newReply['post']);
 			//Preview...
 			if($this->preview)
@@ -162,7 +170,7 @@ class PostReply implements Module
 					'post' => Main::getModule('BBCode')->parse(Functions::nl2br($this->newReply['post']), $this->newReply['isXHTML'], $this->newReply['isSmilies'], $this->newReply['isBBCode'], $this->topicFile),
 					'signature' => $this->newReply['isSignature'] ? Main::getModule('BBCode')->parse(Main::getModule('Auth')->getUserSig()) : false);
 			//...or final save...
-			elseif(Functions::getValueFromGlobals('mode') == 'save')#todo
+			elseif($this->mode == 'save')
 			{
 				if(!Main::getModule('Auth')->isLoggedIn() && empty($this->newReply['nick']) && Main::getModule('Config')->getCfgVal('nli_must_enter_name') == 1)
 					$this->errors[] = Main::getModule('Language')->getString('please_enter_your_user_name');
@@ -226,6 +234,114 @@ class PostReply implements Module
 				'tSmilies' => Functions::getTSmilies()));
 			break;
 
+//EditPost
+			case 'edit':
+			#case 'update':
+			case 'kill':
+			#0:postID - 1:posterID - 2:proprietaryDate - 3:post - 4:ip - 5:isSignature - 6:tSmileyID - 7:isSmilies - 8:isBBCode - 9:isXHTML
+			$post = $this->getPostData($this->postID) or Main::getModule('Template')->printMessage('post_not_found');
+			if(!Main::getModule('Auth')->isLoggedIn() || !Functions::checkUserAccess($this->forum[0], 4))
+				Main::getModule('Template')->printMessage(Main::getModule('Auth')->isLoggedIn() ? 'permission_denied' : 'login_only', INDEXFILE . '?faction=register' . SID_AMPER, INDEXFILE . '?faction=login' . SID_AMPER);
+			elseif(!($isMod = Functions::checkModOfForum($this->forum)) && $post[1] != Main::getModule('Auth')->getUserID() && !Main::getModule('Auth')->isAdmin())
+				Main::getModule('Template')->printMessage('permission_denied');
+			//Delete post?
+			if($this->mode == 'kill')
+			{
+//EditPostConfirmDelete
+				Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('delete_post'), INDEXFILE . '?faction=edit&amp;mode=kill&amp;forum_id=' . $this->forum[0] . '&amp;topic_id=' . $this->topicID . '&amp;post_id=' . $this->postID . SID_AMPER);
+				//Confirmed?
+				if(Functions::getValueFromGlobals('kill') == 'yes')
+				{
+					$size = count($this->topicFile);
+					//Before doing any updates, check if deleted post was the only one left
+					if($size == 1)
+					{
+						//Topic was poll?
+						if($this->topic[7] != '')
+						{
+							unlink('polls/' . $this->topic[7] . '-1.xbb');
+							unlink('polls/' . $this->topic[7] . '-2.xbb');
+						}
+						//Delete topic
+						unlink('foren/' . $this->forum[0] . '-' . $this->topicID . '.xbb');
+						//Update topic ID index
+						$topicIDs = Functions::file('foren/' . $this->forum[0] . '-threads.xbb', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+						if(($key = array_search($this->topicID, $topicIDs)) !== false)
+						{
+							unset($topicIDs[$key]);
+							Functions::file_put_contents('foren/' . $this->forum[0] . '-threads.xbb', implode("\n", $topicIDs) . "\n");
+						}
+						//Update counters and set new last post
+						Functions::updateForumData($this->forum[0], -1, -1);
+						//Done
+						Main::getModule('Logger')->log('%s deleted topic by deleting the last post (' . $this->forum[0] . ',' . $this->topicID . ',' . $this->postID . ')', LOG_EDIT_POSTING);
+						Main::getModule('Template')->printMessage('topic_deleted', Functions::getMsgBackLinks($this->forum[0]));
+					}
+					else
+					{
+						//Look up and delete target post, continue imploding otherwise
+						for($i=0; $i<$size; $i++)
+							if($this->topicFile[$i][0] == $this->postID)
+								unset($this->topicFile[$i]);
+							else
+								$this->topicFile[$i] = Functions::implodeByTab($this->topicFile[$i]);
+						//Update topic and associated counters
+						Functions::file_put_contents('foren/' . $this->forum[0] . '-' . $this->topicID . '.xbb', Functions::implodeByTab($this->topic) . "\n" . implode("\n", $this->topicFile) . "\n");
+						Functions::updateForumData($this->forum[0], 0, -1);
+						//Done
+						Main::getModule('Logger')->log('%s deleted post (' . $this->forum[0] . ',' . $this->topicID . ',' . $this->postID . ')', LOG_EDIT_POSTING);
+						Main::getModule('Template')->printMessage('post_deleted', Functions::getMsgBackLinks($this->forum[0], $this->topicID));
+					}
+				}
+			}
+			//Update post
+			else
+			{
+				Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('edit_post'), INDEXFILE . '?faction=edit&amp;forum_id=' . $this->forum[0] . '&amp;topic_id=' . $this->topicID . '&amp;post_id=' . $this->postID . SID_AMPER);
+				//Update post
+				if(Functions::getValueFromGlobals('update') == 'true')
+				{
+					//Lokk up post to edit
+					foreach($this->topicFile as &$curPost)
+					{
+						if($curPost[0] == $this->postID)
+						{
+							//Reuse (auto-)loaded data in $this->newReply for editing
+							$curPost[3] = Functions::nl2br($this->newReply['isAddURLs'] && $this->newReply['isBBCode'] ? Functions::addURL($this->newReply['post']) : $this->newReply['post']);
+							$curPost[5] = $this->newReply['isSignature'] ? '1' : '0';
+							$curPost[6] = $this->newReply['tSmileyID'];
+							$curPost[7] = $this->newReply['isSmilies'] ? '1' : '0';
+							$curPost[8] = $this->newReply['isBBCode'] ? '1' : '0';
+							$curPost[9] = $this->newReply['isXHTML'] ? '1' : '0';
+						}
+						$curPost = Functions::implodeByTab($curPost);
+					}
+					//Update title of topic?
+					if(($isMod || Main::getModule('Auth')->isAdmin()) && !empty($this->newReply['title']))
+						$this->topic[1] = $this->newReply['title'];
+					//Update post in topic
+					Functions::file_put_contents('foren/' . $this->forum[0] . '-' . $this->topicID . '.xbb', Functions::implodeByTab($this->topic) . "\n" . implode("\n", $this->topicFile) . "\n");
+					//Done
+					Main::getModule('Logger')->log('%s edited post (' . $this->forum[0] . ',' . $this->topicID . ',' . $this->postID . ')', LOG_EDIT_POSTING);
+					Main::getModule('Template')->printMessage('post_edited', Functions::getMsgBackLinks($this->forum[0], $this->topicID, 'back_to_post', $this->postID, $this->page));
+				}
+				//Set data to edit post
+				else
+					//Reuse $this->newReply for editing
+					$this->newReply = array('title' => $isMod || Main::getModule('Auth')->isAdmin() ? $this->topic[1] : '',
+						'post' => Functions::br2nl($post[3]),
+						'isSignature' => $post[5] == '1',
+						'tSmileyID' => $post[6],
+						'isSmilies' => $post[7] == '1',
+						'isBBCode' => $post[8] == '1',
+						'isXHTML' => $post[9] == '1',
+						'isAddURLs' => true);
+				Main::getModule('Template')->assign(array('editPost' => $this->newReply,
+					'smilies' => Main::getModule('BBCode')->getSmilies(),
+					'tSmilies' => Functions::getTSmilies()));
+			}
+			break;
+
 			case 'vote':
 			case 'update':
 			case 'editpoll':
@@ -242,8 +358,8 @@ class PostReply implements Module
 //EditPoll
 				Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('edit_poll'), INDEXFILE . '?faction=editpoll&amp;forum_id=' . $this->forum[0] . '&amp;topic_id=' . $this->topicID . '&amp;poll_id=' . $this->topic[7]);
 				if(!Main::getModule('Auth')->isLoggedIn() || !Functions::checkUserAccess($this->forum[0], 5))
-					Main::getModule('Template')->printMessage(Main::getModule('Auth')->isLoggedIn() ? 'forum_no_access' : 'login_only', INDEXFILE . '?faction=register' . SID_AMPER, INDEXFILE . '?faction=login' . SID_AMPER);
-				elseif($poll[1] != Main::getModule('Auth')->getUserID() && Functions::checkModOfForum($this->forum) && !Main::getModule('Auth')->isAdmin())
+					Main::getModule('Template')->printMessage(Main::getModule('Auth')->isLoggedIn() ? 'permission_denied' : 'login_only', INDEXFILE . '?faction=register' . SID_AMPER, INDEXFILE . '?faction=login' . SID_AMPER);
+				elseif($poll[1] != Main::getModule('Auth')->getUserID() && !Functions::checkModOfForum($this->forum) && !Main::getModule('Auth')->isAdmin())
 					Main::getModule('Template')->printMessage('permission_denied');
 				if($this->mode == 'update')
 				{
@@ -255,6 +371,7 @@ class PostReply implements Module
 						elseif($poll[0] == '4')
 							$poll[0] = 2;
 						Functions::file_put_contents('polls/' . $this->topic[7] . '-1.xbb', Functions::implodeByTab($poll) . "\n" . implode("\n", array_map(array('Functions', 'implodeByTab'), $pollFile)) . "\n");
+						Main::getModule('Logger')->log('%s opened poll (' . $this->forum[0] . ',' . $this->topicID . ')', LOG_EDIT_POSTING);
 						header('Location: ' . INDEXFILE . '?faction=editpoll&poll_id=' . $this->topic[7] . '&forum_id=' . $this->forum[0] . '&topic_id=' . $this->topicID . SID_AMPER_RAW);
 						Main::getModule('Template')->printMessage('poll_edited', '');
 					}
@@ -266,6 +383,7 @@ class PostReply implements Module
 						elseif($poll[0] == '2')
 							$poll[0] = 4;
 						Functions::file_put_contents('polls/' . $this->topic[7] . '-1.xbb', Functions::implodeByTab($poll) . "\n" . implode("\n", array_map(array('Functions', 'implodeByTab'), $pollFile)) . "\n");
+						Main::getModule('Logger')->log('%s closed poll (' . $this->forum[0] . ',' . $this->topicID . ')', LOG_EDIT_POSTING);
 						header('Location: ' . INDEXFILE . '?faction=editpoll&poll_id=' . $this->topic[7] . '&forum_id=' . $this->forum[0] . '&topic_id=' . $this->topicID . SID_AMPER_RAW);
 						Main::getModule('Template')->printMessage('poll_edited', '');
 					}
@@ -282,6 +400,7 @@ class PostReply implements Module
 							$curPollOption = Functions::implodeByTab($curPollOption);
 						}
 						Functions::file_put_contents('polls/' . $this->topic[7] . '-1.xbb', Functions::implodeByTab($poll) . "\n" . implode("\n", $pollFile) . "\n");
+						Main::getModule('Logger')->log('%s edited poll (' . $this->forum[0] . ',' . $this->topicID . ')', LOG_EDIT_POSTING);
 						Main::getModule('Template')->printMessage('poll_edited', Functions::getMsgBackLinks($this->forum[0], $this->topicID));
 					}
 				}
@@ -296,11 +415,11 @@ class PostReply implements Module
 				$voteID = intval(Functions::getValueFromGlobals('vote_id'));
 				Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('vote'), INDEXFILE . '?faction=vote&amp;forum_id=' . $this->forum[0] . '&amp;topic_id=' . $this->topicID . '&amp;poll_id=' . $this->topic[7] . '&amp;vote_id=' . $voteID);
 				if(!Functions::checkUserAccess($this->forum[0], 0))
-					Main::getModule('Template')->printMessage(Main::getModule('Auth')->isLoggedIn() ? 'forum_no_access' : 'login_only', INDEXFILE . '?faction=register' . SID_AMPER, INDEXFILE . '?faction=login' . SID_AMPER);
+					Main::getModule('Template')->printMessage(Main::getModule('Auth')->isLoggedIn() ? 'permission_denied' : 'login_only', INDEXFILE . '?faction=register' . SID_AMPER, INDEXFILE . '?faction=login' . SID_AMPER);
 				//Check for vote permission
 				elseif($poll[0] > '2')
 					Main::getModule('Template')->printMessage('poll_is_closed');
-				elseif(!Main::getModule('Auth')->isLoggedIn() && $poll[0] != 1)
+				elseif(!Main::getModule('Auth')->isLoggedIn() && $poll[0] != '1')
 					Main::getModule('Template')->printMessage('poll_need_login');
 				elseif((Main::getModule('Auth')->isLoggedIn() && in_array(Main::getModule('Auth')->getUserID(), $pollVoters)) || isset($_SESSION['session_poll_' . $this->topic[7]]) || isset($_COOKIE['cookie_poll_' . $this->topic[7]]))
 					Main::getModule('Template')->printMessage('already_voted');
@@ -368,7 +487,7 @@ class PostReply implements Module
 				'isXHTML' => $this->forum[7][1] == '1'),
 			'errors' => $this->errors),
 			//Always append IDs + page to WIO location. WIO will not parse them in inapplicable mode.
-			null , ',' . $this->forum[0] . ',' . $this->topicID . ',' . $this->postID . ',' . ceil(array_search($this->postID, array_map('current', $this->topicFile)) / Main::getModule('Config')->getCfgVal('posts_per_page')));
+			null , ',' . $this->forum[0] . ',' . $this->topicID . ',' . $this->postID . ',' . $this->page);
 	}
 
 	/**

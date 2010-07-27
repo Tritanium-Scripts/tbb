@@ -90,7 +90,7 @@ class PostNew implements Module
 		if(Main::getModule('Auth')->isBanned())
 			Main::getModule('Template')->printMessage('banned_from_forum');
 		//Applicable for both modes
-		if($this->newPost['isAddURLs'])
+		if($this->newPost['isAddURLs'] && $this->newPost['isBBCode'])
 			$this->newPost['post'] = Functions::addURL($this->newPost['post']);
 		//Execute mode
 		switch($this->mode)
