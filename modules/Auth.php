@@ -21,7 +21,7 @@
  *  <li>Posts</li>
  *  <li>Reg date (year+month)</li>
  *  <li>Signature</li>
- *  <li>Forum access permissions</li>
+ *  <li>Forum access permissions [obsolete]</li>
  *  <li>Homepage</li>
  *  <li>Avatar</li>
  *  <li>Forum updated state</li>
@@ -216,16 +216,6 @@ class Auth
 		return $this->loggedIn;
 	}
 
-	/**
-	 * Returns user has moderator rank.
-	 *
-	 * @return bool Moderator rank
-	 *
-	public function isMod()
-	{
-		return $this->userData[4] <= '2';
-	}
-*/
 	/**
 	 * Returns user has super moderator permissions.
 	 *

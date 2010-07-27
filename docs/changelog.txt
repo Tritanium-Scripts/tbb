@@ -79,8 +79,10 @@ Last changed: 2010 (Version 1.5 Alpha)
 	-Sperren von IP-Adressen für das gesamte Forum von Beiträgen aus funktioniert nun
 	-Sperren von IP-Adressen von Beiträgen aus mit Rückmeldung
 	-Kein "Mehr Smileys"-Fenster mehr notwendig
-	-Thementitel können nun auch mit Beitrag bearbeiten geändert werden
-	-Beitragsgrafik kann nun auch mit Beitrag bearbeiten geändert werden
+	-Thementitel und Beitragsgrafik können nun auch mit Beitrag bearbeiten geändert werden
+	-Verschieben von Themen mit optionalen Verweis im alten Forum zur Position im neuen Forum
+	-Letzter Beitrag eine verschobenen Themas kann als neuster Beitrag des Zielforum eingestellt werden
+	-Links zu Beiträgen von verschobenen Themen in der Anzeige der letzten Beiträge werden auch aktualisiert
 
 Written by Chrissyx
 (c) 2010 Tritanium Scripts

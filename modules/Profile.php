@@ -75,8 +75,8 @@ class Profile implements Module
 					if(Functions::getValueFromGlobals('confirm') == '1')
 					{
 						//Time to say goodbye
-						unlink('members/' . $this->userData[1] . '.xbb');
-						unlink('members/' . $this->userData[1] . '.pm');
+						Functions::unlink('members/' . $this->userData[1] . '.xbb');
+						Functions::unlink('members/' . $this->userData[1] . '.pm');
 						Functions::file_put_contents('vars/member_counter.var', Functions::file_get_contents('vars/member_counter.var')-1);
 						//In case not an admin has deleted the user from "his own profile" (approx 99,9% of all cases, lol)
 						if($this->userData[1] == Main::getModule('Auth')->getUserID())

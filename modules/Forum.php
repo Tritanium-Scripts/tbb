@@ -185,9 +185,12 @@ class Forum implements Module
 			$forum = Functions::getForumData($this->forumID) or Main::getModule('Template')->printMessage('forum_not_found');
 			if(!Functions::checkUserAccess($forum, 0))
 				Main::getModule('Template')->printMessage('forum_' . (Main::getModule('Auth')->isLoggedIn() ? 'no_access' : 'need_login'));
+			Main::getModule('NavBar')->addElement($forum[1], INDEXFILE . '?mode=viewforum&amp;forum_id=' . $this->forumID . SID_AMPER);
 			$topicFile = @Functions::file('foren/' . $this->forumID . '-' . $this->topicID . '.xbb') or Main::getModule('Template')->printMessage('topic_not_found');
 			#0:open/close[/moved] - 1:title - 2:userID - 3:tSmileyID - 4:notifyNewReplies[/movedForumID] - 5:timestamp[/movedTopicID] - 6:views - 7:pollID - ...
 			$topic = Functions::explodeByTab(array_shift($topicFile));
+			if($topic[0] == 'm')
+				Main::getModule('Template')->printMessage('topic_has_moved', INDEXFILE . '?mode=viewthread&amp;forum_id=' . $topic[4] . '&amp;thread=' . $topic[5] . SID_AMPER, Functions::getMsgBackLinks($this->forumID));
 			//Manage topic views
 			if(!isset($_SESSION['session.tview.' . $this->forumID . '.' . $this->topicID]))
 			{
@@ -205,9 +208,7 @@ class Forum implements Module
 			for($i=1; $i<=$pages; $i++)
 				$pageBar[] = $i != $this->page ? '<a href="' . INDEXFILE . '?mode=viewthread&amp;forum_id=' . $this->forumID . '&amp;thread=' . $this->topicID . '&amp;z=' . $i . SID_AMPER . '">' . $i . '</a>' : $i;
 			//Only add bar by having more than one page
-			Main::getModule('NavBar')->addElement(array(
-				array($forum[1], INDEXFILE . '?mode=viewforum&amp;forum_id=' . $this->forumID . SID_AMPER),
-				array($topic[1], '', ($pageBar = count($pageBar) < 2 ? '' : ' ' . sprintf(Main::getModule('Language')->getString('pages'), implode(' ', $pageBar))))));
+			Main::getModule('NavBar')->addElement($topic[1], '', ($pageBar = count($pageBar) < 2 ? '' : ' ' . sprintf(Main::getModule('Language')->getString('pages'), implode(' ', $pageBar))));
 			//Process possible poll
 			$isPoll = false;
 			$isMod = Functions::checkModOfForum($forum);
@@ -377,7 +378,7 @@ class Forum implements Module
 					$curNewestPost = Functions::explodeByComma($curNewestPost . ',1'); //Make sure index 4 is available
 					$newestPosts[] = sprintf(Main::getModule('Language')->getString('x_by_x_on_x'),
 						//Topic check + link + title preparation
-						!Functions::file_exists('foren/' . $curNewestPost[0] . '-' . $curNewestPost[1] . '.xbb') ? Main::getModule('Language')->getString('deleted_moved') : '<img src="' . Functions::getTSmileyURL($curNewestPost[4]) . '" alt="" /> <a href="' . INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curNewestPost[0] . '&amp;thread=' . $curNewestPost[1] . SID_AMPER . '">' . (Functions::shorten(Functions::censor(Functions::getTopicName($curNewestPost[0], $curNewestPost[1])), 53)) . '</a>',
+						!Functions::file_exists('foren/' . $curNewestPost[0] . '-' . $curNewestPost[1] . '.xbb') ? Main::getModule('Language')->getString('deleted_moved') : '<img src="' . Functions::getTSmileyURL($curNewestPost[4]) . '" alt="" /> <a href="' . INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curNewestPost[0] . '&amp;thread=' . $curNewestPost[1] . SID_AMPER . '&amp;z=last">' . (Functions::shorten(Functions::censor(Functions::getTopicName($curNewestPost[0], $curNewestPost[1])), 53)) . '</a>',
 						Functions::getProfileLink($curNewestPost[2], true),
 						Functions::formatDate($curNewestPost[3]));
 				}

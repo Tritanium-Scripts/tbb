@@ -35,16 +35,26 @@ class Posting implements Module
 	 *
 	 * @var array Mode and template counterparts
 	 */
-	private static $modeTable = array('reply' => 'PostReply',
+	private static $modeTable = array(
+		//Reply actions
+		'reply' => 'PostReply',
 		'save' => 'PostReply',
-		'vote' => 'EditPoll',
-		'editpoll' => 'EditPoll',
-		#'update' => 'EditPoll',
+		//IP actions
 		'viewip' => 'PostViewIP',
 		'sperren' => 'PostBlockIP',
+		//Post actions
 		'edit' => 'EditPost',
 		'kill' => 'EditPostConfirmDelete',
-		'topic' => 'EditTopic');
+		//Topic actions
+		'killTopic' => 'EditTopicDelete',
+		'close' => 'EditTopicClose',
+		'open' => 'EditTopicOpen',
+		'move' => 'EditTopicMove',
+		#'pin' => 'EditTopicPin',
+		#'unpin' => 'EditTopicUnpin',
+		//Poll actions
+		'vote' => 'EditPoll',
+		'editpoll' => 'EditPoll');
 
 	/**
 	 * Data of new reply.
@@ -109,7 +119,7 @@ class Posting implements Module
 		$this->postID = intval(Functions::getValueFromGlobals('post_id')) or $this->postID = intval(Functions::getValueFromGlobals('quote'));
 		if(($this->topicFile = @Functions::file('foren/' . $forumID . '-' . $this->topicID . '.xbb')) != false)
 		{
-			#0:postID - 1:posterID - 2:proprietaryDate - 3:post - 4:ip - 5:isSignature - 6:tSmileyURL - 7:isSmiliesOn - 8:isBBCode - 9:isHTML
+			#0:postID - 1:posterID - 2:proprietaryDate - 3:post - 4:ip - 5:isSignature - 6:tSmileyID - 7:isSmiliesOn - 8:isBBCode - 9:isHTML
 			$this->topicFile = array_map(array('Functions', 'explodeByTab'), $this->topicFile);
 			#0:open/close[/moved] - 1:title - 2:userID - 3:tSmileyID - 4:notifyNewReplies[/movedForumID] - 5:timestamp[/movedTopicID] - 6:views - 7:pollID
 			$this->topic = array_shift($this->topicFile);
@@ -142,11 +152,11 @@ class Posting implements Module
 		Main::getModule('NavBar')->addElement($this->forum[1], INDEXFILE . '?mode=viewforum&amp;forum_id=' . $this->forum[0] . SID_AMPER);
 		if(Main::getModule('Auth')->isBanned())
 			Main::getModule('Template')->printMessage('banned_from_forum');
-		if($this->topicFile == false)
-			Main::getModule('Template')->printMessage('topic_not_found');
 		Main::getModule('NavBar')->addElement(Functions::censor($this->topic[1]), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $this->forum[0] . '&amp;thread=' . $this->topicID . SID_AMPER);
 		if($this->topic[0] == 'm')
 			Main::getModule('Template')->printMessage('topic_has_moved', INDEXFILE . '?mode=viewthread&amp;forum_id=' . $this->topic[4] . '&amp;thread=' . $this->topic[5] . SID_AMPER, Functions::getMsgBackLinks($this->forum[0]));
+		elseif($this->topicFile == false)
+			Main::getModule('Template')->printMessage('topic_not_found');
 		//Execute action (and subaction)
 		switch($this->mode)
 		{
@@ -236,7 +246,6 @@ class Posting implements Module
 
 //EditPost
 			case 'edit':
-			#case 'update':
 			case 'kill':
 			#0:postID - 1:posterID - 2:proprietaryDate - 3:post - 4:ip - 5:isSignature - 6:tSmileyID - 7:isSmilies - 8:isBBCode - 9:isXHTML
 			$post = $this->getPostData($this->postID) or Main::getModule('Template')->printMessage('post_not_found');
@@ -259,11 +268,11 @@ class Posting implements Module
 						//Topic was poll?
 						if($this->topic[7] != '')
 						{
-							unlink('polls/' . $this->topic[7] . '-1.xbb');
-							unlink('polls/' . $this->topic[7] . '-2.xbb');
+							Functions::unlink('polls/' . $this->topic[7] . '-1.xbb');
+							Functions::unlink('polls/' . $this->topic[7] . '-2.xbb');
 						}
 						//Delete topic
-						unlink('foren/' . $this->forum[0] . '-' . $this->topicID . '.xbb');
+						Functions::unlink('foren/' . $this->forum[0] . '-' . $this->topicID . '.xbb');
 						//Update topic ID index
 						$topicIDs = Functions::file('foren/' . $this->forum[0] . '-threads.xbb', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 						if(($key = array_search($this->topicID, $topicIDs)) !== false)
@@ -340,6 +349,150 @@ class Posting implements Module
 					'smilies' => Main::getModule('BBCode')->getSmilies(),
 					'tSmilies' => Functions::getTSmilies()));
 			}
+			break;
+
+//EditTopic
+			case 'topic':
+			case 'killTopic':
+			case 'close':
+			case 'open':
+			case 'move':
+			case 'pin':
+			case 'unpin':
+			if(!Main::getModule('Auth')->isLoggedIn() || (!Functions::checkModOfForum($this->forum) && !Main::getModule('Auth')->isAdmin()))
+				Main::getModule('Template')->printMessage('permission_denied');
+			switch($this->mode)
+			{
+//EditTopicDelete
+				case 'killTopic':
+				Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('delete_topic'), INDEXFILE . '?faction=topic&amp;mode=kill&amp;forum_id=' . $this->forum[0] . '&amp;topic_id=' . $this->topicID . SID_AMPER);
+				//Confirmed?
+				if(Functions::getValueFromGlobals('kill') == 'yes')
+				{
+					//Topic was poll?
+					if($this->topic[7] != '')
+					{
+						Functions::unlink('polls/' . $this->topic[7] . '-1.xbb');
+						Functions::unlink('polls/' . $this->topic[7] . '-2.xbb');
+					}
+					//Before deleting, get the amount of posts to subtract from stats
+					$size = count($this->topicFile);
+					//Delete topic
+					Functions::unlink('foren/' . $this->forum[0] . '-' . $this->topicID . '.xbb');
+					//Update topic ID index
+					$topicIDs = Functions::file('foren/' . $this->forum[0] . '-threads.xbb', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+					if(($key = array_search($this->topicID, $topicIDs)) !== false)
+					{
+						unset($topicIDs[$key]);
+						Functions::file_put_contents('foren/' . $this->forum[0] . '-threads.xbb', implode("\n", $topicIDs) . "\n");
+					}
+					//Update counters
+					Functions::updateForumData($this->forum[0], -1, -$size);
+					//Done
+					Main::getModule('Logger')->log('%s deleted topic (' . $this->forum[0] . ',' . $this->topicID . ')', LOG_EDIT_POSTING);
+					Main::getModule('Template')->printMessage('topic_deleted', Functions::getMsgBackLinks($this->forum[0]));
+				}
+				break;
+
+//EditTopicClose
+				case 'close':
+				Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('close_topic'), INDEXFILE . '?faction=topic&amp;mode=close&amp;forum_id=' . $this->forum[0] . '&amp;topic_id=' . $this->topicID . SID_AMPER);
+				if(Functions::getValueFromGlobals('close') == 'yes')
+				{
+					$this->topic[0] = 2;
+					Functions::file_put_contents('foren/' . $this->forum[0] . '-' . $this->topicID . '.xbb', Functions::implodeByTab($this->topic) . "\n" . implode("\n", array_map(array('Functions', 'implodeByTab'), $this->topicFile)));
+					Main::getModule('Logger')->log('%s closed topic (' . $this->forum[0] . ',' . $this->topicID . ')', LOG_EDIT_POSTING);
+					Main::getModule('Template')->printMessage('topic_closed', Functions::getMsgBackLinks($this->forum[0], $this->topicID));
+				}
+				break;
+
+//EditTopicOpen
+				case 'open':
+				Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('open_topic'), INDEXFILE . '?faction=topic&amp;mode=open&amp;forum_id=' . $this->forum[0] . '&amp;topic_id=' . $this->topicID . SID_AMPER);
+				if(Functions::getValueFromGlobals('open') == 'yes')
+				{
+					$this->topic[0] = 1;
+					Functions::file_put_contents('foren/' . $this->forum[0] . '-' . $this->topicID . '.xbb', Functions::implodeByTab($this->topic) . "\n" . implode("\n", array_map(array('Functions', 'implodeByTab'), $this->topicFile)));
+					Main::getModule('Logger')->log('%s opened topic (' . $this->forum[0] . ',' . $this->topicID . ')', LOG_EDIT_POSTING);
+					Main::getModule('Template')->printMessage('topic_opened', Functions::getMsgBackLinks($this->forum[0], $this->topicID));
+				}
+				break;
+
+//EditTopicMove
+				case 'move':
+				Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('move_topic'), INDEXFILE . '?faction=topic&amp;mode=move&amp;forum_id=' . $this->forum[0] . '&amp;topic_id=' . $this->topicID . SID_AMPER);
+				$isLinked = $isNewest = true;
+				if(Functions::getValueFromGlobals('move') == 'yes')
+				{
+					$targetForumID = intval(Functions::getValueFromGlobals('target_forum'));
+					$isLinked = Functions::getValueFromGlobals('isLinked') == 'true';
+					$isNewest = Functions::getValueFromGlobals('isNewest') == 'true';
+					if($targetForumID == 0)
+						$this->errors[] = Main::getModule('Language')->getString('please_select_a_forum');
+					elseif(!Functions::file_exists('foren/' . $targetForumID . '-threads.xbb'))
+						$this->errors[] = Main::getModule('Language')->getString('text_forum_not_found', 'Messages');
+					elseif(!Functions::checkUserAccess($targetForumID, 0))
+						$this->errors[] = Main::getModule('Language')->getString('text_permission_denied', 'Messages');
+					if(empty($this->errors))
+					{
+						if(!$isLinked)
+						{
+							//Remove topic from ID list of old forum
+							$topicIDs = Functions::file('foren/' . $this->forum[0] . '-threads.xbb', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+							if(($key = array_search($this->topicID, $topicIDs)) !== false)
+							{
+								unset($topicIDs[$key]);
+								Functions::file_put_contents('foren/' . $this->forum[0] . '-threads.xbb', implode("\n", $topicIDs) . "\n");
+							}
+						}
+						//Get new ID for moved topic
+						$newTopicID = Functions::file_get_contents('foren/' . $targetForumID . '-ltopic.xbb')+1;
+						//Append it to ID list of new forum
+						Functions::file_put_contents('foren/' . $targetForumID . '-threads.xbb', $newTopicID . "\n", FILE_APPEND);
+						//Now move the topic
+						rename(DATAPATH . 'foren/' . $this->forum[0] . '-' . $this->topicID . '.xbb', DATAPATH . 'foren/' . $targetForumID . '-' . $newTopicID . '.xbb');
+						//Announce moved topic as newest in target forum
+						Functions::file_put_contents('foren/' . $targetForumID . '-ltopic.xbb', $newTopicID);
+						//Update counters in old and new forum
+						$size = count($this->topicFile);
+						Functions::updateForumData($this->forum[0], -1, -$size);
+						if($isNewest)
+						{
+							$lastPost = end($this->topicFile);
+							Functions::updateForumData($targetForumID, 1, $size, $newTopicID, $lastPost[1], $lastPost[2], $this->topic[3]);
+						}
+						else
+							Functions::updateForumData($targetForumID, 1, $size);
+						//Generate permanent link?
+						if($isLinked)
+							Functions::file_put_contents('foren/' . $this->forum[0] . '-' . $this->topicID . '.xbb', 'm' . "\t" . $this->topic[1] . "\t" . $this->topic[2] . "\t" . $this->topic[3] . "\t" . $targetForumID . "\t" . $newTopicID . "\n");
+						//Update link(s) in last posts (if topic is listed in there) with some l33t h4x regex magic :)
+						Functions::file_put_contents('vars/lposts.var', preg_replace('/' . $this->forum[0] . ',' . $this->topicID . ',(.*?),(\d+),(\d+)/si', $targetForumID . ',' . $newTopicID . ',\1,\2,\3', Functions::file_get_contents('vars/lposts.var')));
+						//Done
+						Main::getModule('Logger')->log('%s moved topic from (' . $this->forum[0] . ',' . $this->topicID . ') to (' . $targetForumID . ',' . $newTopicID . ')', LOG_EDIT_POSTING);
+						Main::getModule('Template')->printMessage('topic_moved', Functions::getMsgBackLinks($targetForumID, $newTopicID, 'to_moved_topic'));
+					}
+				}
+				//Build forum list to choose from
+				$forums = array();
+				foreach(array_map(array('Functions', 'explodeByTab'), Functions::file('vars/foren.var')) as $curForum)
+					if(Functions::checkUserAccess($curForum, 0) && $curForum[0] != $this->forum[0])
+						$forums[] = array('forumID' => $curForum[0],
+							'forumName' => $curForum[1],
+							'catID' => $curForum[5]);
+				Main::getModule('Template')->assign(array('cats' => array_map(array('Functions', 'explodeByTab'), Functions::file('vars/kg.var')),
+					'forums' => $forums,
+					'isLinked' => $isLinked,
+					'isNewest' => $isNewest));
+				break;
+
+				case 'pin':
+				break;
+
+				case 'unpin':
+				break;
+			}
+			Main::getModule('Template')->assign('title', $this->topic[1]);
 			break;
 
 			case 'vote':

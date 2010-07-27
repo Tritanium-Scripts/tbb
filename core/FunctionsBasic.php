@@ -698,6 +698,14 @@ class FunctionsBasic
 	}
 
 	/**
+	 * Extending PHP's {@link unlink()} with global data path.
+	 */
+	public static function unlink($filename)
+	{
+		return unlink(DATAPATH . $filename);
+	}
+
+	/**
 	 * Updates topic counter, post counter and last post (incl. timestamp) of stated forum.
 	 * Either update just the counters or everything incl. last post data. That means provide 3 or all parameters!
 	 *

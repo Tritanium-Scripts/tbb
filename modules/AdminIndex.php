@@ -21,6 +21,7 @@ class AdminIndex implements Module
 			Main::getModule('Template')->printMessage('permission_denied');
 		}
 		//Nothing much do here on the PHP side of life...
+		Main::getModule('Logger')->log('%s entered administration', LOG_ACP_ACTION);
 		Main::getModule('Config')->setCfgVal('twidth', '100%');
 		Main::getModule('Template')->printPage('AdminIndex');
 	}

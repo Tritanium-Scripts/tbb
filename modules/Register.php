@@ -202,7 +202,7 @@ class Register implements Module
 						Functions::file_put_contents('vars/last_user_id.var', $newUserID);
 						Functions::file_put_contents('vars/member_counter.var', ++$this->memberCounter);
 						//Delete old temporarily data
-						unlink($curPreMember);
+						Functions::unlink($curPreMember);
 						//Send default reg mail (and random pass, if needed)
 						Functions::sendMessage($newMemberFile[3], 'new_registration', $newMemberFile[0], Main::getModule('Config')->getCfgVal('forum_name'), $newMemberFile[1], $newMemberFile[3], $this->createRegPass ? $newPass : Main::getModule('Language')->getString('already_set_by_yourself'), Main::getModule('Config')->getCfgVal('address_to_forum') . '/' . INDEXFILE);
 						Main::getModule('Logger')->log('New registration verified: ' . $newMemberFile[0] . ' (ID: ' . $newMemberFile[1] . ')', LOG_REGISTRATION);
