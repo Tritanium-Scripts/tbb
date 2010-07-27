@@ -306,8 +306,9 @@ class Forum implements Module
 				'isPoll' => $isPoll,
 				'forumID' => $this->forumID,
 				'topicID' => $this->topicID,
-				'canModify' => Main::getModule('Auth')->isAdmin() || $isMod,
+				'canModify' => ($canModify = Main::getModule('Auth')->isAdmin() || $isMod),
 				'isOpen' => $topic[0] == '1' || $topic[0] == 'open',
+				'isSticky' => $canModify && ($stickyFile = @Functions::file('foren/' . $this->forumID . '-sticker.xbb', FILE_SKIP_EMPTY_LINES)) != false && in_array($this->topicID, $stickyFile),
 				'posts' => $posts)); //Prepared posts with users
 			break;
 

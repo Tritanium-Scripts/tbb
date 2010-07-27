@@ -50,8 +50,6 @@ class Posting implements Module
 		'close' => 'EditTopicClose',
 		'open' => 'EditTopicOpen',
 		'move' => 'EditTopicMove',
-		#'pin' => 'EditTopicPin',
-		#'unpin' => 'EditTopicUnpin',
 		//Poll actions
 		'vote' => 'EditPoll',
 		'editpoll' => 'EditPoll');
@@ -265,6 +263,12 @@ class Posting implements Module
 					//Before doing any updates, check if deleted post was the only one left
 					if($size == 1)
 					{
+						//Topic was pinned?
+						if(($stickyFile = @Functions::file('foren/' . $this->forum[0] . '-sticker.xbb', FILE_SKIP_EMPTY_LINES)) != false && ($key = array_search($this->topicID, $stickyFile)) !== false)
+						{
+							unset($stickyFile[$key]);
+							Functions::file_put_contents('foren/' . $this->forum[0] . '-sticker.xbb', implode("\n", $stickyFile));
+						}
 						//Topic was poll?
 						if($this->topic[7] != '')
 						{
@@ -375,6 +379,12 @@ class Posting implements Module
 						Functions::unlink('polls/' . $this->topic[7] . '-1.xbb');
 						Functions::unlink('polls/' . $this->topic[7] . '-2.xbb');
 					}
+					//Topic was pinned?
+					if(($stickyFile = @Functions::file('foren/' . $this->forum[0] . '-sticker.xbb', FILE_SKIP_EMPTY_LINES)) != false && ($key = array_search($this->topicID, $stickyFile)) !== false)
+					{
+						unset($stickyFile[$key]);
+						Functions::file_put_contents('foren/' . $this->forum[0] . '-sticker.xbb', implode("\n", $stickyFile));
+					}
 					//Before deleting, get the amount of posts to subtract from stats
 					$size = count($this->topicFile);
 					//Delete topic
@@ -435,6 +445,14 @@ class Posting implements Module
 						$this->errors[] = Main::getModule('Language')->getString('text_permission_denied', 'Messages');
 					if(empty($this->errors))
 					{
+						$isPinned = false;
+						//Topic was pinned?
+						if(($stickyFile = @Functions::file('foren/' . $this->forum[0] . '-sticker.xbb', FILE_SKIP_EMPTY_LINES)) != false && ($key = array_search($this->topicID, $stickyFile)) !== false)
+						{
+							unset($stickyFile[$key]);
+							Functions::file_put_contents('foren/' . $this->forum[0] . '-sticker.xbb', implode("\n", $stickyFile));
+							$isPinned = true;
+						}
 						if(!$isLinked)
 						{
 							//Remove topic from ID list of old forum
@@ -463,6 +481,13 @@ class Posting implements Module
 						}
 						else
 							Functions::updateForumData($targetForumID, 1, $size);
+						//Topic was pinned?
+						if($isPinned)
+						{
+							$stickyFile = @Functions::file('foren/' . $targetForumID . '-sticker.xbb', FILE_SKIP_EMPTY_LINES) or $stickyFile = array();
+							$stickyFile[] = $newTopicID;
+							Functions::file_put_contents('foren/' . $targetForumID . '-sticker.xbb', implode("\n", $stickyFile));
+						}
 						//Generate permanent link?
 						if($isLinked)
 							Functions::file_put_contents('foren/' . $this->forum[0] . '-' . $this->topicID . '.xbb', 'm' . "\t" . $this->topic[1] . "\t" . $this->topic[2] . "\t" . $this->topic[3] . "\t" . $targetForumID . "\t" . $newTopicID . "\n");
@@ -486,10 +511,32 @@ class Posting implements Module
 					'isNewest' => $isNewest));
 				break;
 
+//EditTopicPin
 				case 'pin':
+				$stickyFile = @Functions::file('foren/' . $this->forum[0] . '-sticker.xbb', FILE_SKIP_EMPTY_LINES) or $stickyFile = array();
+				if(!in_array($this->topicID, $stickyFile))
+				{
+					$stickyFile[] = $this->topicID;
+					Functions::file_put_contents('foren/' . $this->forum[0] . '-sticker.xbb', implode("\n", $stickyFile));
+					Main::getModule('Logger')->log('%s pinned topic (' . $this->forum[0] . ',' . $this->topicID . ')', LOG_EDIT_POSTING);
+					Main::getModule('Template')->printMessage('topic_pinned', Functions::getMsgBackLinks($this->forum[0], $this->topicID));
+				}
+				else
+					Main::getModule('Template')->printMessage('topic_already_pinned');
 				break;
 
+//EditTopicUnpin
 				case 'unpin':
+				$stickyFile = @Functions::file('foren/' . $this->forum[0] . '-sticker.xbb', FILE_SKIP_EMPTY_LINES) or $stickyFile = array();
+				if(($key = array_search($this->topicID, $stickyFile)) !== false)
+				{
+					unset($stickyFile[$key]);
+					Functions::file_put_contents('foren/' . $this->forum[0] . '-sticker.xbb', implode("\n", $stickyFile));
+					Main::getModule('Logger')->log('%s unpinned topic (' . $this->forum[0] . ',' . $this->topicID . ')', LOG_EDIT_POSTING);
+					Main::getModule('Template')->printMessage('topic_unpinned', Functions::getMsgBackLinks($this->forum[0], $this->topicID));
+				}
+				else
+					Main::getModule('Template')->printMessage('topic_already_unpinned');
 				break;
 			}
 			Main::getModule('Template')->assign('title', $this->topic[1]);

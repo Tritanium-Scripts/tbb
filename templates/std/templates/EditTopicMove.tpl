@@ -8,7 +8,7 @@
    <span class="norm">{$title|string_format:$modules.Language->getString('where_move_topic_x')}</span><br />
    <select name="target_forum" size="1">{foreach $cats as $curCat}
     <option value="" style="background-color:#333333; color:#FFFFFF;">--{$curCat[1]}</option>
-{foreach $forums as $curForum}{if $curForum.catID == $curCat[0]} <option value="{$curForum.forumID}">{$curForum.forumName}</option>{/if}{/foreach}
+    {foreach $forums as $curForum}{if $curForum.catID == $curCat[0]}<option value="{$curForum.forumID}">{$curForum.forumName}</option>{/if}{/foreach}
     <option value=""></option>{/foreach}
    </select><br />
    <input type="checkbox" id="isLinked" name="isLinked" value="true" style="vertical-align:middle;"{if $isLinked} checked="checked"{/if} /> <label for="isLinked" class="norm">{$modules.Language->getString('link_to_moved_topic')}</label><br />
