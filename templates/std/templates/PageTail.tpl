@@ -1,3 +1,4 @@
+
   <!-- Footer -->
   <br />
   {if $modules.Auth->isLoggedIn()}

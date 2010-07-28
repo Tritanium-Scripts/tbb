@@ -83,6 +83,10 @@ Last changed: 2010 (Version 1.5 Alpha)
 	-Verschieben von Themen mit optionalen Verweis im alten Forum zur Position im neuen Forum
 	-Letzter Beitrag eine verschobenen Themas kann als neuster Beitrag des Zielforum eingestellt werden
 	-Links zu Beiträgen von verschobenen Themen in der Anzeige der letzten Beiträge werden auch aktualisiert
+	-Suche mit neuem Algorithmus und Beachtung der maximalen Ausführungszeit des Skripts, so dass auch größere Foren ohne Timeout durchsucht werden können
+	-Suche mit neuen Optionen UND, ODER, exakte Eingabe und Benutzer
+	-Bereits fertige Suchergebnisse werden zwischen gespeichert
+	-Suchergebnisse mit mehr Details und Beitragsansicht
 
 Written by Chrissyx
 (c) 2010 Tritanium Scripts

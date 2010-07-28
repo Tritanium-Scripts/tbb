@@ -32,7 +32,7 @@
 </table>
 
 {if $modules.Config->getCfgVal('wio') == 1}
-{assign var="wioUser" value=$modules.WhoIsOnline->getUserWIO()}
+{$wioUser=$modules.WhoIsOnline->getUserWIO()}
 {* 0:guests - 1:ghosts - 2:memberProfiles *}
 <br />
 <!-- WIO -->
@@ -44,9 +44,9 @@
   {if $wioUser[0] == 0}{$modules.Language->getString('no_guests')}{elseif $wioUser[0] == 1}{$modules.Language->getString('one_guest')}{else}{$wioUser[0]|string_format:$modules.Language->getString('x_guests')}{/if}<br /><br />
   <span style="font-weight:bold;">{$modules.Language->getString('legend_colon')}</span> <span{if $modules.Config->getCfgVal('wio_color_admin') != ''} style="color:{$modules.Config->getCfgVal('wio_color_admin')}"{/if}>{$modules.Language->getString('administrator')}</span> &ndash; <span{if $modules.Config->getCfgVal('wio_color_smod') != ''} style="color:{$modules.Config->getCfgVal('wio_color_smod')}"{/if}>{$modules.Language->getString('super_moderator')}</span> &ndash; <span{if $modules.Config->getCfgVal('wio_color_mod') != ''} style="color:{$modules.Config->getCfgVal('wio_color_mod')}"{/if}>{$modules.Language->getString('moderator')}</span> &ndash; <span{if $modules.Config->getCfgVal('wio_color_member') != ''} style="color:{$modules.Config->getCfgVal('wio_color_member')}"{/if}>{$modules.Language->getString('member')}</span> &ndash; <span{if $modules.Config->getCfgVal('wio_color_banned') != ''} style="color:{$modules.Config->getCfgVal('wio_color_banned')}"{/if}>{$modules.Language->getString('banned')}</span></span></td></tr>
 <!-- WWO -->
-{assign var="wwoUser" value=$modules.WhoIsOnline->getUserWWO()}
+{$wwoUser=$modules.WhoIsOnline->getUserWWO()}
 {* 0:guests - 1:ghosts - 2:members - 3:0:memberProfiles - 3:1:isGhost *}
-{assign var="record" value=$modules.WhoIsOnline->getRecord()}
+{$record=$modules.WhoIsOnline->getRecord()}
 {* {$modules.Language->getString('who_was_online')} *}
  <tr><td class="td2"><span class="small">{$modules.Language->getString('today_were_here_colon')}<br />
   {foreach $wwoUser[3] as $curWWOUser}{if $curWWOUser[1]}<img src="{$modules.Template->getTplDir()}images/ghost.png" alt="{$modules.Language->getString('browses_as_ghost')}" title="{$modules.Language->getString('browses_as_ghost')}" style="vertical-align:middle;" /> {/if}{$curWWOUser[0]}{if !$curWWOUser@last}, {/if}{foreachelse}{$modules.Language->getString('no_members')}{/foreach}<br />
