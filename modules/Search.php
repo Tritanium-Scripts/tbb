@@ -1,6 +1,6 @@
 <?php
 /**
- * Searches for user defined posts and titles with additional options and displays results.
+ * Searches for user defined terms in posts and titles with additional options and displays results.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
  * @copyright Copyright (c) 2010 Tritanium Scripts

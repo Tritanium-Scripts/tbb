@@ -65,6 +65,16 @@ class Template
 	}
 
 	/**
+	 * Clears the entire Smarty cache.
+	 *
+	 * @return int Amount of deleted files
+	 */
+	public function clearCache()
+	{
+		return $this->smarty->cache->clearAll();
+	}
+
+	/**
 	 * Displays a template file and assigns prior optional values to it.
 	 *
 	 * @param string $tplName Name of template file

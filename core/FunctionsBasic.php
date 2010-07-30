@@ -33,6 +33,24 @@ class FunctionsBasic
 	private static $fileCounter = 0;
 
 	/**
+	 * Default operations while accessing the admin panel.
+	 */
+	public static function accessAdminPanel()
+	{
+		Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('administration'), INDEXFILE . '?faction=adminpanel' . SID_AMPER);
+		if(!Main::getModule('Auth')->isAdmin())
+		{
+			Main::getModule('Logger')->log('%s tried to access administration', LOG_ACP_ACCESS);
+			Main::getModule('Template')->printMessage('permission_denied');
+		}
+		//Log first entering of any admin panel site
+		if(Functions::stripos($_SERVER['HTTP_REFERER'], 'faction=ad') === false)
+			Main::getModule('Logger')->log('%s entered administration', LOG_ACP_ACTION);
+		Main::getModule('Config')->setCfgVal('twidth', '100%');
+		Main::getModule('Language')->parseFile('AdminIndex'); //This is the 'AdminMain.ini'
+	}
+
+	/**
 	 * Adds 'http://' to a link, if needed.
 	 *
 	 * @param string $link Link to extend with 'http://'
@@ -66,6 +84,23 @@ class FunctionsBasic
 	}
 
 	/**
+	 * Censors a string.
+	 *
+	 * @param string $string Text to censor
+	 * @return string Censored text
+	 */
+	public static function censor($string)
+	{
+		if(Main::getModule('Config')->getCfgVal('censored') != 1)
+			return $string;
+		if(!isset(self::$cache['censoredWords']))
+			self::$cache['censoredWords'] = array_map(array('self', 'explodeByTab'), self::file('vars/cwords.var'));
+		foreach(self::$cache['censoredWords'] as $curWord)
+			$string = Functions::str_ireplace($curWord[1], $curWord[2], $string);
+		return $string;
+	}
+
+	/**
 	 * Checks current or stated IP address for access permission.
 	 *
 	 * @param int $forumID Only check for a specific forum, entire board otherwise
@@ -80,6 +115,24 @@ class FunctionsBasic
 			if($curIP[0] == $ipAddress && $curIP[2] == $forumID && ($curIP[1] > time() || $curIP[1] == '-1'))
 				return (int) $curIP[1];
 		return true;
+	}
+
+	/**
+	 * Checks current user has moderator permissions in a forum.
+	 *
+	 * @param array|int $forum Forum data or forum ID
+	 * @return bool Moderator permissions of stated forum
+	 */
+	public static function checkModOfForum($forum)
+	{
+		//Super mods can access all
+		if(Main::getModule('Auth')->isSuperMod())
+			return true;
+		//Provide proper forum data
+		if(is_numeric($forum))
+			$forum = self::getForumData($forum);
+		//Check moderator permissions
+		return !empty($forum[11]) && in_array(Main::getModule('Auth')->getUserID(), self::explodeByComma($forum[11]));
 	}
 
 	/**
@@ -116,41 +169,6 @@ class FunctionsBasic
 			}
 		}
 		return $canAccess;
-	}
-
-	/**
-	 * Censors a string.
-	 *
-	 * @param string $string Text to censor
-	 * @return string Censored text
-	 */
-	public static function censor($string)
-	{
-		if(Main::getModule('Config')->getCfgVal('censored') != 1)
-			return $string;
-		if(!isset(self::$cache['censoredWords']))
-			self::$cache['censoredWords'] = array_map(array('self', 'explodeByTab'), self::file('vars/cwords.var'));
-		foreach(self::$cache['censoredWords'] as $curWord)
-			$string = Functions::str_ireplace($curWord[1], $curWord[2], $string);
-		return $string;
-	}
-
-	/**
-	 * Checks current user has moderator permissions in a forum.
-	 *
-	 * @param array|int $forum Forum data or forum ID
-	 * @return bool Moderator permissions of stated forum
-	 */
-	public static function checkModOfForum($forum)
-	{
-		//Super mods can access all
-		if(Main::getModule('Auth')->isSuperMod())
-			return true;
-		//Provide proper forum data
-		if(is_numeric($forum))
-			$forum = self::getForumData($forum);
-		//Check moderator permissions
-		return !empty($forum[11]) && in_array(Main::getModule('Auth')->getUserID(), self::explodeByComma($forum[11]));
 	}
 
 	/**

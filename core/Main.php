@@ -94,8 +94,8 @@ class Main implements Module
 		'ad_killposts' => 'AdminKillPosts',
 		'ad_login' => 'Login',
 		'adminLogfile' => 'AdminLogfile',
-		'adminFiles' => 'AdminFiles',
-		'adminMaintenance' => 'AdminMaintenance');
+		'adminTemplates' => 'AdminTemplates',
+		'adminFiles' => 'AdminFiles');
 
 	/**
 	 * Loaded modules are stored here after first execution.

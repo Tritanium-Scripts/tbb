@@ -14,15 +14,8 @@ class AdminIndex implements Module
 	 */
 	public function execute()
 	{
-		Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('administration'), INDEXFILE . '?faction=adminpanel' . SID_AMPER);
-		if(!Main::getModule('Auth')->isAdmin())
-		{
-			Main::getModule('Logger')->log('%s tried to access administration', LOG_ACP_ACCESS);
-			Main::getModule('Template')->printMessage('permission_denied');
-		}
 		//Nothing much do here on the PHP side of life...
-		Main::getModule('Logger')->log('%s entered administration', LOG_ACP_ACTION);
-		Main::getModule('Config')->setCfgVal('twidth', '100%');
+		Functions::accessAdminPanel();
 		Main::getModule('Template')->printPage('AdminIndex');
 	}
 }

@@ -87,6 +87,7 @@ Last changed: 2010 (Version 1.5 Alpha)
 	-Suche mit neuen Optionen UND, ODER, exakte Eingabe und Benutzer
 	-Bereits fertige Suchergebnisse werden zwischen gespeichert
 	-Suchergebnisse mit mehr Details und Beitragsansicht
+	-Verwalten von Admin- & Moderatoren-Smileys, Templates und hochgeladenen Dateien im ACP
 
 Written by Chrissyx
 (c) 2010 Tritanium Scripts

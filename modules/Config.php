@@ -190,6 +190,16 @@ class Config
 	}
 
 	/**
+	 * Returns all configuration values.
+	 *
+	 * @return array All config values
+	 */
+	public function getCfgSet()
+	{
+		return $this->cfgValues;
+	}
+
+	/**
 	 * Returns a single configuration value.
 	 *
 	 * @param string $key Identifier of config value

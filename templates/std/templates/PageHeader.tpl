@@ -17,6 +17,11 @@
   <link rel="stylesheet" media="all" href="{$modules.Template->getTplDir()}{$modules.Config->getCfgVal('css_file')}" />
   <link rel="shortcut icon" type="image/x-icon" href="{$modules.Template->getTplDir()}images/favicon.ico" />
   <style type="text/css">
+   input[type=radio]
+   {
+    vertical-align:middle;
+   }
+
    img
    {
     border:none;
