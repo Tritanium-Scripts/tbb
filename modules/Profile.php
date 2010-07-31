@@ -140,7 +140,7 @@ class Profile implements Module
 						//Update to file
 						Functions::file_put_contents('members/' . $this->userData[1] . '.xbb', implode("\n", $this->userData));
 						//And done
-						Main::getModule('Logger')->log('% edited profile from ID: ' . $this->userData[1], LOG_EDIT_PROFILE);
+						Main::getModule('Logger')->log('%s edited profile from ID: ' . $this->userData[1], LOG_EDIT_PROFILE);
 						Main::getModule('Template')->printMessage('profile_saved', INDEXFILE . '?faction=profile&amp;mode=edit&amp;profile_id=' . $this->userData[1] . SID_AMPER, Functions::getMsgBackLinks());
 					}
 				}

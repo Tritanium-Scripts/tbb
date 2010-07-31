@@ -27,7 +27,14 @@ class AdminConfig implements Module
 		'recalculateCounters' => 'AdminConfigCountersConfirm');
 
 	/**
-	 * Sets mode to execute.
+	 * Maximal execution time for couting to require a break to continue.
+	 *
+	 * @var int Seconds timeout
+	 */
+	private $timeout;
+
+	/**
+	 * Sets timeout and mode to execute.
 	 *
 	 * @param string $mode The mode
 	 * @return AdminConfig New instance of this class
@@ -35,6 +42,21 @@ class AdminConfig implements Module
 	function __construct($mode)
 	{
 		$this->mode = $mode;
+		$this->timeout = ini_get('max_execution_time')-10;
+	}
+
+	/**
+	 * Checks current execution time of the couting progress and reloads it, if needed.
+	 *
+	 * @param bool $check Check the run time or reload script anyway
+	 */
+	private function checkTime($check=true)
+	{
+		if(!$check || microtime(true)-SCRIPTSTART > $this->timeout)
+		{
+			header('Location: ' . INDEXFILE . '?faction=ad_settings&mode=recalculateCounters' . SID_AMPER);
+			exit('<a href="' . INDEXFILE . '?faction=ad_settings&mode=recalculateCounters' . SID_AMPER . '">Go on</a>');
+		}
 	}
 
 	/**
@@ -42,15 +64,58 @@ class AdminConfig implements Module
 	 */
 	public function execute()
 	{
+		$oldTableWidth = Main::getModule('Config')->getCfgVal('twidth');
 		Functions::accessAdminPanel();
 		switch($this->mode)
 		{
 //AdminConfigCountersConfirm
 			case 'recalculateCounters':
 			Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('recalculate_counters'), INDEXFILE . '?faction=ad_settings&amp;mode=recalculateCounters' . SID_AMPER);
+			if(isset($_SESSION['recalculateCounters']))
+			{
+				while(!empty($_SESSION['recalculateCounters']['forums']))
+				{
+					$curForumID = key($_SESSION['recalculateCounters']['forums']);
+					if(!isset($_SESSION['recalculateCounters']['forums'][$curForumID][0]))
+					{
+						//Get real existent topics
+						$_SESSION['recalculateCounters']['forums'][$curForumID] = glob(DATAPATH . 'foren/' . $curForumID . '-[0-9]*.xbb');
+						$_SESSION['recalculateCounters']['total'][$curForumID]['topics'] = $_SESSION['recalculateCounters']['total'][$curForumID]['posts'] = 0;
+					}
+					while(!empty($_SESSION['recalculateCounters']['forums'][$curForumID]))
+					{
+						$curTopic = Functions::file(current($_SESSION['recalculateCounters']['forums'][$curForumID]), FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES, null, false);
+						//Ignore moved topics
+						if($curTopic[0][0] != 'm')
+						{
+							$_SESSION['recalculateCounters']['total'][$curForumID]['topics']++;
+							$_SESSION['recalculateCounters']['total'][$curForumID]['posts'] += count($curTopic)-1;
+						}
+						array_shift($_SESSION['recalculateCounters']['forums'][$curForumID]);
+						$this->checkTime();
+					}
+					unset($_SESSION['recalculateCounters']['forums'][key($_SESSION['recalculateCounters']['forums'])]);
+					$this->checkTime();
+				}
+				//Counting done, save results
+				$forums = array_map(array('Functions', 'explodeByTab'), Functions::file('vars/foren.var'));
+				foreach($forums as &$curForum)
+					if(isset($_SESSION['recalculateCounters']['total'][$curForum[0]]))
+					{
+						$curForum[3] = $_SESSION['recalculateCounters']['total'][$curForum[0]]['topics'];
+						$curForum[4] = $_SESSION['recalculateCounters']['total'][$curForum[0]]['posts'];
+					}
+				Functions::file_put_contents('vars/foren.var', implode("\n", array_map(array('Functions', 'implodeByTab'), $forums)));
+				unset($_SESSION['recalculateCounters']);
+				//Now the members
+				Functions::file_put_contents('vars/member_counter.var', count(glob(DATAPATH . 'members/[!0]*.xbb')));
+				Main::getModule('Template')->printMessage('counters_recalculated');
+			}
 			if(Functions::getValueFromGlobals('confirmed') == 'true')
 			{
-				Main::getModule('Template')->printMessage('counters_recalculated');
+				//Prepare recalculation stuff 
+				$_SESSION['recalculateCounters'] = array('forums' => array_combine($forums = array_map(create_function('$forum', 'return current(Functions::explodeByTab($forum));'), Functions::file('vars/foren.var', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES)), array_fill(0, count($forums), array())), 'total' => array());
+				$this->checkTime(false);
 			}
 			break;
 
@@ -81,9 +146,12 @@ class AdminConfig implements Module
 			if(Functions::getValueFromGlobals('save') == '1')
 			{
 				$newSettings = Functions::getValueFromGlobals('settings');
-				list($newSettings[2], $newSettings[5], $newSettings[7], $newSettings[26], $newSettings[27], $newSettings[28], $newSettings[29], $newSettings[65]) = array_map('htmlspecialchars', array($newSettings[2], $newSettings[5], $newSettings[7], $newSettings[26], $newSettings[27], $newSettings[28], $newSettings[29], $newSettings[65]));
+				list($newSettings[2], $newSettings[5], $newSettings[26], $newSettings[27], $newSettings[28], $newSettings[29], $newSettings[65]) = array_map('htmlspecialchars', array($newSettings[2], $newSettings[5], $newSettings[26], $newSettings[27], $newSettings[28], $newSettings[29], $newSettings[65]));
 				$newSettings[7] = Main::getModule('Config')->getCfgVal('uc_message');
 				$newSettings[9] = !isset($newSettings[9]) ? '' : implode(',', $newSettings[9]);
+				$newSettings[38] = Main::getModule('Config')->getCfgVal('css_file');
+				$newSettings[50] = 'languages/' . $newSettings[50];
+				$newSettings[56] = Main::getModule('Config')->getCfgVal('default_tpl');
 				ksort($newSettings);
 				Functions::file_put_contents('vars/settings.var', implode("\n", $newSettings));
 				Main::getModule('Template')->printMessage('new_settings_saved');
@@ -95,7 +163,10 @@ class AdminConfig implements Module
 				if(preg_match('/^tz(\d+)$/si', $curIndex, $curMatch) == 1)
 					//Format minutes from strings to positive and negative hours
 					$timeZones[] = array(Functions::str_replace(',', '', sprintf('%+06.2f', ($curMatch[1]-720)/60)), $curString);
-			Main::getModule('Template')->assign(array('configValues' => Main::getModule('Config')->getCfgSet(),
+			//Prepare log settings
+			Main::getModule('Config')->setCfgVal('log_options', Functions::explodeByComma(Main::getModule('Config')->getCfgVal('log_options')));
+			Main::getModule('Template')->assign(array('oldTableWidth' => $oldTableWidth,
+				'configValues' => Main::getModule('Config')->getCfgSet(),
 				'timeZones' => $timeZones));
 			break;
 		}

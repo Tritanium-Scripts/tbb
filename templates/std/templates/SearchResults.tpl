@@ -29,7 +29,7 @@
   <td class="thnorm" style="text-align:center;"><span class="small" style="color:yellow;">{$modules.Language->getString('date')}</span></td>
  </tr>{/if}
  <tr>
-  <td class="td1"><span class="small" style="padding-left:2em;"><a href="{$smarty.const.INDEXFILE}?mode=viewthread&amp;forum_id={$curForumID}&amp;thread={$curTopicID}&amp;z={$curPost.page}#post{$curPostID}{$smarty.const.SID_AMPER}">{$idTable[$curForumID][$curTopicID]}</a></span></td>
+  <td class="td1"><span class="small" style="padding-left:2em;"><a href="{$smarty.const.INDEXFILE}?mode=viewthread&amp;forum_id={$curForumID}&amp;thread={$curTopicID}&amp;z={$curPost.page}{$smarty.const.SID_AMPER}#post{$curPostID}">{$idTable[$curForumID][$curTopicID]}</a></span></td>
   <td class="td2" style="text-align:center;"><span class="small">{$curPost.creator}</span></td>
   <td class="td1" colspan="2" style="text-align:center;"><span class="small">{$curPost.post}</span></td>
   <td class="td2" style="text-align:right;"><span class="small">{$curPost.date}</span></td>

@@ -147,7 +147,7 @@ class Search implements Module
 									//A post was found during search
 									if($curPost[0] == $curPostID)
 									{
-										$results[$curForumID][$curTopicID][$curPostID] = array('post' => Functions::shorten(Functions::br2nl($curPost[3]), 50),
+										$results[$curForumID][$curTopicID][$curPostID] = array('post' => Functions::shorten(Functions::censor(Functions::br2nl($curPost[3])), 50),
 											'creator' => Functions::getProfileLink($curPost[1], true),
 											'date' => Functions::formatDate($curPost[2]),
 											'page' => ceil($curKey / Main::getModule('Config')->getCfgVal('posts_per_page')));

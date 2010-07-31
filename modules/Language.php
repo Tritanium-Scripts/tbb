@@ -51,6 +51,16 @@ class Language
 	}
 
 	/**
+	 * Returns available languages by their code.
+	 *
+	 * @return array Lang codes of available translations
+	 */
+	public function getAvailLangs()
+	{
+		return $this->availableLangs;
+	}
+
+	/**
 	 * Returns used language.
 	 *
 	 * @return string Used language code

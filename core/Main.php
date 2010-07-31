@@ -82,20 +82,20 @@ class Main implements Module
 		'adminpanel' => 'AdminIndex',
 		'ad_forum' => 'AdminForum',
 		'ad_user' => 'AdminUser',
-		'ad_groups' => 'AdminGroups',
+		'ad_groups' => 'AdminGroup',
 		'ad_rank' => 'AdminRanks',
-		'ad_smilies' => 'AdminSmilies',
-		'ad_ip' => 'AdminIPs',
+		'ad_smilies' => 'AdminSmiley',
+		'ad_ip' => 'AdminIP',
 		'ad_censor' => 'AdminCensor',
 		'ad_settings' => 'AdminConfig',
 		'ad_news' => 'AdminNews',
 		'ad_newsletter' => 'AdminNewsletter',
 		'ad_emaillist' => 'AdminMailList',
-		'ad_killposts' => 'AdminKillPosts',
+		'ad_killposts' => 'AdminKillPost',
 		'ad_login' => 'Login',
 		'adminLogfile' => 'AdminLogfile',
-		'adminTemplates' => 'AdminTemplates',
-		'adminFiles' => 'AdminFiles');
+		'adminTemplate' => 'AdminTemplate',
+		'adminFile' => 'AdminFile');
 
 	/**
 	 * Loaded modules are stored here after first execution.
@@ -186,12 +186,12 @@ class Main implements Module
 			self::getModule('Logger')->log((self::getModule('Auth')->isLoggedIn() ? '%s' : 'User') . ' connected', LOG_USER_CONNECT);
 		//Set root of NavBar
 		Main::getModule('NavBar')->addElement(Main::getModule('Config')->getCfgVal('forum_name'), INDEXFILE . SID_QMARK);
-		//Check maintenance mode
-		if(self::getModule('Config')->getCfgVal('uc') == 1)
-			self::getModule('Template')->printMessage('maintenance_mode_on'); //Lang strings from Main are already loaded via setlocale()
 		//Detect action
 		$this->action = self::$actionTable[($fAction = Functions::getValueFromGlobals('faction'))];
 		self::getModule('Template')->assign('action', $this->action);
+		//Check maintenance mode
+		if(self::getModule('Config')->getCfgVal('uc') == 1 && !self::getModule('Auth')->isAdmin() && $this->action != 'Login')
+			self::getModule('Template')->printMessage('maintenance_mode_on'); //Lang strings from Main are already loaded via setlocale()
 		//Check IP address
 		if(($endtime = Functions::checkIPAccess()) !== true)
 			self::getModule('Template')->printMessage(($endtime == -1 ? 'banned_forever_everywhere' : 'banned_for_x_minutes_everywhere'), ceil(($endtime-time())/60));
