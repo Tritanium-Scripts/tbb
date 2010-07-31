@@ -75,7 +75,7 @@
  </tr>
  <tr>
   <td class="td1" style="font-weight:bold; width:35%;"><span class="norm">{$modules.Language->getString('position_of_forum_news')}</span></td>
-  <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="32y" name="settings[32]" value="1"{if $configValues['news_position'] == 1} checked="checked"{/if} /><label for="32y" class="norm">{$modules.Language->getString('above_the_forums_bar')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="32n" name="settings[32]" value="0"{if $configValues['news_position'] == 2} checked="checked"{/if} /><label for="32n" class="norm">{$modules.Language->getString('below_the_forums_bar')}</label></td>
+  <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="32y" name="settings[32]" value="1"{if $configValues['news_position'] == 1} checked="checked"{/if} /><label for="32y" class="norm">{$modules.Language->getString('above_the_forums_bar')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="32n" name="settings[32]" value="2"{if $configValues['news_position'] == 2} checked="checked"{/if} /><label for="32n" class="norm">{$modules.Language->getString('below_the_forums_bar')}</label></td>
  </tr>
  <tr>
   <td class="td1" style="font-weight:bold; width:35%;"><span class="norm">{$modules.Language->getString('by_how_many_replies_a_topic_is_hot')}</span></td>

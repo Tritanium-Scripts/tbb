@@ -83,9 +83,11 @@ class Forum implements Module
 		//Process news
 		if(count($news = Functions::file('vars/news.var')) != 0)
 		{
-			$newsConfig = Functions::explodeByTab($news[0]);
-			Main::getModule('Template')->assign(array('news' => time() < $newsConfig[1] || $newsConfig[1] == '-1' ? array_slice($news, 1) : false,
-				'newsType' => $newsConfig[0]));
+			$newsConfig = Functions::explodeByTab(array_shift($news));
+			foreach($news as &$curNews)
+				$curNews = Main::getModule('BBCode')->parse($curNews);
+			Main::getModule('Template')->assign(array('news' => time() < $newsConfig[1] || $newsConfig[1] == '-1' ? $news : false,
+				'newsType' => intval($newsConfig[0])));
 		}
 		else
 			Main::getModule('Template')->assign('news', false);

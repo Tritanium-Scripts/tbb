@@ -89,7 +89,8 @@ Last changed: 2010 (Version 1.5 Alpha)
 	-Suchergebnisse mit mehr Details und Beitragsansicht
 	-Verwalten von Admin- & Moderatoren-Smileys, Templates und hochgeladenen Dateien im ACP
 	-Zeitzonen aktualisiert
-	-Mehr Optionen in den Foreneinstellungen im ACP
+	-Mehr Optionen zu den Forumeinstellungen im ACP
+	-Forumnews mit Unterstützung von BBCode und Smileys
 
 Written by Chrissyx
 (c) 2010 Tritanium Scripts

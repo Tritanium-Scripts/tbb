@@ -90,7 +90,7 @@ class Main implements Module
 		'ad_settings' => 'AdminConfig',
 		'ad_news' => 'AdminNews',
 		'ad_newsletter' => 'AdminNewsletter',
-		'ad_emaillist' => 'AdminMailList',
+		'ad_emailist' => 'AdminMailList',
 		'ad_killposts' => 'AdminKillPost',
 		'ad_login' => 'Login',
 		'adminLogfile' => 'AdminLogfile',
