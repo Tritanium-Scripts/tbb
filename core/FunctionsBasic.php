@@ -44,7 +44,7 @@ class FunctionsBasic
 			Main::getModule('Template')->printMessage('permission_denied');
 		}
 		//Log first entering of any admin panel site
-		if(Functions::stripos($_SERVER['HTTP_REFERER'], 'faction=ad') === false)
+		if(@Functions::stripos($_SERVER['HTTP_REFERER'], 'faction=ad') === false)
 			Main::getModule('Logger')->log('%s entered administration', LOG_ACP_ACTION);
 		Main::getModule('Config')->setCfgVal('twidth', '100%');
 		Main::getModule('Language')->parseFile('AdminIndex'); //This is the 'AdminMain.ini'
@@ -204,11 +204,11 @@ class FunctionsBasic
 	 */
 	public static function file($filename, $flags=null, $trimCharList=null, $datapath=true)
 	{
-		if(isset(self::$fileCache[$filename][0]) && Main::getModule('Config')->getCfgVal('use_file_caching') == 1)
+		if($datapath && isset(self::$fileCache[$filename][0]) && Main::getModule('Config')->getCfgVal('use_file_caching') == 1)
 			return self::$fileCache[$filename][0];
 		self::$fileCounter++;
 		$trimCallback = create_function('$entry', 'return trim($entry, "' . (empty($trimCharList) ? ' \n\r\0\x0B' : $trimCharList) . '");');
-		return array_map('utf8_encode', array_map($trimCallback, file(($datapath ? DATAPATH : '') . $filename, $flags)));
+		return array_map('utf8_encode', array_map($trimCallback, /*self::$fileCache[$filename][0] = */file(($datapath ? DATAPATH : '') . $filename, $flags)));
 	}
 
 	/**
@@ -227,7 +227,7 @@ class FunctionsBasic
 		if(isset(self::$fileCache[$filename][1]) && Main::getModule('Config')->getCfgVal('use_file_caching') == 1)
 			return self::$fileCache[$filename][1];
 		self::$fileCounter++;
-		return utf8_encode(file_get_contents(DATAPATH . $filename, LOCK_SH));
+		return utf8_encode(/*self::$fileCache[$filename][1] = */file_get_contents(DATAPATH . $filename, LOCK_SH));
 	}
 
 	/**

@@ -7,6 +7,7 @@ Last changed: 2010 (Version 1.5 Alpha)
 	-Alle Features des TBB 1.2.3 übernommen
 	-Komplett neuer technischer Unterbau in PHP 5.1 (= Mindestvoraussetzung) oder höher
 	-Komplett valides XHTML 1.0 transitional
+	-Code komplett mit phpDoc dokumentiert
 	-PHP 6 kompatibel
 	-Design als Template ausgelagert mit Smarty 3.0 als Engine
 	-Leichte Anpassungen am Design an heutige Forenstandards
@@ -23,17 +24,15 @@ Last changed: 2010 (Version 1.5 Alpha)
 	-Admin- & Moderatoren-Smileys
 	-Neues Format für Übersetzungen auf Basis von INI-Dateien (nicht abwärtskompatibel)
 	-Upload-Funktion für Dateien
-	-"Cache leeren"-Funktion im ACP
-	-Logansicht im ACP
 	-Kontakt-Mail-Adresse(n) verschlüsselt mit JavaScript
 	-Newsfader (Newstyp "2") nicht mehr IE-only
-	-Optionaler ClickJacking-Schutz für IE 8.0 oder höher
+	-Optionaler ClickJacking-Schutz für IE 8.0, Safari und Chrome
 	-Speichernutzung in technischen Statistiken
+	-Alle Größenangaben in Bytes gemäß IEC 60027-2 Norm
 	-WIO mit mehr Details zu Position und Zeit des letzten Klicks
 	-WIO unterscheidet zwischen Bots und Gästen
 	-Anzeige von Geistern in WIO und WWO für Admins
 	-Anzahl von Geistern in WIO-Box in der Forenübersicht
-	-Zähler von Themen, Beiträgen und Mitglieder neu berechnen lassen im ACP
 	-Einstellbare, farbige Hervorhebung von Admins, (S-)Mods, Nutzer und Verbannten in WIO-Box
 	-Credits nicht mehr IE-only
 	-WWO-Box mit Rekordanzeige unter der WIO-Box
@@ -87,10 +86,14 @@ Last changed: 2010 (Version 1.5 Alpha)
 	-Suche mit neuen Optionen UND, ODER, exakte Eingabe und Benutzer
 	-Bereits fertige Suchergebnisse werden zwischen gespeichert
 	-Suchergebnisse mit mehr Details und Beitragsansicht
+	-"Cache leeren"-Funktion im ACP
+	-Zähler von Themen, Beiträgen und Mitglieder neu berechnen lassen im ACP
 	-Verwalten von Admin- & Moderatoren-Smileys, Templates und hochgeladenen Dateien im ACP
 	-Zeitzonen aktualisiert
 	-Mehr Optionen zu den Forumeinstellungen im ACP
-	-Forumnews mit Unterstützung von BBCode und Smileys
+	-Forumnews mit Unterstützung für BBCode und Smileys
+	-Mitglieder können andere Templates und Styles auswählen
+	-Logdateiverwaltung im ACP
 
 Written by Chrissyx
 (c) 2010 Tritanium Scripts

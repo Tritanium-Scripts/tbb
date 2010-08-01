@@ -84,7 +84,9 @@ class Config
 		30,
 		1,
 		0,
-		60);
+		60,
+		1,
+		1);
 
 	/**
 	 * Name of config file to work with.
@@ -168,7 +170,9 @@ class Config
 		'members_per_page',
 		'achievements',
 		'confirm_reg_mail',
-		'new_pm_reminder');
+		'new_pm_reminder',
+		'select_tpls',
+		'select_styles');
 
 	/**
 	 * Loaded configuration values are stored here.

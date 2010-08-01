@@ -3,8 +3,8 @@
  <tr>
   <th class="thsmall"><a class="thsmall" href="{$smarty.const.INDEXFILE}?faction=mlist&amp;sortmethod=id&amp;z={$page}&amp;orderType={$orderTypeID}{$smarty.const.SID_AMPER}"><span class="thsmall" style="text-decoration:underline;">{$modules.Language->getString('id')}</span></a></th>
   <th class="thsmall"><a class="thsmall" href="{$smarty.const.INDEXFILE}?faction=mlist&amp;sortmethod=name&amp;z={$page}&amp;orderType={$orderTypeName}{$smarty.const.SID_AMPER}"><span class="thsmall" style="text-decoration:underline;">{$modules.Language->getString('user_name')}</span></a></th>
-  <th class="thsmall"><a href="{$smarty.const.INDEXFILE}?faction=mlist&amp;sortmethod=status&amp;z={$page}&amp;orderType={$orderTypeRank}{$smarty.const.SID_AMPER}"><span class="thsmall" style="text-decoration:underline;">{$modules.Language->getString('user_rank')}</span></a></th>
-  <th class="thsmall"><a href="{$smarty.const.INDEXFILE}?faction=mlist&amp;sortmethod=posts&amp;z={$page}&amp;orderType={$orderTypePosts}{$smarty.const.SID_AMPER}"><span class="thsmall" style="text-decoration:underline;">{$modules.Language->getString('posts')}</span></a></th>
+  <th class="thsmall"><a class="thsmall" href="{$smarty.const.INDEXFILE}?faction=mlist&amp;sortmethod=status&amp;z={$page}&amp;orderType={$orderTypeRank}{$smarty.const.SID_AMPER}"><span class="thsmall" style="text-decoration:underline;">{$modules.Language->getString('user_rank')}</span></a></th>
+  <th class="thsmall"><a class="thsmall" href="{$smarty.const.INDEXFILE}?faction=mlist&amp;sortmethod=posts&amp;z={$page}&amp;orderType={$orderTypePosts}{$smarty.const.SID_AMPER}"><span class="thsmall" style="text-decoration:underline;">{$modules.Language->getString('posts')}</span></a></th>
   <th class="thsmall" style="width:1%;"></th>
   <th class="thsmall" style="width:1%;"></th>{if $isAdmin}
   <th class="thsmall"></th>{/if}
