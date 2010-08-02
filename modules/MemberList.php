@@ -151,7 +151,7 @@ class MemberList implements Module
 			$curMember[14] = Functions::explodeByComma($curMember[14]);
 			$members[] = array('id' => $curMember[1],
 				'nick' => Functions::getProfileLink($curMember[1]),
-				'rank' => Functions::getStateName($curMember[4], $curMember[5]),
+				'rank' => !empty($curMember[17]) ? $curMember[17] : Functions::getStateName($curMember[4], $curMember[5]),
 				'posts' => $curMember[5],
 				'eMail' => $curMember[14][0] != '1' && $curMember[14][1] != '1' ? false : ($curMember[14][0] != '1' && $curMember[14][1] == '1' ? $curMember[3] : true));
 		}

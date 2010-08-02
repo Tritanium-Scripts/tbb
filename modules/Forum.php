@@ -300,7 +300,7 @@ class Forum implements Module
 					'tSmileyURL' => Functions::getTSmileyURL($curPost[6]),
 					'date' => Functions::formatDate($curPost[2]),
 					'postIPText' => !empty($curPost[4]) ? sprintf(Main::getModule('Language')->getString('ip_saved'), INDEXFILE . '?faction=viewip&amp;forum_id=' . $this->forumID . '&amp;topic_id=' . $this->topicID . '&amp;post_id=' . $curPost[0] . SID_AMPER) : Main::getModule('Language')->getString('ip_not_saved'),
-					'canModify' => Main::getModule('Auth')->isAdmin() || $isMod || ($forum[10][4] == '1' && Main::getModule('Auth')->getUserID() == $curPost[1]),
+					'canModify' => Main::getModule('Auth')->isAdmin() || $isMod || ($forum[10][4] == '1' && Main::getModule('Auth')->isLoggedIn() && Main::getModule('Auth')->getUserID() == $curPost[1]),
 					'post' => Functions::censor($curPost[3]));
 			}
 			Main::getModule('Template')->assign(array('pageBar' => $pageBar,
@@ -327,13 +327,12 @@ class Forum implements Module
 				$cats[] = Functions::explodeByTab($curCat);
 			//Prepare forums
 			$showPrivateForums = Main::getModule('Config')->getCfgVal('show_private_forums') == 1;
-			foreach(Functions::file('vars/foren.var') as $curForum)
+			foreach(array_map(array('Functions', 'explodeByTab'), Functions::file('vars/foren.var')) as $curForum)
 			{
 				#0:id - 1:name - 2:descr - 3:topics - 4:posts - 5:catID - 6:lastPostTstamp - 7:options - 8:status? - 9:lastPostData - 10:permissions - 11:modIDs
 				#7:0:bbCode - 7:1:html - 7:2:notifyMods
 				#9:0:topicID - 9:1:userID - 9:2:proprietaryDate - #9:3:tSmileyID
 				#10:0:memberAccess - 10:1:memberNewTopic - 10:2:memberPostReply - 10:3:memberPostPolls - 10:4:memberEditOwnPosts - 10:5:memberEditPolls - 10:6:guestAccess - 10:7:guestNewTopic - 10:8:guestPostReply - 10:9:guestPostPolls
-				$curForum = Functions::explodeByTab($curForum);
 				//Check permission
 				$showCurForum = Functions::checkUserAccess($curForum, 0);
 				if($showPrivateForums || $showCurForum)

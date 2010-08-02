@@ -83,7 +83,7 @@ class Main implements Module
 		'ad_forum' => 'AdminForum',
 		'ad_user' => 'AdminUser',
 		'ad_groups' => 'AdminGroup',
-		'ad_rank' => 'AdminRanks',
+		'ad_rank' => 'AdminRank',
 		'ad_smilies' => 'AdminSmiley',
 		'ad_ip' => 'AdminIP',
 		'ad_censor' => 'AdminCensor',

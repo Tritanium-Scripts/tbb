@@ -109,6 +109,7 @@ class AdminConfig implements Module
 				unset($_SESSION['recalculateCounters']);
 				//Now the members
 				Functions::file_put_contents('vars/member_counter.var', count(glob(DATAPATH . 'members/[!0]*.xbb')));
+				Main::getModule('Logger')->log('%s recalculated counters', LOG_ACP_ACTION);
 				Main::getModule('Template')->printMessage('counters_recalculated');
 			}
 			if(Functions::getValueFromGlobals('confirmed') == 'true')
@@ -125,6 +126,7 @@ class AdminConfig implements Module
 			foreach(glob('cache/*.[!svn]*') as $curFile)
 				if(unlink($curFile))
 					$deleted++;
+			Main::getModule('Logger')->log('%s cleared cache', LOG_ACP_ACTION);
 			Main::getModule('Template')->printMessage('cache_cleared', $deleted);
 			break;
 
@@ -135,6 +137,7 @@ class AdminConfig implements Module
 			{
 				if(Functions::file_exists('vars/settings.var'))
 					Functions::unlink('vars/settings.var');
+				Main::getModule('Logger')->log('%s reset board settings', LOG_ACP_ACTION);
 				Main::getModule('Template')->printMessage('settings_reset');
 			}
 			break;
@@ -152,8 +155,11 @@ class AdminConfig implements Module
 				$newSettings[38] = Main::getModule('Config')->getCfgVal('css_file');
 				$newSettings[50] = 'languages/' . $newSettings[50];
 				$newSettings[56] = Main::getModule('Config')->getCfgVal('default_tpl');
+				$newSettings[70] = Main::getModule('Config')->getCfgVal('select_tpls');
+				$newSettings[71] = Main::getModule('Config')->getCfgVal('select_styles');
 				ksort($newSettings);
 				Functions::file_put_contents('vars/settings.var', implode("\n", $newSettings));
+				Main::getModule('Logger')->log('%s edited board settings', LOG_ACP_ACTION);
 				Main::getModule('Template')->printMessage('new_settings_saved');
 			}
 			//Get time zones

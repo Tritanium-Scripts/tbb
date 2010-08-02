@@ -195,7 +195,7 @@ class PostNew implements Module
 					//Build and write topic related stuff
 					$this->writeTopic($newLastTopicID);
 					//Notify mods
-					if($this->forum[7][2] == '1')
+					if($this->forum[7][2] == '1' && !empty($this->forum[11]))
 						foreach(array_map(array('Functions', 'getUserData'), Functions::explodeByComma($this->forum[11])) as $curMod)
 							Functions::sendMessage($curMod[3], 'notify_mod_new_topic', $curMod[0], Main::getModule('Config')->getCfgVal('address_to_forum') . '/' . INDEXFILE . '?faction=readforum&mode=viewthread&forum_id=' . $this->forum[0] . '&thread=' . $newLastTopicID);
 					//Done

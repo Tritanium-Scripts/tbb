@@ -93,7 +93,8 @@ Last changed: 2010 (Version 1.5 Alpha)
 	-Mehr Optionen zu den Forumeinstellungen im ACP
 	-Forumnews mit Unterstützung für BBCode und Smileys
 	-Mitglieder können andere Templates und Styles auswählen
-	-Logdateiverwaltung im ACP
+	-Logdateienverwaltung im ACP
+	-Angabe von maximalen Beiträgen wird für Ränge automatisch berechnet (keine 1000000 mehr als Limit)
 
 Written by Chrissyx
 (c) 2010 Tritanium Scripts

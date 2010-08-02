@@ -33,7 +33,7 @@ class AdminLogfile implements Module
 		'delete' => 'AdminLogfile');
 
 	/**
-	 * Sets mode.
+	 * Sets mode and current logfile.
 	 *
 	 * @param string $mode Mode to execute
 	 * @return AdminLogfile New instance of this class
