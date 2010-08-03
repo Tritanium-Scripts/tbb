@@ -15,6 +15,7 @@
    <input type="radio" id="searchOptionExact" name="searchOption" value="exact"{if $searchOption == 'exact'} checked="checked"{/if} /><label for="searchOptionExact" class="norm">{$modules.Language->getString('exact_input')} <span class="small">{$modules.Language->getString('example_exact')}</span></label><br />
    <input type="radio" id="searchOptionUser" name="searchOption" value="user"{if $searchOption == 'user'} checked="checked"{/if} /><label for="searchOptionUser" class="norm">{$modules.Language->getString('user')} <span class="small">{$modules.Language->getString('example_user')}</span></label>
   </td>
+ </tr>
  <tr>
   <td class="td1" style="font-weight:bold; width:20%;"><span class="norm">{$modules.Language->getString('maximum_age_colon')}</span></td>
   <td class="td1" style="width:80%;">

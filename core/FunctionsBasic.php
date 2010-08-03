@@ -405,7 +405,7 @@ class FunctionsBasic
 							break;
 						}
 						if(!empty($curColor))
-							$curColor = sprintf(' style="color:%s";', $curColor);
+							$curColor = sprintf(' style="color:%s;"', $curColor);
 					}
 					$userLinks[] = '<a' . $aAttributes . ' href="' . INDEXFILE . '?faction=profile&amp;profile_id=' . $curUserID . SID_AMPER . '"' . $curColor . '>' . $curUser[0] . '</a>';
 				}

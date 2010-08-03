@@ -17,5 +17,5 @@
  </tr>
 </table>
 <p style="text-align:center;"><input type="submit" value="{$modules.Language->getString('add_new_rank')}" /></p>
-<input type=hidden name="save" value="yes" />
+<input type="hidden" name="save" value="yes" />
 </form>

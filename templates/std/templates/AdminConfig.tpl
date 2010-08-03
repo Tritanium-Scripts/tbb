@@ -6,7 +6,7 @@
  <tr><td class="td1" colspan="2"><span class="small">{$modules.Language->getString('maintenance_mode_description')}</span></td></tr>
  <tr>
   <td class="td1" style="font-weight:bold; width:35%;"><span class="norm">{$modules.Language->getString('maintenance_mode')}</span></td>
-  <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="15y" name="settings[15]" value="1"{if $configValues['uc'] == 1} checked="checked"{/if} /><label for="15y" class="norm">{$modules.Language->getString('enabled')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="15n" name="settings[15]" value="0"{if $configValues['uc'] != 1} checked="checked"{/if} /><label for="15n" class="norm">{$modules.Language->getString('disabled')}</label></td>
+  <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="y15" name="settings[15]" value="1"{if $configValues['uc'] == 1} checked="checked"{/if} /><label for="y15" class="norm">{$modules.Language->getString('enabled')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="n15" name="settings[15]" value="0"{if $configValues['uc'] != 1} checked="checked"{/if} /><label for="n15" class="norm">{$modules.Language->getString('disabled')}</label></td>
  </tr>
  <tr>
   <td class="td1" style="vertical-align:top; width:35%;"><span class="norm" style="font-weight:bold;">{$modules.Language->getString('maintenance_mode_message')}</span><br /><span class="small">{$modules.Language->getString('xhtml_code_is_enabled')}</span></td>
@@ -43,15 +43,15 @@
  </tr>
  <tr>
   <td class="td1" style="font-weight:bold; width:35%;"><span class="norm">{$modules.Language->getString('only_allow_logged_in_users_access_to_forum')}</span></td>
-  <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="25y" name="settings[25]" value="1"{if $configValues['must_be_logged_in'] == 1} checked="checked"{/if} /><label for="25y" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="25n" name="settings[25]" value="0"{if $configValues['must_be_logged_in'] != 1} checked="checked"{/if} /><label for="25n" class="norm">{$modules.Language->getString('negative')}</label></td>
+  <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="y25" name="settings[25]" value="1"{if $configValues['must_be_logged_in'] == 1} checked="checked"{/if} /><label for="y25" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="n25" name="settings[25]" value="0"{if $configValues['must_be_logged_in'] != 1} checked="checked"{/if} /><label for="n25" class="norm">{$modules.Language->getString('negative')}</label></td>
  </tr>
  <tr>
   <td class="td1" style="font-weight:bold; width:35%;"><span class="norm">{$modules.Language->getString('show_categories_in_forum_index')}</span></td>
-  <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="23y" name="settings[23]" value="1"{if $configValues['show_kats'] == 1} checked="checked"{/if} /><label for="23y" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="23n" name="settings[23]" value="0"{if $configValues['show_kats'] != 1} checked="checked"{/if} /><label for="23n" class="norm">{$modules.Language->getString('negative')}</label></td>
+  <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="y23" name="settings[23]" value="1"{if $configValues['show_kats'] == 1} checked="checked"{/if} /><label for="y23" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="n23" name="settings[23]" value="0"{if $configValues['show_kats'] != 1} checked="checked"{/if} /><label for="n23" class="norm">{$modules.Language->getString('negative')}</label></td>
  </tr>
  <tr>
   <td class="td1" style="font-weight:bold; width:35%;"><span class="norm">{$modules.Language->getString('show_forum_stats_in_forum_index')}</span></td>
-  <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="21y" name="settings[21]" value="1"{if $configValues['show_board_stats'] == 1} checked="checked"{/if} /><label for="21y" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="21n" name="settings[21]" value="0"{if $configValues['show_board_stats'] != 1} checked="checked"{/if} /><label for="21n" class="norm">{$modules.Language->getString('negative')}</label></td>
+  <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="y21" name="settings[21]" value="1"{if $configValues['show_board_stats'] == 1} checked="checked"{/if} /><label for="y21" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="n21" name="settings[21]" value="0"{if $configValues['show_board_stats'] != 1} checked="checked"{/if} /><label for="n21" class="norm">{$modules.Language->getString('negative')}</label></td>
  </tr>
  <tr>
   <td class="td1" style="font-weight:bold; width:35%;"><span class="norm">{$modules.Language->getString('amount_of_newest_posts_in_forum_index')}</span></td>
@@ -59,11 +59,11 @@
  </tr>
  <tr>
   <td class="td1" style="font-weight:bold; width:35%;"><span class="norm">{$modules.Language->getString('show_technical_stats_at_the_end_of_every_page')}</span></td>
-  <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="20y" name="settings[20]" value="1"{if $configValues['show_site_creation_time'] == 1} checked="checked"{/if} /><label for="20y" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="20n" name="settings[20]" value="0"{if $configValues['show_site_creation_time'] != 1} checked="checked"{/if} /><label for="20n" class="norm">{$modules.Language->getString('negative')}</label></td>
+  <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="y20" name="settings[20]" value="1"{if $configValues['show_site_creation_time'] == 1} checked="checked"{/if} /><label for="y20" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="n20" name="settings[20]" value="0"{if $configValues['show_site_creation_time'] != 1} checked="checked"{/if} /><label for="n20" class="norm">{$modules.Language->getString('negative')}</label></td>
  </tr>
  <tr>
   <td class="td1" style="font-weight:bold; width:35%;"><span class="norm">{$modules.Language->getString('censor_topics_posts_and_signatures')}</span></td>
-  <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="24y" name="settings[24]" value="1"{if $configValues['censored'] == 1} checked="checked"{/if} /><label for="24y" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="24n" name="settings[24]" value="0"{if $configValues['censored'] != 1} checked="checked"{/if} /><label for="24n" class="norm">{$modules.Language->getString('negative')}</label></td>
+  <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="y24" name="settings[24]" value="1"{if $configValues['censored'] == 1} checked="checked"{/if} /><label for="y24" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="n24" name="settings[24]" value="0"{if $configValues['censored'] != 1} checked="checked"{/if} /><label for="n24" class="norm">{$modules.Language->getString('negative')}</label></td>
  </tr>
  <tr>
   <td class="td1" style="font-weight:bold; width:35%;"><span class="norm">{$modules.Language->getString('number_of_topics_per_page')}</span></td>
@@ -75,7 +75,7 @@
  </tr>
  <tr>
   <td class="td1" style="font-weight:bold; width:35%;"><span class="norm">{$modules.Language->getString('position_of_forum_news')}</span></td>
-  <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="32y" name="settings[32]" value="1"{if $configValues['news_position'] == 1} checked="checked"{/if} /><label for="32y" class="norm">{$modules.Language->getString('above_the_forums_bar')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="32n" name="settings[32]" value="2"{if $configValues['news_position'] == 2} checked="checked"{/if} /><label for="32n" class="norm">{$modules.Language->getString('below_the_forums_bar')}</label></td>
+  <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="y32" name="settings[32]" value="1"{if $configValues['news_position'] == 1} checked="checked"{/if} /><label for="y32" class="norm">{$modules.Language->getString('above_the_forums_bar')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="n32" name="settings[32]" value="2"{if $configValues['news_position'] == 2} checked="checked"{/if} /><label for="n32" class="norm">{$modules.Language->getString('below_the_forums_bar')}</label></td>
  </tr>
  <tr>
   <td class="td1" style="font-weight:bold; width:35%;"><span class="norm">{$modules.Language->getString('by_how_many_replies_a_topic_is_hot')}</span></td>
@@ -83,11 +83,11 @@
  </tr>
  <tr>
   <td class="td1" style="font-weight:bold; width:35%;"><span class="norm">{$modules.Language->getString('user_must_be_logged_in_to_send_form_mails')}</span></td>
-  <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="34y" name="settings[34]" value="1"{if $configValues['formmail_mbli'] == 1} checked="checked"{/if} /><label for="34y" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="34n" name="settings[34]" value="0"{if $configValues['formmail_mbli'] != 1} checked="checked"{/if} /><label for="34n" class="norm">{$modules.Language->getString('negative')}</label></td>
+  <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="y34" name="settings[34]" value="1"{if $configValues['formmail_mbli'] == 1} checked="checked"{/if} /><label for="y34" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="n34" name="settings[34]" value="0"{if $configValues['formmail_mbli'] != 1} checked="checked"{/if} /><label for="n34" class="norm">{$modules.Language->getString('negative')}</label></td>
  </tr>
  <tr>
   <td class="td1" style="font-weight:bold; width:35%;"><span class="norm">{$modules.Language->getString('enable_member_list')}</span></td>
-  <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="35y" name="settings[35]" value="1"{if $configValues['activate_mlist'] == 1} checked="checked"{/if} /><label for="35y" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="35n" name="settings[35]" value="0"{if $configValues['activate_mlist'] != 1} checked="checked"{/if} /><label for="35n" class="norm">{$modules.Language->getString('negative')}</label></td>
+  <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="y35" name="settings[35]" value="1"{if $configValues['activate_mlist'] == 1} checked="checked"{/if} /><label for="y35" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="n35" name="settings[35]" value="0"{if $configValues['activate_mlist'] != 1} checked="checked"{/if} /><label for="n35" class="norm">{$modules.Language->getString('negative')}</label></td>
  </tr>
  <tr>
   <td class="td1" style="font-weight:bold; width:35%;"><span class="norm">{$modules.Language->getString('number_of_members_per_page')}</span></td>
@@ -95,11 +95,11 @@
  </tr>
  <tr>
   <td class="td1" style="font-weight:bold; width:35%;"><span class="norm">{$modules.Language->getString('guests_must_enter_name_to_post')}</span></td>
-  <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="36y" name="settings[36]" value="1"{if $configValues['nli_must_enter_name'] == 1} checked="checked"{/if} /><label for="36y" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="36n" name="settings[36]" value="0"{if $configValues['nli_must_enter_name'] != 1} checked="checked"{/if} /><label for="36n" class="norm">{$modules.Language->getString('negative')}</label></td>
+  <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="y36" name="settings[36]" value="1"{if $configValues['nli_must_enter_name'] == 1} checked="checked"{/if} /><label for="y36" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="n36" name="settings[36]" value="0"{if $configValues['nli_must_enter_name'] != 1} checked="checked"{/if} /><label for="n36" class="norm">{$modules.Language->getString('negative')}</label></td>
  </tr>
  <tr>
   <td class="td1" style="font-weight:bold; width:35%;"><span class="norm">{$modules.Language->getString('show_forums_without_access_rights')}</span></td>
-  <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="37y" name="settings[37]" value="1"{if $configValues['show_private_forums'] == 1} checked="checked"{/if} /><label for="37y" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="37n" name="settings[37]" value="0"{if $configValues['show_private_forums'] != 1} checked="checked"{/if} /><label for="37n" class="norm">{$modules.Language->getString('negative')}</label></td>
+  <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="y37" name="settings[37]" value="1"{if $configValues['show_private_forums'] == 1} checked="checked"{/if} /><label for="y37" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="n37" name="settings[37]" value="0"{if $configValues['show_private_forums'] != 1} checked="checked"{/if} /><label for="n37" class="norm">{$modules.Language->getString('negative')}</label></td>
  </tr>
  <tr>
   <td class="td1" style="font-weight:bold; width:35%;"><span class="norm">{$modules.Language->getString('css_file')}</span></td>
@@ -135,7 +135,7 @@
  </tr>
  <tr>
   <td class="td1" style="font-weight:bold; width:35%;"><span class="norm">{$modules.Language->getString('enable_steam_achievements_in_profiles')}</span></td>
-  <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="67y" name="settings[67]" value="1"{if $configValues['achievements'] == 1} checked="checked"{/if} /><label for="67y" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="67n" name="settings[67]" value="0"{if $configValues['achievements'] != 1} checked="checked"{/if} /><label for="67n" class="norm">{$modules.Language->getString('negative')}</label></td>
+  <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="y67" name="settings[67]" value="1"{if $configValues['achievements'] == 1} checked="checked"{/if} /><label for="y67" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="n67" name="settings[67]" value="0"{if $configValues['achievements'] != 1} checked="checked"{/if} /><label for="n67" class="norm">{$modules.Language->getString('negative')}</label></td>
  </tr>
  <tr>
   <td class="td1" style="font-weight:bold; width:35%;"><span class="norm">{$modules.Language->getString('show_pm_reminder_each')}</span></td>
@@ -143,7 +143,7 @@
  </tr>
  <tr>
   <td class="td1" style="font-weight:bold; width:35%;"><span class="norm">{$modules.Language->getString('enable_clickjacking_protection')}</span></td>
-  <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="57y" name="settings[57]" value="1"{if $configValues['clickjacking'] == 1} checked="checked"{/if} /><label for="57y" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="57n" name="settings[57]" value="0"{if $configValues['clickjacking'] != 1} checked="checked"{/if} /><label for="57n" class="norm">{$modules.Language->getString('negative')}</label></td>
+  <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="y57" name="settings[57]" value="1"{if $configValues['clickjacking'] == 1} checked="checked"{/if} /><label for="y57" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="n57" name="settings[57]" value="0"{if $configValues['clickjacking'] != 1} checked="checked"{/if} /><label for="n57" class="norm">{$modules.Language->getString('negative')}</label></td>
  </tr>
  <tr><td class="td1" colspan="2"><span class="small">{$modules.Language->getString('enable_clickjacking_protection_hint')}</span></td></tr>
  <tr><td class="kat" colspan="2"><span class="kat">{$modules.Language->getString('disk_space_settings')}</span></td></tr>
@@ -158,7 +158,7 @@
  <tr><td class="kat" colspan="2"><span class="kat">{$modules.Language->getString('registration_settings')}</span></td></tr>
  <tr>
   <td class="td1" style="font-weight:bold; width:35%;"><span class="norm">{$modules.Language->getString('enable_registration')}</span></td>
-  <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="12y" name="settings[12]" value="1"{if $configValues['activate_registration'] == 1} checked="checked"{/if} /><label for="12y" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="12n" name="settings[12]" value="0"{if $configValues['activate_registration'] != 1} checked="checked"{/if} /><label for="12n" class="norm">{$modules.Language->getString('negative')}</label></td>
+  <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="y12" name="settings[12]" value="1"{if $configValues['activate_registration'] == 1} checked="checked"{/if} /><label for="y12" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="n12" name="settings[12]" value="0"{if $configValues['activate_registration'] != 1} checked="checked"{/if} /><label for="n12" class="norm">{$modules.Language->getString('negative')}</label></td>
  </tr>
  <tr>
   <td class="td1" style="font-weight:bold; width:35%;"><span class="norm">{$modules.Language->getString('maximal_number_of_registrations')}</span></td>
@@ -166,17 +166,17 @@
  </tr>
  <tr>
   <td class="td1" style="font-weight:bold; width:35%;"><span class="norm">{$modules.Language->getString('create_random_password')}</span></td>
-  <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="14y" name="settings[14]" value="1"{if $configValues['create_reg_pw'] == 1} checked="checked"{/if} /><label for="14y" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="14n" name="settings[14]" value="0"{if $configValues['create_reg_pw'] != 1} checked="checked"{/if} /><label for="14n" class="norm">{$modules.Language->getString('negative')}</label>&nbsp;<span class="small">{$modules.Language->getString('mail_functions_must_be_enabled')}</span></td>
+  <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="y14" name="settings[14]" value="1"{if $configValues['create_reg_pw'] == 1} checked="checked"{/if} /><label for="y14" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="n14" name="settings[14]" value="0"{if $configValues['create_reg_pw'] != 1} checked="checked"{/if} /><label for="n14" class="norm">{$modules.Language->getString('negative')}</label>&nbsp;<span class="small">{$modules.Language->getString('mail_functions_must_be_enabled')}</span></td>
  </tr>
  <tr>
   <td class="td1" style="font-weight:bold; width:35%;"><span class="norm">{$modules.Language->getString('send_activation_code')}</span></td>
-  <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="68y" name="settings[68]" value="1"{if $configValues['confirm_reg_mail'] == 1} checked="checked"{/if} /><label for="68y" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="68n" name="settings[68]" value="0"{if $configValues['confirm_reg_mail'] != 1} checked="checked"{/if} /><label for="68n" class="norm">{$modules.Language->getString('negative')}</label>&nbsp;<span class="small">{$modules.Language->getString('mail_functions_must_be_enabled')}</span></td>
+  <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="y68" name="settings[68]" value="1"{if $configValues['confirm_reg_mail'] == 1} checked="checked"{/if} /><label for="y68" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="n68" name="settings[68]" value="0"{if $configValues['confirm_reg_mail'] != 1} checked="checked"{/if} /><label for="n68" class="norm">{$modules.Language->getString('negative')}</label>&nbsp;<span class="small">{$modules.Language->getString('mail_functions_must_be_enabled')}</span></td>
  </tr>
  <tr><td class="td1" colspan="2"><span class="small">{$modules.Language->getString('send_activation_code_hint')}</span></td></tr>
  <tr><td class="kat" colspan="2"><span class="kat">{$modules.Language->getString('who_is_was_online_settings')}</span></td></tr>
  <tr>
   <td class="td1" style="font-weight:bold; width:35%;"><span class="norm">{$modules.Language->getString('enable_who_is_was_online')}</span></td>
-  <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="19y" name="settings[19]" value="1"{if $configValues['wio'] == 1} checked="checked"{/if} /><label for="19y" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="19n" name="settings[19]" value="0"{if $configValues['wio'] != 1} checked="checked"{/if} /><label for="19n" class="norm">{$modules.Language->getString('negative')}</label></td>
+  <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="y19" name="settings[19]" value="1"{if $configValues['wio'] == 1} checked="checked"{/if} /><label for="y19" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="n19" name="settings[19]" value="0"{if $configValues['wio'] != 1} checked="checked"{/if} /><label for="n19" class="norm">{$modules.Language->getString('negative')}</label></td>
  </tr>
  <tr>
   <td class="td1" style="font-weight:bold; width:35%;"><span class="norm">{$modules.Language->getString('number_of_minutes_to_stay_in_wio')}</span></td>
@@ -243,32 +243,32 @@
  </tr>
  <tr>
   <td class="td1" style="font-weight:bold; width:35%;"><span class="norm">{$modules.Language->getString('append_sid_in_any_case')}</span></td>
-  <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="42y" name="settings[42]" value="1"{if $configValues['append_sid_url'] == 1} checked="checked"{/if} /><label for="42y" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="42n" name="settings[42]" value="0"{if $configValues['append_sid_url'] != 1} checked="checked"{/if} /><label for="42n" class="norm">{$modules.Language->getString('negative')}</label></td>
+  <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="y42" name="settings[42]" value="1"{if $configValues['append_sid_url'] == 1} checked="checked"{/if} /><label for="y42" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="n42" name="settings[42]" value="0"{if $configValues['append_sid_url'] != 1} checked="checked"{/if} /><label for="n42" class="norm">{$modules.Language->getString('negative')}</label></td>
  </tr>
  <tr>
   <td class="td1" style="font-weight:bold; width:35%;"><span class="norm">{$modules.Language->getString('enable_gzip_compression_if_available')}</span></td>
-  <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="43y" name="settings[43]" value="1"{if $configValues['use_gzip_compression'] == 1} checked="checked"{/if} /><label for="43y" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="43n" name="settings[43]" value="0"{if $configValues['use_gzip_compression'] != 1} checked="checked"{/if} /><label for="43n" class="norm">{$modules.Language->getString('negative')}</label></td>
+  <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="y43" name="settings[43]" value="1"{if $configValues['use_gzip_compression'] == 1} checked="checked"{/if} /><label for="y43" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="n43" name="settings[43]" value="0"{if $configValues['use_gzip_compression'] != 1} checked="checked"{/if} /><label for="n43" class="norm">{$modules.Language->getString('negative')}</label></td>
  </tr>
  <tr>
   <td class="td1" style="font-weight:bold; width:35%;"><span class="norm">{$modules.Language->getString('enable_file_caching')}</span></td>
-  <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="44y" name="settings[44]" value="1"{if $configValues['use_file_caching'] == 1} checked="checked"{/if} /><label for="44y" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="44n" name="settings[44]" value="0"{if $configValues['use_file_caching'] != 1} checked="checked"{/if} /><label for="44n" class="norm">{$modules.Language->getString('negative')}</label></td>
+  <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="y44" name="settings[44]" value="1"{if $configValues['use_file_caching'] == 1} checked="checked"{/if} /><label for="y44" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="n44" name="settings[44]" value="0"{if $configValues['use_file_caching'] != 1} checked="checked"{/if} /><label for="n44" class="norm">{$modules.Language->getString('negative')}</label></td>
  </tr>
  <tr>
   <td class="td1" style="font-weight:bold; width:35%;"><span class="norm">{$modules.Language->getString('enable_output_caching_in_any_case')}</span></td>
-  <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="45y" name="settings[45]" value="1"{if $configValues['activate_ob'] == 1} checked="checked"{/if} /><label for="45y" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="45n" name="settings[45]" value="0"{if $configValues['activate_ob'] != 1} checked="checked"{/if} /><label for="45n" class="norm">{$modules.Language->getString('negative')}</label></td>
+  <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="y45" name="settings[45]" value="1"{if $configValues['activate_ob'] == 1} checked="checked"{/if} /><label for="y45" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="n45" name="settings[45]" value="0"{if $configValues['activate_ob'] != 1} checked="checked"{/if} /><label for="n45" class="norm">{$modules.Language->getString('negative')}</label></td>
  </tr>
  <tr>
   <td class="td1" style="font-weight:bold; width:35%;"><span class="norm">{$modules.Language->getString('use_command_getimagesize')}</span></td>
-  <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="46y" name="settings[46]" value="1"{if $configValues['use_getimagesize'] == 1} checked="checked"{/if} /><label for="46y" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="46n" name="settings[46]" value="0"{if $configValues['use_getimagesize'] != 1} checked="checked"{/if} /><label for="46n" class="norm">{$modules.Language->getString('negative')}</label></td>
+  <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="y46" name="settings[46]" value="1"{if $configValues['use_getimagesize'] == 1} checked="checked"{/if} /><label for="y46" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="n46" name="settings[46]" value="0"{if $configValues['use_getimagesize'] != 1} checked="checked"{/if} /><label for="n46" class="norm">{$modules.Language->getString('negative')}</label></td>
  </tr>
  <tr>
   <td class="td1" style="font-weight:bold; width:35%;"><span class="norm">{$modules.Language->getString('use_command_disk_free_space')}</span></td>
-  <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="49y" name="settings[49]" value="1"{if $configValues['use_diskfreespace'] == 1} checked="checked"{/if} /><label for="49y" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="49n" name="settings[49]" value="0"{if $configValues['use_diskfreespace'] != 1} checked="checked"{/if} /><label for="49n" class="norm">{$modules.Language->getString('negative')}</label></td>
+  <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="y49" name="settings[49]" value="1"{if $configValues['use_diskfreespace'] == 1} checked="checked"{/if} /><label for="y49" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="n49" name="settings[49]" value="0"{if $configValues['use_diskfreespace'] != 1} checked="checked"{/if} /><label for="n49" class="norm">{$modules.Language->getString('negative')}</label></td>
  </tr>
  <tr><td class="kat" colspan="2"><span class="kat">{$modules.Language->getString('mail_settings')}</span></td></tr>
  <tr>
   <td class="td1" style="font-weight:bold; width:35%;"><span class="norm">{$modules.Language->getString('enable_mail_functions')}</span></td>
-  <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="51y" name="settings[51]" value="1"{if $configValues['activate_mail'] == 1} checked="checked"{/if} /><label for="51y" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="51n" name="settings[51]" value="0"{if $configValues['activate_mail'] != 1} checked="checked"{/if} /><label for="51n" class="norm">{$modules.Language->getString('negative')}</label></td>
+  <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="y51" name="settings[51]" value="1"{if $configValues['activate_mail'] == 1} checked="checked"{/if} /><label for="y51" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="n51" name="settings[51]" value="0"{if $configValues['activate_mail'] != 1} checked="checked"{/if} /><label for="n51" class="norm">{$modules.Language->getString('negative')}</label></td>
  </tr>
  <tr>
   <td class="td1" style="font-weight:bold; width:35%;"><span class="norm">{$modules.Language->getString('mail_address_of_administrator')}</span></td>
@@ -280,11 +280,11 @@
  </tr>
  <tr>
   <td class="td1" style="font-weight:bold; width:35%;"><span class="norm">{$modules.Language->getString('notify_admin_about_new_registrations')}</span></td>
-  <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="54y" name="settings[54]" value="1"{if $configValues['mail_admin_new_registration'] == 1} checked="checked"{/if} /><label for="54y" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="54n" name="settings[54]" value="0"{if $configValues['mail_admin_new_registration'] != 1} checked="checked"{/if} /><label for="54n" class="norm">{$modules.Language->getString('negative')}</label></td>
+  <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="y54" name="settings[54]" value="1"{if $configValues['mail_admin_new_registration'] == 1} checked="checked"{/if} /><label for="y54" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="n54" name="settings[54]" value="0"{if $configValues['mail_admin_new_registration'] != 1} checked="checked"{/if} /><label for="n54" class="norm">{$modules.Language->getString('negative')}</label></td>
  </tr>
  <tr>
   <td class="td1" style="font-weight:bold; width:35%;"><span class="norm">{$modules.Language->getString('members_can_be_notified_about_new_replies')}</span></td>
-  <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="55y" name="settings[55]" value="1"{if $configValues['notify_new_replies'] == 1} checked="checked"{/if} /><label for="55y" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="55n" name="settings[55]" value="0"{if $configValues['notify_new_replies'] != 1} checked="checked"{/if} /><label for="55n" class="norm">{$modules.Language->getString('negative')}</label></td>
+  <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="y55" name="settings[55]" value="1"{if $configValues['notify_new_replies'] == 1} checked="checked"{/if} /><label for="y55" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="n55" name="settings[55]" value="0"{if $configValues['notify_new_replies'] != 1} checked="checked"{/if} /><label for="n55" class="norm">{$modules.Language->getString('negative')}</label></td>
  </tr>
  <tr><td class="kat" colspan="2"><span class="kat">{$modules.Language->getString('logging_settings')}</span></td></tr>
  <tr>
@@ -304,6 +304,6 @@
   </td>
  </tr>
 </table>
-<p style="text-align:center;"><input type="submit" value="{$modules.Language->getString('save_settings')}"></p>
+<p style="text-align:center;"><input type="submit" value="{$modules.Language->getString('save_settings')}" /></p>
 <input type="hidden" name="save" value="1" />
 </form>

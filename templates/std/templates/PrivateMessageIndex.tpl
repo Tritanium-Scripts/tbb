@@ -11,7 +11,7 @@
  <tr>
   <td class="td1"><span class="norm"><input type="checkbox" name="deletepm[{$curPM[0]}]" value="1" /></span></td>
   <td class="td2" style="width:50%;"><span class="norm"{if $curPM[7] == '1'} style="font-weight:bold;"{/if}><a href="{$smarty.const.INDEXFILE}?faction=pm&amp;mode=view&amp;pm_id={$curPM[0]}&amp;pmbox_id={$pmBoxID}{$smarty.const.SID_AMPER}">{$curPM[1]}</a></span></td>
-  <td class="td1"><span class="norm">{$curPM[3]}</font></td>
+  <td class="td1"><span class="norm">{$curPM[3]}</span></td>
   <td class="td2" style="text-align:center;"><span class="small">{$curPM[4]}</span></td>
   <td class="td1" style="text-align:center;"><span class="small"><a href="{$smarty.const.INDEXFILE}?faction=pm&amp;mode=kill&amp;pm_id={$curPM[0]}&amp;pmbox_id={$pmBoxID}{$smarty.const.SID_AMPER}">{$modules.Language->getString('delete')}</a> | <a href="{$smarty.const.INDEXFILE}?faction=pm&amp;pmbox_id={$pmBoxID}&amp;mode=reply&amp;pm_id={$curPM[0]}{$smarty.const.SID_AMPER}">{$modules.Language->getString('reply')}</a></span></td>
  </tr>

@@ -6,8 +6,7 @@
   <th class="thsmall"><span class="thsmall">{$modules.Language->getString('description')}</span></th>
   <th class="thsmall"><span class="thsmall">{$modules.Language->getString('moderators')}</span></th>
   <th class="thsmall"><span class="thsmall">{$modules.Language->getString('category')}</span></th>
-  <th class="thsmall"></th>
-  <th class="thsmall"></th>
+  <th class="thsmall" colspan="2"><span class="thsmall">{$modules.Language->getString('options')}</span></th>
  </tr>
 {foreach $forums as $curForum}
  <tr>

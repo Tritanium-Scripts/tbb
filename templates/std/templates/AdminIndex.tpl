@@ -55,6 +55,7 @@
  <tr>
   <td class="td1" style="vertical-align:top; width:50%;"><span class="norm" style="font-weight:bold;"><a href="{$smarty.const.INDEXFILE}?faction=adminTemplate{$smarty.const.SID_AMPER}">{$modules.Language->getString('templates')}</a></span><br /><span class="small">{$modules.Language->getString('templates_text')}</span></td>
   <td class="td1" style="vertical-align:top; width:50%;"><span class="norm" style="font-weight:bold;"><a href="{$smarty.const.INDEXFILE}?faction=adminFile{$smarty.const.SID_AMPER}">{$modules.Language->getString('files')}</a></span><br /><span class="small">{$modules.Language->getString('files_text')}</span></td>
+ </tr>
  <tr>
   <td class="td1" style="vertical-align:top; width:50%;"><span class="norm" style="font-weight:bold;"><a href="{$smarty.const.INDEXFILE}?faction=ad_news{$smarty.const.SID_AMPER}">{$modules.Language->getString('forum_news')}</a></span><br /><span class="small">{$modules.Language->getString('forum_news_text')}</span></td>
   <td class="td1" style="vertical-align:top; width:50%;"><span class="norm" style="font-weight:bold;"><a href="{$smarty.const.INDEXFILE}?faction=ad_newsletter{$smarty.const.SID_AMPER}">{$modules.Language->getString('newsletter')}</a></span><br /><span class="small">{$modules.Language->getString('newsletter_text')}</span></td>

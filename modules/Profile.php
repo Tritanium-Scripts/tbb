@@ -104,15 +104,14 @@ class Profile implements Module
 						$this->errors[] = Main::getModule('Language')->getString('please_enter_your_mail');
 					elseif(!FunctionsBasic::isValidMail($this->userData[3]))
 						$this->errors[] = Main::getModule('Language')->getString('please_enter_a_valid_mail');
-					$this->userData[7] = Functions::nl2br(Functions::getValueFromGlobals('new_signatur'));
+					$this->userData[7] = Functions::nl2br(htmlspecialchars(trim(Functions::getValueFromGlobals('new_signatur'))));
 					$this->userData[9] = Functions::getValueFromGlobals('new_hp');
 					$this->userData[10] = Functions::getValueFromGlobals('new_pic');
-					$this->userData[12] = Functions::getValueFromGlobals('new_realname');
+					$this->userData[12] = htmlspecialchars(trim(Functions::getValueFromGlobals('new_realname')));
 					if(($this->userData[13] = Functions::getValueFromGlobals('new_icq')) != '' && !is_numeric($this->userData[13]))
 						$this->errors[] = Main::getModule('Language')->getString('please_enter_a_valid_icq_number');
 					$this->userData[14][0] = Functions::getValueFromGlobals('new_mail1') == '1' ? '1' : '0';
 					$this->userData[14][1] = Functions::getValueFromGlobals('new_mail2') == '1' ? '1' : '0';
-					$this->userData[17] = Functions::getValueFromGlobals('specialRank');
 					$this->userData[18] = Functions::getValueFromGlobals('steamProfile');
 					$this->userData[19] = Functions::explodeByTab(Functions::str_replace(array("\n", "\r"), array("\t", ''), Functions::getValueFromGlobals('steamGames')));
 					if(!empty($this->userData[19]) && empty($this->userData[18]))
