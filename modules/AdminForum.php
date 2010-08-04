@@ -48,7 +48,10 @@ class AdminForum implements Module
 		'change' => 'AdminForumEditForum',
 		'AdminForumDeleteForum' => 'AdminForumDeleteForum',
 		'edit_forum_rights' => 'AdminForumSpecialRights',
-		'new_user_right' => 'AdminForumNewUserRight');
+		'new_user_right' => 'AdminForumNewUserRight',
+		'new_group_right' => 'AdminForumNewGroupRight',
+		'kill_right' => 'AdminForumSpecialRights',
+		'viewkg' => 'AdminForumCatIndex');
 
 	/**
 	 * Sets mode and prepares category translation table.
@@ -183,21 +186,30 @@ class AdminForum implements Module
 						//Remove from forum index
 						unset($this->forums[$key]);
 						Functions::file_put_contents('vars/foren.var', implode("\n", array_map(array('Functions', 'implodeByTab'), $this->forums)) . "\n");
-						//Update groups with data from special rights file
-						/*
-						$groups = array_map(array('Functions', 'explodeByTab'), Functions::file('vars/groups.var'));
-						foreach(array_map(array('Functions', 'explodeByTab'), Functions::file('foren/' . $forumID . '-rights.xbb')) as $curSpecialRight)
-							if($curSpecialRight[1] == '2')
-								foreach($groups as $curGroup)
-									if($curGroup[0] == $curSpecialRight[2])
-									{
-										$curGroup[5] = Functions::explodeByComma($curGroup[5]);
-										foreach(Functions::explodeByComma($curGroup[5]) as $cur)
-										break;
-									}
-						*/
-						//Delete topics
 						$sizeCounter = $fileCounter = 0;
+						//Update groups with data from special rights file
+						if(Functions::file_exists('foren/' . $forumID . '-rights.xbb'))
+						{
+							$groups = array_map(array('Functions', 'explodeByTab'), Functions::file('vars/groups.var'));
+							foreach(array_map(array('Functions', 'explodeByTab'), Functions::file('foren/' . $forumID . '-rights.xbb')) as $curSpecialRight)
+								//Look for special group rights
+								if($curSpecialRight[1] == '2')
+									foreach($groups as &$curGroup)
+										if($curGroup[0] == $curSpecialRight[2])
+										{
+											if(($key = array_search($forumID, ($curGroup[5] = Functions::explodeByComma($curGroup[5])))) !== false)
+											{
+												//Delete special group right
+												unset($curGroup[5][$key]);
+												$curGroup[5] = implode(',', $curGroup[5]);
+												Functions::file_put_contents('vars/groups.var', implode("\n", array_map(array('Functions', 'implodeByTab'), $groups)) . "\n");
+											}
+											break;
+										}
+							$sizeCounter += Functions::unlink('foren/' . $forumID . '-rights.xbb');
+							$fileCounter++;
+						}
+						//Delete topics
 						foreach(Functions::file('foren/' . $forumID . '-threads.xbb') as $curTopicID)
 						{
 							//Delete possible poll
@@ -222,11 +234,6 @@ class AdminForum implements Module
 						$sizeCounter += Functions::unlink('foren/' . $forumID . '-threads.xbb');
 						$sizeCounter += Functions::unlink('foren/' . $forumID . '-ltopic.xbb');
 						$fileCounter += 2;
-						if(Functions::file_exists('foren/' . $forumID . '-rights.xbb'))
-						{
-							$sizeCounter += Functions::unlink('foren/' . $forumID . '-rights.xbb');
-							$fileCounter++;
-						}
 						if(Functions::file_exists('foren/' . $forumID . '-sticker.xbb'))
 						{
 							$sizeCounter += Functions::unlink('foren/' . $forumID . '-sticker.xbb');
@@ -403,17 +410,17 @@ class AdminForum implements Module
 			$specialUserRights = $specialGroupRights = array();
 			foreach($specialRights as &$curSpecialRight)
 			{
-				if($curSpecialRight[1] == 1)
+				if($curSpecialRight[1] == '1')
 					$specialUserRights[] = $curSpecialRight + array('idName' => Functions::getProfileLink($curSpecialRight[2], true));
-				elseif($curSpecialRight[1] == 2)
-					$specialGroupRights[] = $curSpecialRight + array('idName' => next(Functions::getGroupData($curSpecialRight[2])));
+				elseif($curSpecialRight[1] == '2')
+					$specialGroupRights[] = $curSpecialRight + array('idName' => @next(Functions::getGroupData($curSpecialRight[2])));
 			}
 			Main::getModule('Template')->assign(array('forumID' => $forumID,
 				'specialUserRights' => $specialUserRights,
 				'specialGroupRights' => $specialGroupRights));
 			break;
 
-//AdminForumSpecialRights
+//AdminForumNewUserRight
 			case 'new_user_right':
 			$forumID = intval(Functions::getValueFromGlobals('forum_id'));
 			Main::getModule('NavBar')->addElement(array(
@@ -450,6 +457,112 @@ class AdminForum implements Module
 			}
 			Main::getModule('Template')->assign(array('forumID' => $forumID,
 				'forumRights' => array_map(create_function('$right', 'return $right == 1;'), Functions::explodeByComma($this->forums[$key][10]))));
+			break;
+
+//AdminForumNewGroupRight
+			case 'new_group_right':
+			$forumID = intval(Functions::getValueFromGlobals('forum_id'));
+			Main::getModule('NavBar')->addElement(array(
+				array(Main::getModule('Language')->getString('manage_forums'), INDEXFILE . '?faction=ad_forum&amp;mode=forumview' . SID_AMPER),
+				array(Main::getModule('Language')->getString('edit_forum'), INDEXFILE . '?faction=ad_forum&amp;ad_forum_id=' . $forumID . '&amp;mode=change' . SID_AMPER),
+				array(Main::getModule('Language')->getString('edit_special_rights'), INDEXFILE . '?faction=ad_forum&amp;mode=edit_forum_rights&amp;forum_id=' . $forumID . SID_AMPER),
+				array(Main::getModule('Language')->getString('add_new_special_group_right'), INDEXFILE . '?faction=ad_forum&amp;mode=new_group_right&amp;forum_id=' . $forumID . SID_AMPER)));
+			//Check for valid forum ID
+			if(($key = array_search($forumID, array_map('current', $this->forums))) === false)
+				Main::getModule('Template')->printMessage('forum_not_found');
+			//Make sure there are groups available
+			if(count($groups = array_map(array('Functions', 'explodeByTab'), Functions::file('vars/groups.var'))) == 0)
+				Main::getModule('Template')->printMessage('no_groups_available');
+			//Get special rights or create new
+			$specialRights = @Functions::file('foren/' . $forumID . '-rights.xbb') or $specialRights = array();
+			$specialGroupIDs = array_filter(array_map(create_function('$right', 'return $right[1] == 2 ? $right[2] : null;'), $specialRights = array_map(array('Functions', 'explodeByTab'), $specialRights)), 'is_numeric');
+			//Make sure there are groups with no special rights for current forum
+			if(count($specialGroupIDs) == count($groups))
+				Main::getModule('Template')->printMessage('all_groups_assigned');
+			if(Functions::getValueFromGlobals('add') == 'yes')
+			{
+				$newGroupID = intval(Functions::getValueFromGlobals('new_group_id'));
+				if(in_array($newGroupID, $specialGroupIDs))
+					$this->errors[] = Main::getModule('Language')->getString('group_already_has_special_rights');
+				else
+				{
+					//Update group file and special rights file
+					foreach($groups as &$curGroup)
+						if($curGroup[0] == $newGroupID)
+						{
+							if(empty($curGroup[5]))
+								$curGroup[5] = $forumID;
+							else
+								if(!in_array($forumID, ($curGroup[5] = Functions::explodeByComma($curGroup[5]))))
+								{
+									$curGroup[5][] = $forumID;
+									$curGroup[5] = implode(',', $curGroup[5]);
+								}
+							Functions::file_put_contents('vars/groups.var', implode("\n", array_map(array('Functions', 'implodeByTab'), $groups)) . "\n");
+							//Group done, proceed with special forum rights
+							$newGroupRights = Functions::getValueFromGlobals('new_right') + array_fill(0, 6, '');
+							ksort($newGroupRights);
+							Functions::file_put_contents('foren/' . $forumID . '-rights.xbb', (empty($specialRights) ? 1 : current(end($specialRights))+1) . "\t2\t" . $newGroupID . "\t" . Functions::implodeByTab($newGroupRights) . "\t\t\t\t\t\t\n", FILE_APPEND);
+							//Done
+							Main::getModule('Logger')->log('%s added new special group right for forum (ID: ' . $forumID . ')', LOG_ACP_ACTION);
+							header('Location: ' . INDEXFILE . '?faction=ad_forum&mode=edit_forum_rights&forum_id=' . $forumID . SID_AMPER_RAW);
+							Main::getModule('Template')->printMessage('special_right_added');
+							break;
+						}
+					//This should not happen
+					$this->errors[] = '<b>ERROR:</b> Group was not found!';
+				}
+			}
+			Main::getModule('Template')->assign(array('forumID' => $forumID,
+				//Only assign groups without having special rights for this forum
+				'groups' => array_filter($groups, create_function('$group', 'return !in_array($group[0], array(' . implode(',', $specialGroupIDs) . '));')),
+				'forumRights' => array_map(create_function('$right', 'return $right == 1;'), Functions::explodeByComma($this->forums[$key][10]))));
+			break;
+
+			case 'kill_right':
+			$forumID = intval(Functions::getValueFromGlobals('forum_id'));
+			$specialRights = @Functions::file('foren/' . $forumID . '-rights.xbb') or Main::getModule('Template')->printMessage('forum_not_found');
+			$specialRightID = intval(Functions::getValueFromGlobals('right_id'));
+			$size = count($specialRights = array_map(array('Functions', 'explodeByTab'), $specialRights));
+			for($i=0; $i<$size; $i++)
+				if($specialRights[$i][0] == $specialRightID)
+				{
+					if($specialRights[$i][1] == '1')
+						//Delete special user right
+						unset($specialRights[$i]);
+					elseif($specialRights[$i][1] == '2')
+					{
+						$groups = array_map(array('Functions', 'explodeByTab'), Functions::file('vars/groups.var'));
+						foreach($groups as &$curGroup)
+							if($curGroup[0] == $specialRights[$i][2])
+							{
+								if(($key = array_search($forumID, ($curGroup[5] = Functions::explodeByComma($curGroup[5])))) !== false)
+								{
+									//Delete special group right - part 1
+									unset($curGroup[5][$key]);
+									$curGroup[5] = implode(',', $curGroup[5]);
+									Functions::file_put_contents('vars/groups.var', implode("\n", array_map(array('Functions', 'implodeByTab'), $groups)) . "\n");
+								}
+								break;
+							}
+						//Delete special group right - part 2
+						unset($specialRights[$i]);
+					}
+					if(empty($specialRights))
+						Functions::unlink('foren/' . $forumID . '-rights.xbb');
+					else
+						Functions::file_put_contents('foren/' . $forumID . '-rights.xbb', implode("\n", array_map(array('Functions', 'implodeByTab'), $specialRights)) . "\n");
+					Main::getModule('Logger')->log('%s deleted special right for forum (ID: ' . $forumID . ')', LOG_ACP_ACTION);
+					header('Location: ' . INDEXFILE . '?faction=ad_forum&mode=edit_forum_rights&forum_id=' . $forumID . SID_AMPER_RAW);
+					Main::getModule('Template')->printMessage('special_right_deleted');
+					break;
+				}
+			Main::getModule('Template')->printMessage('special_right_not_found');
+			break;
+
+//AdminForumCatIndex
+			case 'viewkg':
+			Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('manage_categories'), INDEXFILE . '?faction=ad_forum&amp;mode=viewkg' . SID_AMPER);
 			break;
 		}
 		Main::getModule('Template')->printPage(self::$modeTable[$this->mode], array('catTable' => $this->catTable,
