@@ -716,11 +716,15 @@ class FunctionsBasic
 	}
 
 	/**
-	 * Extending PHP's {@link unlink()} with global data path.
+	 * Extending PHP's {@link unlink()} with global data path and returns file size of <b>successfully</b> deleted file.
+	 *
+	 * @param string $filename File to delete
+	 * @param bool $datapath Apply the global datapath to filename, there is usually no need to change this
+	 * @return int|bool Size of deleted file or false
 	 */
-	public static function unlink($filename)
+	public static function unlink($filename, $datapath=true)
 	{
-		return unlink(DATAPATH . $filename);
+		return ($fileSize = filesize(($datapath ? DATAPATH : '') . $filename)) !== false && unlink(($datapath ? DATAPATH : '') . $filename) ? $fileSize : false;
 	}
 
 	/**
