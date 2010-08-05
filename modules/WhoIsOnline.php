@@ -254,6 +254,94 @@ class WhoIsOnline implements Module
 					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('is_in_administration'), $curWIOEntryIsGhost, $curTime);
 					break;
 
+					case 'AdminForum':
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('manages_forums_categories'), $curWIOEntryIsGhost, $curTime);
+					break;
+
+					case 'AdminForumIndex':
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('manages_forums'), $curWIOEntryIsGhost, $curTime);
+					break;
+
+					case 'AdminForumEditForum':
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('edits_a_forum'), $curWIOEntryIsGhost, $curTime);
+					break;
+
+					case 'AdminForumDeleteForum':
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('deletes_a_forum'), $curWIOEntryIsGhost, $curTime);
+					break;
+
+					case 'AdminForumNewForum':
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('creates_a_new_forum'), $curWIOEntryIsGhost, $curTime);
+					break;
+
+					case 'AdminForumSpecialRights':
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('manages_special_rights'), $curWIOEntryIsGhost, $curTime);
+					break;
+
+					case 'AdminForumNewUserRight':
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('creates_new_user_special_right'), $curWIOEntryIsGhost, $curTime);
+					break;
+
+					case 'AdminForumNewGroupRight':
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('creates_new_group_special_right'), $curWIOEntryIsGhost, $curTime);
+					break;
+
+					case 'AdminForumIndexCat':
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('manages_categories'), $curWIOEntryIsGhost, $curTime);
+					break;
+
+					case 'AdminForumEditCat':
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('edits_a_category'), $curWIOEntryIsGhost, $curTime);
+					break;
+
+					case 'AdminForumNewCat':
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('creates_new_category'), $curWIOEntryIsGhost, $curTime);
+					break;
+
+					case 'AdminRankIndex':
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('manages_user_ranks'), $curWIOEntryIsGhost, $curTime);
+					break;
+
+					case 'AdminRankEditRank':
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('edits_an_user_rank'), $curWIOEntryIsGhost, $curTime);
+					break;
+
+					case 'AdminRankNewRank':
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('creates_new_user_rank'), $curWIOEntryIsGhost, $curTime);
+					break;
+
+					case 'AdminConfig':
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('edits_board_settings'), $curWIOEntryIsGhost, $curTime);
+					break;
+
+					case 'AdminConfigResetConfirm':
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('resets_board_settings'), $curWIOEntryIsGhost, $curTime);
+					break;
+
+					case 'AdminConfigCountersConfirm':
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('recalculates_counters'), $curWIOEntryIsGhost, $curTime);
+					break;
+
+					case 'AdminLogfile':
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('manages_logfiles'), $curWIOEntryIsGhost, $curTime);
+					break;
+
+					case 'AdminLogfileViewLog':
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('views_a_logfile'), $curWIOEntryIsGhost, $curTime);
+					break;
+
+					case 'AdminTemplate':
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('manages_templates'), $curWIOEntryIsGhost, $curTime);
+					break;
+
+					case 'AdminNews':
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('writes_board_news'), $curWIOEntryIsGhost, $curTime);
+					break;
+
+					case 'AdminMailList':
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('retrieves_mail_list'), $curWIOEntryIsGhost, $curTime);
+					break;
+
 					default:
 					$wioLocations[] = array($curUser, '<b>WARNING: Unknown WIO location!</b>', $curWIOEntryIsGhost, $curTime);
 					break;

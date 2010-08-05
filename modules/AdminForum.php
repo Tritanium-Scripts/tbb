@@ -47,11 +47,14 @@ class AdminForum implements Module
 		'newforum' => 'AdminForumNewForum',
 		'change' => 'AdminForumEditForum',
 		'AdminForumDeleteForum' => 'AdminForumDeleteForum',
+		//Rights
 		'edit_forum_rights' => 'AdminForumSpecialRights',
 		'new_user_right' => 'AdminForumNewUserRight',
 		'new_group_right' => 'AdminForumNewGroupRight',
-		'kill_right' => 'AdminForumSpecialRights',
-		'viewkg' => 'AdminForumCatIndex');
+		//Cats
+		'viewkg' => 'AdminForumIndexCat',
+		'newkg' => 'AdminForumNewCat',
+		'chgkg' => 'AdminForumEditCat');
 
 	/**
 	 * Sets mode and prepares category translation table.
@@ -255,6 +258,7 @@ class AdminForum implements Module
 						Main::getModule('Logger')->log('%s deleted forum (ID: ' . $forumID . ')', LOG_ACP_ACTION);
 						Main::getModule('Template')->printMessage('forum_deleted_freed_x_in_xxx', $sizeCounter/1024, $fileCounter, $editForum[4], $editForum[3]);
 					}
+//AdminForumDeleteForum
 					//Get confirmation
 					else
 					{
@@ -560,9 +564,113 @@ class AdminForum implements Module
 			Main::getModule('Template')->printMessage('special_right_not_found');
 			break;
 
-//AdminForumCatIndex
+//AdminForumIndexCat
 			case 'viewkg':
 			Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('manage_categories'), INDEXFILE . '?faction=ad_forum&amp;mode=viewkg' . SID_AMPER);
+			unset($this->catTable[-1]); //Don't list this one
+			break;
+
+//AdminForumNewCat
+			case 'newkg':
+			Main::getModule('NavBar')->addElement(array(
+				array(Main::getModule('Language')->getString('manage_categories'), INDEXFILE . '?faction=ad_forum&amp;mode=viewkg' . SID_AMPER),
+				array(Main::getModule('Language')->getString('add_new_category'), INDEXFILE . '?faction=ad_forum&amp;mode=newkg' . SID_AMPER)));
+			$newName = htmlspecialchars(trim(Functions::getValueFromGlobals('name')));
+			if(Functions::getValueFromGlobals('newkg') == 'yes')
+			{
+				if(empty($newName))
+					$this->errors[] = Main::getModule('Language')->getString('please_enter_a_category_name');
+				else
+				{
+					//Get and update newest cat ID
+					Functions::file_put_contents('vars/kgs.var', $newCatID = Functions::file_get_contents('vars/kgs.var')+1);
+					//Add new category
+					Functions::file_put_contents('vars/kg.var', $newCatID . "\t" . $newName . "\t\n", FILE_APPEND);
+					//Done
+					Main::getModule('Logger')->log('%s created new category (ID: ' . $newCatID . ')', LOG_ACP_ACTION);
+					header('Location: ' . INDEXFILE . '?faction=ad_forum&mode=viewkg' . SID_AMPER_RAW);
+					Main::getModule('Template')->printMessage('new_category_added');
+				}
+			}
+			Main::getModule('Template')->assign('newName', $newName);
+			break;
+
+			case 'movekgup':
+			if(($key = array_search($catID = intval(Functions::getValueFromGlobals('id')), array_map('current', $cats = array_map(array('Functions', 'explodeByTab'), Functions::file('vars/kg.var'))))) === false)
+				Main::getModule('Template')->printMessage('category_not_found');
+			//Already on top?
+			if($key != 0)
+			{
+				//Credits for this nice var swapping idea goes to hasin:
+				//http://booleandreams.wordpress.com/2008/07/30/how-to-swap-values-of-two-variables-without-using-a-third-variable/#comment-10486
+				list($cats[$key], $cats[$key-1]) = array($cats[$key-1], $cats[$key]);
+				Functions::file_put_contents('vars/kg.var', implode("\n", array_map(array('Functions', 'implodeByTab'), $cats)) . "\n");
+			}
+			header('Location: ' . INDEXFILE . '?faction=ad_forum&mode=viewkg' . SID_AMPER_RAW);
+			Main::getModule('Template')->printMessage('category_moved');
+			break;
+
+			case 'movekgdown':
+			if(($key = array_search($catID = intval(Functions::getValueFromGlobals('id')), array_map('current', $cats = array_map(array('Functions', 'explodeByTab'), Functions::file('vars/kg.var'))))) === false)
+				Main::getModule('Template')->printMessage('category_not_found');
+			//Already at bottom?
+			if($key != count($cats)-1)
+			{
+				//Credits for this nice var swapping idea goes to hasin:
+				//http://booleandreams.wordpress.com/2008/07/30/how-to-swap-values-of-two-variables-without-using-a-third-variable/#comment-10486
+				list($cats[$key], $cats[$key+1]) = array($cats[$key+1], $cats[$key]);
+				Functions::file_put_contents('vars/kg.var', implode("\n", array_map(array('Functions', 'implodeByTab'), $cats)) . "\n");
+			}
+			header('Location: ' . INDEXFILE . '?faction=ad_forum&mode=viewkg' . SID_AMPER_RAW);
+			Main::getModule('Template')->printMessage('category_moved');
+			break;
+
+//AdminForumEditCat
+			case 'chgkg':
+			$catID = intval(Functions::getValueFromGlobals('id'));
+			Main::getModule('NavBar')->addElement(array(
+				array(Main::getModule('Language')->getString('manage_categories'), INDEXFILE . '?faction=ad_forum&amp;mode=viewkg' . SID_AMPER),
+				array(Main::getModule('Language')->getString('edit_category'), INDEXFILE . '?faction=ad_forum&amp;mode=chgkg' . SID_AMPER)));
+			if(!isset($catID))
+				Main::getModule('Template')->printMessage('category_not_found');
+			$editName = htmlspecialchars(trim(Functions::getValueFromGlobals('name')));
+			if(Functions::getValueFromGlobals('chgkg') == 'yes')
+			{
+				if(empty($editName))
+					$this->errors[] = Main::getModule('Language')->getString('please_enter_a_category_name');
+				else
+				{
+					$this->catTable[$catID] = $editName;
+					unset($this->catTable[-1]);
+					//Prepare cat table for writing
+					foreach($this->catTable as $curCatID => $curCatName)
+						$this->catTable[$curCatID] = array($curCatID, $curCatName);
+					Functions::file_put_contents('vars/kg.var', implode("\n", array_map(array('Functions', 'implodeByTab'), $this->catTable)) . "\n");
+					//Done
+					Main::getModule('Logger')->log('%s edited category (ID: ' . $catID . ')', LOG_ACP_ACTION);
+					header('Location: ' . INDEXFILE . '?faction=ad_forum&mode=viewkg' . SID_AMPER_RAW);
+					Main::getModule('Template')->printMessage('category_edited');
+				}
+			}
+			else
+				$editName = $this->catTable[$catID];
+			Main::getModule('Template')->assign(array('catID' => $catID,
+				'editName' => $editName));
+			break;
+
+			case 'killkg':
+			$catID = intval(Functions::getValueFromGlobals('id'));
+			if(!isset($catID))
+				Main::getModule('Template')->printMessage('category_not_found');
+			unset($this->catTable[-1], $this->catTable[$catID]);
+			//Prepare cat table for writing
+			foreach($this->catTable as $curCatID => $curCatName)
+				$this->catTable[$curCatID] = array($curCatID, $curCatName);
+			Functions::file_put_contents('vars/kg.var', implode("\n", array_map(array('Functions', 'implodeByTab'), $this->catTable)) . "\n");
+			//Done
+			Main::getModule('Logger')->log('%s deleted category (ID: ' . $catID . ')', LOG_ACP_ACTION);
+			header('Location: ' . INDEXFILE . '?faction=ad_forum&mode=viewkg' . SID_AMPER_RAW);
+			Main::getModule('Template')->printMessage('category_deleted');
 			break;
 		}
 		Main::getModule('Template')->printPage(self::$modeTable[$this->mode], array('catTable' => $this->catTable,
