@@ -13,7 +13,7 @@
   <td class="td1" align="center"><span class="norm">{$curResult['id']}</span></td>
   <td class="td1"><span class="norm">{$curResult['nick']}</span></td>
   <td class="td1"><span class="norm">{$curResult['mail']}</span></td>
-  <td class="td1" style="text-align:center;"><span class="norm">{$curResult['percent']}</span></td>
+  <td class="td1" style="text-align:center;"><span class="norm">{$curResult['percent']|round}</span></td>
   <td class="td1" style="text-align:center;"><span class="norm"><a class="norm" href="{$smarty.const.INDEXFILE}?faction=ad_user&amp;mode=edit&amp;id={$curResult['id']}{$smarty.const.SID_AMPER}">{$modules.Language->getString('edit')}</a></span></td>
  </tr>
 {foreachelse}

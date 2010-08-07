@@ -19,7 +19,7 @@ class AdminUser implements Module
 	/**
 	 * Contains mode to execute.
 	 *
-	 * @var string Dummy mode
+	 * @var string User operation mode
 	 */
 	private $mode;
 
@@ -30,18 +30,19 @@ class AdminUser implements Module
 	 */
 	private static $modeTable = array('ad_user' => 'AdminUser',
 		'search' => 'AdminUser',
-		'new',
-		'edit');
+		'new' => 'AdminUserNewUser',
+		'edit' => 'AdminUserEditUser');
 
 	/**
-	 * Sets mode.
+	 * Sets mode and provides needed lang strings.
 	 * 
-	 * @param string $mode
+	 * @param string $mode Mode
 	 * @return AdminUser New instance of this class
 	 */
 	function __construct($mode)
 	{
 		$this->mode = $mode;
+		Main::getModule('Language')->parseFile('MemberList');
 	}
 
 	/**
@@ -57,7 +58,7 @@ class AdminUser implements Module
 	}
 
 	/**
-	 * Executes mode.
+	 * Searches for, edits and creates new member.
 	 */
 	public function execute()
 	{
@@ -65,12 +66,162 @@ class AdminUser implements Module
 		Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('manage_user'), INDEXFILE . '?faction=ad_user' . SID_AMPER);
 		switch($this->mode)
 		{
+//AdminUserNewUser
 			case 'new':
+			Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('add_new_member'), INDEXFILE . '?faction=ad_user&amp;mode=new' . SID_AMPER);
+			$newUser = Functions::getValueFromGlobals('new');
+			$groups = array_map(array('Functions', 'explodeByTab'), Functions::file('vars/groups.var'));
+			if(Functions::getValueFromGlobals('create') == 'yes')
+			{
+				$newUser['nick'] = htmlspecialchars(trim($newUser['nick']));
+				$sendRegMail = $newUser['send_reg'] = isset($newUser['send_reg']);
+				//Check nick name
+				if(empty($newUser['nick']))
+					$this->errors[] = Main::getModule('Language')->getString('please_enter_an_user_name');
+				elseif(Functions::unifyUserName($newUser['nick']))
+					$this->errors[] = Main::getModule('Language')->getString('the_user_name_already_exists');
+				//Check mail addy
+				if(empty($newUser['email']))
+					$this->errors[] = Main::getModule('Language')->getString('please_enter_a_mail');
+				elseif(!Functions::isValidMail($newUser['email']))
+					$this->errors[] = Main::getModule('Language')->getString('please_enter_a_valid_mail');
+				elseif(Functions::unifyUserMail($newUser['email']))
+					$this->errors[] = Main::getModule('Language')->getString('the_mail_address_already_exists');
+				//Check + hash password
+				if(empty($newUser['pw1']))
+					$this->errors[] = Main::getModule('Language')->getString('please_enter_a_password');
+				elseif($newUser['pw1'] != $newUser['pw2'])
+					$this->errors[] = Main::getModule('Language')->getString('passwords_do_not_match');
+				else
+					//Unhashed pass is still available under 'pw2' for sending reg mail
+					$newUser['pw1'] = Functions::getHash($newUser['pw1']);
+				if(empty($this->errors))
+				{
+					//Get new ID
+					$newUserID = Functions::file_get_contents('vars/last_user_id.var')+1;
+					//Process group stuff
+					if(!empty($newUser['group']))
+					{
+						foreach($groups as &$curGroup)
+							if($curGroup[0] == $newUser['group'])
+							{
+								$curGroup[3] .= (empty($curGroup[3]) ? '' : ',') . $newUserID;
+								break;
+							}
+						Functions::file_put_contents('vars/groups.var', implode("\n", array_map(array('Functions', 'implodeByTab'), $groups)) . "\n");
+					}
+					//Build member file
+					$newUser = array($newUser['nick'],
+						$newUserID,
+						$newUser['pw1'],
+						$newUser['email'],
+						'3',
+						'0',
+						date('YmdHis'),
+						'',
+						'',
+						'',
+						'',
+						'0',
+						'',
+						'',
+						'1,1',
+						$newUser['group'],
+						//New TBB 1.5 values
+						time(),
+						'',
+						'',
+						'');
+					//Writing time
+					Functions::file_put_contents('members/' . $newUserID . '.xbb', implode("\n", $newUser));
+					Functions::file_put_contents('members/' . $newUserID . '.pm', '');
+					Functions::file_put_contents('vars/last_user_id.var', $newUserID);
+					Functions::file_put_contents('vars/member_counter.var', Functions::file_get_contents('vars/member_counter.var')+1);
+					//Send reg mail, if required
+					if($sendRegMail)
+						Functions::sendMessage($newUser[3], 'new_registration', $newUser[0], Main::getModule('Config')->getCfgVal('forum_name'), $newUser[1], $newUser[3], $newUser['pw2'], Main::getModule('Config')->getCfgVal('address_to_forum') . '/' . INDEXFILE);
+					//Done
+					Main::getModule('Logger')->log('%s created new member (ID: ' . $newUserID . ')', LOG_ACP_ACTION);
+					Main::getModule('Template')->printMessage('member_created');
+				}
+			}
+			else
+				$newUser = array('nick' => '',
+					'email' => '',
+					'group' => '',
+					'send_reg' => true);
+			Main::getModule('Template')->assign(array('newUser' => $newUser,
+				'groups' => $groups));
 			break;
 
+//AdminUserEditUser
 			case 'edit':
+			$editUserID = intval(Functions::getValueFromGlobals('id'));
+			Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('edit_user'), INDEXFILE . '?faction=ad_user&amp;mode=edit&amp;id=' . $editUserID . SID_AMPER);
+			$editUser = Functions::getUserData($editUserID) or Main::getModule('Template')->printMessage('user_does_not_exist');
+			if(Functions::getValueFromGlobals('edit') == 'yes')
+			{
+				//Delete user?
+				if(Functions::getValueFromGlobals('kill') != '')
+				{
+					//Remove from group
+					if(!empty($editUser[15]))
+					{
+						$groups = array_map(array('Functions', 'explodeByTab'), Functions::file('vars/groups.var'));
+						foreach($groups as &$curGroup)
+							if($curGroup[0] == $editUser[15])
+							{
+								$curGroup[3] = Functions::explodeByComma($curGroup[3]);
+								if(($key = array_search($editUser[1], $curGroup[3])) !== false)
+								{
+									unset($curGroup[3][$key]);
+									$curGroup[3] = implode(',', $curGroup[3]);
+									Functions::file_put_contents('vars/groups.var', implode("\n", array_map(array('Functions', 'implodeByTab'), $groups)) . "\n");
+								}
+								break;
+							}
+					}
+					//Bye bye
+					Functions::unlink('members/' . $editUser[1] . '.xbb');
+					Functions::unlink('members/' . $editUser[1] . '.pm');
+					//Decrease member counter
+					Functions::file_put_contents('vars/member_counter.var', Functions::file_get_contents('vars/member_counter.var')-1);
+					//Done
+					Main::getModule('Logger')->log('%s deleted user (ID: ' . $editUser[1] . ')', LOG_ACP_ACTION);
+					Main::getModule('Template')->printMessage('member_deleted');
+				}
+				//Normal edit
+				$editUserName = htmlspecialchars(trim(Functions::getValueFromGlobals('name')));
+				$editUser[3] = Functions::getValueFromGlobals('email');
+				$editUser[4] = intval(Functions::getValueFromGlobals('status'));
+				$editUser[7] = Functions::nl2br(htmlspecialchars(trim(Functions::getValueFromGlobals('signatur'))));
+				$editUser[10] = Functions::getValueFromGlobals('pic');
+				if(empty($editUserName))
+					$this->errors[] = Main::getModule('Language')->getString('please_enter_an_user_name');
+				elseif($editUser[0] != $editUserName && Functions::unifyUserName($editUserName))
+					$this->errors[] = Main::getModule('Language')->getString('the_user_name_already_exists');
+				else
+					$editUser[0] = $editUserName;
+				if(empty($editUser[3]))
+					$this->errors[] = Main::getModule('Language')->getString('please_enter_a_mail');
+				elseif(!Functions::isValidMail($editUser[3]))
+					$this->errors[] = Main::getModule('Language')->getString('please_enter_a_valid_mail');
+				if(empty($this->errors))
+				{
+					$editUser[14] = implode(',', $editUser[14]);
+					$editUser[19] = Functions::implodeByTab($editUser[19]);
+					Functions::file_put_contents('members/' . $editUser[1] . '.xbb', implode("\n", $editUser));
+					//Done
+					Main::getModule('Logger')->log('%s edited user (ID: ' . $editUser[1] . ')', LOG_ACP_ACTION);
+					Main::getModule('Template')->printMessage('member_edited');
+				}
+			}
+			$editUser[7] = Functions::br2nl($editUser[7]);
+			unset($editUser[2], $editUser[5], $editUser[6], $editUser[8], $editUser[9], $editUser[11], $editUser[12], $editUser[13], $editUser[14], $editUser[15], $editUser[16], $editUser[17], $editUser[18], $editUser[19]);
+			Main::getModule('Template')->assign('editUser', $editUser);
 			break;
 
+//AdminUser
 			default:
 			Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('member_search'), INDEXFILE . '?faction=ad_user&amp;mode=search' . SID_AMPER);
 			$searchMethod = Functions::getValueFromGlobals('searchmethod') or $searchMethod = 'id';
@@ -98,12 +249,12 @@ class AdminUser implements Module
 						foreach(glob(DATAPATH . 'members/[!0]*.xbb') as $curMember)
 						{
 							$curMember = Functions::file($curMember, null, null, false);
-							similar_text($curMember[$index], $searchFor, $curPercent); //Calculate percentage of similarity
+							similar_text(Functions::strtolower($curMember[$index]), $searchFor, $curPercent); //Calculate percentage of similarity
 							if($curPercent > 0) //Add to result list by having a minimum of similarity
 								$results[] = array('id' => $curMember[1],
 								'nick' => $curMember[0],
 								'mail' => $curMember[3],
-								'percent' => round($curPercent));
+								'percent' => $curPercent);
 						}
 						break;
 					}
