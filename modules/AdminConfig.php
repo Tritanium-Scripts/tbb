@@ -68,6 +68,25 @@ class AdminConfig implements Module
 		Functions::accessAdminPanel();
 		switch($this->mode)
 		{
+			case 'rebuildTopicIndex':
+			Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('rebuild_topic_index'), INDEXFILE . '?faction=ad_settings&amp;mode=rebuildTopicIndex' . SID_AMPER);
+/*
+			foreach(array_map(create_function('$forum', 'return current(Functions::explodeByTab($forum));'), Functions::file('vars/foren.var', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES)) as $curForumID)
+			{
+				$curTopicIDs = array();
+				$curTopicFiles = glob(DATAPATH . 'foren/' . $curForumID . '-[0-9]*.xbb'); //Get topics of current forum
+				array_multisort(array_map('filemtime', $curTopicFiles), SORT_NUMERIC, SORT_DESC, $curTopicFiles); //Sort by date => by last views, not by last post...
+				foreach($curTopicFiles as $curTopicFile) //Retrieve topic IDs for index
+					if(preg_match('/' . $curForumID . '-(\d+).xbb/si', $curTopicFile, $curMatch) == 1)
+						$curTopicIDs[] = $curMatch[1];
+				Functions::file_put_contents('foren/' . $curForumID . '-threads.xbb', implode("\n", $curTopicIDs) . "\n");
+			}
+			Main::getModule('Logger')->log('%s rebuilt topic index', LOG_ACP_ACTION);
+			Main::getModule('Template')->printMessage('topic_index_rebuilt');
+*/
+			Main::getModule('Template')->printMessage('function_deactivated');
+			break;
+
 //AdminConfigCountersConfirm
 			case 'recalculateCounters':
 			Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('recalculate_counters'), INDEXFILE . '?faction=ad_settings&amp;mode=recalculateCounters' . SID_AMPER);
