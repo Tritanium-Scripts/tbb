@@ -269,7 +269,11 @@ class FunctionsBasic
 	public static function getBannedIPs()
 	{
 		if(!isset(self::$cache['bannedIPs']))
+		{
 			self::$cache['bannedIPs'] = array_map(array('self', 'explodeByTab'), self::file('vars/ip.var'));
+			if(!isset(self::$cache['bannedIPs'][0][1]))
+				self::$cache['bannedIPs'] = array();
+		}
 		return self::$cache['bannedIPs'];
 	}
 

@@ -111,7 +111,7 @@ class AdminGroup implements Module
 
 //AdminGroupEditGroup
 			case 'edit':
-			Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('edit_group'), INDEXFILE . '?faction=ad_groups&amp;mode=edit' . SID_AMPER);
+			Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('edit_group'), INDEXFILE . '?faction=ad_groups&amp;mode=edit&amp;group_id=' . $this->groupID . SID_AMPER);
 			if(($key = array_search($this->groupID, array_map('current', $this->groups))) === false)
 				Main::getModule('Template')->printMessage('group_not_found');
 			$editName = htmlspecialchars(trim(Functions::getValueFromGlobals('title')));
@@ -208,7 +208,7 @@ class AdminGroup implements Module
 				unset($this->groups[$key]);
 				foreach($this->groups as &$curGroup)
 					$curGroup[3] = implode(',', $curGroup[3]);
-				Functions::file_put_contents('vars/groups.var', implode("\n", array_map(array('Functions', 'implodeByTab'), $this->groups)) . "\n");
+				Functions::file_put_contents('vars/groups.var', empty($this->groups) ? '' : implode("\n", array_map(array('Functions', 'implodeByTab'), $this->groups)) . "\n");
 				//Done
 				Main::getModule('Logger')->log('%s deleted group (ID: ' . $this->groupID . ')', LOG_ACP_ACTION);
 				header('Location: ' . INDEXFILE . '?faction=ad_groups' . SID_AMPER_RAW);
