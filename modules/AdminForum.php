@@ -252,6 +252,7 @@ class AdminForum implements Module
 									continue;
 								$curUser[4] = 3;
 								$curUser[14] = implode(',', $curUser[14]);
+								$curUser[19] = Functions::implodeByTab($curUser[19]);
 								Functions::file_put_contents('members/' . $curModID . '.xbb', implode("\n", $curUser));
 							}
 						//Done
@@ -301,6 +302,7 @@ class AdminForum implements Module
 										continue;
 									$curUser[4] = 3;
 									$curUser[14] = implode(',', $curUser[14]);
+									$curUser[19] = Functions::implodeByTab($curUser[19]);
 									Functions::file_put_contents('members/' . $curModID . '.xbb', implode("\n", $curUser));
 								}
 							}
@@ -314,6 +316,7 @@ class AdminForum implements Module
 										continue;
 									$curUser[4] = 2;
 									$curUser[14] = implode(',', $curUser[14]);
+									$curUser[19] = Functions::implodeByTab($curUser[19]);
 									Functions::file_put_contents('members/' . $curModID . '.xbb', implode("\n", $curUser));
 								}
 						}

@@ -36,7 +36,7 @@ class AdminUser implements Module
 	/**
 	 * Sets mode and provides needed lang strings.
 	 * 
-	 * @param string $mode Mode
+	 * @param string $mode User mode
 	 * @return AdminUser New instance of this class
 	 */
 	function __construct($mode)

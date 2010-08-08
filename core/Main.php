@@ -8,7 +8,7 @@
  * @package TBB1.5
  */
 /**
- * Interface template for every implementing module which can be call "directly" from an user.
+ * Interface template for every implementing module which can be called "directly" from an user.
  *
  * @package TBB1.5
  */

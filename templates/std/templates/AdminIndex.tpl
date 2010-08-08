@@ -18,7 +18,7 @@
  <tr>
   <td class="td1" style="vertical-align:top; width:50%;">
    <span class="norm" style="font-weight:bold;"><a href="{$smarty.const.INDEXFILE}?faction=ad_groups{$smarty.const.SID_AMPER}">{$modules.Language->getString('groups')}</a></span><br />
-   <span class="small">&nbsp;&nbsp;&nbsp;&nbsp;<a class="small" href="{$smarty.const.INDEXFILE}?faction=ad_groups{$smarty.const.SID_AMPER}">{$modules.Language->getString('group_index')}</a><br />
+   <span class="small">&nbsp;&nbsp;&nbsp;&nbsp;<a class="small" href="{$smarty.const.INDEXFILE}?faction=ad_groups{$smarty.const.SID_AMPER}">{$modules.Language->getString('manage_groups')}</a><br />
    &nbsp;&nbsp;&nbsp;&nbsp;<a class="small" href="{$smarty.const.INDEXFILE}?faction=ad_groups&amp;mode=new{$smarty.const.SID_AMPER}">{$modules.Language->getString('add_new_group')}</a></span>
   </td>
   <td class="td1" style="vertical-align:top; width:50%;">
