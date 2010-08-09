@@ -78,7 +78,7 @@ class AdminLogfile implements Module
 //AdminLogfile
 			case 'delete':
 			if(Functions::getValueFromGlobals('multiDelete') != '')
-				$toDelete = array_keys(Functions::getValueFromGlobals('deletelog'));
+				$toDelete = @array_keys(Functions::getValueFromGlobals('deletelog')) or $toDelete = array();
 			elseif(!Functions::file_exists($this->log))
 				Main::getModule('Template')->printMessage('logfile_not_found');
 			else

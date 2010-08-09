@@ -346,6 +346,17 @@ class FunctionsBasic
 	}
 
 	/**
+	 * Returns a translation table for the common HTML entities and their unicode hexadecimal representation for JavaScript environments.
+	 * Use this decoder to max out user comfort and valid W3C conform code. Cranks up leet level quite high!
+	 *
+	 * @return mixed Translation table between HTML entities and their JavaScript counterparts
+	 */
+	public static function getHTMLJSTransTable()
+	{
+		return isset(self::$cache['htmlJSDecoder']) ? self::$cache['htmlJSDecoder'] : (self::$cache['htmlJSDecoder'] = array_combine(array_keys($temp = array_flip($temp = get_html_translation_table(HTML_SPECIALCHARS, ENT_QUOTES))+array('&#' . (in_array('&#39;', $temp) ? '0' : '') . '39;' => "'", '&apos;' => "'")), array_map(create_function('$string', 'return \'\u00\' . bin2hex($string);'), array_values($temp))));
+	}
+
+	/**
 	 * Compiles back links for forum messages. A link to the forum index will always be generated.
 	 *
 	 * @param int $forumID Generates back link to topics of this forum, if provided

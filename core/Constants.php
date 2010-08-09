@@ -53,4 +53,8 @@ define('BBCODE_SHADOW', 16);	//Shadow
 define('BBCODE_FLASH', 17);		//Flash
 define('BBCODE_QUOTE', 18);		//Quote
 define('BBCODE_CODE', 19);		//Code / PHP
+//Smiley types
+define('SMILEY_SMILEY', 0);		//Normal smiles
+define('SMILEY_TOPIC', 1);		//Post icons
+define('SMILEY_ADMIN', 2);		//Admin and (s)mod smilies
 ?>

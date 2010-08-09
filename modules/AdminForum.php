@@ -188,7 +188,7 @@ class AdminForum implements Module
 						//Let's rock! :D
 						//Remove from forum index
 						unset($this->forums[$key]);
-						Functions::file_put_contents('vars/foren.var', implode("\n", array_map(array('Functions', 'implodeByTab'), $this->forums)) . "\n");
+						Functions::file_put_contents('vars/foren.var', empty($this->forums) ? '' : implode("\n", array_map(array('Functions', 'implodeByTab'), $this->forums)) . "\n");
 						$sizeCounter = $fileCounter = 0;
 						//Update groups with data from special rights file
 						if(Functions::file_exists('foren/' . $forumID . '-rights.xbb'))
@@ -669,7 +669,7 @@ class AdminForum implements Module
 			//Prepare cat table for writing
 			foreach($this->catTable as $curCatID => $curCatName)
 				$this->catTable[$curCatID] = array($curCatID, $curCatName);
-			Functions::file_put_contents('vars/kg.var', implode("\n", array_map(array('Functions', 'implodeByTab'), $this->catTable)) . "\n");
+			Functions::file_put_contents('vars/kg.var', empty($this->catTable) ? '' : implode("\n", array_map(array('Functions', 'implodeByTab'), $this->catTable)) . "\n");
 			//Done
 			Main::getModule('Logger')->log('%s deleted category (ID: ' . $catID . ')', LOG_ACP_ACTION);
 			header('Location: ' . INDEXFILE . '?faction=ad_forum&mode=viewkg' . SID_AMPER_RAW);

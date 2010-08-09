@@ -95,6 +95,7 @@ Last changed: 2010 (Version 1.5 Alpha)
 	-Mitglieder können andere Templates und Styles auswählen
 	-Logdateienverwaltung im ACP
 	-Angabe von maximalen Beiträgen wird für Ränge automatisch berechnet (keine 1000000 mehr als Limit)
+	-Korrekte Benennung von Smileys und IP-Adressen
 
 Written by Chrissyx
 (c) 2010 Tritanium Scripts
