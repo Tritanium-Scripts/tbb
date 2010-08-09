@@ -100,7 +100,7 @@ class Search implements Module
 		{
 			header('Location: ' . INDEXFILE . '?faction=search&searchID=' . $this->searchID . SID_AMPER);
 			$_SESSION[$this->searchID]['sTime'] += microtime(true)-SCRIPTSTART;
-			exit('<a href="' . INDEXFILE . '?faction=search&searchID=' . $this->searchID . SID_AMPER . '">Go on</a>');
+			exit('<a href="' . INDEXFILE . '?faction=search&amp;searchID=' . $this->searchID . SID_AMPER . '">Go on</a>');
 		}
 	}
 

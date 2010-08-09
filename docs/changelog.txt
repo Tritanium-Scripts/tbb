@@ -96,6 +96,8 @@ Last changed: 2010 (Version 1.5 Alpha)
 	-Logdateienverwaltung im ACP
 	-Angabe von maximalen Beiträgen wird für Ränge automatisch berechnet (keine 1000000 mehr als Limit)
 	-Korrekte Benennung von Smileys und IP-Adressen
+	-Versenden von Newslettern auch bei vielen Mitgliedern ohne Probleme oder Timeouts
+	-Optionale Archivierung von verschickten Newslettern
 
 Written by Chrissyx
 (c) 2010 Tritanium Scripts

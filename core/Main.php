@@ -78,6 +78,7 @@ class Main implements Module
 		'formmail' => 'Profile',
 		'' => 'Forum',
 		'credits' => 'Credits',
+		'newsletter' => 'Newsletter',
 		//Adminpanel actions
 		'adminpanel' => 'AdminIndex',
 		'ad_forum' => 'AdminForum',
@@ -91,7 +92,7 @@ class Main implements Module
 		'ad_news' => 'AdminNews',
 		'ad_newsletter' => 'AdminNewsletter',
 		'ad_emailist' => 'AdminMailList',
-		'ad_killposts' => 'AdminKillPost',
+		'ad_killposts' => 'AdminDeleteOld',
 		'ad_login' => 'Login',
 		'adminLogfile' => 'AdminLogfile',
 		'adminTemplate' => 'AdminTemplate',

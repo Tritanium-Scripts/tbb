@@ -217,6 +217,17 @@ class Auth
 	}
 
 	/**
+	 * Returns user has is *somewhere* moderator of a forum.
+	 * This does NOT rely on a context of a current forum!
+	 *
+	 * @return bool Moderator rank
+	 */
+	public function isMod()
+	{
+		return $this->userData[4] == '2' || $this->userData[4] == '6';
+	}
+
+	/**
 	 * Returns user has super moderator permissions.
 	 *
 	 * @return bool Super moderator permissions
