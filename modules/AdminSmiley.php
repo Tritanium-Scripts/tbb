@@ -132,6 +132,7 @@ class AdminSmiley implements Module
 					{
 						Functions::file_put_contents('vars/smiliess.var', $this->smileyID = Functions::file_get_contents('vars/smiliess.var')+1);
 						Functions::file_put_contents('vars/smilies.var', $this->smileyID . "\t" . $newSynonym . "\t" . $newAddress . "\t\n", FILE_APPEND);
+						Functions::unlink('cache/BBCode.cache.php', false);
 						Main::getModule('Logger')->log('%s added new smiley (ID: ' . $this->smileyID . ')', LOG_ACP_ACTION);
 						header('Location: ' . INDEXFILE . '?faction=ad_smilies' . SID_AMPER_RAW);
 						Main::getModule('Template')->printMessage('smiley_added');
@@ -168,6 +169,7 @@ class AdminSmiley implements Module
 					{
 						Functions::file_put_contents('vars/adminsmiliess.var', $this->smileyID = Functions::file_exists('vars/adminsmiliess.var') ? Functions::file_get_contents('vars/adminsmiliess.var')+1 : 1);
 						Functions::file_put_contents('vars/adminsmilies.var', $this->smileyID . "\t" . $newSynonym . "\t" . $newAddress . "\t\n", FILE_APPEND);
+						Functions::unlink('cache/BBCode.cache.php', false);
 						Main::getModule('Logger')->log('%s added new admin smiley (ID: ' . $this->smileyID . ')', LOG_ACP_ACTION);
 						header('Location: ' . INDEXFILE . '?faction=ad_smilies' . SID_AMPER_RAW);
 						Main::getModule('Template')->printMessage('smiley_added');
@@ -205,6 +207,7 @@ class AdminSmiley implements Module
 						$this->smilies[$key][1] = $editSynonym;
 						$this->smilies[$key][2] = $editAddress;
 						Functions::file_put_contents('vars/smilies.var', implode("\n", array_map(array('Functions', 'implodeByTab'), $this->smilies)) . "\n");
+						Functions::unlink('cache/BBCode.cache.php', false);
 						Main::getModule('Logger')->log('%s edited smiley (ID: ' . $this->smileyID . ')', LOG_ACP_ACTION);
 						header('Location: ' . INDEXFILE . '?faction=ad_smilies' . SID_AMPER_RAW);
 						Main::getModule('Template')->printMessage('smiley_edited');
@@ -253,6 +256,7 @@ class AdminSmiley implements Module
 						$this->aSmilies[$key][1] = $editSynonym;
 						$this->aSmilies[$key][2] = $editAddress;
 						Functions::file_put_contents('vars/adminsmilies.var', implode("\n", array_map(array('Functions', 'implodeByTab'), $this->aSmilies)) . "\n");
+						Functions::unlink('cache/BBCode.cache.php', false);
 						Main::getModule('Logger')->log('%s edited admin smiley (ID: ' . $this->smileyID . ')', LOG_ACP_ACTION);
 						header('Location: ' . INDEXFILE . '?faction=ad_smilies' . SID_AMPER_RAW);
 						Main::getModule('Template')->printMessage('smiley_edited');
@@ -282,6 +286,7 @@ class AdminSmiley implements Module
 					Main::getModule('Template')->printMessage('smiley_not_found');
 				unset($this->smilies[$key]);
 				Functions::file_put_contents('vars/smilies.var', empty($this->smilies) ? '' : implode("\n", array_map(array('Functions', 'implodeByTab'), $this->smilies)) . "\n");
+				Functions::unlink('cache/BBCode.cache.php', false);
 				Main::getModule('Logger')->log('%s deleted smiley (ID: ' . $this->smileyID . ')', LOG_ACP_ACTION);
 				header('Location: ' . INDEXFILE . '?faction=ad_smilies' . SID_AMPER_RAW);
 				Main::getModule('Template')->printMessage('smiley_deleted');
@@ -304,6 +309,7 @@ class AdminSmiley implements Module
 					Main::getModule('Template')->printMessage('smiley_not_found');
 				unset($this->aSmilies[$key]);
 				Functions::file_put_contents('vars/adminsmilies.var', empty($this->aSmilies) ? '' : implode("\n", array_map(array('Functions', 'implodeByTab'), $this->aSmilies)) . "\n");
+				Functions::unlink('cache/BBCode.cache.php', false);
 				Main::getModule('Logger')->log('%s deleted admin smiley (ID: ' . $this->smileyID . ')', LOG_ACP_ACTION);
 				header('Location: ' . INDEXFILE . '?faction=ad_smilies' . SID_AMPER_RAW);
 				Main::getModule('Template')->printMessage('smiley_deleted');
@@ -323,6 +329,7 @@ class AdminSmiley implements Module
 				{
 					list($this->smilies[$key], $this->smilies[$key-1]) = array($this->smilies[$key-1], $this->smilies[$key]);
 					Functions::file_put_contents('vars/smilies.var', implode("\n", array_map(array('Functions', 'implodeByTab'), $this->smilies)) . "\n");
+					Functions::unlink('cache/BBCode.cache.php', false);
 				}
 				break;
 
@@ -343,6 +350,7 @@ class AdminSmiley implements Module
 				{
 					list($this->aSmilies[$key], $this->aSmilies[$key-1]) = array($this->aSmilies[$key-1], $this->aSmilies[$key]);
 					Functions::file_put_contents('vars/adminsmilies.var', implode("\n", array_map(array('Functions', 'implodeByTab'), $this->aSmilies)) . "\n");
+					Functions::unlink('cache/BBCode.cache.php', false);
 				}
 				break;
 			}
@@ -362,6 +370,7 @@ class AdminSmiley implements Module
 				{
 					list($this->smilies[$key], $this->smilies[$key+1]) = array($this->smilies[$key+1], $this->smilies[$key]);
 					Functions::file_put_contents('vars/smilies.var', implode("\n", array_map(array('Functions', 'implodeByTab'), $this->smilies)) . "\n");
+					Functions::unlink('cache/BBCode.cache.php', false);
 				}
 				break;
 
@@ -382,6 +391,7 @@ class AdminSmiley implements Module
 				{
 					list($this->aSmilies[$key], $this->aSmilies[$key+1]) = array($this->aSmilies[$key+1], $this->aSmilies[$key]);
 					Functions::file_put_contents('vars/adminsmilies.var', implode("\n", array_map(array('Functions', 'implodeByTab'), $this->aSmilies)) . "\n");
+					Functions::unlink('cache/BBCode.cache.php', false);
 				}
 				break;
 			}

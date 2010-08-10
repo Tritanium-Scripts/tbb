@@ -339,7 +339,7 @@ class Forum implements Module
 				{
 					$curLastPostData = Functions::explodeByComma($curForum[9]);
 					//Check and prepare last post with link or related message
-					if(!isset($curLastPostData[0]))
+					if(empty($curLastPostData[0]))
 						$curLastPost = Main::getModule('Language')->getString('no_last_post');
 					elseif(!$showCurForum) //At the latest checkUserAccess is needed here
 						$curLastPost = Functions::formatDate($curLastPostData[2]);

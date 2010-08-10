@@ -225,7 +225,7 @@ class Posting implements Module
 			//...or first call and add possible quote with quoted user
 			elseif(!empty($this->postID))
 			{
-				if(($quote = $this->getPostData(&$this->postID)) != false)
+				if(($quote = $this->getPostData($this->postID)) != false)
 					$this->newReply['post'] = '[quote=' . (!Functions::isGuestID($quote[1]) ? current(Functions::getUserData($quote[1])) : Functions::substr($quote[1], 1)) . ']' . Functions::br2nl(in_array(Main::getModule('Auth')->getUserID(), array_filter(array_unique(array_map('next', $this->topicFile)), create_function('$id', 'return !Functions::isGuestID($id);'))) ? $quote[3] : preg_replace("/\[lock\](.*?)\[\/lock\]/si", '', $quote[3])) . '[/quote]';
 				else
 					$this->errors[] = Main::getModule('Language')->getString('quoted_post_was_not_found');
@@ -281,7 +281,7 @@ class Posting implements Module
 						if(($key = array_search($this->topicID, $topicIDs)) !== false)
 						{
 							unset($topicIDs[$key]);
-							Functions::file_put_contents('foren/' . $this->forum[0] . '-threads.xbb', implode("\n", $topicIDs) . "\n");
+							Functions::file_put_contents('foren/' . $this->forum[0] . '-threads.xbb', empty($topicIDs) ? '' : implode("\n", $topicIDs) . "\n");
 						}
 						//Update counters and set new last post
 						Functions::updateForumData($this->forum[0], -1, -1);
@@ -392,7 +392,7 @@ class Posting implements Module
 					if(($key = array_search($this->topicID, $topicIDs)) !== false)
 					{
 						unset($topicIDs[$key]);
-						Functions::file_put_contents('foren/' . $this->forum[0] . '-threads.xbb', implode("\n", $topicIDs) . "\n");
+						Functions::file_put_contents('foren/' . $this->forum[0] . '-threads.xbb', empty($topicIDs) ? '' : implode("\n", $topicIDs) . "\n");
 					}
 					//Update counters
 					Functions::updateForumData($this->forum[0], -1, -$size);
@@ -458,7 +458,7 @@ class Posting implements Module
 							if(($key = array_search($this->topicID, $topicIDs)) !== false)
 							{
 								unset($topicIDs[$key]);
-								Functions::file_put_contents('foren/' . $this->forum[0] . '-threads.xbb', implode("\n", $topicIDs) . "\n");
+								Functions::file_put_contents('foren/' . $this->forum[0] . '-threads.xbb', empty($topicIDs) ? '' : implode("\n", $topicIDs) . "\n");
 							}
 						}
 						//Get new ID for moved topic
@@ -651,7 +651,7 @@ class Posting implements Module
 			Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('view_ip_address'), INDEXFILE . '?faction=viewip&amp;forum_id=' . $this->forum[0] . '&amp;topic_id=' . $this->topicID . '&amp;post_id=' . $this->postID . SID_AMPER);
 			if(!Main::getModule('Auth')->isAdmin() && !Functions::checkModOfForum($this->forum))
 				Main::getModule('Template')->printMessage('permission_denied');
-			elseif(($post = $this->getPostData(&$this->postID)) == false)
+			elseif(($post = $this->getPostData($this->postID)) == false)
 				Main::getModule('Template')->printMessage('post_not_found');
 //PostBlockIP
 			if($this->mode == 'sperren')

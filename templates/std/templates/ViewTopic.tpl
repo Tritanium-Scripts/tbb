@@ -1,6 +1,5 @@
 <!-- ViewTopic -->
-{if $isPoll}
-<!-- Poll -->
+{if $isPoll}<!-- Poll -->
 <form method="post" action="{$smarty.const.INDEXFILE}?faction=vote&amp;forum_id={$forumID}&amp;topic_id={$topicID}&amp;poll_id={$pollID}{$smarty.const.SID_AMPER}">
 <table class="tbl" cellpadding="{$modules.Config->getCfgVal('tpadding')}" cellspacing="{$modules.Config->getCfgVal('tspacing')}" style="width:{$modules.Config->getCfgVal('twidth')}; margin:auto;">
  <tr><th class="thnorm"><span class="thnorm">{$modules.Language->getString('poll')}</span></th></tr>
@@ -25,8 +24,7 @@
   </td>
  </tr>
 </table>
-</form><br />
-{/if}
+</form><br />{/if}
 
 <!-- Posts -->
 <table class="tbl" cellpadding="{$modules.Config->getCfgVal('tpadding')}" cellspacing="{$modules.Config->getCfgVal('tspacing')}" style="width:{$modules.Config->getCfgVal('twidth')}; margin:auto;">
@@ -66,6 +64,25 @@
 <table class="navbar" cellspacing="0" cellpadding="0" style="width:{$modules.Config->getCfgVal('twidth')}; margin:auto;">
  <tr><td class="navbar"><span class="navbar">&nbsp;{foreach $modules.NavBar->getNavBar() as $curElement}{if !$curElement@last}<a href="{$curElement[1]}" class="navbar">{$curElement[0]}</a>{$smarty.config.navBarDelim}{else}{$curElement[0]}{/if}{/foreach}</span></td></tr>
 </table>
+
+{if $modules.Auth->isLoggedIn() && $isOpen}<br />
+<form action="{$smarty.const.INDEXFILE}?faction=reply&amp;mode=save{$smarty.const.SID_AMPER}" method="post">
+<table class="tbl" cellpadding="{$modules.Config->getCfgVal('tpadding')}" cellspacing="{$modules.Config->getCfgVal('tspacing')}" style="width:{$modules.Config->getCfgVal('twidth')}; margin:auto;">
+ <tr><th class="thnorm" colspan="2"><span class="thnorm">{$modules.Language->getString('quick_reply')}</span></th></tr>
+ <tr>
+  <td class="{cycle values="td1,td2" advance=false}" style="width:10%;"><textarea id="post" name="post" rows="10" cols="60"></textarea></td>
+  <td class="{cycle values="td1,td2" advance=false}" style="vertical-align:top;">{include file='Smilies.tpl' targetBoxID='post'}</td>
+ </tr>
+ <tr><td class="{cycle values="td1,td2" advance=false}" colspan="2"><input type="submit" value="{$modules.Language->getString('quick_reply')}" /></td></tr>
+</table>
+<input type="hidden" name="topic_id" value="{$topicID}" />
+<input type="hidden" name="forum_id" value="{$forumID}" />
+<input type="hidden" name="tsmilie" value="1" />{* not sure about this one *}
+<input type="hidden" name="smilies" value="1" />
+<input type="hidden" name="show_signatur" value="1" />
+<input type="hidden" name="use_upbcode" value="1" />
+<input type="hidden" name="isAddURLs" value="true" />
+</form>{/if}
 
 <!-- Toolbar -->
 <br />

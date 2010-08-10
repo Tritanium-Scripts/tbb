@@ -62,14 +62,25 @@ class FunctionsBasic
 	}
 
 	/**
-	 * Adds [url]-BBCode to links found in a string.
+	 * Adds [url]-BBCode to links found in a string, which are not encapsulated by certain BBCodes.
 	 *
 	 * @param string $subject String to search for links and formatting them
 	 * @return string Result string
 	 */
 	public static function addURL($subject)
 	{
-		return preg_replace_callback("/([^ ^>]+?:\/\/|www\.)[^ ^<^\.]+(\.[^ ^<^\.]+)+/si", create_function('$arr', 'return !empty($arr[2]) && Functions::stripos($arr[0], \'[url]\') === false && Functions::strripos($arr[0], \'[/url]\') === false ? \'[url]\' . ($arr[1] == \'www.\' ? \'http://\' : \'\') . $arr[0] . \'[/url]\' : $arr[0];'), $subject);
+		$subject = preg_replace_callback("/([^ ^>^\]^=]+?:\/\/|www\.)[^ ^<^\.^\[]+(\.[^ ^<^\.^\[^\]]+)+/si", create_function('$arr', 'return !empty($arr[2]) && Functions::stripos($arr[0], \'[url]\') === false && Functions::strripos($arr[0], \'[/url]\') === false ? \'[url]\' . ($arr[1] == \'www.\' ? \'http://\' : \'\') . $arr[0] . \'[/url]\' : $arr[0];'), $subject);
+		//After adding [url]s to *any* link, strip off unwanted ones:
+		foreach(array('flash', 'url', 'img', 'email', 'code', 'php', 'noparse') as $curBBCode)
+		{
+			//Remove the simple ones, e.g. [flash][url]xxx[/url][/flash]
+			$subject = Functions::str_replace(array('[' . $curBBCode . '][url]', '[/url][/' . $curBBCode . ']'), array('[' . $curBBCode . ']', '[/' . $curBBCode . ']'), $subject);
+			//Remove the advanced ones having any attributes (only start tags are affected), e.g. [flash=xxx,xxx][url]xxx[/flash]
+			$subject = preg_replace("/(\[" . $curBBCode . "=.*?\])\[url\]/si", '\1', $subject);
+			//Remove attributed ones in start tags, e.g. [img=[url]xxx[/url]]
+			$subject = preg_replace("/(\[" . $curBBCode . "=)\[url\](.*?)\[\/url\]\]/si", '\1\2]', $subject);
+		}
+		return $subject;
 	}
 
 	/**

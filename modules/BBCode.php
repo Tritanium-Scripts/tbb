@@ -38,7 +38,7 @@ class BBCode
 	 */
 	function __construct()
 	{
-		if(file_exists('cache/BBCode.cache.php') && (filemtime('cache/BBCode.cache.php') > filemtime(DATAPATH . 'vars/smilies.var')))
+		if(file_exists('cache/BBCode.cache.php'))
 			include('cache/BBCode.cache.php');
 		else
 		{

@@ -4,6 +4,6 @@
  <tr><th class="thnorm"><span class="thnorm">{$modules.Language->getString('open_topic')}</span></th></tr>
  <tr><td class="td1" style="text-align:center;"><p><span class="norm">{$title|string_format:$modules.Language->getString('really_open_topic_x')}</span></p></td></tr>
 </table>
-<p style="text-align:center;"><input type="submit" value="{$modules.Language->getString('open_topic')}"></p>
+<p style="text-align:center;"><input type="submit" value="{$modules.Language->getString('open_topic')}" /></p>
 <input type="hidden" name="open" value="yes" />
 </form>

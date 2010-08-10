@@ -30,7 +30,7 @@ class AdminTemplate implements Module
 		//Get all templates
 		foreach(glob('templates/*') as $curTemplate)
 			//Get all config files from each template and parse their contents
-			foreach(array_map('parse_ini_file', glob($curTemplate . '/config/*.conf')) as $curConfigFile)
+			foreach(@array_map('parse_ini_file', glob($curTemplate . '/config/*.conf')) as $curConfigFile)
 				$templates[basename($curTemplate)] = array('name' => $curConfigFile['templateName'],
 					'author' => $curConfigFile['authorName'],
 					'website' => $curConfigFile['authorURL'],

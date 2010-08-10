@@ -4,6 +4,6 @@
  <tr><th class="thnorm"><span class="thnorm">{$modules.Language->getString('delete_topic')}</span></th></tr>
  <tr><td class="td1" style="text-align:center;"><p><span class="norm">{$title|string_format:$modules.Language->getString('really_delete_topic_x')}</span></p></td></tr>
 </table>
-<p style="text-align:center;"><input type="submit" value="{$modules.Language->getString('delete_topic')}"></p>
+<p style="text-align:center;"><input type="submit" value="{$modules.Language->getString('delete_topic')}" /></p>
 <input type="hidden" name="kill" value="yes" />
 </form>
