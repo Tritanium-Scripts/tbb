@@ -121,6 +121,10 @@ class WhoIsOnline implements Module
 					$wioLocations[] = Functions::checkUserAccess($curWIOEntry[2][1], 0) ? array($curUser, sprintf(Main::getModule('Language')->getString('views_the_topic_x'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER, Functions::getTopicName($curWIOEntry[2][1], $curWIOEntry[2][2])), $curWIOEntryIsGhost, $curTime) : array($curUser, sprintf(Main::getModule('Language')->getString('views_a_topic'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER), $curWIOEntryIsGhost, $curTime);
 					break;
 
+					case 'ViewTodaysPosts':
+					$wioLocations[] = array($curUser, sprintf(Main::getModule('Language')->getString('views_todays_posts'), INDEXFILE . '?faction=todaysPosts' . SID_AMPER), $curWIOEntryIsGhost, $curTime);
+					break;
+
 					case 'WhoIsOnline':
 					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('views_the_wio_list'), $curWIOEntryIsGhost, $curTime);
 					break;
@@ -250,6 +254,14 @@ class WhoIsOnline implements Module
 					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('views_search_results'), $curWIOEntryIsGhost, $curTime);
 					break;
 
+					case 'Newsletter':
+					$wioLocations[] = array($curUser, sprintf(Main::getModule('Language')->getString('is_in_newsletter_archive'), INDEXFILE . '?faction=newsletter' . SID_AMPER), $curWIOEntryIsGhost, $curTime);
+					break;
+
+					case 'NewsletterReadLetter':
+					$wioLocations[] = array($curUser, sprintf(Main::getModule('Language')->getString('reads_a_newsletter'), INDEXFILE . '?faction=newsletter&amp;mode=read&amp;newsletter=' . $curWIOEntry[2][1] . SID_AMPER), $curWIOEntryIsGhost, $curTime);
+					break;
+
 					case 'AdminIndex':
 					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('is_in_administration'), $curWIOEntryIsGhost, $curTime);
 					break;
@@ -340,6 +352,75 @@ class WhoIsOnline implements Module
 
 					case 'AdminMailList':
 					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('retrieves_mail_list'), $curWIOEntryIsGhost, $curTime);
+					break;
+
+					case 'AdminUser':
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('manages_user'), $curWIOEntryIsGhost, $curTime);
+					break;
+
+					case 'AdminUserNewUser':
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('creates_new_user'), $curWIOEntryIsGhost, $curTime);
+					break;
+
+					case 'AdminUserEditUser':
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('edits_an_user'), $curWIOEntryIsGhost, $curTime);
+					break;
+
+					case 'AdminGroup':
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('manages_groups'), $curWIOEntryIsGhost, $curTime);
+					break;
+
+					case 'AdminGroupNewGroup':
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('creates_new_group'), $curWIOEntryIsGhost, $curTime);
+					break;
+
+					case 'AdminGroupEditGroup':
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('edits_a_group'), $curWIOEntryIsGhost, $curTime);
+					break;
+
+					case 'AdminGroupDeleteGroup':
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('deletes_a_group'), $curWIOEntryIsGhost, $curTime);
+					break;
+
+					case 'AdminCensor':
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('manages_censorships'), $curWIOEntryIsGhost, $curTime);
+					break;
+
+					case 'AdminCensorNewWord':
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('creates_new_censorship'), $curWIOEntryIsGhost, $curTime);
+					break;
+
+					case 'AdminCensorEditWord':
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('edits_a_censorship'), $curWIOEntryIsGhost, $curTime);
+					break;
+
+					case 'AdminIP':
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('manages_ip_blocks'), $curWIOEntryIsGhost, $curTime);
+					break;
+
+					case 'AdminIPNewBlock':
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('creates_new_ip_block'), $curWIOEntryIsGhost, $curTime);
+					break;
+
+					case 'AdminSmiley':
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('manages_smilies'), $curWIOEntryIsGhost, $curTime);
+					break;
+
+					case 'AdminSmileyNewSmiley':
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('creates_new_smiley'), $curWIOEntryIsGhost, $curTime);
+					break;
+
+					case 'AdminSmileyEditSmiley':
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('edits_a_smiley'), $curWIOEntryIsGhost, $curTime);
+					break;
+
+					case 'AdminNewsletter':
+					case 'AdminNewsletterConfirm':
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('writes_a_newsletter'), $curWIOEntryIsGhost, $curTime);
+					break;
+
+					case 'AdminDeleteOld':
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('deletes_old_topics'), $curWIOEntryIsGhost, $curTime);
 					break;
 
 					default:

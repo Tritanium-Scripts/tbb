@@ -105,7 +105,7 @@ class AdminForum implements Module
 			$newIsXHTML = Functions::getValueFromGlobals('htmlcode');
 			$newIsNotify = Functions::getValueFromGlobals('sm_mods');
 			$newRights = (array) Functions::getValueFromGlobals('new_rights') + array_fill(0, 10, ''); //Fill up missing keys/values from unchecked boxes with this neat array union trick :)
-			$newModIDs = array_map('trim', Functions::explodeByComma(Functions::getValueFromGlobals('mods')));
+			$newModIDs = array_filter(array_map('trim', Functions::explodeByComma(Functions::getValueFromGlobals('mods'))), 'is_numeric');
 			if(Functions::getValueFromGlobals('create') == 'yes')
 			{
 				if($newName == '')
@@ -115,12 +115,16 @@ class AdminForum implements Module
 				{
 					ksort($newRights);
 					//Check user states of given mod IDs and fix them, if needed
-					foreach(array_map(array('Functions', 'getUserData'), $newModIDs) as $curUser)
-						if($curUser != false && $curUser[4] != -1 && !in_array($curUser[1], $this->getModIDs()))
+					foreach(array_map(array('Functions', 'getUserData'), $newModIDs) as $curKey => $curUser)
+					{
+						if($curUser == false)
+							unset($newModIDs[$curKey]);
+						elseif($curUser[4] != -1 && !in_array($curUser[1], $this->getModIDs()))
 						{
 							$curUser[4] = 2;
 							Functions::file_put_contents('members/' . $curUser[1] . '.xbb', implode("\n", $curUser));
 						}
+					}
 					//Get and update newest forum ID
 					Functions::file_put_contents('vars/forens.var', $newForumID = Functions::file_get_contents('vars/forens.var')+1);
 					//Build forum data
@@ -282,7 +286,7 @@ class AdminForum implements Module
 						$this->errors[] = Main::getModule('Language')->getString('please_enter_a_forum_name');
 					else
 					{
-						$editModIDs = array_map('trim', Functions::explodeByComma(Functions::getValueFromGlobals('mods')));
+						$editModIDs = array_filter(array_map('trim', Functions::explodeByComma(Functions::getValueFromGlobals('mods'))), 'is_numeric');
 						//Adjust new mod user rankings
 						if($editForum[11] != $editModIDs)
 						{
@@ -312,12 +316,15 @@ class AdminForum implements Module
 								if(!in_array($curModID, $allModIDs) && !empty($curModID))
 								{
 									$curUser = Functions::getUserData($curModID);
-									if($curUser[4] == 1)
-										continue;
-									$curUser[4] = 2;
-									$curUser[14] = implode(',', $curUser[14]);
-									$curUser[19] = Functions::implodeByTab($curUser[19]);
-									Functions::file_put_contents('members/' . $curModID . '.xbb', implode("\n", $curUser));
+									if($curUser == false)
+										unset($editModIDs[array_search($curModID, $editModIDs)]);
+									elseif($curUser[4] != 1)
+									{
+										$curUser[4] = 2;
+										$curUser[14] = implode(',', $curUser[14]);
+										$curUser[19] = Functions::implodeByTab($curUser[19]);
+										Functions::file_put_contents('members/' . $curModID . '.xbb', implode("\n", $curUser));
+									}
 								}
 						}
 						$editForum[11] = $editModIDs;

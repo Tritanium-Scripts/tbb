@@ -105,7 +105,7 @@ class Newsletter implements Module
 			Main::getModule('Template')->assign('newsletter', $newsletter);
 			break;
 		}
-		Main::getModule('Template')->printPage(self::$modeTable[$this->mode]);
+		Main::getModule('Template')->printPage(self::$modeTable[$this->mode], null, null, ',' . $this->newsletterID);
 	}
 }
 ?>

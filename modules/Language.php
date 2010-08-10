@@ -126,7 +126,7 @@ class Language
 			return true;
 		}
 		if(!file_exists($iniFile))
-			return !trigger_error('Language file ' . $iniFile . ' does not exist!', E_USER_WARNING);
+			return !trigger_error('Language file ' . $iniFile . ' does not exist!', E_USER_NOTICE);
 		//Parse file and add to strings
 		$toCache = array();
 		foreach(parse_ini_file($iniFile) as $curKey => $curString)

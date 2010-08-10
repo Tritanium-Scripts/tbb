@@ -71,7 +71,7 @@
  <tr><th class="thnorm" colspan="2"><span class="thnorm">{$modules.Language->getString('quick_reply')}</span></th></tr>
  <tr>
   <td class="{cycle values="td1,td2" advance=false}" style="width:10%;"><textarea id="post" name="post" rows="10" cols="60"></textarea></td>
-  <td class="{cycle values="td1,td2" advance=false}" style="vertical-align:top;">{include file='Smilies.tpl' targetBoxID='post'}</td>
+  <td class="{cycle values="td1,td2" advance=false}" style="vertical-align:top;"><br />{include file='Smilies.tpl' targetBoxID='post' isMod=$canModify}</td>
  </tr>
  <tr><td class="{cycle values="td1,td2" advance=false}" colspan="2"><input type="submit" value="{$modules.Language->getString('quick_reply')}" /></td></tr>
 </table>

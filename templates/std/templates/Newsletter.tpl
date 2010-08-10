@@ -7,6 +7,7 @@
   <th class="thsmall" style="width:50%;"><span class="thsmall">{$modules.Language->getString('subject')}</span></th>
   <th class="thsmall"><span class="thsmall">{$modules.Language->getString('author')}</span></th>
  </tr>{foreach $newsletter as $curNewsletter}
+ <tr>
 {if $modules.Auth->isAdmin()}  <td class="td2"><span class="norm"><input type="checkbox" name="deleteletter[]" value="{$curNewsletter.id}" /></span></td>{/if}
   <td class="td1" style="text-align:center;"><span class="norm">{$curNewsletter.date}</span></td>
   <td class="td2" style="width:50%;"><span class="norm"><a href="{$smarty.const.INDEXFILE}?faction=newsletter&amp;mode=read&amp;newsletter={$curNewsletter.id}{$smarty.const.SID_AMPER}">{$curNewsletter.subject}</a></span></td>

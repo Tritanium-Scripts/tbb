@@ -98,6 +98,8 @@ Last changed: 2010 (Version 1.5 Beta)
 	-Korrekte Benennung von Smileys und IP-Adressen
 	-Versenden von Newslettern auch bei vielen Mitgliedern ohne Probleme oder Timeouts
 	-Optionale Archivierung von verschickten Newslettern
+	-Schnell antworten in der Themenansicht
+	-Übersicht heutiger Beiträge
 
 Written by Chrissyx
 (c) 2010 Tritanium Scripts

@@ -28,7 +28,10 @@ class Forum implements Module
 	 *
 	 * @var array Mode and template counterparts
 	 */
-	private static $modeTable = array('' => 'ForumIndex', 'viewforum' => 'ViewForum', 'viewthread' => 'ViewTopic');
+	private static $modeTable = array('' => 'ForumIndex',
+		'viewforum' => 'ViewForum',
+		'viewthread' => 'ViewTopic',
+		'todaysPosts' => 'ViewTodaysPosts');
 
 	/**
 	 * Page of queried topic.
@@ -314,6 +317,23 @@ class Forum implements Module
 				'posts' => $posts)); //Prepared posts with users
 			break;
 
+//ViewTodaysPosts
+			case 'todaysPosts':
+			setcookie('upbwhere', INDEXFILE . '?faction=todaysPosts');
+			Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('todays_posts'), INDEXFILE . '?faction=todaysPosts');
+			$todaysPosts = array();
+			if(($todaysPostsFile = Functions::file_get_contents('vars/todayposts.var')) != '')
+				foreach(array_map(array('Functions', 'explodeByComma'), explode('|', @next(Functions::explodeByTab($todaysPostsFile)))) as $curTodaysPost)
+					#0:forumID - 1:topicID - 2:userID - 3:date - 4:tSmileyID
+					$todaysPosts[] = array('forumID' => $curTodaysPost[0],
+						'forumTitle' => @next(Functions::getForumData($curTodaysPost[0])),
+						'topic' => !Functions::file_exists('foren/' . $curTodaysPost[0] . '-' . $curTodaysPost[1] . '.xbb') ? Main::getModule('Language')->getString('deleted') : '<a href="' . INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curTodaysPost[0] . '&amp;thread=' . $curTodaysPost[1] . '&amp;z=last' . SID_AMPER . '">' . (Functions::censor(Functions::getTopicName($curTodaysPost[0], $curTodaysPost[1]))) . '</a>',
+						'author' => Functions::getProfileLink($curTodaysPost[2], true),
+						'date' => Functions::formatDate($curTodaysPost[3]),
+						'tSmiley' => Functions::getTSmileyURL($curTodaysPost[4]));
+			Main::getModule('Template')->assign('todaysPosts', array_reverse($todaysPosts));
+			break;
+
 //ForumIndex
 			default:
 			//Manage cookie
@@ -380,7 +400,7 @@ class Forum implements Module
 					$curNewestPost = Functions::explodeByComma($curNewestPost . ',1'); //Make sure index 4 is available
 					$newestPosts[] = sprintf(Main::getModule('Language')->getString('x_by_x_on_x'),
 						//Topic check + link + title preparation
-						!Functions::file_exists('foren/' . $curNewestPost[0] . '-' . $curNewestPost[1] . '.xbb') ? Main::getModule('Language')->getString('deleted') : '<img src="' . Functions::getTSmileyURL($curNewestPost[4]) . '" alt="" /> <a href="' . INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curNewestPost[0] . '&amp;thread=' . $curNewestPost[1] . SID_AMPER . '&amp;z=last">' . (Functions::shorten(Functions::censor(Functions::getTopicName($curNewestPost[0], $curNewestPost[1])), 53)) . '</a>',
+						!Functions::file_exists('foren/' . $curNewestPost[0] . '-' . $curNewestPost[1] . '.xbb') ? Main::getModule('Language')->getString('deleted') : '<img src="' . Functions::getTSmileyURL($curNewestPost[4]) . '" alt="" /> <a href="' . INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curNewestPost[0] . '&amp;thread=' . $curNewestPost[1] . '&amp;z=last' . SID_AMPER . '">' . (Functions::shorten(Functions::censor(Functions::getTopicName($curNewestPost[0], $curNewestPost[1])), 53)) . '</a>',
 						Functions::getProfileLink($curNewestPost[2], true),
 						Functions::formatDate($curNewestPost[3]));
 				}

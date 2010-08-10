@@ -79,6 +79,7 @@ class Main implements Module
 		'' => 'Forum',
 		'credits' => 'Credits',
 		'newsletter' => 'Newsletter',
+		'todaysPosts' => 'Forum',
 		//Adminpanel actions
 		'adminpanel' => 'AdminIndex',
 		'ad_forum' => 'AdminForum',
@@ -217,7 +218,7 @@ class Main implements Module
 		if(!isset(self::$loadedModules[$module]))
 		{
 			if(!file_exists('modules/' . $module . '.php'))
-				return !trigger_error('Module ' . $module . ' does not exists', E_USER_WARNING);
+				exit('<b>ERROR:</b> Module ' . $module . ' does not exists!');
 			include('modules/' . $module . '.php');
 			self::$loadedModules[$module] = !isset($mode) ? new $module : new $module($mode);
 		}
