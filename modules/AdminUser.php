@@ -196,6 +196,7 @@ class AdminUser implements Module
 				$editUser[4] = intval(Functions::getValueFromGlobals('status'));
 				$editUser[7] = Functions::nl2br(htmlspecialchars(trim(Functions::getValueFromGlobals('signatur'))));
 				$editUser[10] = Functions::getValueFromGlobals('pic');
+				$editUser[17] = htmlspecialchars(trim(Functions::getValueFromGlobals('specialState')));
 				if(empty($editUserName))
 					$this->errors[] = Main::getModule('Language')->getString('please_enter_an_user_name');
 				elseif($editUser[0] != $editUserName && Functions::unifyUserName($editUserName))
@@ -217,7 +218,7 @@ class AdminUser implements Module
 				}
 			}
 			$editUser[7] = Functions::br2nl($editUser[7]);
-			unset($editUser[2], $editUser[5], $editUser[6], $editUser[8], $editUser[9], $editUser[11], $editUser[12], $editUser[13], $editUser[14], $editUser[15], $editUser[16], $editUser[17], $editUser[18], $editUser[19]);
+			unset($editUser[2], $editUser[5], $editUser[6], $editUser[8], $editUser[9], $editUser[11], $editUser[12], $editUser[13], $editUser[14], $editUser[15], $editUser[16], $editUser[18], $editUser[19]);
 			Main::getModule('Template')->assign('editUser', $editUser);
 			break;
 

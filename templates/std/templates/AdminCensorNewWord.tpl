@@ -9,7 +9,7 @@
  </tr>
  <tr>
   <td class="td1"><span class="norm" style="font-weight:bold;">{$modules.Language->getString('replacement_colon')}</span></td>
-  <td class="td1"><input type=text name="replacement" value="{$newReplacement}"></td>
+  <td class="td1"><input type="text" name="replacement" value="{$newReplacement}" /></td>
  </tr>
 </table>
 <p style="text-align:center;"><input type="submit" value="{$modules.Language->getString('add_new_censorship')}" /></p>

@@ -22,8 +22,7 @@ class AdminNewsletter implements Module
 	 * @var array Mode and template counterparts
 	 */
 	private static $modeTable = array('ad_newsletter' => 'AdminNewsletter',
-		'accept' => 'AdminNewsletterConfirm',
-		'send');
+		'accept' => 'AdminNewsletterConfirm');
 
 	/**
 	 * Maximal execution time for sending newletter to require a break to continue.

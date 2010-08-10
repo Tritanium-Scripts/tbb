@@ -190,7 +190,7 @@ class PrivateMessage implements Module
 			Main::getModule('Template')->assign(array('newPM' => $newPM,
 				'recipient' => $recipient,
 				'errors' => $errors,
-				'smilies' => Main::getModule('BBCode')->getSmilies()));
+				'isMod' => Main::getModule('Auth')->isAdmin() || Main::getModule('Auth')->isMod()));
 			break;
 
 //PrivateMessageConfirmDelete
@@ -226,7 +226,7 @@ class PrivateMessage implements Module
 				for($i=0; $i<$size; $i++)
 					if(in_array($pms[$i][0], $toDelete))
 						unset($pms[$i]);
-				Functions::file_put_contents('members/' . $this->pmBoxID . '.pm', implode("\n", array_map(array('Functions', 'implodeByTab'), $pms)) . "\n");
+				Functions::file_put_contents('members/' . $this->pmBoxID . '.pm', empty($pms) ? '' : implode("\n", array_map(array('Functions', 'implodeByTab'), $pms)) . "\n");
 			}
 			header('Location: ' . INDEXFILE . '?faction=pm&profile_id=' . Main::getModule('Auth')->getUserID() . SID_AMPER_RAW);
 			Main::getModule('Template')->assign('pmBoxID', $this->pmBoxID);

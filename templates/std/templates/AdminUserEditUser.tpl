@@ -21,6 +21,10 @@
   <td class="td1"><span class="norm"><select name="status"><option value="1"{if $editUser[4] == 1} selected="selected"{/if}>{$modules.Language->getString('administrator_state')}</option><option value="6"{if $editUser[4] == 6} selected="selected"{/if}>{$modules.Language->getString('super_moderator_state')}</option><option value="2"{if $editUser[4] == 2} selected="selected"{/if}>{$modules.Language->getString('moderator_state')}</option><option value="3"{if $editUser[4] == 3} selected="selected"{/if}>{$modules.Language->getString('normal_state')}</option><option value="4"{if $editUser[4] == 4} selected="selected"{/if}>{$modules.Language->getString('banned_state')}</option></select></span></td>
  </tr>
  <tr>
+  <td class="td1"><span class="norm" style="font-weight:bold;">{$modules.Language->getString('special_user_rank_colon')}</span></td>
+  <td class="td1"><span class="norm"><input type="text" name="specialState" value="{$editUser[17]}" style="width:250px;" /></span> <span class="small">{$modules.Language->getString('overrides_normal_user_rank')}</span></td>
+ </tr>  
+ <tr>
   <td class="td1"><span class="norm" style="font-weight:bold;">{$modules.Language->getString('avatar_colon')}</span></td>
   <td class="td1"><span class="norm"><input type="text" name="pic" value="{$editUser[10]}" style="width:250px;" /></span></td>
  </tr>
@@ -29,6 +33,6 @@
   <td class="td1"><textarea cols="55" rows="8" name="signatur">{$editUser[7]}</textarea></td>
  </tr>
 </table>
-<p style="text-align:center;"><input type="submit" value="{$modules.Language->getString('edit_user')}" />&nbsp;&nbsp;&nbsp;<input type="submit" name="kill" value="{$modules.Language->getString('delete_user')}" onclick="return confirm('{$modules.Language->getString('really_delete_this_user')}')"></p>
+<p style="text-align:center;"><input type="submit" value="{$modules.Language->getString('edit_user')}" />&nbsp;&nbsp;&nbsp;<input type="submit" name="kill" value="{$modules.Language->getString('delete_user')}" onclick="return confirm('{$modules.Language->getString('really_delete_this_user')}')" /></p>
 <input type="hidden" name="id" value="{$editUser[1]}" />
 </form>

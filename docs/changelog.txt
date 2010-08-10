@@ -1,9 +1,9 @@
 *********************************************************
 Tritanium Bulletin Board 1.5 - Changelog (German version)
-Last changed: 2010 (Version 1.5 Alpha)
+Last changed: 2010 (Version 1.5 Beta)
 *********************************************************
 
-2010: Version 1.5 Alpha (offiziell)
+2010: Version 1.5 Beta (offiziell)
 	-Alle Features des TBB 1.2.3 übernommen
 	-Komplett neuer technischer Unterbau in PHP 5.1 (= Mindestvoraussetzung) oder höher
 	-Komplett valides XHTML 1.0 transitional
@@ -21,7 +21,7 @@ Last changed: 2010 (Version 1.5 Alpha)
 	-Aufwärtskompatibel für TBB 2.0 oder höher
 	-Rang für Supermoderatoren
 	-Neue Sterne bei Rangbilder
-	-Admin- & Moderatoren-Smileys
+	-Admin- & (Super-)Moderatoren-Smileys
 	-Neues Format für Übersetzungen auf Basis von INI-Dateien (nicht abwärtskompatibel)
 	-Upload-Funktion für Dateien
 	-Kontakt-Mail-Adresse(n) verschlüsselt mit JavaScript
@@ -59,7 +59,7 @@ Last changed: 2010 (Version 1.5 Alpha)
 	-Zusätzliche Erklärungen zu den E-Mail-Einstellungen im eigenen Profil
 	-Automatische Generierung von Metatags zu Keywords und Description
 	-Fehlermeldungen vereinheitlicht in separaten Boxen
-	-Vergabe von eigenen Titel, die normale Ränge überschreiben
+	-Vergabe von eigenen Spezialrängen, die normale Ränge überschreiben
 	-Senden von leeren E-Mails per Formular mit Bestätigung
 	-Registrierung überprüft nun auch auf bereits vorhandene E-Mail-Adressen
 	-Registrierungen können zusätzlich eine Freischaltung durch Gültigkeitsprüfung der E-Mail-Adresse durch versenden eines Aktivierungscode erfordern

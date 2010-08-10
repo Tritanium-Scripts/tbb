@@ -11,6 +11,13 @@
 class BBCode
 {
 	/**
+	 * Contains ready-for-use admin smilies with synonym and URL.
+	 *
+	 * @var array Prepared admin smilies for search and replace
+	 */
+	private $aSmilies = array();
+
+	/**
 	 * Contains ready-for-use smilies with synonym and URL.
 	 *
 	 * @var array Prepared smilies for search and replace
@@ -25,13 +32,13 @@ class BBCode
 	private $posterIDs;
 
 	/**
-	 * Prepares smilies.
+	 * Prepares and caches (admin) smilies.
 	 *
 	 * @return BBCode New instance of this class
 	 */
 	function __construct()
 	{
-		if(file_exists('cache/BBCode.cache.php'))
+		if(file_exists('cache/BBCode.cache.php') && (filemtime('cache/BBCode.cache.php') > filemtime(DATAPATH . 'vars/smilies.var')))
 			include('cache/BBCode.cache.php');
 		else
 		{
@@ -41,9 +48,28 @@ class BBCode
 				$this->smilies[$curSmiley[1]] = '<img src="' . $curSmiley[2] . '" alt="' . $curSmiley[1] . '" style="border:none;" />';
 				$toCache[] = $curSmiley[1] . '\' => \'' . end($this->smilies);
 			}
+			if(Functions::file_exists('vars/adminsmilies.var'))
+			{
+				$twoCache = array();
+				foreach(array_map(array('Functions', 'explodeByTab'), Functions::file('vars/adminsmilies.var')) as $curSmiley)
+				{
+					$this->aSmilies[$curSmiley[1]] = '<img src="' . $curSmiley[2] . '" alt="' . $curSmiley[1] . '" style="border:none;" />';
+					$twoCache[] = $curSmiley[1] . '\' => \'' . end($this->aSmilies);
+				}
+			}
 			if(Main::getModule('Config')->getCfgVal('use_file_caching') == 1)
-				Functions::file_put_contents('cache/BBCode.cache.php', '<?php $this->smilies = array(\'' . implode('\', \'', $toCache) . '\'); ?>', LOCK_EX, false, false);
+				Functions::file_put_contents('cache/BBCode.cache.php', '<?php $this->smilies = array(\'' . implode('\', \'', $toCache) . '\');' . (isset($twoCache) ? ' $this->aSmilies = array(\'' . implode('\', \'', $twoCache) . '\');' : '') . ' ?>', LOCK_EX, false, false);
 		}
+	}
+
+	/**
+	 * Returns all admin smilies.
+	 *
+	 * @return array All current admin smilies with synonym/image as key/value pairs
+	 */
+	public function getAdminSmilies()
+	{
+		return $this->aSmilies;
 	}
 
 	/**
@@ -71,7 +97,10 @@ class BBCode
 		if($enableHTML)
 			$string = htmlspecialchars_decode($string, ENT_COMPAT);
 		if($enableSmilies)
+		{
 			$string = strtr($string, $this->smilies);
+			$string = strtr($string, $this->aSmilies);
+		}
 		if($enableBBCode)
 		{
 			//Cache topic IDs (if any)
@@ -107,7 +136,7 @@ class BBCode
 			$string = preg_replace_callback("/\[glow=(\#[a-fA-F0-9]{6}|[a-zA-Z]+)\](.*?)\[\/glow\]/si", create_function('$elements', 'return Main::getModule(\'Template\')->fetch(\'BBCode\', array(\'type\' => BBCODE_GLOW, \'glowColor\' => $elements[1], \'glowText\' => $elements[2]));'), $string);
 			$string = preg_replace_callback("/\[shadow=(\#[a-fA-F0-9]{6}|[a-zA-Z]+)\](.*?)\[\/shadow\]/si", create_function('$elements', 'return Main::getModule(\'Template\')->fetch(\'BBCode\', array(\'type\' => BBCODE_SHADOW, \'shadowColor\' => $elements[1], \'shadowText\' => $elements[2]));'), $string);
 			$string = preg_replace_callback("/\[flash\](.*?)\[\/flash\]/si", create_function('$elements', 'return Main::getModule(\'Template\')->fetch(\'BBCode\', array(\'type\' => BBCODE_FLASH, \'flashLink\' => $elements[1], \'flashWidth\' => 425, \'flashHeight\' => 355));'), $string);
-			$string = preg_replace_callback("/\[flash[=| ](\d+),(\d+)\](.*?)\[\/flash\]/si", create_function('$elements', 'return Main::getModule(\'Template\')->fetch(\'BBCode\', array(\'type\' => BBCODE_FLASH, \'flashLink\' => $elements[1], \'flashLink\' => $elements[3], \'flashWidth\' => $elements[1], \'flashHeight\' => $elements[2]));'), $string);
+			$string = preg_replace_callback("/\[flash[=| ](\d+),(\d+)\](.*?)\[\/flash\]/si", create_function('$elements', 'return Main::getModule(\'Template\')->fetch(\'BBCode\', array(\'type\' => BBCODE_FLASH, \'flashLink\' => $elements[3], \'flashWidth\' => $elements[1], \'flashHeight\' => $elements[2]));'), $string);
 			//Quotes at the end for linked sources
 			while(preg_match("/\[quote\](.*?)\[\/quote\]/si", $string))
 				$string = preg_replace_callback("/\[quote\](.*?)\[\/quote\][\r\n]*/si", create_function('$elements', 'return Main::getModule(\'Template\')->fetch(\'BBCode\', array(\'type\' => BBCODE_QUOTE, \'quoteText\' => $elements[1], \'quoteTitle\' => Main::getModule(\'Language\')->getString(\'quote_colon\', \'BBCode\')));'), $string);

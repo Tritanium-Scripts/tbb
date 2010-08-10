@@ -8,7 +8,7 @@
   <td class="td1" style="width:80%;"><input type="text" name="title" value="{$newName}" /></td>
  </tr>
  <tr>
-  <td class="td1" style="width:20%;"><span class="norm" style="font-weight:bold;">{$modules.Language->getString('avatar_colon')}</span><br /><span class="small">{$modules.Language->getString('avatar_description')}</span></a></td>
+  <td class="td1" style="width:20%;"><span class="norm" style="font-weight:bold;">{$modules.Language->getString('avatar_colon')}</span><br /><span class="small">{$modules.Language->getString('avatar_description')}</span></td>
   <td class="td1" style="vertical-align:top; width:80%;"><input type="text" name="pic" value="{$newAvatar}" /> <span class="small">{$modules.Language->getString('url_or_path')}</span></td>
  </tr>
  <tr>

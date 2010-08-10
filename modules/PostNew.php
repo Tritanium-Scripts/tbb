@@ -213,9 +213,8 @@ class PostNew implements Module
 				'isBBCode' => $this->forum[7][0] == '1',
 				'isXHTML' => $this->forum[7][1] == '1'),
 			'preview' => $this->preview,
-			'errors' => $this->errors,
-			'smilies' => Main::getModule('BBCode')->getSmilies(),
-			'tSmilies' => Functions::getTSmilies()), null , ',' . $this->forum[0]);
+			'isMod' => Functions::checkModOfForum($this->forum),
+			'errors' => $this->errors), null , ',' . $this->forum[0]);
 	}
 
 	/**

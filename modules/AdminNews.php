@@ -77,7 +77,8 @@ class AdminNews implements Module
 			'newsDuration' => $this->newsDuration,
 			'newsText' => htmlspecialchars($this->newsType == 1 ? Functions::br2nl($this->news[0]) : implode("\n", $this->news)),
 			'newsPreview' => $this->newsType == 1 ? $newsPreview[0] : $newsPreview,
-			'smilies' => Main::getModule('BBCode')->getSmilies()));
+			//Show admin smilies
+			'isMod' => true));
 	}
 }
 ?>

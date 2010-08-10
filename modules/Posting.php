@@ -166,7 +166,7 @@ class Posting implements Module
 			Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('post_new_reply'), INDEXFILE . '?faction=reply&amp;thread_id=' . $this->topicID . '&amp;forum_id=' . $this->forum[0] . SID_AMPER);
 			if(!Functions::checkUserAccess($this->forum, 2, 8))
 				Main::getModule('Template')->printMessage(Main::getModule('Auth')->isLoggedIn() ? 'permission_denied' : 'login_only', INDEXFILE . '?faction=register' . SID_AMPER, INDEXFILE . '?faction=login' . SID_AMPER);
-			elseif($this->topic[0] != '1' && $this->topic[0] != 'open' && !Main::getModule('Auth')->isAdmin() && !Functions::checkModOfForum($this->forum))
+			elseif($this->topic[0] != '1' && $this->topic[0] != 'open' && !Main::getModule('Auth')->isAdmin() && !($isMod = Functions::checkModOfForum($this->forum)))
 				Main::getModule('Template')->printMessage('topic_is_closed');
 			//Auto URL check
 			if($this->newReply['isAddURLs'] && $this->newReply['isBBCode'])
@@ -237,9 +237,8 @@ class Posting implements Module
 					'post' => Functions::censor(Main::getModule('BBCode')->parse($curReply[3], $curReply[9] == '1' && $this->forum[7][1] == '1', $curReply[7] == '1' || $curReply[7] == 'yes', ($curReply[8] == '1' || $curReply[8] == 'yes') && $this->forum[7][0] == '1', $this->topicFile)));
 			Main::getModule('Template')->assign(array('newReply' => $this->newReply,
 				'preview' => $this->preview,
-				'lastReplies' => array_reverse(array_slice($lastReplies, 0, 10)), //Just the last 10 replies
-				'smilies' => Main::getModule('BBCode')->getSmilies(),
-				'tSmilies' => Functions::getTSmilies()));
+				'lastReplies' => array_slice(array_reverse($lastReplies), 0, 10), //Just the last 10 replies
+				'isMod' => isset($isMod) ? $isMod : Functions::checkModOfForum($this->forum)));
 			break;
 
 //EditPost
@@ -350,8 +349,7 @@ class Posting implements Module
 						'isXHTML' => $post[9] == '1',
 						'isAddURLs' => true);
 				Main::getModule('Template')->assign(array('editPost' => $this->newReply,
-					'smilies' => Main::getModule('BBCode')->getSmilies(),
-					'tSmilies' => Functions::getTSmilies()));
+					'isMod' => $isMod));
 			}
 			break;
 

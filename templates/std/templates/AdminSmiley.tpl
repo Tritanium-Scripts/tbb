@@ -51,7 +51,7 @@
   <td class="td1" style="text-align:center;"><img src="{$curTSmiley[1]}" alt="" /></td>
   <td class="td2"><span class="norm">{$curTSmiley[1]}</span></td>
   <td class="td1" style="text-align:center;"><span class="norm"><a href="{$smarty.const.INDEXFILE}?faction=ad_smilies&amp;mode=move{if $curTSmiley@first}downt&amp;id={$curTSmiley[0]}{$smarty.const.SID_AMPER}">&d{elseif $curTSmiley@last}upt&amp;id={$curTSmiley[0]}{$smarty.const.SID_AMPER}">&u{else}downt&amp;id={$curTSmiley[0]}{$smarty.const.SID_AMPER}">&darr;</a> | <a href="{$smarty.const.INDEXFILE}?faction=ad_smilies&amp;mode=moveupt&amp;id={$curTSmiley[0]}{$smarty.const.SID_AMPER}">&u{/if}arr;</a></span></td>
-  <td class="td2" align=center><span class="norm"><a class="norm" href="{$smarty.const.INDEXFILE}?faction=ad_smilies&amp;mode=editt&amp;id={$curTSmiley[0]}{$smarty.const.SID_AMPER}">{$modules.Language->getString('edit')}</a>&nbsp;|&nbsp;<a class="norm" href="{$smarty.const.INDEXFILE}?faction=ad_smilies&amp;mode=killt&amp;id={$curTSmiley[0]}{$smarty.const.SID_AMPER}">{$modules.Language->getString('delete')}</a></span></td>
+  <td class="td2" style="text-align:center;"><span class="norm"><a class="norm" href="{$smarty.const.INDEXFILE}?faction=ad_smilies&amp;mode=editt&amp;id={$curTSmiley[0]}{$smarty.const.SID_AMPER}">{$modules.Language->getString('edit')}</a>&nbsp;|&nbsp;<a class="norm" href="{$smarty.const.INDEXFILE}?faction=ad_smilies&amp;mode=killt&amp;id={$curTSmiley[0]}{$smarty.const.SID_AMPER}">{$modules.Language->getString('delete')}</a></span></td>
  </tr>
 {/foreach}
 </table>

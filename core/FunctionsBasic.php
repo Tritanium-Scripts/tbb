@@ -158,16 +158,17 @@ class FunctionsBasic
 		//Get default permission...
 		$canAccess = $perms[$what] == '1';
 		//...and check with special ones
-		foreach(self::file('foren/' . $forum[0] . '-rights.xbb') as $curSpecialPerm)
-		{
-			$curSpecialPerm = self::explodeByTab($curSpecialPerm);
-			if($curSpecialPerm[1] == '1' && $curSpecialPerm[2] == Main::getModule('Auth')->getUserID() || ($curSpecialPerm[1] == '2' && Main::getModule('Auth')->getGroupID() == $curSpecialPerm[2]))
+		if(self::file_exists('foren/' . $forum[0] . '-rights.xbb'))
+			foreach(self::file('foren/' . $forum[0] . '-rights.xbb') as $curSpecialPerm)
 			{
-				if(($canAccess && $curSpecialPerm[$what+3] != '1') || (!$canAccess && $curSpecialPerm[$what+3] == '1'))
-					$canAccess = !$canAccess;
-				break;
+				$curSpecialPerm = self::explodeByTab($curSpecialPerm);
+				if($curSpecialPerm[1] == '1' && $curSpecialPerm[2] == Main::getModule('Auth')->getUserID() || ($curSpecialPerm[1] == '2' && Main::getModule('Auth')->getGroupID() == $curSpecialPerm[2]))
+				{
+					if(($canAccess && $curSpecialPerm[$what+3] != '1') || (!$canAccess && $curSpecialPerm[$what+3] == '1'))
+						$canAccess = !$canAccess;
+					break;
+				}
 			}
-		}
 		return $canAccess;
 	}
 

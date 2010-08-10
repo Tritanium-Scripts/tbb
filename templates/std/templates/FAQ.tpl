@@ -8,6 +8,6 @@
 <table class="tbl" cellpadding="{$modules.Config->getCfgVal('tpadding')}" cellspacing="{$modules.Config->getCfgVal('tspacing')}" style="width:{$modules.Config->getCfgVal('twidth')}; margin:auto;">
 {foreach $faqQuestions as $curQuestion}
  <tr><td class="kat"><span class="kat"><a name="{$curQuestion@iteration}">{$curQuestion}</a></span></td></tr>
- <tr><td class="td1"><span class="norm">{$faqAnswers[$curQuestion@index]}</span></td></tr>
+ <tr><td class="td1"><div class="norm">{$faqAnswers[$curQuestion@index]}</div></td></tr>
 {/foreach}
 </table>

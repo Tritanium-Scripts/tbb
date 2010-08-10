@@ -217,7 +217,7 @@ class Auth
 	}
 
 	/**
-	 * Returns user has is *somewhere* moderator of a forum.
+	 * Returns user is *somewhere* moderator of a forum.
 	 * This does NOT rely on a context of a current forum!
 	 *
 	 * @return bool Moderator rank
