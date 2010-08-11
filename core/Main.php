@@ -116,7 +116,7 @@ class Main implements Module
 	{
 		error_reporting(ERR_REPORTING);
 		//Finalize feature set of Functions class by either using Multibyte string functions and/or (overloaded) default PHP ones
-		include('Functions' . (!extension_loaded('mbstring') || (extension_loaded('mbstring') && ini_set('mbstring.func_overload', '7') !== false) ? '' : 'MB') . '.php');
+		require('Functions' . (!extension_loaded('mbstring') || (extension_loaded('mbstring') && ini_set('mbstring.func_overload', '7') !== false) ? '' : 'MB') . '.php');
 		//Revert quoted strings on GPC vars, if needed
 		if(ini_get('magic_quotes_gpc') == '1')
 			list($_GET, $_POST, $_COOKIE) = Functions::stripSlashesDeep(array($_GET, $_POST, $_COOKIE));
@@ -207,11 +207,11 @@ class Main implements Module
 	}
 
 	/**
-	 * Loads the stated module. Triggers an error if module could not be found.
+	 * Loads the stated module. Exits if module could not be found.
 	 *
 	 * @param string $module The module to load
 	 * @param string $mode Optional mode for not yet loaded module
-	 * @return mixed Reference to the loaded class or false on failure.
+	 * @return mixed Reference to the loaded class
 	 */
 	public static function &getModule($module, $mode=null)
 	{

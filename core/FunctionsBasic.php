@@ -405,7 +405,7 @@ class FunctionsBasic
 				//Create profile link
 				else
 				{
-					$curUser = Functions::file('members/' . $curUserID . '.xbb');
+					$curUser = self::file('members/' . $curUserID . '.xbb');
 					$curColor = '';
 					if($colorRank)
 					{

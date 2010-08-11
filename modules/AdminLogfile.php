@@ -69,8 +69,8 @@ class AdminLogfile implements Module
 			header('Expires: 0');
 			header('Cache-Control: private, must-revalidate, no-cache');
 			header('Pragma: no-cache');
-			header('Content-Length: ' . filesize($this->log));
-			readfile($this->log);
+			header('Content-Length: ' . filesize(DATAPATH . $this->log));
+			readfile(DATAPATH . $this->log);
 			Main::getModule('Logger')->log('%s downloaded logfile ' . $this->log, LOG_ACP_ACTION);
 			exit();
 			break;

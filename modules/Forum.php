@@ -340,7 +340,7 @@ class Forum implements Module
 			setcookie('upbwhere', INDEXFILE);
 			//Process categories and forums
 			$topicCounter = $postCounter = 0;
-			$cats = $forums = $newestPosts = array();
+			$cats = $forums = array();
 			//Prepare categories
 			foreach(Functions::file('vars/kg.var') as $curCat)
 				#0:id - 1:name
@@ -391,25 +391,12 @@ class Forum implements Module
 					$postCounter += $curForum[4];
 				}
 			}
-			//Process newest posts
-			if(Main::getModule('Config')->getCfgVal('show_lposts') >= 1 && ($lastPosts = Functions::file_get_contents('vars/lposts.var')) != '')
-			{
-				foreach(Functions::explodeByTab($lastPosts) as $curNewestPost)
-				{
-					#0:forumID - 1:topicID - 2:userID - 3:proprietaryDate[ - 4:tSmileyID]
-					$curNewestPost = Functions::explodeByComma($curNewestPost . ',1'); //Make sure index 4 is available
-					$newestPosts[] = sprintf(Main::getModule('Language')->getString('x_by_x_on_x'),
-						//Topic check + link + title preparation
-						!Functions::file_exists('foren/' . $curNewestPost[0] . '-' . $curNewestPost[1] . '.xbb') ? Main::getModule('Language')->getString('deleted') : '<img src="' . Functions::getTSmileyURL($curNewestPost[4]) . '" alt="" /> <a href="' . INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curNewestPost[0] . '&amp;thread=' . $curNewestPost[1] . '&amp;z=last' . SID_AMPER . '">' . (Functions::shorten(Functions::censor(Functions::getTopicName($curNewestPost[0], $curNewestPost[1])), 53)) . '</a>',
-						Functions::getProfileLink($curNewestPost[2], true),
-						Functions::formatDate($curNewestPost[3]));
-				}
-			}
 			Main::getModule('Template')->assign(array('cats' => $cats,
 				'forums' => $forums,
 				'topicCounter' => $topicCounter,
 				'postCounter' => $postCounter,
-				'newestPosts' => $newestPosts) + 
+				//Process newest posts
+				'newestPosts' => $this->getNewestPosts()) + 
 				//Add board statistics
 				(Main::getModule('Config')->getCfgVal('show_board_stats') == 1 ? array(
 				'newestMember' => Functions::getProfileLink(Functions::file_get_contents('vars/last_user_id.var'), true),
@@ -429,6 +416,30 @@ class Forum implements Module
 	private function getGuestTemplate($nick)
 	{
 		return array_combine(self::$userKeys, array_merge(array($nick, 0, '', false, Main::getModule('Language')->getString('guest')), array_fill(0, $this->userKeysSize-5, ''))) + array('userRank' => '', 'sendPM' => false);
+	}
+
+	/**
+	 * Returns the x newest posts.
+	 *
+	 * @return array Latest posts
+	 */
+	public function getNewestPosts()
+	{
+		$newestPosts = array();
+		if(Main::getModule('Config')->getCfgVal('show_lposts') >= 1 && ($lastPosts = Functions::file_get_contents('vars/lposts.var')) != '')
+		{
+			foreach(Functions::explodeByTab($lastPosts) as $curNewestPost)
+			{
+				#0:forumID - 1:topicID - 2:userID - 3:proprietaryDate[ - 4:tSmileyID]
+				$curNewestPost = Functions::explodeByComma($curNewestPost . ',1'); //Make sure index 4 is available
+				$newestPosts[] = sprintf(Main::getModule('Language')->getString('x_by_x_on_x'),
+					//Topic check + link + title preparation
+					!Functions::file_exists('foren/' . $curNewestPost[0] . '-' . $curNewestPost[1] . '.xbb') ? Main::getModule('Language')->getString('deleted') : '<img src="' . Functions::getTSmileyURL($curNewestPost[4]) . '" alt="" /> <a href="' . INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curNewestPost[0] . '&amp;thread=' . $curNewestPost[1] . '&amp;z=last' . SID_AMPER . '">' . (Functions::shorten(Functions::censor(Functions::getTopicName($curNewestPost[0], $curNewestPost[1])), 53)) . '</a>',
+					Functions::getProfileLink($curNewestPost[2], true),
+					Functions::formatDate($curNewestPost[3]));
+			}
+		}
+		return $newestPosts;
 	}
 
 	/**

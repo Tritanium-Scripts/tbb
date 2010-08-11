@@ -100,6 +100,7 @@ Last changed: 2010 (Version 1.5 Beta)
 	-Optionale Archivierung von verschickten Newslettern
 	-Schnell antworten in der Themenansicht
 	-Übersicht heutiger Beiträge
+	-Externe Anzeige der neuesten Beiträge und WIO-Daten funktioniert nun auch mit geänderten Datenpfad (DataPath.php)
 
 Written by Chrissyx
 (c) 2010 Tritanium Scripts
