@@ -64,6 +64,8 @@
  <tr>
   <td class="td1" style="font-weight:bold; width:20%; vertical-align:top;"><span class="norm">{$modules.Language->getString('steam_achievements_colon')}</span><br /><span class="small">{$userData[18].profileName|string_format:$modules.Language->getString('from_x')}</span></td>
   <td class="td1" style="width:80%;">{foreach $userData[19] as $curGame}<a href="{$smarty.const.INDEXFILE}?faction=profile&amp;profile_id={$userData[1]}&amp;mode=viewAchievements&amp;game={$curGame[0]}{$smarty.const.SID_AMPER}"><img src="{$curGame[1]}" alt="{$curGame[2]}" title="{$curGame[2]}" /></a> {/foreach}</td>
- </tr>{/if}{if $modules.Auth->isAdmin()}
+ </tr>{/if}
+ <tr><td class="td1" colspan="2"><span class="norm"><a class="norm" href="{$smarty.const.INDEXFILE}?faction=search&amp;search=yes&amp;age=0&amp;searchfor={$userData[1]}&amp;auswahl=all&amp;searchOption=user&amp;soption1=3{$smarty.const.SID_AMPER}">{$userData[0]|string_format:$modules.Language->getString('search_all_topics_from_x_brackets')}</a></span></td></tr>
+ <tr><td class="td1" colspan="2"><span class="norm"><a class="norm" href="{$smarty.const.INDEXFILE}?faction=search&amp;search=yes&amp;age=0&amp;searchfor={$userData[1]}&amp;auswahl=all&amp;searchOption=user&amp;soption1=2{$smarty.const.SID_AMPER}">{$userData[0]|string_format:$modules.Language->getString('search_all_posts_from_x_brackets')}</a></span></td></tr>{if $modules.Auth->isAdmin()}
  <tr><td class="td1" colspan="2"><span class="norm"><a class="norm" href="{$smarty.const.INDEXFILE}?faction=ad_user&amp;mode=edit&amp;id={$userData[1]}{$smarty.const.SID_AMPER}">{$modules.Language->getString('edit_user_brackets')}</a></span></td></tr>{/if}
 </table>

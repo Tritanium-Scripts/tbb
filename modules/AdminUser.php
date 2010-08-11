@@ -111,7 +111,7 @@ class AdminUser implements Module
 						Functions::file_put_contents('vars/groups.var', implode("\n", array_map(array('Functions', 'implodeByTab'), $groups)) . "\n");
 					}
 					//Build member file
-					$newUser = array($newUser['nick'],
+					$newUserFile = array($newUser['nick'],
 						$newUserID,
 						$newUser['pw1'],
 						$newUser['email'],
@@ -133,13 +133,13 @@ class AdminUser implements Module
 						'',
 						'');
 					//Writing time
-					Functions::file_put_contents('members/' . $newUserID . '.xbb', implode("\n", $newUser));
+					Functions::file_put_contents('members/' . $newUserID . '.xbb', implode("\n", $newUserFile));
 					Functions::file_put_contents('members/' . $newUserID . '.pm', '');
 					Functions::file_put_contents('vars/last_user_id.var', $newUserID);
 					Functions::file_put_contents('vars/member_counter.var', Functions::file_get_contents('vars/member_counter.var')+1);
 					//Send reg mail, if required
 					if($sendRegMail)
-						Functions::sendMessage($newUser[3], 'new_registration', $newUser[0], Main::getModule('Config')->getCfgVal('forum_name'), $newUser[1], $newUser[3], $newUser['pw2'], Main::getModule('Config')->getCfgVal('address_to_forum') . '/' . INDEXFILE);
+						Functions::sendMessage($newUserFile[3], 'new_registration', htmlspecialchars_decode($newUserFile[0]), Main::getModule('Config')->getCfgVal('forum_name'), $newUserFile[1], $newUserFile[3], $newUser['pw2'], Main::getModule('Config')->getCfgVal('address_to_forum') . '/' . INDEXFILE);
 					//Done
 					Main::getModule('Logger')->log('%s created new member (ID: ' . $newUserID . ')', LOG_ACP_ACTION);
 					Main::getModule('Template')->printMessage('member_created');
@@ -225,7 +225,7 @@ class AdminUser implements Module
 //AdminUser
 			default:
 			Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('member_search'), INDEXFILE . '?faction=ad_user&amp;mode=search' . SID_AMPER);
-			$searchMethod = Functions::getValueFromGlobals('searchmethod') or $searchMethod = 'id';
+			$searchMethod = Functions::getValueFromGlobals('searchmethod') or $searchMethod = 'nick';
 			$searchFor = Functions::strtolower(htmlspecialchars(trim(Functions::getValueFromGlobals('searched'))));
 			$results = array();
 			if(Functions::getValueFromGlobals('search') == 'yes')

@@ -2,7 +2,7 @@
 <form method="post" action="{$smarty.const.INDEXFILE}?faction=newsletter&amp;mode=delete{$smarty.const.SID_AMPER}">{/if}
 <table class="tbl" cellpadding="{$modules.Config->getCfgVal('tpadding')}" cellspacing="{$modules.Config->getCfgVal('tspacing')}" style="width:{$modules.Config->getCfgVal('twidth')}; margin:auto;">
  <tr>
-{if $modules.Auth->isAdmin()}  <th class="thsmall"><span class="thsmall"><input type="checkbox" onclick="for(var i=0,letters; i<(letters = document.getElementsByTagName('input')).length; i++) if(letters[i].name.substring(0, 12) == 'deleteletter') letters[i].checked = letters[i].checked == false ? true : false;" /></span></th>{/if}
+{if $modules.Auth->isAdmin()}  <th class="thsmall"><span class="thsmall"><input type="checkbox" onclick="negateBoxes('letter');" /></span></th>{/if}
   <th class="thsmall"><span class="thsmall">{$modules.Language->getString('date')}</span></th>
   <th class="thsmall" style="width:50%;"><span class="thsmall">{$modules.Language->getString('subject')}</span></th>
   <th class="thsmall"><span class="thsmall">{$modules.Language->getString('author')}</span></th>

@@ -2,13 +2,13 @@
 {include file='Errors.tpl'}
 <form method="post" action="{$smarty.const.INDEXFILE}?faction=ad_ip{$smarty.const.SID_AMPER}">
 <table class="tbl" cellpadding="{$modules.Config->getCfgVal('tpadding')}" cellspacing="{$modules.Config->getCfgVal('tspacing')}" style="width:{$modules.Config->getCfgVal('twidth')}; margin:auto;">
- <tr><th class="thnorm" colspan="2"><span class="thnorm">{$modules.Language->getString('add_new_ip_block')}</span></th>
+ <tr><th class="thnorm" colspan="2"><span class="thnorm">{$modules.Language->getString('add_new_ip_block')}</span></th></tr>
  <tr>
   <td class="td1"><span class="norm" style="font-weight:bold;">{$modules.Language->getString('ip_address_colon')}</span></td>
   <td class="td1"><input type="text" name="ip" value="{$newIPAddress}" /></td>
  </tr>
  <tr>
-  <td class="td1"><span class="norm" style="font-weight:bold;">{$modules.Language->getString('blocking_period_colon')}</span></font></td>
+  <td class="td1"><span class="norm" style="font-weight:bold;">{$modules.Language->getString('blocking_period_colon')}</span></td>
   <td class="td1"><input type="text" size="4" name="sperrtime" value="{$newBlockPeriod}" /> <span class="small">{$modules.Language->getString('blocking_period_hint')}</span></td>
  </tr>
  <tr>

@@ -10,7 +10,7 @@
  </tr>
  <tr>
   <td class="td1" style="vertical-align:top; width:35%;"><span class="norm" style="font-weight:bold;">{$modules.Language->getString('maintenance_mode_message')}</span><br /><span class="small">{$modules.Language->getString('xhtml_code_is_enabled')}</span></td>
-  <td class="td1" style="vertical-align:top; width:65%;" onclick="alert('{$modules.Language->getLangCode()|string_format:$modules.Language->getString('maintenance_mode_message_hint')}');"><textarea name="settings[7]" cols="50" rows="10" readonly="readonly">{$configValues['uc_message']|escape}</textarea></td>
+  <td class="td1" style="vertical-align:top; width:65%;"><textarea name="settings[7]" cols="50" rows="10" readonly="readonly" onclick="alert('{$modules.Language->getLangCode()|string_format:$modules.Language->getString('maintenance_mode_message_hint')}');">{$configValues['uc_message']|escape}</textarea></td>
  </tr>
  <tr><td class="kat" colspan="2"><span class="kat">{$modules.Language->getString('general_settings')}</span></td></tr>
  <tr>
@@ -103,7 +103,7 @@
  </tr>
  <tr>
   <td class="td1" style="font-weight:bold; width:35%;"><span class="norm">{$modules.Language->getString('css_file')}</span></td>
-  <td class="td1" style="vertical-align:top; width:65%;" onclick="alert('{$modules.Language->getString('css_file_hint')}');"><input type="text" name="settings[38]" value="{$configValues['css_file']}" style="width:250px;" readonly="readonly" /></td>
+  <td class="td1" style="vertical-align:top; width:65%;"><input type="text" name="settings[38]" value="{$configValues['css_file']}" style="width:250px;" readonly="readonly" onclick="alert('{$modules.Language->getString('css_file_hint')}');" /></td>
  </tr>
  <tr>
   <td class="td1" style="font-weight:bold; width:35%;"><span class="norm">{$modules.Language->getString('table_width')}</span></td>

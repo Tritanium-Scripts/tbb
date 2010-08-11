@@ -787,7 +787,7 @@ class FunctionsBasic
 			$curForum[10] = implode(',', $curForum[10]);
 			$curForum = self::implodeByTab($curForum);
 		}
-		self::file_put_contents('vars/foren.var', implode("\n", self::$cache['forums']));
+		self::file_put_contents('vars/foren.var', implode("\n", self::$cache['forums']) . "\n");
 		unset(self::$cache['forums']);
 	}
 

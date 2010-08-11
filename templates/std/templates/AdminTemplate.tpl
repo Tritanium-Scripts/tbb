@@ -15,7 +15,7 @@
   <td class="td1"><span class="small">{$curTemplate.comment}</span></td>
   <td class="td1"><select name="styles[{$curTplID}]" class="norm">{foreach $curTemplate.styles as $curStyle}<option value="{$curStyle}"{if ($curTplID == $defaultTplID && $curStyle == $defaultStyle) || ($curTplID != $defaultTplID && $curStyle == $curTemplate.style)} selected="selected"{/if}>{$curStyle}</option>{/foreach}</select></td>
  </tr>{/foreach}
- <td class="kat" colspan="5"><span class="kat">{$modules.Language->getString('template_settings')}</span></td>
+ <tr><td class="kat" colspan="5"><span class="kat">{$modules.Language->getString('template_settings')}</span></td></tr>
  <tr><td class="td1" colspan="5"><input type="checkbox" value="true" id="isTplSelectable" name="isTplSelectable" style="vertical-align:middle;"{if $modules.Config->getCfgVal('select_tpls')} checked="checked"{/if} /> <label for="isTplSelectable" class="norm">{$modules.Language->getString('members_may_select_other_templates')}</label></td></tr>
  <tr><td class="td1" colspan="5"><input type="checkbox" value="true" id="isStyleSelectable" name="isStyleSelectable" style="vertical-align:middle;"{if $modules.Config->getCfgVal('select_styles')} checked="checked"{/if} /> <label for="isStyleSelectable" class="norm">{$modules.Language->getString('members_may_select_other_styles')}</label></td></tr>
 </table>

@@ -489,8 +489,9 @@ class Posting implements Module
 						//Generate permanent link?
 						if($isLinked)
 							Functions::file_put_contents('foren/' . $this->forum[0] . '-' . $this->topicID . '.xbb', 'm' . "\t" . $this->topic[1] . "\t" . $this->topic[2] . "\t" . $this->topic[3] . "\t" . $targetForumID . "\t" . $newTopicID . "\n");
-						//Update link(s) in last posts (if topic is listed in there) with some l33t h4x regex magic :)
+						//Update link(s) in last and todays posts (if topic is listed in there) with some l33t h4x regex magic :)
 						Functions::file_put_contents('vars/lposts.var', preg_replace('/' . $this->forum[0] . ',' . $this->topicID . ',(.*?),(\d+),(\d+)/si', $targetForumID . ',' . $newTopicID . ',\1,\2,\3', Functions::file_get_contents('vars/lposts.var')));
+						Functions::file_put_contents('vars/todayposts.var', preg_replace('/' . $this->forum[0] . ',' . $this->topicID . ',(.*?),(\d+),(\d+)/si', $targetForumID . ',' . $newTopicID . ',\1,\2,\3', Functions::file_get_contents('vars/todayposts.var')));
 						//Done
 						Main::getModule('Logger')->log('%s moved topic from (' . $this->forum[0] . ',' . $this->topicID . ') to (' . $targetForumID . ',' . $newTopicID . ')', LOG_EDIT_POSTING);
 						Main::getModule('Template')->printMessage('topic_moved', Functions::getMsgBackLinks($targetForumID, $newTopicID, 'to_moved_topic'));
@@ -599,7 +600,7 @@ class Posting implements Module
 						}
 						Functions::file_put_contents('polls/' . $this->topic[7] . '-1.xbb', Functions::implodeByTab($poll) . "\n" . implode("\n", $pollFile) . "\n");
 						Main::getModule('Logger')->log('%s edited poll (' . $this->forum[0] . ',' . $this->topicID . ')', LOG_EDIT_POSTING);
-						Main::getModule('Template')->printMessage('poll_edited', Functions::getMsgBackLinks($this->forum[0], $this->topicID));
+						Main::getModule('Template')->printMessage('poll_edited', Functions::getMsgBackLinks($this->forum[0], $this->topicID, 'back_to_poll'));
 					}
 				}
 				Main::getModule('Template')->assign(array('pollTitle' => $poll[3],
@@ -709,8 +710,11 @@ class Posting implements Module
 	{
 		$topicIDs = Functions::file('foren/' . $this->forum[0] . '-threads.xbb', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 		if(($oldPos = array_search($this->topicID, $topicIDs)) !== false)
+		{
 			unset($topicIDs[$oldPos]);
-		Functions::file_put_contents('foren/' . $this->forum[0] . '-threads.xbb', implode("\n", $topicIDs) . "\n" . $this->topicID . "\n");
+			$topicIDs[] = $this->topicID;
+		}
+		Functions::file_put_contents('foren/' . $this->forum[0] . '-threads.xbb', implode("\n", $topicIDs) . "\n");
 	}
 }
 //Guess I'm a crazy coder^^

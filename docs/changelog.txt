@@ -54,7 +54,7 @@ Last changed: 2010 (Version 1.5 Beta)
 	-Mitgliederliste mit Sortierung nach ID weniger speicherintensiv
 	-Unterstützung zur Präsentation von Errungenschaften aus Steam-Spielen
 	-Angabe von Steam-Spielen mit Errungenschaften im eigenen Profil
-	-Profilansicht mit PN-Link, vCard-Download und Errungenschafts-Listen von Steam-Spielen
+	-Profilansicht mit PN-Link, "Suche alles von"-Links, vCard-Download und Errungenschafts-Listen von Steam-Spielen
 	-Profilansicht mit Details zu Anmeldedatum, vor x Wochen registriert, durchschnittliche Beiträge pro Tag, letzter Aktivität und Gruppe
 	-Zusätzliche Erklärungen zu den E-Mail-Einstellungen im eigenen Profil
 	-Automatische Generierung von Metatags zu Keywords und Description

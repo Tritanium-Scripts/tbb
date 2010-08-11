@@ -44,6 +44,21 @@
     width:100%;
    }
   </style>
+  <script type="text/javascript">
+/* <![CDATA[ */
+/**
+ * Negates the checked state of stated "delete" checkboxes.
+ *
+ * @author Christoph Jahn <chris@tritanium-scripts.com>
+ */
+function negateBoxes(id)
+{
+	for(var i=0,boxes; i<(boxes = document.getElementsByTagName('input')).length; i++)
+		if(boxes[i].name.substring(0, 6+id.length) == 'delete' + id)
+			boxes[i].checked = boxes[i].checked == false ? true : false;
+};
+/* ]]> */
+  </script>
  </head>
  <body style="padding-top:1em;"{if $modules.PrivateMessage->isRemind() && $unreadPMs > 0} onload="if(confirm('{if $unreadPMs == 1}{$modules.Language->getString('you_have_one_new_pm')}{elseif $unreadPMs > 1}{$unreadPMs|string_format:$modules.Language->getString('you_have_x_new_pms')}{/if}')) document.location='{$smarty.const.INDEXFILE}?faction=pm';"{/if}>
   <div id="main">

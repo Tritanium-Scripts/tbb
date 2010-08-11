@@ -2,7 +2,7 @@
 <form method="post" action="{$smarty.const.INDEXFILE}?faction=pm&amp;pmbox_id={$pmBoxID}&amp;mode=deletemany{$smarty.const.SID_AMPER}">
 <table class="tbl" cellpadding="{$modules.Config->getCfgVal('tpadding')}" cellspacing="{$modules.Config->getCfgVal('tspacing')}" style="width:{$modules.Config->getCfgVal('twidth')}; margin:auto;">
  <tr>
-  <th class="thsmall"><span class="thsmall"><input type="checkbox" onclick="for(var i=0,pms; i<(pms = document.getElementsByTagName('input')).length; i++) if(pms[i].name.substring(0, 8) == 'deletepm') pms[i].checked = pms[i].checked == false ? true : false;" /></span></th>
+  <th class="thsmall"><span class="thsmall"><input type="checkbox" onclick="negateBoxes('pm');" /></span></th>
   <th class="thsmall" style="width:50%;"><span class="thsmall">{$modules.Language->getString('subject')}</span></th>
   <th class="thsmall"><span class="thsmall">{$modules.Language->getString('from')}</span></th>
   <th class="thsmall"><span class="thsmall">{$modules.Language->getString('date')}</span></th>

@@ -14,6 +14,6 @@
   <td class="td2"><span class="norm"><a href="{$smarty.const.INDEXFILE}?mode=viewforum&amp;forum_id={$curTodaysPost.forumID}{$smarty.const.SID_AMPER}">{$curTodaysPost.forumTitle}</a></span></td>
  </tr>
 {foreachelse}
- <tr><td class="td1" style="text-align:center;"><span class="norm" style="font-weight:bold;">{$modules.Language->getString('no_todays_posts')}</span></td></tr>
+ <tr><td class="td1" colspan="4" style="text-align:center;"><span class="norm" style="font-weight:bold;">{$modules.Language->getString('no_todays_posts')}</span></td></tr>
 {/foreach}
 </table>

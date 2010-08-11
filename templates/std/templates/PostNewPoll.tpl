@@ -1,5 +1,6 @@
 <!-- PostNewPoll -->
 <script type="text/javascript">
+/* <![CDATA[ */
 lastRowID = {count($newPost.choices)};
 rowsCounter = {count($newPost.choices)};
 
@@ -53,6 +54,7 @@ function deletePollOption(rowID)
 	document.getElementById('idPollOptionsTable').deleteRow(document.getElementById(rowID).rowIndex);
 	rowsCounter--;
 };
+/* ]]> */
 </script>
 
 {if $preview}
@@ -77,17 +79,16 @@ function deletePollOption(rowID)
   <td class="td1" style="font-weight:bold; width:20%;"><span class="norm">{$modules.Language->getString('question_title_colon')}</span></td>
   <td class="td1" style="width:80%;"><input type="text" size="30" name="title" value="{$newPost.title}" /></td>
  </tr>
- <tr><td class="kat" colspan="2"><span class="kat">{$modules.Language->getString('choices')}</span></th></tr>
- <tr><td class="td1" colspan="2">
-  <table cellpadding="1" cellspacing="0" id="idPollOptionsTable">{foreach $newPost.choices as $curChoice}
-   <tr id="idOption{$curChoice@iteration}"><td><span class="norm">{$curChoice@iteration}. <input type="text" size="40" name="poll_choice[]" value="{$curChoice}"></span></td><td><span class="small"><a href="javascript:deletePollOption('idOption{$curChoice@iteration}');">{$modules.Language->getString('delete')}</a></span></td></tr>{/foreach}
-   <tr><td colspan="2"><span class="small"><a href="javascript:addPollOption();">{$modules.Language->getString('add_choice')}</a></span></td></tr>
-  </table></td></tr>
-<script type="text/javascript">
-if(rowsCounter == 0)
-	addPollOption();
-</script>
- <tr><td class="kat" colspan="2"><span class="kat">{$modules.Language->getString('post')}</span></th></tr>
+ <tr><td class="kat" colspan="2"><span class="kat">{$modules.Language->getString('choices')}</span></td></tr>
+ <tr>
+  <td class="td1" colspan="2">
+   <table cellpadding="1" cellspacing="0" id="idPollOptionsTable">{foreach $newPost.choices as $curChoice}
+    <tr id="idOption{$curChoice@iteration}"><td><span class="norm">{$curChoice@iteration}. <input type="text" size="40" name="poll_choice[]" value="{$curChoice}"></span></td><td><span class="small"><a href="javascript:deletePollOption('idOption{$curChoice@iteration}');">{$modules.Language->getString('delete')}</a></span></td></tr>{/foreach}
+    <tr><td colspan="2"><span class="small"><a href="javascript:addPollOption();">{$modules.Language->getString('add_choice')}</a></span></td></tr>
+   </table>
+  </td>
+ </tr>
+ <tr><td class="kat" colspan="2"><span class="kat">{$modules.Language->getString('post')}</span></td></tr>
  <tr>
   <td class="td1" style="font-weight:bold; width:20%;"><span class="norm">{$modules.Language->getString('post_icon_colon')}</span></td>
   <td class="td1" style="vertical-align:top; width:80%;">{include file='TopicSmilies.tpl' checked=$newPost.tSmiley}</td>
@@ -113,6 +114,10 @@ if(rowsCounter == 0)
   </td>
  </tr>
 </table>
+<script type="text/javascript">
+if(rowsCounter == 0)
+	addPollOption();
+</script>
 <p style="text-align:center;"><input type="submit" value="{$modules.Language->getString('post_new_poll')}" />&nbsp;&nbsp;&nbsp;<input type="submit" name="preview" value="{$modules.Language->getString('preview')}" style="font-weight:bold;" /></p>
 <input type="hidden" name="save" value="yes" />
 </form>

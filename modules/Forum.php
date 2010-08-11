@@ -327,7 +327,7 @@ class Forum implements Module
 					#0:forumID - 1:topicID - 2:userID - 3:date - 4:tSmileyID
 					$todaysPosts[] = array('forumID' => $curTodaysPost[0],
 						'forumTitle' => @next(Functions::getForumData($curTodaysPost[0])),
-						'topic' => !Functions::file_exists('foren/' . $curTodaysPost[0] . '-' . $curTodaysPost[1] . '.xbb') ? Main::getModule('Language')->getString('deleted') : '<a href="' . INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curTodaysPost[0] . '&amp;thread=' . $curTodaysPost[1] . '&amp;z=last' . SID_AMPER . '">' . (Functions::censor(Functions::getTopicName($curTodaysPost[0], $curTodaysPost[1]))) . '</a>',
+						'topic' => !Functions::file_exists('foren/' . $curTodaysPost[0] . '-' . $curTodaysPost[1] . '.xbb') ? Main::getModule('Language')->getString('deleted_moved') : '<a href="' . INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curTodaysPost[0] . '&amp;thread=' . $curTodaysPost[1] . '&amp;z=last' . SID_AMPER . '">' . (Functions::censor(Functions::getTopicName($curTodaysPost[0], $curTodaysPost[1]))) . '</a>',
 						'author' => Functions::getProfileLink($curTodaysPost[2], true),
 						'date' => Functions::formatDate($curTodaysPost[3]),
 						'tSmiley' => Functions::getTSmileyURL($curTodaysPost[4]));

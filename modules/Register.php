@@ -85,12 +85,12 @@ class Register implements Module
 		{
 //Register
 			case 'createuser':
-			$newUser = array_combine(self::$newUserKeys, array(Functions::getValueFromGlobals('newuser_name'),
-				Functions::getValueFromGlobals('newuser_email'),
-				Functions::getValueFromGlobals('newuser_hp'),
-				Functions::getValueFromGlobals('newuser_realname'),
-				Functions::getValueFromGlobals('newuser_icq'),
-				Functions::nl2br(Functions::getValueFromGlobals('newuser_signatur'))));
+			$newUser = array_combine(self::$newUserKeys, array(trim(Functions::getValueFromGlobals('newuser_name')),
+				trim(Functions::getValueFromGlobals('newuser_email')),
+				trim(Functions::getValueFromGlobals('newuser_hp')),
+				htmlspecialchars(trim(Functions::getValueFromGlobals('newuser_realname'))),
+				trim(Functions::getValueFromGlobals('newuser_icq')),
+				htmlspecialchars(trim(Functions::nl2br(Functions::getValueFromGlobals('newuser_signatur'))))));
 			//A lot of checking...
 			if(empty($newUser['nick']))
 				$this->errors[] = Main::getModule('Language')->getString('please_enter_an_user_name');
@@ -98,6 +98,8 @@ class Register implements Module
 				$this->errors[] = Main::getModule('Language')->getString('the_user_name_is_too_long');
 			elseif(Functions::unifyUserName($newUser['nick']))
 				$this->errors[] = Main::getModule('Language')->getString('the_user_name_already_exists');
+			else
+				$newUser['nick'] = htmlspecialchars($newUser['nick']);
 			if(!$this->createRegPass)
 			{
 				//In case of not creating a pass for new user, check the given one, too

@@ -2,7 +2,7 @@
 <form method="post" action="{$smarty.const.INDEXFILE}?faction=adminLogfile&amp;mode=delete{$smarty.const.SID_AMPER}">
 <table class="tbl" cellpadding="{$modules.Config->getCfgVal('tpadding')}" cellspacing="{$modules.Config->getCfgVal('tspacing')}" style="width:{$modules.Config->getCfgVal('twidth')}; margin:auto;">
  <tr>
-  <th class="thsmall"><span class="thsmall"><input type="checkbox" onclick="for(var i=0,logs; i<(logs = document.getElementsByTagName('input')).length; i++) if(logs[i].name.substring(0, 9) == 'deletelog') logs[i].checked = logs[i].checked == false ? true : false;" /></span></th>
+  <th class="thsmall"><span class="thsmall"><input type="checkbox" onclick="negateBoxes('log');" /></span></th>
   <th class="thsmall" colspan="2"><a href="{$smarty.const.INDEXFILE}?faction=adminLogfile&amp;sortMethod=byDate&amp;orderType={$orderTypeDate}{$smarty.const.SID_AMPER}"><span class="thsmall" style="text-decoration:underline;">{$modules.Language->getString('logfile')}</span></a></th>
   <th class="thsmall"><a href="{$smarty.const.INDEXFILE}?faction=adminLogfile&amp;sortMethod=bySize&amp;orderType={$orderTypeSize}{$smarty.const.SID_AMPER}"><span class="thsmall" style="text-decoration:underline;">{$modules.Language->getString('size')}</span></a></th>
   <th class="thsmall"><a href="{$smarty.const.INDEXFILE}?faction=adminLogfile&amp;sortMethod=byEntries&amp;orderType={$orderTypeEntries}{$smarty.const.SID_AMPER}"><span class="thsmall" style="text-decoration:underline;">{$modules.Language->getString('entries')}</span></a></th>

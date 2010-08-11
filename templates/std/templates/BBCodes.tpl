@@ -39,15 +39,14 @@
  <option value="+3">{$modules.Language->getString('size_up3')}</option>
  <option value="+4">{$modules.Language->getString('size_up4')}</option>
 </select>
-{* CSS3 is needed for glow and shadow to keep a valid document *}
-<select class="colorselect" onchange="if(this.options.selectedIndex != 0) setTag('[glow=' + this.options[this.options.selectedIndex].value + ']', '[/glow]');" disabled="disabled">
+<select class="colorselect" onchange="if(this.options.selectedIndex != 0) setTag('[glow=' + this.options[this.options.selectedIndex].value + ']', '[/glow]');">
  <option>{$modules.Language->getString('font_glow')}</option>
  <option value="#FF0000" style="background-color:#FF0000; color:#FF0000;">{$modules.Language->getString('red')}</option>
  <option value="#FFFF00" style="background-color:#FFFF00; color:#FFFF00;">{$modules.Language->getString('yellow')}</option>
  <option value="#008000" style="background-color:#008000; color:#008000;">{$modules.Language->getString('green')}</option>
  <option value="#0000FF" style="background-color:#0000FF; color:#0000FF;">{$modules.Language->getString('blue')}</option>
 </select>
-<select class="colorselect" onchange="if(this.options.selectedIndex != 0) setTag('[shadow=' + this.options[this.options.selectedIndex].value + ']', '[/shadow]');" disabled="disabled">
+<select class="colorselect" onchange="if(this.options.selectedIndex != 0) setTag('[shadow=' + this.options[this.options.selectedIndex].value + ']', '[/shadow]');">
  <option>{$modules.Language->getString('font_shadow')}</option>
  <option value="#FF0000" style="background-color:#FF0000; color:#FF0000;">{$modules.Language->getString('red')}</option>
  <option value="#FFFF00" style="background-color:#FFFF00; color:#FFFF00;">{$modules.Language->getString('yellow')}</option>
