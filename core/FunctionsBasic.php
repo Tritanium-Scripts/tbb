@@ -51,14 +51,14 @@ class FunctionsBasic
 	}
 
 	/**
-	 * Adds 'http://' to a link, if needed.
+	 * Adds 'http://' to a link, if needed. Ignores relative links to internal upload folder.
 	 *
 	 * @param string $link Link to extend with 'http://'
 	 * @return string Extended link
 	 */
 	public static function addHTTP($link)
 	{
-		return !empty($link) && Functions::substr($link, 0, 7) != 'http://' ? 'http://' . $link : $link;
+		return !empty($link) && Functions::substr($link, 0, 8) != 'uploads/' && Functions::substr($link, 0, 7) != 'http://' ? 'http://' . $link : $link;
 	}
 
 	/**
@@ -262,7 +262,7 @@ class FunctionsBasic
 	/**
 	 * Returns a formatted date string from proprietary date format.
 	 *
-	 * @param string $date Proprietary date format (YYYYMMDDhhmmss)
+	 * @param string $date Proprietary GMT date format (YYYYMMDDhhmmss)
 	 * @param string $format Alternative pattern to use
 	 * @return string Ready-for-use date
 	 */
@@ -542,16 +542,16 @@ class FunctionsBasic
 	}
 
 	/**
-	 * Returns an unix timestamp with offset from a proprietary date.
+	 * Returns an GMT unix timestamp with offset from a proprietary date.
 	 *
 	 * @param string $date Proprietary date format (YYYYMMDDhhmmss)
-	 * @return int Unix timestamp
+	 * @return int Unix GMT timestamp
 	 */
 	public static function getTimestamp($date)
 	{
 		$gmtOffset = Main::getModule('Config')->getCfgVal('gmt_offset');
 		$offset = Functions::substr($gmtOffset, 1, 2)*3600 + Functions::substr($gmtOffset, 3, 2)*60;
-		return mktime(substr($date, 8, 2), substr($date, 10, 2), 0, substr($date, 4, 2), substr($date, 6, 2), substr($date, 0, 4)) + ($gmtOffset[0] == '-' ? $offset*-1 : $offset) + date('Z');
+		return gmmktime(substr($date, 8, 2), substr($date, 10, 2), substr($date, 12, 2), substr($date, 4, 2), substr($date, 6, 2), substr($date, 0, 4)) + ($gmtOffset[0] == '-' ? $offset*-1 : $offset);# + date('Z');
 	}
 
 	/**

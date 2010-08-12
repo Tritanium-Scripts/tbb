@@ -344,29 +344,30 @@ class Forum implements Module
 					#0:forumID - 1:topicID - 2:userID - 3:proprietaryDate[ - 4:tSmileyID]
 					$curNewestPost = Functions::explodeByComma($curNewestPost . ',1'); //Make sure index 4 is available
 					$curNewestPost[2] = Functions::isGuestID($curNewestPost[2]) ? Functions::substr($curNewestPost[2], 1) : (Functions::file_exists('members/' . $curNewestPost[2] . '.xbb') ? current(Functions::file('members/' . $curNewestPost[2] . '.xbb')) : Main::getModule('Language')->getString('deleted'));
-					$curNewestPost[5] = date('r', Functions::getTimestamp($curNewestPost[3] . '01000000'));
+					$curNewestPost[5] = date('r', Functions::getTimestamp($curNewestPost[3] . '01000000')-date('Z'));
 					$curNewestPost[4] = Functions::getTSmileyURL($curNewestPost[4]);
 				}
+				unset($curNewestPost); //Delete remaining reference to avoid conflicts
 				//Get pubDate from regdate of first user
 				$i = 1;
 				$size = intval(Functions::file_get_contents('vars/last_user_id.var')) or $size = 1;
 				do
 					$firstUser = Functions::getUserData($i++);
 				while($firstUser == false && $i <= $size);
-				header('Content-Type: application/rss+xml');
 				//RSS header
+				header('Content-Type: application/rss+xml');
 				echo('<?xml version="1.0" encoding="' . Main::getModule('Language')->getString('html_encoding') .'" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:slash="http://purl.org/rss/1.0/modules/slash/">
  <channel>
   <title>' . sprintf(Main::getModule('Language')->getString('x_rss_feed'), Main::getModule('Config')->getCfgVal('forum_name')) . '</title>
-  <link>' . Main::getModule('Config')->getCfgVal('address_to_forum') . '</link>
+  <link>' . Main::getModule('Config')->getCfgVal('address_to_forum') . '/' . INDEXFILE . '</link>
   <description>' . sprintf(Main::getModule('Language')->getString('newest_posts_from_x'), Main::getModule('Config')->getCfgVal('forum_name')) . '</description>
   <language>' . Main::getModule('Language')->getLangCode() .'</language>
   <lastBuildDate>' . current(array_slice($newestPosts[0], 5, 1)) . '</lastBuildDate>
-  <pubDate>' . date('r', $firstUser != false ? Functions::getTimestamp($firstUser[6] . '01000000') : time()) . '</pubDate>
+  <pubDate>' . date('r', $firstUser != false ? Functions::getTimestamp($firstUser[6] . '01000000')-date('Z') : time()) . '</pubDate>
   <docs>http://www.rssboard.org/rss-specification</docs>
   <generator>Tritanium Bulletin Board ' . VERSION_PUBLIC . '</generator>
-  <atom:link href="' . INDEXFILE . '?faction=rssFeed" rel="self" type="application/rss+xml" />
+  <atom:link href="' . Main::getModule('Config')->getCfgVal('address_to_forum') . '/' . INDEXFILE . '?faction=rssFeed" rel="self" type="application/rss+xml" />
 ');
 				//RSS body with items
 				foreach($newestPosts as $curNewestPost)
@@ -379,18 +380,22 @@ class Forum implements Module
 							if($curPost[2] == $curNewestPost[3])
 							{
 								$curTopic = array('title' => Functions::censor(@next(Functions::explodeByTab($curTopic[0]))),
-									'post' => preg_replace("/\[lock\](.*?)\[\/lock\]/si", '', $curPost[3]),
-									'count' => count($curTopic)-2);
+									'post' => htmlspecialchars(Main::getModule('BBCode')->parse($curPost[3])),
+									'count' => count($curTopic)-2,
+									'page' => ceil($curKey / Main::getModule('Config')->getCfgVal('posts_per_page')),
+									'postID' => $curPost[0]);
 							}
 						}
 					else
 						$curTopic = array('title' => Main::getModule('Language')->getString('deleted'),
 							'post' => Main::getModule('Language')->getString('deleted'),
-							'count' => 0);
-					
+							'count' => 0,
+							'page' => 1,
+							'postID' => 1);
 					echo('  <item>
    <title>' . $curTopic['title'] . '</title>
-   <link>' . Main::getModule('Config')->getCfgVal('address_to_forum') . '/' . INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curNewestPost[0] . '&amp;thread=' . $curNewestPost[1] . '&amp;z=last</link>
+   <link>' . Main::getModule('Config')->getCfgVal('address_to_forum') . '/' . INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curNewestPost[0] . '&amp;thread=' . $curNewestPost[1] . '&amp;z=' . $curTopic['page'] . '#post' . $curTopic['postID'] . '</link>
+   <guid isPermaLink="true">' . Main::getModule('Config')->getCfgVal('address_to_forum') . '/' . INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curNewestPost[0] . '&amp;thread=' . $curNewestPost[1] . '&amp;z=' . $curTopic['page'] . '#post' . $curTopic['postID'] . '</guid>
    <pubDate>' . $curNewestPost[5] . '</pubDate>
    <dc:creator>' . $curNewestPost[2] . '</dc:creator>
    <category>' . @next(Functions::getForumData($curNewestPost[0])) . '</category>

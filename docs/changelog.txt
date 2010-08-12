@@ -23,7 +23,7 @@ Last changed: 2010 (Version 1.5 Beta)
 	-Neue Sterne bei Rangbilder
 	-Admin- & (Super-)Moderatoren-Smileys
 	-Neues Format für Übersetzungen auf Basis von INI-Dateien (nicht abwärtskompatibel)
-	-Upload-Funktion für Dateien
+	-Upload-Funktion für Dateien mit automatischer Verlinkung im Beitrag
 	-Kontakt-Mail-Adresse(n) verschlüsselt mit JavaScript
 	-Newsfader (Newstyp "2") nicht mehr IE-only
 	-Optionaler ClickJacking-Schutz für IE 8.0, Safari und Chrome

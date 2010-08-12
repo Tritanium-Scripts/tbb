@@ -83,7 +83,7 @@ function deletePollOption(rowID)
  <tr>
   <td class="td1" colspan="2">
    <table cellpadding="1" cellspacing="0" id="idPollOptionsTable">{foreach $newPost.choices as $curChoice}
-    <tr id="idOption{$curChoice@iteration}"><td><span class="norm">{$curChoice@iteration}. <input type="text" size="40" name="poll_choice[]" value="{$curChoice}"></span></td><td><span class="small"><a href="javascript:deletePollOption('idOption{$curChoice@iteration}');">{$modules.Language->getString('delete')}</a></span></td></tr>{/foreach}
+    <tr id="idOption{$curChoice@iteration}"><td><span class="norm">{$curChoice@iteration}. <input type="text" size="40" name="poll_choice[]" value="{$curChoice}" /></span></td><td><span class="small"><a href="javascript:deletePollOption('idOption{$curChoice@iteration}');">{$modules.Language->getString('delete')}</a></span></td></tr>{/foreach}
     <tr><td colspan="2"><span class="small"><a href="javascript:addPollOption();">{$modules.Language->getString('add_choice')}</a></span></td></tr>
    </table>
   </td>
@@ -95,7 +95,7 @@ function deletePollOption(rowID)
  </tr>{if $forum.isBBCode}
  <tr>
   <td class="td1" style="font-weight:bold; vertical-align:top; width:20%;"><span class="norm">{$modules.Language->getString('bbcode_colon')}</span></td>
-  <td class="td1" style="width:80%;">{include file='BBCodes.tpl'}</td>
+  <td class="td1" style="width:80%;">{include file='BBCodes.tpl' targetBoxID='post'}</td>
  </tr>{/if}
  <tr>
   <td class="td1" style="font-weight:bold; vertical-align:top;"><span class="norm">{$modules.Language->getString('post_colon')}</span><br /><br />{include file='Smilies.tpl' targetBoxID='post'}</td>

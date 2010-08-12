@@ -23,7 +23,7 @@
  </tr>{if $forum.isBBCode}
  <tr>
   <td class="td1" style="font-weight:bold; vertical-align:top; width:20%;"><span class="norm">{$modules.Language->getString('bbcode_colon')}</span></td>
-  <td class="td1" style="width:80%;">{include file='BBCodes.tpl'}</td>
+  <td class="td1" style="width:80%;">{include file='BBCodes.tpl' targetBoxID='post'}</td>
  </tr>{/if}
  <tr>
   <td class="td1" style="font-weight:bold; vertical-align:top;"><span class="norm">{$modules.Language->getString('post_colon')}</span><br /><br />{include file='Smilies.tpl' targetBoxID='post'}</td>

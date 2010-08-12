@@ -150,11 +150,11 @@ class Posting implements Module
 		Main::getModule('NavBar')->addElement($this->forum[1], INDEXFILE . '?mode=viewforum&amp;forum_id=' . $this->forum[0] . SID_AMPER);
 		if(Main::getModule('Auth')->isBanned())
 			Main::getModule('Template')->printMessage('banned_from_forum');
+		if($this->topicFile == false)
+			Main::getModule('Template')->printMessage('topic_not_found');
 		Main::getModule('NavBar')->addElement(Functions::censor($this->topic[1]), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $this->forum[0] . '&amp;thread=' . $this->topicID . SID_AMPER);
 		if($this->topic[0] == 'm')
 			Main::getModule('Template')->printMessage('topic_has_moved', INDEXFILE . '?mode=viewthread&amp;forum_id=' . $this->topic[4] . '&amp;thread=' . $this->topic[5] . SID_AMPER, Functions::getMsgBackLinks($this->forum[0]));
-		elseif($this->topicFile == false)
-			Main::getModule('Template')->printMessage('topic_not_found');
 		//Execute action (and subaction)
 		switch($this->mode)
 		{

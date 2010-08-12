@@ -286,6 +286,19 @@
   <td class="td1" style="font-weight:bold; width:35%;"><span class="norm">{$modules.Language->getString('members_can_be_notified_about_new_replies')}</span></td>
   <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="y55" name="settings[55]" value="1"{if $configValues['notify_new_replies'] == 1} checked="checked"{/if} /><label for="y55" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="n55" name="settings[55]" value="0"{if $configValues['notify_new_replies'] != 1} checked="checked"{/if} /><label for="n55" class="norm">{$modules.Language->getString('negative')}</label></td>
  </tr>
+ <tr><td class="kat" colspan="2"><span class="kat">{$modules.Language->getString('file_upload_settings')}</span></td></tr>
+ <tr>
+  <td class="td1" style="font-weight:bold; width:35%;"><span class="norm">{$modules.Language->getString('enable_file_uploads')}</span></td>
+  <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="y72" name="settings[72]" value="1"{if $configValues['enable_uploads'] == 1} checked="checked"{/if} /><label for="y72" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="n72" name="settings[72]" value="0"{if $configValues['enable_uploads'] != 1} checked="checked"{/if} /><label for="n72" class="norm">{$modules.Language->getString('negative')}</label></td>
+ </tr>
+ <tr>
+  <td class="td1" style="font-weight:bold; width:35%;"><span class="norm">{$modules.Language->getString('allowed_file_extensions')}</span></td>
+  <td class="td1" style="vertical-align:top; width:65%;"><input type="text" name="settings[73]" value="{$configValues['upload_allowed_ext']}" style="width:250px;" />&nbsp;<span class="small">{$modules.Language->getString('allowed_file_extensions_hint')}</span></td>
+ </tr>
+ <tr>
+  <td class="td1" style="font-weight:bold; width:35%;"><span class="norm">{$modules.Language->getString('maximal_filesize')}</span></td>
+  <td class="td1" style="vertical-align:top; width:65%;"><input type="text" name="settings[74]" value="{$configValues['upload_max_filesize']}" style="width:250px;" />&nbsp;<span class="small">{$modules.Language->getString('maximal_filesize_hint')}</span></td>
+ </tr>
  <tr><td class="kat" colspan="2"><span class="kat">{$modules.Language->getString('logging_settings')}</span></td></tr>
  <tr>
   <td class="td1" colspan="2">

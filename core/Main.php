@@ -81,6 +81,7 @@ class Main implements Module
 		'newsletter' => 'Newsletter',
 		'todaysPosts' => 'Forum',
 		'rssFeed' => 'Forum',
+		'uploadFile' => 'Upload',
 		//Adminpanel actions
 		'adminpanel' => 'AdminIndex',
 		'ad_forum' => 'AdminForum',

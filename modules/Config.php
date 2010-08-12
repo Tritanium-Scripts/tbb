@@ -86,7 +86,10 @@ class Config
 		0,
 		60,
 		1,
-		1);
+		1,
+		1,
+		'',
+		2097152);
 
 	/**
 	 * Name of config file to work with.
@@ -172,7 +175,10 @@ class Config
 		'confirm_reg_mail',
 		'new_pm_reminder',
 		'select_tpls',
-		'select_styles');
+		'select_styles',
+		'enable_uploads',
+		'upload_allowed_ext',
+		'upload_max_filesize');
 
 	/**
 	 * Loaded configuration values are stored here.

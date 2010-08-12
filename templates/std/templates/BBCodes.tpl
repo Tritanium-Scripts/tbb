@@ -1,15 +1,15 @@
 <!-- BBCodes -->
-<input class="forumcode" style="font-weight:bold;" type="button" value="B" onclick="setTag('[b]','[/b]');"/>
-<input class="forumcode" style="font-style:italic;" type="button" value="I" onclick="setTag('[i]','[/i]');"/>
-<input class="forumcode" style="text-decoration:underline;" type="button" value="U" onclick="setTag('[u]','[/u]');"/>
-<input class="forumcode" style="text-decoration:line-through;" type="button" value="S" onclick="setTag('[s]','[/s]');"/>
-<input class="forumcode" type="button" value="{$modules.Language->getString('center', 'BBCode')}" onclick="setTag('[center]','[/center]');"/>
+<input class="forumcode" style="font-weight:bold;" type="button" value="B" onclick="setTag('[b]','[/b]');" />
+<input class="forumcode" style="font-style:italic;" type="button" value="I" onclick="setTag('[i]','[/i]');" />
+<input class="forumcode" style="text-decoration:underline;" type="button" value="U" onclick="setTag('[u]','[/u]');" />
+<input class="forumcode" style="text-decoration:line-through;" type="button" value="S" onclick="setTag('[s]','[/s]');" />
+<input class="forumcode" type="button" value="{$modules.Language->getString('center', 'BBCode')}" onclick="setTag('[center]','[/center]');" />
 <button class="forumcode" type="button" onclick="setTag('[sup]','[/sup]');"><span style="position:relative; top:-0.3em;">{$modules.Language->getString('superscript')}</span></button>
 <button class="forumcode" type="button" onclick="setTag('[sub]', '[/sub]');"><span style="position:relative; bottom:-0.3em;">{$modules.Language->getString('subscript')}</span></button>
-<input class="forumcode" type="button" value="{$modules.Language->getString('quote_quoted')}" onclick="setTag('[quote]','[/quote]');"/>
-<input class="forumcode" style="font-family:monospace;" type="button" value="{$modules.Language->getString('code')}" onclick="setTag('[code]','[/code]');"/>
-<input class="forumcode" type="button" value="PHP" onclick="setTag('[php]','[/php]');"/>
-<input class="forumcode" type="button" value="[noparse]" onclick="setTag('[noparse]','[/noparse]');"/><br />
+<input class="forumcode" type="button" value="{$modules.Language->getString('quote_quoted')}" onclick="setTag('[quote]','[/quote]');" />
+<input class="forumcode" style="font-family:monospace;" type="button" value="{$modules.Language->getString('code')}" onclick="setTag('[code]','[/code]');" />
+<input class="forumcode" type="button" value="PHP" onclick="setTag('[php]','[/php]');" />
+<input class="forumcode" type="button" value="[noparse]" onclick="setTag('[noparse]','[/noparse]');" /><br />
 
 <select class="colorselect" onchange="if(this.options.selectedIndex != 0) setTag('[color=' + this.options[this.options.selectedIndex].value + ']', '[/color]');">
  <option>{$modules.Language->getString('font_color')}</option>
@@ -52,12 +52,14 @@
  <option value="#FFFF00" style="background-color:#FFFF00; color:#FFFF00;">{$modules.Language->getString('yellow')}</option>
  <option value="#008000" style="background-color:#008000; color:#008000;">{$modules.Language->getString('green')}</option>
  <option value="#0000FF" style="background-color:#0000FF; color:#0000FF;">{$modules.Language->getString('blue')}</option>
-</select><br />
+</select>{if $modules.Config->getCfgVal('enable_uploads') == 1}
 
-<input class="forumcode" type="button" value="URL" onclick="setTag('[url]','[/url]');"/>
-<input class="forumcode" type="button" value="IMG" onclick="setTag('[img]','[/img]');"/>
-<input class="forumcode" type="button" value="{$modules.Language->getString('email')}" onclick="setTag('[email]','[/email]');"/>
-<input class="forumcode" type="button" value="{$modules.Language->getString('bulllet_list')}" onclick="setTag('[list]\n[*]','\n[/list]');"/>
-<input class="forumcode" type="button" value="{$modules.Language->getString('flash')}" onclick="setTag('[flash]','[/flash]');"/>
-<input class="forumcode" type="button" value="{$modules.Language->getString('hidden_text')}" onclick="setTag('[hide]','[/hide]');"/>
-<input class="forumcode" type="button" value="{$modules.Language->getString('locked_text')}" onclick="setTag('[lock]','[/lock]');"/>
+<input class="forumcode" type="button" value="{$modules.Language->getString('upload_file')}" onclick="window.open('{$smarty.const.INDEXFILE}?faction=uploadFile&amp;targetBoxID={$targetBoxID}', '_blank', 'width=500,height=400, status');" />{/if}<br />
+
+<input class="forumcode" type="button" value="URL" onclick="setTag('[url]','[/url]');" />
+<input class="forumcode" type="button" value="IMG" onclick="setTag('[img]','[/img]');" />
+<input class="forumcode" type="button" value="{$modules.Language->getString('email')}" onclick="setTag('[email]','[/email]');" />
+<input class="forumcode" type="button" value="{$modules.Language->getString('bulllet_list')}" onclick="setTag('[list]\n[*]','\n[/list]');" />
+<input class="forumcode" type="button" value="{$modules.Language->getString('flash')}" onclick="setTag('[flash]','[/flash]');" />
+<input class="forumcode" type="button" value="{$modules.Language->getString('hidden_text')}" onclick="setTag('[hide]','[/hide]');" />
+<input class="forumcode" type="button" value="{$modules.Language->getString('locked_text')}" onclick="setTag('[lock]','[/lock]');" />

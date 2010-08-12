@@ -29,7 +29,7 @@
  <tr><td class="kat" colspan="2"><span class="kat">{$modules.Language->getString('write_news')}</span></td></tr>
  <tr>
   <td class="td1" style="font-weight:bold; vertical-align:top;"><span class="norm">{$modules.Language->getString('bbcode_colon')}</span></td>
-  <td class="td1">{include file='BBCodes.tpl'}</td>
+  <td class="td1">{include file='BBCodes.tpl' targetBoxID='news'}</td>
  </tr>
  <tr>
   <td class="td1" style="font-weight:bold; vertical-align:top;"><span class="norm">{$modules.Language->getString('news_colon')}</span><br /><br />{include file='Smilies.tpl' targetBoxID='news'}</td>
