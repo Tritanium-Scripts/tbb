@@ -88,12 +88,11 @@ Last changed: 2010 (Version 1.5 Beta)
 	-Suchergebnisse mit mehr Details und Beitragsansicht
 	-"Cache leeren"-Funktion im ACP
 	-Zähler von Themen, Beiträgen und Mitglieder neu berechnen lassen im ACP
-	-Verwalten von Admin- & Moderatoren-Smileys, Templates und hochgeladenen Dateien im ACP
+	-Verwalten von Admin- & Moderatoren-Smileys, Templates und Logdateien im ACP
 	-Zeitzonen aktualisiert
 	-Mehr Optionen zu den Forumeinstellungen im ACP
 	-Forumnews mit Unterstützung für BBCode und Smileys
 	-Mitglieder können andere Templates und Styles auswählen
-	-Logdateienverwaltung im ACP
 	-Angabe von maximalen Beiträgen wird für Ränge automatisch berechnet (keine 1000000 mehr als Limit)
 	-Korrekte Benennung von Smileys und IP-Adressen
 	-Versenden von Newslettern auch bei vielen Mitgliedern ohne Probleme oder Timeouts
@@ -101,6 +100,8 @@ Last changed: 2010 (Version 1.5 Beta)
 	-Schnell antworten in der Themenansicht
 	-Übersicht heutiger Beiträge
 	-Externe Anzeige der neuesten Beiträge und WIO-Daten funktioniert nun auch mit geänderten Datenpfad (DataPath.php)
+	-Externe Anzeige der WIO-Box mit Anzahl von Geistern und funktioniert nun auch mit geänderten Datenpfad (DataPath.php)
+	-RSS Feed der neuesten Beiträge
 
 Written by Chrissyx
 (c) 2010 Tritanium Scripts

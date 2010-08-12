@@ -420,7 +420,7 @@ class FunctionsBasic
 							break;
 
 							case '3':
-							$curColor = Main::getModule('Config')->getCfgVal('wio_color_member');
+							$curColor = Main::getModule('Config')->getCfgVal('wio_color_user');
 							break;
 
 							case '4':
@@ -611,6 +611,10 @@ class FunctionsBasic
 		if(!isset($user[18]))
 			$user[18] = '';
 		$user[19] = isset($user[19]) ? self::explodeByTab($user[19]) : array();
+		if(!isset($user[20]))
+			$user[20] = '';
+		if(!isset($user[21]))
+			$user[21] = '';
 		return $user;
 	}
 

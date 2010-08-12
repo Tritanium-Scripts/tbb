@@ -43,17 +43,22 @@ class ExtLastPosts
 
 	/**
 	 * Provides needed constants and includes required functions.
+	 *
+	 * @return ExtLastPosts New instance of this class
 	 */
 	function __construct()
 	{
-		define('EXT_PATH_TO_FORUM', self::$extPathToForum);
-		require(EXT_PATH_TO_FORUM . 'core/Constants.php');
-		define('EXT_PATH_TO_DATA', EXT_PATH_TO_FORUM . DATAPATH);
-		define('EXT_IS_UTF8', self::$isUTF8);
-		require(EXT_PATH_TO_FORUM . 'core/ExtFunctions.php');
-		error_reporting(ERR_REPORTING);
-		//Qick 'n' dirty fix to set "proper" timezone
-		@date_default_timezone_set(date_default_timezone_get());
+		if(!defined('EXT_PATH_TO_FORUM'))
+		{
+			define('EXT_PATH_TO_FORUM', self::$extPathToForum);
+			require_once(EXT_PATH_TO_FORUM . 'core/Constants.php');
+			define('EXT_PATH_TO_DATA', EXT_PATH_TO_FORUM . DATAPATH);
+			define('EXT_IS_UTF8', self::$isUTF8);
+			require_once(EXT_PATH_TO_FORUM . 'core/ExtFunctions.php');
+			error_reporting(ERR_REPORTING);
+			//Qick 'n' dirty fix to set "proper" timezone
+			@date_default_timezone_set(date_default_timezone_get());
+		}
 	}
 
 	/**

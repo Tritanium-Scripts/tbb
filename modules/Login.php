@@ -119,6 +119,11 @@ class Login implements Module
 						{
 							//Update last seen value
 							$curMember[16] = time();
+							//Remove custom tpls and styles, if it was prohibited in the meantime
+							if(Main::getModule('Config')->getCfgVal('select_tpls') != 1 && isset($curMember[20]) && !empty($curMember[20]))
+								$curMember[20] = '';
+							if(Main::getModule('Config')->getCfgVal('select_styles') != 1 && isset($curMember[21]) && !empty($curMember[21]))
+								$curMember[21] = '';
 							//Set a new requested password as new default one
 							if($this->loginPass == $curPasses[1])
 							{

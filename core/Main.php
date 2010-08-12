@@ -80,6 +80,7 @@ class Main implements Module
 		'credits' => 'Credits',
 		'newsletter' => 'Newsletter',
 		'todaysPosts' => 'Forum',
+		'rssFeed' => 'Forum',
 		//Adminpanel actions
 		'adminpanel' => 'AdminIndex',
 		'ad_forum' => 'AdminForum',

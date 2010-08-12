@@ -26,19 +26,7 @@ class AdminTemplate implements Module
 			Main::getModule('Logger')->log('%s updated template config', LOG_ACP_ACTION);
 			Main::getModule('Template')->printMessage('template_configuration_updated');
 		}
-		$templates = array();
-		//Get all templates
-		foreach(glob('templates/*') as $curTemplate)
-			//Get all config files from each template and parse their contents
-			foreach(@array_map('parse_ini_file', glob($curTemplate . '/config/*.conf')) as $curConfigFile)
-				$templates[basename($curTemplate)] = array('name' => $curConfigFile['templateName'],
-					'author' => $curConfigFile['authorName'],
-					'website' => $curConfigFile['authorURL'],
-					'comment' => $curConfigFile['authorComment'],
-					'style' => $curConfigFile['defaultStyle'],
-					//Get all styles from each template
-					'styles' => array_map('basename', glob($curTemplate . '/styles/*.css')));
-		Main::getModule('Template')->printPage('AdminTemplate', array('templates' => $templates,
+		Main::getModule('Template')->printPage('AdminTemplate', array('templates' => Main::getModule('Template')->getAvailableTpls(),
 			'defaultTplID' => Main::getModule('Config')->getCfgVal('default_tpl'),
 			'defaultStyle' => basename(Main::getModule('Config')->getCfgVal('css_file'))));
 	}

@@ -207,11 +207,11 @@ class Config
 	 * Returns a single configuration value.
 	 *
 	 * @param string $key Identifier of config value
-	 * @return string Requested config value
+	 * @return string|false Requested config value or false
 	 */
 	public function getCfgVal($key)
 	{
-		return isset($this->cfgValues[$key]) ? $this->cfgValues[$key] : false;
+		return isset($this->cfgValues[$key]) ? $this->cfgValues[$key] : !trigger_error('Config value ' . $key . ' does not exist!', E_USER_NOTICE);
 	}
 
 	/**

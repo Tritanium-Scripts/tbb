@@ -40,7 +40,7 @@ class Template
 		$this->smarty->setErrorUnassigned(ERR_REPORTING == E_ALL);
 		$this->smarty->setCacheDir('cache/');
 		$this->smarty->setCompileDir('cache/');
-		$this->tplDir = 'templates/' . Main::getModule('Config')->getCfgVal('default_tpl') . '/';
+		$this->tplDir = 'templates/' . (Main::getModule('Config')->getCfgVal('select_tpls') == 1 ? Main::getModule('Auth')->getUserTpl() : Main::getModule('Config')->getCfgVal('default_tpl')) . '/';
 		$this->smarty->setTemplateDir($this->tplDir . 'templates/');
 		$this->smarty->setConfigDir($this->tplDir . 'config/');
 		$this->smarty->setCompileId($this->tplDir);
@@ -101,6 +101,28 @@ class Template
 		if(!empty($tplVar))
 			$this->assign($tplVar, $value);
 		return $this->smarty->fetch($tplName . '.tpl');
+	}
+
+	/**
+	 * Returns available templates with their styles.
+	 *
+	 * @return array Available templates with config values and styles
+	 */
+	public function getAvailableTpls()
+	{
+		$templates = array();
+		//Get all templates
+		foreach(glob('templates/*') as $curTemplate)
+			//Get all config files from each template and parse their contents
+			foreach(@array_map('parse_ini_file', glob($curTemplate . '/config/*.conf')) as $curConfigFile)
+				$templates[basename($curTemplate)] = array('name' => $curConfigFile['templateName'],
+					'author' => $curConfigFile['authorName'],
+					'website' => $curConfigFile['authorURL'],
+					'comment' => $curConfigFile['authorComment'],
+					'style' => $curConfigFile['defaultStyle'],
+					//Get all styles from each template
+					'styles' => array_map('basename', glob($curTemplate . '/styles/*.css')));
+		return $templates;
 	}
 
 	/**

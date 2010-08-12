@@ -114,8 +114,10 @@ class Profile implements Module
 					$this->userData[14][1] = Functions::getValueFromGlobals('new_mail2') == '1' ? '1' : '0';
 					$this->userData[18] = Functions::getValueFromGlobals('steamProfile');
 					$this->userData[19] = Functions::explodeByTab(Functions::str_replace(array("\n", "\r"), array("\t", ''), Functions::getValueFromGlobals('steamGames')));
-					if(!empty($this->userData[19]) && empty($this->userData[18]))
+					if(!empty($this->userData[19][0]) && empty($this->userData[18]))
 						$this->errors[] = Main::getModule('Language')->getString('please_enter_your_steam_profile_name');
+					$this->userData[20] = Functions::getValueFromGlobals('ownTemplate');
+					$this->userData[21] = Functions::getValueFromGlobals('ownStyle');
 					if(($newPass = Functions::getValueFromGlobals('new_pw1')) != Functions::getValueFromGlobals('new_pw2'))
 						$this->errors[] = Main::getModule('Language')->getString('new_passwords_do_not_match');
 					//Write updates?
@@ -165,6 +167,9 @@ class Profile implements Module
 			$this->userData[7] = Functions::br2nl($this->userData[7]);
 			//Delete not needed data or: the template doesn't need to know these
 			unset($this->userData[8], $this->userData[11], $this->userData[15], $this->userData[16]);
+			//Provide selectable templates and styles, if allowed
+			if(Main::getModule('Config')->getCfgVal('select_tpls') == 1 || Main::getModule('Config')->getCfgVal('select_styles') == 1)
+				Main::getModule('Template')->assign('templates', Main::getModule('Template')->getAvailableTpls());
 			break;
 
 //SendMail

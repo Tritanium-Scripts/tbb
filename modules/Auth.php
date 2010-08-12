@@ -38,6 +38,8 @@
  *  <li>[specialState]</li>
  *  <li>[steamName]</li>
  *  <li>[steamGames]</li>
+ *  <li>[ownTemplate]</li>
+ *  <li>[ownStyle]</li>
  * </ol>
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
@@ -117,16 +119,6 @@ class Auth
 	}
 
 	/**
-	 * Returns either User ID (if logged in) or special guest ID.
-	 *
-	 * @return int|string Special ID for WIO list
-	 */
-	public function getWIOID()
-	{
-		return $this->wioID;
-	}
-
-	/**
 	 * Returns ID of user. 0 = Guest!
 	 *
 	 * @return int User ID
@@ -164,6 +156,36 @@ class Auth
 	public function getUserSig()
 	{
 		return $this->userData[7];
+	}
+
+	/**
+	 * Returns custom style setting of user, default otherwise.
+	 *
+	 * @return string CSS filename
+	 */
+	public function getUserStyle()
+	{
+		return isset($this->userData[21]) && !empty($this->userData[21]) ? 'styles/' . $this->userData[21] : Main::getModule('Config')->getCfgVal('css_file');
+	}
+
+	/**
+	 * Returns custom template setting of user, default otherwise.
+	 *
+	 * @return string Template identifier
+	 */
+	public function getUserTpl()
+	{
+		return isset($this->userData[20]) && !empty($this->userData[20]) ? $this->userData[20] : Main::getModule('Config')->getCfgVal('default_tpl');
+	}
+
+	/**
+	 * Returns either User ID (if logged in) or special guest ID.
+	 *
+	 * @return int|string Special ID for WIO list
+	 */
+	public function getWIOID()
+	{
+		return $this->wioID;
 	}
 
 	/**

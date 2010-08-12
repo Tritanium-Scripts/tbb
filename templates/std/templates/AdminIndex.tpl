@@ -48,14 +48,13 @@
    <span class="small">&nbsp;&nbsp;&nbsp;&nbsp;<a class="small" href="{$smarty.const.INDEXFILE}?faction=ad_settings{$smarty.const.SID_AMPER}">{$modules.Language->getString('edit_settings')}</a><br />
    &nbsp;&nbsp;&nbsp;&nbsp;<a href="{$smarty.const.INDEXFILE}?faction=ad_settings&amp;mode=readsetfile{$smarty.const.SID_AMPER}">{$modules.Language->getString('reset_settings')}</a><br />
    &nbsp;&nbsp;&nbsp;&nbsp;<a href="{$smarty.const.INDEXFILE}?faction=ad_settings&amp;mode=recalculateCounters{$smarty.const.SID_AMPER}">{$modules.Language->getString('recalculate_counters')}</a><br />
-   &nbsp;&nbsp;&nbsp;&nbsp;<a href="{$smarty.const.INDEXFILE}?faction=ad_settings&amp;mode=rebuildTopicIndex{$smarty.const.SID_AMPER}">{$modules.Language->getString('rebuild_topic_index')}</a><br />
-   &nbsp;&nbsp;&nbsp;&nbsp;<a href="{$smarty.const.INDEXFILE}?faction=ad_settings&amp;mode=clearCache{$smarty.const.SID_AMPER}">{$modules.Language->getString('clear_cache')}</a><br />
-   &nbsp;&nbsp;&nbsp;&nbsp;<a href="{$smarty.const.INDEXFILE}?faction=adminLogfile{$smarty.const.SID_AMPER}">{$modules.Language->getString('manage_logfiles')}</a></span>
+<!--   &nbsp;&nbsp;&nbsp;&nbsp;<a href="{$smarty.const.INDEXFILE}?faction=ad_settings&amp;mode=rebuildTopicIndex{$smarty.const.SID_AMPER}">{$modules.Language->getString('rebuild_topic_index')}</a><br />-->
+   &nbsp;&nbsp;&nbsp;&nbsp;<a href="{$smarty.const.INDEXFILE}?faction=ad_settings&amp;mode=clearCache{$smarty.const.SID_AMPER}">{$modules.Language->getString('clear_cache')}</a></span>
   </td>
  </tr>
  <tr>
   <td class="td1" style="vertical-align:top; width:50%;"><span class="norm" style="font-weight:bold;"><a href="{$smarty.const.INDEXFILE}?faction=adminTemplate{$smarty.const.SID_AMPER}">{$modules.Language->getString('templates')}</a></span><br /><span class="small">{$modules.Language->getString('templates_text')}</span></td>
-  <td class="td1" style="vertical-align:top; width:50%;"><span class="norm" style="font-weight:bold;"><a href="{$smarty.const.INDEXFILE}?faction=adminFile{$smarty.const.SID_AMPER}">{$modules.Language->getString('files')}</a></span><br /><span class="small">{$modules.Language->getString('files_text')}</span></td>
+  <td class="td1" style="vertical-align:top; width:50%;"><span class="norm" style="font-weight:bold;"><a href="{$smarty.const.INDEXFILE}?faction=adminLogfile{$smarty.const.SID_AMPER}">{$modules.Language->getString('logfiles')}</a></span><br /><span class="small">{$modules.Language->getString('logfiles_text')}</span></td>
  </tr>
  <tr>
   <td class="td1" style="vertical-align:top; width:50%;"><span class="norm" style="font-weight:bold;"><a href="{$smarty.const.INDEXFILE}?faction=ad_news{$smarty.const.SID_AMPER}">{$modules.Language->getString('forum_news')}</a></span><br /><span class="small">{$modules.Language->getString('forum_news_text')}</span></td>

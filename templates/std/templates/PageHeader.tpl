@@ -15,8 +15,9 @@
   <meta http-equiv="Content-Style-Type" content="text/css" />
   <meta http-equiv="Content-Script-Type" content="text/javascript" />
   <meta http-equiv="X-UA-Compatible" content="IE=8" />
-  <link rel="stylesheet" media="all" href="{$modules.Template->getTplDir()}{$modules.Config->getCfgVal('css_file')}" />
+  <link rel="stylesheet" media="all" href="{$modules.Template->getTplDir()}{$modules.Auth->getUserStyle()}" />
   <link rel="shortcut icon" type="image/x-icon" href="{$modules.Template->getTplDir()}images/favicon.ico" />
+  <link rel="alternate" type="application/rss+xml" title="{$modules.Config->getCfgVal('forum_name')|string_format:$modules.Language->getString('x_rss_feed')}" href="{$smarty.const.INDEXFILE}?faction=rssFeed" />
   <style type="text/css">
    input[type=radio]
    {

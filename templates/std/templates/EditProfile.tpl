@@ -57,7 +57,15 @@
  </tr>
  <tr><td class="kat" colspan="2"><span class="kat">{$modules.Language->getString('options')}</span></td></tr>
  <tr><td class="td1" colspan="2"><input type="checkbox" value="1" id="new_mail2" name="new_mail2" style="vertical-align:middle;"{if $userData[14][1] == '1'} checked="checked"{/if} /> <label for="new_mail2" class="norm">{$modules.Language->getString('show_email_address')}</label><br /><span class="small">{$modules.Language->getString('show_email_address_info')}</span></td></tr>
- <tr><td class="td1" colspan="2"><input type="checkbox" value="1" id="new_mail1" name="new_mail1" style="vertical-align:middle;"{if $userData[14][0] == '1'} checked="checked"{/if} /> <label for="new_mail1" class="norm">{$modules.Language->getString('receive_emails_from_forum')}</label><br /><span class="small">{$modules.Language->getString('receive_emails_from_forum_info')}</span></td></tr>
+ <tr><td class="td1" colspan="2"><input type="checkbox" value="1" id="new_mail1" name="new_mail1" style="vertical-align:middle;"{if $userData[14][0] == '1'} checked="checked"{/if} /> <label for="new_mail1" class="norm">{$modules.Language->getString('receive_emails_from_forum')}</label><br /><span class="small">{$modules.Language->getString('receive_emails_from_forum_info')}</span></td></tr>{if $modules.Config->getCfgVal('select_tpls') == 1}
+ <tr>
+  <td class="td1" style="font-weight:bold; width:20%;"><span class="norm">{$modules.Language->getString('template_colon')}</span></td>
+  <td class="td1" style="width:80%;"><select name="ownTemplate" style="width:250px;"><option value="">{$modules.Language->getString('default_brackets')}</option>{foreach $templates as $curTplID => $curTemplate}<option value="{$curTplID}"{if $curTplID == $userData[20]} selected="selected"{/if}>{$curTemplate.name}</option>{/foreach}</select></td>
+ </tr>{/if}{if $modules.Config->getCfgVal('select_styles') == 1}{if empty($userData[20])}{$userData[20] = $modules.Config->getCfgVal('default_tpl')}{/if}
+ <tr>
+  <td class="td1" style="font-weight:bold; width:20%;"><span class="norm">{$modules.Language->getString('style_colon')}</span></td>
+  <td class="td1" style="width:80%;"><select name="ownStyle" style="width:250px;"><option value="">{$modules.Language->getString('default_brackets')}</option>{foreach $templates[$userData[20]]['styles'] as $curStyle}<option value="{$curStyle}"{if $curStyle == $userData[21]} selected="selected"{/if}>{$curStyle}</option>{/foreach}</select></td>
+ </tr>{/if}
  <tr><td class="kat" colspan="2"><span class="kat">{$modules.Language->getString('change_password')}</span></td></tr>
  <tr><td class="td1" colspan="2"><span class="small">{$modules.Language->getString('change_password_info')}</span></td></tr>
  <tr>

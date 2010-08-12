@@ -265,7 +265,6 @@ table.navbar
 /* Die Buttons um Forumcode einzufügen */
 button.forumcode, input.forumcode
 {
-	border:1px #000000 solid;
 	border-width:1px;
 	font-size:12px;
 }
