@@ -125,6 +125,10 @@ class WhoIsOnline implements Module
 					$wioLocations[] = array($curUser, sprintf(Main::getModule('Language')->getString('views_todays_posts'), INDEXFILE . '?faction=todaysPosts' . SID_AMPER), $curWIOEntryIsGhost, $curTime);
 					break;
 
+					case 'RSSFeed':
+					$wioLocations[] = array($curUser, sprintf(Main::getModule('Language')->getString('views_the_rss_feed'), INDEXFILE . '?faction=rssFeed' . SID_AMPER), $curWIOEntryIsGhost, $curTime);
+					break;
+
 					case 'WhoIsOnline':
 					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('views_the_wio_list'), $curWIOEntryIsGhost, $curTime);
 					break;
@@ -260,6 +264,10 @@ class WhoIsOnline implements Module
 
 					case 'NewsletterReadLetter':
 					$wioLocations[] = array($curUser, sprintf(Main::getModule('Language')->getString('reads_a_newsletter'), INDEXFILE . '?faction=newsletter&amp;mode=read&amp;newsletter=' . $curWIOEntry[2][1] . SID_AMPER), $curWIOEntryIsGhost, $curTime);
+					break;
+
+					case 'Upload':
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('uploads_a_file'), $curWIOEntryIsGhost, $curTime);
 					break;
 
 					case 'AdminIndex':

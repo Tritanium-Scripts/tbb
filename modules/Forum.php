@@ -335,9 +335,11 @@ class Forum implements Module
 			break;
 
 			case 'rssFeed':
-			if(Main::getModule('Config')->getCfgVal('show_lposts') >= 1 && ($newestPosts = Functions::file_get_contents('vars/lposts.var')) != '')
+			if(Main::getModule('Config')->getCfgVal('show_lposts') < 1)
+				Main::getModule('Template')->printMessage('function_deactivated');
+			if(($newestPosts = Functions::file_get_contents('vars/lposts.var')) != '')
 			{
-				Main::getModule('WhoIsOnline')->setLocation('rssFeed');
+				Main::getModule('WhoIsOnline')->setLocation('RSSFeed');
 				$newestPosts = Functions::explodeByTab($newestPosts);
 				//Retrieve proper data
 				foreach($newestPosts as &$curNewestPost)
@@ -410,6 +412,8 @@ class Forum implements Module
 				exit(' </channel>
 </rss>');
 			}
+			else
+				Main::getModule('Template')->printMessage('no_newest_posts');
 			break;
 
 //ForumIndex

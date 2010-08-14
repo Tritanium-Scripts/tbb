@@ -1,9 +1,9 @@
 *********************************************************
 Tritanium Bulletin Board 1.5 - Changelog (German version)
-Last changed: 12.08.2010 (Version 1.5)
+Last changed: xx.08.2010 (Version 1.5)
 *********************************************************
 
-12.08.2010: Version 1.5 (offiziell)
+xx.08.2010: Version 1.5 (offiziell)
 	- Alle Features des TBB 1.2.3 übernommen
 	- Komplett neuer technischer Unterbau in PHP 5.1 (= Mindestvoraussetzung) oder höher
 	- Komplett valides XHTML 1.0 transitional
@@ -102,6 +102,7 @@ Last changed: 12.08.2010 (Version 1.5)
 	- Externe Anzeige der neuesten Beiträge und WIO-Daten funktioniert nun auch mit geänderten Datenpfad (DataPath.php)
 	- Externe Anzeige der WIO-Box mit Anzahl von Geistern und funktioniert nun auch mit geänderten Datenpfad (DataPath.php)
 	- RSS Feed der neuesten Beiträge
+	- Die Datenstruktur kann nicht mehr durch Tabulatoren oder Neue Zeile-Zeichen zerstört werden
 
 Written by Chrissyx
 (c) 2010 Tritanium Scripts

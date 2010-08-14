@@ -620,13 +620,14 @@ class FunctionsBasic
 
 	/**
 	 * Returns a value from superglobals in order GET and POST.
+	 * Strips off tab character and optional newline.
 	 *
 	 * @param string $key Key identifier for array access in superglobals
 	 * @return mixed Value from one of the superglobals or empty string if it was not found
 	 */
-	public static function getValueFromGlobals($key)
+	public static function getValueFromGlobals($key, $stripNewLine=true)
 	{
-		return isset($_GET[$key]) ? $_GET[$key] : (isset($_POST[$key]) ? $_POST[$key] : '');
+		return Functions::str_replace($stripNewLine ? array("\t", "\n", "\r") : "\t", '', isset($_GET[$key]) ? $_GET[$key] : (isset($_POST[$key]) ? $_POST[$key] : ''));
 	}
 
 	/**
