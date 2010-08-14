@@ -316,7 +316,7 @@ class Profile implements Module
 				$this->userData[11] = $this->userData[5] / $this->userData[11];
 			//Format date + signature
 			$this->userData[6] = Functions::formatDate($this->userData[6] . (Functions::strlen($this->userData[6]) == 6 ? '01000000' : ''));
-			$this->userData[7] = Main::getModule('BBCode')->parse($this->userData[7]);
+			$this->userData[7] = Main::getModule('BBCode')->parse(Functions::censor($this->userData[7]));
 			//Load steam games for user, if any (and class to handle XML data is available)
 			if(Main::getModule('Config')->getCfgVal('achievements') == 1 && !empty($this->userData[18]) && !empty($this->userData[19][0]) && class_exists('DOMDocument', false))
 			{

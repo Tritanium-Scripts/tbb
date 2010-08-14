@@ -79,7 +79,7 @@ class Language
 	private function getPrefLangs()
 	{
 		$prefLangs = array();
-		foreach(Functions::explodeByComma(Functions::strtolower(isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : basename(Main::getModule('Config')->getCfgVal('lng_folder')))) as $value) #de-de,de;q=0.8,en-us;q=0.5,en;q=0.3
+		foreach(Functions::explodeByComma(Functions::strtolower(isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : Main::getModule('Config')->getCfgVal('lng_folder'))) as $value) #de-de,de;q=0.8,en-us;q=0.5,en;q=0.3
 			$prefLangs[(count($value = explode(';', $value)) == 1 || !preg_match('/q=([\d.]+)/i', $value[1], $quality) ? '1.0' : $quality[1]) . mt_rand(0, 9999)] = $value[0];
 		krsort($prefLangs);
 		return array_map(create_function('$code', 'return Functions::strpos($code, \'-\') === false ? $code : Functions::substr($code, 0, 3) . Functions::strtoupper(Functions::substr($code, 3));'), array_values($prefLangs));

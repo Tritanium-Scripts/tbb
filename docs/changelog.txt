@@ -1,107 +1,107 @@
 *********************************************************
 Tritanium Bulletin Board 1.5 - Changelog (German version)
-Last changed: 2010 (Version 1.5 Beta)
+Last changed: 12.08.2010 (Version 1.5)
 *********************************************************
 
-2010: Version 1.5 Beta (offiziell)
-	-Alle Features des TBB 1.2.3 übernommen
-	-Komplett neuer technischer Unterbau in PHP 5.1 (= Mindestvoraussetzung) oder höher
-	-Komplett valides XHTML 1.0 transitional
-	-Code komplett mit phpDoc dokumentiert
-	-PHP 6 kompatibel
-	-Design als Template ausgelagert mit Smarty 3.0 als Engine
-	-Leichte Anpassungen am Design an heutige Forenstandards
-	-Abwärtskompatibel mit TBB 1.2.3 CSS-Dateien
-	-Schreibt Daten nicht mehr im Zeichensatz des Benutzers
-	-UTF-8 fähig, schreibt aber intern zwecks Ab- und Aufwärtskompatiblität in ISO-8859-1
-	-Nutzt Multibyte für UTF-8, wenn möglich
-	-Abwärtskompatibel mit TBB 1.2.3 Daten (Foren, Themen, Umfragen, Mitgliedern, Logs, Einstellungen, News usw.)
-	-Cache-Funktionalität teils persistent
-	-Automatische Spracherkennung und -auswahl
-	-Aufwärtskompatibel für TBB 2.0 oder höher
-	-Rang für Supermoderatoren
-	-Neue Sterne bei Rangbilder
-	-Admin- & (Super-)Moderatoren-Smileys
-	-Neues Format für Übersetzungen auf Basis von INI-Dateien (nicht abwärtskompatibel)
-	-Upload-Funktion für Dateien mit automatischer Verlinkung im Beitrag
-	-Kontakt-Mail-Adresse(n) verschlüsselt mit JavaScript
-	-Newsfader (Newstyp "2") nicht mehr IE-only
-	-Optionaler ClickJacking-Schutz für IE 8.0, Safari und Chrome
-	-Speichernutzung in technischen Statistiken
-	-Alle Größenangaben in Bytes gemäß IEC 60027-2 Norm
-	-WIO mit mehr Details zu Position und Zeit des letzten Klicks
-	-WIO unterscheidet zwischen Bots und Gästen
-	-Anzeige von Geistern in WIO und WWO für Admins
-	-Anzahl von Geistern in WIO-Box in der Forenübersicht
-	-Einstellbare, farbige Hervorhebung von Admins, (S-)Mods, Nutzer und Verbannten in WIO-Box
-	-Credits nicht mehr IE-only
-	-WWO-Box mit Rekordanzeige unter der WIO-Box
-	-Datum von letzten Beiträgen als fett bei bestimmten Alter
-	-Keine Cookie-Probleme mehr unter PHP5
-	-SID-Parameter in URL komplett optional
-	-Hinweis-Link bei verschobenen Themen
-	-Themen als wichtig anpinnen
-	-Registrierungsdaten exakt, nicht mehr Monats-weise
-	-Verwendung von getimagesize() ist nun schneller
-	-Abwärtskompatibel mit vielen "Hacks" für das TBB 1.2.3
-	-Wesentlich mehr BBCode inkl. Liste, Spoiler, erst-antworten-dann-Text, PHP-Code, Farbe, Größe und Flash
-	-Kein separates Login für Admins im Wartungsmodus mehr nötig
-	-Vorhandene Passwörter bleiben weiterhin gültig, bis man ein neues, angefordertes Passwort auch benutzt hat
-	-Hashes von Passwörtern basieren nun auf SHA-512, wenn vom System unterstützt, ansonsten DES zwecks Abwärtskompatiblität
-	-Aktuelle Uhrzeit wird im eingeloggten Zustand über der Werkzeugleiste angezeigt
-	-Mitgliederliste lässt sich nun ab- und aufsteigend für alle Kritieren sortieren
-	-Mitglieder pro Seite in der Mitgliederliste einstellbar
-	-Mitgliederliste mit Sortierung nach ID weniger speicherintensiv
-	-Unterstützung zur Präsentation von Errungenschaften aus Steam-Spielen
-	-Angabe von Steam-Spielen mit Errungenschaften im eigenen Profil
-	-Profilansicht mit PN-Link, "Suche alles von"-Links, vCard-Download und Errungenschafts-Listen von Steam-Spielen
-	-Profilansicht mit Details zu Anmeldedatum, vor x Wochen registriert, durchschnittliche Beiträge pro Tag, letzter Aktivität und Gruppe
-	-Zusätzliche Erklärungen zu den E-Mail-Einstellungen im eigenen Profil
-	-Automatische Generierung von Metatags zu Keywords und Description
-	-Fehlermeldungen vereinheitlicht in separaten Boxen
-	-Vergabe von eigenen Spezialrängen, die normale Ränge überschreiben
-	-Senden von leeren E-Mails per Formular mit Bestätigung
-	-Registrierung überprüft nun auch auf bereits vorhandene E-Mail-Adressen
-	-Registrierungen können zusätzlich eine Freischaltung durch Gültigkeitsprüfung der E-Mail-Adresse durch versenden eines Aktivierungscode erfordern
-	-FAQ mit Übersicht zu vorhandenen Rängen und mehr Beispielen zu BBCode
-	-Postfach mit "Alle markieren"-Funktion
-	-PNs beantworten mit automatischem Zitat
-	-Erinnerung alle x Minuten für neue PNs
-	-Checkboxen auch per Beschriftung anklickbar
-	-Anzahl letzter Beiträge beliebig einstellbar
-	-Ausgewählte Beitragsgrafik bleibt nach Vorschau selektiert
-	-Anzeige der neuesten Beiträge mit Beitragsgrafik
-	-Umfragen mit unbegrenzten Antwortmöglichkeiten, keine Vorauswahlseite mehr nötig
-	-Hinzufügen und löschen von Antwortmöglichkeiten "on-the-fly" wie im TBB 2.0
-	-Automatisches entfernen von SID-Parametern bei jedem neuen Beitrag
-	-URLs in Beiträgen können automatisch mit [url]-BBCode versehen werden
-	-Sperren von IP-Adressen für das gesamte Forum von Beiträgen aus funktioniert nun
-	-Sperren von IP-Adressen von Beiträgen aus mit Rückmeldung
-	-Kein "Mehr Smileys"-Fenster mehr notwendig
-	-Thementitel und Beitragsgrafik können nun auch mit Beitrag bearbeiten geändert werden
-	-Verschieben von Themen mit optionalen Verweis im alten Forum zur Position im neuen Forum
-	-Letzter Beitrag eine verschobenen Themas kann als neuster Beitrag des Zielforum eingestellt werden
-	-Links zu Beiträgen von verschobenen Themen in der Anzeige der letzten Beiträge werden auch aktualisiert
-	-Suche mit neuem Algorithmus und Beachtung der maximalen Ausführungszeit des Skripts, so dass auch größere Foren ohne Timeout durchsucht werden können
-	-Suche mit neuen Optionen UND, ODER, exakte Eingabe und Benutzer
-	-Bereits fertige Suchergebnisse werden zwischen gespeichert
-	-Suchergebnisse mit mehr Details und Beitragsansicht
-	-"Cache leeren"-Funktion im ACP
-	-Zähler von Themen, Beiträgen und Mitglieder neu berechnen lassen im ACP
-	-Verwalten von Admin- & Moderatoren-Smileys, Templates und Logdateien im ACP
-	-Zeitzonen aktualisiert
-	-Mehr Optionen zu den Forumeinstellungen im ACP
-	-Forumnews mit Unterstützung für BBCode und Smileys
-	-Mitglieder können andere Templates und Styles auswählen
-	-Angabe von maximalen Beiträgen wird für Ränge automatisch berechnet (keine 1000000 mehr als Limit)
-	-Korrekte Benennung von Smileys und IP-Adressen
-	-Versenden von Newslettern auch bei vielen Mitgliedern ohne Probleme oder Timeouts
-	-Optionale Archivierung von verschickten Newslettern
-	-Schnell antworten in der Themenansicht
-	-Übersicht heutiger Beiträge
-	-Externe Anzeige der neuesten Beiträge und WIO-Daten funktioniert nun auch mit geänderten Datenpfad (DataPath.php)
-	-Externe Anzeige der WIO-Box mit Anzahl von Geistern und funktioniert nun auch mit geänderten Datenpfad (DataPath.php)
-	-RSS Feed der neuesten Beiträge
+12.08.2010: Version 1.5 (offiziell)
+	- Alle Features des TBB 1.2.3 übernommen
+	- Komplett neuer technischer Unterbau in PHP 5.1 (= Mindestvoraussetzung) oder höher
+	- Komplett valides XHTML 1.0 transitional
+	- Code komplett mit phpDoc dokumentiert
+	- PHP 6 kompatibel
+	- Design als Template ausgelagert mit Smarty 3.0 als Engine
+	- Leichte Anpassungen am Design an heutige Forenstandards
+	- Abwärtskompatibel mit TBB 1.2.3 CSS-Dateien
+	- Schreibt Daten nicht mehr im Zeichensatz des Benutzers
+	- UTF-8 fähig, schreibt aber intern zwecks Ab- und Aufwärtskompatiblität in ISO-8859-1
+	- Nutzt Multibyte für UTF-8, wenn möglich
+	- Abwärtskompatibel mit TBB 1.2.3 Daten (Foren, Themen, Umfragen, Mitgliedern, Logs, Einstellungen, News usw.)
+	- Cache-Funktionalität teils persistent
+	- Automatische Spracherkennung und -auswahl
+	- Aufwärtskompatibel für TBB 2.0 oder höher
+	- Rang für Supermoderatoren
+	- Neue Sterne bei Rangbilder
+	- Admin- & (Super-)Moderatoren-Smileys
+	- Neues Format für Übersetzungen auf Basis von INI-Dateien (nicht abwärtskompatibel)
+	- Upload-Funktion für Dateien mit automatischer Verlinkung im Beitrag
+	- Kontakt-Mail-Adresse(n) verschlüsselt mit JavaScript
+	- Newsfader (Newstyp "2") nicht mehr IE-only
+	- Optionaler ClickJacking-Schutz für IE 8.0, Safari und Chrome
+	- Speichernutzung in technischen Statistiken
+	- Alle Größenangaben in Bytes gemäß IEC 60027-2 Norm
+	- WIO mit mehr Details zu Position und Zeit des letzten Klicks
+	- WIO unterscheidet zwischen Bots und Gästen
+	- Anzeige von Geistern in WIO und WWO für Admins
+	- Anzahl von Geistern in WIO-Box in der Forenübersicht
+	- Einstellbare, farbige Hervorhebung von Admins, (S-)Mods, Nutzer und Verbannten in WIO-Box
+	- Credits nicht mehr IE-only
+	- WWO-Box mit Rekordanzeige unter der WIO-Box
+	- Datum von letzten Beiträgen als fett bei bestimmten Alter
+	- Keine Cookie-Probleme mehr unter PHP5
+	- SID-Parameter in URL komplett optional
+	- Hinweis-Link bei verschobenen Themen
+	- Themen als wichtig anpinnen
+	- Registrierungsdaten exakt, nicht mehr Monats-weise
+	- Verwendung von getimagesize() ist nun schneller
+	- Abwärtskompatibel mit vielen "Hacks" für das TBB 1.2.3
+	- Wesentlich mehr BBCode inkl. Liste, Spoiler, erst-antworten-dann-Text, PHP-Code, Farbe, Größe und Flash
+	- Kein separates Login für Admins im Wartungsmodus mehr nötig
+	- Vorhandene Passwörter bleiben weiterhin gültig, bis man ein neues, angefordertes Passwort auch benutzt hat
+	- Hashes von Passwörtern basieren nun auf SHA-512, wenn vom System unterstützt, ansonsten DES zwecks Abwärtskompatiblität
+	- Aktuelle Uhrzeit wird im eingeloggten Zustand über der Werkzeugleiste angezeigt
+	- Mitgliederliste lässt sich nun ab- und aufsteigend für alle Kritieren sortieren
+	- Mitglieder pro Seite in der Mitgliederliste einstellbar
+	- Mitgliederliste mit Sortierung nach ID weniger speicherintensiv
+	- Unterstützung zur Präsentation von Errungenschaften aus Steam-Spielen
+	- Angabe von Steam-Spielen mit Errungenschaften im eigenen Profil
+	- Profilansicht mit PN-Link, "Suche alles von"-Links, vCard-Download und Errungenschafts-Listen von Steam-Spielen
+	- Profilansicht mit Details zu Anmeldedatum, vor x Wochen registriert, durchschnittliche Beiträge pro Tag, letzter Aktivität und Gruppe
+	- Zusätzliche Erklärungen zu den E-Mail-Einstellungen im eigenen Profil
+	- Automatische Generierung von Metatags zu Keywords und Description
+	- Fehlermeldungen vereinheitlicht in separaten Boxen
+	- Vergabe von eigenen Spezialrängen, die normale Ränge überschreiben
+	- Senden von leeren E-Mails per Formular mit Bestätigung
+	- Registrierung überprüft nun auch auf bereits vorhandene E-Mail-Adressen
+	- Registrierungen können zusätzlich eine Freischaltung durch Gültigkeitsprüfung der E-Mail-Adresse durch versenden eines Aktivierungscode erfordern
+	- FAQ mit Übersicht zu vorhandenen Rängen und mehr Beispielen zu BBCode
+	- Postfach mit "Alle markieren"-Funktion
+	- PNs beantworten mit automatischem Zitat
+	- Erinnerung alle x Minuten für neue PNs
+	- Checkboxen auch per Beschriftung anklickbar
+	- Anzahl letzter Beiträge beliebig einstellbar
+	- Ausgewählte Beitragsgrafik bleibt nach Vorschau selektiert
+	- Anzeige der neuesten Beiträge mit Beitragsgrafik
+	- Umfragen mit unbegrenzten Antwortmöglichkeiten, keine Vorauswahlseite mehr nötig
+	- Hinzufügen und löschen von Antwortmöglichkeiten "on-the-fly" wie im TBB 2.0
+	- Automatisches entfernen von SID-Parametern bei jedem neuen Beitrag
+	- URLs in Beiträgen können automatisch mit [url]-BBCode versehen werden
+	- Sperren von IP-Adressen für das gesamte Forum von Beiträgen aus funktioniert nun
+	- Sperren von IP-Adressen von Beiträgen aus mit Rückmeldung
+	- Kein "Mehr Smileys"-Fenster mehr notwendig
+	- Thementitel und Beitragsgrafik können nun auch mit Beitrag bearbeiten geändert werden
+	- Verschieben von Themen mit optionalen Verweis im alten Forum zur Position im neuen Forum
+	- Letzter Beitrag eine verschobenen Themas kann als neuster Beitrag des Zielforum eingestellt werden
+	- Links zu Beiträgen von verschobenen Themen in der Anzeige der letzten Beiträge werden auch aktualisiert
+	- Suche mit neuem Algorithmus und Beachtung der maximalen Ausführungszeit des Skripts, so dass auch größere Foren ohne Timeout durchsucht werden können
+	- Suche mit neuen Optionen UND, ODER, exakte Eingabe und Benutzer
+	- Bereits fertige Suchergebnisse werden zwischen gespeichert
+	- Suchergebnisse mit mehr Details und Beitragsansicht
+	- "Cache leeren"-Funktion im ACP
+	- Zähler von Themen, Beiträgen und Mitglieder neu berechnen lassen im ACP
+	- Verwalten von Admin- & Moderatoren-Smileys, Templates und Logdateien im ACP
+	- Zeitzonen aktualisiert
+	- Mehr Optionen zu den Forumeinstellungen im ACP
+	- Forumnews mit Unterstützung für BBCode und Smileys
+	- Mitglieder können andere Templates und Styles auswählen
+	- Angabe von maximalen Beiträgen wird für Ränge automatisch berechnet (keine 1000000 mehr als Limit)
+	- Korrekte Benennung von Smileys und IP-Adressen
+	- Versenden von Newslettern auch bei vielen Mitgliedern ohne Probleme oder Timeouts
+	- Optionale Archivierung von verschickten Newslettern
+	- Schnell antworten in der Themenansicht
+	- Übersicht heutiger Beiträge
+	- Externe Anzeige der neuesten Beiträge und WIO-Daten funktioniert nun auch mit geänderten Datenpfad (DataPath.php)
+	- Externe Anzeige der WIO-Box mit Anzahl von Geistern und funktioniert nun auch mit geänderten Datenpfad (DataPath.php)
+	- RSS Feed der neuesten Beiträge
 
 Written by Chrissyx
 (c) 2010 Tritanium Scripts

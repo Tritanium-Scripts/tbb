@@ -337,6 +337,7 @@ class Forum implements Module
 			case 'rssFeed':
 			if(Main::getModule('Config')->getCfgVal('show_lposts') >= 1 && ($newestPosts = Functions::file_get_contents('vars/lposts.var')) != '')
 			{
+				Main::getModule('WhoIsOnline')->setLocation('rssFeed');
 				$newestPosts = Functions::explodeByTab($newestPosts);
 				//Retrieve proper data
 				foreach($newestPosts as &$curNewestPost)

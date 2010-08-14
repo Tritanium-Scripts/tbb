@@ -127,7 +127,7 @@
  </tr>
  <tr>
   <td class="td1" style="font-weight:bold; width:35%;"><span class="norm">{$modules.Language->getString('native_language_of_forum')}</span></td>
-  <td class="td1" style="vertical-align:top; width:65%;"><select name="settings[50]">{foreach $modules.Language->getAvailLangs() as $curLangCode}<option value="{$curLangCode}"{if 'languages/'|cat:$curLangCode == $configValues['lng_folder']} selected="selected"{/if}>{$curLangCode}</option>{/foreach}</select></td>
+  <td class="td1" style="vertical-align:top; width:65%;"><select name="settings[50]">{foreach $modules.Language->getAvailLangs() as $curLangCode}<option value="{$curLangCode}"{if $curLangCode == $configValues['lng_folder']} selected="selected"{/if}>languages/{$curLangCode}</option>{/foreach}</select></td>
  </tr>
  <tr>
   <td class="td1" style="font-weight:bold; width:35%;"><span class="norm">{$modules.Language->getString('emphasize_date_not_older_than')}</span></td>

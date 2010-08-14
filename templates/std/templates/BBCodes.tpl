@@ -52,7 +52,7 @@
  <option value="#FFFF00" style="background-color:#FFFF00; color:#FFFF00;">{$modules.Language->getString('yellow')}</option>
  <option value="#008000" style="background-color:#008000; color:#008000;">{$modules.Language->getString('green')}</option>
  <option value="#0000FF" style="background-color:#0000FF; color:#0000FF;">{$modules.Language->getString('blue')}</option>
-</select>{if $modules.Config->getCfgVal('enable_uploads') == 1}
+</select>{if $modules.Config->getCfgVal('enable_uploads') == 1 && $modules.Auth->isLoggedIn()}
 
 <input class="forumcode" type="button" value="{$modules.Language->getString('upload_file')}" onclick="window.open('{$smarty.const.INDEXFILE}?faction=uploadFile&amp;targetBoxID={$targetBoxID}', '_blank', 'width=500,height=400, status');" />{/if}<br />
 
