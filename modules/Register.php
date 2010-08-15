@@ -26,7 +26,7 @@ class Register implements Module
 	/**
 	 * Amount of registered members.
 	 *
-	 * @var int Amount of members
+	 * @var LockObject Amount of members
 	 */
 	private $memberCounter;
 
@@ -60,7 +60,7 @@ class Register implements Module
 	function __construct($mode)
 	{
 		$this->createRegPass = Main::getModule('Config')->getCfgVal('create_reg_pw') == 1;
-		$this->memberCounter = intval(Functions::file_get_contents('vars/member_counter.var'));
+		$this->memberCounter = Functions::getLockObject('vars/member_counter.var');
 		$this->mode = $mode;
 	}
 
@@ -72,7 +72,7 @@ class Register implements Module
 		Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('register'), INDEXFILE . '?faction=register' . SID_AMPER);
 		if(Main::getModule('Config')->getCfgVal('activate_registration') != 1)
 			Main::getModule('Template')->printMessage('registration_deactivated');
-		elseif($this->memberCounter >= Main::getModule('Config')->getCfgVal('max_registrations') && Main::getModule('Config')->getCfgVal('max_registrations') != -1)
+		elseif($this->memberCounter->getFileContent() >= Main::getModule('Config')->getCfgVal('max_registrations') && Main::getModule('Config')->getCfgVal('max_registrations') != -1)
 			Main::getModule('Template')->printMessage('no_more_registrations');
 		//If user is already logged in
 		elseif(Main::getModule('Auth')->isLoggedIn())
@@ -90,7 +90,7 @@ class Register implements Module
 				trim(Functions::getValueFromGlobals('newuser_hp')),
 				htmlspecialchars(trim(Functions::getValueFromGlobals('newuser_realname'))),
 				trim(Functions::getValueFromGlobals('newuser_icq')),
-				htmlspecialchars(trim(Functions::nl2br(Functions::getValueFromGlobals('newuser_signatur'))))));
+				htmlspecialchars(trim(Functions::nl2br(Functions::getValueFromGlobals('newuser_signatur', false))))));
 			//A lot of checking...
 			if(empty($newUser['nick']))
 				$this->errors[] = Main::getModule('Language')->getString('please_enter_an_user_name');
@@ -127,7 +127,8 @@ class Register implements Module
 			if(empty($this->errors))
 			{
 				//Detect new ID
-				$newUserID = Functions::file_get_contents('vars/last_user_id.var')+1;
+				$lockObj = Functions::getLockObject('vars/last_user_id.var');
+				$newUserID = $lockObj->getFileContent()+1;
 				//Prepare contents of new member file
 				$newMemberFile = array($newUser['nick'],
 					$newUserID,
@@ -149,14 +150,16 @@ class Register implements Module
 					time(),
 					'',
 					'',
+					'',
+					'',
 					'');
 				//Register as new member only, if no mail validation is required
 				if(Main::getModule('Config')->getCfgVal('confirm_reg_mail') != 1)
 				{
 					Functions::file_put_contents('members/' . $newUserID . '.xbb', implode("\n", $newMemberFile));
 					Functions::file_put_contents('members/' . $newUserID . '.pm', '');
-					Functions::file_put_contents('vars/last_user_id.var', $newUserID);
-					Functions::file_put_contents('vars/member_counter.var', ++$this->memberCounter);
+					$lockObj->setFileContent($newUserID);
+					$this->memberCounter->setFileContent($this->memberCounter->getFileContent()+1);
 					//Send reg mail (and random pass, if needed)
 					Functions::sendMessage($newMemberFile[3], 'new_registration', $newMemberFile[0], Main::getModule('Config')->getCfgVal('forum_name'), $newMemberFile[1], $newMemberFile[3], $this->createRegPass ? $newPass : Main::getModule('Language')->getString('already_set_by_yourself'), Main::getModule('Config')->getCfgVal('address_to_forum') . '/' . INDEXFILE);
 					Main::getModule('Logger')->log('New registration: ' . $newMemberFile[0] . ' (ID: ' . $newMemberFile[1] . ')', LOG_REGISTRATION);
@@ -195,14 +198,15 @@ class Register implements Module
 						//Update last seen
 						$newMemberFile[16] = time();
 						//Detect new ID
-						$newUserID = Functions::file_get_contents('vars/last_user_id.var')+1;
+						$lockObj = Functions::getLockObject('vars/last_user_id.var');
+						$newUserID = $lockObj->getFileContent()+1;
 						//Apply to new member: update current one
 						$newMemberFile[1] = $newUserID;
 						//Write confirmed data with new ID (and new pass, if needed)
 						Functions::file_put_contents('members/' . $newUserID . '.xbb', implode("\n", $newMemberFile));
 						Functions::file_put_contents('members/' . $newUserID . '.pm', '');
-						Functions::file_put_contents('vars/last_user_id.var', $newUserID);
-						Functions::file_put_contents('vars/member_counter.var', ++$this->memberCounter);
+						$lockObj->setFileContent($newUserID);
+						$this->memberCounter->setFileContent($this->memberCounter->getFileContent()+1);
 						//Delete old temporarily data
 						Functions::unlink($curPreMember);
 						//Send default reg mail (and random pass, if needed)

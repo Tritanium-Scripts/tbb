@@ -172,7 +172,6 @@ class AdminConfig implements Module
 				$newSettings[7] = Main::getModule('Config')->getCfgVal('uc_message');
 				$newSettings[9] = !isset($newSettings[9]) ? '' : implode(',', $newSettings[9]);
 				$newSettings[38] = Main::getModule('Config')->getCfgVal('css_file');
-				$newSettings[50] = 'languages/' . $newSettings[50];
 				$newSettings[56] = Main::getModule('Config')->getCfgVal('default_tpl');
 				$newSettings[70] = Main::getModule('Config')->getCfgVal('select_tpls');
 				$newSettings[71] = Main::getModule('Config')->getCfgVal('select_styles');

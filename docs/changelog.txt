@@ -103,6 +103,7 @@ xx.08.2010: Version 1.5 (offiziell)
 	- Externe Anzeige der WIO-Box mit Anzahl von Geistern und funktioniert nun auch mit geänderten Datenpfad (DataPath.php)
 	- RSS Feed der neuesten Beiträge
 	- Die Datenstruktur kann nicht mehr durch Tabulatoren oder Neue Zeile-Zeichen zerstört werden
+	- Verbesserte Locking-Technik verhindert die Vergabe von gleichen Benutzer-IDs und falschen Mitgliederzahlen im Falle von DDoS-ähnlichen Attacken
 
 Written by Chrissyx
 (c) 2010 Tritanium Scripts

@@ -18,8 +18,8 @@ class FunctionsBasic
 
 	/**
 	 * All read in contents from files are cached here.
-	 * 0: Exploded data
-	 * 1: Single string
+	 * 0: Data as arrays
+	 * 1: Single strings
 	 *
 	 * @var array Cached file contents subdivided in exploded (file()) and single lines (f_g_c())
 	 */
@@ -31,6 +31,13 @@ class FunctionsBasic
 	 * @var int Amount of file reading and writing
 	 */
 	private static $fileCounter = 0;
+
+	/**
+	 * Controls file caching.
+	 *
+	 * @var bool Use file caching
+	 */
+	private static $isCaching = true;
 
 	/**
 	 * Default operations while accessing the admin panel.
@@ -206,7 +213,7 @@ class FunctionsBasic
 	}
 
 	/**
-	 * Extending PHP's {@link file()} with file counting, custom trimming, UTF-8 converting and global data path.
+	 * Extending PHP's {@link file()} with caching, file counting, custom trimming, UTF-8 converting and global data path.
 	 *
 	 * @param string $filename Name of file
 	 * @param int $flags Optional constants
@@ -216,11 +223,16 @@ class FunctionsBasic
 	 */
 	public static function file($filename, $flags=null, $trimCharList=null, $datapath=true)
 	{
-		if($datapath && isset(self::$fileCache[$filename][0]) && Main::getModule('Config')->getCfgVal('use_file_caching') == 1)
-			return self::$fileCache[$filename][0];
-		self::$fileCounter++;
 		$trimCallback = create_function('$entry', 'return trim($entry, "' . (empty($trimCharList) ? ' \n\r\0\x0B' : $trimCharList) . '");');
-		return array_map('utf8_encode', array_map($trimCallback, /*self::$fileCache[$filename][0] = */file(($datapath ? DATAPATH : '') . $filename, $flags)));
+		if($datapath && self::$isCaching)
+		{
+			if(isset(self::$fileCache[$filename][0]))
+				return array_map('utf8_encode', array_map($trimCallback, self::$fileCache[$filename][0]));
+			self::$fileCounter++;
+			return array_map('utf8_encode', array_map($trimCallback, self::$fileCache[$filename][0] = file(DATAPATH . $filename, $flags)));
+		}
+		self::$fileCounter++;
+		return array_map('utf8_encode', array_map($trimCallback, file(($datapath ? DATAPATH : '') . $filename, $flags)));
 	}
 
 	/**
@@ -232,14 +244,21 @@ class FunctionsBasic
 	}
 
 	/**
-	 * Extending PHP's {@link file_get_contents()} with file counting, UTF-8 converting and global data path.
+	 * Extending PHP's {@link file_get_contents()} with caching, file counting, UTF-8 converting and global data path.
 	 */
 	public static function file_get_contents($filename)
 	{
-		if(isset(self::$fileCache[$filename][1]) && Main::getModule('Config')->getCfgVal('use_file_caching') == 1)
-			return self::$fileCache[$filename][1];
+		//Use file caching
+		if(self::$isCaching)
+		{
+			if(isset(self::$fileCache[$filename][1]))
+				return utf8_encode(self::$fileCache[$filename][1]);
+			self::$fileCounter++;
+			return utf8_encode(self::$fileCache[$filename][1] = file_get_contents(DATAPATH . $filename, LOCK_SH));
+		}
+		//Use no caching
 		self::$fileCounter++;
-		return utf8_encode(/*self::$fileCache[$filename][1] = */file_get_contents(DATAPATH . $filename, LOCK_SH));
+		return utf8_encode(file_get_contents(DATAPATH . $filename, LOCK_SH));
 	}
 
 	/**
@@ -254,7 +273,8 @@ class FunctionsBasic
 	 */
 	public static function file_put_contents($filename, $data, $flags=LOCK_EX, $decUTF8=true, $datapath=true)
 	{
-		unset(self::$fileCache[$filename]);
+		if(self::$isCaching)
+			unset(self::$fileCache[$filename]);
 		self::$fileCounter++;
 		return file_put_contents(($datapath ? DATAPATH : '') . $filename, $decUTF8 ? utf8_decode($data) : $data, $flags);
 	}
@@ -366,6 +386,19 @@ class FunctionsBasic
 	public static function getHTMLJSTransTable()
 	{
 		return isset(self::$cache['htmlJSDecoder']) ? self::$cache['htmlJSDecoder'] : (self::$cache['htmlJSDecoder'] = array_combine(array_keys($temp = array_flip($temp = get_html_translation_table(HTML_SPECIALCHARS, ENT_QUOTES))+array('&#' . (in_array('&#39;', $temp) ? '0' : '') . '39;' => "'", '&apos;' => "'")), array_map(create_function('$string', 'return \'\u00\' . bin2hex($string);'), array_values($temp))));
+	}
+
+	/**
+	 * Returns a new LockObject instance for saver file reading and writing with exclusive locking.
+	 * Filename will be extended with global data path.
+	 *
+	 * @param string $filename Name/path of file to initiate the LockObject with
+	 * @return LockObject New LockObject instance
+	 */
+	public static function getLockObject($filename)
+	{
+		include_once('LockObject.php');
+		return new LockObject(DATAPATH . $filename);
 	}
 
 	/**
@@ -620,9 +653,10 @@ class FunctionsBasic
 
 	/**
 	 * Returns a value from superglobals in order GET and POST.
-	 * Strips off tab character and optional newline.
+	 * Strips off tab characters and optional newlines.
 	 *
 	 * @param string $key Key identifier for array access in superglobals
+	 * @param bool $stripNewLine Optional removal of new line characters
 	 * @return mixed Value from one of the superglobals or empty string if it was not found
 	 */
 	public static function getValueFromGlobals($key, $stripNewLine=true)
@@ -672,6 +706,16 @@ class FunctionsBasic
 	public static function nl2br($string)
 	{
 		return str_replace(array("\n", "\r"), '', nl2br($string));
+	}
+
+	/**
+	 * Sets using file caching feature.
+	 *
+	 * @param bool $caching Use file caching
+	 */
+	public static function setFileCaching($caching=true)
+	{
+		self::$isCaching = $caching;
 	}
 
 	/**

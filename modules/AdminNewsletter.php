@@ -151,7 +151,7 @@ class AdminNewsletter implements Module
 				'recipient' => $recipient,
 				'recipients' => $dispatch == 1 ? array_values($recipients) : array_keys($recipients),
 				'subject' => Functions::getValueFromGlobals('betreff'),
-				'message' => Functions::str_replace("\r", '', Functions::getValueFromGlobals('newsletter')),
+				'message' => Functions::str_replace("\r", '', Functions::getValueFromGlobals('newsletter', false)),
 				'sent' => 0);
 			//Store in archive?
 			if(Functions::getValueFromGlobals('isArchived') == 'true')
@@ -166,7 +166,7 @@ class AdminNewsletter implements Module
 			Main::getModule('Template')->assign(array('recipient' => intval(Functions::getValueFromGlobals('target')),
 				'dispatch' => intval(Functions::getValueFromGlobals('sendmethod')),
 				'subject' => htmlspecialchars(trim(Functions::getValueFromGlobals('betreff'))),
-				'message' => htmlspecialchars(trim(Functions::getValueFromGlobals('newsletter'))),
+				'message' => htmlspecialchars(trim(Functions::getValueFromGlobals('newsletter', false))),
 				'isArchived' => Functions::getValueFromGlobals('isArchived') == 'true'));
 			break;
 		}

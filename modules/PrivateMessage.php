@@ -146,7 +146,7 @@ class PrivateMessage implements Module
 			if(!isset($newPM))
 				$newPM = array(-1,
 					htmlspecialchars(trim(Functions::getValueFromGlobals('betreff'))),
-					htmlspecialchars(trim(Functions::getValueFromGlobals('pm'))),
+					htmlspecialchars(trim(Functions::getValueFromGlobals('pm', false))),
 					$this->pmBoxID,
 					'',
 					Functions::getValueFromGlobals('smilies') == '1',

@@ -98,7 +98,8 @@ class AdminUser implements Module
 				if(empty($this->errors))
 				{
 					//Get new ID
-					$newUserID = Functions::file_get_contents('vars/last_user_id.var')+1;
+					$lockObj = Functions::getLockObject('vars/last_user_id.var');
+					$newUserID = $lockObj->getFileContent()+1;
 					//Process group stuff
 					if(!empty($newUser['group']))
 					{
@@ -131,12 +132,15 @@ class AdminUser implements Module
 						time(),
 						'',
 						'',
+						'',
+						'',
 						'');
 					//Writing time
 					Functions::file_put_contents('members/' . $newUserID . '.xbb', implode("\n", $newUserFile));
 					Functions::file_put_contents('members/' . $newUserID . '.pm', '');
-					Functions::file_put_contents('vars/last_user_id.var', $newUserID);
-					Functions::file_put_contents('vars/member_counter.var', Functions::file_get_contents('vars/member_counter.var')+1);
+					$lockObj->setFileContent($newUserID);
+					$lockObj = Functions::getLockObject('vars/member_counter.var');
+					$lockObj->setFileContent($lockObj->getFileContent()+1);
 					//Send reg mail, if required
 					if($sendRegMail)
 						Functions::sendMessage($newUserFile[3], 'new_registration', htmlspecialchars_decode($newUserFile[0]), Main::getModule('Config')->getCfgVal('forum_name'), $newUserFile[1], $newUserFile[3], $newUser['pw2'], Main::getModule('Config')->getCfgVal('address_to_forum') . '/' . INDEXFILE);
@@ -185,7 +189,8 @@ class AdminUser implements Module
 					Functions::unlink('members/' . $editUser[1] . '.xbb');
 					Functions::unlink('members/' . $editUser[1] . '.pm');
 					//Decrease member counter
-					Functions::file_put_contents('vars/member_counter.var', Functions::file_get_contents('vars/member_counter.var')-1);
+					$lockObj = Functions::getLockObject('vars/member_counter.var');
+					$lockObj->setFileContent($lockObj->getFileContent()-1);
 					//Done
 					Main::getModule('Logger')->log('%s deleted user (ID: ' . $editUser[1] . ')', LOG_ACP_ACTION);
 					Main::getModule('Template')->printMessage('member_deleted');
@@ -194,7 +199,7 @@ class AdminUser implements Module
 				$editUserName = htmlspecialchars(trim(Functions::getValueFromGlobals('name')));
 				$editUser[3] = Functions::getValueFromGlobals('email');
 				$editUser[4] = intval(Functions::getValueFromGlobals('status'));
-				$editUser[7] = Functions::nl2br(htmlspecialchars(trim(Functions::getValueFromGlobals('signatur'))));
+				$editUser[7] = Functions::nl2br(htmlspecialchars(trim(Functions::getValueFromGlobals('signatur', false))));
 				$editUser[10] = Functions::getValueFromGlobals('pic');
 				$editUser[17] = htmlspecialchars(trim(Functions::getValueFromGlobals('specialState')));
 				if(empty($editUserName))

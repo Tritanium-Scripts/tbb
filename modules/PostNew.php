@@ -65,7 +65,7 @@ class PostNew implements Module
 		//Get contents for new post
 		$this->newPost = array('nick' => htmlspecialchars(trim(Functions::getValueFromGlobals('nli_name'))),
 			'title' => htmlspecialchars(trim(Functions::getValueFromGlobals('title'))),
-			'post' => htmlspecialchars(trim(Functions::getValueFromGlobals('post'))),
+			'post' => htmlspecialchars(trim(Functions::getValueFromGlobals('post', false))),
 			'tSmiley' => intval(Functions::getValueFromGlobals('tsmilie')),
 			'isSmilies' => Functions::getValueFromGlobals('smilies') == '1',
 			'isSignature' => Functions::getValueFromGlobals('show_signatur') == '1',

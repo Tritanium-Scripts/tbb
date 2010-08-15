@@ -158,7 +158,7 @@
   </ol>
 
   <h2 id="preamble">1 Vorwort</h2>
-  <p class="fontnorm">Vielen Dank, dass Sie sich für das TBB 1.5 entschieden haben. Es ist die Neuauflage des TBB 1.2.3 aus den Jahren 2001/2002 und wird ihnen hoffentlich genau so viel Freude bereiten, wie ich sie während der Entwicklung hatte.<br />
+  <p class="fontnorm">Vielen Dank, dass Sie sich für das TBB 1.5 entschieden haben. Es ist die Neuauflage des TBB 1.2.3 aus den Jahren 2001/2002 und wird Ihnen hoffentlich genau so viel Freude bereiten, wie ich sie während der Entwicklung hatte.<br />
      Im Folgenden wird die Installation des TBBs und die Aktualisierung einer älteren Vorgängerversion beschrieben. Falls es Probleme gibt, konsultieren Sie das <a href="#faq">FAQ</a> oder fragen Sie im Forum von <a href="http://www.tritanium-scripts.com/" target="_blank">Tritanium Scripts</a> nach. Dort wird Ihnen sicher weiter geholfen.</p>
 
   <h2 id="installation">2 Installation</h2>
@@ -544,7 +544,7 @@ Supermoderator
   </ul>
 
   <h3 id="loccode">7.2 Der Sprachcode</h3>
-  <p class="fontnorm">Alle Sprachdateien müssen in einem Ordner sein, der nach dem offiziellen Sprachkürzel benannt ist. Dieses besteht aus zwei Buchstaben bzw. vier Buchstaben mit Trennstrich. Die ersten beiden Buchstaben (klein geschrieben, nach ISO 639) definieren die <b>sprachliche</b> Einteilung, z.B. <code>de</code> für Deutsch oder <code>en</code> für Englisch. Die letzten beiden Buchstaben (groß geschrieben, nach ISO 3166) geben zusätzlich die <b>geographische</b> Einteilung an, z.B. <code>de-CH</code> für Deutsch in der Schweiz oder <code>en-US</code> für amerikanisches Englisch. Die geographische Angabe ist optional, d.h. wenn Sie sich nicht sicher sind oder eine länderübergreifende Lokalisierung haben, reicht die zweistelle Codeangabe aus.</p>
+  <p class="fontnorm">Alle Sprachdateien müssen in einem Ordner sein, der nach dem offiziellen Sprachkürzel benannt ist. Dieses besteht aus zwei Buchstaben bzw. vier Buchstaben mit Trennstrich. Die ersten beiden Buchstaben (klein geschrieben, nach ISO 639) definieren die <b>sprachliche</b> Einteilung, z.B. <code>de</code> für Deutsch oder <code>en</code> für Englisch. Die letzten beiden Buchstaben (groß geschrieben, nach ISO 3166) geben zusätzlich die <b>geographische</b> Einteilung an, z.B. <code>de-CH</code> für Deutsch in der Schweiz oder <code>en-US</code> für amerikanisches Englisch. Die geographische Angabe ist optional, d.h. wenn Sie sich nicht sicher sind oder eine länderübergreifende Lokalisierung haben, reicht die zweistellige Codeangabe aus.</p>
   <p class="fontnorm">Das TBB 1.5 versucht anhand der Browserinformationen, die optimalste Sprache automatisch auszuwählen. Dies erfolgt in drei Schritten:</p>
   <ol class="fontnorm">
    <li>Es wird versucht die genaue Lokalisierung des Benutzers zu laden, z.B. <code>fr-FR</code> für Französich aus Frankreich.</li>
@@ -561,7 +561,24 @@ Supermoderator
   <p class="fontnorm">Der Überblend-Modus wurde verbessert und funktioniert nun mit sämtlichen Browsern. Es wird allerdings nicht empfohlen, gleichzeitig BBCode zu verwenden, da das entstehende Dokument nicht mehr valide sein könnte oder seltsame Anzeigefehler auftreten könnten.</p>
 
   <h3 id="htaccess">8.2 Sicherheit des Forums / .htaccess-Unterstützung</h3>
-  <p class="fontnorm">Sie sollten auf jeden Fall darauf achten, dass ihr Webserver .htaccess-Dateien unterstützt, da sonst jeder mit ein wenig Geschick alle Daten des Forums auslesen kann (Beiträge (auch in privaten Foren), Benutzerdaten, PNs, Logdateien, ...).</p>
+  <p class="fontnorm">Sie sollten auf jeden Fall darauf achten, dass ihr Webserver .htaccess-Dateien unterstützt, da sonst jeder mit ein wenig Geschick alle Daten des Forums auslesen kann (Beiträge (auch in privaten Foren), Benutzerdaten, PNs, Logdateien, Uploads, ...).</p>
+  <p class="fontnorm">Eine andere Möglichkeit um das Auslesen der Daten zu verhindern, wäre sie gar nicht erst im TBB-Verzeichnis zu speichern. Sie können dazu den Pfad in der <b>./core/DataPath.php</b> anpassen und so einen Speicherort angeben, der außerhalb des sogenannten Webroots liegt (d.h. dieser Ordner ist aus dem Internet <b>nicht</b> zugänglich). Beispiel:</p>
+  <ul class="fontnorm">
+   <li>Der interne Pfad zum Forum auf dem Server ist: <code>/home/user123/public_html/homepage/forum/index.php</code></li>
+   <li>Dann ist der Webroot-Ordner: <code>/home/user123/public_html/</code></li>
+   <li>Dann wäre ein Verzeichnis außerhalb des Webroots: <code>/home/user123/forumdata/</code></li>
+   <li>Dann würde der <b>relative</b> Pfad für die <b>DataPath.php</b> lauten: <code>../../../forumdata/</code></li>
+   <li>Dann würde der <b>absolute</b> Pfad für die <b>DataPath.php</b> lauten: <code>/home/user123/forumdata/</code></li>
+  </ul>
+  <p class="fontnorm">Von dieser Methode sind folgende Ordner mit Inhalt betroffen:</p>
+  <ul class="fontnorm">
+   <li>./foren/</li>
+   <li>./members/</li>
+   <li>./logs/</li>
+   <li>./polls/</li>
+   <li>./vars/</li>
+  </ul>
+  <p class="fontnorm">Beachten Sie, dass diese Ordner an der neuen Position existieren müssen, z.B. <code>/home/user123/forumdata/foren/</code>. Ohne .htaccess-Unterstützung und mit angepassten Datenpfad ist der <b>./uploads/</b>-Ordner aber nachwievor ohne Einschränkung zugänglich!</p>
 
   <h3 id="otherstyles">8.3 Nutzung anderer Styles (CSS-Dateien)</h3>
   <p class="fontnorm">In der Administration können Sie unter dem Menüpunkt &quot;Templates&quot; andere Styles als Standard auswählen und sogar ihren Mitgliedern die freie Wahl über Template- und Style-Nutzung erlauben. Ein Aufruf mit <code>index.php?var_css_file=</code> ist nicht mehr notwendig und wird daher nicht länger unterstützt. Das Standardtemplate des TBB 1.5 wurde dem originalen Aufbau und Style nachempfunden, so dass es abwärtskompatibel zu den CSS-Klassen ist. Wenn Sie also andere Styles verwenden oder den originalen Standard modifiziert haben, können Sie diese weiterhin verwenden.</p>
@@ -601,8 +618,8 @@ Supermoderator
    <li style="padding-bottom:1em;"><span style="font-weight:bold;">Wie kann ich die Meldung im Wartungsmodus ändern?</span><br />
        Da die Wartungsmeldung im TBB 1.5 auch lokalisiert wurde, muss dazu ein Eintrag in den Sprachdateien geändert werden. Die Meldung kann nicht mehr im Einstellungsmenü der Administration geändert werden. Besagte Sprachdatei ist die <b>Messages.ini</b> in der jeweiligen Lokalisierung im <b>./languages/</b>-Ordner (z.B. <b>./languages/de-DE/Messages.ini</b>). Der Eintrag lautet <b><code>text_maintenance_mode_on</code></b> und ist normalerweise in Zeile 10 zu finden. Dort müssen Sie den Text zwischen den Anführungszeichen ändern. Beachten Sie auch die Hinweise zur Übersetzung in Kapitel <a href="#ownlocalizations">Eigene Lokalisierungen</a>.</li>
    <li style="padding-bottom:1em;"><span style="font-weight:bold;">Wenn ich in der Administration etwas ändere, wird die Änderung scheinbar nicht übernommen?</span><br />
-       Es liegt vermutlich ein Cache-Problem vor. Löschen Sie dazu den Cache mit der Funktion &quot;Cache leeren&quot; unter dem Punkt &quot;Forumeinstellungen&quot;. Wenn dies nicht hilft, stellen Sie sicher, dass ihr Browser die Seite auch wirklich neulädt (STRG+F5) und schalten Sie evtl. verwendete Proxy-Server ab.</li>
-   <li style="padding-bottom:1em;"><span style="font-weight:bold;">Ich teste das Forum auf meinem eigenen Webserver, beim Aufrufen erhalte ich aber immer Fehlermeldungen in der Art &quot;Warning: open(/tmp\sess_0e83b056d7f6aad8ccfed8c7ef93f6e9, O_RDWR) failed:...&quot;</span><br />
+       Es liegt vermutlich ein Cache-Problem vor. Löschen Sie dazu den Cache mit der Funktion &quot;Cache leeren&quot; unter dem Punkt &quot;Forumeinstellungen&quot; in der Administration. Wenn dies nicht hilft, stellen Sie sicher, dass ihr Browser die Seite auch wirklich neulädt (STRG+F5) und schalten Sie evtl. verwendete Proxy-Server ab.</li>
+   <li style="padding-bottom:1em;"><span style="font-weight:bold;">Ich teste das Forum auf meinem eigenen Webserver, beim Aufrufen erhalte ich aber immer Fehlermeldungen in der Art &quot;Warning: open(/tmp\sess_0e83b056d7f6aad8ccfed8c7ef93f6e9, O_RDWR) failed: ...&quot;</span><br />
        Anscheinend haben sie in der php.ini den Wert von <code>session.save_path</code> auf einem ungültigen Verzeichnis stehen. Arbeiten sie unter Windows, müssen sie zum Beispiel C:\WINDOWS\Temp angeben, unter Linux z.B. /tmp</li>
    <li style="padding-bottom:1em;"><span style="font-weight:bold;">Funktioniert das Forum auch mit IIS?</span><br />
        Ich hab keine Ahnung, ob das TBB 1.5 in so einer Umgebung besser läuft der Vorgänger. Getestet habe ich es jedenfalls nicht.</li>

@@ -37,7 +37,7 @@ class AdminNews implements Module
 	 */
 	function __construct()
 	{
-		$this->news = trim(Functions::getValueFromGlobals('news'));
+		$this->news = trim(Functions::getValueFromGlobals('news', false));
 		$this->newsDuration = intval(Functions::getValueFromGlobals('expiredate')) or $this->newsDuration = -1;
 		$this->newsType = intval(Functions::getValueFromGlobals('typ')) or $this->newsType = 1;
 	}

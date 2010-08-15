@@ -127,7 +127,7 @@ class Posting implements Module
 		//Get contents for new reply
 		$this->newReply = array('nick' => htmlspecialchars(trim(Functions::getValueFromGlobals('nli_name'))),
 			'title' => htmlspecialchars(trim(Functions::getValueFromGlobals('title'))),
-			'post' => htmlspecialchars(trim(Functions::getValueFromGlobals('post'))),
+			'post' => htmlspecialchars(trim(Functions::getValueFromGlobals('post', false))),
 			'tSmileyID' => intval(Functions::getValueFromGlobals('tsmilie')),
 			'isSmilies' => Functions::getValueFromGlobals('smilies') == '1',
 			'isSignature' => Functions::getValueFromGlobals('show_signatur') == '1',

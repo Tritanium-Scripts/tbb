@@ -110,6 +110,7 @@ class Upload implements Module
 			Main::getModule('Template')->printMessage('function_deactivated');
 		if(!Main::getModule('Auth')->isLoggedIn())
 			Main::getModule('Template')->printMessage('login_only', INDEXFILE . '?faction=register' . SID_AMPER, INDEXFILE . '?faction=login' . SID_AMPER);
+		Main::getModule('WhoIsOnline')->setLocation('Upload');
 		switch($this->mode)
 		{
 			case 'upload':

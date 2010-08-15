@@ -484,10 +484,10 @@ class WhoIsOnline implements Module
 				{
 					$ghosts++;
 					if(Main::getModule('Auth')->isAdmin())
-						$members[] = array(Functions::getProfileLink($curWWOEntry[0]), true);
+						$members[] = array(Functions::getProfileLink($curWWOEntry[0], true), true);
 				}
 				else
-					$members[] = array(Functions::getProfileLink($curWWOEntry[0]), false);
+					$members[] = array(Functions::getProfileLink($curWWOEntry[0], true), false);
 			}
 		return array($this->wwoFile[2], $ghosts, count($members), $members);
 	}

@@ -77,7 +77,8 @@ class Profile implements Module
 						//Time to say goodbye
 						Functions::unlink('members/' . $this->userData[1] . '.xbb');
 						Functions::unlink('members/' . $this->userData[1] . '.pm');
-						Functions::file_put_contents('vars/member_counter.var', Functions::file_get_contents('vars/member_counter.var')-1);
+						$lockObj = Functions::getLockObject('vars/member_counter.var');
+						$lockObj->setFileContent($lockObj->getFileContent()-1);
 						//In case not an admin has deleted the user from "his own profile" (approx 99,9% of all cases, lol)
 						if($this->userData[1] == Main::getModule('Auth')->getUserID())
 						{
@@ -104,7 +105,7 @@ class Profile implements Module
 						$this->errors[] = Main::getModule('Language')->getString('please_enter_your_mail');
 					elseif(!FunctionsBasic::isValidMail($this->userData[3]))
 						$this->errors[] = Main::getModule('Language')->getString('please_enter_a_valid_mail');
-					$this->userData[7] = Functions::nl2br(htmlspecialchars(trim(Functions::getValueFromGlobals('new_signatur'))));
+					$this->userData[7] = Functions::nl2br(htmlspecialchars(trim(Functions::getValueFromGlobals('new_signatur', false))));
 					$this->userData[9] = Functions::getValueFromGlobals('new_hp');
 					$this->userData[10] = Functions::getValueFromGlobals('new_pic');
 					$this->userData[12] = htmlspecialchars(trim(Functions::getValueFromGlobals('new_realname')));
@@ -113,7 +114,7 @@ class Profile implements Module
 					$this->userData[14][0] = Functions::getValueFromGlobals('new_mail1') == '1' ? '1' : '0';
 					$this->userData[14][1] = Functions::getValueFromGlobals('new_mail2') == '1' ? '1' : '0';
 					$this->userData[18] = Functions::getValueFromGlobals('steamProfile');
-					$this->userData[19] = Functions::explodeByTab(Functions::str_replace(array("\n", "\r"), array("\t", ''), Functions::getValueFromGlobals('steamGames')));
+					$this->userData[19] = Functions::explodeByTab(Functions::str_replace(array("\n", "\r"), array("\t", ''), Functions::getValueFromGlobals('steamGames', false)));
 					if(!empty($this->userData[19][0]) && empty($this->userData[18]))
 						$this->errors[] = Main::getModule('Language')->getString('please_enter_your_steam_profile_name');
 					$this->userData[20] = Functions::getValueFromGlobals('ownTemplate');
@@ -187,7 +188,7 @@ class Profile implements Module
 			$senderMail = Functions::getValueFromGlobals('sender_email');
 			$senderName = Functions::getValueFromGlobals('sender_name');
 			$subject = Functions::getValueFromGlobals('subject');
-			$message = Functions::getValueFromGlobals('message');
+			$message = Functions::getValueFromGlobals('message', false);
 			if(Functions::getValueFromGlobals('send') == 'yes')
 			{
 				//Check input
@@ -237,7 +238,7 @@ class Profile implements Module
 				array(Main::getModule('Language')->getString('steam_achievements'), INDEXFILE . '?faction=profile&amp;profile_id=' . $this->userData[1] . '&amp;mode=viewAchievements&amp;game=' . ($game = Functions::getValueFromGlobals('game')) . SID_AMPER)));
 			if(Main::getModule('Config')->getCfgVal('achievements') != 1)
 				Main::getModule('Template')->printMessage('function_deactivated');
-			elseif(!class_exists('DOMDocument', false))
+			elseif(!class_exists('DOMDocument', false) || ini_get('allow_url_fopen') != '1')
 				Main::getModule('Template')->printMessage('function_not_supported');
 			elseif(empty($this->userData[18]))
 				Main::getModule('Template')->printMessage('no_steam_games');
@@ -318,7 +319,7 @@ class Profile implements Module
 			$this->userData[6] = Functions::formatDate($this->userData[6] . (Functions::strlen($this->userData[6]) == 6 ? '01000000' : ''));
 			$this->userData[7] = Main::getModule('BBCode')->parse(Functions::censor($this->userData[7]));
 			//Load steam games for user, if any (and class to handle XML data is available)
-			if(Main::getModule('Config')->getCfgVal('achievements') == 1 && !empty($this->userData[18]) && !empty($this->userData[19][0]) && class_exists('DOMDocument', false))
+			if(Main::getModule('Config')->getCfgVal('achievements') == 1 && !empty($this->userData[18]) && !empty($this->userData[19][0]) && class_exists('DOMDocument', false) && ini_get('allow_url_fopen') == '1')
 			{
 				$dom = new DOMDocument;
 				if(!@$dom->loadXML(file_get_contents('http://steamcommunity.com/' . (is_numeric($this->userData[18]) ? 'profiles/' : 'id/') . $this->userData[18] . '/games/?tab=achievements&l=' . Main::getModule('Language')->getString('steam_language') . '&xml=1')))
@@ -344,6 +345,8 @@ class Profile implements Module
 					$this->userData[19] = $games;
 				}
 			}
+			else
+				$this->userData[18] = $this->userData[19] = '';
 			break;
 		}
 		//Append profile ID for WIO location
