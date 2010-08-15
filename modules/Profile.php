@@ -208,7 +208,7 @@ class Profile implements Module
 				}
 				//Send it
 				if(empty($this->errors))
-					Main::getModule('Template')->printMessage(Functions::sendMessage($this->userData[3], 'mail_from_user', $this->userData[0], $senderMail, $senderMail, $subject, $message, INDEXFILE . '?faction=login') ? 'mail_sent' : 'sending_mail_failed');
+					Main::getModule('Template')->printMessage(Functions::sendMessage($this->userData[3], 'mail_from_user', $this->userData[0], $senderMail, $senderMail, $subject, $message, Main::getModule('Config')->getCfgVal('address_to_forum') . '/' . INDEXFILE . '?faction=login') ? 'mail_sent' : 'sending_mail_failed');
 			}
 			//Recipient data (assigned automatically via reusing $this->userData)
 			$this->userData = array_slice($this->userData, 0, 2) + array('recipientName' => &$this->userData[0],

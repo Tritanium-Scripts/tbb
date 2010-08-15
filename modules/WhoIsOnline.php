@@ -133,6 +133,10 @@ class WhoIsOnline implements Module
 					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('views_the_wio_list'), $curWIOEntryIsGhost, $curTime);
 					break;
 
+					case 'MemberList':
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('views_the_member_list'), $curWIOEntryIsGhost, $curTime);
+					break;
+
 					case 'Message':
 					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('views_a_message'), $curWIOEntryIsGhost, $curTime);
 					break;
