@@ -315,18 +315,18 @@ class ViewProfile extends ModuleTemplate {
 				$this->modules['Template']->printPage('ViewProfileSendEmail.tpl');
 				break;
 
-            case 'vCard':
-                //provide raw custom profile fields
-                $fieldsData = array();
+			case 'vCard':
+				//Provide raw custom profile fields
+				$fieldsData = array();
 				$this->modules['DB']->queryParams('SELECT t1.*, t2."fieldValue" FROM '.TBLPFX.'profile_fields t1 LEFT JOIN '.TBLPFX.'profile_fields_data t2 ON t1."fieldID"=t2."fieldID" AND t2."userID"=$1',array($profileID));
 				while($curResult = $this->modules['DB']->fetchArray())
 					$fieldsData[$curResult['fieldVarName']] = $curResult;
-				//start building the vCard
-                $vCard = "BEGIN:VCARD\nVERSION:3.0\nN:;;;;\nFN:" . ($fieldsData['realName'] ? $fieldsData['realName']['fieldValue'] : '') . "\nNICKNAME:" . $profileData['userNick'] . "\n" . (($profileData['userHideEmailAddress'] != '1') ? 'EMAIL;TYPE=internet:' . $profileData['userEmailAddress'] . "\n" : '') . 'URL:' . $fieldsData['homepage']['fieldValue'] . "\nCLASS:" . (($this->modules['Config']->getValue('guests_enter_board') != '1') ? 'PRIVATE' : 'PUBLIC') . "\nX-GENERATOR:Tritanium Bulletin Board 2\nEND:VCARD";
-                header('Content-Disposition: attachment; filename=' . $profileData['userNick'] . '.vcf');
-                header('Content-Length: ' . strlen($vCard));
-                header('Content-Type: text/x-vCard; charset=UTF-8; name=' . $profileData['userNick'] . '.vcf');
-                exit($vCard);
+				//Start building the vCard
+				$vCard = "BEGIN:VCARD\nVERSION:3.0\nN:;;;;\nFN:" . ($fieldsData['realName'] ? $fieldsData['realName']['fieldValue'] : '') . "\nNICKNAME:" . $profileData['userNick'] . "\n" . (($profileData['userHideEmailAddress'] != '1') ? 'EMAIL;TYPE=internet:' . $profileData['userEmailAddress'] . "\n" : '') . 'URL:' . $fieldsData['homepage']['fieldValue'] . "\nCLASS:" . (($this->modules['Config']->getValue('guests_enter_board') != '1') ? 'PRIVATE' : 'PUBLIC') . "\nX-GENERATOR:Tritanium Bulletin Board 2\nEND:VCARD";
+				header('Content-Disposition: attachment; filename=' . $profileData['userNick'] . '.vcf');
+				header('Content-Length: ' . strlen($vCard));
+				header('Content-Type: text/x-vCard; charset=UTF-8; name=' . $profileData['userNick'] . '.vcf');
+				exit($vCard);
 		}
 	}
 }

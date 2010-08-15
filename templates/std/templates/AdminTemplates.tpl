@@ -13,7 +13,7 @@
 	{/foreach}
 </table>
 <br/>
-<form method="post" action="{$smarty.const.INDEXFILE}?action=AdminTemplates&amp;doit=1&amp;{$smarty.const.MYSID}">
+<form method="post" action="{$smarty.const.INDEXFILE}?action=AdminTemplates&amp;doit=1&amp;{$smarty.const.MYSID}" id="tbb2form">
 	<table class="TableStd" width="100%">
 		<colgroup>
 			<col width="25%"/>
@@ -23,7 +23,7 @@
 		<tr>
 			<td class="CellStd"><span class="FontNorm">{$modules.Language->getString('standard_template')}</span></td>
 			<td class="CellAlt">
-				<select onchange="document.tbb2form.submit();" class="FormSelect" name="p[standardTemplate]">
+				<select onchange="document.getElementById('tbb2form').submit();" class="FormSelect" name="p[standardTemplate]">
 					{foreach from=$templatesData item=curTemplate}
 						<option value="{$curTemplate.templateDir}"{if $curTemplate.templateDir == $p.standardTemplate} selected="selected"{/if}>{$curTemplate.templateInfo.templateName}</option>
 					{/foreach}
