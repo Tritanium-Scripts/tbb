@@ -1,6 +1,6 @@
 <?php
 /**
- * Provides saver writing to files with advanced locking technique.
+ * Provides saver writing to files with lock management.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
  * @copyright Copyright (c) 2010 Tritanium Scripts
@@ -32,10 +32,7 @@ class LockObject
 	function __construct($filename)
 	{
 		$this->fp = fopen($filename, 'r+');
-		//Set proper lock
-		while(!flock($this->fp, LOCK_EX))
-			//Wait between 1 to 100 millisecs to get lock
-			usleep(mt_rand(1, 100)*1000);
+		flock($this->fp, LOCK_EX);
 	}
 
 	/**

@@ -211,7 +211,7 @@
   <h3 id="generalshints">3.1 Allgemeine Hinweise</h3>
   <p class="fontnorm">Das TBB 1.5 unterstützt ausschließlich die Aktualisierung eines TBB 1.2.3. Wenn Sie eine ältere Version betreiben, müssen Sie diese erst auf Version 1.2.3 aktualisieren. Dies können Sie mit den mitgelieferten Update-Routinen durchführen, die in den Unterkapiteln <a href="#updatetbb110">3.2.1</a> und <a href="#updatetbb10b">3.2.2</a> näher beschrieben sind.</p>
   <p class="fontnorm">Bevor Sie mit irgendeiner Aktualisierung beginnen, ist es empfehlenswert die Ordner <b>foren</b>, <b>members</b>, <b>polls</b> und <b>vars</b> zu sichern. Es kann leider keine Garantie für ein reibungsloses Update übernommen werden. Laden Sie am besten erst die genannten Ordner per FTP runter, um sie ggf. wiederherstellen zu können. Achten Sie dabei unbedingt auf die Verwendung des <b>Binär-Übertragungsmodus</b>!</p>
-  <p class="fontnorm">Weiterhin können zusätzliche oder modifizierte Dateien von der Update-Anleitung nicht berücksichtigt werden. Haben Sie ihr Forum z.B. um neue Grafiken, var-Dateien oder eigene CSS-Styles erweitert, sollten Sie diese ebenfalls sichern, um Sie nach der Aktualisierung wiederherstellen zu können. Lesen Sie sich zum Thema Hack-Kompatiblität auch das FAQ durch.</p>
+  <p class="fontnorm">Weiterhin können zusätzliche oder modifizierte Dateien von der Update-Anleitung nicht berücksichtigt werden. Haben Sie ihr Forum z.B. um neue Grafiken, var-Dateien oder eigene CSS-Styles erweitert, sollten Sie diese ebenfalls sichern, um Sie nach der Aktualisierung wiederherstellen zu können. Lesen Sie sich zum Thema Hack-Kompatiblität auch das <a href="#faq">FAQ</a> durch.</p>
   <p class="fontnorm">Falls sie nach dem Update Probleme bei der Darstellung - vor allem bei den BBCode-Buttons - haben, sollten sie ihre CSS-Datei aktualisieren, d.h. die &quot;standard.css&quot;, die dem Forum beiliegt, auf neue Abschnitte überprüfen (z.B. &quot;forumcode&quot;) und diese in ihre modifizierte CSS-Datei einsetzen.</p>
   <p class="fontnorm">Nach erfolgreichem Update müssten alle Mitglieder ein neues Passwort anfordern, da eine neue sichere Verschlüsselungstechnik zum Einsatz kommt.</p>
 
@@ -245,14 +245,14 @@
      <li><b>index.php</b></li>
     </ul>
    </li>
-   <li>Passen Sie ggf. die Rechte wie unter Kapitel 2.4 beschrieben an.</li>
+   <li>Passen Sie ggf. die Rechte wie unter <a href="#setpermissions">Kapitel 2.4</a> beschrieben an.</li>
    <li>Haben Sie eigene oder modifizierte CSS-Dateien gesichert, laden Sie diese in das Verzeichnis <b>./templates/std/styles/</b> und überschreiben ggf. den Standardstyle.</li>
-   <li>Haben Sie die gesicherte &quot;settings.php&quot; verändert und möchten die gemachten Einstellungen wieder fest ins TBB 1.5 einpflegen, lesen Sie bitte das Kapitel <a href="#configuration">Konfiguration</a>.</li>
-   <li>Haben Sie die gesicherte &quot;datapath.php&quot; verändert, öffnen Sie die <b>./core/DataPath.php</b> und übertragen Sie die Pfadeinstellung. Ersetzen Sie dazu die Voreinstellung <code>./</code> durch ihren eigenen Pfad und laden die aktualisierte <b>DataPath.php</b> wieder in das <b>./core/</b>-Verzeichnis hoch.</li>
-   <li>Nutzen Sie die externen Foumwerkzeuge &quot;ext_lposts.php&quot; und/oder &quot;ext_wio.php&quot;, so müssen diese durch die neuen Versionen ersetzt werden. Übertragen Sie dazu die gemachten Einstellungen in die neuen Dateien und ersetzen Sie ihre vorhandenen Dateien. Lesen Sie dazu auch <a href="#externaltools">Abschnitt 5</a> für mehr Details zu den neuen Einstellungswerten.</li>
-   <li>Laden Sie nun die &quot;<b>setUpdateFlag.php</b>&quot; aus dem <b>./update/</b>-Ordner in das TBB-Verzeichnis und rufen Sie das Script mit ihrem Browser auf (z.B. http://www.meindedomain.de/forum/setUpdateFlag.php). Je nach Anzahl registrierter Mitglieder kann der Update-Prozess etwas dauern und notfalls durch erneutes Aufrufen fortgesetzt werden.</li>
-   <li>Löschen Sie die &quot;<b>setUpdateFlag.php</b>&quot; wieder, sobald eine &quot;Done!&quot;-Meldung angezeigt wird.</li>
-   <li>Öffnen Sie ihre &quot;<b>settings.var</b>&quot; und löschen sie ab Zeile 57 die ganzen Leerzeilen.</li>
+   <li>Haben Sie die gesicherte <b>settings.php</b> verändert und möchten die gemachten Einstellungen wieder fest ins TBB 1.5 einpflegen, lesen Sie bitte das Kapitel <a href="#configuration">Konfiguration</a>.</li>
+   <li>Haben Sie die gesicherte <b>datapath.php</b> verändert, öffnen Sie die <b>./core/DataPath.php</b> und übertragen Sie die Pfadeinstellung. Ersetzen Sie dazu die Voreinstellung <code>./</code> durch ihren eigenen Pfad und laden die aktualisierte <b>DataPath.php</b> wieder in das <b>./core/</b>-Verzeichnis hoch.</li>
+   <li>Nutzen Sie die externen Foumwerkzeuge <b>ext_lposts.php</b> und/oder <b>ext_wio.php</b>, so müssen diese durch die neuen Versionen ersetzt werden. Übertragen Sie dazu die gemachten Einstellungen in die neuen Dateien und ersetzen Sie ihre vorhandenen Dateien. Lesen Sie dazu auch <a href="#externaltools">Abschnitt 5</a> für mehr Details zu den neuen Einstellungswerten.</li>
+   <li>Laden Sie nun die <b>setUpdateFlag.php</b> aus dem <b>./update/</b>-Ordner in das TBB-Verzeichnis und rufen Sie das Script mit ihrem Browser auf (z.B. http://www.meindedomain.de/forum/setUpdateFlag.php). Je nach Anzahl registrierter Mitglieder kann der Update-Prozess etwas dauern und notfalls durch erneutes Aufrufen fortgesetzt werden.</li>
+   <li>Löschen Sie die <b>setUpdateFlag.php</b> wieder, sobald eine &quot;Done!&quot;-Meldung angezeigt wird.</li>
+   <li>Öffnen Sie ihre <b>settings.var</b> aus dem <b>./vars/</b>-Ordner und löschen sie ab Zeile 57 die ganzen Leerzeilen. Wenn Sie keine eigene <b>settings.var</b> haben, überspringen Sie die Punkte 12 bis 14.</li>
    <li>
     Fügen Sie folgende Werte in die Zeilen 57 bis 75 ein:
     <pre><code>std
@@ -337,7 +337,7 @@ Supermoderator
    <tr><td>4</td><td><code>site_contact</code></td><td>kontakt@meinedomain.de</td><td>Allgemeine E-Mail-Adresse zur Kontaktaufnahme</td><td style="color:green; text-align:center;">&#10003;</td></tr>
    <tr><td>5</td><td><code>forum_name</code></td><td>Meinforum</td><td>Name des Forums</td><td style="color:green; text-align:center;">&#10003;</td></tr>
    <tr><td>6</td><td><code>forum_logo</code></td><td></td><td>URL / Pfad des Forumlogos</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
-   <tr><td>7</td><td><code>uc_message</code></td><td></td><td>Nachricht im Wartungsmodus (<span style="font-style:italic;">obsolet, siehe FAQ</span>)</td><td style="color:red; text-align:center;">&#10005;</td></tr>
+   <tr><td>7</td><td><code>uc_message</code></td><td></td><td>Nachricht im Wartungsmodus (<span style="font-style:italic;">obsolet, siehe <a href="#faq">FAQ</a></span>)</td><td style="color:red; text-align:center;">&#10005;</td></tr>
    <tr><td>8</td><td><code>gmt_offset</code></td><td>+0100</td><td>Zeitzone bzw. Abweichung von GMT-Zeitzone</td><td style="color:green; text-align:center;">&#10003;</td></tr>
    <tr><td>9</td><td><a href="#logoptions"><code>log_options</code></a></td><td></td><td>Protokollierungsoptionen (mit Komma trennen)</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
    <tr><td>10</td><td><a href="#fds"><code>warn_admin_fds</code></a></td><td>3</td><td>Warngrenze für verbleibender freier Speicherplatz</td><td style="color:red; text-align:center;">&#10005;</td></tr>
@@ -534,7 +534,7 @@ Supermoderator
   <h3 id="lochints">7.1 Wichtige Hinweise</h3>
   <ul class="fontnorm">
    <li>Alle 33 Dateien müssen vorhanden sein und dürfen nicht umbenannt werden</li>
-   <li>Die Übersetzungen werden im ini-Format notiert, d.h. links steht ein Identifikator (darf nicht verändert werden!) und recht die Übersetzung in Anführungszeichen</li>
+   <li>Die Übersetzungen werden im ini-Format notiert, d.h. links steht ein Identifikator (darf nicht verändert werden!) und rechts die Übersetzung in Anführungszeichen</li>
    <li>Verwenden Sie auf jeden Fall einen Unicode-Zeichensatz, da dass Forum mit UTF-8 arbeitet</li>
    <li>XHTML-Sonderzeichen müssen als Entitäten notiert werden, z.B. &amp; als &amp;amp;</li>
    <li>XHTML ist aktiviert, so kann z.B. &lt;br /&gt; für Zeilenumbrüche verwendet werden. Kein \n verwenden, sondern eine echte neue Zeile anfangen!</li>
@@ -562,7 +562,7 @@ Supermoderator
 
   <h3 id="htaccess">8.2 Sicherheit des Forums / .htaccess-Unterstützung</h3>
   <p class="fontnorm">Sie sollten auf jeden Fall darauf achten, dass ihr Webserver .htaccess-Dateien unterstützt, da sonst jeder mit ein wenig Geschick alle Daten des Forums auslesen kann (Beiträge (auch in privaten Foren), Benutzerdaten, PNs, Logdateien, Uploads, ...).</p>
-  <p class="fontnorm">Eine andere Möglichkeit um das Auslesen der Daten zu verhindern, wäre sie gar nicht erst im TBB-Verzeichnis zu speichern. Sie können dazu den Pfad in der <b>./core/DataPath.php</b> anpassen und so einen Speicherort angeben, der außerhalb des sogenannten Webroots liegt (d.h. dieser Ordner ist aus dem Internet <b>nicht</b> zugänglich). Beispiel:</p>
+  <p class="fontnorm">Eine andere Möglichkeit um das Auslesen der meisten Daten zu verhindern, wäre sie gar nicht erst im TBB-Verzeichnis zu speichern. Sie können dazu den Pfad in der <b>./core/DataPath.php</b> anpassen und so einen Speicherort angeben, der außerhalb des sogenannten Webroots liegt (d.h. dieser Ordner ist aus dem Internet <b>nicht</b> zugänglich). Beispiel:</p>
   <ul class="fontnorm">
    <li>Der interne Pfad zum Forum auf dem Server ist: <code>/home/user123/public_html/homepage/forum/index.php</code></li>
    <li>Dann ist der Webroot-Ordner: <code>/home/user123/public_html/</code></li>
@@ -578,16 +578,16 @@ Supermoderator
    <li>./polls/</li>
    <li>./vars/</li>
   </ul>
-  <p class="fontnorm">Beachten Sie, dass diese Ordner an der neuen Position existieren müssen, z.B. <code>/home/user123/forumdata/foren/</code>. Ohne .htaccess-Unterstützung und mit angepassten Datenpfad ist der <b>./uploads/</b>-Ordner aber nachwievor ohne Einschränkung zugänglich!</p>
+  <p class="fontnorm">Beachten Sie, dass diese Ordner mit Inhalt an der neuen Position existieren müssen, z.B. <code>/home/user123/forumdata/foren/</code>. Ohne .htaccess-Unterstützung und mit angepassten Datenpfad ist der <b>./uploads/</b>-Ordner aber nachwievor ohne Einschränkung zugänglich!</p>
 
   <h3 id="otherstyles">8.3 Nutzung anderer Styles (CSS-Dateien)</h3>
-  <p class="fontnorm">In der Administration können Sie unter dem Menüpunkt &quot;Templates&quot; andere Styles als Standard auswählen und sogar ihren Mitgliedern die freie Wahl über Template- und Style-Nutzung erlauben. Ein Aufruf mit <code>index.php?var_css_file=</code> ist nicht mehr notwendig und wird daher nicht länger unterstützt. Das Standardtemplate des TBB 1.5 wurde dem originalen Aufbau und Style nachempfunden, so dass es abwärtskompatibel zu den CSS-Klassen ist. Wenn Sie also andere Styles verwenden oder den originalen Standard modifiziert haben, können Sie diese weiterhin verwenden.</p>
+  <p class="fontnorm">In der Administration können Sie unter dem Menüpunkt &quot;Templates&quot; andere Styles als Standard auswählen und sogar ihren Mitgliedern die freie Wahl über Template- und Style-Nutzung erlauben. Ein Aufruf mit <code>index.php?var_css_file=</code> ist nicht mehr notwendig und wird daher nicht länger unterstützt. Das Standardtemplate des TBB 1.5 wurde dem originalen Aufbau und Style der 1.2.3er Version nachempfunden, so dass es abwärtskompatibel zu den CSS-Klassen ist. Wenn Sie also andere Styles verwenden oder den originalen Standard modifiziert haben, können Sie diese weiterhin verwenden.</p>
 
   <h3 id="afewwords">8.4 Ein paar Worte zum Code</h3>
-  <p class="fontnorm">Die Vorgängerversionen wurden für ihren übersichtlichen und leicht verständlichen Code gelobt. Diese Tradition möchte ich fortsetzen und deswegen ist der <b>gesamte</b> Code (ohne Ausnahme) mit <a href="http://www.phpdoc.org/" target="_blank">phpDoc</a> dokumentiert. Hilfreich zum Verständnis dürfte auch die Architektur mit der Modulstruktur sein und die vielen weiteren Inline-Kommentare. :)</p>
+  <p class="fontnorm">Die Vorgängerversionen wurden für ihren übersichtlichen und leicht verständlichen Code gelobt. Diese Tradition möchte ich fortsetzen und deswegen ist der <b>gesamte</b> Code (ohne Ausnahme) mit <a href="http://www.phpdoc.org/" target="_blank">phpDoc</a> dokumentiert. Hilfreich zum Verständnis dürfte auch die Architektur mit der Modulstruktur und die vielen weiteren Inline-Kommentare sein. :)</p>
 
   <h3 id="groupsystem">8.5 Das Gruppensystem</h3>
-  <p class="fontnorm">Es gibt die Möglichkeit in der Administration Benutzergruppen zu erstellen. Dies dient dazu, damit Sie z.B. nicht immer den gleichen Mitgliedern Zugriff auf bestimmte Foren gewähren müssen, denn anstatt dessen können Sie auch diese Leute einer Gruppe zuweisen und müssen dann nur noch der Gruppe Zugang gewähren. Sie können für jede Gruppe auch ein extra Avatar bestimmen. Dieser bekommt das Gruppenmitglied dann automatisch zugewiesen, falls es nicht selber einen anderen Avatar angegeben hat. Beachten Sie bitte, dass jeder Benutzer nur Mitglied <b>einer</b> Gruppe sein kann. Wundern sie sich also nicht, wenn sie einen Benutzer einer Gruppe zuweisen wollen, dies aber nicht geschieht. Das liegt dann normalerweise daran, dass der betreffende Benutzer schon Mitglied einer anderen Gruppe ist.</p>
+  <p class="fontnorm">Es gibt die Möglichkeit in der Administration Benutzergruppen zu erstellen. Dies dient dazu, damit Sie z.B. nicht immer den gleichen Mitgliedern Zugriff auf bestimmte Foren gewähren müssen, denn anstatt dessen können Sie auch diese Leute einer Gruppe zuweisen und müssen dann nur noch der Gruppe Zugang gewähren. Sie können für jede Gruppe auch ein extra Avatar bestimmen. Dieser bekommt das Gruppenmitglied dann automatisch zugewiesen, falls es nicht selber einen anderen Avatar angegeben hat. Beachten Sie bitte, dass jeder Benutzer nur Mitglied <b>einer</b> Gruppe sein kann. Wundern Sie sich also nicht, wenn Sie einen Benutzer einer Gruppe zuweisen wollen, dies aber nicht geschieht. Das liegt dann normalerweise daran, dass der betreffende Benutzer schon Mitglied einer anderen Gruppe ist.</p>
 
   <h2 id="faq">9 FAQ</h2>
   <ul class="fontnorm">
