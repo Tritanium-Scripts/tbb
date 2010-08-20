@@ -1,9 +1,9 @@
 *********************************************************
 Tritanium Bulletin Board 1.5 - Changelog (German version)
-Last changed: 16.08.2010 (Version 1.5)
+Last changed: 20.08.2010 (Version 1.5)
 *********************************************************
 
-16.08.2010: Version 1.5 (offiziell)
+20.08.2010: Version 1.5 (offiziell)
 	- Alle Features des TBB 1.2.3 übernommen
 	- Komplett neuer technischer Unterbau in PHP 5.1 (= Mindestvoraussetzung) oder höher
 	- Komplett valides XHTML 1.0 transitional
@@ -103,7 +103,7 @@ Last changed: 16.08.2010 (Version 1.5)
 	- Externe Anzeige der WIO-Box mit Anzahl von Geistern und funktioniert nun auch mit geänderten Datenpfad (DataPath.php)
 	- RSS Feed der neuesten Beiträge
 	- Die Datenstruktur kann nicht mehr durch Tabulatoren oder Neue Zeile-Zeichen zerstört werden
-	- Verbesserte Locking-Technik verhindert die Vergabe von gleichen Benutzer-IDs und falschen Mitgliederzahlen im Falle von DDoS-ähnlichen Attacken
+	- Verbesserte Locking-Technik verhindert die Vergabe von gleichen IDs bei neuen Benutzern, Themen und Umfragen und falschen Mitgliederzahlen im Falle von DDoS-ähnlichen Attacken
 
 Written by Chrissyx
 (c) 2010 Tritanium Scripts

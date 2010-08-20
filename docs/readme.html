@@ -151,6 +151,7 @@
      <li><a href="#otherstyles">Nutzung anderer Styles (CSS-Dateien)</a></li>
      <li><a href="#afewwords">Ein paar Worte zum Code</a></li>
      <li><a href="#groupsystem">Das Gruppensystem</a></li>
+     <li><a href="#concurrency">Nebenläufigkeit</a></li>
     </ul>
    </li>
    <li><a href="#faq">FAQ</a></li>
@@ -589,6 +590,10 @@ Supermoderator
   <h3 id="groupsystem">8.5 Das Gruppensystem</h3>
   <p class="fontnorm">Es gibt die Möglichkeit in der Administration Benutzergruppen zu erstellen. Dies dient dazu, damit Sie z.B. nicht immer den gleichen Mitgliedern Zugriff auf bestimmte Foren gewähren müssen, denn anstatt dessen können Sie auch diese Leute einer Gruppe zuweisen und müssen dann nur noch der Gruppe Zugang gewähren. Sie können für jede Gruppe auch ein extra Avatar bestimmen. Dieser bekommt das Gruppenmitglied dann automatisch zugewiesen, falls es nicht selber einen anderen Avatar angegeben hat. Beachten Sie bitte, dass jeder Benutzer nur Mitglied <b>einer</b> Gruppe sein kann. Wundern Sie sich also nicht, wenn Sie einen Benutzer einer Gruppe zuweisen wollen, dies aber nicht geschieht. Das liegt dann normalerweise daran, dass der betreffende Benutzer schon Mitglied einer anderen Gruppe ist.</p>
 
+  <h3 id="concurrency">8.6 Nebenläufigkeit</h3>
+  <p class="fontnorm">Kein unmittelbarer Fehler, aber eine Schwäche der Vorgängerversionen war die Verwaltung von Lese- und Schreibprozessen in Dateien. Wenn etwas auf die Mikrosekunde genau gleichzeitig ausgeführt wird, waren die Chancen hoch, dass mit falschen bzw. veralteten Daten gearbeitet wurde. Beispiele dafür wären mehrfache Vergabe von Benutzer-IDs bei neuen Registrierungen oder ausrechnen von falschen Statistikwerten. Das alles ist auch bei stark-frequentierten Foren eher unwahrscheinlich, kann aber durch einen dummen Zufall mal passieren oder sich bewusst provieren lassen durch z.B. massenhafte DDoS-ähnliche Angriffe.</p>
+  <p class="fontnorm">Das TBB 1.5 steuert dem mit verbesserten Locking, d.h. mit geregelten und exklusiven Dateizugriffen, entgegen. Geschützt wurde damit die Vergabe von neuen Benutzer-IDs, Themen-IDs und Umfragen-IDs sowie der Mitgliedszähler. Die restlichen Komponenten sind derzeit aber weiterhin anfällig für diese Schwäche! Spätestens mit dem TBB 2.0 ist diese Problematik vollständig behoben.</p>
+
   <h2 id="faq">9 FAQ</h2>
   <ul class="fontnorm">
    <li style="padding-bottom:1em;"><span style="font-weight:bold;">Julian?</span><br />
@@ -614,7 +619,7 @@ Supermoderator
         <li><span style="font-style:italic;">UPB-Code</span> von Hunsruns</li>
        </ul></li>
    <li style="padding-bottom:1em;"><span style="font-weight:bold;">Welche Änderungen und neuen Features gibt es?</span><br />
-       Eine genaue Auflistung aller Änderungen und Neuerungen ist in der <a href="changelog.txt">changelog.txt</a> zu finden.</li>
+       Eine genaue Auflistung aller Änderungen und Neuerungen ist in der <a href="changelog.txt">changelog.txt</a> zu finden. Die Versionsgeschichte davor steht in der <a href="history.txt">history.txt</a>.</li>
    <li style="padding-bottom:1em;"><span style="font-weight:bold;">Bei manchen Steam-Spielen werden keine Errungenschaften angezeigt?</span><br />
        Das Verhalten konnte z.B. bei <b>Alien Swarm</b> und <b>Counter-Strike: Source</b> beobachtet werden. Obwohl die Spiele richtig erkannt werden und die Erfolge ohne Fehler abgefragt werden, liefert die Steam-Plattform keine Daten. Es ist jedenfalls kein Fehler des Forums und es bleibt daher abzuwarten, wann Steam die Errungenschaften im erforderlichen Format bereitstellt.</li>
    <li style="padding-bottom:1em;"><span style="font-weight:bold;">Wie kann ich die Meldung im Wartungsmodus ändern?</span><br />
