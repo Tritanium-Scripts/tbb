@@ -232,12 +232,12 @@ class Posting implements Module
 			}
 			//Process last x posts in reverse order
 			$lastReplies = array();
-			foreach($this->topicFile as $curReply)
+			foreach(array_reverse(array_slice($this->topicFile, -10)) as $curReply) //Just the last 10 replies
 				$lastReplies[] = array('nick' => Functions::getProfileLink($curReply[1], true),
 					'post' => Functions::censor(Main::getModule('BBCode')->parse($curReply[3], $curReply[9] == '1' && $this->forum[7][1] == '1', $curReply[7] == '1' || $curReply[7] == 'yes', ($curReply[8] == '1' || $curReply[8] == 'yes') && $this->forum[7][0] == '1', $this->topicFile)));
 			Main::getModule('Template')->assign(array('newReply' => $this->newReply,
 				'preview' => $this->preview,
-				'lastReplies' => array_slice(array_reverse($lastReplies), 0, 10), //Just the last 10 replies
+				'lastReplies' => $lastReplies,
 				'isMod' => isset($isMod) ? $isMod : Functions::checkModOfForum($this->forum)));
 			break;
 

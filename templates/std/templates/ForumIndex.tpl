@@ -74,7 +74,7 @@
 <br />
 <!-- NewestPosts -->
 <table class="tbl" cellpadding="{$modules.Config->getCfgVal('tpadding')}" cellspacing="{$modules.Config->getCfgVal('tspacing')}" style="width:{$modules.Config->getCfgVal('twidth')}; margin:auto;">
- <tr><th class="thnorm"><span class="thnorm">{$modules.Language->getString('newest_posts')}</span></th><th style="text-align:right;"><a href="{$smarty.const.INDEXFILE}?faction=rssFeed"><img src="{$modules.Template->getTplDir()}images/rss.gif" alt="" /></a></th></tr>
+ <tr><th class="thnorm"><span class="thnorm">{$modules.Language->getString('newest_posts')}</span></th><th class="thnorm" style="text-align:right;"><a href="{$smarty.const.INDEXFILE}?faction=rssFeed"><img src="{$modules.Template->getTplDir()}images/rss.gif" alt="" /></a></th></tr>
  <tr><td class="td1" colspan="2"><span class="small">{if !empty($newestPosts)}{'<br />'|implode:$newestPosts}{else}{$modules.Language->getString('no_newest_posts')}{/if}</span></td></tr>
 </table>
 {/if}
