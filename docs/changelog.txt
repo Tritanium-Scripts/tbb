@@ -1,9 +1,9 @@
 *********************************************************
 Tritanium Bulletin Board 1.5 - Changelog (German version)
-Last changed: 24.08.2010 (Version 1.5)
+Last changed: 28.08.2010 (Version 1.5)
 *********************************************************
 
-24.08.2010: Version 1.5 (offiziell)
+28.08.2010: Version 1.5 (offiziell)
 	- Alle Features des TBB 1.2.3 übernommen
 	- Komplett neuer technischer Unterbau in PHP 5.1 (= Mindestvoraussetzung) oder höher
 	- Komplett valides XHTML 1.0 transitional
