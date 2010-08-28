@@ -1,2 +1,1 @@
-authtype basic
-require valid-user
+Options All -Indexes

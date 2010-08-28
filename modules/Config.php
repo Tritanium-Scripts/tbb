@@ -14,82 +14,82 @@ class Config
 	 *
 	 * @var array Default values
 	 */
-	private static $cfgDefaults = array('/',
-		'http://www.meindedomain.de/forum',
-		'Meineseite',
-		'http://www.meindedomain.de/',
-		'kontakt@meinedomain.de',
-		'Meinforum',
-		'',
+	private static $cfgDefaults = array('/',	#path_to_forum
+		'http://www.meindedomain.de/forum',		#address_to_forum
+		'Meineseite',							#site_name
+		'http://www.meindedomain.de/',			#site_address
+		'kontakt@meinedomain.de',				#site_contact
+		'Meinforum',							#forum_name
+		'',										#forum_logo
 		'<p style="color:#FF0000; font-family:Verdana; font-size:medium; font-weight:bold;">Das Forum befindet sich im Moment im Umbau. Schauen sie in ein paar Minuten einfach nochmal vorbei!<br />Sorry, but this board is currently under construction. Try again in a few minutes!</p>',
-		'+0100',
-		'',
-		3,
-		1,
-		1,
-		-1,
-		0,
-		0,
-		30,
-		20,
-		15,
-		1,
-		1,
-		1,
-		10,
-		1,
-		0,
-		0,
-		'Administrator',
-		'Moderator',
-		'Verbannt',
-		'Gelöscht',
-		6,
-		5,
-		1,
-		15,
-		1,
-		1,
-		1,
-		1,
-		'styles/standard.css',
-		'95%',
-		0,
-		4,
-		0,
-		1,
-		1,
-		1,
-		0,
-		64,
-		64,
-		1,
-		'de-DE',
-		1,
-		'admin@meinedomain.de',
-		'admin@meinedomain.de',
-		0,
-		1,
+		'+0100',								#gmt_offset
+		'',										#log_options
+		3,										#warn_admin_fds
+		1,										#close_forum_fds
+		1,										#activate_registration
+		-1,										#max_registrations
+		0,										#create_reg_pw
+		0,										#uc
+		30,										#topics_per_page
+		20,										#posts_per_page
+		15,										#wio_timeout
+		1,										#wio
+		1,										#show_site_creation_time
+		1,										#show_board_stats
+		10,										#show_lposts
+		1,										#show_kats
+		0,										#censored
+		0,										#must_be_logged_in
+		'Administrator',						#var_admin
+		'Moderator',							#var_mod
+		'Verbannt',								#var_banned
+		'Gelöscht',								#var_killed
+		6,										#stars_admin
+		5,										#stars_mod
+		1,										#news_position
+		15,										#topic_is_hot
+		1,										#formmail_mbli
+		1,										#activate_mlist
+		1,										#nli_must_enter_name
+		1,										#show_private_forums
+		'styles/standard.css',					#css_file
+		'95%',									#twidth
+		0,										#tspacing
+		4,										#tpadding
+		0,										#append_sid_url
+		1,										#use_gzip_compression
+		1,										#use_file_caching
+		1,										#activate_ob
+		0,										#use_getimagesize
+		64,										#avatar_height
+		64,										#avatar_width
+		1,										#use_diskfreespace
+		'de-DE',								#lng_folder
+		1,										#activate_mail
+		'admin@meinedomain.de',					#admin_email
+		'admin@meinedomain.de',					#forum_email
+		0,										#mail_admin_new_registration
+		1,										#notify_new_replies
 		//New TBB 1.5 config values
-		'std',
-		0,
-		'#FF0000',
-		'#008000',
-		'#000000',
-		'#CC6600',
-		'#0000FF',
-		48,
-		6,
-		'Supermoderator',
-		30,
-		1,
-		0,
-		60,
-		1,
-		1,
-		1,
-		'',
-		2097152);
+		'std',									#default_tpl
+		0,										#clickjacking
+		'#FF0000',								#wio_color_admin
+		'#008000',								#wio_color_mod
+		'#000000',								#wio_color_user
+		'#CC6600',								#wio_color_banned
+		'#0000FF',								#wio_color_smod
+		48,										#emph_date_hours
+		5,										#stars_smod
+		'Supermoderator',						#var_smod
+		30,										#members_per_page
+		1,										#achievements
+		0,										#confirm_reg_mail
+		60,										#new_pm_reminder
+		1,										#select_tpls
+		1,										#select_styles
+		1,										#enable_uploads
+		'',										#upload_allowed_ext
+		2097152);								#upload_max_filesize
 
 	/**
 	 * Name of config file to work with.
