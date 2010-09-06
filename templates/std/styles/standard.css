@@ -2,7 +2,7 @@
 
 Standard TBB-Style - http://www.tritanium-scripts.com
 
-Falls sie sich nicht so gute mit CSS auskennen, finden sie auf
+Falls Sie sich nicht so gute mit CSS auskennen, finden sie auf
 http://de.selfhtml.org/ viele Informationen dazu.
 
 Kurze Erklärung:
@@ -10,12 +10,12 @@ color - Textfarbe (z.B. blue, FFFFFF, #000000)
 font-family - Schriftart (z.B. Verdana, Arial)
 font-size - Schriftgröße (z.B. 10pt, 10px)
 font-weight - Schriftdicke (z.B. bold, bolder, lighter)
-text-decoration - Unterstrichen, Oberstrichen... (z.B. none, overline, underline)
+text-decoration - Unterstrichen, Überstrichen... (z.B. none, overline, underline)
 background-color - Hintergrundfarbe (z.B. blue, FFFFFF, #000000)
 text-align - Ausrichtung des Textes (z.B. left, right)
 padding - Abstand des Textes zum Rahmen (z.B. 2pt, 4px)
 
-Um ein Hintergrundbild zu verwenden, müssen sie im Abschnitt body
+Um ein Hintergrundbild zu verwenden, müssen Sie im Abschnitt body
 folgendes einfügen:
 background-image:url(background.jpg);
 
