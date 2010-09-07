@@ -76,7 +76,7 @@ class FunctionsBasic
 	 */
 	public static function addURL($subject)
 	{
-		$subject = preg_replace_callback("/([^ ^>^\]^=]+?:\/\/|www\.)[^ ^<^\.^\[]+(\.[^ ^<^\.^\[^\]]+)+/si", create_function('$arr', 'return !empty($arr[2]) && Functions::stripos($arr[0], \'[url]\') === false && Functions::strripos($arr[0], \'[/url]\') === false ? \'[url]\' . ($arr[1] == \'www.\' ? \'http://\' : \'\') . $arr[0] . \'[/url]\' : $arr[0];'), $subject);
+		$subject = preg_replace_callback("/([^ ^>^\]^=^\n^\r]+?:\/\/|www\.)[^ ^<^\.^\[]+(\.[^ ^<^\.^\[^\]^\n^\r]+)+/si", create_function('$arr', 'return !empty($arr[2]) && Functions::stripos($arr[0], \'[url]\') === false && Functions::strripos($arr[0], \'[/url]\') === false ? \'[url]\' . ($arr[1] == \'www.\' ? \'http://\' : \'\') . $arr[0] . \'[/url]\' : $arr[0];'), $subject);
 		//After adding [url]s to *any* link, strip off unwanted ones:
 		foreach(array('flash', 'url', 'img', 'email', 'code', 'php', 'noparse') as $curBBCode)
 		{

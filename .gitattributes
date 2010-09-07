@@ -75,8 +75,10 @@ templates/tbb2/images/favicon.ico -text
 templates/tbb2/images/feed.png -text
 templates/tbb2/images/ghost.png -text
 templates/tbb2/images/header_background.jpg -text
-templates/tbb2/images/icons/attention.png -text
+templates/tbb2/images/icons/bullet_error.png -text
+templates/tbb2/images/icons/controller.png -text
 templates/tbb2/images/icons/info.png -text
+templates/tbb2/images/icons/vcard.png -text
 templates/tbb2/images/logo.jpg -text
 templates/tbb2/images/v3.gif -text
 templates/tbb2/styles/standard.css -text

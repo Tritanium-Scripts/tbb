@@ -51,6 +51,17 @@ input.formBButton
 	padding-right:15px;
 }
 
+input.formButton
+{
+	background-color:#D4D0C8;
+	border:2px #000000 outset;
+	font-family:Verdana,Arial;
+	font-size:11px;
+	padding:2px;
+	padding-left:15px;
+	padding-right:15px;
+}
+
 input.formText
 {
 	border:1px #000000 dotted;
@@ -69,9 +80,25 @@ select
 	cursor:pointer;
 }
 
+select.formSelect
+{
+	border:2px #000000 inset;
+	font-family:Verdana,Arial;
+	font-size:11px;
+	padding:2px;
+}
+
 table
 {
 	padding:0px;
+}
+
+textarea.formTextArea
+{
+	border:1px #000000 dotted;
+	font-family:Verdana,Arial;
+	font-size:11px;
+	padding:4px;
 }
 
 td
@@ -95,6 +122,16 @@ td.cellCat
 	padding:0px;
 	padding-left:3px;
 	padding-right:3px;
+}
+
+td.cellInfoBox
+{
+	background-color:#FAFAD2;
+	border:1px olive dotted;
+	margin-top:3px;
+	margin-bottom:3px;
+	padding:4px;
+	vertical-align:middle;
 }
 
 td.cellStd
@@ -184,14 +221,26 @@ a.forumLink:visited
 
 #copyrightBox a:active, #copyrightBox a:link, #copyrightBox a:visited
 {
-	color:#a62a2a;
+	color:#A62A2A;
+}
+
+input.formButton:hover
+{
+	background-color:#F8F8FF;
+	border:2px #000000 inset;
+	cursor:pointer;
+	font-family:Verdana,Arial;
+	font-size:11px;
+	padding:2px;
+	padding-left:15px;
+	padding-right:15px;
 }
 
 input.formBButton:hover
 {
-	cursor:pointer;
 	background-color:#F8F8FF;
 	border:2px #000000 inset;
+	cursor:pointer;
 	font-family:Verdana,Arial;
 	font-size:11px;
 	font-weight:bold;
@@ -217,6 +266,19 @@ label:hover
 {
 	border-bottom:1px gray solid;
 	cursor:pointer;
+}
+
+textarea.formTextArea:hover
+{
+	border:1px #696969 solid;
+}
+
+textarea.formTextArea:focus
+{
+	border:1px #000000 solid;
+	font-family:Verdana,Arial;
+	font-size:11px;
+	padding:4px;
 }
 
 td.cellCat a:link, td.cellCat a:visited
@@ -273,6 +335,16 @@ td.cellCat a:hover
 	width:200px;
 }
 
+.divInfoBox
+{
+	background-color:#E6E6FA;
+	border:1px #0000CD dotted;
+	margin-bottom:4px;
+	margin-top:4px;
+	padding:4px;
+	vertical-align:middle;
+}
+
 .fade
 {
 	filter:alpha(opacity=0);
@@ -296,6 +368,13 @@ td.cellCat a:hover
 {
 	color:#FF0000;
 	font-family:Verdana;
+	font-size:13px;
+}
+
+.fontInfoBox
+{
+	color:#111755;
+	font-family:Verdana,Arial;
 	font-size:13px;
 }
 
@@ -431,41 +510,9 @@ td.cellCat a:hover
  *
  */
 
-textarea.FormTextArea {
-	border:1px #000000 dotted;
-	padding:4px;
-	font-size:11px;
-	font-family:verdana,arial;
-}
-textarea.FormTextArea:hover {
-	border:1px #696969 solid;
-}
-textarea.FormTextArea:focus {
-	border:1px #000000 solid;
-	padding:4px;
-	font-size:11px;
-	font-family:verdana,arial;
-}
 
-input.FormButton, button.FormButton {
-	background-color:#d4d0c8;
-	border:2px #000000 outset;
-	padding:2px;
-	padding-left:15px;
-	padding-right:15px;
-	font-size:11px;
-	font-family:verdana,arial;
-}
-input.FormButton:hover, button.FormButton:hover {
-	background-color:#F8F8FF;
-	border:2px #000000 inset;
-	padding:2px;
-	padding-left:15px;
-	padding-right:15px;
-	font-size:11px;
-	font-family:verdana,arial;
-	cursor:pointer;
-}
+
+
 
 input.FormBBCodeButton, button.FormBBCodeButton {
 	border:1px #000000 solid;
@@ -476,12 +523,7 @@ input.FormBBCodeButton, button.FormBBCodeButton {
 }
 
 
-select.FormSelect {
-	padding:2px;
-	border:2px #000000 inset;
-	font-size:11px;
-	font-family:verdana,arial;
-}
+
 
 .topiclink {
 	font-family:verdana,arial;
@@ -619,27 +661,3 @@ a.FontNav {
  * Eine Infobox
  *
  */
-td.CellInfoBox {
-	background-color:#FAFAD2;
-	border:1px olive dotted;
-	padding:4px;
-	margin-top:3px;
-	margin-bottom:3px;
-	vertical-align:middle;
-}
-div.DivInfoBox {
-	/*background-color:#FAFAD2;*/
-	background-color:#E6E6FA;
-	/*border:1px olive dotted;*/
-	border:1px #0000CD dotted;
-	padding:4px;
-	margin-top:4px;
-	margin-bottom:4px;
-	vertical-align:middle;
-}
-.FontInfoBox {
-	font-family:verdana,arial;
-	color:#111755;
-	font-size:13px;
-	/*vertical-align:middle;*/
-}
