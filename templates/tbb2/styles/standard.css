@@ -39,6 +39,15 @@ input[type=radio], input[type=checkbox]
 	vertical-align:middle;
 }
 
+button.formBBCodeButton
+{
+	border:1px #000000 solid;
+	font-family:Verdana,Arial;
+	font-size:10px;
+	padding-left:8px;
+	padding-right:8px;
+}
+
 input.formBButton
 {
 	background-color:#D4D0C8;
@@ -509,21 +518,6 @@ td.cellCat a:hover
  * Allgemeine Formulare und Formularelemente
  *
  */
-
-
-
-
-
-input.FormBBCodeButton, button.FormBBCodeButton {
-	border:1px #000000 solid;
-	font-size:10px;
-	font-family:verdana,arial;
-	padding-left:8px;
-	padding-right:8px;
-}
-
-
-
 
 .topiclink {
 	font-family:verdana,arial;
