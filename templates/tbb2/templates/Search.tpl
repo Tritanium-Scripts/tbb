@@ -20,30 +20,44 @@
    <input type="radio" id="searchOptionUser" name="searchOption" value="user"{if $searchOption == 'user'} checked="checked"{/if} /><label for="searchOptionUser" class="fontNorm">{$modules.Language->getString('user')} <span class="fontSmall">{$modules.Language->getString('example_user')}</span></label>
   </td>
  </tr>
+ <tr><th class="cellCat" colspan="2"><span class="fontCat">{$smarty.config.langExtended}</span></th></tr>
  <tr>
-  <td class="cellStd" style="font-weight:bold;"><span class="fontNorm">{$modules.Language->getString('maximum_age_colon')}</span></td>
-  <td class="cellAlt">
-   <input type="radio" id="age0" name="age" value="0"{if $searchAge == 0} checked="checked"{/if} /><label for="age0" class="fontNorm">{$modules.Language->getString('dont_care')}</label>
-   <input type="radio" id="age1" name="age" value="1"{if $searchAge == 1} checked="checked"{/if} /><label for="age1" class="fontNorm">{$modules.Language->getString('one_day')}</label>
-   <input type="radio" id="age7" name="age" value="7"{if $searchAge == 7} checked="checked"{/if} /><label for="age7" class="fontNorm">{7|string_format:$modules.Language->getString('x_days')}</label>
-   <input type="radio" id="age14" name="age" value="14"{if $searchAge == 14} checked="checked"{/if} /><label for="age14" class="fontNorm">{14|string_format:$modules.Language->getString('x_days')}</label>
-   <input type="radio" id="age30" name="age" value="30"{if $searchAge == 30} checked="checked"{/if} /><label for="age30" class="fontNorm">{30|string_format:$modules.Language->getString('x_days')}</label>
-  </td>
- </tr>
- <tr>
-  <td class="cellStd" style="font-weight:bold;"><span class="fontNorm">{$modules.Language->getString('search_in_colon')}</span></td>
-  <td class="cellAlt">
-   <select class="formSelect" name="auswahl" size="1">
-    <option value="all">{$modules.Language->getString('search_all_forums')}</option>{foreach $cats as $curCat}
-    <option value="" style="background-color:gray; color:#FFFFFF;">--{$curCat[1]}</option>
-    {foreach $forums as $curForum}{if $curForum.catID == $curCat[0]}<option value="{$curForum.forumID}"{if $searchIn == $curForum.forumID} selected="selected"{/if}>{$curForum.forumName}</option>{/if}{/foreach}
-    <option value=""></option>{/foreach}
-   </select>
-   <select class="formSelect" name="soption1">
-    <option value="1"{if $searchScope == 1} selected="selected"{/if}>{$modules.Language->getString('titles_and_posts')}</option>
-    <option value="2"{if $searchScope == 2} selected="selected"{/if}>{$modules.Language->getString('posts_only')}</option>
-    <option value="3"{if $searchScope == 3} selected="selected"{/if}>{$modules.Language->getString('titles_only')}</option>
-   </select>
+  <td class="cellStd" colspan="2">
+   <table border="0" cellpadding="3" cellspacing="0">
+    <tr>
+     <td style="vertical-align:top;">
+      <fieldset style="padding:3px; margin-right:5px;">
+       <legend class="fontSmall" style="font-weight:bold;">{$smarty.config.langForums}</legend>
+       <select class="formSelect" name="auswahl" size="10">
+        <option value="all">{$modules.Language->getString('search_all_forums')}</option>{foreach $cats as $curCat}
+        <option value=""></option>
+        <option value="" style="background-color:gray; color:#FFFFFF;">--{$curCat[1]}</option>
+        {foreach $forums as $curForum}{if $curForum.catID == $curCat[0]}<option value="{$curForum.forumID}"{if $searchIn == $curForum.forumID} selected="selected"{/if}>{$curForum.forumName}</option>{/if}{/foreach}{/foreach}
+       </select>
+      </fieldset>
+     </td>
+     <td style="vertical-align:top;">
+      <fieldset style="padding:3px">
+       <legend class="fontSmall" style="font-weight:bold;">{$modules.Language->getString('maximum_age_colon')}</legend>
+       <select class="formSelect" name="age">
+        <option value="0"{if $searchAge == 0} selected="selected"{/if}>{$modules.Language->getString('dont_care')}</option>
+        <option value="1"{if $searchAge == 1} selected="selected"{/if}>{$modules.Language->getString('one_day')}</option>
+        <option value="7"{if $searchAge == 7} selected="selected"{/if}>{7|string_format:$modules.Language->getString('x_days')}</option>
+        <option value="14"{if $searchAge == 14} selected="selected"{/if}>{14|string_format:$modules.Language->getString('x_days')}</option>
+        <option value="30"{if $searchAge == 30} selected="selected"{/if}>{30|string_format:$modules.Language->getString('x_days')}</option>
+       </select>
+      </fieldset>
+      <fieldset style="padding:3px">
+       <legend class="fontSmall" style="font-weight:bold;">{$modules.Language->getString('search_in_colon')}</legend>
+       <select class="formSelect" name="soption1">
+        <option value="1"{if $searchScope == 1} selected="selected"{/if}>{$modules.Language->getString('titles_and_posts')}</option>
+        <option value="2"{if $searchScope == 2} selected="selected"{/if}>{$modules.Language->getString('posts_only')}</option>
+        <option value="3"{if $searchScope == 3} selected="selected"{/if}>{$modules.Language->getString('titles_only')}</option>
+       </select>
+      </fieldset>
+     </td>
+    </tr>
+   </table>
   </td>
  </tr>
 </table>

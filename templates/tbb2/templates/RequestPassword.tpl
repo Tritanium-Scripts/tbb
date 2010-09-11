@@ -6,7 +6,7 @@
   <td class="cellStd" style="width:15%;"><span class="fontNorm" style="font-weight:bold;">{$modules.Language->getString('user_name_colon')}</span></td>
   <td class="cellAlt" style="width:85%;"><input class="formText" type="text" name="nick" value="{$loginName}" /></td>
  </tr>
- <tr><td class="cellInfoBox" colspan="2"><span class="fontInfoBox"><img src="{$modules.Template->getTplDir()}images/icons/info.png" class="imageIcon" alt="" /> {$modules.Language->getString('create_new_password')|string_format:$modules.Language->getString('request_new_password_info')}</span></td></tr>
+ <tr><td class="divInfoBox" colspan="2"><span class="fontInfoBox"><img src="{$modules.Template->getTplDir()}images/icons/info.png" class="imageIcon" alt="" /> {$modules.Language->getString('create_new_password')|string_format:$modules.Language->getString('request_new_password_info')}</span></td></tr>
 </table>
 <p class="cellButtons"><input class="formBButton" type="submit" value="{$modules.Language->getString('create_new_password')}" />&nbsp;&nbsp;&nbsp;<input class="formButton" type="reset" /></p>
 <input type="hidden" name="send" value="1" />

@@ -115,13 +115,21 @@ class Template
 		foreach(glob('templates/*') as $curTemplate)
 			//Get all config files from each template and parse their contents
 			foreach(@array_map('parse_ini_file', glob($curTemplate . '/config/*.conf')) as $curConfigFile)
-				$templates[basename($curTemplate)] = array('name' => $curConfigFile['templateName'],
-					'author' => $curConfigFile['authorName'],
-					'website' => $curConfigFile['authorURL'],
-					'comment' => $curConfigFile['authorComment'],
-					'style' => $curConfigFile['defaultStyle'],
-					//Get all styles from each template
-					'styles' => array_map('basename', glob($curTemplate . '/styles/*.css')));
+			{
+				if(isset($curConfigFile['templateName']))
+					$templates[basename($curTemplate)]['name'] = $curConfigFile['templateName'];
+				if(isset($curConfigFile['authorName']))
+					$templates[basename($curTemplate)]['author'] = $curConfigFile['authorName'];
+				if(isset($curConfigFile['authorURL']))
+					$templates[basename($curTemplate)]['website'] = $curConfigFile['authorURL'];
+				if(isset($curConfigFile['authorComment']))
+					$templates[basename($curTemplate)]['comment'] = $curConfigFile['authorComment'];
+				if(isset($curConfigFile['defaultStyle']))
+					$templates[basename($curTemplate)]['style'] = $curConfigFile['defaultStyle'];
+				//Get all styles from each template
+				if(!isset($templates[basename($curTemplate)]['styles']))
+					$templates[basename($curTemplate)]['styles'] = array_map('basename', glob($curTemplate . '/styles/*.css'));
+			}
 		return $templates;
 	}
 

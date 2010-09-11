@@ -23,7 +23,7 @@
   <td class="td1" style="text-align:right;"><span class="norm">{sprintf($modules.Language->getString('x_by_x'), $curPost.lastDate, $curPost.lastPoster)}</span></td>
  </tr>{else}{if $isNewTopic}{$isNewTopic = false}
  <tr>
-  <td class="thnorm"><span class="small" style="color:yellow;">Im Thema &quot;{$idTable[$curForumID][$curTopicID]}&quot; folgende Beiträge gefunden:</span></td>
+  <td class="thnorm"><span class="small" style="color:yellow;">{$idTable[$curForumID][$curTopicID]|string_format:$modules.Language->getString('found_posts_in_topic_x_colon')}</span></td>
   <td class="thnorm" style="text-align:center;"><span class="small" style="color:yellow;">{$modules.Language->getString('author')}</span></td>
   <td class="thnorm" colspan="2" style="text-align:center;"><span class="small" style="color:yellow;">{$modules.Language->getString('preview')}</span></td>
   <td class="thnorm" style="text-align:center;"><span class="small" style="color:yellow;">{$modules.Language->getString('date')}</span></td>

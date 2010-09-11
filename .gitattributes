@@ -58,6 +58,7 @@ templates/std/images/rss.gif -text
 templates/std/images/trenner.gif -text
 templates/std/images/unpintopic.png -text
 templates/std/images/vcard.png -text
+templates/tbb2/images/buttons/delete.png -text
 templates/tbb2/images/buttons/faq.png -text
 templates/tbb2/images/buttons/login.png -text
 templates/tbb2/images/buttons/logout.png -text
@@ -77,8 +78,11 @@ templates/tbb2/images/ghost.png -text
 templates/tbb2/images/header_background.jpg -text
 templates/tbb2/images/icons/bullet_error.png -text
 templates/tbb2/images/icons/controller.png -text
-templates/tbb2/images/icons/email.png -text
 templates/tbb2/images/icons/info.png -text
+templates/tbb2/images/icons/pm.png -text
+templates/tbb2/images/icons/pm_delete.png -text
+templates/tbb2/images/icons/pm_open.png -text
+templates/tbb2/images/icons/pm_reply.png -text
 templates/tbb2/images/icons/vcard.png -text
 templates/tbb2/images/logo.jpg -text
 templates/tbb2/images/v3.gif -text

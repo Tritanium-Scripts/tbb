@@ -46,6 +46,7 @@
 </table>
 <br />
 <table class="tableStd" cellpadding="{$modules.Config->getCfgVal('tpadding')}" cellspacing="{$modules.Config->getCfgVal('tspacing')}" style="width:100%;">
+ <tr><th class="cellTitle" colspan="2"><span class="fontTitle">{$smarty.config.langExtended}</span></th></tr>
  <tr>
   <td class="cellStd" style="width:30%;"><span class="fontNorm">{$modules.Language->getString('real_name_colon')}</span></td>
   <td class="cellAlt" style="width:70%;"><span class="fontNorm">{if empty($userData[12])}<span style="font-style:italic;">{$modules.Language->getString('not_given')}</span>{else}{$userData[12]}{/if}</span></td>

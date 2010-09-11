@@ -1,5 +1,13 @@
 /* Zentrale Formate, Element-spezifisch */
 
+a.fontNav
+{
+	color:darkblue;
+	font-family:Verdana,Arial;
+	font-size:11px;
+	text-decoration:none;
+}
+
 a.forumLink
 {
 	color:blue;
@@ -15,6 +23,16 @@ form
 {
 	padding:0px;
 	margin:0px;
+}
+
+hr.lineNav
+{
+	background-color:black;
+	border:1px black solid;
+	color:black;
+	height:1px;
+	margin:4px;
+	padding:0px;
 }
 
 img
@@ -102,6 +120,24 @@ table
 	padding:0px;
 }
 
+table.tableNavBar
+{
+	background-color:#FFFFFF;
+	border:#000000 2px solid;
+	border-spacing:0px;
+	padding:1px;
+	width:100%;
+}
+
+table.tableStd
+{
+	background-color:#FFFFFF;
+	border:2px #000000 solid;
+	border-spacing:1px;
+	empty-cells:show;
+	border-collapse:separate;
+}
+
 textarea.formTextArea
 {
 	border:1px #000000 dotted;
@@ -133,41 +169,6 @@ td.cellCat
 	padding-right:3px;
 }
 
-td.cellInfoBox
-{
-	background-color:#FAFAD2;
-	border:1px olive dotted;
-	margin-top:3px;
-	margin-bottom:3px;
-	padding:4px;
-	vertical-align:middle;
-}
-
-td.cellStd
-{
-	background-color:#EEF0F2;
-	border:#ACACAC 1px solid;
-	padding:3px;
-}
-
-table.tableNavBar
-{
-	background-color:#FFFFFF;
-	border:#000000 2px solid;
-	border-spacing:0px;
-	padding:1px;
-	width:100%;
-}
-
-table.tableStd
-{
-	background-color:#FFFFFF;
-	border:2px #000000 solid;
-	border-spacing:1px;
-	empty-cells:show;
-	border-collapse:separate;
-}
-
 td.cellError
 {
 	background-color:#FFD1D1;
@@ -182,6 +183,35 @@ td.cellHighlight
 	padding:3px;
 }
 
+td.cellInfoBox
+{
+	background-color:#FAFAD2;
+	border:1px olive dotted;
+	margin-top:3px;
+	margin-bottom:3px;
+	padding:4px;
+	vertical-align:middle;
+}
+
+td.cellNav
+{
+	background-color:#FFFFFF;
+	cursor:default;
+	padding:5px;
+	padding-top:8px;
+	padding-bottom:8px;
+}
+
+td.cellNavActive
+{
+	background-color:#a9b3d9;
+	border:1px #838ba8 solid;
+	cursor:default;
+	padding:4px;
+	padding-top:7px;
+	padding-bottom:7px;
+}
+
 td.cellNavBar
 {
 	background-image:url(../images/v3.gif);
@@ -190,6 +220,32 @@ td.cellNavBar
 	height:17px;
 	padding:0px;
 	padding-left:2px;
+}
+
+td.cellNavNone
+{
+	cursor:default;
+	background-color:#FFFFFF;
+	padding:3px;
+}
+
+td.cellStd
+{
+	background-color:#EEF0F2;
+	border:#ACACAC 1px solid;
+	padding:3px;
+}
+
+th.cellCat
+{
+	background-color:#000000;
+	background-image:url(../images/cellcat.gif);
+	border:1px #000000 solid;
+	height:25px;
+	padding:0px;
+	padding-left:3px;
+	padding-right:3px;
+	text-align:left;
 }
 
 /* Pseudoklassen */
@@ -302,6 +358,16 @@ td.cellCat a:hover
 	text-decoration:underline;
 }
 
+td.cellNav:hover
+{
+	background-color:#E5F3FF;
+	border:1px #4169E1 solid;
+	cursor:pointer;
+	padding:4px;
+	padding-top:7px;
+	padding-bottom:7px;
+}
+
 /* Allgemeine Individualformate */
 
 #adminBox
@@ -363,6 +429,13 @@ td.cellCat a:hover
 	text-align:center;
 	top:0;
 	width:100%;
+}
+
+.fontBig
+{
+	color:#000000;
+	font-family:Verdana,Arial;
+	font-size:17px;
 }
 
 .fontCat
@@ -470,7 +543,6 @@ td.cellCat a:hover
 
 #mainBox
 {
-/*	width:1024px;*/
 	margin:auto;
 	padding:0px;
 	text-align:left;
@@ -553,11 +625,7 @@ td.CellMessageBox {
 * Die allgemeinen Schriftarten
 *
 **/
-.FontBig {
-	font-family:verdana,arial;
-	font-size:17px;
-	color:#000000;
-}
+
 
 /**
 *
@@ -577,59 +645,20 @@ td.CellMessageBox {
  * Die Navigation z.B. im Profil (nicht die Navigationsleiste!)
  *
  **/
-td.CellNavActive {
-	background-color:#a9b3d9;
-	padding:4px;
-	padding-top:7px;
-	padding-bottom:7px;
-	cursor:default;
-	border:1px #838ba8 solid;
-}
+
 td.CellNone {
 	background-color:#F7F7F7;
 	text-align:center;
 }
-td.CellNav {
-	background-color:#FFFFFF;
-	padding:5px;
-	padding-top:8px;
-	padding-bottom:8px;
-	cursor:default;
-	/*border:1px lightgray dotted;*/
-}
-td.CellNav:hover {
-	background-color:#E5F3FF;
-	border:1px #4169E1 solid;
-	cursor:pointer;
-	padding:4px;
-	padding-top:7px;
-	padding-bottom:7px;
-}
 
-td.CellNavNone {
-	background-color:#FFFFFF;
-	padding:3px;
-	cursor:default;
-}
-hr.LineNav {
-	color:black;
-	background-color:black;
-	height:1px;
-	margin:4px;
-	padding:0px;
-	border:1px black solid;
-}
+
+
+
 table.TableNav {
 	border:#ACACAC 1px solid;
 }
 
-a.FontNav {
-	font-family:verdana,arial;
-	font-size:11px;
-	color:darkblue;
-	/*font-weight:bold;*/
-	text-decoration:none;
-}
+
 
 
 /**
