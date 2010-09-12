@@ -14,10 +14,12 @@ class AdminTemplate implements Module
 	 */
 	public function execute()
 	{
+		$oldTableWidth = Main::getModule('Config')->getCfgVal('twidth');
 		Functions::accessAdminPanel();
 		Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('manage_templates'), INDEXFILE . '?faction=adminTemplate' . SID_AMPER);
 		if(Functions::getValueFromGlobals('update') == 'true')
 		{
+			Main::getModule('Config')->setCfgVal('twidth', $oldTableWidth);
 			Main::getModule('Config')->setCfgVal('default_tpl', $newTplID = Functions::getValueFromGlobals('template'));
 			$styles = Functions::getValueFromGlobals('styles');
 			Main::getModule('Config')->setCfgVal('css_file', 'styles/' . $styles[$newTplID]);

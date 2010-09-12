@@ -65,6 +65,7 @@ templates/tbb2/images/buttons/logout.png -text
 templates/tbb2/images/buttons/memberlist.png -text
 templates/tbb2/images/buttons/myprofile.png -text
 templates/tbb2/images/buttons/newsletter.png -text
+templates/tbb2/images/buttons/newtopic.png -text
 templates/tbb2/images/buttons/pms.png -text
 templates/tbb2/images/buttons/register.png -text
 templates/tbb2/images/buttons/search.png -text
@@ -72,6 +73,8 @@ templates/tbb2/images/buttons/tposts.png -text
 templates/tbb2/images/buttons/wio.png -text
 templates/tbb2/images/cellcat.gif -text
 templates/tbb2/images/celltitle.gif -text
+templates/tbb2/images/cnntopic.gif -text
+templates/tbb2/images/cntopic.gif -text
 templates/tbb2/images/favicon.ico -text
 templates/tbb2/images/feed.png -text
 templates/tbb2/images/ghost.png -text
@@ -85,5 +88,12 @@ templates/tbb2/images/icons/pm_open.png -text
 templates/tbb2/images/icons/pm_reply.png -text
 templates/tbb2/images/icons/vcard.png -text
 templates/tbb2/images/logo.jpg -text
+templates/tbb2/images/minus.gif -text
+templates/tbb2/images/new_post.gif -text
+templates/tbb2/images/no_new_post.gif -text
+templates/tbb2/images/onnstopic.gif -text
+templates/tbb2/images/onntopic.gif -text
+templates/tbb2/images/onstopic.gif -text
+templates/tbb2/images/ontopic.gif -text
 templates/tbb2/images/v3.gif -text
 templates/tbb2/styles/standard.css -text

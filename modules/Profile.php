@@ -65,7 +65,7 @@ class Profile implements Module
 				Main::getModule('Template')->printMessage('profile_need_login');
 			elseif(Main::getModule('Auth')->getUserID() != $this->userData[1] && !Main::getModule('Auth')->isAdmin())
 				Main::getModule('Template')->printMessage('profile_no_access');
-			Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('my_profile'), INDEXFILE . '?faction=profile&amp;profile_id=' . $this->userData[1] . SID_AMPER);
+			Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('my_profile'), INDEXFILE . '?faction=profile&amp;mode=edit&amp;profile_id=' . $this->userData[1] . SID_AMPER);
 			if(Functions::getValueFromGlobals('change') == '1')
 			{
 				//Delete acc?

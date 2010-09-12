@@ -97,7 +97,4 @@
   </td>
  </tr>
 </table>
-<!-- AdminMenu -->
-  </td>
- </tr>
-</table>
+{include file='AdminMenuTail.tpl'}

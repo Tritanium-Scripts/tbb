@@ -13,15 +13,15 @@
 {if $modules.Config->getCfgVal('news_position') == 2}{include file='News.tpl'}{/if}
 {foreach $cats as $curCat}
 {* 0:id - 1:name *}
-{if $modules.Config->getCfgVal('show_kats')} <tr><td class="cellCat" colspan="6"><span class="fontCat">{$curCat[1]}</span></td></tr>{/if}
+{if $modules.Config->getCfgVal('show_kats')} <tr><td class="cellCat" colspan="6"><span class="fontCat" style="color:yellow;"><img src="{$modules.Template->getTplDir()}images/minus.gif" alt="" /> {$curCat[1]}</span></td></tr>{/if}
 {foreach $forums as $curForum}
 {if $curForum.catID == $curCat[0]}
  <tr onmouseover="setRowCellsClass(this, 'cellHighlight');" onmouseout="restoreRowCellsClass(this);">
-  <td class="cellAlt"><img src="{$modules.Template->getTplDir()}images/{if !$curForum.isNewPost}no_{/if}new_post.gif" alt="" /></td>
+  <td class="cellAlt" style="text-align:center;"><img src="{$modules.Template->getTplDir()}images/{if !$curForum.isNewPost}no_{/if}new_post.gif" alt="" /></td>
   <td class="cellStd"><span class="forumLink"><a class="forumLink" href="{$smarty.const.INDEXFILE}?mode=viewforum&amp;forum_id={$curForum.forumID}{$smarty.const.SID_AMPER}">{$curForum.forumTitle}</a></span><br /><span class="fontSmall">{$curForum.forumDescr}</span></td>
   <td class="cellAlt" style="text-align:center;"><span class="fontSmall">{$curForum.forumTopics}</span></td>
   <td class="cellAlt" style="text-align:center;"><span class="fontSmall">{$curForum.forumPosts}</span></td>
-  <td class="cellStd" style="text-align:center;">{$curForum.lastPost}</td>
+  <td class="cellStd" style="text-align:center;"><div class="fontSmall">{$curForum.lastPost}</div></td>
   <td class="cellAlt" style="text-align:center;"><span class="fontSmall">{if count($curForum.mods) > 1}{', '|implode:$curForum.mods}{else}{$curForum.mods}{/if}</span></td>
  </tr>
 {/if}
