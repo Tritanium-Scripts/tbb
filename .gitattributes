@@ -81,11 +81,15 @@ templates/tbb2/images/ghost.png -text
 templates/tbb2/images/header_background.jpg -text
 templates/tbb2/images/icons/bullet_error.png -text
 templates/tbb2/images/icons/controller.png -text
+templates/tbb2/images/icons/group_add.png -text
+templates/tbb2/images/icons/group_delete.png -text
+templates/tbb2/images/icons/group_edit.png -text
 templates/tbb2/images/icons/info.png -text
 templates/tbb2/images/icons/pm.png -text
 templates/tbb2/images/icons/pm_delete.png -text
 templates/tbb2/images/icons/pm_open.png -text
 templates/tbb2/images/icons/pm_reply.png -text
+templates/tbb2/images/icons/user_add.png -text
 templates/tbb2/images/icons/vcard.png -text
 templates/tbb2/images/logo.jpg -text
 templates/tbb2/images/minus.gif -text
