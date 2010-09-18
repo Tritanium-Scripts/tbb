@@ -49,6 +49,7 @@ img
 img.imageButton
 {
 	margin:0 3px 2px;
+	vertical-align:middle;
 }
 
 img.imageIcon
@@ -197,6 +198,14 @@ td.cellInfoBox
 	margin-bottom:3px;
 	padding:4px;
 	vertical-align:middle;
+}
+
+td.cellMessageBox
+{
+	background-color:#EEF0F2;
+	border:1px #ACACAC solid;
+	padding:15px;
+	text-align:center;
 }
 
 td.cellNav
@@ -584,6 +593,13 @@ td.cellNav:hover
 	text-align:left;
 }
 
+.signature
+{
+	color:black;
+	font-family:Verdana,Arial;
+	font-size:13px;
+}
+
 #techStats
 {
 	color:#A9A9A9;
@@ -614,11 +630,7 @@ td.cellNav:hover
 
 
 
-.signature {
-	color:black;
-	font-size:13px;
-	font-family:verdana,arial;
-}
+
 
 .big {
 	font-family:verdana,arial;
@@ -647,12 +659,7 @@ td.CellHotTopic {
 }
 
 
-td.CellMessageBox {
-	padding:15px;
-	border:#ACACAC 1px solid;
-	background-color:#EEF0F2;
-	text-align:center;
-}
+
 
 /**
  *

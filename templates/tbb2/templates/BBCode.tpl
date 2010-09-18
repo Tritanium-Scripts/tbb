@@ -1,12 +1,8 @@
 {* NOTE: Most if-elseif and their BBCodes need to be in one single line to avoid additional spaces in generated XHTML! *}
-{if $type == $smarty.const.BBCODE_QUOTE}<div style="text-align:center; width:100%;">
- <div style="text-align:left; width:90%;">
-  <table style="border:1px #000000 solid;" style="width:100%;">
-   <tr><td style="background-color:#000000; padding:6px 3px;"><span style="color:#FFFFFF; font:10px Verdana; font-weight:bold;">{$quoteTitle}:</span></td></tr>
-   <tr><td style="background-color:#FFFFFF; padding:3px;"><span class="fontSmall">{$quoteText}</span></td></tr>
-  </table>
- </div>
-</div>{elseif $type == $smarty.const.BBCODE_LIST}<ul>
+{if $type == $smarty.const.BBCODE_QUOTE}<table style="border:1px #000000 solid; margin:auto; width:90%;">
+ <tr><td style="background-color:#000000; padding:6px 3px;"><span style="color:#FFFFFF; font:10px Verdana; font-weight:bold;">{$quoteTitle}</span></td></tr>
+ <tr><td style="background-color:#FFFFFF; padding:3px;"><span class="fontSmall">{$quoteText}</span></td></tr>
+</table>{elseif $type == $smarty.const.BBCODE_LIST}<ul>
 {foreach $listEntries as $curEntry}
  <li>{$curEntry}</li>
 {/foreach}
