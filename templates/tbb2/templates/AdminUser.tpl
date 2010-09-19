@@ -25,7 +25,7 @@
   <td class="cellAlt"><span class="fontNorm">{$curResult['nick']}</span></td>
   <td class="cellStd"><span class="fontNorm">{$curResult['mail']}</span></td>
   <td class="cellAlt" style="text-align:center;"><span class="fontNorm">{$curResult['percent']|round}</span></td>
-  <td class="cellStd" style="text-align:right;"><span class="fontNorm"><a href="{$smarty.const.INDEXFILE}?faction=ad_user&amp;mode=edit&amp;id={$curResult['id']}{$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/icons/user_edit.png" alt="" style="vertical-align:middle;" /> {$modules.Language->getString('edit')}</a></span></td>
+  <td class="cellStd" style="text-align:center;"><span class="fontSmall"><a href="{$smarty.const.INDEXFILE}?faction=ad_user&amp;mode=edit&amp;id={$curResult['id']}{$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/icons/user_edit.png" alt="" style="vertical-align:middle;" /> {$modules.Language->getString('edit')}</a></span></td>
  </tr>
 {foreachelse}
  <tr><td class="cellStd" colspan="5" style="text-align:center;"><span class="fontNorm" style="font-weight:bold;">{$modules.Language->getString('no_search_results_to_display')}</span></td></tr>

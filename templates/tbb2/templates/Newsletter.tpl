@@ -7,8 +7,8 @@
   <th class="cellTitle" style="text-align:center; width:50%;"><span class="fontTitleSmall">{$modules.Language->getString('subject')}</span></th>
   <th class="cellTitle" style="text-align:center;"><span class="fontTitleSmall">{$modules.Language->getString('author')}</span></th>
  </tr>{foreach $newsletter as $curNewsletter}
- <tr onmouseover="setRowCellsClass(this, 'cellHighlight');" onmouseout="restoreRowCellsClass(this);">
-{if $modules.Auth->isAdmin()}  <td class="cellAlt"><span class="fontNorm"><input type="checkbox" name="deleteletter[]" value="{$curNewsletter.id}" /></span></td>{/if}
+ <tr onmouseover="setRowCellsClass(this, 'cellHighlight');" onmouseout="restoreRowCellsClass(this);">{if $modules.Auth->isAdmin()}
+  <td class="cellAlt" style="text-align:center;"><span class="fontNorm"><input type="checkbox" name="deleteletter[]" value="{$curNewsletter.id}" /></span></td>{/if}
   <td class="cellStd" style="text-align:center;"><span class="fontNorm">{$curNewsletter.date}</span></td>
   <td class="cellAlt" style="width:50%;"><span class="fontNorm"><a href="{$smarty.const.INDEXFILE}?faction=newsletter&amp;mode=read&amp;newsletter={$curNewsletter.id}{$smarty.const.SID_AMPER}">{$curNewsletter.subject}</a></span></td>
   <td class="cellStd"><span class="fontNorm">{$curNewsletter.author}</span></td>

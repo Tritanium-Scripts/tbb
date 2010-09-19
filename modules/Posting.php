@@ -226,7 +226,7 @@ class Posting implements Module
 			elseif(!empty($this->postID))
 			{
 				if(($quote = $this->getPostData($this->postID)) != false)
-					$this->newReply['post'] = '[quote=' . (!Functions::isGuestID($quote[1]) ? current(Functions::getUserData($quote[1])) : Functions::substr($quote[1], 1)) . ']' . Functions::br2nl(in_array(Main::getModule('Auth')->getUserID(), array_filter(array_unique(array_map('next', $this->topicFile)), create_function('$id', 'return !Functions::isGuestID($id);'))) ? $quote[3] : preg_replace("/\[lock\](.*?)\[\/lock\]/si", '', $quote[3])) . '[/quote]';
+					$this->newReply['post'] = '[quote=' . (!Functions::isGuestID($quote[1]) ? (($this->newReply['post'] = Functions::getUserData($quote[1])) !== false ? current($this->newReply['post']) : Main::getModule('Language')->getString('deleted')) : Functions::substr($quote[1], 1)) . ']' . Functions::br2nl(in_array(Main::getModule('Auth')->getUserID(), array_filter(array_unique(array_map('next', $this->topicFile)), create_function('$id', 'return !Functions::isGuestID($id);'))) ? $quote[3] : preg_replace("/\[lock\](.*?)\[\/lock\]/si", '', $quote[3])) . '[/quote]';
 				else
 					$this->errors[] = Main::getModule('Language')->getString('quoted_post_was_not_found');
 			}

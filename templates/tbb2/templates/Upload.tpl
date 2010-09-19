@@ -9,6 +9,7 @@
   <meta name="copyright" content="&copy; 2010 Tritanium Scripts" />
   <meta name="keywords" content="TBB,Tritanium,Tritanium Scripts,TBB {$smarty.const.VERSION_PUBLIC},Tritanium Bulletin Board,{$modules.Config->getCfgVal('site_name')},{','|implode:$modules.NavBar->getNavBar(false)}" />
   <meta name="description" content="{sprintf($modules.Language->getString('html_description'), $modules.Config->getCfgVal('site_name'), $smarty.const.VERSION_PUBLIC)}" />
+  <meta name="robots" content="all" />
   <meta name="revisit-after" content="7 days" />
   <meta name="generator" content="Notepad 4.10.1998" />
   <meta http-equiv="Content-Language" content="{$modules.Language->getLangCode()}" />
@@ -20,24 +21,26 @@
   <link rel="shortcut icon" type="image/x-icon" href="{$modules.Template->getTplDir()}images/favicon.ico" />
  </head>
  <body style="padding-top:1em;"{if $isUploaded} onload="opener.document.getElementById('{$targetBoxID}').value += '{$bbCode}';">
-  <p class="norm" style="color:green; font-weight:bold; text-align:center;">{$modules.Language->getString('file_uploaded_and_linked')}</p>{else}">{/if}
+  <p class="fontNorm" style="color:green; font-weight:bold; text-align:center;">{$modules.Language->getString('file_uploaded_and_linked')}</p>{else}">{/if}
+  <div id="mainBox" style="width:{$modules.Config->getCfgVal('twidth')};">
 
 {include file='Errors.tpl'}
 <form action="{$smarty.const.INDEXFILE}?faction=uploadFile&amp;targetBoxID={$targetBoxID}{$smarty.const.SID_AMPER}" method="post" enctype="multipart/form-data">
-<table class="tbl" cellpadding="{$modules.Config->getCfgVal('tpadding')}" cellspacing="{$modules.Config->getCfgVal('tspacing')}" style="width:{$modules.Config->getCfgVal('twidth')}; margin:auto;">
- <tr><th class="thnorm" colspan="2"><span class="thnorm">{$modules.Language->getString('upload_file')}</span></th></tr>
- <tr><td class="td1"><span class="norm" style="font-weight:bold;">{$modules.Language->getString('allowed_extensions_colon')}</span></td><td class="td1"><span class="norm">{if $allowedExtensions == false}<span style="font-style:italic;">{$modules.Language->getString('no_limitation')}</span>{else}{', '|implode:$allowedExtensions}{/if}</span></td></tr>
- <tr><td class="td1"><span class="norm" style="font-weight:bold;">{$modules.Language->getString('maximal_filesize_colon')}</span></td><td class="td1"><span class="norm">{if empty($maxFilesize)}<span style="font-style:italic;">{$modules.Language->getString('no_limitation')}</span>{else}{$maxFilesize|string_format:$modules.Language->getString('x_kib')}{/if}</span></td></tr>
- <tr><td class="td1" colspan="2" style="text-align:center;"><input type="file" name="uploadedFile" /></td></tr>
+<table class="tableStd" cellpadding="{$modules.Config->getCfgVal('tpadding')}" cellspacing="{$modules.Config->getCfgVal('tspacing')}" style="width:100%;">
+ <tr><th class="cellTitle" colspan="2"><span class="fontTitle">{$modules.Language->getString('upload_file')}</span></th></tr>
+ <tr><td class="cellStd"><span class="fontNorm">{$modules.Language->getString('allowed_extensions_colon')}</span></td><td class="cellAlt"><span class="fontNorm">{if $allowedExtensions == false}<span style="font-style:italic;">{$modules.Language->getString('no_limitation')}</span>{else}{', '|implode:$allowedExtensions}{/if}</span></td></tr>
+ <tr><td class="cellStd"><span class="fontNorm">{$modules.Language->getString('maximal_filesize_colon')}</span></td><td class="cellAlt"><span class="fontNorm">{if empty($maxFilesize)}<span style="font-style:italic;">{$modules.Language->getString('no_limitation')}</span>{else}{$maxFilesize|string_format:$modules.Language->getString('x_kib')}{/if}</span></td></tr>
+ <tr><td class="cellAlt" colspan="2" style="text-align:center;"><input class="formText" type="file" name="uploadedFile" /></td></tr>
 </table>
-<p style="text-align:center;"><input type="submit" value="{$modules.Language->getString('upload_file')}" /></p>
+<p class="cellButtons"><input class="formBButton" type="submit" value="{$modules.Language->getString('upload_file')}" /></p>
 <input type="hidden" name="mode" value="upload" />
 </form>
 
   <br />
-  <p class="copyr" style="text-align:center;">
+  <p id="copyrightBox">
    Tritanium Bulletin Board {$smarty.const.VERSION_PUBLIC}<br />
-   &copy; 2010 <a class="copyr" href="http://www.tritanium-scripts.com/" target="_blank">Tritanium Scripts</a>
+   &copy; 2010 <a href="http://www.tritanium-scripts.com/" target="_blank">Tritanium Scripts</a>
   </p>
+  </div>
  </body>
 </html>

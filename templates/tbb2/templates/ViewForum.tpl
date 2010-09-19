@@ -15,7 +15,7 @@
   <td class="cellAlt"><span class="fontNorm">{$curTopic.topicStarter}</span></td>
   <td class="cellStd" style="text-align:center;"><span class="fontSmall">{$curTopic.postCounter}</span></td>
   <td class="cellStd" style="text-align:center;"><span class="fontSmall">{$curTopic.views}</span></td>
-  <td class="cellAlt" style="text-align:right;"><span class="fontSmall">{$curTopic.lastPost}</span></td>
+  <td class="cellAlt" style="text-align:right;"><span class="fontSmall">{$curTopic.lastPost}{if !$curTopic.isMoved} <a href="{$smarty.const.INDEXFILE}?mode=viewthread&amp;forum_id={$forumID}&amp;thread={$curTopic.topicID}&amp;z=last{$smarty.const.SID_AMPER}">&raquo;</a>{/if}</span></td>
  </tr>
 {foreachelse}
  <tr><td class="cellStd" colspan="7" style="font-weight:bold; text-align:center;"><span class="fontNorm">{$modules.Language->getString('no_topics_available')}</span></td></tr>

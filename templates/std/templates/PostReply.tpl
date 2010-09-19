@@ -2,7 +2,7 @@
 {if $preview}
 <table class="tbl" cellpadding="{$modules.Config->getCfgVal('tpadding')}" cellspacing="{$modules.Config->getCfgVal('tspacing')}" style="width:{$modules.Config->getCfgVal('twidth')}; margin:auto;">
  <tr><th class="thnorm"><span class="thnorm">{$modules.Language->getString('preview')}</span></th></tr>
- <tr><td class="td1"><span class="norm">{$newReply.preview.post}{if $newReply.isSignature}<br /><br />-----------------------<br />{$newReply.preview.signature}{/if}</span></td></tr>
+ <tr><td class="td1"><div class="norm">{$newReply.preview.post}{if $newReply.isSignature}<br /><br />-----------------------<br />{$newReply.preview.signature}{/if}</div></td></tr>
 </table>
 <br />
 {else}{include file='Errors.tpl'}{/if}
@@ -47,7 +47,7 @@
 {foreach $lastReplies as $curReply}
  <tr>
   <td class="{cycle values="td1,td2" advance=false}" style="font-weight:bold; vertical-align:top; width:15%;"><span class="norm">{$curReply.nick}</span></td>
-  <td class="{cycle values="td1,td2"}" style="vertical-align:top; width:85%;"><span class="norm">{$curReply.post}</span></td>
+  <td class="{cycle values="td1,td2"}" style="vertical-align:top; width:85%;"><div class="norm">{$curReply.post}</div></td>
  </tr>
 {/foreach}
 </table>

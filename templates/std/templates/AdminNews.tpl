@@ -16,7 +16,7 @@
  </tr>
  <tr><td class="kat" colspan="2"><span class="kat">{$modules.Language->getString('current_news')}</span></td></tr>{if empty($newsText)}
  <tr><td class="td1" colspan="2" style="font-weight:bold; text-align:center;"><span class="norm">{$modules.Language->getString('no_news_available')}</span></td></tr>{elseif $newsType == 1}
- <tr><td class="td1" colspan="2"><span class="norm">{$newsPreview}</span></td></tr>{elseif $newsType == 2}
+ <tr><td class="td1" colspan="2"><div class="norm">{$newsPreview}</div></td></tr>{elseif $newsType == 2}
  <script src="{$modules.Template->getTplDir()}scripts/fader.js" type="text/javascript"></script>
  <script type="text/javascript">onload = function(){ next(5000, true); };</script>
  <tr>

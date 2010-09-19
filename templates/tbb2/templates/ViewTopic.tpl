@@ -57,7 +57,7 @@
  </tr>
  <tr>
   <td class="cellStd" style="width:85%;">
-   <div class="fontNorm">{$curPost.post}</div>{if $curPost.userSig != false}<br /><div class="signature">-----------------------<br />{$curPost.userSig}</div>{/if}
+   <div class="fontNorm" style="min-height:50px;">{$curPost.post}</div>{if $curPost.userSig != false}<br /><div class="signature">-----------------------<br />{$curPost.userSig}</div>{/if}
   </td>
  </tr>
  <tr><td class="cellStd" style="width:85%;"><span class="fontSmall">{* reuse sendPM value here *}{if $curPost.sendPM}{$curPost.userPosts|string_format:$modules.Language->getString('x_posts')} | {/if}{if $curPost.sendPM}{$curPost.userRegDate|string_format:$modules.Language->getString('member_since_x')} | {/if}{$curPost.postIPText}</span></td></tr>

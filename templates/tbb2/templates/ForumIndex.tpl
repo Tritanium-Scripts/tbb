@@ -13,7 +13,7 @@
 {if $modules.Config->getCfgVal('news_position') == 2}{include file='News.tpl'}{/if}
 {foreach $cats as $curCat}
 {* 0:id - 1:name *}
-{if $modules.Config->getCfgVal('show_kats')} <tr><td class="cellCat" colspan="6"><span class="fontCat" style="color:yellow;"><img src="{$modules.Template->getTplDir()}images/minus.gif" alt="" /> {$curCat[1]}</span></td></tr>{/if}
+{if $modules.Config->getCfgVal('show_kats')} <tr><td class="cellCat" colspan="6"><span class="fontCat"><img src="{$modules.Template->getTplDir()}images/minus.gif" alt="" /> {$curCat[1]}</span></td></tr>{/if}
 {foreach $forums as $curForum}
 {if $curForum.catID == $curCat[0]}
  <tr onmouseover="setRowCellsClass(this, 'cellHighlight');" onmouseout="restoreRowCellsClass(this);">

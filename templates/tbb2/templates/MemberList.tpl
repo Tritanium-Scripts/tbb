@@ -1,10 +1,10 @@
 {$isAdmin=$modules.Auth->isAdmin()}
 <table class="tableStd" cellpadding="{$modules.Config->getCfgVal('tpadding')}" cellspacing="{$modules.Config->getCfgVal('tspacing')}" style="width:100%;">
  <tr>
-  <th class="cellTitle" style="text-align:center;"><a href="{$smarty.const.INDEXFILE}?faction=mlist&amp;sortmethod=id&amp;z={$page}&amp;orderType={$orderTypeID}{$smarty.const.SID_AMPER}"><span class="fontTitleSmall" style="text-decoration:underline;">{$modules.Language->getString('id')}</span></a></th>
-  <th class="cellTitle" style="text-align:center;"><a href="{$smarty.const.INDEXFILE}?faction=mlist&amp;sortmethod=name&amp;z={$page}&amp;orderType={$orderTypeName}{$smarty.const.SID_AMPER}"><span class="fontTitleSmall" style="text-decoration:underline;">{$modules.Language->getString('user_name')}</span></a></th>
-  <th class="cellTitle" style="text-align:center;"><a href="{$smarty.const.INDEXFILE}?faction=mlist&amp;sortmethod=status&amp;z={$page}&amp;orderType={$orderTypeRank}{$smarty.const.SID_AMPER}"><span class="fontTitleSmall" style="text-decoration:underline;">{$modules.Language->getString('user_rank')}</span></a></th>
-  <th class="cellTitle" style="text-align:center;"><a href="{$smarty.const.INDEXFILE}?faction=mlist&amp;sortmethod=posts&amp;z={$page}&amp;orderType={$orderTypePosts}{$smarty.const.SID_AMPER}"><span class="fontTitleSmall" style="text-decoration:underline;">{$modules.Language->getString('posts')}</span></a></th>
+  <th class="cellTitle" style="text-align:center;"><span class="fontTitleSmall"><a href="{$smarty.const.INDEXFILE}?faction=mlist&amp;sortmethod=id&amp;z={$page}&amp;orderType={$orderTypeID}{$smarty.const.SID_AMPER}">{$modules.Language->getString('id')}</a></span></th>
+  <th class="cellTitle" style="text-align:center;"><span class="fontTitleSmall"><a href="{$smarty.const.INDEXFILE}?faction=mlist&amp;sortmethod=name&amp;z={$page}&amp;orderType={$orderTypeName}{$smarty.const.SID_AMPER}">{$modules.Language->getString('user_name')}</a></span></th>
+  <th class="cellTitle" style="text-align:center;"><span class="fontTitleSmall"><a href="{$smarty.const.INDEXFILE}?faction=mlist&amp;sortmethod=status&amp;z={$page}&amp;orderType={$orderTypeRank}{$smarty.const.SID_AMPER}">{$modules.Language->getString('user_rank')}</a></span></th>
+  <th class="cellTitle" style="text-align:center;"><span class="fontTitleSmall"><a href="{$smarty.const.INDEXFILE}?faction=mlist&amp;sortmethod=posts&amp;z={$page}&amp;orderType={$orderTypePosts}{$smarty.const.SID_AMPER}">{$modules.Language->getString('posts')}</a></span></th>
   <th class="cellTitle" style="width:1%;"></th>
   <th class="cellTitle" style="width:1%;"></th>{if $isAdmin}
   <th class="cellTitle"></th>{/if}

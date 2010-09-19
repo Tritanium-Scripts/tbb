@@ -60,7 +60,7 @@ function deletePollOption(rowID)
 {if $preview}
 <table class="tbl" cellpadding="{$modules.Config->getCfgVal('tpadding')}" cellspacing="{$modules.Config->getCfgVal('tspacing')}" style="width:{$modules.Config->getCfgVal('twidth')}; margin:auto;">
  <tr><th class="thnorm"><span class="thnorm">{$modules.Language->getString('preview')}</span></th></tr>
- <tr><td class="td1"><span class="norm">{$newPost.preview.post}{if $newPost.isSignature}<br /><br />-----------------------<br />{$newPost.preview.signature}{/if}</span></td></tr>
+ <tr><td class="td1"><div class="norm">{$newPost.preview.post}{if $newPost.isSignature}<br /><br />-----------------------<br />{$newPost.preview.signature}{/if}</div></td></tr>
 </table>
 <br />
 {else}{include file='Errors.tpl'}{/if}
