@@ -126,7 +126,7 @@ class PrivateMessage implements Module
 				$curPM = Functions::explodeByTab($curPM);
 				if($curPM[0] == $this->pmID)
 				{
-					$recipient = $curPM[3];
+					$recipientID = $curPM[3];
 					$newPM = &$curPM;
 					$newPM[0] = -1; //Remove old ID for new PM
 					//Update title
@@ -154,12 +154,12 @@ class PrivateMessage implements Module
 					'1',
 					'');
 			$errors = array();
-			if(!isset($recipient))
-				$recipient = Functions::getValueFromGlobals('target_id');
+			if(!isset($recipientID))
+				$recipientID = Functions::getValueFromGlobals('target_id');
 			//Send PM?
 			if(Functions::getValueFromGlobals('send') == 'yes')
 			{
-				$recipient = Functions::getUserData($recipient);
+				$recipient = Functions::getUserData($recipientID);
 				if($recipient == false)
 					$errors[] = Main::getModule('Language')->getString('recipient_does_not_exist');
 				else
@@ -184,11 +184,12 @@ class PrivateMessage implements Module
 					{
 						Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('confirmation'));
 						$this->mode = 'PrivateMessageNewPMConfirmSend';
+						$recipientID = &$recipient;
 					}
 				}
 			}
 			Main::getModule('Template')->assign(array('newPM' => $newPM,
-				'recipient' => $recipient,
+				'recipient' => $recipientID,
 				'errors' => $errors,
 				'isMod' => Main::getModule('Auth')->isAdmin() || Main::getModule('Auth')->isMod()));
 			break;

@@ -16,11 +16,11 @@
 {foreach $curTopics as $curTopicID => $curPosts}{$isNewTopic = true}
 {foreach $curPosts as $curPostID => $curPost}{if $curPostID == 0}
  <tr>
-  <td class="cellStd"><span class="norm"><a href="{$smarty.const.INDEXFILE}?mode=viewthread&amp;forum_id={$curForumID}&amp;thread={$curTopicID}{$smarty.const.SID_AMPER}">{$idTable[$curForumID][$curTopicID]}</a></span></td>
-  <td class="cellAlt" style="text-align:center;"><span class="norm">{$curPost.creator}</span></td>
-  <td class="cellStd" style="text-align:center;"><span class="norm">{$curPost.replies}</span></td>
-  <td class="cellAlt" style="text-align:center;"><span class="norm">{$curPost.views}</span></td>
-  <td class="cellStd" style="text-align:right;"><span class="norm">{sprintf($modules.Language->getString('x_by_x'), $curPost.lastDate, $curPost.lastPoster)}</span></td>
+  <td class="cellStd"><span class="fontNorm"><a href="{$smarty.const.INDEXFILE}?mode=viewthread&amp;forum_id={$curForumID}&amp;thread={$curTopicID}{$smarty.const.SID_AMPER}">{$idTable[$curForumID][$curTopicID]}</a></span></td>
+  <td class="cellAlt" style="text-align:center;"><span class="fontNorm">{$curPost.creator}</span></td>
+  <td class="cellStd" style="text-align:center;"><span class="fontNorm">{$curPost.replies}</span></td>
+  <td class="cellAlt" style="text-align:center;"><span class="fontNorm">{$curPost.views}</span></td>
+  <td class="cellStd" style="text-align:right;"><span class="fontNorm">{sprintf($modules.Language->getString('x_by_x'), $curPost.lastDate, $curPost.lastPoster)}</span></td>
  </tr>{else}{if $isNewTopic}{$isNewTopic = false}
  <tr>
   <td class="cellTitle"><span class="fontTitleSmall" style="color:yellow;">{$idTable[$curForumID][$curTopicID]|string_format:$modules.Language->getString('found_posts_in_topic_x_colon')}</span></td>

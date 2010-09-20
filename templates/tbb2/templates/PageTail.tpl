@@ -1,7 +1,7 @@
 
   <br />
   <!-- Footer -->
-  {if $modules.Auth->isAdmin()}<p id="adminBox"><a class="fontNorm" href="{$smarty.const.INDEXFILE}?faction=adminpanel{$smarty.const.SID_AMPER}">{$modules.Language->getString('administration')}</a></p><br />{/if}
+  {if $modules.Auth->isAdmin()}<p id="adminBox"><a class="fontNorm" href="{$smarty.const.INDEXFILE}?faction=adminpanel{$smarty.const.SID_AMPER}">{if $smarty.config.munky}<img src="{$modules.Template->getTplDir()}images/buttons/munky_panel.png" alt="" />{else}{$modules.Language->getString('administration')}{/if}</a></p><br />{/if}
   <p class="fontNorm" style="text-align:center;">{mailto address=$modules.Config->getCfgVal('site_contact') text=$modules.Language->getString('contact') encode="javascript"} | <a href="{$modules.Config->getCfgVal('site_address')}">{$modules.Config->getCfgVal('site_name')}</a> | <a href="{$smarty.const.INDEXFILE}?faction=regeln{$smarty.const.SID_AMPER}">{$modules.Language->getString('board_rules')}</a></p>
   <br />
   <p id="copyrightBox">

@@ -6,7 +6,7 @@
   <col width="15%" />
   <col width="85%" />
  </colgroup>
- <tr><th class="cellTitle" colspan="2"><span class="fontTitle">{$modules.Language->getString('send_mail')}</th></tr>
+ <tr><th class="cellTitle" colspan="2"><span class="fontTitle">{$modules.Language->getString('send_mail')}</span></th></tr>
  <tr>
   <td class="cellStd"><span class="fontNorm">{$modules.Language->getString('recipient_colon')}</span></td>
   <td class="cellStd"><span class="fontNorm">{$userData.recipientName}</span></td>

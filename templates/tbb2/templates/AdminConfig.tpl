@@ -9,7 +9,7 @@
  <tr><th class="cellTitle" colspan="2"><span class="fontTitle">{$modules.Language->getString('edit_settings')}</span></th></tr>
  <tr><td class="cellCat" colspan="2"><span class="fontCat">{$modules.Language->getString('maintenance_mode')}</span></td></tr>
  <tr>
-  <td class="cellStd"><span class="fontNorm">{$modules.Language->getString('maintenance_mode')}</span><br /><span class="fontSmall">{$modules.Language->getString('maintenance_mode_description')}</span</td>
+  <td class="cellStd"><span class="fontNorm">{$modules.Language->getString('maintenance_mode')}</span><br /><span class="fontSmall">{$modules.Language->getString('maintenance_mode_description')}</span></td>
   <td class="cellAlt"><input type="radio" id="y15" name="settings[15]" value="1"{if $configValues['uc'] == 1} checked="checked"{/if} /><label for="y15" class="fontNorm">{$modules.Language->getString('enabled')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="n15" name="settings[15]" value="0"{if $configValues['uc'] != 1} checked="checked"{/if} /><label for="n15" class="fontNorm">{$modules.Language->getString('disabled')}</label></td>
  </tr>
  <tr>
