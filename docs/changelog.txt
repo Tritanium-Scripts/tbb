@@ -11,6 +11,7 @@ Last changed: 21.09.2010 (Version 1.5.1)
 	- Fehler beim Verwalten der Empfänger-ID beim Versenden von PNs mit leeren Betreff behoben
 	- Fehler bei [php]-BBCode behoben
 	- Fehler bei [lock]-BBCode in Verbindung mit vorhandener Forumnews behoben
+	- Nutzung eines nicht vorhandenen Styles wird nun abgefangen und stattdessen der Standard geladen
 
 28.08.2010: Version 1.5 (offiziell)
 	- Alle Features des TBB 1.2.3 übernommen

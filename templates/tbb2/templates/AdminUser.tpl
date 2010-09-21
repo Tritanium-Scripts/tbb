@@ -25,7 +25,7 @@
   <td class="cellAlt"><span class="fontNorm">{$curResult['nick']}</span></td>
   <td class="cellStd"><span class="fontNorm">{$curResult['mail']}</span></td>
   <td class="cellAlt" style="text-align:center;"><span class="fontNorm">{$curResult['percent']|round}</span></td>
-  <td class="cellStd" style="text-align:center;"><span class="fontSmall"><a href="{$smarty.const.INDEXFILE}?faction=ad_user&amp;mode=edit&amp;id={$curResult['id']}{$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/icons/user_edit.png" alt="" style="vertical-align:middle;" /> {$modules.Language->getString('edit')}</a></span></td>
+  <td class="cellStd" style="text-align:center;"><span class="fontSmall"><a href="{$smarty.const.INDEXFILE}?faction=ad_user&amp;mode=edit&amp;id={$curResult['id']}{$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/icons/user_edit.png" alt="{$modules.Language->getString('edit')}" style="vertical-align:middle;" /> {$modules.Language->getString('edit')}</a></span></td>
  </tr>
 {foreachelse}
  <tr><td class="cellStd" colspan="5" style="text-align:center;"><span class="fontNorm" style="font-weight:bold;">{$modules.Language->getString('no_search_results_to_display')}</span></td></tr>
@@ -34,6 +34,6 @@
 <br />
 <table class="tableStd" cellpadding="{$modules.Config->getCfgVal('tpadding')}" cellspacing="{$modules.Config->getCfgVal('tspacing')}" style="width:100%;">
  <tr><th class="cellTitle"><span class="fontTitle">{$modules.Language->getString('options')}</span></th></tr>
- <tr><td class="cellStd"><span class="fontNorm"><a href="{$smarty.const.INDEXFILE}?faction=ad_user&amp;mode=new{$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/icons/user_add.png" alt="" class="imageIcon" /> {$modules.Language->getString('add_new_member')}</a></span></td></tr>
+ <tr><td class="cellStd"><span class="fontNorm"><a href="{$smarty.const.INDEXFILE}?faction=ad_user&amp;mode=new{$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/icons/user_add.png" alt="{$modules.Language->getString('add_new_member')}" class="imageIcon" /> {$modules.Language->getString('add_new_member')}</a></span></td></tr>
 </table>
 {include file='AdminMenuTail.tpl'}

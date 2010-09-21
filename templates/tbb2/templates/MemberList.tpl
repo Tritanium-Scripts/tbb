@@ -16,7 +16,7 @@
   <td class="cellStd"><span class="fontNorm">{$curMember.rank}</span></td>
   <td class="cellAlt"><span class="fontNorm">{$curMember.posts}</span></td>
   <td class="cellStd" style="text-align:center; white-space:nowrap;"><span class="fontSmall">{if $curMember.eMail !== false}<a href="{if $curMember.eMail === true}{$smarty.const.INDEXFILE}?faction=formmail&amp;target_id={$curMember.id}{$smarty.const.SID_AMPER}{else}mailto:{$curMember.eMail}{/if}"><img src="{$modules.Template->getTplDir()}images/icons/email.png" alt="{$modules.Language->getString('email')}" style="vertical-align:middle;" /> {$modules.Language->getString('email')}</a>{/if}</span></td>
-  <td class="cellAlt" style="text-align:center; white-space:nowrap;"><span class="fontSmall"><a href="{$smarty.const.INDEXFILE}?faction=pm&amp;mode=send&amp;target_id={$curMember.id}{$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/icons/pm.png" alt="" style="vertical-align:middle;" /> {$modules.Language->getString('pm')}</a></span></td>{if $isAdmin}
+  <td class="cellAlt" style="text-align:center; white-space:nowrap;"><span class="fontSmall"><a href="{$smarty.const.INDEXFILE}?faction=pm&amp;mode=send&amp;target_id={$curMember.id}{$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/icons/pm.png" alt="{$modules.Language->getString('pm')}" style="vertical-align:middle;" /> {$modules.Language->getString('pm')}</a></span></td>{if $isAdmin}
   <td class="cellStd" style="text-align:center;"><span class="fontSmall"><a href="{$smarty.const.INDEXFILE}?faction=ad_user&amp;mode=edit&amp;id={$curMember.id}{$smarty.const.SID_AMPER}">{$modules.Language->getString('edit_user_brackets')}</a></span></td>{/if}
  </tr>
 {foreachelse}

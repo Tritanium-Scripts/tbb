@@ -593,6 +593,15 @@ td.cellNav:hover
 	text-align:left;
 }
 
+.news
+{
+	color:black;
+	font-family:Verdana,Arial;
+	font-size:10pt;
+	font-weight:bold;
+	padding:6pt;
+}
+
 .signature
 {
 	color:black;

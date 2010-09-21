@@ -122,7 +122,8 @@ class Login implements Module
 							//Remove custom tpls and styles, if it was prohibited in the meantime
 							if(Main::getModule('Config')->getCfgVal('select_tpls') != 1 && isset($curMember[20]) && !empty($curMember[20]))
 								$curMember[20] = '';
-							if(Main::getModule('Config')->getCfgVal('select_styles') != 1 && isset($curMember[21]) && !empty($curMember[21]))
+							//Also check if style was not found for current tpl
+							if(isset($curMember[21]) && !empty($curMember[21]) && (!file_exists(Main::getModule('Template')->getTplDir() . 'styles/' . $curMember[21]) || Main::getModule('Config')->getCfgVal('select_styles') != 1))
 								$curMember[21] = '';
 							//Set a new requested password as new default one
 							if($this->loginPass == $curPasses[1])

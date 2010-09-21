@@ -100,6 +100,7 @@
     <a href="#update">Update einer älteren Version</a>
     <ul>
      <li><a href="#generalshints">Allgemeine Hinweise</a></li>
+     <li><a href="#updatetbb150">Update von TBB 1.5.x</a></li>
      <li>
       <a href="#updatetbb123">Update von TBB 1.2.3</a>
       <ul>
@@ -210,13 +211,22 @@
 
   <h2 id="update">3 Update einer älteren Version</h2>
   <h3 id="generalshints">3.1 Allgemeine Hinweise</h3>
-  <p class="fontnorm">Das TBB 1.5 unterstützt ausschließlich die Aktualisierung eines TBB 1.2.3. Wenn Sie eine ältere Version betreiben, müssen Sie diese erst auf Version 1.2.3 aktualisieren. Dies können Sie mit den mitgelieferten Update-Routinen durchführen, die in den Unterkapiteln <a href="#updatetbb110">3.2.1</a> und <a href="#updatetbb10b">3.2.2</a> näher beschrieben sind.</p>
+  <p class="fontnorm">Das TBB 1.5 unterstützt ausschließlich die Aktualisierung eines TBB 1.2.3. Wenn Sie eine ältere Version betreiben, müssen Sie diese erst auf Version 1.2.3 aktualisieren. Dies können Sie mit den mitgelieferten Update-Routinen durchführen, die in den Unterkapiteln <a href="#updatetbb110">3.3.1</a> und <a href="#updatetbb10b">3.3.2</a> näher beschrieben sind.</p>
   <p class="fontnorm">Bevor Sie mit irgendeiner Aktualisierung beginnen, ist es empfehlenswert die Ordner <b>foren</b>, <b>members</b>, <b>polls</b> und <b>vars</b> zu sichern. Es kann leider keine Garantie für ein reibungsloses Update übernommen werden. Laden Sie am besten erst die genannten Ordner per FTP runter, um sie ggf. wiederherstellen zu können. Achten Sie dabei unbedingt auf die Verwendung des <b>Binär-Übertragungsmodus</b>!</p>
   <p class="fontnorm">Weiterhin können zusätzliche oder modifizierte Dateien von der Update-Anleitung nicht berücksichtigt werden. Haben Sie ihr Forum z.B. um neue Grafiken, var-Dateien oder eigene CSS-Styles erweitert, sollten Sie diese ebenfalls sichern, um Sie nach der Aktualisierung wiederherstellen zu können. Lesen Sie sich zum Thema Hack-Kompatiblität auch das <a href="#faq">FAQ</a> durch.</p>
-  <p class="fontnorm">Falls sie nach dem Update Probleme bei der Darstellung - vor allem bei den BBCode-Buttons - haben, sollten sie ihre CSS-Datei aktualisieren, d.h. die &quot;standard.css&quot;, die dem Forum beiliegt, auf neue Abschnitte überprüfen (z.B. &quot;forumcode&quot;) und diese in ihre modifizierte CSS-Datei einsetzen.</p>
+  <p class="fontnorm">Falls Sie nach dem Update Probleme bei der Darstellung - vor allem bei den BBCode-Buttons - haben, sollten sie ihre CSS-Datei aktualisieren, d.h. die &quot;standard.css&quot;, die dem Forum beiliegt, auf neue Abschnitte überprüfen (z.B. &quot;forumcode&quot;) und diese in ihre modifizierte CSS-Datei einsetzen.</p>
   <p class="fontnorm">Nach erfolgreichem Update müssten alle Mitglieder ein neues Passwort anfordern, da eine neue sichere Verschlüsselungstechnik zum Einsatz kommt.</p>
 
-  <h3 id="updatetbb123">3.2 Update von TBB 1.2.3</h3>
+  <h3 id="updatetbb150">3.2 Update von TBB 1.5.x</h3>
+  <ol class="fontnorm">
+   <li>Versetzen Sie das Forum zunächst in den Wartungsmodus.</li>
+   <li>Ersetzen Sie sämtliche Dateien mit den neuen Versionen. Falls Sie bestehende Dateien geändert haben, sichern Sie diese zu erst und führen Sie nach der Aktualisierung die Modifikation(en) ggf. erneut durch.</li>
+   <li>Laden Sie nun die <b>setUpdateFlag.php</b> aus dem <b>./update/</b>-Ordner in das TBB-Verzeichnis und rufen Sie das Script mit ihrem Browser auf (z.B. http://www.meindedomain.de/forum/setUpdateFlag.php). Je nach Anzahl registrierter Mitglieder kann der Update-Prozess etwas dauern und notfalls durch erneutes Aufrufen fortgesetzt werden.</li>
+   <li>Löschen Sie die <b>setUpdateFlag.php</b> wieder, sobald eine &quot;Done!&quot;-Meldung angezeigt wird.</li>
+   <li>Das Forum ist nun aktualisiert und der Wartungsmodus kann deaktiviert werden. Falls es zu Problemen kommt, löschen Sie den Cache von der Administration aus.</li>
+  </ol>  
+
+  <h3 id="updatetbb123">3.3 Update von TBB 1.2.3</h3>
   <ol class="fontnorm">
    <li>Versetzen Sie das Forum zunächst in den Wartungsmodus.</li>
    <li>
@@ -281,7 +291,7 @@ Supermoderator
    <li>Das Forum ist nun aktualisiert. Rufen Sie es auf (z.B. http://www.meindedomain.de/forum/index.php), loggen Sie sich ein und überprüfen Sie den Status. Konsultieren Sie das <a href="#faq">FAQ</a>, wenn Fehlermeldungen erscheinen.</li>
   </ol>
 
-  <h4 id="updatetbb110">3.2.1 Update von Version 1.1</h4>
+  <h4 id="updatetbb110">3.3.1 Update von Version 1.1</h4>
   <p class="fontnorm">In diesem Abschnitt wird beschrieben, wie Sie ein TBB 1.1 auf 1.2.3 aktualisieren.</p>
   <ol class="fontnorm">
    <li>Nehmen Sie alle Einstellungen in settings.php vor</li>
@@ -297,7 +307,7 @@ Supermoderator
   </ol>
   <p class="fontnorm">Das Forum sollte nun bereit für die Aktualisierung von 1.2.3 auf 1.5 sein.</p>
 
-  <h4 id="updatetbb10b">3.2.2 Update von Version 1.0 Beta</h4>
+  <h4 id="updatetbb10b">3.3.2 Update von Version 1.0 Beta</h4>
   <p class="fontnorm">In diesem Abschnitt wird beschrieben, wie Sie ein TBB 1.0 Beta auf 1.2.3 aktualisieren.</p>
   <ol class="fontnorm">
    <li>Nehmen Sie alle Einstellungen in settings.php vor</li>
