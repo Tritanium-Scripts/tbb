@@ -13,7 +13,7 @@
   <td class="cellStd"><span class="fontNorm">{$curRank[1]}</span></td>
   <td class="cellAlt" style="text-align:center;"><span class="fontNorm">{$curRank[2]}</span></td>
   <td class="cellStd" style="text-align:center;"><span class="fontNorm">{for $i=1 to $curRank[4]}<img src="images/ranks/ystar.gif" alt="" />{/for}</span></td>
-  <td class="cellAlt" style="text-align:center;"><span class="fontSmall"><a href="{$smarty.const.INDEXFILE}?faction=ad_rank&amp;mode=kill&amp;id={$curRank[0]}{$smarty.const.SID_AMPER}" onclick="return confirm('{$modules.Language->getString('really_delete_this_rank')}');"><img src="{$modules.Template->getTplDir()}images/icons/award_star_delete.png" alt="" style="vertical-align:middle;" /> {$modules.Language->getString('delete')}</a> | <a href="{$smarty.const.INDEXFILE}?faction=ad_rank&amp;mode=edit&amp;id={$curRank[0]}{$smarty.const.SID_AMPER}">{$modules.Language->getString('edit')}</a></span></td>
+  <td class="cellAlt" style="text-align:center;"><span class="fontSmall"><a href="{$smarty.const.INDEXFILE}?faction=ad_rank&amp;mode=kill&amp;id={$curRank[0]}{$smarty.const.SID_AMPER}" onclick="return confirm('{$modules.Language->getString('really_delete_this_rank')}');"><img src="{$modules.Template->getTplDir()}images/icons/award_star_delete.png" alt="" style="vertical-align:middle;" /> {$modules.Language->getString('delete')}</a> | <a href="{$smarty.const.INDEXFILE}?faction=ad_rank&amp;mode=edit&amp;id={$curRank[0]}{$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/icons/award_star_edit.png" alt="" style="vertical-align:middle;" /> {$modules.Language->getString('edit')}</a></span></td>
  </tr>
 {/foreach}
 </table>

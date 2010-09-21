@@ -90,7 +90,11 @@ templates/tbb2/images/ghost.png -text
 templates/tbb2/images/header_background.jpg -text
 templates/tbb2/images/icons/award_star_add.png -text
 templates/tbb2/images/icons/award_star_delete.png -text
+templates/tbb2/images/icons/award_star_edit.png -text
 templates/tbb2/images/icons/bullet_error.png -text
+templates/tbb2/images/icons/censor_add.png -text
+templates/tbb2/images/icons/censor_delete.png -text
+templates/tbb2/images/icons/censor_edit.png -text
 templates/tbb2/images/icons/chart_bar_edit.png -text
 templates/tbb2/images/icons/cnntopic.gif -text
 templates/tbb2/images/icons/cntopic.gif -text

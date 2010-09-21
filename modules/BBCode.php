@@ -104,7 +104,7 @@ class BBCode
 		if($enableBBCode)
 		{
 			//Cache topic IDs (if any)
-			if(!isset($this->posterIDs))
+			if(!isset($this->posterIDs) || (empty($this->posterIDs) && !empty($topic)))
 				//Only consider numeric IDs (guest IDs are strings, but start with 0 at least, e.g. "0123" is a guest, too) and filter out dublicate ones
 				$this->posterIDs = array_filter(array_unique(array_map('next', !empty($topic) && is_string($topic[0]) ? array_map(array('Functions', 'explodeByTab'), $topic) : $topic)), create_function('$id', 'return !Functions::isGuestID($id);')); #SORT_NUMERIC
 			//Filter out ignored BBCode
