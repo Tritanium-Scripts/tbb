@@ -238,7 +238,7 @@
   <td class="cellAlt"><input class="formText" type="text" name="settings[31]" value="{$configValues['stars_mod']}" style="width:250px;" /></td>
  </tr>
  <tr><td class="cellCat" colspan="2"><span class="fontCat">{$modules.Language->getString('technical_settings')}</span></td></tr>
- <tr><td class="divInfoBox" colspan="2"><span class="fontNorm"><img src="{$modules.Template->getTplDir()}images/icons/info.png" class="imageIcon" alt="" /> {$modules.Language->getString('normally_no_need_to_change_this')}</span></td></tr>
+ <tr><td class="divInfoBox" colspan="2"><span class="fontNorm"><img src="{$modules.Template->getTplDir()}images/icons/info.png" alt="" class="imageIcon" /> {$modules.Language->getString('normally_no_need_to_change_this')}</span></td></tr>
  <tr>
   <td class="cellStd"><span class="fontNorm">{$modules.Language->getString('internal_path_for_cookies')}</span></td>
   <td class="cellAlt"><input class="formText" type="text" name="settings[0]" value="{$configValues['path_to_forum']}" style="width:250px;" /></td>

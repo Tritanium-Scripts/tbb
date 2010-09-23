@@ -5,7 +5,7 @@
  <tr><th class="cellTitle" colspan="2"><span class="fontTitle">{$modules.Language->getString('activate_account')}</span></th></tr>
  <tr><td class="cellInfoBox" colspan="2"><span class="fontNorm"><img src="{$modules.Template->getTplDir()}images/icons/info.png" alt="" class="imageIcon" /> {$modules.Language->getString('activate_account_info')}</span></td></tr>
  <tr>
-  <td class="cellStd" style="font-weight:bold; width:20%;"><span class="fontNorm">{$modules.Language->getString('activation_code_colon')}</span></td>
+  <td class="cellStd" style="width:20%;"><span class="fontNorm">{$modules.Language->getString('activation_code_colon')}</span></td>
   <td class="cellAlt" style="width:80%;"><input class="formText" type="text" name="code" value="{$newUser.code}" style="width:250px;" /></td>
  </tr>
 </table>

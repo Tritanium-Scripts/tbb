@@ -6,7 +6,7 @@
  <tr>
   <td class="cellStd">
    <table border="0" cellpadding="2" cellspacing="0" style="width:100%;">
-    <tr><td class="divInfoBox" colspan="2"><span class="fontNorm"><img src="{$modules.Template->getTplDir()}images/icons/info.png" class="imageIcon" alt="" /> {$modules.Language->getString('all_denoted_fields_are_mandatory')}</span></td></tr>
+    <tr><td class="divInfoBox" colspan="2"><span class="fontNorm"><img src="{$modules.Template->getTplDir()}images/icons/info.png" alt="" class="imageIcon" /> {$modules.Language->getString('all_denoted_fields_are_mandatory')}</span></td></tr>
     <tr>
      <td style="font-weight:bold; padding:3px; width:30%;"><span class="fontNorm">{$modules.Language->getString('nick_colon_denoted')}</span></td>
      <td style="padding:3px; width:70%;"><input class="formText" maxlength="15" type="text" name="newuser_name" value="{$newUser.nick}" style="width:150px;" /> <span class="fontSmall">{$modules.Language->getString('maximal_15_chars')}</span></td>

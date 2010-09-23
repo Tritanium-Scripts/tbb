@@ -55,7 +55,7 @@
  <tr>
   <td class="cellStd">
    <table border="0" cellpadding="2" cellspacing="0" style="width:100%;">
-    <tr><td class="divInfoBox" colspan="2"><span class="fontSmall"><img src="{$modules.Template->getTplDir()}images/icons/info.png" class="imageIcon" alt="" /> {$modules.Language->getString('steam_achievements_info')}</span></td></tr>
+    <tr><td class="divInfoBox" colspan="2"><span class="fontSmall"><img src="{$modules.Template->getTplDir()}images/icons/info.png" alt="" class="imageIcon" /> {$modules.Language->getString('steam_achievements_info')}</span></td></tr>
     <tr>
      <td style="padding:3px; width:20%;"><span class="fontNorm">{$modules.Language->getString('steam_profile_name_colon')}</span></td>
      <td style="padding:3px; width:80%;"><input class="formText" type="text" name="steamProfile" value="{$userData[18]}" style="width:250px;" /></td>
@@ -88,7 +88,7 @@
  <tr>
   <td class="cellStd">
    <table border="0" cellpadding="2" cellspacing="0" style="width:100%;">
-    <tr><td class="divInfoBox" colspan="2"><span class="fontNorm"><img src="{$modules.Template->getTplDir()}images/icons/info.png" class="imageIcon" alt="" /> {$modules.Language->getString('change_password_info')}</span></td></tr>
+    <tr><td class="divInfoBox" colspan="2"><span class="fontNorm"><img src="{$modules.Template->getTplDir()}images/icons/info.png" alt="" class="imageIcon" /> {$modules.Language->getString('change_password_info')}</span></td></tr>
     <tr>
      <td style="padding:3px; width:20%;"><span class="fontNorm">{$modules.Language->getString('new_password_colon')}</span></td>
      <td style="padding:3px; width:80%;"><input class="formText" type="password" name="new_pw1" style="width:250px;" /></td>
