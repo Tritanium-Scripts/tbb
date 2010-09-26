@@ -1,9 +1,9 @@
 *********************************************************
 Tritanium Bulletin Board 1.5 - Changelog (German version)
-Last changed: 21.09.2010 (Version 1.5.1)
+Last changed: 26.09.2010 (Version 1.5.1)
 *********************************************************
 
-21.09.2010: Version 1.5.1 (offiziell)
+10.2010: Version 1.5.1 (offiziell)
 	- Fehler beim automatischen Hinzufügen von [url]-BBCode behoben
 	- Fehler mit beim Auslesen von Templateeinstellungen mit mehreren conf-Dateien behoben
 	- Nicht lokalisierter String in den Suchergebnissen übersetzt
@@ -12,6 +12,7 @@ Last changed: 21.09.2010 (Version 1.5.1)
 	- Fehler bei [php]-BBCode behoben
 	- Fehler bei [lock]-BBCode in Verbindung mit vorhandener Forumnews behoben
 	- Nutzung eines nicht vorhandenen Styles wird nun abgefangen und stattdessen der Standard geladen
+	- Sprachstrings überarbeitet
 
 28.08.2010: Version 1.5 (offiziell)
 	- Alle Features des TBB 1.2.3 übernommen
