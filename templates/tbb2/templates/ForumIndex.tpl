@@ -1,7 +1,7 @@
 <!-- ForumIndex -->
 <table class="tableStd" cellpadding="{$modules.Config->getCfgVal('tpadding')}" cellspacing="{$modules.Config->getCfgVal('tspacing')}" style="width:100%;">
-{if $modules.Config->getCfgVal('news_position') == 1}{include file='News.tpl'}{/if}
  <thead>
+{if $modules.Config->getCfgVal('news_position') == 1}{include file='News.tpl'}{/if}
   <tr>
    <th class="cellTitle" colspan="2" style="text-align:center;"><span class="fontTitleSmall">{$modules.Language->getString('forum')}</span></th>
    <th class="cellTitle" style="text-align:center;"><span class="fontTitleSmall">{$modules.Language->getString('topics')}</span></th>
