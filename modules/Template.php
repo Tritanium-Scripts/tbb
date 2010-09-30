@@ -113,23 +113,34 @@ class Template
 		$templates = array();
 		//Get all templates
 		foreach(glob('templates/*') as $curTemplate)
+		{
+			$curTemplateName = basename($curTemplate);
 			//Get all config files from each template and parse their contents
 			foreach(@array_map('parse_ini_file', glob($curTemplate . '/config/*.conf')) as $curConfigFile)
 			{
 				if(isset($curConfigFile['templateName']))
-					$templates[basename($curTemplate)]['name'] = $curConfigFile['templateName'];
+					$templates[$curTemplateName]['name'] = $curConfigFile['templateName'];
 				if(isset($curConfigFile['authorName']))
-					$templates[basename($curTemplate)]['author'] = $curConfigFile['authorName'];
+					$templates[$curTemplateName]['author'] = $curConfigFile['authorName'];
 				if(isset($curConfigFile['authorURL']))
-					$templates[basename($curTemplate)]['website'] = $curConfigFile['authorURL'];
+					$templates[$curTemplateName]['website'] = $curConfigFile['authorURL'];
 				if(isset($curConfigFile['authorComment']))
-					$templates[basename($curTemplate)]['comment'] = $curConfigFile['authorComment'];
+					$templates[$curTemplateName]['comment'] = $curConfigFile['authorComment'];
 				if(isset($curConfigFile['defaultStyle']))
-					$templates[basename($curTemplate)]['style'] = $curConfigFile['defaultStyle'];
+					$templates[$curTemplateName]['style'] = $curConfigFile['defaultStyle'];
+				if(isset($curConfigFile['targetVersion']))
+					$templates[$curTemplateName]['target'] = $curConfigFile['targetVersion'];
 				//Get all styles from each template
-				if(!isset($templates[basename($curTemplate)]['styles']))
-					$templates[basename($curTemplate)]['styles'] = array_map('basename', glob($curTemplate . '/styles/*.css'));
+				if(!isset($templates[$curTemplateName]['styles']))
+					$templates[$curTemplateName]['styles'] = array_map('basename', glob($curTemplate . '/styles/*.css'));
 			}
+			if(!isset($templates[$curTemplateName]['target']))
+				$templates[$curTemplateName]['target'] = '1.5.0.0';
+			else
+				//Provide proper version number with all 4 parts (major.minor.patch.build)
+				while(substr_count($templates[$curTemplateName]['target'], '.') < 3)
+					$templates[$curTemplateName]['target'] .= '.0';
+		}
 		return $templates;
 	}
 

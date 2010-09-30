@@ -172,7 +172,7 @@
   </ul>
 
   <h3 id="defaults">2.2 Voreinstellungen</h3>
-  <p class="fontnorm">Das Forum wird mit fest definierten Standardeinstellungen ausgeliefert, die Sie noch vor dem Hochladen verändern können. Diese Standardwerte kommen auch zum Einsatz, wenn Sie die Forumeinstellungen zurücksetzen sollten. Sie finden im Abschnitt <a href="#configuration">Konfiguration</a> weitere Informationen zum Veränderen dieser Einstellungen.</p>
+  <p class="fontnorm">Das Forum wird mit fest definierten Standardeinstellungen ausgeliefert, die Sie noch vor dem Hochladen verändern können. Diese Standardwerte kommen auch zum Einsatz, wenn Sie die Forumeinstellungen zurücksetzen sollten. Sie finden im Abschnitt <a href="#configuration">Konfiguration</a> weitere Informationen zum Veränderen dieser Einstellungen. Dieser Schritt ist optional, da Sie später im Forum alle Optionen unabhängig ihrer Voreinstellungen ändern können.</p>
 
   <h3 id="uploading">2.3 Hochladen</h3>
   <p class="fontnorm">Sind die Voraussetzungen erfüllt und wurden die Voreinstellungen ggf. angepasst, können Sie mit dem Upload beginnen. Dabei sind die verschiedenen Übertragungsmodi <b>Binär</b> und <b>ASCII</b> zu beachten. Ihr FTP-Programm wird wahrscheinlich beide Modi unterstützen oder sogar eine automatische Auswahl anbieten. Bitte übertragen Sie alle Dateien ausschließlich im <b>Binär-Modus</b>.<br />
@@ -449,7 +449,7 @@ Supermoderator
   <p class="fontnorm">Falls sie z.B. ein Update am Forum durchführen wollen, können sie den Wert dieser Variable auf 1 setzen. Dann können sich nur noch Administratoren einloggen und das Forum benutzen, sonst bekommt man eine entsprechende Meldung angezeigt.</p>
 
   <h3 id="clickjacking">4.8 <code>clickjacking</code></h3>
-  <p class="fontnorm">Ist diese Option auf 1 gesetzt, wird ein spezieller HTTP-Header gesendet und dem Browser mitgeteilt, dass das Forum nicht in Frames auf anderen Webseiten angezeigt werden darf. Derzeit unterstützen nur Internet Explorer 8, Chrome und Safari dieses Feature. Mehr Informationen zum Thema ClickJacking finden Sie z.B. in der <a href="http://de.wikipedia.org/wiki/Clickjacking" target="_blank">Wikipedia</a>.</p>
+  <p class="fontnorm">Ist diese Option auf 1 gesetzt, wird ein spezieller HTTP-Header gesendet und dem Browser mitgeteilt, dass das Forum nicht in Frames auf anderen Webseiten angezeigt werden darf. Derzeit unterstützen Internet Explorer 8, Chrome 4, Safari 4 und Firefox ab 3.6.9 oder höher dieses Feature. Mehr Informationen zum Thema ClickJacking finden Sie z.B. in der <a href="http://de.wikipedia.org/wiki/Clickjacking" target="_blank">Wikipedia</a>.</p>
 
   <h3 id="upload">4.9 <code>upload_allowed_ext</code> / <code>upload_max_filesize</code></h3>
   <p class="fontnorm">Ab Version 1.5 bietet das TBB die Möglichkeit, Dateien als Anhänge zu Beiträgen hochzuladen an. Sind Dateiuploads aktiviert (<code>enable_uploads</code> ist 1), können Sie mit der Option <code>upload_allowed_ext</code> genau definieren, welche Dateitypen dabei akzeptiert werden. Geben Sie die Dateiendungen mit Kommata getrennt an, z.B. <b>bmp,jpg,jpeg,gif,png,zip,rar,mp3,pdf</b> um Bilder, Archive, Audiodateien und PDFs zu erlauben. Die Dateien werden in dem <b>./uploads/</b>-Ordner gespeichert und automatisch im Beitrag mit BBCode verlinkt. Bilddateien werden dabei als solche direkt eingebunden. Sie sollten diese Einstellung auf jeden Fall setzen um zu verhindern, dass z.B. böswillige PHP-Skripte hochgeladen werden. Zusätzlich können Sie noch eine maximale Dateigröße in Bytes für hochgeladene Dateien angeben. Die Voreinstellung für <code>upload_max_filesize</code> beträgt 2 MiB. Geben Sie kein Limit an, gelten die Beschränkungen aus der php.ini bzw. der PHP-Umgebung.</p>
@@ -466,14 +466,15 @@ Supermoderator
    <li><b>Template-ID</b><br />
        Die Template-ID ist die Kurzbezeichnung und identifiziert das Template eindeutig. Z.B. &quot;std&quot; für das offizielle Standardtemplate oder &quot;mytpl&quot; für &quot;Mein Template&quot;. Der Bezeichner ist beliebig wählbar, sollte aber Aufschluss über den vollen Namen geben. Die Template-ID ist auch der Name des Verzeichnis, welches die weiteren Daten des Templates beinhaltet.</li>
    <li><b>config</b>-Ordner<br />
-       In diesem Ordner werden Konfigurationsdateien als <b>*.conf</b> hinterlegt. Anzahl und Namen der Dateien sind beliebig wählbar, solange die folgenden sieben Werte enthalten sind:
+       In diesem Ordner werden Konfigurationsdateien als <b>*.conf</b> hinterlegt. Anzahl und Namen der Dateien sind beliebig wählbar, solange die folgenden acht Werte enthalten sind:
        <ul>
         <li><b>templateName</b>: Der volle Name des Templates</li>
         <li><b>authorName</b>: Der Name des Autors</li>
         <li><b>authorURL</b>: Die Webseite des Autors</li>
         <li><b>authorComment</b>: Eine treffende Kurzbeschreibung des Templates</li>
         <li><b>defaultStyle</b>: Die Standard-CSS-Datei, die im Auswahlmenü der Templates als erstes ausgewählt werden soll</li>
-        <li><b>navBarDelim</b>: Der Trenner von Elementen in der Navigationsleiste</li>
+        <li><b>targetVersion</b>: Die Version des TBBs, für die das Template geschrieben wurde</li>
+        <li><b>navBarDelim</b>: Der Trenner von Elementen in der Navigationsleiste <span style="color:red; font-size:x-small;">(Neu ab TBB 1.5.1)</span></li>
         <li><b>debug</b>: Sollte nur zu Entwicklungszwecken verwendet werden<br />
             <span style="font-size:x-small;">Wenn auf <code>true</code> gesetzt, wird die <code>$action</code> und <code>$subAction</code> in der Navigationsleiste angezeigt und die Smarty-Konsole geöffnet.</span></li>
        </ul>
@@ -486,7 +487,7 @@ Supermoderator
    <li><b>styles</b>-Ordner<br />
        Alls CSS-Dateien müssen in dieses Verzeichnis gespeichert werden. Mehrere Styles werden dabei dem Administrator zur Auswahl angeboten, d.h. Sie sollten alle zusammenhängenden Stil-Klassen in eine Datei hinterlegen. Es kann immer nur eine CSS-Datei verwendet werden.</li>
    <li><b>templates</b>-Ordner<br />
-       Alle 93 Template-Dateien müssen in diesem Ordner sein und die exakten Namen besitzen, wie es das Standardtemplate vorgibt. Sie können selbstverständlich weitere Template-Dateien zur Inkludierung o.ä. anlegen, wenn notwendig. In den tpl-Dateien finden Sie weitere Kommentare zu den gelieferten Daten.</li>
+       Alle Template-Dateien (normalerweise 93 Stück) müssen in diesem Ordner sein und die exakten Namen besitzen, wie es das Standardtemplate vorgibt. Sie können selbstverständlich weitere Template-Dateien zur Inkludierung o.ä. anlegen, wenn notwendig. In den tpl-Dateien finden Sie weitere Kommentare zu den gelieferten Daten.</li>
   </ul>
 
   <h3 id="tplexample">6.2 Beispiel-Struktur</h3>
