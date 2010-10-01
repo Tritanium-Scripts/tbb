@@ -1,7 +1,7 @@
 {include file='AdminMenu.tpl'}
 <!-- AdminIndex -->
 <table class="tableStd" cellpadding="{$modules.Config->getCfgVal('tpadding')}" cellspacing="{$modules.Config->getCfgVal('tspacing')}" style="width:100%;">
- <tr><th class="cellCat" colspan="2"><span class="fontCat">{$modules.Language->getString('administration')}</span></th></tr>
+ <tr><th class="cellCat"><span class="fontCat">{$modules.Language->getString('administration')}</span></th></tr>
  <tr>
   <td class="cellStd">
    <table style="width:100%;">
@@ -96,5 +96,19 @@
    </table>
   </td>
  </tr>
+</table>
+<br />
+<table class="tableStd" cellpadding="{$modules.Config->getCfgVal('tpadding')}" cellspacing="{$modules.Config->getCfgVal('tspacing')}" style="width:100%;">
+ <colgroup>
+  <col width="50%" />
+  <col width="50%" />
+ </colgroup>
+ <tr><th class="cellCat" colspan="2"><span class="fontCat">{$modules.Language->getString('system_information')}</span></th></tr>
+ <tr><td class="cellStd"><span class="fontNorm">{$modules.Language->getString('tbb_version_colon')}</span></td><td class="cellAlt"><span class="fontNorm">{$smarty.const.VERSION_PRIVATE|rtrim:'.0'}</span></td></tr>
+ <tr><td class="cellStd"><span class="fontNorm">{$modules.Language->getString('smarty_version_colon')}</span></td><td class="cellAlt"><span class="fontNorm">{$smarty.version}</span></td></tr>
+ <tr><td class="cellStd"><span class="fontNorm">{$modules.Language->getString('target_version_language_colon')}</span></td><td class="cellAlt"><span class="fontNorm">{$modules.Language->getString('TARGET_VERSION')|rtrim:'.0'}</span></td></tr>
+ <tr><td class="cellStd"><span class="fontNorm">{$modules.Language->getString('target_version_template_colon')}</span></td><td class="cellAlt"><span class="fontNorm">{$smarty.config.targetVersion|rtrim:'.0'}</span></td></tr>
+ <tr><td class="cellStd"><span class="fontNorm">{$modules.Language->getString('server_colon')}</span></td><td class="cellAlt"><span class="fontNorm">{$smarty.server.SERVER_SOFTWARE}</span></td></tr>
+ <tr><td class="cellStd"><span class="fontNorm">{$modules.Language->getString('php_version_colon')}</span></td><td class="cellAlt"><span class="fontNorm">{$smarty.const.PHP_VERSION}</span></td></tr>
 </table>
 {include file='AdminMenuTail.tpl'}

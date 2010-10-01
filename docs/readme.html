@@ -130,6 +130,7 @@
     <ul>
      <li><a href="#tplstructure">Aufbau &amp; Struktur</a></li>
      <li><a href="#tplexample">Beispiel-Struktur</a></li>
+     <li><a href="#tplinstall">Einbau</a></li>
     </ul>
    </li>
    <li>
@@ -142,6 +143,7 @@
        <li><a href="#loccodesteam">Sprachcode für Steam-Errungenschaften</a></li>
       </ul>
      </li>
+     <li><a href="#locinstall">Einbau</a></li>
     </ul>
    </li>
    <li>
@@ -473,8 +475,8 @@ Supermoderator
         <li><b>authorURL</b>: Die Webseite des Autors</li>
         <li><b>authorComment</b>: Eine treffende Kurzbeschreibung des Templates</li>
         <li><b>defaultStyle</b>: Die Standard-CSS-Datei, die im Auswahlmenü der Templates als erstes ausgewählt werden soll</li>
-        <li><b>targetVersion</b>: Die Version des TBBs, für die das Template geschrieben wurde</li>
-        <li><b>navBarDelim</b>: Der Trenner von Elementen in der Navigationsleiste <span style="color:red; font-size:x-small;">(Neu ab TBB 1.5.1)</span></li>
+        <li><b>targetVersion</b>: Die Version des TBBs, für die das Template geschrieben wurde <span style="color:red; font-size:x-small;">(Neu ab TBB 1.5.1)</span></li>
+        <li><b>navBarDelim</b>: Der Trenner von Elementen in der Navigationsleiste</li>
         <li><b>debug</b>: Sollte nur zu Entwicklungszwecken verwendet werden<br />
             <span style="font-size:x-small;">Wenn auf <code>true</code> gesetzt, wird die <code>$action</code> und <code>$subAction</code> in der Navigationsleiste angezeigt und die Smarty-Konsole geöffnet.</span></li>
        </ul>
@@ -539,10 +541,12 @@ Supermoderator
     </ul>
    </li>
   </ul>
-  <p class="fontnorm">Fertige Templates müssen dann in den <b>./templates/</b>-Ordner hochgeladen werden mit genau der vorgegeben Struktur. Sie stehen dann in der Administration (bzw. den Mitgliedern in ihrem Profil, wenn erlaubt) zur Auswahl.</p>
+
+  <h3 id="tplinstall">6.3 Einbau</h3>
+  <p class="fontnorm">Fertige Templates müssen in den <b>./templates/</b>-Ordner hochgeladen werden mit genau der vorgegeben Struktur. Sie stehen dann in der Administration (bzw. den Mitgliedern in ihrem Profil, wenn erlaubt) zur Auswahl.</p>
 
   <h2 id="ownlocalizations">7 Eigene Lokalisierungen</h2>
-  <p class="fontnorm">Auch diese Version ist multilingual fähig. Allerdings kommt die Übersetzungstechnik aus dem TBB 2.0 zum Einsatz, weshalb vorhandene Sprachpakete <b>nicht</b> kompatibel sind. Derzeit gibt es nur eine deutsche Lokalisierung; eine englische Ausgabe folgt noch später. Jeder ist eingeladen, andere Übersetzungen anzufertigen! Es folgen dazu ein paar Hinweise, die dabei beachtet werden sollten.</p>
+  <p class="fontnorm">Auch diese Version ist multilingual fähig. Allerdings kommt die Übersetzungstechnik aus dem TBB 2.0 zum Einsatz, weshalb vorhandene Sprachpakete <b>nicht</b> kompatibel sind. Derzeit gibt es eine deutsche und englische Lokalisierung; jeder ist eingeladen, andere Übersetzungen anzufertigen! Es folgen dazu ein paar Hinweise, die dabei beachtet werden sollten.</p>
   <h3 id="lochints">7.1 Wichtige Hinweise</h3>
   <ul class="fontnorm">
    <li>Alle 33 Dateien müssen vorhanden sein und dürfen nicht umbenannt werden</li>
@@ -567,6 +571,9 @@ Supermoderator
 
   <h4 id="loccodesteam">7.2.1 Sprachcode für Steam-Errungenschaften</h4>
   <p class="fontnorm">Für die korrekte Übersetzung der Erfolge aus Steam-Spielen kommt ein Steam-eigener Bezeichner zum Einsatz. Am besten suchen Sie unter <a href="https://steamcommunity.com/" target="_blank">https://steamcommunity.com/</a> im Auswahlmenü der angebotenen Sprachen nach dem passenden Bezeichner. Z.B. <code>german</code> für Deutsch oder <code>french</code> für Französisch. Notieren Sie die Angabe dann in der <b>Profile.ini</b> beim Identifikator <code>steam_language</code>.</p>
+
+  <h3 id="locinstall">7.3 Einbau</h3>
+  <p class="fontnorm">Fertige Sprachpakete müssen in den <b>./languages/</b>-Ordner hochgeladen werden mit genau der vorgegeben Struktur aus Sprachcode und -dateien. <b>Leeren Sie den Cache</b> und die Pakete stehen dann in der Administration als weitere native Sprachen zur Auswahl. Sie werden je nach Herkunft des Benutzers automatisch geladen und verwendet.</p>
 
   <h2 id="additionalnotes">8 Weitere Anmerkungen</h2>
   <h3 id="newsfader">8.1 Forumnews im Modus &quot;Überblenden&quot;</h3>

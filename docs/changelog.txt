@@ -13,7 +13,8 @@ Last changed: 01.10.2010 (Version 1.5.1)
 	- Fehler bei [lock]-BBCode in Verbindung mit vorhandener Forumnews behoben
 	- Nutzung eines nicht vorhandenen Styles wird nun abgefangen und stattdessen der Standard geladen
 	- Sprachstrings überarbeitet
-	- Forumversionsnummer für Templates eingeführt zwecks Mindestvoraussetzungen
+	- Forumversionsnummer für Templates und Sprachpakete eingeführt zwecks Mindestvoraussetzungen
+	- Neuer Abschnitt über Systeminformationen in der Administration
 
 28.08.2010: Version 1.5 (offiziell)
 	- Alle Features des TBB 1.2.3 übernommen
