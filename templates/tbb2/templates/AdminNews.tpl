@@ -33,7 +33,7 @@
  </tr>
  <tr>
   <td class="cellStd" style="vertical-align:top;"><span class="fontNorm">{$modules.Language->getString('news_colon')}</span><br /><br />{include file='Smilies.tpl' targetBoxID='news'}</td>
-  <td class="cellAlt"><textarea class="formTextArea" cols="80" rows="7" id="news" name="news">{$newsText}</textarea><br /><span class="fontSmall">{$modules.Language->getString('write_news_hint')}</span></td>
+  <td class="cellAlt"><textarea class="formTextArea" cols="80" rows="11" id="news" name="news">{$newsText}</textarea><br /><span class="fontSmall">{$modules.Language->getString('write_news_hint')}</span></td>
  </tr>
 </table>
 <p class="cellButtons"><input class="formBButton" type="submit" value="{$modules.Language->getString('edit_forum_news')}" /></p>

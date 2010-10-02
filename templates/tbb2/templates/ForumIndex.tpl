@@ -36,7 +36,7 @@
 {if $modules.Config->getCfgVal('show_lposts') >= 1}<br />
 <!-- NewestPosts -->
 <table class="tableStd" cellpadding="{$modules.Config->getCfgVal('tpadding')}" cellspacing="{$modules.Config->getCfgVal('tspacing')}" style="width:100%;">
- <tr><th class="cellTitle"><span class="fontTitle">{$modules.Language->getString('newest_posts')}</span></th><th class="cellTitle" style="text-align:right;"><a href="{$smarty.const.INDEXFILE}?faction=rssFeed"><img src="{$modules.Template->getTplDir()}images/feed.png" alt="" /></a></th></tr>
+ <tr><th class="cellTitle"><span class="fontTitle">{$modules.Language->getString('newest_posts')}</span></th><th class="cellTitle" style="text-align:right; width:1%;"><a href="{$smarty.const.INDEXFILE}?faction=rssFeed"><img src="{$modules.Template->getTplDir()}images/feed.png" alt="" /></a></th></tr>
  <tr><td class="cellStd" colspan="2"><span class="fontSmall">{if !empty($newestPosts)}{'<br />'|implode:$newestPosts}{else}{$modules.Language->getString('no_newest_posts')}{/if}</span></td></tr>
 </table>{/if}
 

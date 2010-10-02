@@ -82,7 +82,7 @@
   </style>
  </head>
  <body>
-  <h1>Tritanium Bulletin Board 1.5</h1>
+  <h1>Tritanium Bulletin Board 1.5.1</h1>
   <h2>Inhaltsverzeichnis</h2>
   <ol class="fontnorm">
    <li><a href="#preamble">Vorwort</a></li>
@@ -213,16 +213,26 @@
 
   <h2 id="update">3 Update einer älteren Version</h2>
   <h3 id="generalshints">3.1 Allgemeine Hinweise</h3>
-  <p class="fontnorm">Das TBB 1.5 unterstützt ausschließlich die Aktualisierung eines TBB 1.2.3. Wenn Sie eine ältere Version betreiben, müssen Sie diese erst auf Version 1.2.3 aktualisieren. Dies können Sie mit den mitgelieferten Update-Routinen durchführen, die in den Unterkapiteln <a href="#updatetbb110">3.3.1</a> und <a href="#updatetbb10b">3.3.2</a> näher beschrieben sind.</p>
+  <p class="fontnorm">Das TBB 1.5 unterstützt ausschließlich die Aktualisierung eines TBB 1.2.3 oder höher. Wenn Sie eine ältere Version als 1.2.3 betreiben, müssen Sie diese erst auf Version 1.2.3 aktualisieren. Dies können Sie mit den mitgelieferten Update-Routinen durchführen, die in den Unterkapiteln <a href="#updatetbb110">3.3.1</a> und <a href="#updatetbb10b">3.3.2</a> näher beschrieben sind.</p>
   <p class="fontnorm">Bevor Sie mit irgendeiner Aktualisierung beginnen, ist es empfehlenswert die Ordner <b>foren</b>, <b>members</b>, <b>polls</b> und <b>vars</b> zu sichern. Es kann leider keine Garantie für ein reibungsloses Update übernommen werden. Laden Sie am besten erst die genannten Ordner per FTP runter, um sie ggf. wiederherstellen zu können. Achten Sie dabei unbedingt auf die Verwendung des <b>Binär-Übertragungsmodus</b>!</p>
   <p class="fontnorm">Weiterhin können zusätzliche oder modifizierte Dateien von der Update-Anleitung nicht berücksichtigt werden. Haben Sie ihr Forum z.B. um neue Grafiken, var-Dateien oder eigene CSS-Styles erweitert, sollten Sie diese ebenfalls sichern, um Sie nach der Aktualisierung wiederherstellen zu können. Lesen Sie sich zum Thema Hack-Kompatiblität auch das <a href="#faq">FAQ</a> durch.</p>
   <p class="fontnorm">Falls Sie nach dem Update Probleme bei der Darstellung - vor allem bei den BBCode-Buttons - haben, sollten sie ihre CSS-Datei aktualisieren, d.h. die &quot;standard.css&quot;, die dem Forum beiliegt, auf neue Abschnitte überprüfen (z.B. &quot;forumcode&quot;) und diese in ihre modifizierte CSS-Datei einsetzen.</p>
-  <p class="fontnorm">Nach erfolgreichem Update müssten alle Mitglieder ein neues Passwort anfordern, da eine neue sichere Verschlüsselungstechnik zum Einsatz kommt.</p>
+  <p class="fontnorm">Nach erfolgreichem Update von 1.2.3 auf 1.5.x müssten alle Mitglieder ein neues Passwort anfordern, da eine neue sichere Verschlüsselungstechnik zum Einsatz kommt.</p>
 
   <h3 id="updatetbb150">3.2 Update von TBB 1.5.x</h3>
   <ol class="fontnorm">
    <li>Versetzen Sie das Forum zunächst in den Wartungsmodus.</li>
-   <li>Ersetzen Sie sämtliche Dateien mit den neuen Versionen. Falls Sie bestehende Dateien geändert haben, sichern Sie diese zu erst und führen Sie nach der Aktualisierung die Modifikation(en) ggf. erneut durch.</li>
+   <li>
+    Ersetzen Sie sämtliche Dateien bzw. Ordner mit den neuen Versionen im TBB-Verzeichnis wie folgt:<br />
+    <span style="font-size:x-small;">(Falls Sie bestehende Dateien geändert haben, sichern Sie diese zu erst und führen Sie nach der Aktualisierung die Modifikationen ggf. erneut durch.)</span>
+    <ul>
+     <li><b>./core/</b> (+ Inhalt, Ausnahme: <b>DataPath.php</b>)</li>
+     <li><b>./languages/</b> (+ Inhalt)</li>
+     <li><b>./modules/</b> (+ Inhalt, Ausnahme: <b>Config.php</b>)</li>
+     <li><b>./templates/</b> (+ Inhalt)</li>
+     <li><b>index.php</b></li>
+    </ul>
+   </li>
    <li>Laden Sie nun die <b>setUpdateFlag.php</b> aus dem <b>./update/</b>-Ordner in das TBB-Verzeichnis und rufen Sie das Script mit ihrem Browser auf (z.B. http://www.meindedomain.de/forum/setUpdateFlag.php). Je nach Anzahl registrierter Mitglieder kann der Update-Prozess etwas dauern und notfalls durch erneutes Aufrufen fortgesetzt werden.</li>
    <li>Löschen Sie die <b>setUpdateFlag.php</b> wieder, sobald eine &quot;Done!&quot;-Meldung angezeigt wird.</li>
    <li>Das Forum ist nun aktualisiert und der Wartungsmodus kann deaktiviert werden. Falls es zu Problemen kommt, löschen Sie den Cache von der Administration aus.</li>
@@ -413,7 +423,7 @@ Supermoderator
    <tr><td>66</td><td><code>members_per_page</code></td><td>30</td><td>Mitglieder pro Seite in der Mitgliederliste</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
    <tr><td>67</td><td><code>achievements</code></td><td>1</td><td>Steam-Errungenschaften aktivieren</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
    <tr><td>68</td><td><a href="#reg"><code>confirm_reg_mail</code></a></td><td>0</td><td>E-Mail-Adressen mit Aktivierungscode überprüfen</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
-   <tr><td>69</td><td><code>new_pm_reminder</code></td><td>60</td><td>Erinnerung an ungelesene PNs in Minuten</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>69</td><td><code>new_pm_reminder</code></td><td>60</td><td>Erinnerung an ungelesene PNs in Sekunden</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
    <tr><td>70</td><td><code>select_tpls</code></td><td>1</td><td>Mitglieder dürfen andere Templates nutzen</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
    <tr><td>71</td><td><code>select_styles</code></td><td>1</td><td>Mitglieder dürfen andere Styles nutzen</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
    <tr><td>72</td><td><a href="#upload"><code>enable_uploads</code></a></td><td>1</td><td>Dateiuploads aktivieren</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
@@ -480,7 +490,7 @@ Supermoderator
         <li><b>debug</b>: Sollte nur zu Entwicklungszwecken verwendet werden<br />
             <span style="font-size:x-small;">Wenn auf <code>true</code> gesetzt, wird die <code>$action</code> und <code>$subAction</code> in der Navigationsleiste angezeigt und die Smarty-Konsole geöffnet.</span></li>
        </ul>
-       Wenn erforderlich, lassen sich beliebig weitere Konfigurationswerte definieren, die Sie in ihrem Template verwenden können. Ihre eigenen Werte können Sie dazu auch in einer weiteren conf-Datei hinterlegen, z.B. &quot;defaults.conf&quot; mit den Pflichtwerten und &quot;mycfg.conf&quot; mit Ihren eigenen Einstellungen. Das TBB 1.5 wird alle Werte auslesen und sie an Smarty übergeben.
+       Wenn erforderlich, lassen sich beliebig weitere Konfigurationswerte definieren, die Sie in ihrem Template verwenden können. Ihre eigenen Werte können Sie dazu auch in einer weiteren conf-Datei hinterlegen, z.B. &quot;defaults.conf&quot; mit den Pflichtwerten und &quot;mycfg.conf&quot; mit Ihren eigenen Einstellungen. Das TBB 1.5 wird alle Werte auslesen und sie an Smarty übergeben. Sie können die conf-Dateien auch für eigene Sprachstrings zweckentfremden, falls notwendig.
    </li>
    <li><b>images</b>-Ordner<br />
        Alle Grafiken sollten hier hinterlegt werden inkl. eines Favoriten-Symbols.</li>
@@ -546,17 +556,18 @@ Supermoderator
   <p class="fontnorm">Fertige Templates müssen in den <b>./templates/</b>-Ordner hochgeladen werden mit genau der vorgegeben Struktur. Sie stehen dann in der Administration (bzw. den Mitgliedern in ihrem Profil, wenn erlaubt) zur Auswahl.</p>
 
   <h2 id="ownlocalizations">7 Eigene Lokalisierungen</h2>
-  <p class="fontnorm">Auch diese Version ist multilingual fähig. Allerdings kommt die Übersetzungstechnik aus dem TBB 2.0 zum Einsatz, weshalb vorhandene Sprachpakete <b>nicht</b> kompatibel sind. Derzeit gibt es eine deutsche und englische Lokalisierung; jeder ist eingeladen, andere Übersetzungen anzufertigen! Es folgen dazu ein paar Hinweise, die dabei beachtet werden sollten.</p>
+  <p class="fontnorm">Auch diese Version ist multilingual fähig. Allerdings kommt die Übersetzungstechnik aus dem TBB 2.0 zum Einsatz, weshalb vorhandene Sprachpakete <b>nicht</b> kompatibel sind. Derzeit gibt es eine deutsche und englische Lokalisierung; jeder ist eingeladen, weitere Übersetzungen anzufertigen! Es folgen dazu ein paar Hinweise, die dabei beachtet werden sollten.</p>
   <h3 id="lochints">7.1 Wichtige Hinweise</h3>
   <ul class="fontnorm">
    <li>Alle 33 Dateien müssen vorhanden sein und dürfen nicht umbenannt werden</li>
    <li>Die Übersetzungen werden im ini-Format notiert, d.h. links steht ein Identifikator (darf nicht verändert werden!) und rechts die Übersetzung in Anführungszeichen</li>
-   <li>Verwenden Sie auf jeden Fall einen Unicode-Zeichensatz, da dass Forum mit UTF-8 arbeitet</li>
+   <li>Verwenden Sie auf jeden Fall einen Unicode-Zeichensatz, da das Forum mit UTF-8 arbeitet</li>
    <li>XHTML-Sonderzeichen müssen als Entitäten notiert werden, z.B. &amp; als &amp;amp;</li>
    <li>XHTML ist aktiviert, so kann z.B. &lt;br /&gt; für Zeilenumbrüche verwendet werden. Kein \n verwenden, sondern eine echte neue Zeile anfangen!</li>
    <li>Das Anführungszeichen &quot; kann derzeit nicht verwendet werden, nutzen Sie stattdessen das Apostroph ', um z.B. Links zu erstellen</li>
    <li>Die <b>Main.ini</b> wird immer geladen und beinhaltet gemeinsam genutzte Sprachstrings, die in mehreren Modulen zum Einsatz kommen</li>
    <li>Kommentare starten mit ; und beinhalten manchmal weitere Hinweise</li>
+   <li>Konsultieren Sie die <a href="http://www.php.net/strftime" target="_blank">Dokumentation des PHP-Handbuchs</a> bzgl. Angabe von Datum- und Zeitformaten</li>
   </ul>
 
   <h3 id="loccode">7.2 Der Sprachcode</h3>
@@ -573,7 +584,7 @@ Supermoderator
   <p class="fontnorm">Für die korrekte Übersetzung der Erfolge aus Steam-Spielen kommt ein Steam-eigener Bezeichner zum Einsatz. Am besten suchen Sie unter <a href="https://steamcommunity.com/" target="_blank">https://steamcommunity.com/</a> im Auswahlmenü der angebotenen Sprachen nach dem passenden Bezeichner. Z.B. <code>german</code> für Deutsch oder <code>french</code> für Französisch. Notieren Sie die Angabe dann in der <b>Profile.ini</b> beim Identifikator <code>steam_language</code>.</p>
 
   <h3 id="locinstall">7.3 Einbau</h3>
-  <p class="fontnorm">Fertige Sprachpakete müssen in den <b>./languages/</b>-Ordner hochgeladen werden mit genau der vorgegeben Struktur aus Sprachcode und -dateien. <b>Leeren Sie den Cache</b> und die Pakete stehen dann in der Administration als weitere native Sprachen zur Auswahl. Sie werden je nach Herkunft des Benutzers automatisch geladen und verwendet.</p>
+  <p class="fontnorm">Fertige Sprachpakete müssen in den <b>./languages/</b>-Ordner hochgeladen werden mit genau der vorgegeben Struktur aus Sprachcode und -dateien. <b>Leeren Sie den Cache</b> in der Administration und die Pakete stehen dann als weitere native Sprachen zur Auswahl. Sie werden je nach Herkunft des Benutzers automatisch geladen und verwendet.</p>
 
   <h2 id="additionalnotes">8 Weitere Anmerkungen</h2>
   <h3 id="newsfader">8.1 Forumnews im Modus &quot;Überblenden&quot;</h3>

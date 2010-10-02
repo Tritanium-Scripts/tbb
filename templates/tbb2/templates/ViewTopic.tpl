@@ -87,7 +87,7 @@
   <td class="cellStd">
    <table>
     <tr>
-     <td style="width:10%;"><textarea class="formTextArea" id="post" name="post" rows="10" cols="60"></textarea></td>
+     <td style="width:10%;"><textarea class="formTextArea" id="post" name="post" rows="12" cols="60"></textarea></td>
      <td style="vertical-align:top;"><br />{include file='Smilies.tpl' targetBoxID='post' isMod=$canModify}</td>
     </tr>
    </table>
