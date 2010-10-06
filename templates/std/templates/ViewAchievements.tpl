@@ -13,7 +13,7 @@
   <td class="td1" rowspan="2" style="width:66px;"><img src="{$curClosedAchievement.icon}" alt="{$curClosedAchievement.name}" title="{$curClosedAchievement.name}" /></td>
   <th class="td1">{$curClosedAchievement.name}</th>
  </tr>
- <tr><td class="td1">{$curClosedAchievement.description}</td></tr>
+ <tr><td class="td1">{$curClosedAchievement.description}{if !empty($curClosedAchievement.unlocked)} <span class="small" style="float:right;"><span style="font-weight:bold;">{$modules.Language->getString('unlocked_colon')}</span> {$curClosedAchievement.unlocked}</span>{/if}</td></tr>
 {foreachelse}
  <tr><td class="td1" colspan="2" style="font-weight:bold; text-align:center;"><span class="norm">{$modules.Language->getString('no_achievements_to_display')}</span></td></tr>
 {/foreach}

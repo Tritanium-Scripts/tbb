@@ -65,8 +65,8 @@
  </tr>
 </table>{if $modules.Config->getCfgVal('achievements') == 1 && !empty($userData[19])}
 <br />
-<table class="tableStd" cellpadding="{$modules.Config->getCfgVal('tpadding')}" cellspacing="{$modules.Config->getCfgVal('tspacing')}" style="width:100%;">
- <tr><th class="cellTitle"><span class="fontTitle">{$modules.Language->getString('steam_achievements_colon')}</span><span class="fontTitleSmall" style="float:right;">{$userData[18].profileName|string_format:$modules.Language->getString('from_x')}</span></th></tr>
+<table class="tableStd" cellpadding="{$modules.Config->getCfgVal('tpadding')}" cellspacing="{$modules.Config->getCfgVal('tspacing')}" id="achievements" style="width:100%;">
+ <tr><th class="cellTitle"><span class="fontTitle">{$modules.Language->getString('steam_achievements')}</span><span class="fontTitleSmall" style="float:right;">{$userData[18].profileName|string_format:$modules.Language->getString('from_x')}</span></th></tr>
  <tr><td class="cellAlt">{foreach $userData[19] as $curGame}<a href="{$smarty.const.INDEXFILE}?faction=profile&amp;profile_id={$userData[1]}&amp;mode=viewAchievements&amp;game={$curGame[0]}{$smarty.const.SID_AMPER}"><img src="{$curGame[1]}" alt="{$curGame[2]}" title="{$curGame[2]}" /></a> {/foreach}</td></tr>
 </table>{/if}
 <br />

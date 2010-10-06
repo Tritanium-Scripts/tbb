@@ -61,7 +61,7 @@
   <td class="td1" style="font-weight:bold; width:20%;"><span class="norm">{$modules.Language->getString('icq_number_colon')}</span></td>
   <td class="td1" style="width:80%;"><span class="norm">{if empty($userData[13])}<span style="font-style:italic;">{$modules.Language->getString('not_given')}</span>{else}<a href="http://www.icq.com/people/about_me.php?uin={$userData[13]}" target="_blank"><img src="http://status.icq.com/online.gif?icq={$userData[13]}&amp;img=5" alt="" style="vertical-align:top;" /> {$userData[13]|wordwrap:3:"-":true}</a>{/if}</span></td>
  </tr>{if $modules.Config->getCfgVal('achievements') == 1 && !empty($userData[19])}
- <tr>
+ <tr id="achievements">
   <td class="td1" style="font-weight:bold; width:20%; vertical-align:top;"><span class="norm">{$modules.Language->getString('steam_achievements_colon')}</span><br /><span class="small">{$userData[18].profileName|string_format:$modules.Language->getString('from_x')}</span></td>
   <td class="td1" style="width:80%;">{foreach $userData[19] as $curGame}<a href="{$smarty.const.INDEXFILE}?faction=profile&amp;profile_id={$userData[1]}&amp;mode=viewAchievements&amp;game={$curGame[0]}{$smarty.const.SID_AMPER}"><img src="{$curGame[1]}" alt="{$curGame[2]}" title="{$curGame[2]}" /></a> {/foreach}</td>
  </tr>{/if}

@@ -245,7 +245,7 @@ class Profile implements Module
 			elseif(!in_array($game, $this->userData[19]))
 				Main::getModule('Template')->printMessage('steam_game_not_found');
 			$dom = new DOMDocument;
-			if(!@$dom->loadXML(file_get_contents('http://steamcommunity.com/' . (is_numeric($this->userData[18]) ? 'profiles/' : 'id/') . $this->userData[18] . '/stats/' . $game . '/?tab=achievements&l=' . Main::getModule('Language')->getString('steam_language') . '&xml=1')))
+			if(!@$dom->loadXML(file_get_contents('http://steamcommunity.com/' . (is_numeric($this->userData[18]) ? 'profiles/' : 'id/') . $this->userData[18] . '/stats/' . $game . '/?tab=achievements&l=' . Main::getModule('Language')->getString('steam_language') . '&xml=all')))
 				$this->errors[] = Main::getModule('Language')->getString('loading_achievements_failed');
 			elseif($dom->getElementsByTagName('error')->length == 0)
 			{
@@ -255,7 +255,8 @@ class Profile implements Module
 					if($curAchievement->attributes->getNamedItem('closed')->nodeValue == '1')
 						$achievementsClosed[] = array('icon' => $curAchievement->getElementsByTagName('iconClosed')->item(0)->nodeValue,
 							'name' => htmlspecialchars($curAchievement->getElementsByTagName('name')->item(0)->nodeValue),
-							'description' => htmlspecialchars($curAchievement->getElementsByTagName('description')->item(0)->nodeValue));
+							'description' => htmlspecialchars($curAchievement->getElementsByTagName('description')->item(0)->nodeValue),
+							'unlocked' => $curAchievement->getElementsByTagName('unlockTimestamp')->length == 1 ? utf8_encode(strftime(Main::getModule('Language')->getString('DATEFORMAT'), $curAchievement->getElementsByTagName('unlockTimestamp')->item(0)->nodeValue)) : '');
 					else
 						$achievementsOpen[] = array('icon' => $curAchievement->getElementsByTagName('iconOpen')->item(0)->nodeValue,
 							'name' => htmlspecialchars($curAchievement->getElementsByTagName('name')->item(0)->nodeValue),
