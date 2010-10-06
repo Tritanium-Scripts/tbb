@@ -1,9 +1,9 @@
 *********************************************************
 Tritanium Bulletin Board 1.5 - Changelog (German version)
-Last changed: 01.10.2010 (Version 1.5.1)
+Last changed: 06.10.2010 (Version 1.5.1)
 *********************************************************
 
-01.10.2010: Version 1.5.1 (offiziell)
+06.10.2010: Version 1.5.1 (offiziell)
 	- Fehler beim automatischen Hinzufügen von [url]-BBCode behoben
 	- Fehler mit beim Auslesen von Templateeinstellungen mit mehreren conf-Dateien behoben
 	- Nicht lokalisierter String in den Suchergebnissen übersetzt
@@ -12,9 +12,16 @@ Last changed: 01.10.2010 (Version 1.5.1)
 	- Fehler bei [php]-BBCode behoben
 	- Fehler bei [lock]-BBCode in Verbindung mit vorhandener Forumnews behoben
 	- Nutzung eines nicht vorhandenen Styles wird nun abgefangen und stattdessen der Standard geladen
-	- Sprachstrings überarbeitet
+	- Sprachstrings überarbeitet, korrigiert und ergänzt
 	- Forumversionsnummer für Templates und Sprachpakete eingeführt zwecks Mindestvoraussetzungen
 	- Neuer Abschnitt über Systeminformationen in der Administration
+	- Anzeige von Steam-Errungenschaften mit Datum des Freischaltens (wenn bekannt/vorhanden)
+	- Steam-Errungenschaften aus Alien Swarm werden nun angezeigt
+	- Indikator für angegebene Steam-Errungenschaften in der Themenansicht
+	- Smarty auf Version 3.0 RC4 aktualisiert
+	- Anzeige von ungelesen Beiträgen mit Foren- und Themensymbolen korrigiert
+	- Themenansicht mit Links zu Beiträgen zum Kopieren
+	- Heutige Beiträge listen nun Beiträge aus privaten Foren, sofern Berechtigung vorhanden ist
 
 28.08.2010: Version 1.5 (offiziell)
 	- Alle Features des TBB 1.2.3 übernommen

@@ -210,10 +210,8 @@ class Posting implements Module
 					if(Main::getModule('Auth')->isLoggedIn())
 						Functions::updateUserPostCounter($this->newReply['nick']);
 					if($this->forum[10][6] == '1')
-					{
 						Functions::updateLastPosts($this->forum[0], $this->topicID, $this->newReply['nick'], $newPost[2], $this->newReply['tSmileyID']);
-						Functions::updateTodaysPosts($this->forum[0], $this->topicID, $this->newReply['nick'], $newPost[2], $this->newReply['tSmileyID']);
-					}
+					Functions::updateTodaysPosts($this->forum[0], $this->topicID, $this->newReply['nick'], $newPost[2], $this->newReply['tSmileyID']);
 					//Notify topic creator
 					if($this->topic[4] == '1' && Main::getModule('Config')->getCfgVal('activate_mail') == 1 && Main::getModule('Config')->getCfgVal('notify_new_replies') == 1 && Main::getModule('Auth')->getUserID() != $this->topic[2] && ($notifyUser = Functions::getUserData($this->topic[2])) != false)
 						Functions::sendMessage($notifyUser[3], 'notify_new_reply', $notifyUser[0], Main::getModule('Config')->getCfgVal('address_to_forum') . '/' . INDEXFILE . '?faction=readforum&mode=viewthread&forum_id=' . $this->forum[0] . '&thread=' . $this->topicID);

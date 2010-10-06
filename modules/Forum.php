@@ -101,7 +101,7 @@ class Forum implements Module
 			case 'viewforum':
 			//Manage cookies
 			setcookie('upbwhere', INDEXFILE . '?mode=viewforum&forum_id=' . $this->forumID); //Redir cookie after login
-			setcookie('forum.' . $this->forumID, time(), time()+60*60*24*365, Main::getModule('Config')->getCfgVal('path_to_forum')); //Cookie to detect last visit
+			setcookie('forum_' . $this->forumID, time(), time()+60*60*24*365, Main::getModule('Config')->getCfgVal('path_to_forum')); //Cookie to detect last visit
 			//Process forum and its topics
 			$forum = Functions::getForumData($this->forumID) or Main::getModule('Template')->printMessage('forum_not_found');
 			if(!Functions::checkUserAccess($forum, 0))
@@ -128,7 +128,7 @@ class Forum implements Module
 				#0:open/close[/moved] - 1:title - 2:userID - 3:tSmileyID - 4:[/movedForumID] - 5:timestamp[/movedTopicID] - 6:views - 7:pollID - ...
 				$curTopic = Functions::explodeByTab($curTopic[0]);
 				//Detect new posts
-				$curCookieID = 'topic.' . $this->forumID . '.' . $topicFile[$i];
+				$curCookieID = 'topic_' . $this->forumID . '_' . $topicFile[$i];
 				switch($curTopic[0])
 				{
 					case '1':
@@ -185,7 +185,7 @@ class Forum implements Module
 			case 'viewthread':
 			//Manage cookies
 			setcookie('upbwhere', INDEXFILE . '?mode=viewthread&forum_id=' . $this->forumID . '&thread=' . $this->topicID);
-			setcookie('forum.' . $this->forumID . '.' . $this->topicID, time(), time()+60*60*24*365, Main::getModule('Config')->getCfgVal('path_to_forum'));
+			setcookie('topic_' . $this->forumID . '_' . $this->topicID, time(), time()+60*60*24*365, Main::getModule('Config')->getCfgVal('path_to_forum'));
 			//Process topic and its posts
 			$forum = Functions::getForumData($this->forumID) or Main::getModule('Template')->printMessage('forum_not_found');
 			if(!Functions::checkUserAccess($forum, 0))
@@ -306,7 +306,8 @@ class Forum implements Module
 					'canModify' => Main::getModule('Auth')->isAdmin() || $isMod || ($forum[10][4] == '1' && Main::getModule('Auth')->isLoggedIn() && Main::getModule('Auth')->getUserID() == $curPost[1]),
 					'post' => Functions::censor($curPost[3]));
 			}
-			Main::getModule('Template')->assign(array('pageBar' => $pageBar,
+			Main::getModule('Template')->assign(array('page' => $this->page,
+				'pageBar' => $pageBar,
 				'topicTitle' => $topic[1],
 				'isPoll' => $isPoll,
 				'forumID' => $this->forumID,
@@ -324,13 +325,14 @@ class Forum implements Module
 			$todaysPosts = array();
 			if(($todaysPostsFile = Functions::file_get_contents('vars/todayposts.var')) != '' && current($todaysPostsFile = Functions::explodeByTab($todaysPostsFile)) == gmdate('Yd'))
 				foreach(array_map(array('Functions', 'explodeByComma'), explode('|', $todaysPostsFile[1])) as $curTodaysPost)
-					#0:forumID - 1:topicID - 2:userID - 3:date - 4:tSmileyID
-					$todaysPosts[] = array('forumID' => $curTodaysPost[0],
-						'forumTitle' => @next(Functions::getForumData($curTodaysPost[0])),
-						'topic' => !Functions::file_exists('foren/' . $curTodaysPost[0] . '-' . $curTodaysPost[1] . '.xbb') ? Main::getModule('Language')->getString('deleted_moved') : '<a href="' . INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curTodaysPost[0] . '&amp;thread=' . $curTodaysPost[1] . '&amp;z=last' . SID_AMPER . '">' . (Functions::censor(Functions::getTopicName($curTodaysPost[0], $curTodaysPost[1]))) . '</a>',
-						'author' => Functions::getProfileLink($curTodaysPost[2], true),
-						'date' => Functions::formatDate($curTodaysPost[3]),
-						'tSmiley' => Functions::getTSmileyURL($curTodaysPost[4]));
+					if(Functions::checkUserAccess($curForumData = Functions::getForumData($curTodaysPost[0]), 0))
+						#0:forumID - 1:topicID - 2:userID - 3:date - 4:tSmileyID
+						$todaysPosts[] = array('forumID' => $curTodaysPost[0],
+							'forumTitle' => $curForumData[1],
+							'topic' => !Functions::file_exists('foren/' . $curTodaysPost[0] . '-' . $curTodaysPost[1] . '.xbb') ? Main::getModule('Language')->getString('deleted_moved') : '<a href="' . INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curTodaysPost[0] . '&amp;thread=' . $curTodaysPost[1] . '&amp;z=last' . SID_AMPER . '">' . (Functions::censor(Functions::getTopicName($curTodaysPost[0], $curTodaysPost[1]))) . '</a>',
+							'author' => Functions::getProfileLink($curTodaysPost[2], true),
+							'date' => Functions::formatDate($curTodaysPost[3]),
+							'tSmiley' => Functions::getTSmileyURL($curTodaysPost[4]));
 			Main::getModule('Template')->assign('todaysPosts', array_reverse($todaysPosts));
 			break;
 
@@ -466,7 +468,7 @@ class Forum implements Module
 						'forumPosts' => $curForum[4],
 						'catID' => $curForum[5],
 						//Cookie check to detect new posts in current forum since last visit
-						'isNewPost' => !isset($_COOKIE['forum.' . $curForum[0]]) || $_COOKIE['forum.' . $curForum[0]] < $curForum[6],
+						'isNewPost' => !isset($_COOKIE['forum_' . $curForum[0]]) || $_COOKIE['forum_' . $curForum[0]] < $curForum[6],
 						'lastPost' => $curLastPost,
 						'mods' => Functions::getProfileLink($curForum[11]));
 					$topicCounter += $curForum[3];

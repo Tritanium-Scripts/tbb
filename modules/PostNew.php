@@ -261,10 +261,8 @@ class PostNew implements Module
 		if(Main::getModule('Auth')->isLoggedIn())
 			Functions::updateUserPostCounter($this->newPost['nick']);
 		if($this->forum[10][6] == '1')
-		{
 			Functions::updateLastPosts($this->forum[0], $newLastTopicID, $this->newPost['nick'], $newTopic[15], $this->newPost['tSmiley']);
-			Functions::updateTodaysPosts($this->forum[0], $newLastTopicID, $this->newPost['nick'], $newTopic[15], $this->newPost['tSmiley']);
-		}
+		Functions::updateTodaysPosts($this->forum[0], $newLastTopicID, $this->newPost['nick'], $newTopic[15], $this->newPost['tSmiley']);
 		return $newTopic;
 	}
 }

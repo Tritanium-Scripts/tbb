@@ -55,6 +55,7 @@ templates/std/images/pm.gif -text
 templates/std/images/pollbar.gif -text
 templates/std/images/quote.gif -text
 templates/std/images/rss.gif -text
+templates/std/images/steam.png -text
 templates/std/images/trenner.gif -text
 templates/std/images/unpintopic.png -text
 templates/std/images/vcard.png -text
@@ -132,6 +133,7 @@ templates/tbb2/images/minus.gif -text
 templates/tbb2/images/new_post.gif -text
 templates/tbb2/images/no_new_post.gif -text
 templates/tbb2/images/pollbar.gif -text
+templates/tbb2/images/steam.png -text
 templates/tbb2/images/v3.gif -text
 templates/tbb2/images/v4.gif -text
 templates/tbb2/styles/standard.css -text

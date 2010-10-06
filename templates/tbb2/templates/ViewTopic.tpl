@@ -43,7 +43,7 @@
   <td class="cellAlt" style="vertical-align:middle; width:85%;">
    <table border="0" cellspacing="0" cellpadding="0" style="width:100%;">
     <tr>
-     <td><img src="{$curPost.tSmileyURL}" alt="" style="vertical-align:middle;" /> <span class="fontSmall">{$curPost.date|string_format:$modules.Language->getString('posted_on_x')}</span></td>
+     <td><img src="{$curPost.tSmileyURL}" alt="" style="vertical-align:middle;" /> <span class="fontSmall">{$curPost.date|string_format:$modules.Language->getString('posted_on_x')} (<a href="{$smarty.const.INDEXFILE}?mode=viewthread&amp;forum_id={$forumID}&amp;thread={$topicID}&amp;z={$page}{$smarty.const.SID_AMPER}#post{$curPost.postID}">#{$curPost.postID}</a>)</span></td>
      <td style="text-align:right;">{if $curPost.canModify}
       <a href="{$smarty.const.INDEXFILE}?faction=edit&amp;mode=kill&amp;forum_id={$forumID}&amp;topic_id={$topicID}&amp;post_id={$curPost.postID}{$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/buttons/delete.png" alt="{$modules.Language->getString('delete')}" class="imageButton" /></a>
       <a href="{$smarty.const.INDEXFILE}?faction=edit&amp;forum_id={$forumID}&amp;topic_id={$topicID}&amp;post_id={$curPost.postID}{$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/buttons/edit.png" alt="{$modules.Language->getString('edit')}" class="imageButton" /></a>{/if}{if !empty($curPost.userHP)}

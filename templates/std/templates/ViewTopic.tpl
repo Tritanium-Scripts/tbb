@@ -45,7 +45,7 @@
   </td>
   <td class="{cycle values="td1,td2" advance=false}" style="vertical-align:top; width:85%;">
    <span class="small"><img src="{$curPost.tSmileyURL}" alt="" style="vertical-align:bottom;" />
-   &nbsp;&nbsp;{$curPost.date|string_format:$modules.Language->getString('posted_on_x')}
+   &nbsp;&nbsp;{$curPost.date|string_format:$modules.Language->getString('posted_on_x')}&nbsp;(<a href="{$smarty.const.INDEXFILE}?mode=viewthread&amp;forum_id={$forumID}&amp;thread={$topicID}&amp;z={$page}{$smarty.const.SID_AMPER}#post{$curPost.postID}">#{$curPost.postID}</a>)
    &nbsp;<img src="{$modules.Template->getTplDir()}images/trenner.gif" alt="|" style="vertical-align:bottom;" />
    {if $curPost.canModify}&nbsp;<a href="{$smarty.const.INDEXFILE}?faction=edit&amp;forum_id={$forumID}&amp;topic_id={$topicID}&amp;post_id={$curPost.postID}{$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/edit.gif" alt="{$modules.Language->getString('edit')}" style="vertical-align:bottom;" /></a> {$modules.Language->getString('edit')}{/if}
    &nbsp;<a href="{$smarty.const.INDEXFILE}?faction=reply&amp;thread_id={$topicID}&amp;forum_id={$forumID}&amp;quote={$curPost.postID}{$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/quote.gif" alt="{$modules.Language->getString('quote')}" style="vertical-align:bottom;" /></a> {$modules.Language->getString('quote')}
