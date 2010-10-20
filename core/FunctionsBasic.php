@@ -65,7 +65,7 @@ class FunctionsBasic
 	 */
 	public static function addHTTP($link)
 	{
-		return !empty($link) && Functions::substr($link, 0, 8) != 'uploads/' && Functions::substr($link, 0, 7) != 'http://' ? 'http://' . $link : $link;
+		return !empty($link) && Functions::substr($link, 0, 8) != 'uploads/' && Functions::stripos($link, '://') === false ? 'http://' . $link : $link;
 	}
 
 	/**
