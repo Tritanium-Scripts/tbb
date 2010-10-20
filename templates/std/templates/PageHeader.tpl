@@ -36,7 +36,7 @@
 
 <div id="HeaderBox">
 	<div id="HeaderInnerBox">
-		<img src="{$modules.Template->getTD()}/images/logo.jpg"/>
+		<img src="{$modules.Template->getTD()}/images/logo.jpg" alt=""/>
 		<div id="HeaderNavigationBox">
 			{if $modules.Auth->isLoggedIn() == 1}
 				<a href="{$smarty.const.INDEXFILE}?action=EditProfile&amp;{$smarty.const.MYSID}"><img src="{$modules.Template->getTD()}/images/buttons/de/myprofile.png" class="ImageButton" alt="{$modules.Language->getString('my_profile')}"/></a>

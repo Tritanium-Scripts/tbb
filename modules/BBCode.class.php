@@ -258,7 +258,7 @@ class BBCode extends ModuleTemplate {
 	protected function cbLock($elements) {
 		$this->modules['Template']->assign('b', array(
 			'bbCodeType'=>BBCODE_LOCK,
-			'lockText'=>$this->topicIDs[$this->topicID] ? $elements[1] : ''
+			'lockText'=>isset($this->topicIDs[$this->topicID]) ? $elements[1] : ''
 		));
 		return $this->modules['Template']->fetch('BBCodeHtml.tpl');
 	}
