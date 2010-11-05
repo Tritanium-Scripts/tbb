@@ -60,6 +60,7 @@
       <span class="fontSmall">- <a href="{$smarty.const.INDEXFILE}?faction=ad_settings{$smarty.const.SID_AMPER}">{$modules.Language->getString('edit_settings')}</a></span><br />
       <span class="fontSmall">- <a href="{$smarty.const.INDEXFILE}?faction=ad_settings&amp;mode=readsetfile{$smarty.const.SID_AMPER}">{$modules.Language->getString('reset_settings')}</a></span><br />
       <span class="fontSmall">- <a href="{$smarty.const.INDEXFILE}?faction=ad_settings&amp;mode=recalculateCounters{$smarty.const.SID_AMPER}">{$modules.Language->getString('recalculate_counters')}</a></span><br />
+      <span class="fontSmall">- <a href="{$smarty.const.INDEXFILE}?faction=ad_settings&amp;mode=rebuildTopicIndex{$smarty.const.SID_AMPER}">{$modules.Language->getString('rebuild_topic_index')}</a></span><br />
       <span class="fontSmall">- <a href="{$smarty.const.INDEXFILE}?faction=ad_settings&amp;mode=clearCache{$smarty.const.SID_AMPER}">{$modules.Language->getString('clear_cache')}</a></span>
      </td>
     </tr>

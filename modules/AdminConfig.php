@@ -24,7 +24,8 @@ class AdminConfig implements Module
 	private static $modeTable = array('ad_settings' => 'AdminConfig',
 		'editsettings' => 'AdminConfig',
 		'readsetfile' => 'AdminConfigResetConfirm',
-		'recalculateCounters' => 'AdminConfigCountersConfirm');
+		'recalculateCounters' => 'AdminConfigCountersConfirm',
+        'rebuildTopicIndex' => 'AdminConfigRebuildConfirm');
 
 	/**
 	 * Maximal execution time for couting to require a break to continue.
@@ -46,16 +47,17 @@ class AdminConfig implements Module
 	}
 
 	/**
-	 * Checks current execution time of the couting progress and reloads it, if needed.
+	 * Checks current execution time of the crawling progress and reloads it, if needed.
 	 *
 	 * @param bool $check Check the run time or reload script anyway
+     * @param string $mode Mode to execute after script reloading
 	 */
-	private function checkTime($check=true)
+	private function checkTime($check=true, $mode='recalculateCounters')
 	{
 		if(!$check || microtime(true)-SCRIPTSTART > $this->timeout)
 		{
-			header('Location: ' . INDEXFILE . '?faction=ad_settings&mode=recalculateCounters' . SID_AMPER);
-			exit('<a href="' . INDEXFILE . '?faction=ad_settings&mode=recalculateCounters' . SID_AMPER . '">Go on</a>');
+			header('Location: ' . INDEXFILE . '?faction=ad_settings&mode=' . $mode . SID_AMPER_RAW);
+			exit('<a href="' . INDEXFILE . '?faction=ad_settings&amp;mode=' . $mode . SID_AMPER . '">Go on</a>');
 		}
 	}
 
@@ -68,23 +70,59 @@ class AdminConfig implements Module
 		Functions::accessAdminPanel();
 		switch($this->mode)
 		{
+//AdminConfigRebuildConfirm
 			case 'rebuildTopicIndex':
 			Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('rebuild_topic_index'), INDEXFILE . '?faction=ad_settings&amp;mode=rebuildTopicIndex' . SID_AMPER);
-/*
-			foreach(array_map(create_function('$forum', 'return current(Functions::explodeByTab($forum));'), Functions::file('vars/foren.var', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES)) as $curForumID)
-			{
-				$curTopicIDs = array();
-				$curTopicFiles = glob(DATAPATH . 'foren/' . $curForumID . '-[0-9]*.xbb'); //Get topics of current forum
-				array_multisort(array_map('filemtime', $curTopicFiles), SORT_NUMERIC, SORT_DESC, $curTopicFiles); //Sort by date => by last views, not by last post...
-				foreach($curTopicFiles as $curTopicFile) //Retrieve topic IDs for index
-					if(preg_match('/' . $curForumID . '-(\d+).xbb/si', $curTopicFile, $curMatch) == 1)
-						$curTopicIDs[] = $curMatch[1];
-				Functions::file_put_contents('foren/' . $curForumID . '-threads.xbb', implode("\n", $curTopicIDs) . "\n");
-			}
-			Main::getModule('Logger')->log('%s rebuilt topic index', LOG_ACP_ACTION);
-			Main::getModule('Template')->printMessage('topic_index_rebuilt');
-*/
-			Main::getModule('Template')->printMessage('function_deactivated');
+            if(isset($_SESSION['rebuildTopicIndex']))
+            {
+                foreach($_SESSION['rebuildTopicIndex'] as $curForumID => &$curTopics)
+                {
+                    //Fetch topic IDs for each forum
+                    if(empty($curTopics))
+                    {
+                        //Get topics of current forum
+                        $curTopics = glob(DATAPATH . 'foren/' . $curForumID . '-[0-9]*.xbb');
+                        if(!empty($curTopics))
+                        {
+                            //Retrieve topic IDs for index
+                            foreach($curTopics as $curKey => &$curTopic)
+                                if(preg_match('/' . $curForumID . '-(\d+).xbb/si', $curTopic, $curMatch) == 1)
+                                    $curTopic = intval($curMatch[1]);
+                            //Prepare topic IDs as keys for timestamps
+                            $curTopics = array_combine($curTopics, array_fill(0, count($curTopics), false));
+                        }
+                    }
+                    $this->checkTime(true, 'rebuildTopicIndex');
+                    //Topics found for this forum?
+                    if(!empty($curTopics))
+                    {
+                        //Fetch timestamp of last post for each topic
+                        foreach($curTopics as $curTopicID => &$curTimestamp)
+                            if(!$curTimestamp)
+                            {
+                                $curTopicData = Functions::explodeByTab(current(Functions::file('foren/' . $curForumID . '-' . $curTopicID . '.xbb')));
+                                $curTimestamp = $curTopicData[0] == 'm' ? filemtime(DATAPATH . 'foren/' . $curForumID . '-' . $curTopicID . '.xbb') : $curTopicData[5];
+                                $this->checkTime(true, 'rebuildTopicIndex');
+                            }
+                        //Sort via timestamp from oldest to newest
+                        asort($curTopics, SORT_NUMERIC);
+                        //Save rebuilt topic index
+                        Functions::file_put_contents('foren/' . $curForumID . '-threads.xbb', implode("\n", array_keys($curTopics)) . "\n");
+                    }
+                    unset($_SESSION['rebuildTopicIndex'][$curForumID]);
+                }
+                unset($_SESSION['rebuildTopicIndex']);
+                Main::getModule('Logger')->log('%s rebuilt topic index', LOG_ACP_ACTION);
+                Main::getModule('Template')->printMessage('topic_index_rebuilt');
+            }
+            if(Functions::getValueFromGlobals('confirmed') == 'true')
+            {
+                //Prepare rebuild stuff 
+                $_SESSION['rebuildTopicIndex'] = array_combine($forums = array_map(create_function('$forum', 'return current(Functions::explodeByTab($forum));'), Functions::file('vars/foren.var', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES)), array_fill(0, count($forums), array()));
+                if(empty($forums))
+                    $_SESSION['rebuildTopicIndex'] = array();
+                $this->checkTime(false, 'rebuildTopicIndex');
+            }
 			break;
 
 //AdminConfigCountersConfirm

@@ -40,7 +40,7 @@
    {if !empty($curPost.userGroup)}{$curPost.userGroup}<br />{/if}{$curPost.userRank}<br />
    {if $curPost.userID != 0}{$curPost.userID|string_format:$modules.Language->getString('id_x')}{/if}<br /><br />
    {$curPost.userAvatar}<br />{if !empty($curPost.userICQ)}<br />
-   <a href="http://www.icq.com/people/about_me.php?uin={$curPost.userICQ}" target="_blank"><img src="http://status.icq.com/online.gif?icq={$curPost.userICQ}&amp;img=5" alt="" style="vertical-align:middle;" /> {$curPost.userICQ|wordwrap:3:"-":true}</a>{/if}{if !empty($curPost.userSteamGames)}<br />
+   <a href="http://www.icq.com/people/about_me.php?uin={$curPost.userICQ}" target="_blank"><img src="http://status.icq.com/online.gif?icq={$curPost.userICQ}&amp;img=5" alt="" style="vertical-align:middle;" /> {$curPost.userICQ|wordwrap:3:"-":true}</a>{/if}{if !empty($curPost.userSteamGames[0])}<br />
    <a href="{$smarty.const.INDEXFILE}?faction=profile&amp;profile_id={$curPost.userID}{$smarty.const.SID_AMPER}#achievements"><img src="{$modules.Template->getTplDir()}images/steam.png" alt="" style="vertical-align:middle;" /> {$modules.Language->getString('achievements')}</a>{/if}</span>
   </td>
   <td class="{cycle values="td1,td2" advance=false}" style="vertical-align:top; width:85%;">

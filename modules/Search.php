@@ -98,7 +98,7 @@ class Search implements Module
 		//Check execution time limit
 		if(!$check || microtime(true)-SCRIPTSTART > $this->timeout)
 		{
-			header('Location: ' . INDEXFILE . '?faction=search&searchID=' . $this->searchID . SID_AMPER);
+			header('Location: ' . INDEXFILE . '?faction=search&searchID=' . $this->searchID . SID_AMPER_RAW);
 			$_SESSION[$this->searchID]['sTime'] += microtime(true)-SCRIPTSTART;
 			exit('<a href="' . INDEXFILE . '?faction=search&amp;searchID=' . $this->searchID . SID_AMPER . '">Go on</a>');
 		}
