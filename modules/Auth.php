@@ -264,7 +264,7 @@ class Auth
 	 */
 	public function loginChanged()
 	{
-		$this->wioID = isset($_SESSION['userID']) ? $_SESSION['userID'] : $_SESSION['session_upbwio'];
+		$this->wioID = isset($_SESSION['userID']) ? ($this->userData[1] = $_SESSION['userID']) : $_SESSION['session_upbwio'];
 		$this->loggedIn = is_numeric($this->wioID);
 	}
 }

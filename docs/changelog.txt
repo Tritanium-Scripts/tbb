@@ -1,7 +1,17 @@
 *********************************************************
 Tritanium Bulletin Board 1.5 - Changelog (German version)
-Last changed: 06.10.2010 (Version 1.5.1)
+Last changed: 06.11.2010 (Version 1.5.2)
 *********************************************************
+
+11.2010: Version 1.5.2
+	- Fehler beim Verlinken von Adressen, die kein http-Protokoll verwenden, behoben
+	- Dokumentation aktualisiert
+	- Indikator für angegebene Steam-Errungenschaften in der Themenansicht arbeitet eindeutiger
+	- Schutz vor Auflistung der Inhalte im uploads-Ordners auf PHP umgestellt
+	- Kleinere Entitätsprobleme behoben
+	- Wartungsfunktion zur Neuerstellung des Themenindex im ACP hinzugefügt
+	- Marginaler Fehler während des Einloggens behoben
+	- Weitere BBCode-Beispiele im FAQ
 
 06.10.2010: Version 1.5.1 (offiziell)
 	- Fehler beim automatischen Hinzufügen von [url]-BBCode behoben

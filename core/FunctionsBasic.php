@@ -270,6 +270,7 @@ class FunctionsBasic
 	 * @param int $flags Optional constants
 	 * @param bool $decUTF8 Decode UTF-8 data to ISO-8859-1, <b>do not change this unless you really know what you are doing!</b>
 	 * @param bool $datapath Apply the global datapath to filename, there is usually no need to change this
+	 * @return int|bool Number of bytes written to file or false on failure
 	 */
 	public static function file_put_contents($filename, $data, $flags=LOCK_EX, $decUTF8=true, $datapath=true)
 	{
