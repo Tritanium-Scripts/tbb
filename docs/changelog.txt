@@ -1,6 +1,6 @@
 *********************************************************
 Tritanium Bulletin Board 1.5 - Changelog (German version)
-Last changed: 06.11.2010 (Version 1.5.2)
+Last changed: 11.11.2010 (Version 1.5.2)
 *********************************************************
 
 11.2010: Version 1.5.2
@@ -12,6 +12,7 @@ Last changed: 06.11.2010 (Version 1.5.2)
 	- Wartungsfunktion zur Neuerstellung des Themenindex im ACP hinzugefügt
 	- Marginaler Fehler während des Einloggens behoben
 	- Weitere BBCode-Beispiele im FAQ
+	- Hochladen von Dateien mit Statusbild
 
 06.10.2010: Version 1.5.1 (offiziell)
 	- Fehler beim automatischen Hinzufügen von [url]-BBCode behoben

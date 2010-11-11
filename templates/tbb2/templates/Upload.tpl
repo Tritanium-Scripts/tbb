@@ -32,7 +32,7 @@
  <tr><td class="cellStd"><span class="fontNorm">{$modules.Language->getString('maximal_filesize_colon')}</span></td><td class="cellAlt"><span class="fontNorm">{if empty($maxFilesize)}<span style="font-style:italic;">{$modules.Language->getString('no_limitation')}</span>{else}{$maxFilesize|string_format:$modules.Language->getString('x_kib')}{/if}</span></td></tr>
  <tr><td class="cellAlt" colspan="2" style="text-align:center;"><input class="formText" type="file" name="uploadedFile" /></td></tr>
 </table>
-<p class="cellButtons"><input class="formBButton" type="submit" value="{$modules.Language->getString('upload_file')}" /></p>
+<p class="cellButtons"><input class="formBButton" type="submit" value="{$modules.Language->getString('upload_file')}" onclick="this.style.display='none'; document.getElementById('spinner').style.display='';" /><img src="{$modules.Template->getTplDir()}images/spinner.gif" alt="" id="spinner" style="display:none; vertical-align:middle;" /></p>
 <input type="hidden" name="mode" value="upload" />
 </form>
 
