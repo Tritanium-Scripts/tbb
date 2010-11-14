@@ -5,18 +5,18 @@ Standard TBB-Style - http://www.tritanium-scripts.com
 Falls Sie sich nicht so gute mit CSS auskennen, finden sie auf
 http://de.selfhtml.org/ viele Informationen dazu.
 
-Kurze Erklärung:
+Kurze ErklÃ¤rung:
 color - Textfarbe (z.B. blue, FFFFFF, #000000)
 font-family - Schriftart (z.B. Verdana, Arial)
-font-size - Schriftgröße (z.B. 10pt, 10px)
+font-size - SchriftgrÃ¶ÃŸe (z.B. 10pt, 10px)
 font-weight - Schriftdicke (z.B. bold, bolder, lighter)
-text-decoration - Unterstrichen, Überstrichen... (z.B. none, overline, underline)
+text-decoration - Unterstrichen, Ãœberstrichen... (z.B. none, overline, underline)
 background-color - Hintergrundfarbe (z.B. blue, FFFFFF, #000000)
 text-align - Ausrichtung des Textes (z.B. left, right)
 padding - Abstand des Textes zum Rahmen (z.B. 2pt, 4px)
 
-Um ein Hintergrundbild zu verwenden, müssen Sie im Abschnitt body
-folgendes einfügen:
+Um ein Hintergrundbild zu verwenden, mÃ¼ssen Sie im Abschnitt body
+folgendes einfÃ¼gen:
 background-image:url(background.jpg);
 
 */
@@ -53,7 +53,7 @@ body
 	color:black;
 }
 
-/* Die Fläche "hinter" dem Forum */
+/* Die FlÃ¤che "hinter" dem Forum */
 #main
 {
 
@@ -73,7 +73,7 @@ td.kat
 	background-color:#333366;
 }
 
-/* Überschriftenleiste (kleine Schrift) */
+/* Ãœberschriftenleiste (kleine Schrift) */
 .thsmall
 {
 	font-family:Verdana;
@@ -87,7 +87,7 @@ th.thsmall
 	background-color:#666699;
 }
 
-/* Überschriftenleiste (normale Schriftgröße) */
+/* Ãœberschriftenleiste (normale SchriftgrÃ¶ÃŸe) */
 .thnorm
 {
 	font-family:Verdana;
@@ -109,7 +109,7 @@ th.thnorm
 	text-align:left;
 }
 
-/* Tabellen allgemein (außer Navigationsleiste) */
+/* Tabellen allgemein (auÃŸer Navigationsleiste) */
 .tbl
 {
 	background-color:#666699; /* Dies ist auch die Farbe "zwischen" den Zellen, wenn $tspacing > 0 ist */
@@ -152,7 +152,7 @@ th.thnorm
 	color:red;
 }
 
-/* Link zur Themenübersicht eines Forums in der Forenübersicht */
+/* Link zur ThemenÃ¼bersicht eines Forums in der ForenÃ¼bersicht */
 .forumlink
 {
 	font-family:Verdana;
@@ -171,7 +171,7 @@ a.forumlink:visited
 	color:#666699;
 }
 
-/* Link zu einem Thema in der Themenübersicht */
+/* Link zu einem Thema in der ThemenÃ¼bersicht */
 .topiclink
 {
 	font-family:Verdana;
@@ -245,7 +245,7 @@ table.navbar
 	font-family:Verdana;
 }
 
-/* Der Forumname rechts neben dem Logo (über der "Toolbar") */
+/* Der Forumname rechts neben dem Logo (Ã¼ber der "Toolbar") */
 .finfo
 {
 	color:black;
@@ -262,7 +262,7 @@ table.navbar
 	font-family:Verdana;
 }
 
-/* Die Buttons um Forumcode einzufügen */
+/* Die Buttons um Forumcode einzufÃ¼gen */
 button.forumcode, input.forumcode
 {
 	border-width:1px;
@@ -278,10 +278,10 @@ select.forumcode
 /*
 
 Copyright
-ACHTUNG: Das Copyright muss immer gut erkennbar sein, sonst wird gegen die Lizenz verstoßen!
-Wenn sie die Hintergrundfarbe des Forums ändern, müssen sie auch darauf achten, dass man
+ACHTUNG: Das Copyright muss immer gut erkennbar sein, sonst wird gegen die Lizenz verstoÃŸen!
+Wenn sie die Hintergrundfarbe des Forums Ã¤ndern, mÃ¼ssen sie auch darauf achten, dass man
 das Copyright immer noch erkennen kann. Vor allem, wenn Hintergrundfarbe = Schriftfarbe
-des Copyrights ist, ist dies ein Verstoß!!!
+des Copyrights ist, ist dies ein VerstoÃŸ!!!
 
 */
 .copyr

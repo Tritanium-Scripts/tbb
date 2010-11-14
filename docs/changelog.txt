@@ -1,6 +1,6 @@
 *********************************************************
 Tritanium Bulletin Board 1.5 - Changelog (German version)
-Last changed: 11.11.2010 (Version 1.5.2)
+Last changed: 14.11.2010 (Version 1.5.2)
 *********************************************************
 
 11.2010: Version 1.5.2
@@ -13,6 +13,9 @@ Last changed: 11.11.2010 (Version 1.5.2)
 	- Marginaler Fehler während des Einloggens behoben
 	- Weitere BBCode-Beispiele im FAQ
 	- Hochladen von Dateien mit Statusbild
+	- Smarty auf Version 3.0.4 aktualisiert
+	- WIO-Box-Farbe für Verbannte in Grau geändert
+	- Boterkennung in der WIO-Liste erweitert
 
 06.10.2010: Version 1.5.1 (offiziell)
 	- Fehler beim automatischen Hinzufügen von [url]-BBCode behoben

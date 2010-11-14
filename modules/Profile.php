@@ -117,6 +117,8 @@ class Profile implements Module
 					$this->userData[19] = Functions::explodeByTab(Functions::str_replace(array("\n", "\r"), array("\t", ''), Functions::getValueFromGlobals('steamGames', false)));
 					if(!empty($this->userData[19][0]) && empty($this->userData[18]))
 						$this->errors[] = Main::getModule('Language')->getString('please_enter_your_steam_profile_name');
+					elseif(!empty($this->userData[18]) && Functions::strpos($this->userData[18], ' ') !== false)
+						$this->errors[] = Main::getModule('Language')->getString('please_enter_a_valid_steam_profile_name');
 					$this->userData[20] = Functions::getValueFromGlobals('ownTemplate');
 					$this->userData[21] = Functions::getValueFromGlobals('ownStyle');
 					if(($newPass = Functions::getValueFromGlobals('new_pw1')) != Functions::getValueFromGlobals('new_pw2'))

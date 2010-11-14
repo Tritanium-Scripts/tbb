@@ -71,7 +71,7 @@ class Template
 	 */
 	public function clearCache()
 	{
-		return $this->smarty->cache->clearAll();
+		return $this->smarty->clearAllCache();
 	}
 
 	/**

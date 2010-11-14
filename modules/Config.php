@@ -76,7 +76,7 @@ class Config
 		'#FF0000',								#wio_color_admin
 		'#008000',								#wio_color_mod
 		'#000000',								#wio_color_user
-		'#CC6600',								#wio_color_banned
+		'#808080',								#wio_color_banned
 		'#0000FF',								#wio_color_smod
 		48,										#emph_date_hours
 		5,										#stars_smod
