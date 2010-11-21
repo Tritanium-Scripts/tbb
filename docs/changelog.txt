@@ -1,9 +1,9 @@
 *********************************************************
 Tritanium Bulletin Board 1.5 - Changelog (German version)
-Last changed: 14.11.2010 (Version 1.5.2)
+Last changed: 21.11.2010 (Version 1.5.2)
 *********************************************************
 
-11.2010: Version 1.5.2
+21.11.2010: Version 1.5.2 (offiziell)
 	- Fehler beim Verlinken von Adressen, die kein http-Protokoll verwenden, behoben
 	- Dokumentation aktualisiert
 	- Indikator für angegebene Steam-Errungenschaften in der Themenansicht arbeitet eindeutiger
@@ -13,7 +13,7 @@ Last changed: 14.11.2010 (Version 1.5.2)
 	- Marginaler Fehler während des Einloggens behoben
 	- Weitere BBCode-Beispiele im FAQ
 	- Hochladen von Dateien mit Statusbild
-	- Smarty auf Version 3.0.4 aktualisiert
+	- Smarty auf Version 3.0.5 aktualisiert
 	- WIO-Box-Farbe für Verbannte in Grau geändert
 	- Boterkennung in der WIO-Liste erweitert
 

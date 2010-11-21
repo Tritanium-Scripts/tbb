@@ -565,7 +565,7 @@ Supermoderator
    <li>Alle 33 Dateien müssen vorhanden sein und dürfen nicht umbenannt werden</li>
    <li>Die Übersetzungen werden im ini-Format notiert, d.h. links steht ein Identifikator (darf nicht verändert werden!) und rechts die Übersetzung in Anführungszeichen</li>
    <li>Verwenden Sie auf jeden Fall einen Unicode-Zeichensatz, da das Forum mit UTF-8 arbeitet</li>
-   <li>XHTML-Sonderzeichen müssen als Entitäten notiert werden, z.B. &amp; als &amp;amp;</li>
+   <li>XHTML-Sonderzeichen müssen als Entitäten notiert werden, z.B. &amp; als &amp;amp; oder &quot; als &amp;quot;</li>
    <li>XHTML ist aktiviert, so kann z.B. &lt;br /&gt; für Zeilenumbrüche verwendet werden. Kein \n verwenden, sondern eine echte neue Zeile anfangen!</li>
    <li>Das Anführungszeichen &quot; kann derzeit nicht verwendet werden, nutzen Sie stattdessen das Apostroph ', um z.B. Links zu erstellen</li>
    <li>Die <b>Main.ini</b> wird immer geladen und beinhaltet gemeinsam genutzte Sprachstrings, die in mehreren Modulen zum Einsatz kommen</li>
@@ -594,7 +594,7 @@ Supermoderator
   <p class="fontnorm">Der Überblend-Modus wurde verbessert und funktioniert nun mit sämtlichen Browsern. Es wird allerdings nicht empfohlen, gleichzeitig BBCode zu verwenden, da das entstehende Dokument nicht mehr valide sein könnte oder seltsame Anzeigefehler auftreten könnten.</p>
 
   <h3 id="htaccess">8.2 Sicherheit des Forums / .htaccess-Unterstützung</h3>
-  <p class="fontnorm">Sie sollten auf jeden Fall darauf achten, dass ihr Webserver .htaccess-Dateien unterstützt, da sonst jeder mit ein wenig Geschick alle Daten des Forums auslesen kann (Beiträge (auch in privaten Foren), Benutzerdaten, PNs, Logdateien, Uploads, ...).</p>
+  <p class="fontnorm">Sie sollten auf jeden Fall darauf achten, dass ihr Webserver .htaccess-Dateien unterstützt, da sonst jeder mit ein wenig Geschick alle Daten des Forums auslesen kann (Beiträge (auch in privaten Foren), Benutzerdaten, PNs, Logdateien, Einstellungen, ...).</p>
   <p class="fontnorm">Eine andere Möglichkeit um das Auslesen der meisten Daten zu verhindern, wäre sie gar nicht erst im TBB-Verzeichnis zu speichern. Sie können dazu den Pfad in der <b>./core/DataPath.php</b> anpassen und so einen Speicherort angeben, der außerhalb des sogenannten Webroots liegt (d.h. dieser Ordner ist aus dem Internet <b>nicht</b> zugänglich). Beispiel:</p>
   <ul class="fontnorm">
    <li>Der interne Pfad zum Forum auf dem Server ist: <code>/home/user123/public_html/homepage/forum/index.php</code></li>
@@ -611,7 +611,7 @@ Supermoderator
    <li>./polls/</li>
    <li>./vars/</li>
   </ul>
-  <p class="fontnorm">Beachten Sie, dass diese Ordner mit Inhalt an der neuen Position existieren müssen, z.B. <code>/home/user123/forumdata/foren/</code>. Ohne .htaccess-Unterstützung und mit angepassten Datenpfad ist der <b>./uploads/</b>-Ordner aber nachwievor ohne Einschränkung zugänglich!</p>
+  <p class="fontnorm">Beachten Sie, dass diese Ordner mit Inhalt an der neuen Position existieren müssen, z.B. <code>/home/user123/forumdata/foren/</code>.</p>
 
   <h3 id="otherstyles">8.3 Nutzung anderer Styles (CSS-Dateien)</h3>
   <p class="fontnorm">In der Administration können Sie unter dem Menüpunkt &quot;Templates&quot; andere Styles als Standard auswählen und sogar ihren Mitgliedern die freie Wahl über Template- und Style-Nutzung erlauben. Ein Aufruf mit <code>index.php?var_css_file=</code> ist nicht mehr notwendig und wird daher nicht länger unterstützt. Das Standardtemplate des TBB 1.5 wurde dem originalen Aufbau und Style der 1.2.3er Version nachempfunden, so dass es abwärtskompatibel zu den CSS-Klassen ist. Wenn Sie also andere Styles verwenden oder den originalen Standard modifiziert haben, können Sie diese weiterhin verwenden.</p>
@@ -658,8 +658,10 @@ Supermoderator
        Da die Wartungsmeldung im TBB 1.5 auch lokalisiert wurde, muss dazu ein Eintrag in den Sprachdateien geändert werden. Die Meldung kann nicht mehr im Einstellungsmenü der Administration geändert werden. Besagte Sprachdatei ist die <b>Messages.ini</b> in der jeweiligen Lokalisierung im <b>./languages/</b>-Ordner (z.B. <b>./languages/de-DE/Messages.ini</b>). Der Eintrag lautet <b><code>text_maintenance_mode_on</code></b> und ist normalerweise in Zeile 10 zu finden. Dort müssen Sie den Text zwischen den Anführungszeichen ändern. Beachten Sie auch die Hinweise zur Übersetzung in Kapitel <a href="#ownlocalizations">Eigene Lokalisierungen</a>.</li>
    <li style="padding-bottom:1em;"><span style="font-weight:bold;">Wenn ich in der Administration etwas ändere, wird die Änderung scheinbar nicht übernommen?</span><br />
        Es liegt vermutlich ein Cache-Problem vor. Löschen Sie dazu den Cache mit der Funktion &quot;Cache leeren&quot; unter dem Punkt &quot;Forumeinstellungen&quot; in der Administration. Wenn dies nicht hilft, stellen Sie sicher, dass ihr Browser die Seite auch wirklich neulädt (STRG+F5) und schalten Sie evtl. verwendete Proxy-Server ab.</li>
+   <li style="padding-bottom:1em;"><span style="font-weight:bold;">Ich erhalte eine Fehlermeldung in der Art &quot;Warning: disk_free_space() [function.disk-free-space]: Value too large for defined data type&quot;?</span><br />
+       Die Überprüfung auf freien Speicherplatz ist hier wohl unnötig, da mehr als genug vorhanden ist und es die Funktion überfordert. Setzen Sie in den Foreneinstellungen den Punkt &quot;Den Befehl disk_free_space() verwenden&quot; auf &quot;Nein&quot;. Sie können dies auch über die Voreinstellungen mit dem Konfigurationswert <code>use_diskfreespace</code>, wie in <a href="#configuration">Kapitel 4</a> näher beschrieben, abschalten.</li>
    <li style="padding-bottom:1em;"><span style="font-weight:bold;">Ich teste das Forum auf meinem eigenen Webserver, beim Aufrufen erhalte ich aber immer Fehlermeldungen in der Art &quot;Warning: open(/tmp\sess_0e83b056d7f6aad8ccfed8c7ef93f6e9, O_RDWR) failed: ...&quot;</span><br />
-       Anscheinend haben sie in der php.ini den Wert von <code>session.save_path</code> auf einem ungültigen Verzeichnis stehen. Arbeiten sie unter Windows, müssen sie zum Beispiel C:\WINDOWS\Temp angeben, unter Linux z.B. /tmp</li>
+       Anscheinend haben Sie in der php.ini den Wert von <code>session.save_path</code> auf einem ungültigen Verzeichnis stehen. Arbeiten sie unter Windows, müssen sie zum Beispiel C:\WINDOWS\Temp angeben, unter Linux z.B. /tmp</li>
    <li style="padding-bottom:1em;"><span style="font-weight:bold;">Funktioniert das Forum auch mit IIS?</span><br />
        Ich hab keine Ahnung, ob das TBB 1.5 in so einer Umgebung besser läuft der Vorgänger. Getestet habe ich es jedenfalls nicht.</li>
    <li style="padding-bottom:1em;"><span style="font-weight:bold;">Wie alt bist Du?</span><br />
