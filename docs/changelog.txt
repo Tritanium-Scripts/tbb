@@ -17,6 +17,7 @@ Last changed: 24.11.2010 (Version 1.5.2)
 	- WIO-Box-Farbe für Verbannte in Grau geändert
 	- Boterkennung in der WIO-Liste erweitert
 	- Mein Profil bietet Bearbeitung von Steam-Errungenschaften nur an wenn diese aktiviert sind
+	- Fehler beim Versand von Formular-E-Mails bzgl. Absendername behoben
 
 06.10.2010: Version 1.5.1 (offiziell)
 	- Fehler beim automatischen Hinzufügen von [url]-BBCode behoben
