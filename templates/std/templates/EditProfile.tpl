@@ -44,7 +44,7 @@
  <tr>
   <td class="td1" style="width:20%; vertical-align:top;"><span class="norm" style="font-weight:bold;">{$modules.Language->getString('signature_colon')}</span><br /><span class="small">{$modules.Language->getString('bbcode_and_smilies_are_enabled')}</span></td>
   <td class="td1" style="width:80%;"><textarea cols="55" rows="8" name="new_signatur">{$userData[7]}</textarea></td>
- </tr>
+ </tr>{if $modules.Config->getCfgVal('achievements') == 1}
  <tr><td class="kat" colspan="2"><span class="kat">{$modules.Language->getString('steam_achievements')}</span></td></tr>
  <tr><td class="td1" colspan="2"><span class="small">{$modules.Language->getString('steam_achievements_info')}</span></td></tr>
  <tr>
@@ -54,7 +54,7 @@
  <tr>
   <td class="td1" style="width:20%; vertical-align:top;"><span class="norm" style="font-weight:bold;">{$modules.Language->getString('steam_game_names_colon')}</span><br /><span class="small">{$modules.Language->getString('steam_game_names_info')}</span></td>
   <td class="td1" style="width:80%;"><textarea cols="55" rows="8" name="steamGames">{"\n"|implode:$userData[19]}</textarea></td>
- </tr>
+ </tr>{/if}
  <tr><td class="kat" colspan="2"><span class="kat">{$modules.Language->getString('options')}</span></td></tr>
  <tr><td class="td1" colspan="2"><input type="checkbox" value="1" id="new_mail2" name="new_mail2" style="vertical-align:middle;"{if $userData[14][1] == '1'} checked="checked"{/if} /> <label for="new_mail2" class="norm">{$modules.Language->getString('show_email_address')}</label><br /><span class="small">{$modules.Language->getString('show_email_address_info')}</span></td></tr>
  <tr><td class="td1" colspan="2"><input type="checkbox" value="1" id="new_mail1" name="new_mail1" style="vertical-align:middle;"{if $userData[14][0] == '1'} checked="checked"{/if} /> <label for="new_mail1" class="norm">{$modules.Language->getString('receive_emails_from_forum')}</label><br /><span class="small">{$modules.Language->getString('receive_emails_from_forum_info')}</span></td></tr>{if $modules.Config->getCfgVal('select_tpls') == 1}

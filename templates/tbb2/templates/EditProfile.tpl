@@ -50,7 +50,7 @@
     </tr>
    </table>
   </td>
- </tr>
+ </tr>{if $modules.Config->getCfgVal('achievements') == 1}
  <tr><td class="cellCat"><span class="fontCat">{$modules.Language->getString('steam_achievements')}</span></td></tr>
  <tr>
   <td class="cellStd">
@@ -66,7 +66,7 @@
     </tr>
    </table>
   </td>
- </tr>
+ </tr>{/if}
  <tr><td class="cellCat"><span class="fontCat">{$modules.Language->getString('options')}</span></td></tr>
  <tr>
   <td class="cellStd">
