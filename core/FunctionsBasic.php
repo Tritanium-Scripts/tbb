@@ -40,6 +40,20 @@ class FunctionsBasic
 	private static $isCaching = true;
 
 	/**
+	 * Some ISO-8859-15 characters not part of ISO-8859-1 to search for.
+	 *
+	 * @var array ISO-8859-15 characters to handle for conversion
+	 */
+	private static $latin9Chars = array('€', 'Š', 'š', 'Ž', 'ž', 'Œ', 'œ', 'Ÿ');
+
+	/**
+	* Counterparts of ISO-8859-15 as (X)HTML entities for replacement.
+	*
+	* @var array (X)HTML entities used for replacement in conversion
+	*/
+	private static $latin9Entities = array('&euro;', '&Scaron;', '&scaron;', '&#142;', '&#158;', '&OElig;', '&oelig;', '&Yuml;');
+
+	/**
 	 * Default operations while accessing the admin panel.
 	 */
 	public static function accessAdminPanel()
@@ -262,7 +276,7 @@ class FunctionsBasic
 	}
 
 	/**
-	 * Extending PHP's {@link file_put_contents()} with file counting, UTF-8 converting and global data path.
+	 * Extending PHP's {@link file_put_contents()} with file counting, UTF-8 converting, Latin-9 handling and global data path.
 	 * <b>Be very careful changing the $decUTF8 parameter and disabling the UTF-8 decoder! There is usually no need to do this.</b>
 	 *
 	 * @param string $filename Name of file
@@ -277,7 +291,7 @@ class FunctionsBasic
 		if(self::$isCaching)
 			unset(self::$fileCache[$filename]);
 		self::$fileCounter++;
-		return file_put_contents(($datapath ? DATAPATH : '') . $filename, $decUTF8 ? utf8_decode($data) : $data, $flags);
+		return file_put_contents(($datapath ? DATAPATH : '') . $filename, $decUTF8 ? utf8_decode(self::latin9ToEntities($data)) : $data, $flags);
 	}
 
 	/**
@@ -290,7 +304,7 @@ class FunctionsBasic
 	public static function formatDate($date, $format=null)
 	{
 		$timestamp = self::getTimestamp($date);
-		//Encode as UTF-8, because month names lacks proper encoding
+		//Encode as UTF-8, because month names lack proper encoding
 		return sprintf((time()-$timestamp) < Main::getModule('Config')->getCfgVal('emph_date_hours')*3600 ? '<b>%s</b>' : '%s', utf8_encode(gmstrftime(isset($format) ? $format : Main::getModule('Language')->getString('DATEFORMAT'), $timestamp)));
 	}
 
@@ -696,6 +710,18 @@ class FunctionsBasic
 	public static function isValidMail($mailAddress)
 	{
 		return (bool) preg_match('/[\.0-9a-z_-]+@[\.0-9a-z-]+\.[a-z]+/si', $mailAddress);
+	}
+
+	/**
+	 * Converts certain ISO-8859-15 characters (not included in ISO-8859-1) to (X)HTML entities.
+	 * This can be used as a temporary € sign fix for the ISO-8859-1 database until the TBB 2.0 is out.
+	 *
+	 * @param string $data String to convert
+	 * @return string Converted string
+	 */
+	public static function latin9ToEntities($data)
+	{
+		return Functions::str_replace(self::$latin9Chars, self::$latin9Entities, $data);
 	}
 
 	/**

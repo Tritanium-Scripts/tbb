@@ -1,7 +1,10 @@
 *********************************************************
 Tritanium Bulletin Board 1.5 - Changelog (German version)
-Last changed: 24.11.2010 (Version 1.5.2)
+Last changed: 12.12.2010 (Version 1.5.3)
 *********************************************************
+
+2011: Version 1.5.3
+	- Bestimmte ISO-8859-15 Zeichen (u.a. €) werden als Entitäten konvertiert, so dass sie als ISO-8859-1 gespeichert werden können
 
 24.11.2010: Version 1.5.2 (offiziell)
 	- Fehler beim Verlinken von Adressen, die kein http-Protokoll verwenden, behoben

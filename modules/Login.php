@@ -52,7 +52,7 @@ class Login implements Module
 	 */
 	function __construct($fAction)
 	{
-		$this->loginName = htmlspecialchars(trim(Functions::getValueFromGlobals('login_name')));
+		$this->loginName = Functions::latin9ToEntities(htmlspecialchars(trim(Functions::getValueFromGlobals('login_name'))));
 		$this->loginPass = Functions::getValueFromGlobals('login_pw');
 		$this->mode = $fAction;
 	}
