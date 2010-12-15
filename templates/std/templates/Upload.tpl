@@ -30,7 +30,7 @@
  <tr><td class="td1"><span class="norm" style="font-weight:bold;">{$modules.Language->getString('maximal_filesize_colon')}</span></td><td class="td1"><span class="norm">{if empty($maxFilesize)}<span style="font-style:italic;">{$modules.Language->getString('no_limitation')}</span>{else}{$maxFilesize|string_format:$modules.Language->getString('x_kib')}{/if}</span></td></tr>
  <tr><td class="td1" colspan="2" style="text-align:center;"><input type="file" name="uploadedFile" /></td></tr>
 </table>
-<p style="text-align:center;"><input type="submit" value="{$modules.Language->getString('upload_file')}" onclick="this.style.display='none'; document.getElementById('spinner').style.display='';" /><img src="{$modules.Template->getTplDir()}images/spinner.gif" alt="" id="spinner" style="display:none; vertical-align:middle;" /></p>
+<p style="text-align:center;"><input type="submit" value="{$modules.Language->getString('upload_file')}" onclick="this.style.display='none'; (spinImg = document.getElementById('spinner')).src='{$modules.Template->getTplDir()}images/spinner.gif'; spinImg.style.display='';" /><img src="" alt="" id="spinner" style="display:none; vertical-align:middle;" /></p>
 <input type="hidden" name="mode" value="upload" />
 </form>
 
