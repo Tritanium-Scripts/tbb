@@ -1,6 +1,6 @@
 <?php
 /**
- * Manages new replies, poster IPs or post editing.
+ * Manages new replies, poster IPs and post/poll management.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
  * @copyright Copyright (c) 2010 Tritanium Scripts
@@ -184,6 +184,8 @@ class Posting implements Module
 					$this->errors[] = Main::getModule('Language')->getString('please_enter_your_user_name');
 				if(empty($this->newReply['post']))
 					$this->errors[] = Main::getModule('Language')->getString('please_enter_a_post');
+				if(isset($_SESSION['lastPost']) && time() < $_SESSION['lastPost']+3) //3 secs spam delay
+					$this->errors[] = sprintf(Main::getModule('Language')->getString('please_wait_x_seconds_to_avoid_spam'), $_SESSION['lastPost']+3-time());
 				if(empty($this->errors))
 				{
 					//Set proper nick name
@@ -201,7 +203,7 @@ class Posting implements Module
 						$this->newReply['isXHTML'] ? '1' : '0',
 						'', '', "\n");
 					//Write post related stuff
-					$this->topic[5] = time();
+					$this->topic[5] = $_SESSION['lastPost'] = time();
 					$this->topicFile[] = $newPost;
 					Functions::file_put_contents('foren/' . $this->forum[0] . '-' . $this->topicID . '.xbb', Functions::implodeByTab($this->topic) . "\n" . implode("\n", array_map(array('Functions', 'implodeByTab'), $this->topicFile)));
 					$this->setTopicOnTop();

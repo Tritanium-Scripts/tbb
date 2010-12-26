@@ -125,6 +125,8 @@ class PostNew implements Module
 					$this->errors[] = Main::getModule('Language')->getString('please_enter_a_title_for_this_question');
 				if(!Main::getModule('Auth')->isLoggedIn() && empty($this->newPost['nick']) && Main::getModule('Config')->getCfgVal('nli_must_enter_name') == 1)
 					$this->errors[] = Main::getModule('Language')->getString('please_enter_your_user_name');
+				if(isset($_SESSION['lastPost']) && time() < $_SESSION['lastPost']+3) //3 secs spam delay
+					$this->errors[] = sprintf(Main::getModule('Language')->getString('please_wait_x_seconds_to_avoid_spam'), $_SESSION['lastPost']+3-time());
 				//This should be impossible to get, but whatever...
 				if($this->newPost['pollType'] != 1 && $this->newPost['pollType'] != 2)
 					$this->errors[] = Main::getModule('Language')->getString('please_select_a_valid_poll_type');
@@ -189,6 +191,8 @@ class PostNew implements Module
 					$this->errors[] = Main::getModule('Language')->getString('please_enter_a_post');
 				if(!Main::getModule('Auth')->isLoggedIn() && empty($this->newPost['nick']) && Main::getModule('Config')->getCfgVal('nli_must_enter_name') == 1)
 					$this->errors[] = Main::getModule('Language')->getString('please_enter_your_user_name');
+				if(isset($_SESSION['lastPost']) && time() < $_SESSION['lastPost']+3) //3 secs spam delay
+					$this->errors[] = sprintf(Main::getModule('Language')->getString('please_wait_x_seconds_to_avoid_spam'), $_SESSION['lastPost']+3-time());
 				if(empty($this->errors))
 				{
 					//Set proper nick name
@@ -236,7 +240,7 @@ class PostNew implements Module
 			$this->newPost['nick'],
 			$this->newPost['tSmiley'],
 			$this->newPost['isNotify'] ? '1' : '0',
-			time(),
+			($_SESSION['lastPost'] = time()),
 			'0', //Views
 			$newLastPollID,
 			'', '', '', '', '',

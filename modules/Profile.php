@@ -143,6 +143,9 @@ class Profile implements Module
 						}
 						//Update to file
 						Functions::file_put_contents('members/' . $this->userData[1] . '.xbb', implode("\n", $this->userData));
+						//Prepare cache
+						if(file_exists('cache/' . $this->userData[1] . '-Achievements.cache.php'))
+							Functions::unlink('cache/' . $this->userData[1] . '-Achievements.cache.php', false);
 						//And done
 						Main::getModule('Logger')->log('%s edited profile from ID: ' . $this->userData[1], LOG_EDIT_PROFILE);
 						Main::getModule('Template')->printMessage('profile_saved', INDEXFILE . '?faction=profile&amp;mode=edit&amp;profile_id=' . $this->userData[1] . SID_AMPER, Functions::getMsgBackLinks());
@@ -324,19 +327,15 @@ class Profile implements Module
 			//Load steam games for user, if any (and class to handle XML data is available)
 			if(Main::getModule('Config')->getCfgVal('achievements') == 1 && !empty($this->userData[18]) && !empty($this->userData[19][0]) && class_exists('DOMDocument', false) && ini_get('allow_url_fopen') == '1')
 			{
-				//Use cached game information not older than 6 hours
-				if(file_exists($cacheFile = 'cache/' . $this->userData[1] . '-Achievements.cache.php') && filemtime($cacheFile)+60*60*6 > time())
+				//Use cached game information
+				if(file_exists($cacheFile = 'cache/' . $this->userData[1] . '-Achievements.cache.php'))
 				{
 					include($cacheFile);
 					break;
 				}
 				$dom = new DOMDocument;
 				if(!@$dom->loadXML(file_get_contents('http://steamcommunity.com/' . (is_numeric($this->userData[18]) ? 'profiles/' : 'id/') . $this->userData[18] . '/games/?tab=achievements&l=' . Main::getModule('Language')->getString('steam_language') . '&xml=1')))
-					//Use cache if Steam is not available
-					if(file_exists($cacheFile))
-						include($cacheFile);
-					else
-						$this->userData[19] = array();
+					$this->userData[19] = array();
 				else
 				{
 					$this->userData[18] = array('profileID' => $this->userData[18],
@@ -355,6 +354,7 @@ class Profile implements Module
 								$curSteamGame->getElementsByTagName('logo')->item(0)->nodeValue,
 								$curSteamGame->getElementsByTagName('name')->item(0)->nodeValue);
 					}
+					//Cache game data
 					Functions::file_put_contents($cacheFile, '<?php $this->userData[18] = unserialize(\'' . serialize($this->userData[18]) . '\'); $this->userData[19] = unserialize(\'' . serialize($games) . '\'); ?>');
 					$this->userData[19] = $games;
 				}
