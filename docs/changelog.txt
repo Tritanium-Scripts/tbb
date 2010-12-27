@@ -1,6 +1,6 @@
 *********************************************************
 Tritanium Bulletin Board 1.5 - Changelog (German version)
-Last changed: 26.12.2010 (Version 1.5.3)
+Last changed: 27.12.2010 (Version 1.5.3)
 *********************************************************
 
 2011: Version 1.5.3
@@ -10,6 +10,9 @@ Last changed: 26.12.2010 (Version 1.5.3)
 	- Animation des Hochladen-Statusbild verbessert
 	- Steam-Spiele eines Benutzers werden gecachet und daher schneller angezeigt
 	- Spam-Schutz mit drei Sekunden Wartezeit zwischen dem Schreiben von neuen Beiträgen
+	- Anzeige von ungelesen Beiträgen mit Forensymbolen verbessert
+	- Alle Foren als gelesen markieren
+	- Zusätzliche Überprüfung auf korrekte Steam-Spielenamen
 
 24.11.2010: Version 1.5.2 (offiziell)
 	- Fehler beim Verlinken von Adressen, die kein http-Protokoll verwenden, behoben

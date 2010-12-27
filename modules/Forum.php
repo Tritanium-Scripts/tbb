@@ -185,6 +185,7 @@ class Forum implements Module
 			case 'viewthread':
 			//Manage cookies
 			setcookie('upbwhere', INDEXFILE . '?mode=viewthread&forum_id=' . $this->forumID . '&thread=' . $this->topicID);
+			setcookie('forum_' . $this->forumID, time(), time()+60*60*24*365, Main::getModule('Config')->getCfgVal('path_to_forum'));
 			setcookie('topic_' . $this->forumID . '_' . $this->topicID, time(), time()+60*60*24*365, Main::getModule('Config')->getCfgVal('path_to_forum'));
 			//Process topic and its posts
 			$forum = Functions::getForumData($this->forumID) or Main::getModule('Template')->printMessage('forum_not_found');
@@ -416,6 +417,16 @@ class Forum implements Module
 			}
 			else
 				Main::getModule('Template')->printMessage('no_newest_posts');
+			break;
+
+			case 'markAll':
+			//Prepare cookie data to set for each forum
+			$cookieData = array(time(), time()+60*60*24*365, Main::getModule('Config')->getCfgVal('path_to_forum'));
+			foreach(array_map(create_function('$curForum', 'return current(Functions::explodeByTab($curForum));'), Functions::file('vars/foren.var')) as $curForumID)
+				setcookie('forum_' . $curForumID, $cookieData[0], $cookieData[1], $cookieData[2]);
+			//Simple wasn't it?
+			header('Location: ' . INDEXFILE . SID_AMPER_RAW);
+			Main::getModule('Template')->printMessage('forums_marked_as_read');
 			break;
 
 //ForumIndex

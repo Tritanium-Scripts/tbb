@@ -90,6 +90,7 @@ class Config
 		1,										#enable_uploads
 		'',										#upload_allowed_ext
 		2097152);								#upload_max_filesize
+		#3										#spam_delay
 
 	/**
 	 * Name of config file to work with.

@@ -171,7 +171,7 @@ class Template
 	{
 		//ClickJacking protection
 		if(Main::getModule('Config')->getCfgVal('clickjacking') == 1)
-			header("X-FRAME-OPTIONS: SAMEORIGIN");
+			header('X-FRAME-OPTIONS: SAMEORIGIN');
 		//Announce amount of *now* unread pms to template, just before printing out any of them
 		$this->display('PageHeader', 'unreadPMs', Main::getModule('PrivateMessage')->getUnreadPMs());
 	}

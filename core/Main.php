@@ -82,6 +82,7 @@ class Main implements Module
 		'todaysPosts' => 'Forum',
 		'rssFeed' => 'Forum',
 		'uploadFile' => 'Upload',
+		'markAll' => 'Forum',
 		//Adminpanel actions
 		'adminpanel' => 'AdminIndex',
 		'ad_forum' => 'AdminForum',
@@ -98,8 +99,7 @@ class Main implements Module
 		'ad_killposts' => 'AdminDeleteOld',
 		'ad_login' => 'Login',
 		'adminLogfile' => 'AdminLogfile',
-		'adminTemplate' => 'AdminTemplate',
-		'adminFile' => 'AdminFile');
+		'adminTemplate' => 'AdminTemplate');
 
 	/**
 	 * Loaded modules are stored here after first execution.

@@ -1,6 +1,6 @@
 <?php
 /**
- * Manages an user profile incl. sending mails and vCard download.
+ * Manages an user profile incl. sending mails, vCard download and Steam achievements.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
  * @copyright Copyright (c) 2010 Tritanium Scripts
@@ -119,6 +119,8 @@ class Profile implements Module
 						$this->errors[] = Main::getModule('Language')->getString('please_enter_your_steam_profile_name');
 					elseif(!empty($this->userData[18]) && Functions::strpos($this->userData[18], ' ') !== false)
 						$this->errors[] = Main::getModule('Language')->getString('please_enter_a_valid_steam_profile_name');
+					elseif(count(array_filter($this->userData[19], create_function('$game', 'return (Functions::stripos($game, \'http://\') !== false) || (Functions::stripos($game, \' \') !== false);'))) > 0)
+						$this->errors[] = Main::getModule('Language')->getString('please_enter_valid_steam_game_names');
 					$this->userData[20] = Functions::getValueFromGlobals('ownTemplate');
 					$this->userData[21] = Functions::getValueFromGlobals('ownStyle');
 					if(($newPass = Functions::getValueFromGlobals('new_pw1')) != Functions::getValueFromGlobals('new_pw2'))
