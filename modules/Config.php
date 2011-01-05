@@ -90,7 +90,9 @@ class Config
 		1,										#enable_uploads
 		'',										#upload_allowed_ext
 		2097152);								#upload_max_filesize
+		#E_WARNING								#error_level
 		#3										#spam_delay
+		#1										#edit_time
 
 	/**
 	 * Name of config file to work with.

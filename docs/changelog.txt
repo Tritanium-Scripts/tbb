@@ -1,6 +1,6 @@
 *********************************************************
 Tritanium Bulletin Board 1.5 - Changelog (German version)
-Last changed: 27.12.2010 (Version 1.5.3)
+Last changed: 05.01.2011 (Version 1.5.3)
 *********************************************************
 
 2011: Version 1.5.3
@@ -13,6 +13,8 @@ Last changed: 27.12.2010 (Version 1.5.3)
 	- Anzeige von ungelesen Beiträgen mit Forensymbolen verbessert
 	- Alle Foren als gelesen markieren
 	- Zusätzliche Überprüfung auf korrekte Steam-Spielenamen
+	- Seltener Fehler beim automatischen Hinzufügen von [url]-BBCode behoben
+	- Fehlerhafter Link bei Benachrichtigungen von Themenabos behoben
 
 24.11.2010: Version 1.5.2 (offiziell)
 	- Fehler beim Verlinken von Adressen, die kein http-Protokoll verwenden, behoben
