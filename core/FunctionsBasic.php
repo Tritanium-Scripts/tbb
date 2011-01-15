@@ -90,17 +90,20 @@ class FunctionsBasic
 	 */
 	public static function addURL($subject)
 	{
-		$subject = preg_replace_callback("/([^ ^>^\]^=^\n^\r]+?:\/\/|www\.)[^ ^<^\.^\[]+(\.[^ ^<^\.^\[^\]^\n^\r]+)+/si", create_function('$arr', 'return !empty($arr[2]) && Functions::stripos($arr[0], \'[url]\') === false && Functions::strripos($arr[0], \'[/url]\') === false ? \'[url]\' . ($arr[1] == \'www.\' ? \'http://\' : \'\') . $arr[0] . \'[/url]\' : $arr[0];'), $subject);
+		$tempBBCode = time(); //This is the placeholder for "url"
+		$subject = preg_replace_callback("/([^ ^>^\]^=^\n^\r]+?:\/\/|www\.)[^ ^<^\.^\[]+(\.[^ ^<^\.^\[^\]^\n^\r]+)+/si", create_function('$arr', 'return !empty($arr[2]) && Functions::stripos($arr[0], \'[url]\') === false && Functions::strripos($arr[0], \'[/url]\') === false ? \'[' . $tempBBCode . ']\' . ($arr[1] == \'www.\' ? \'http://\' : \'\') . $arr[0] . \'[/' . $tempBBCode . ']\' : $arr[0];'), $subject);
 		//After adding [url]s to *any* link, strip off unwanted ones:
 		foreach(array('flash', 'url', 'img', 'email', 'code', 'php', 'noparse') as $curBBCode)
 		{
 			//Remove the simple ones, e.g. [flash][url]xxx[/url][/flash]
-			$subject = Functions::str_replace(array('[' . $curBBCode . '][url]', '[/url][/' . $curBBCode . ']'), array('[' . $curBBCode . ']', '[/' . $curBBCode . ']'), $subject);
+			$subject = Functions::str_replace(array('[' . $curBBCode . '][' . $tempBBCode . ']', '[/' . $tempBBCode . '][/' . $curBBCode . ']'), array('[' . $curBBCode . ']', '[/' . $curBBCode . ']'), $subject);
 			//Remove the advanced ones having any attributes (only start tags are affected), e.g. [flash=xxx,xxx][url]xxx[/flash]
-			$subject = preg_replace("/(\[" . $curBBCode . "=[^\r^\n]*?\])\[url\]/si", '\1', $subject);
+			$subject = preg_replace("/(\[" . $curBBCode . "=.*?\])\['" . $tempBBCode . "'\]/si", '\1', $subject);
 			//Remove attributed ones in start tags, e.g. [img=[url]xxx[/url]]
-			$subject = preg_replace("/(\[" . $curBBCode . "=)\[url\](.*?)\[\/url\]\]/si", '\1\2]', $subject);
+			$subject = preg_replace("/(\[" . $curBBCode . "=)\[" . $tempBBCode . "\](.*?)\[\/" . $tempBBCode . "\]\]/si", '\1\2]', $subject);
 		}
+		//Finally add proper [url]s
+		$subject = Functions::str_replace(array('[' . $tempBBCode . ']', '[/' . $tempBBCode . ']'), array('[url]', '[/url]'), $subject);
 		return $subject;
 	}
 

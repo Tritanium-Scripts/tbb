@@ -145,8 +145,8 @@ class Login implements Module
 							Main::getModule('Auth')->loginChanged();
 							//That's it
 							Main::getModule('Logger')->log($curMember[0] . ' (ID: ' . $curMember[1] . ') logged in', LOG_LOGIN_LOGOUT);
-							//Detect loction to redir
-							$location = $curMember[11] == '1' ? INDEXFILE . '?faction=profile&mode=edit' . SID_AMPER_RAW : (isset($_COOKIE['upbwhere']) && !empty($_COOKIE['upbwhere']) ? $location = $_COOKIE['upbwhere'] : INDEXFILE . SID_QMARK);
+							//Detect location to redir
+							$location = $curMember[11] == '1' ? INDEXFILE . '?faction=profile&mode=edit' . SID_AMPER_RAW : (isset($_COOKIE['upbwhere']) && !empty($_COOKIE['upbwhere']) ? $_COOKIE['upbwhere'] : INDEXFILE . SID_QMARK);
 							header('Location: ' . $location);
 							Main::getModule('Template')->printMessage('successfully_logged_in', $location);
 						}

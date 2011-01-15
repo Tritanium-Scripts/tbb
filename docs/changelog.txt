@@ -1,6 +1,6 @@
 *********************************************************
 Tritanium Bulletin Board 1.5 - Changelog (German version)
-Last changed: 05.01.2011 (Version 1.5.3)
+Last changed: 15.01.2011 (Version 1.5.3)
 *********************************************************
 
 2011: Version 1.5.3
@@ -13,8 +13,9 @@ Last changed: 05.01.2011 (Version 1.5.3)
 	- Anzeige von ungelesen Beiträgen mit Forensymbolen verbessert
 	- Alle Foren als gelesen markieren
 	- Zusätzliche Überprüfung auf korrekte Steam-Spielenamen
-	- Seltener Fehler beim automatischen Hinzufügen von [url]-BBCode behoben
+	- Nochmal Fehler beim automatischen Hinzufügen von [url]-BBCode behoben
 	- Fehlerhafter Link bei Benachrichtigungen von Themenabos behoben
+	- Copyright-Jahreszahl aktualisiert
 
 24.11.2010: Version 1.5.2 (offiziell)
 	- Fehler beim Verlinken von Adressen, die kein http-Protokoll verwenden, behoben
@@ -155,5 +156,5 @@ Last changed: 05.01.2011 (Version 1.5.3)
 	- Verbesserte Locking-Technik verhindert die Vergabe von gleichen IDs bei neuen Benutzern, Themen und Umfragen und falschen Mitgliederzahlen im Falle von DDoS-ähnlichen Attacken
 
 Written by Chrissyx
-(c) 2010 Tritanium Scripts
+(c) 2010/2011 Tritanium Scripts
 http://www.tritanium-scripts.com/
