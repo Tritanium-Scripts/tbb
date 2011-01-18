@@ -9,7 +9,7 @@
  */
 define('SCRIPTSTART', microtime(true));
 define('INDEXFILE', 'index.php');
-define('ERR_REPORTING', E_WARNING); //Report only warnings or higher
+define('ERR_REPORTING', E_ERROR | E_WARNING | E_PARSE); //Report only warnings or higher
 /*
  * Two version numbers of this script are used
  * to prevent selective bug using in case of

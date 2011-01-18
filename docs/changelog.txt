@@ -1,9 +1,9 @@
 *********************************************************
 Tritanium Bulletin Board 1.5 - Changelog (German version)
-Last changed: 15.01.2011 (Version 1.5.3)
+Last changed: 18.01.2011 (Version 1.5.3)
 *********************************************************
 
-2011: Version 1.5.3
+18.01.2011: Version 1.5.3 (offiziell)
 	- Bestimmte ISO-8859-15 Zeichen (u.a. €) werden als Entitäten konvertiert, so dass sie als ISO-8859-1 gespeichert werden können
 	- Aktualisierung des Caches beim Verwalten von Smileys korrigiert
 	- Smarty auf Version 3.0.6 aktualisiert
@@ -16,6 +16,9 @@ Last changed: 15.01.2011 (Version 1.5.3)
 	- Nochmal Fehler beim automatischen Hinzufügen von [url]-BBCode behoben
 	- Fehlerhafter Link bei Benachrichtigungen von Themenabos behoben
 	- Copyright-Jahreszahl aktualisiert
+	- Handhabung von Logouts bei bereits ausgeloggten Benutzern verbessert
+	- error_reporting Level korrigiert
+	- Diverse Optimierungen
 
 24.11.2010: Version 1.5.2 (offiziell)
 	- Fehler beim Verlinken von Adressen, die kein http-Protokoll verwenden, behoben

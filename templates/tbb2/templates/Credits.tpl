@@ -81,7 +81,7 @@
  <head>
   <title>{$modules.Language->getString('credits')}</title>
   <meta name="author" content="Chrissyx" />
-  <meta name="copyright" content="&copy; 2010 Tritanium Scripts" />
+  <meta name="copyright" content="&copy; 2010/2011 Tritanium Scripts" />
   <meta name="generator" content="Notepad 4.10.1998" />
   <meta http-equiv="Content-Language" content="{$modules.Language->getLangCode()}" />
   <meta http-equiv="Content-Type" content="application/xhtml+xml; charset={$modules.Language->getString('html_encoding')}" />

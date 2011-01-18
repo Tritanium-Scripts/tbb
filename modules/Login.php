@@ -199,18 +199,19 @@ class Login implements Module
 
 //Logout
 			case 'logout':
-			if(!Main::getModule('Auth')->isLoggedIn())
-				break;
-			Main::getModule('Logger')->log('%s logged out', LOG_LOGIN_LOGOUT);
-			//Delete user ID from WIO to work with previous guest ID form now on
-			Main::getModule('WhoIsOnline')->delete($_SESSION['userID']);
-			//Logout cookie-based
-			setcookie('cookie_xbbuser', '', time()-1000, Main::getModule('Config')->getCfgVal('path_to_forum'));
-			//Logout session-based
-			unset($_SESSION['userID'], $_SESSION['userHash']);
-			if(Main::getModule('Auth')->isGhost())
-				unset($_SESSION['bewio']);
-			Main::getModule('Auth')->loginChanged();
+			if(Main::getModule('Auth')->isLoggedIn())
+			{
+				Main::getModule('Logger')->log('%s logged out', LOG_LOGIN_LOGOUT);
+				//Delete user ID from WIO to work with previous guest ID form now on
+				Main::getModule('WhoIsOnline')->delete($_SESSION['userID']);
+				//Logout cookie-based
+				setcookie('cookie_xbbuser', '', time()-1000, Main::getModule('Config')->getCfgVal('path_to_forum'));
+				//Logout session-based
+				unset($_SESSION['userID'], $_SESSION['userHash']);
+				if(Main::getModule('Auth')->isGhost())
+					unset($_SESSION['bewio']);
+				Main::getModule('Auth')->loginChanged();
+			}
 			//Done, redir to forum index
 			header('Location: ' . INDEXFILE . SID_QMARK);
 			Main::getModule('Template')->printMessage('successfully_logged_out', INDEXFILE . SID_QMARK);
