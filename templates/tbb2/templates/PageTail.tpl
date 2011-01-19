@@ -10,7 +10,7 @@
   </p>
   <br />{if $modules.Config->getCfgVal('show_site_creation_time')}
   <p id="techStats">
-   {$creationTime+(microtime(true)-$smartyTime)|string_format:$modules.Language->getString('site_created_in_x_sec')}<br />
+   {($creationTime+(microtime(true)-$smartyTime))|string_format:$modules.Language->getString('site_created_in_x_sec')}<br />
    {$processedFiles|string_format:$modules.Language->getString('processed_x_files')}<br />
    {if $modules.Config->getCfgVal('use_gzip_compression') == 1}{$modules.Language->getString('gzip_compression_enabled')}{else}{$modules.Language->getString('gzip_compression_disabled')}{/if}<br />
    {$memoryUsage|string_format:$modules.Language->getString('x_kib_memory_usage')}
