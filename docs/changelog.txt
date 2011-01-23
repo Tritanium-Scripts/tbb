@@ -1,9 +1,9 @@
 *********************************************************
 Tritanium Bulletin Board 1.5 - Changelog (German version)
-Last changed: 19.01.2011 (Version 1.5.3)
+Last changed: 20.01.2011 (Version 1.5.3)
 *********************************************************
 
-19.01.2011: Version 1.5.3 (offiziell)
+20.01.2011: Version 1.5.3 (offiziell)
 	- Bestimmte ISO-8859-15 Zeichen (u.a. €) werden als Entitäten konvertiert, so dass sie als ISO-8859-1 gespeichert werden können
 	- Aktualisierung des Caches beim Verwalten von Smileys korrigiert
 	- Smarty auf Version 3.0.6 aktualisiert
