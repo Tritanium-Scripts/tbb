@@ -40,7 +40,7 @@ class Newsletter implements Module
 
 	/**
 	 * Sets mode, ID and loads available newsletter.
-	 * 
+	 *
 	 * @param string $mode Mode
 	 * @return Newsletter New instance of this class
 	 */

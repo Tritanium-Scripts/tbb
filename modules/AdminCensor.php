@@ -48,7 +48,7 @@ class AdminCensor implements Module
 
 	/**
 	 * Sets mode and loads censorships.
-	 * 
+	 *
 	 * @param string $mode Censor mode
 	 * @return AdminCensor New instance of this class
 	 */

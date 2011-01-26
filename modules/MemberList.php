@@ -66,7 +66,7 @@ class MemberList implements Module
 			Main::getModule('Template')->printMessage('function_deactivated');
 		$memberFiles = $members = $pageBar = array();
 		//Build page navigation bar
-		$pages = ceil(($size = count($availMembers = glob(DATAPATH . 'members/[!0]*.xbb'))) / $this->limit);
+		$pages = ceil(($size = count($availMembers = glob(DATAPATH . 'members/[!0t]*.xbb'))) / $this->limit);
 		for($i=1; $i<=$pages; $i++)
 			$pageBar[] = $i != $this->page ? '<a href="' . INDEXFILE . '?faction=mlist&amp;sortmethod=' . $this->sortMethod . '&amp;z=' . $i . '&amp;orderType=' . $this->orderType . SID_AMPER . '">' . $i . '</a>' : $i;
 		//Only add bar by having more than one page

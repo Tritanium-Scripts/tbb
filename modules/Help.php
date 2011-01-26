@@ -25,7 +25,7 @@ class Help implements Module
 
 	/**
 	 * Sets help page to display.
-	 * 
+	 *
 	 * @param string $page Help page
 	 * @return Help New instance of this class
 	 */

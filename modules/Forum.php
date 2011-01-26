@@ -504,7 +504,7 @@ class Forum implements Module
 				'forums' => $forums,
 				'topicCounter' => $topicCounter,
 				'postCounter' => $postCounter,
-				'newestPosts' => $newestPosts) + 
+				'newestPosts' => $newestPosts) +
 				//Add board statistics
 				(Main::getModule('Config')->getCfgVal('show_board_stats') == 1 ? array(
 				'newestMember' => Functions::getProfileLink(Functions::file_get_contents('vars/last_user_id.var'), true),

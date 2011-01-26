@@ -47,7 +47,7 @@ class AdminIP implements Module
 
 	/**
 	 * Sets mode.
-	 * 
+	 *
 	 * @param string $mode Mode
 	 * @return AdminIP New instance of this class
 	 */

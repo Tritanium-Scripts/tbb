@@ -75,7 +75,7 @@ class AdminSmiley implements Module
 
 	/**
 	 * Sets mode, current smiley type, smiley id and loads all smilies.
-	 * 
+	 *
 	 * @param string $mode Mode
 	 * @return AdminSmiley New instance of this class
 	 */

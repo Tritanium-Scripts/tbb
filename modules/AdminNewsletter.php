@@ -33,7 +33,7 @@ class AdminNewsletter implements Module
 
 	/**
 	 * Sets mode and timeout.
-	 * 
+	 *
 	 * @param string $mode Mode
 	 * @return AdminNewsletter New instance of this class
 	 */
@@ -114,7 +114,7 @@ class AdminNewsletter implements Module
 			{
 				//All members
 				case 1:
-				foreach(glob(DATAPATH . 'members/[!0]*.xbb') as $curMember)
+				foreach(glob(DATAPATH . 'members/[!0t]*.xbb') as $curMember)
 				{
 					$curMember = Functions::getUserData(basename($curMember, '.xbb'));
 					if($curMember[4] != '5' && $curMember[14][0] == '1')
@@ -124,7 +124,7 @@ class AdminNewsletter implements Module
 
 				//Only (s)mods
 				case 2:
-				foreach(glob(DATAPATH . 'members/[!0]*.xbb') as $curMember)
+				foreach(glob(DATAPATH . 'members/[!0t]*.xbb') as $curMember)
 				{
 					$curMember = Functions::getUserData(basename($curMember, '.xbb'));
 					if($curMember[4] == '2' || $curMember[4] == '6')
@@ -134,7 +134,7 @@ class AdminNewsletter implements Module
 
 				//Only admins
 				case 3:
-				foreach(glob(DATAPATH . 'members/[!0]*.xbb') as $curMember)
+				foreach(glob(DATAPATH . 'members/[!0t]*.xbb') as $curMember)
 				{
 					$curMember = Functions::getUserData(basename($curMember, '.xbb'));
 					if($curMember[4] == '1')

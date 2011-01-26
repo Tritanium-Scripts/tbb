@@ -63,7 +63,7 @@ class Upload implements Module
 
 	/**
 	 * Sets mode and file upload parameters.
-	 * 
+	 *
 	 * @param string $mode Mode
 	 * @return Upload New instance of this class
 	 */
@@ -171,7 +171,7 @@ class Upload implements Module
 
 	/**
 	 * Verfies a picture for known / supported extension.
-	 * 
+	 *
 	 * @param mixed $filename Name of image file with extension
 	 * @return bool Valid / supported image file
 	 */

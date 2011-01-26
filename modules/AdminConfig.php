@@ -108,7 +108,7 @@ class AdminConfig implements Module
 			}
 			if(Functions::getValueFromGlobals('confirmed') == 'true')
 			{
-				//Prepare rebuild stuff 
+				//Prepare rebuild stuff
 				$_SESSION['rebuildTopicIndex'] = array_combine($forums = array_map(create_function('$forum', 'return current(Functions::explodeByTab($forum));'), Functions::file('vars/foren.var', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES)), array_fill(0, count($forums), array()));
 				if(empty($forums))
 					$_SESSION['rebuildTopicIndex'] = array();
@@ -156,13 +156,13 @@ class AdminConfig implements Module
 				Functions::file_put_contents('vars/foren.var', implode("\n", array_map(array('Functions', 'implodeByTab'), $forums)));
 				unset($_SESSION['recalculateCounters']);
 				//Now the members
-				Functions::file_put_contents('vars/member_counter.var', count(glob(DATAPATH . 'members/[!0]*.xbb')));
+				Functions::file_put_contents('vars/member_counter.var', count(glob(DATAPATH . 'members/[!0t]*.xbb')));
 				Main::getModule('Logger')->log('%s recalculated counters', LOG_ACP_ACTION);
 				Main::getModule('Template')->printMessage('counters_recalculated');
 			}
 			if(Functions::getValueFromGlobals('confirmed') == 'true')
 			{
-				//Prepare recalculation stuff 
+				//Prepare recalculation stuff
 				$_SESSION['recalculateCounters'] = array('forums' => array_combine($forums = array_map(create_function('$forum', 'return current(Functions::explodeByTab($forum));'), Functions::file('vars/foren.var', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES)), array_fill(0, count($forums), array())), 'total' => array());
 				$this->checkTime(false);
 			}

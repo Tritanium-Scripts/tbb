@@ -49,7 +49,7 @@ class AdminGroup implements Module
 
 	/**
 	 * Sets mode, group ID and loads all groups.
-	 * 
+	 *
 	 * @param string $mode Group mode
 	 * @return AdminGroup New instance of this class
 	 */

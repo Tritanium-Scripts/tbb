@@ -88,8 +88,8 @@ class Login implements Module
 				$this->loginName = Functions::strtolower($this->loginName);
 				$this->loginPass = Functions::getHash($this->loginPass);
 				$found = false;
-				//Start crawling by ignoring XBB files with leading zeros (=skip guest)
-				foreach(glob(DATAPATH . 'members/[!0]*.xbb') as $curMember)
+				//Start crawling by ignoring XBB files with leading zeros (=skip guest) and temporary ones
+				foreach(glob(DATAPATH . 'members/[!0t]*.xbb') as $curMember)
 				{
 					$curMember = Functions::file($curMember, null, null, false);
 					if($this->loginName == Functions::strtolower($curMember[0]))
@@ -175,7 +175,7 @@ class Login implements Module
 				{
 					//Prerequisite are met, prepare data and start crawling
 					$this->loginName = Functions::strtolower($this->loginName);
-					foreach(glob(DATAPATH . 'members/[!0]*.xbb') as $curMember)
+					foreach(glob(DATAPATH . 'members/[!0t]*.xbb') as $curMember)
 					{
 						$curMember = Functions::file($curMember);
 						if($this->loginName == Functions::strtolower($curMember[0]))

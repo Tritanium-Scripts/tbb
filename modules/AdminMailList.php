@@ -17,7 +17,7 @@ class AdminMailList implements Module
 		Functions::accessAdminPanel();
 		Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('email_list'), INDEXFILE . '?faction=ad_emailist' . SID_AMPER);
 		$mailAddys = array();
-		foreach(glob(DATAPATH . 'members/[!0]*.xbb') as $curMember)
+		foreach(glob(DATAPATH . 'members/[!0t]*.xbb') as $curMember)
 		{
 			list(,,,$curMailAddy,,,,,,,,,,,$cuMailOptions) = Functions::file($curMember, null, null, false);
 			//Only collect mail address if mail option allows it

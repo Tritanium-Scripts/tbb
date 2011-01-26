@@ -11,7 +11,7 @@ class AdminForum implements Module
 {
 	/**
 	 * Translates a category ID to its name.
-	 * 
+	 *
 	 * @var array Cat IDs and name counterparts
 	 */
 	private $catTable = array();
@@ -58,7 +58,7 @@ class AdminForum implements Module
 
 	/**
 	 * Sets mode and prepares category translation table.
-	 * 
+	 *
 	 * @param string $mode
 	 * @return AdminForum New instance of this class
 	 */
