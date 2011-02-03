@@ -173,7 +173,7 @@ class Login implements Module
 					$this->errors[] = Main::getModule('Language')->getString('please_enter_your_user_name');
 				else
 				{
-					//Prerequisite are met, prepare data and start crawling
+					//Prerequisites are met, prepare data and start crawling
 					$this->loginName = Functions::strtolower($this->loginName);
 					foreach(glob(DATAPATH . 'members/[!0t]*.xbb') as $curMember)
 					{

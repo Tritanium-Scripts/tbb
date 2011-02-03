@@ -37,7 +37,7 @@
   <br />
   <p class="copyr" style="text-align:center;">
    Tritanium Bulletin Board {$smarty.const.VERSION_PUBLIC}<br />
-   &copy; 2010 <a class="copyr" href="http://www.tritanium-scripts.com/" target="_blank">Tritanium Scripts</a>
+   &copy; 2010/2011 <a class="copyr" href="http://www.tritanium-scripts.com/" target="_blank">Tritanium Scripts</a>
   </p>
  </body>
 </html>

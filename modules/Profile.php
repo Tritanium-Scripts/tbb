@@ -354,7 +354,7 @@ class Profile implements Module
 						if(in_array(($curGame = basename($curStatLink->item(0)->nodeValue)), $this->userData[19]))
 							$games[] = array($curGame,
 								$curSteamGame->getElementsByTagName('logo')->item(0)->nodeValue,
-								$curSteamGame->getElementsByTagName('name')->item(0)->nodeValue);
+								Functions::str_replace("'", '&#039;', $curSteamGame->getElementsByTagName('name')->item(0)->nodeValue));
 					}
 					//Cache game data
 					Functions::file_put_contents($cacheFile, '<?php $this->userData[18] = unserialize(\'' . serialize($this->userData[18]) . '\'); $this->userData[19] = unserialize(\'' . serialize($games) . '\'); ?>');

@@ -39,7 +39,7 @@
   <br />
   <p id="copyrightBox">
    Tritanium Bulletin Board {$smarty.const.VERSION_PUBLIC}<br />
-   &copy; 2010 <a href="http://www.tritanium-scripts.com/" target="_blank">Tritanium Scripts</a>
+   &copy; 2010/2011 <a href="http://www.tritanium-scripts.com/" target="_blank">Tritanium Scripts</a>
   </p>
   </div>
  </body>
