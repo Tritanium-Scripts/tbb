@@ -1,12 +1,13 @@
 *********************************************************
 Tritanium Bulletin Board 1.5 - Changelog (German version)
-Last changed: 03.02.2011 (Version 1.5.4)
+Last changed: 07.02.2011 (Version 1.5.4)
 *********************************************************
 
 2011: Version 1.5.4
 	- Logging-Funktion arbeitet sicherer
 	- Fehler bei der internen Erfassung von freigeschalteten Benutzerkonten zu verschiedenen Anlässen behoben
 	- Fehler beim Cachen von Steam-Spielen mit bestimmten Zeichen im Namen behoben
+	- Datenstrukturfehler bei Aktualisierung der Themenansichten behoben
 
 20.01.2011: Version 1.5.3 (offiziell)
 	- Bestimmte ISO-8859-15 Zeichen (u.a. €) werden als Entitäten konvertiert, so dass sie als ISO-8859-1 gespeichert werden können
