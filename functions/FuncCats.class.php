@@ -10,11 +10,11 @@ class FuncCats {
 
 	/**
 	* Adds a new category.
-	* 
+	*
 	* @param mixed $parentID
 	* @param Factory $DB
 	*/
-	function addCatData($parentID = 1,$DB = NULL) {
+	public static function addCatData($parentID = 1,$DB = NULL) {
 		if(!$DB) $DB = Factory::singleton('DB');
 
 		$DB->query('LOCK TABLES '.TBLPFX.'cats WRITE'); // Lock table
