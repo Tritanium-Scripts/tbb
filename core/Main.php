@@ -117,6 +117,7 @@ class Main implements Module
 	function __construct()
 	{
 		error_reporting(ERR_REPORTING);
+		set_exception_handler(create_function('$e', 'Main::getModule(\'Logger\')->log(get_class($e) . \': \' . $e->getMessage(), LOG_FILESYSTEM); echo($e);'));
 		//Finalize feature set of Functions class by either using Multibyte string functions and/or (overloaded) default PHP ones
 		require('Functions' . (!extension_loaded('mbstring') || (extension_loaded('mbstring') && ini_set('mbstring.func_overload', '7') !== false) ? '' : 'MB') . '.php');
 		//Revert quoted strings on GPC vars, if needed
