@@ -1,7 +1,11 @@
 *********************************************************
 Tritanium Bulletin Board 1.5 - Changelog (German version)
-Last changed: 10.02.2011 (Version 1.5.4)
+Last changed: 13.02.2011 (Version 1.5.5)
 *********************************************************
+
+2011: Version 1.5.5
+	- Smarty auf Version 3.0.7 aktualisiert
+	- Automatisches Hinzufügen von [url]-BBCode kompatibel mit BBCode in Großbuchstaben
 
 10.02.2011: Version 1.5.4 (offiziell)
 	- Logging-Funktion arbeitet sicherer
