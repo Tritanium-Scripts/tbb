@@ -161,7 +161,7 @@ class Upload implements Module
 			}
 			break;
 		}
-		exit(Main::getModule('Template')->display(self::$modeTable[$this->mode], array('errors' => $this->errors,
+		exit(Main::getModule('Template')->display(self::$modeTable[array_key_exists($this->mode, self::$modeTable) ? $this->mode : 'uploadFile' . Main::getModule('Logger')->log('Unknown mode ' . $this->mode . ' in ' . __CLASS__ . '; using default', LOG_FILESYSTEM)], array('errors' => $this->errors,
 			'allowedExtensions' => $this->allowedExtensions,
 			'maxFilesize' => $this->maxFilesize/1024,
 			'isUploaded' => $this->isUploaded,

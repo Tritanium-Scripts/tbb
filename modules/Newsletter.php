@@ -105,7 +105,7 @@ class Newsletter implements Module
 			Main::getModule('Template')->assign('newsletter', $newsletter);
 			break;
 		}
-		Main::getModule('Template')->printPage(self::$modeTable[$this->mode], null, null, ',' . $this->newsletterID);
+		Main::getModule('Template')->printPage(self::$modeTable[array_key_exists($this->mode, self::$modeTable) ? $this->mode : 'newsletter' . Main::getModule('Logger')->log('Unknown mode ' . $this->mode . ' in ' . __CLASS__ . '; using default', LOG_FILESYSTEM)], null, null, ',' . $this->newsletterID);
 	}
 }
 ?>

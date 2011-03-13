@@ -47,7 +47,7 @@
  </tr>{/if}
  <tr>
   <td class="td1" style="font-weight:bold; width:20%;"><span class="norm">{$modules.Language->getString('last_active_on_colon')}</span></td>
-  <td class="td1" style="width:80%;"><span class="norm">{$userData[16]|date_format:$modules.Language->getString('DATEFORMAT')}</span></td>
+  <td class="td1" style="width:80%;"><span class="norm">{$userData[16]|date_format:$modules.Language->getString('DATEFORMAT')|utf8_encode}</span></td>
  </tr>
  <tr>
   <td class="td1" style="font-weight:bold; width:20%; vertical-align:top;"><span class="norm">{$modules.Language->getString('avatar_colon')}</span></td>

@@ -213,7 +213,7 @@ class PostNew implements Module
 			break;
 		}
 		//Always append IDs to WIO location. WIO will not parse them in inapplicable mode.
-		Main::getModule('Template')->printPage(self::$modeTable[$this->mode], array('forumID' => $this->forum[0],
+		Main::getModule('Template')->printPage(self::$modeTable[array_key_exists($this->mode, self::$modeTable) ? $this->mode : '' . Main::getModule('Logger')->log('Unknown mode ' . $this->mode . ' in ' . __CLASS__ . '; using default', LOG_FILESYSTEM)], array('forumID' => $this->forum[0],
 			'newPost' => $this->newPost,
 			//Just give the template what it needs to know
 			'forum' => array('forumID' => $this->forum[0],

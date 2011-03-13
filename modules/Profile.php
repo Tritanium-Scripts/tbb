@@ -366,7 +366,7 @@ class Profile implements Module
 			break;
 		}
 		//Append profile ID for WIO location
-		Main::getModule('Template')->printPage(self::$modeTable[$this->mode], array('userData' => $this->userData,
+		Main::getModule('Template')->printPage(self::$modeTable[array_key_exists($this->mode, self::$modeTable) ? $this->mode : '' . Main::getModule('Logger')->log('Unknown mode ' . $this->mode . ' in ' . __CLASS__ . '; using default', LOG_FILESYSTEM)], array('userData' => $this->userData,
 			'errors' => $this->errors), null, ',' . $this->userData[1]);
 	}
 }

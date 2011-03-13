@@ -57,7 +57,7 @@
  </tr>{/if}
  <tr>
   <td class="cellStd" style="width:30%;"><span class="fontNorm">{$modules.Language->getString('last_active_on_colon')}</span></td>
-  <td class="cellAlt" style="width:70%;"><span class="fontNorm">{$userData[16]|date_format:$modules.Language->getString('DATEFORMAT')}</span></td>
+  <td class="cellAlt" style="width:70%;"><span class="fontNorm">{$userData[16]|date_format:$modules.Language->getString('DATEFORMAT')|utf8_encode}</span></td>
  </tr>
  <tr>
   <td class="cellStd" style="width:30%;"><span class="fontNorm">{$modules.Language->getString('icq_number_colon')}</span></td>

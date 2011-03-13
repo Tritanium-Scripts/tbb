@@ -248,7 +248,7 @@ class PrivateMessage implements Module
 			Main::getModule('Template')->assign('pms', $pms);
 			break;
 		}
-		Main::getModule('Template')->printPage(self::$modeTable[$this->mode], array('pmBoxID' => $this->pmBoxID,
+		Main::getModule('Template')->printPage(self::$modeTable[array_key_exists($this->mode, self::$modeTable) ? $this->mode : '' . Main::getModule('Logger')->log('Unknown mode ' . $this->mode . ' in ' . __CLASS__ . '; using default', LOG_FILESYSTEM)], array('pmBoxID' => $this->pmBoxID,
 			'pmID' => $this->pmID));
 	}
 

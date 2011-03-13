@@ -218,7 +218,7 @@ class Login implements Module
 			break;
 		}
 		//Show formular (again)
-		Main::getModule('Template')->printPage(self::$modeTable[$this->mode], array('loginName' => $this->loginName,
+		Main::getModule('Template')->printPage(self::$modeTable[array_key_exists($this->mode, self::$modeTable) ? $this->mode : '' . Main::getModule('Logger')->log('Unknown mode ' . $this->mode . ' in ' . __CLASS__ . '; using default', LOG_FILESYSTEM)], array('loginName' => $this->loginName,
 			'errors' => $this->errors));
 	}
 }
