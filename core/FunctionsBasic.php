@@ -98,7 +98,7 @@ class FunctionsBasic
 			//Remove the simple ones, e.g. [flash][url]xxx[/url][/flash]
 			$subject = Functions::str_ireplace(array('[' . $curBBCode . '][' . $tempBBCode . ']', '[/' . $tempBBCode . '][/' . $curBBCode . ']'), array('[' . $curBBCode . ']', '[/' . $curBBCode . ']'), $subject);
 			//Remove the advanced ones having any attributes (only start tags are affected), e.g. [flash=xxx,xxx][url]xxx[/flash]
-			$subject = preg_replace("/(\[" . $curBBCode . "=.*?\])\['" . $tempBBCode . "'\]/si", '\1', $subject);
+			$subject = preg_replace("/(\[" . $curBBCode . "=.*?\])\[" . $tempBBCode . "\]/si", '\1', $subject);
 			//Remove attributed ones in start tags, e.g. [img=[url]xxx[/url]]
 			$subject = preg_replace("/(\[" . $curBBCode . "=)\[" . $tempBBCode . "\](.*?)\[\/" . $tempBBCode . "\]\]/si", '\1\2]', $subject);
 		}

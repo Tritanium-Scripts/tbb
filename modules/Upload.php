@@ -154,14 +154,14 @@ class Upload implements Module
 				$this->errors[] = Main::getModule('Language')->getString('the_file_is_too_big');
 				break;
 
-				//Partial upload
+				//Partial uploaded
 				case UPLOAD_ERR_PARTIAL:
 				$this->errors[] = Main::getModule('Language')->getString('file_uploaded_partially_try_again');
 				break;
 			}
 			break;
 		}
-		exit(Main::getModule('Template')->display(self::$modeTable[array_key_exists($this->mode, self::$modeTable) ? $this->mode : 'uploadFile' . Main::getModule('Logger')->log('Unknown mode ' . $this->mode . ' in ' . __CLASS__ . '; using default', LOG_FILESYSTEM)], array('errors' => $this->errors,
+		exit(Main::getModule('Template')->display(self::$modeTable[array_key_exists($this->mode, self::$modeTable) ? $this->mode : 'uploadFile' . Main::getModule('Logger')->log('Unknown mode "' . $this->mode . '" in ' . __CLASS__ . '; using default', LOG_FILESYSTEM)], array('errors' => $this->errors,
 			'allowedExtensions' => $this->allowedExtensions,
 			'maxFilesize' => $this->maxFilesize/1024,
 			'isUploaded' => $this->isUploaded,
@@ -173,7 +173,7 @@ class Upload implements Module
 	 * Verfies a picture for known / supported extension.
 	 *
 	 * @param mixed $filename Name of image file with extension
-	 * @return bool Valid / supported image file
+	 * @return bool Valid / (browser) supported image file
 	 */
 	private function isValidPicExt($filename)
 	{

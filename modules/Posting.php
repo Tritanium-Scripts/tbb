@@ -677,7 +677,7 @@ class Posting implements Module
 			//Assign IP to template in any case
 			Main::getModule('Template')->assign('ipAddress', $post[4]);
 		}
-		Main::getModule('Template')->printPage(self::$modeTable[array_key_exists($this->mode, self::$modeTable) ? $this->mode : '' . Main::getModule('Logger')->log('Unknown mode ' . $this->mode . ' in ' . __CLASS__ . '; using default', LOG_FILESYSTEM)], array('forumID' => $this->forum[0],
+		Main::getModule('Template')->printPage(self::$modeTable[array_key_exists($this->mode, self::$modeTable) ? $this->mode : '' . Main::getModule('Logger')->log('Unknown mode "' . $this->mode . '" in ' . __CLASS__ . '; using default', LOG_FILESYSTEM)], array('forumID' => $this->forum[0],
 			'topicID' => $this->topicID,
 			'postID' => $this->postID,
 			//Just give the template what it needs to know

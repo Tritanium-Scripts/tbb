@@ -55,7 +55,7 @@ class AdminLogfile implements Module
 			Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('view_logfile'), INDEXFILE . '?faction=adminLogfile&amp;mode=view&amp;log=' . basename($this->log, '.log') . SID_AMPER);
 			if(!Functions::file_exists($this->log))
 				Main::getModule('Template')->printMessage('logfile_not_found');
-			Main::getModule('Template')->assign(array('logfile' => Functions::file($this->log),
+			Main::getModule('Template')->assign(array('logfile' => array_map('htmlspecialchars', Functions::file($this->log)),
 				'date' => strftime(Main::getModule('Language')->getString('DAYLOGFORMAT'), gmmktime(0, 0, 0, Functions::substr($logfile = basename($this->log, '.log'), 2, 2), Functions::substr($logfile, 0, 2), Functions::substr($logfile, 4)))));
 			Main::getModule('Logger')->log('%s viewed logfile ' . $this->log, LOG_ACP_ACTION);
 			break;
@@ -105,7 +105,7 @@ class AdminLogfile implements Module
 					'entries' => count(Functions::file($curLogfile, null, null, false)),
 					'lastChange' => utf8_encode(strftime(Main::getModule('Language')->getString('DATEFORMAT'), filemtime($curLogfile))));
 			}
-			//Apply order type, one of them will be changed depending on current sort methode
+			//Apply order type, one of them will be changed depending on current sort method
 			$orderTypeDate = $orderTypeSize = $orderTypeEntries = false;
 			$orderType = Functions::getValueFromGlobals('orderType') == '1';
 			//Sorting

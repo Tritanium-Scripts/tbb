@@ -233,7 +233,7 @@ class Register implements Module
 			$newUser = array_combine(self::$newUserKeys, array('', '', '', '', '', ''));
 			break;
 		}
-		Main::getModule('Template')->printPage(self::$modeTable[array_key_exists($this->mode, self::$modeTable) ? $this->mode : '' . Main::getModule('Logger')->log('Unknown mode ' . $this->mode . ' in ' . __CLASS__ . '; using default', LOG_FILESYSTEM)], array('newUser' => $newUser,
+		Main::getModule('Template')->printPage(self::$modeTable[array_key_exists($this->mode, self::$modeTable) ? $this->mode : '' . Main::getModule('Logger')->log('Unknown mode "' . $this->mode . '" in ' . __CLASS__ . '; using default', LOG_FILESYSTEM)], array('newUser' => $newUser,
 			'errors' => $this->errors,
 			'rulesLink' => INDEXFILE . '?faction=regeln' . SID_AMPER));
 	}
