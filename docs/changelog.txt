@@ -1,6 +1,6 @@
 *********************************************************
 Tritanium Bulletin Board 1.5 - Changelog (German version)
-Last changed: 22.03.2011 (Version 1.5.5)
+Last changed: 23.03.2011 (Version 1.5.5)
 *********************************************************
 
 2011: Version 1.5.5
@@ -10,6 +10,7 @@ Last changed: 22.03.2011 (Version 1.5.5)
 	- Unbekannte Modi von öffentlichen Modulen werden abgefangen und geloggt
 	- 1.5.3-spezifischer Fehler beim automatischen Hinzufügen von [url]-BBCode behoben
 	- Maskierung von XHTML-Sonderzeichen in der Logdatei-Ansicht
+	- Zurücksetzen der BBCode-Auswahllisten nach Benutzung
 
 10.02.2011: Version 1.5.4 (offiziell)
 	- Logging-Funktion arbeitet sicherer
