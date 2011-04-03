@@ -47,7 +47,7 @@ class Posting extends ModuleTemplate {
 
 		$authData = $this->_authenticateUser($mode,$forumData);
 		$userAuthUpload = $this->modules['Config']->getValue('enable_attachments') == 1 && $this->modules['Auth']->isLoggedIn() == 1 && $authData['authUpload'] == 1 && $this->modules['Auth']->getValue('userAuthUpload') != 0;
-		
+
 		// You don't need to check if the lock is still active because if not so the lock was removed in Auth.class.php
 		if($this->modules['Auth']->getValue('userIsLocked') == LOCK_TYPE_NO_POSTING) {
 			if($this->modules['Auth']->getValue('userLockStartTimestamp') == $this->modules['Auth']->getValue('userLockEndTimestamp'))
@@ -60,7 +60,7 @@ class Posting extends ModuleTemplate {
 
 			exit;
 		}
-		if($mode == 'Reply' && $topicData['topicIsClosed'] == 1 && $authData['authIsMod'] != 1 && $this->modules['Auth']->getValue('userIsAdmin') && $this->modules['Auth']->getValue('userIsSupermod')) {
+		if($mode == 'Reply' && $topicData['topicIsClosed'] == 1 && $authData['authIsMod'] != 1 && $this->modules['Auth']->getValue('userIsAdmin') != 1 && $this->modules['Auth']->getValue('userIsSupermod') != 1) {
 			FuncMisc::printMessage('topic_closed'); exit;
 		}
 
@@ -117,7 +117,7 @@ class Posting extends ModuleTemplate {
 					}
 				}
 				//$p['messageText'] = isset($_POST['p']['messageText']) ? $_POST['p']['messageText'] : (($mode == 'Edit') ? $postData['postText'] : '');
-				
+
 				$p['messageTitle'] = isset($_POST['p']['messageTitle']) ? $_POST['p']['messageTitle'] : (($mode == 'Edit') ? $postData['postTitle'] : (($mode == 'Reply') ? 'Re: '.$topicData['topicTitle'] : ''));
 				$p['guestNick'] = isset($_POST['p']['guestNick']) ? $_POST['p']['guestNick'] : '';
 				$p['smileyID'] = isset($_POST['p']['smileyID']) ? intval($_POST['p']['smileyID']) : (($mode == 'Edit') ? $postData['smileyID'] : '');
@@ -203,7 +203,7 @@ class Posting extends ModuleTemplate {
 						$c['pinTopic'] = isset($_POST['c']['pinTopic']) ? 1 : 0;
 						$c['closeTopic'] = isset($_POST['c']['closeTopic']) ? 1 : 0;
 					}
-					
+
 					while(list($curKey) = each($p['pollOptions'])) {
 						if(trim($p['pollOptions'][$curKey]) == '')
 							unset($p['pollOptions'][$curKey]);
@@ -398,7 +398,7 @@ class Posting extends ModuleTemplate {
 
 							if($mode == 'Reply') $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'forums SET "forumLastPostID"=$1, "forumPostsCounter"="forumPostsCounter"+1 WHERE "forumID"=$2', array($postID, $forumID));
 							else $this->modules['DB']->queryParams('UPDATE '.TBLPFX.'forums SET "forumLastPostID"=$1, "forumPostsCounter"="forumPostsCounter"+1, "forumTopicsCounter"="forumTopicsCounter"+1 WHERE "forumID"=$2', array($postID, $forumID));
-							
+
 							$this->modules['DB']->queryParams('UPDATE '.TBLPFX.'users SET "userPostsCounter"="userPostsCounter"+1 WHERE "userID"=$1', array(USERID));
 
 							// Eventuell Themenabo entfernen oder hinzufuegen
@@ -406,7 +406,7 @@ class Posting extends ModuleTemplate {
 								if($c['subscribeTopic'] == 0) $this->modules['DB']->queryParams('DELETE FROM '.TBLPFX.'topics_subscriptions WHERE "topicID"=$1 AND "userID"=$2', array($topicID, USERID));
 								else $this->modules['DB']->queryParams('INSERT INTO '.TBLPFX.'topics_subscriptions SET "topicID"=$1, "userID"=$2', array($topicID, USERID));
 							}
-							
+
 							// User ueber neuen Beitrag informieren
 							$this->modules['DB']->queryParams('
 								SELECT
@@ -435,7 +435,7 @@ class Posting extends ModuleTemplate {
 								if(!isset($emailsToSend[$curLanguageString])) {
 									// Add main language file (contains email subjects)
 									$this->modules['Language']->addFile('Main',$curLanguageString);
-									
+
 									$emailsToSend[$curLanguageString] = array(
 										array(),
 										$this->modules['Language']->getString('email_subject_new_reply_posted',$curLanguageString),
@@ -444,7 +444,7 @@ class Posting extends ModuleTemplate {
 								}
 								$emailsToSend[$curLanguageString][0][] = $curSubscription['userEmailAddress'];
 							}
-							
+
 							foreach($emailsToSend AS &$curEmail) {
 								Functions::myMail(
 									$this->modules['Config']->getValue('board_name').' <'.$this->modules['Config']->getValue('board_email_address').'>',
@@ -454,7 +454,7 @@ class Posting extends ModuleTemplate {
 									array('Bcc: '.implode(', ',$curEmail[0]))
 								);
 							}
-							
+
 							Functions::myHeader(INDEXFILE.'?action=ViewTopic&postID='.$postID.'&'.MYSID.'#post'.$postID);
 						}
 					}
