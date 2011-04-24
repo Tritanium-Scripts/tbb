@@ -16,9 +16,11 @@ class Functions extends FunctionsBasic
 	{
 		if(Main::getModule('Config')->getCfgVal('activate_mail') == 1)
 		{
+			//Strip and trim chars from forum name violating mail header syntax (RFC 2822)
+			$forumName = trim(self::str_replace(array(',', ';', '@', '<', '>'), '', Main::getModule('Config')->getCfgVal('forum_name')));
 			$isAccepted = @mail($to, $subject, $message,
-				'From: ' . Main::getModule('Config')->getCfgVal('forum_name') . ' <' . Main::getModule('Config')->getCfgVal('forum_email') . '>' . "\r\n" .
-				'Reply-To: ' . Main::getModule('Config')->getCfgVal('forum_name') . ' <' . Main::getModule('Config')->getCfgVal('forum_email') . '>' . "\r\n" .
+				'From: ' . $forumName . ' <' . Main::getModule('Config')->getCfgVal('forum_email') . '>' . "\r\n" .
+				'Reply-To: ' . $forumName . ' <' . Main::getModule('Config')->getCfgVal('forum_email') . '>' . "\r\n" .
 				'X-Mailer: PHP/' . phpversion() . "\r\n" .
 				'Content-Type: text/plain; charset=' . Main::getModule('Language')->getString('encoding', 'Mails'));
 			Main::getModule('Logger')->log('Mail ' . ($isAccepted ? 'sent to ' : 'FAILED to sent to ') . $to, LOG_USER_TRAFFIC);

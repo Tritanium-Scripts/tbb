@@ -1,6 +1,6 @@
 *********************************************************
 Tritanium Bulletin Board 1.5 - Changelog (German version)
-Last changed: 05.04.2011 (Version 1.5.5)
+Last changed: 24.04.2011 (Version 1.5.5)
 *********************************************************
 
 2011: Version 1.5.5
@@ -12,6 +12,7 @@ Last changed: 05.04.2011 (Version 1.5.5)
 	- Maskierung von XHTML-Sonderzeichen in der Logdatei-Ansicht
 	- Zurücksetzen der BBCode-Auswahllisten nach Benutzung
 	- Spezialrechtüberprüfung für Beitrag bearbeiten in der Themenansicht ergänzt
+	- Behandlung von ungültigen Zeichen im Forumnamen beim Versand von E-Mails
 
 10.02.2011: Version 1.5.4 (offiziell)
 	- Logging-Funktion arbeitet sicherer

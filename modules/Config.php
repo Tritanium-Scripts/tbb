@@ -93,6 +93,7 @@ class Config
 		#E_WARNING								#error_level
 		#3										#spam_delay
 		#1										#edit_time
+		#1										#save_ip_address
 
 	/**
 	 * Name of config file to work with.
