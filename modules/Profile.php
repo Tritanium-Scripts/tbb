@@ -150,7 +150,7 @@ class Profile implements Module
 							Functions::unlink('cache/' . $this->userData[1] . '-Achievements.cache.php', false);
 						//And done
 						Main::getModule('Logger')->log('%s edited profile from ID: ' . $this->userData[1], LOG_EDIT_PROFILE);
-						Main::getModule('Template')->printMessage('profile_saved', INDEXFILE . '?faction=profile&amp;mode=edit&amp;profile_id=' . $this->userData[1] . SID_AMPER, Functions::getMsgBackLinks());
+						Main::getModule('Template')->printMessage('profile_saved', INDEXFILE . '?faction=profile&amp;profile_id=' . $this->userData[1] . SID_AMPER, INDEXFILE . '?faction=profile&amp;mode=edit&amp;profile_id=' . $this->userData[1] . SID_AMPER, Functions::getMsgBackLinks());
 					}
 				}
 			}

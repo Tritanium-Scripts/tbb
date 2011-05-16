@@ -42,6 +42,14 @@ class ExtLastPosts
 
 
 	/**
+	 * Contains the locale informations to restore after printing out last posts.
+	 * This avoids possible interferences with the following scripts, since this code is not running in the well-known TBB environment.
+	 *
+	 * @var string Backed up locale informations
+	 */
+	private $oldLocale;
+
+	/**
 	 * Provides needed constants and includes required functions.
 	 *
 	 * @return ExtLastPosts New instance of this class
@@ -58,6 +66,7 @@ class ExtLastPosts
 			error_reporting(ERR_REPORTING);
 			//Qick 'n' dirty fix to set "proper" timezone
 			@date_default_timezone_set(date_default_timezone_get());
+			#$this->oldLocale = setlocale(LC_ALL, '0');
 		}
 	}
 
@@ -81,6 +90,7 @@ class ExtLastPosts
 					ExtFunctions::formatDate($curNewestPost[3], self::$DATEFORMAT)) . '<br />');
 				self::$numOfLastPosts--;
 			}
+			#setlocale(LC_ALL, $this->oldLocale);
 		}
 	}
 }

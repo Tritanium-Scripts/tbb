@@ -1,6 +1,6 @@
 *********************************************************
 Tritanium Bulletin Board 1.5 - Changelog (German version)
-Last changed: 24.04.2011 (Version 1.5.5)
+Last changed: 16.05.2011 (Version 1.5.5)
 *********************************************************
 
 2011: Version 1.5.5
@@ -13,6 +13,8 @@ Last changed: 24.04.2011 (Version 1.5.5)
 	- Zurücksetzen der BBCode-Auswahllisten nach Benutzung
 	- Spezialrechtüberprüfung für Beitrag bearbeiten in der Themenansicht ergänzt
 	- Behandlung von ungültigen Zeichen im Forumnamen beim Versand von E-Mails
+	- "Profil anzeigen"-Link nach Bearbeitung des eigenen Profils hinzugefügt
+	- Suche nach neuen Forumversionen via tritanium-scripts.com und ggf. Anzeige von Neuigkeiten
 
 10.02.2011: Version 1.5.4 (offiziell)
 	- Logging-Funktion arbeitet sicherer
