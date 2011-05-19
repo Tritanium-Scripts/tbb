@@ -168,6 +168,9 @@ class AdminRank implements Module
 				if($curRank[0] == $rankID)
 				{
 					unset($this->ranks[$curKey]);
+					//At least one rank is required
+					if(empty($this->ranks))
+						Main::getModule('Template')->printMessage('one_rank_required');
 					$this->sortAndSaveRanks();
 					Main::getModule('Logger')->log('%s deleted rank (ID: ' . $rankID . ')', LOG_ACP_ACTION);
 					header('Location: ' . INDEXFILE . '?faction=ad_rank' . SID_AMPER_RAW);

@@ -58,7 +58,7 @@ class BBCode
 				}
 			}
 			if(Main::getModule('Config')->getCfgVal('use_file_caching') == 1)
-				Functions::file_put_contents('cache/BBCode.cache.php', '<?php $this->smilies = array(\'' . implode('\', \'', $toCache) . '\');' . (isset($twoCache) ? ' $this->aSmilies = array(\'' . implode('\', \'', $twoCache) . '\');' : '') . ' ?>', LOCK_EX, false, false);
+				Functions::file_put_contents('cache/BBCode.cache.php', '<?php' . (!empty($toCache) ? ' $this->smilies = array(\'' . implode('\', \'', $toCache) . '\');' : '') . (isset($twoCache) ? ' $this->aSmilies = array(\'' . implode('\', \'', $twoCache) . '\');' : '') . ' ?>', LOCK_EX, false, false);
 		}
 	}
 
