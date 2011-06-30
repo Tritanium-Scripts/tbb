@@ -1,7 +1,11 @@
 *********************************************************
 Tritanium Bulletin Board 1.5 - Changelog (German version)
-Last changed: 19.05.2011 (Version 1.5.5)
+Last changed: 30.06.2011 (Version 1.5.6)
 *********************************************************
+
+30.06.2011: Version 1.5.6
+	- Smarty auf Version 3.0.8 aktualisiert
+	- Fehler bei Anzeige der neuesten Beiträge nach heruntersetzen der Anzahl behoben
 
 19.05.2011: Version 1.5.5 (offiziell)
 	- Smarty auf Version 3.0.7 aktualisiert

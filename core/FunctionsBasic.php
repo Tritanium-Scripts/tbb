@@ -889,7 +889,7 @@ class FunctionsBasic
 		{
 			$lastPosts = self::explodeByTab($lastPosts);
 			array_unshift($lastPosts, implode(',', array($forumID, $topicID, $userID, $date, $tSmileyID)));
-			if(count($lastPosts) > $max)
+			while(count($lastPosts) > $max)
 				array_pop($lastPosts);
 			self::file_put_contents('vars/lposts.var', self::implodeByTab($lastPosts));
 		}
