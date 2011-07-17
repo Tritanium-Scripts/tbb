@@ -94,6 +94,7 @@ class Config
 		#3										#spam_delay
 		#1										#edit_time
 		#1										#save_ip_address
+		#0										#shorten_page_bars
 
 	/**
 	 * Name of config file to work with.

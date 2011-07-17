@@ -62,6 +62,13 @@ class Forum implements Module
 	private $userKeysSize;
 
 	/**
+	 * Shorten topic and post page navigation bars to this value.
+	 *
+	 * @var int Number of page links to display at the beginning and end
+	 */
+	private $shortenPageBar;
+
+	/**
 	 * Detects IDs, page and sets mode.
 	 *
 	 * @return Forum New instance of this class
@@ -73,6 +80,7 @@ class Forum implements Module
 		$this->topicID = intval(Functions::getValueFromGlobals('thread')) or $this->topicID = -1;
 		$this->page = isset($_GET['z']) ? ($_GET['z'] != 'last' ? intval($_GET['z']) : 'last') : 1;
 		$this->userKeysSize = count(self::$userKeys);
+		$this->shortenPageBar = intval(Main::getModule('Config')->getCfgVal('shorten_page_bars'));
 	}
 
 	/**
@@ -152,6 +160,9 @@ class Forum implements Module
 				$curTopicPageBar = array();
 				for($j=1; $j<=$curEnd; $j++)
 					$curTopicPageBar[] = '<a href="' . INDEXFILE . '?mode=viewthread&amp;forum_id=' . $this->forumID . '&amp;thread=' . $topicFile[$i] . '&amp;z=' . $j . SID_AMPER . '">' . $j . '</a>';
+				//Shorten page bar if needed
+				if($this->shortenPageBar > 0 && count($curTopicPageBar) > $this->shortenPageBar*2)
+					array_splice($curTopicPageBar, $this->shortenPageBar, -$this->shortenPageBar, array('...'));
 				//Only show bar by having more than one page
 				$curTopicPageBar = count($curTopicPageBar) < 2 ? '' : ' ' . sprintf(Main::getModule('Language')->getString('pages'), implode(' ', $curTopicPageBar));
 				//Censor title and add to parsed topics

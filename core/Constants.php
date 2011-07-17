@@ -15,8 +15,8 @@ define('ERR_REPORTING', E_ERROR | E_WARNING | E_PARSE); //Report only warnings o
  * to prevent selective bug using in case of
  * security vulnerabilities of a specific version.
  */
-define('VERSION_PUBLIC', '1.5');
-define('VERSION_PRIVATE', VERSION_PUBLIC . '.6.0');
+define('VERSION_PUBLIC', '1.6');
+define('VERSION_PRIVATE', VERSION_PUBLIC . '.0.0');
 //Define global data path
 include('DataPath.php');
 //Logging constants
