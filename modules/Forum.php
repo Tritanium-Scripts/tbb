@@ -3,9 +3,9 @@
  * Displays specific forum, topic or all forums index with additional stats.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010 Tritanium Scripts
+ * @copyright Copyright (c) 2010, 2011 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
- * @package TBB1.5
+ * @package TBB1.6
  */
 class Forum implements Module
 {
@@ -125,6 +125,7 @@ class Forum implements Module
 			$pageBar = $topics = array();
 			for($i=1; $i<=$pages; $i++)
 				$pageBar[] = $i != $this->page ? '<a href="' . INDEXFILE . '?mode=viewforum&amp;forum_id=' . $this->forumID . '&amp;z=' . $i . SID_AMPER . '">' . $i . '</a>' : $i;
+			$pageBar = $this->getShortenPageBar($pageBar, true, $pages);
 			//Only add bar by having more than one page
 			Main::getModule('NavBar')->addElement($forum[1], '', ($pageBar = count($pageBar) < 2 ? '' : ' ' . sprintf(Main::getModule('Language')->getString('pages'), implode(' ', $pageBar))));
 			//Process topics for current page
@@ -160,9 +161,7 @@ class Forum implements Module
 				$curTopicPageBar = array();
 				for($j=1; $j<=$curEnd; $j++)
 					$curTopicPageBar[] = '<a href="' . INDEXFILE . '?mode=viewthread&amp;forum_id=' . $this->forumID . '&amp;thread=' . $topicFile[$i] . '&amp;z=' . $j . SID_AMPER . '">' . $j . '</a>';
-				//Shorten page bar if needed
-				if($this->shortenPageBar > 0 && count($curTopicPageBar) > $this->shortenPageBar*2)
-					array_splice($curTopicPageBar, $this->shortenPageBar, -$this->shortenPageBar, array('...'));
+				$curTopicPageBar = $this->getShortenPageBar($curTopicPageBar);
 				//Only show bar by having more than one page
 				$curTopicPageBar = count($curTopicPageBar) < 2 ? '' : ' ' . sprintf(Main::getModule('Language')->getString('pages'), implode(' ', $curTopicPageBar));
 				//Censor title and add to parsed topics
@@ -224,6 +223,7 @@ class Forum implements Module
 			$pageBar = $posts = $parsedSignatures = array();
 			for($i=1; $i<=$pages; $i++)
 				$pageBar[] = $i != $this->page ? '<a href="' . INDEXFILE . '?mode=viewthread&amp;forum_id=' . $this->forumID . '&amp;thread=' . $this->topicID . '&amp;z=' . $i . SID_AMPER . '">' . $i . '</a>' : $i;
+			$pageBar = $this->getShortenPageBar($pageBar, true, $pages);
 			//Only add bar by having more than one page
 			Main::getModule('NavBar')->addElement($topic[1], '', ($pageBar = count($pageBar) < 2 ? '' : ' ' . sprintf(Main::getModule('Language')->getString('pages'), implode(' ', $pageBar))));
 			//Process possible poll
@@ -546,6 +546,36 @@ class Forum implements Module
 	private function getKilledTemplate($userID)
 	{
 		return array_combine(self::$userKeys, array_merge(array(Main::getModule('Config')->getCfgVal('var_killed'), $userID, '', false, Main::getModule('Language')->getString('deleted')), array_fill(0, $this->userKeysSize-5, ''))) + array('userRank' => '', 'sendPM' => false);
+	}
+
+	/**
+	 * Returns shorten page bar of given one if feature is enabled and page bar has sufficient entries.
+	 *
+	 * @param array $pageBar The page navigation bar to shorten
+	 * @param mixed $dynamic Shorten bar from current page viewpoint or just cut the middle out
+	 * @param mixed $pages Number of total pages, needed for dynamic mode
+	 * @return array Shorten page bar (if needed)
+	 */
+	private function getShortenPageBar($pageBar, $dynamic=false, $pages=null)
+	{
+		//Shorten page bar if needed
+		if($this->shortenPageBar > 0 && count($pageBar) > $this->shortenPageBar*2)
+		{
+			if($dynamic)
+			{
+				$pageKey = array_search($this->page, $pageBar);
+				$pageBar = array_merge(
+					//Left part from current page
+					$this->page > 1 ? array_merge(array(Functions::str_replace('>1<', '>&laquo;<', $pageBar[0])), $pageKey < $this->shortenPageBar ? array_slice($pageBar, 0, $pageKey) : array_slice($pageBar, $pageKey-$this->shortenPageBar, $this->shortenPageBar)) : array(),
+					//The current page
+					array($this->page),
+					//Right part from current page
+					$this->page < $pages ? array_merge(array_slice($pageBar, $pageKey+1, $this->shortenPageBar), array(Functions::str_replace('>' . $pages . '<', '>&raquo;<', end($pageBar)))) : array());
+			}
+			else
+				array_splice($pageBar, $this->shortenPageBar, -$this->shortenPageBar, array(Main::getModule('Language')->getString('dots')));
+		}
+		return $pageBar;
 	}
 }
 ?>

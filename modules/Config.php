@@ -95,6 +95,7 @@ class Config
 		#1										#edit_time
 		#1										#save_ip_address
 		#0										#shorten_page_bars
+		#0										#enable_pm_outbox
 
 	/**
 	 * Name of config file to work with.
