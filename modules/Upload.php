@@ -125,7 +125,7 @@ class Upload implements Module
 					@unlink($_FILES['uploadedFile']['tmp_name']);
 				}
 				//Check extension
-				if($this->allowedExtensions != false && !in_array(Functions::substr($_FILES['uploadedFile']['name'], Functions::strripos($_FILES['uploadedFile']['name'], '.')+1), $this->allowedExtensions))
+				if($this->allowedExtensions != false && !in_array(Functions::strtolower(Functions::substr($_FILES['uploadedFile']['name'], Functions::strripos($_FILES['uploadedFile']['name'], '.')+1)), $this->allowedExtensions))
 				{
 					$this->errors[] = Main::getModule('Language')->getString('file_type_is_not_allowed');
 					@unlink($_FILES['uploadedFile']['tmp_name']);

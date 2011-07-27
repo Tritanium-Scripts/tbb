@@ -204,6 +204,7 @@ class AdminConfig implements Module
 				$newSettings[56] = Main::getModule('Config')->getCfgVal('default_tpl');
 				$newSettings[70] = Main::getModule('Config')->getCfgVal('select_tpls');
 				$newSettings[71] = Main::getModule('Config')->getCfgVal('select_styles');
+				$newSettings[73] = Functions::strtolower($newSettings[73]); //Lower file extensions
 				ksort($newSettings);
 				Functions::file_put_contents('vars/settings.var', implode("\n", $newSettings));
 				Main::getModule('Logger')->log('%s edited board settings', LOG_ACP_ACTION);

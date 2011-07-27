@@ -115,7 +115,7 @@ class Posting implements Module
 		$this->forum = Functions::getForumData($forumID = intval(Functions::getValueFromGlobals('forum_id')));
 		$this->topicID = intval(Functions::getValueFromGlobals('thread_id')) or $this->topicID = intval(Functions::getValueFromGlobals('topic_id'));
 		$this->postID = intval(Functions::getValueFromGlobals('post_id')) or $this->postID = intval(Functions::getValueFromGlobals('quote'));
-		if(($this->topicFile = @Functions::file('foren/' . $forumID . '-' . $this->topicID . '.xbb')) != false)
+		if(($this->topicFile = @Functions::file('foren/' . $forumID . '-' . $this->topicID . '.xbb')) != false) //Not $this->forum[0] in case of "false[0]"
 		{
 			#0:postID - 1:posterID - 2:proprietaryDate - 3:post - 4:ip - 5:isSignature - 6:tSmileyID - 7:isSmiliesOn - 8:isBBCode - 9:isHTML
 			$this->topicFile = array_map(array('Functions', 'explodeByTab'), $this->topicFile);
