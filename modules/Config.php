@@ -3,9 +3,9 @@
  * Generic configuration getter and setter.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010 Tritanium Scripts
+ * @copyright Copyright (c) 2010, 2011 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
- * @package TBB1.5
+ * @package TBB1.6
  */
 class Config
 {
@@ -89,14 +89,15 @@ class Config
 		1,										#select_styles
 		1,										#enable_uploads
 		'',										#upload_allowed_ext
-		2097152);								#upload_max_filesize
-		#E_WARNING								#error_level
-		#3										#spam_delay
-		#1										#edit_time
-		#1										#save_ip_address
-		#0										#shorten_page_bars
-		#0										#enable_pm_outbox
-		#0										#enable_calendar
+		2097152,								#upload_max_filesize
+		//New TBB 1.6 config values
+		ERR_REPORTING,							#error_level
+		3,										#spam_delay
+		0);										#edit_time
+		#1,										#save_ip_address
+		#0,										#shorten_page_bars
+		#0,										#enable_pm_outbox
+		#0);									#enable_calendar
 
 	/**
 	 * Name of config file to work with.
@@ -185,7 +186,15 @@ class Config
 		'select_styles',
 		'enable_uploads',
 		'upload_allowed_ext',
-		'upload_max_filesize');
+		'upload_max_filesize',
+		//New TBB 1.6 config values
+		'error_level',
+		'spam_delay',
+		'edit_time');
+		#'save_ip_address',
+		#'shorten_page_bars',
+		#'enable_pm_outbox',
+		#'enable_calendar');
 
 	/**
 	 * Loaded configuration values are stored here.

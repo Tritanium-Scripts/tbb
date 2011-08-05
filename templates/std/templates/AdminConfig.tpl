@@ -146,6 +146,15 @@
   <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="y57" name="settings[57]" value="1"{if $configValues['clickjacking'] == 1} checked="checked"{/if} /><label for="y57" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="n57" name="settings[57]" value="0"{if $configValues['clickjacking'] != 1} checked="checked"{/if} /><label for="n57" class="norm">{$modules.Language->getString('negative')}</label></td>
  </tr>
  <tr><td class="td1" colspan="2"><span class="small">{$modules.Language->getString('enable_clickjacking_protection_hint')}</span></td></tr>
+ <tr>
+  <td class="td1" style="font-weight:bold; width:35%;"><span class="norm">{$modules.Language->getString('spam_protection')}</span></td>
+  <td class="td1" style="vertical-align:top; width:65%;"><input type="text" name="settings[77]" value="{$configValues['spam_delay']}" style="width:250px;" />&nbsp;<span class="small">{$modules.Language->getString('in_seconds')}</span></td>
+ </tr>
+ <tr><td class="td1" colspan="2"><span class="small">{$modules.Language->getString('spam_protection_hint')}</span></td></tr>
+ <tr>
+  <td class="td1" style="font-weight:bold; width:35%;"><span class="norm">{$modules.Language->getString('allow_temporary_editing_of_new_posts_for')}</span></td>
+  <td class="td1" style="vertical-align:top; width:65%;"><input type="text" name="settings[78]" value="{$configValues['edit_time']}" style="width:250px;" />&nbsp;<span class="small">{$modules.Language->getString('in_seconds')}</span></td>
+ </tr>
  <tr><td class="kat" colspan="2"><span class="kat">{$modules.Language->getString('disk_space_settings')}</span></td></tr>
  <tr>
   <td class="td1" style="font-weight:bold; width:35%;"><span class="norm">{$modules.Language->getString('warning_limit')}</span></td>
@@ -264,6 +273,10 @@
  <tr>
   <td class="td1" style="font-weight:bold; width:35%;"><span class="norm">{$modules.Language->getString('use_command_disk_free_space')}</span></td>
   <td class="td1" style="vertical-align:top; width:65%;"><input type="radio" id="y49" name="settings[49]" value="1"{if $configValues['use_diskfreespace'] == 1} checked="checked"{/if} /><label for="y49" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="n49" name="settings[49]" value="0"{if $configValues['use_diskfreespace'] != 1} checked="checked"{/if} /><label for="n49" class="norm">{$modules.Language->getString('negative')}</label></td>
+ </tr>
+ <tr>
+  <td class="td1" style="font-weight:bold; width:35%;"><span class="norm">{$modules.Language->getString('php_error_reporting_level')}</span></td>
+  <td class="td1" style="vertical-align:top; width:65%;"><select name="settings[75]">{foreach $errorLevels as $curErrorKey => $curErrorLevel}<option value="{$curErrorKey}"{if $curErrorKey == $configValues['error_level']} selected="selected"{/if}>{$curErrorLevel}</option>{/foreach}</select></td>
  </tr>
  <tr><td class="kat" colspan="2"><span class="kat">{$modules.Language->getString('mail_settings')}</span></td></tr>
  <tr>

@@ -221,7 +221,14 @@ class AdminConfig implements Module
 			Main::getModule('Config')->setCfgVal('log_options', Functions::explodeByComma(Main::getModule('Config')->getCfgVal('log_options')));
 			Main::getModule('Template')->assign(array('oldTableWidth' => $oldTableWidth,
 				'configValues' => Main::getModule('Config')->getCfgSet(),
-				'timeZones' => $timeZones));
+				'timeZones' => $timeZones,
+				//The default level may be overwritten by a predefined one with the same outcome
+				'errorLevels' => array(ERR_REPORTING => Main::getModule('Language')->getString('default'),
+					0 => Main::getModule('Language')->getString('non'),
+					E_ERROR | E_PARSE => Main::getModule('Language')->getString('errors_only'),
+					E_ERROR | E_WARNING | E_PARSE => Main::getModule('Language')->getString('errors_and_warnings'),
+					E_ERROR | E_WARNING | E_PARSE | E_NOTICE => Main::getModule('Language')->getString('errors_warnings_and_notices'),
+					E_ALL => Main::getModule('Language')->getString('all'))));
 			break;
 		}
 		Main::getModule('Template')->printPage(self::$modeTable[$this->mode]);

@@ -1,9 +1,9 @@
 *********************************************************
 Tritanium Bulletin Board 1.5 - Changelog (German version)
-Last changed: 27.07.2011 (Version 1.6)
+Last changed: 05.08.2011 (Version 1.6)
 *********************************************************
 
-27.07.2011: Version 1.6
+05.08.2011: Version 1.6
 	- Smarty auf Version 3.0.8 aktualisiert
 	- Fehler bei Anzeige der neuesten Beiträge nach heruntersetzen der Anzahl behoben
 	- Neue Konfigurationswerte!
@@ -11,6 +11,9 @@ Last changed: 27.07.2011 (Version 1.6)
 	- Sprachstrings überarbeitet, korrigiert und ergänzt
 	- 1.5.5-spezifischer Fehler bei Ergänzung von Spezialrechtüberprüfung für Beitrag bearbeiten in der Themenansicht behoben
 	- Überprüfung der Endungen von hochgeladenen Dateien unabhängig von Groß-/Kleinschreibung
+	- Stufe für PHP-Fehlermeldungen einstellbar
+	- Spamschutz für Wartezeit zwischen dem Erstellen von neuen Beiträgen
+	- Zeitlich begrenztes Bearbeiten von neuen Beiträgen möglich
 
 19.05.2011: Version 1.5.5 (offiziell)
 	- Smarty auf Version 3.0.7 aktualisiert

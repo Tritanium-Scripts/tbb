@@ -36,8 +36,8 @@ class Template
 	{
 		$this->smarty = new Smarty;
 		//Settings
-		$this->smarty->setErrorReporting(ERR_REPORTING);
-		$this->smarty->setErrorUnassigned(ERR_REPORTING == E_ALL);
+		$this->smarty->setErrorReporting(intval(Main::getModule('Config')->getCfgVal('error_level')));
+		$this->smarty->setErrorUnassigned($this->smarty->getErrorReporting() == E_ALL);
 		$this->smarty->setCacheDir('cache/');
 		$this->smarty->setCompileDir('cache/');
 		$this->tplDir = 'templates/' . (Main::getModule('Config')->getCfgVal('select_tpls') == 1 ? Main::getModule('Auth')->getUserTpl() : Main::getModule('Config')->getCfgVal('default_tpl')) . '/';
