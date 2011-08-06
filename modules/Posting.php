@@ -184,8 +184,8 @@ class Posting implements Module
 					$this->errors[] = Main::getModule('Language')->getString('please_enter_your_user_name');
 				if(empty($this->newReply['post']))
 					$this->errors[] = Main::getModule('Language')->getString('please_enter_a_post');
-				if(isset($_SESSION['lastPost']) && time() < $_SESSION['lastPost']+3) //3 secs spam delay
-					$this->errors[] = sprintf(Main::getModule('Language')->getString('please_wait_x_seconds_to_avoid_spam'), $_SESSION['lastPost']+3-time());
+				if(isset($_SESSION['lastPost']) && time() < ($greenPeriod = $_SESSION['lastPost']+intval(Main::getModule('Config')->getCfgVal('spam_delay'))))
+					$this->errors[] = sprintf(Main::getModule('Language')->getString('please_wait_x_seconds_to_avoid_spam'), $greenPeriod-time());
 				if(empty($this->errors))
 				{
 					//Set proper nick name

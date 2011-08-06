@@ -132,8 +132,8 @@ class Main implements Module
 	 */
 	public function execute()
 	{
-		//Set custom error level to replace defaut one from constructor
-		error_reporting(self::getModule('Config')->getCfgVal('error_level'));
+		//Set custom error level to replace default one from constructor
+		error_reporting(intval(self::getModule('Config')->getCfgVal('error_level')));
 		//Set locale for dates and number formats
 		setlocale(LC_ALL, Functions::explodeByComma(self::getModule('Language')->getString('locale', 'Main')));
 		//Set timeout for getting image sizes or steam achievements if not available

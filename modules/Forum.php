@@ -315,7 +315,7 @@ class Forum implements Module
 					'tSmileyURL' => Functions::getTSmileyURL($curPost[6]),
 					'date' => Functions::formatDate($curPost[2]),
 					'postIPText' => !empty($curPost[4]) ? sprintf(Main::getModule('Language')->getString('ip_saved'), INDEXFILE . '?faction=viewip&amp;forum_id=' . $this->forumID . '&amp;topic_id=' . $this->topicID . '&amp;post_id=' . $curPost[0] . SID_AMPER) : Main::getModule('Language')->getString('ip_not_saved'),
-					'canModify' => Main::getModule('Auth')->isAdmin() || $isMod || (Main::getModule('Auth')->isLoggedIn() && Main::getModule('Auth')->getUserID() == $curPost[1] && Functions::checkUserAccess($forum, 4)/* && (Main::getModule('Config')->getCfgVal('edit_time') == 0 || Functions::getTimestamp(gmdate('YmdHis')) < Functions::getTimestamp($curPost[2])+Main::getModule('Config')->getCfgVal('edit_time'))*/),
+					'canModify' => Main::getModule('Auth')->isAdmin() || $isMod || (Main::getModule('Auth')->isLoggedIn() && Main::getModule('Auth')->getUserID() == $curPost[1] && (Functions::checkUserAccess($forum, 4) || Functions::getTimestamp(gmdate('YmdHis')) < Functions::getTimestamp($curPost[2])+intval(Main::getModule('Config')->getCfgVal('edit_time')))),
 					'post' => Functions::censor($curPost[3]));
 			}
 			Main::getModule('Template')->assign(array('page' => $this->page,
