@@ -195,7 +195,7 @@ class Posting implements Module
 						$this->newReply['nick'],
 						gmdate('YmdHis'),
 						Functions::stripSIDs(Functions::nl2br($this->newReply['post'])),
-						$_SERVER['REMOTE_ADDR'],
+						Functions::getIPAddress(),
 						$this->newReply['isSignature'] ? '1' : '0',
 						$this->newReply['tSmileyID'],
 						$this->newReply['isSmilies'] ? '1' : '0',

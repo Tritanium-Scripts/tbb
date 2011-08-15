@@ -257,7 +257,7 @@ class PostNew implements Module
 			$this->newPost['nick'],
 			gmdate('YmdHis'),
 			Functions::stripSIDs(Functions::nl2br($this->newPost['post'])),
-			$_SERVER['REMOTE_ADDR'],
+			Functions::getIPAddress(),
 			$this->newPost['isSignature'] ? '1' : '0',
 			$this->newPost['tSmiley'],
 			$this->newPost['isSmilies'] ? '1' : '0',

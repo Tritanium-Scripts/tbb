@@ -93,9 +93,9 @@ class Config
 		//New TBB 1.6 config values
 		ERR_REPORTING,							#error_level
 		3,										#spam_delay
-		0);										#edit_time
-		#1,										#save_ip_address
-		#0,										#shorten_page_bars
+		0,										#edit_time
+		1,										#save_ip_address
+		0);										#shorten_page_bars
 		#0,										#enable_pm_outbox
 		#0);									#enable_calendar
 
@@ -190,9 +190,9 @@ class Config
 		//New TBB 1.6 config values
 		'error_level',
 		'spam_delay',
-		'edit_time');
-		#'save_ip_address',
-		#'shorten_page_bars',
+		'edit_time',
+		'save_ip_address',
+		'shorten_page_bars');
 		#'enable_pm_outbox',
 		#'enable_calendar');
 

@@ -407,6 +407,16 @@ class FunctionsBasic
 	}
 
 	/**
+	 * Returns remote IP address based on the directive to save them or not.
+	 *
+	 * @return string IP address to save with postings
+	 */
+	public static function getIPAddress()
+	{
+		return ($saveIPAddress = Main::getModule('Config')->getCfgVal('save_ip_address')) > 1 ? ($saveIPAddress == 2 && Main::getModule('Auth')->isLoggedIn() ? '' : $_SERVER['REMOTE_ADDR']) : '';
+	}
+
+	/**
 	 * Returns a new LockObject instance for saver file reading and writing with exclusive locking.
 	 * Filename will be extended with global data path.
 	 *

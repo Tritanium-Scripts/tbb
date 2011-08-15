@@ -243,8 +243,11 @@
    <li>Öffnen Sie ihre <b>settings.var</b> aus dem <b>./vars/</b>-Ordner. Wenn Sie keine eigene <b>settings.var</b> haben, überspringen Sie die Punkte 10 und 11.</li>
    <li>
     Fügen Sie folgende Werte in die Zeilen 76 bis xx ein:
-    <pre><code>
-</code></pre>
+    <pre><code>7
+3
+0
+1
+0</code></pre>
    </li>
    <li>Vergewissern Sie sich, dass die &quot;<b>settings.var</b>&quot; genau xx Zeilen hat und laden Sie sie in den <b>./vars/</b>-Ordner.</li>
    <li>Das Forum ist nun aktualisiert und der Wartungsmodus kann deaktiviert werden.</li>
@@ -444,7 +447,7 @@ Supermoderator
    <tr><td>75</td><td><code>error_level</code></td><td>ERR_REPORTING</td><td>Stufe der PHP-Fehlermeldungen</td><td style="color:red; text-align:center;">&#10005;</td></tr>
    <tr><td>76</td><td><code>spam_delay</code></td><td>3</td><td>Wartezeit für Spamschutz / Doppelpostings</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
    <tr><td>77</td><td><code>edit_time</code></td><td>0</td><td>Zeitlich begrenztes Bearbeiten neuer Beiträge</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
-   <tr><td>78</td><td><code>save_ip_address</code></td><td>1</td><td>Modus um IP-Adressen zu speichern</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>78</td><td><code>save_ip_address</code></td><td>1</td><td>Datenschutzmodus um IP-Adressen zu speichern</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
    <tr><td>79</td><td><code>shorten_page_bars</code></td><td>0</td><td>Seitennavigationsleisten verkürzen</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
   </table>
 
@@ -637,7 +640,7 @@ Supermoderator
   <p class="fontnorm">Es gibt die Möglichkeit in der Administration Benutzergruppen zu erstellen. Dies dient dazu, damit Sie z.B. nicht immer den gleichen Mitgliedern Zugriff auf bestimmte Foren gewähren müssen, denn anstatt dessen können Sie auch diese Leute einer Gruppe zuweisen und müssen dann nur noch der Gruppe Zugang gewähren. Sie können für jede Gruppe auch ein extra Avatar bestimmen. Dieser bekommt das Gruppenmitglied dann automatisch zugewiesen, falls es nicht selber einen anderen Avatar angegeben hat. Beachten Sie bitte, dass jeder Benutzer nur Mitglied <b>einer</b> Gruppe sein kann. Wundern Sie sich also nicht, wenn Sie einen Benutzer einer Gruppe zuweisen wollen, dies aber nicht geschieht. Das liegt dann normalerweise daran, dass der betreffende Benutzer schon Mitglied einer anderen Gruppe ist.</p>
 
   <h3 id="concurrency">8.6 Nebenläufigkeit</h3>
-  <p class="fontnorm">Kein unmittelbarer Fehler, aber eine Schwäche der Vorgängerversionen war die Verwaltung von Lese- und Schreibprozessen in Dateien. Wenn etwas auf die Mikrosekunde genau gleichzeitig ausgeführt wird, waren die Chancen hoch, dass mit falschen bzw. veralteten Daten gearbeitet wurde. Beispiele dafür wären mehrfache Vergabe von Benutzer-IDs bei neuen Registrierungen oder ausrechnen von falschen Statistikwerten. Das alles ist auch bei stark-frequentierten Foren eher unwahrscheinlich, kann aber durch einen dummen Zufall mal passieren oder sich bewusst provozieren lassen durch z.B. massenhafte DDoS-ähnliche Angriffe.</p>
+  <p class="fontnorm">Kein unmittelbarer Fehler, aber eine Schwäche der Vorgängerversionen war die Verwaltung von Lese- und Schreibprozessen in Dateien. Wenn etwas auf die Mikrosekunde genau gleichzeitig ausgeführt wird, waren die Chancen hoch, dass mit falschen bzw. veralteten Daten gearbeitet wurde. Beispiele dafür wären mehrfache Vergabe von Benutzer-IDs bei neuen Registrierungen oder ausrechnen von falschen Statistikwerten. Das alles ist eher unwahrscheinlich, kann aber durch einen dummen Zufall mal passieren oder sich bewusst provozieren lassen durch z.B. massenhafte DDoS-ähnliche Angriffe.</p>
   <p class="fontnorm">Das TBB 1.6 steuert dem mit verbesserten Locking, d.h. mit geregelten und exklusiven Dateizugriffen, entgegen. Geschützt wurde damit die Vergabe von neuen Benutzer-IDs, Themen-IDs und Umfragen-IDs sowie der Mitgliedszähler. Die restlichen Komponenten sind derzeit aber weiterhin anfällig für diese Schwäche! Spätestens mit dem TBB 2.0 ist diese Problematik vollständig behoben.</p>
 
   <h2 id="faq">9 FAQ</h2>

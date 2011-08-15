@@ -260,7 +260,7 @@ class Auth
 	}
 
 	/**
-	 * Reloads the WIO ID after user logs in or out to supply correct IDs to WIO list.
+	 * Reloads the WIO ID after user logs in or out to deliver correct IDs to WIO list.
 	 */
 	public function loginChanged()
 	{
