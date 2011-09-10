@@ -338,6 +338,21 @@ class FunctionsBasic
 	}
 
 	/**
+	 * Returns permission for exclusive file usage, but the file is not specified here.
+	 *
+	 * @param string $i Get the nth lock
+	 * @return bool Exclusive lock granted
+	 * @see releaseLock()
+	 * @see getLockObject()
+	 */
+	public static function getFileLock($i='1')
+	{
+		self::$cache['locks'][$i] = fopen(DATAPATH . 'vars/.lock' . $i, 'w');
+		($locked = flock($fp, LOCK_EX)) or Main::getModule('Logger')->log('Error getting ' . $i . '. file lock!', LOG_FILESYSTEM);
+		return $locked;
+	}
+
+	/**
 	 * Returns data of a forum.
 	 *
 	 * @param int $forumID ID of forum
@@ -437,6 +452,7 @@ class FunctionsBasic
 	 * @param string $msgIndex Identifier of message to display for topic link
 	 * @param int $postID Extends back link of this topic with link to single post, if provided
 	 * @param int|string $postOnPage Optional topic page number of single post
+	 * @return string Compiled back links
 	 */
 	public static function getMsgBackLinks($forumID=null, $topicID=null, $msgIndex='back_to_topic', $postID=null, $postOnPage='last')
 	{
@@ -749,6 +765,18 @@ class FunctionsBasic
 	}
 
 	/**
+	 * Releases prior granted exclusive file usage.
+	 *
+	 * @param mixed $i Release the nth lock
+	 * @see getFileLock()
+	 */
+	public static function releaseLock($i='1')
+	{
+		flock(self::$cache['locks'][$i], LOCK_UN) or Main::getModule('Logger')->log('Error releasing ' . $i . '. file lock!', LOG_FILESYSTEM);
+		fclose(self::$cache['locks'][$i]);
+	}
+
+	/**
 	 * Sets using file caching feature.
 	 *
 	 * @param bool $caching Use file caching
@@ -770,6 +798,17 @@ class FunctionsBasic
 		if(Functions::strlen($string) > $maxLength)
 			$string = Functions::substr($string, 0, $maxLength-3) . Main::getModule('Language')->getString('dots');
 		return $string;
+	}
+
+	/**
+	 * Sends redirect header for stated URL to skip confirmation messages, if enabled.
+	 *
+	 * @param mixed $url Redirect URL
+	 */
+	public static function skipConfirmMessage($url)
+	{
+		if(Main::getModule('Config')->getCfgVal('skip_confirm_msg') == 1)
+			header('Location: ' . $url);
 	}
 
 	/**
