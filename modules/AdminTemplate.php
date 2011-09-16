@@ -19,6 +19,12 @@ class AdminTemplate implements Module
 		Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('manage_templates'), INDEXFILE . '?faction=adminTemplate' . SID_AMPER);
 		if(Functions::getValueFromGlobals('update') == 'true')
 		{
+			if(Functions::getValueFromGlobals('test') != '')
+			{
+				Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('test_template_configuration'));
+				Main::getModule('Logger')->log('%s tested template engine', LOG_ACP_ACTION);
+				Main::getModule('Template')->printPage('AdminTemplateTestResult', 'errors', array_values(Main::getModule('Template')->testTplInstallation()));
+			}
 			Main::getModule('Config')->setCfgVal('twidth', $oldTableWidth);
 			Main::getModule('Config')->setCfgVal('default_tpl', $newTplID = Functions::getValueFromGlobals('template'));
 			$styles = Functions::getValueFromGlobals('styles');

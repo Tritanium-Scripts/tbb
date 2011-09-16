@@ -22,7 +22,7 @@
  <tr><td class="cellStd" colspan="6"><input type="checkbox" value="true" id="isTplSelectable" name="isTplSelectable"{if $modules.Config->getCfgVal('select_tpls')} checked="checked"{/if} /> <label for="isTplSelectable" class="fontNorm">{$modules.Language->getString('members_may_select_other_templates')}</label></td></tr>
  <tr><td class="cellStd" colspan="6"><input type="checkbox" value="true" id="isStyleSelectable" name="isStyleSelectable"{if $modules.Config->getCfgVal('select_styles')} checked="checked"{/if} /> <label for="isStyleSelectable" class="fontNorm">{$modules.Language->getString('members_may_select_other_styles')}</label></td></tr>
 </table>
-<p class="cellButtons"><input class="formBButton" type="submit" value="{$modules.Language->getString('update_template_configuration')}" />&nbsp;&nbsp;&nbsp;<input class="formButton" type="reset" /></p>
+<p class="cellButtons"><input class="formBButton" type="submit" value="{$modules.Language->getString('update_template_configuration')}" />&nbsp;&nbsp;&nbsp;<input class="formButton" type="submit" name="test" value="{$modules.Language->getString('test_template_configuration')}" />&nbsp;&nbsp;&nbsp;<input class="formButton" type="reset" /></p>
 <input type="hidden" name="update" value="true" />
 </form>
 {include file='AdminMenuTail.tpl'}

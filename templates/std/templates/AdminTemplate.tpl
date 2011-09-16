@@ -21,6 +21,6 @@
  <tr><td class="td1" colspan="6"><input type="checkbox" value="true" id="isTplSelectable" name="isTplSelectable" style="vertical-align:middle;"{if $modules.Config->getCfgVal('select_tpls')} checked="checked"{/if} /> <label for="isTplSelectable" class="norm">{$modules.Language->getString('members_may_select_other_templates')}</label></td></tr>
  <tr><td class="td1" colspan="6"><input type="checkbox" value="true" id="isStyleSelectable" name="isStyleSelectable" style="vertical-align:middle;"{if $modules.Config->getCfgVal('select_styles')} checked="checked"{/if} /> <label for="isStyleSelectable" class="norm">{$modules.Language->getString('members_may_select_other_styles')}</label></td></tr>
 </table>
-<p style="text-align:center;"><input type="submit" value="{$modules.Language->getString('update_template_configuration')}" /></p>
+<p style="text-align:center;"><input type="submit" value="{$modules.Language->getString('update_template_configuration')}" />&nbsp;&nbsp;&nbsp;<input type="submit" name="test" value="{$modules.Language->getString('test_template_configuration')}" /></p>
 <input type="hidden" name="update" value="true" />
 </form>

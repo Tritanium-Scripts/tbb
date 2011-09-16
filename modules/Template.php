@@ -224,5 +224,17 @@ class Template
 			'processedFiles' => Functions::getFileCounter(),
 			'memoryUsage' => memory_get_usage()/1024));
 	}
+
+	/**
+	 * Tests template engine installation and returns found errors.
+	 *
+	 * @return array Reported errors during test run
+	 */
+	public function testTplInstallation()
+	{
+		$errors = array();
+		$this->smarty->testInstall($errors);
+		return $errors;
+	}
 }
 ?>

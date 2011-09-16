@@ -152,16 +152,16 @@
  <tr><td class="td1" colspan="2"><span class="small">{$modules.Language->getString('enable_clickjacking_protection_hint')}</span></td></tr>
  <tr>
   <td class="td1" style="font-weight:bold;"><span class="norm">{$modules.Language->getString('spam_protection')}</span></td>
-  <td class="td1" style="vertical-align:top;"><input type="text" name="settings[77]" value="{$configValues['spam_delay']}" style="width:250px;" />&nbsp;<span class="small">{$modules.Language->getString('in_seconds')}</span></td>
+  <td class="td1" style="vertical-align:top;"><input type="text" name="settings[76]" value="{$configValues['spam_delay']}" style="width:250px;" />&nbsp;<span class="small">{$modules.Language->getString('in_seconds')}</span></td>
  </tr>
  <tr><td class="td1" colspan="2"><span class="small">{$modules.Language->getString('spam_protection_hint')}</span></td></tr>
  <tr>
   <td class="td1" style="font-weight:bold;"><span class="norm">{$modules.Language->getString('allow_temporary_editing_of_new_posts_for')}</span></td>
-  <td class="td1" style="vertical-align:top;"><input type="text" name="settings[78]" value="{$configValues['edit_time']}" style="width:250px;" />&nbsp;<span class="small">{$modules.Language->getString('in_seconds')}</span></td>
+  <td class="td1" style="vertical-align:top;"><input type="text" name="settings[77]" value="{$configValues['edit_time']}" style="width:250px;" />&nbsp;<span class="small">{$modules.Language->getString('in_seconds')}</span></td>
  </tr>
  <tr>
   <td class="td1" style="font-weight:bold;"><span class="norm">{$modules.Language->getString('save_ip_addresses_of_posts')}</span></td>
-  <td class="td1" style="vertical-align:top;"><select name="settings[79]"><option value="1"{if $configValues['save_ip_address'] == 1} selected="selected"{/if}>{$modules.Language->getString('always')}</option><option value="2"{if $configValues['save_ip_address'] == 2} selected="selected"{/if}>{$modules.Language->getString('guests_only')}</option><option value="0"{if $configValues['save_ip_address'] == 0} selected="selected"{/if}>{$modules.Language->getString('never')}</option></select></td>
+  <td class="td1" style="vertical-align:top;"><select name="settings[78]"><option value="1"{if $configValues['save_ip_address'] == 1} selected="selected"{/if}>{$modules.Language->getString('always')}</option><option value="2"{if $configValues['save_ip_address'] == 2} selected="selected"{/if}>{$modules.Language->getString('guests_only')}</option><option value="0"{if $configValues['save_ip_address'] == 0} selected="selected"{/if}>{$modules.Language->getString('never')}</option></select></td>
  </tr>
 
  <tr><td class="kat" colspan="2"><span class="kat">{$modules.Language->getString('disk_space_settings')}</span></td></tr>
