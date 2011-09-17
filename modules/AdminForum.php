@@ -59,7 +59,7 @@ class AdminForum implements Module
 	/**
 	 * Sets mode and prepares category translation table.
 	 *
-	 * @param string $mode
+	 * @param string $mode Forum mode to execute
 	 * @return AdminForum New instance of this class
 	 */
 	function __construct($mode)

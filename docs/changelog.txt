@@ -16,7 +16,7 @@ Last changed: 15.08.2011 (Version 1.6)
 	- Dokumentation aktualisiert
 	- Datenschutzmodi für differenziertes bis kein Speichern von IP-Adressen
 	- Smarty auf Version 3.1 aktualisiert
-	- Testfunktion für die Template-Engine im ACP hinzugefügt
+	- Testfunktion für die Templateinstallation im ACP hinzugefügt
 
 19.05.2011: Version 1.5.5 (offiziell)
 	- Smarty auf Version 3.0.7 aktualisiert

@@ -1,5 +1,10 @@
 {include file='AdminMenu.tpl'}
-<!-- AdminTemplate -->
+<!-- AdminTemplate -->{if isset($errors)}{if empty($errors)}
+<table cellpadding="{$modules.Config->getCfgVal('tpadding')}" cellspacing="{$modules.Config->getCfgVal('tspacing')}" style="width:100%;">
+ <tr><td class="fontNorm" style="background-color:#D1FFD1; border:1px solid #00FF00; color:#00FF00; padding:5px;"><img src="{$modules.Template->getTplDir()}images/icons/tick.png" alt="" class="imageIcon" /> {$modules.Language->getString('no_errors_were_reported')}</td></tr>
+</table>
+<br />
+{else}{include file='Errors.tpl'}{/if}{/if}
 <form action="{$smarty.const.INDEXFILE}?faction=adminTemplate" method="post">
 <table class="tableStd" cellpadding="{$modules.Config->getCfgVal('tpadding')}" cellspacing="{$modules.Config->getCfgVal('tspacing')}" style="width:100%;">
  <tr><th class="cellTitle" colspan="6"><span class="fontTitle">{$modules.Language->getString('manage_templates')}</span></th></tr>
@@ -22,7 +27,7 @@
  <tr><td class="cellStd" colspan="6"><input type="checkbox" value="true" id="isTplSelectable" name="isTplSelectable"{if $modules.Config->getCfgVal('select_tpls')} checked="checked"{/if} /> <label for="isTplSelectable" class="fontNorm">{$modules.Language->getString('members_may_select_other_templates')}</label></td></tr>
  <tr><td class="cellStd" colspan="6"><input type="checkbox" value="true" id="isStyleSelectable" name="isStyleSelectable"{if $modules.Config->getCfgVal('select_styles')} checked="checked"{/if} /> <label for="isStyleSelectable" class="fontNorm">{$modules.Language->getString('members_may_select_other_styles')}</label></td></tr>
 </table>
-<p class="cellButtons"><input class="formBButton" type="submit" value="{$modules.Language->getString('update_template_configuration')}" />&nbsp;&nbsp;&nbsp;<input class="formButton" type="submit" name="test" value="{$modules.Language->getString('test_template_configuration')}" />&nbsp;&nbsp;&nbsp;<input class="formButton" type="reset" /></p>
+<p class="cellButtons"><input class="formBButton" type="submit" value="{$modules.Language->getString('update_template_configuration')}" />&nbsp;&nbsp;&nbsp;<input class="formButton" type="submit" name="testInstall" value="{$modules.Language->getString('test_template_installation')}" />&nbsp;&nbsp;&nbsp;<input class="formButton" type="reset" /></p>
 <input type="hidden" name="update" value="true" />
 </form>
 {include file='AdminMenuTail.tpl'}

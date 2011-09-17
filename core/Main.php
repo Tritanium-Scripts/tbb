@@ -226,7 +226,7 @@ class Main implements Module
 		if(!isset(self::$loadedModules[$module]))
 		{
 			if(!file_exists('modules/' . $module . '.php'))
-				exit('<b>ERROR:</b> Module ' . $module . ' does not exists!');
+				exit('<b>ERROR:</b> Module ' . $module . ' does not exist!');
 			include('modules/' . $module . '.php');
 			self::$loadedModules[$module] = !isset($mode) ? new $module : new $module($mode);
 		}

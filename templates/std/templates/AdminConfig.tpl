@@ -163,6 +163,14 @@
   <td class="td1" style="font-weight:bold;"><span class="norm">{$modules.Language->getString('save_ip_addresses_of_posts')}</span></td>
   <td class="td1" style="vertical-align:top;"><select name="settings[78]"><option value="1"{if $configValues['save_ip_address'] == 1} selected="selected"{/if}>{$modules.Language->getString('always')}</option><option value="2"{if $configValues['save_ip_address'] == 2} selected="selected"{/if}>{$modules.Language->getString('guests_only')}</option><option value="0"{if $configValues['save_ip_address'] == 0} selected="selected"{/if}>{$modules.Language->getString('never')}</option></select></td>
  </tr>
+ <tr>
+  <td class="td1" style="font-weight:bold;"><span class="norm">{$modules.Language->getString('limit_entries_in_page_navigation_bars_to_each')}</span></td>
+  <td class="td1" style="vertical-align:top;"><input type="text" name="settings[79]" value="{$configValues['shorten_page_bars']}" style="width:250px;" />&nbsp;<span class="small">{$modules.Language->getString('zero_disables_function')}</span></td>
+ </tr>
+ <tr>
+  <td class="td1" style="font-weight:bold;"><span class="norm">{$modules.Language->getString('skipping_of_confirmation_messages')}</span></td>
+  <td class="td1" style="vertical-align:top;"><input type="radio" id="y80" name="settings[80]" value="1"{if $configValues['skip_confirm_msg'] == 1} checked="checked"{/if} /><label for="y80" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="n80" name="settings[80]" value="0"{if $configValues['skip_confirm_msg'] != 1} checked="checked"{/if} /><label for="n80" class="norm">{$modules.Language->getString('negative')}</label></td>
+ </tr>
 
  <tr><td class="kat" colspan="2"><span class="kat">{$modules.Language->getString('disk_space_settings')}</span></td></tr>
  <tr>
