@@ -18,7 +18,7 @@
  </tr>
  <tr>
   <td class="td1"><span class="norm" style="font-weight:bold;">{$modules.Language->getString('category_colon')}</span></td>
-  <td class="td1"><select name="kg" size="1">{foreach $catTable as $curCatID => $curCatName}<option value="{$curCatID}"{if $newCatID == $curCatID} selected="selected"{/if}>{$curCatName}</option>{/foreach}</select></td>
+  <td class="td1"><select name="kg" size="1">{html_options options=$catTable selected=$newCatID}</select></td>
  </tr>
  <tr><td colspan="2" class="kat"><span class="kat">{$modules.Language->getString('general_rights')}</span></td></tr>
  <tr><td colspan="2" class="td1"><input type="checkbox" id="newRights0" name="new_rights[0]" value="1"{if $newRights[0]} checked="checked"{/if} /> <label for="newRights0" class="norm">{$modules.Language->getString('members_are_allowed_to_access_forum')}</label></td></tr>

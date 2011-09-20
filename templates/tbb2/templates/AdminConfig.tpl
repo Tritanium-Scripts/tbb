@@ -159,7 +159,7 @@
  </tr>
  <tr>
   <td class="cellStd"><span class="fontNorm">{$modules.Language->getString('save_ip_addresses_of_posts')}</span></td>
-  <td class="cellAlt"><select class="formSelect" name="settings[78]"><option value="1"{if $configValues['save_ip_address'] == 1} selected="selected"{/if}>{$modules.Language->getString('always')}</option><option value="2"{if $configValues['save_ip_address'] == 2} selected="selected"{/if}>{$modules.Language->getString('guests_only')}</option><option value="0"{if $configValues['save_ip_address'] == 0} selected="selected"{/if}>{$modules.Language->getString('never')}</option></select></td>
+  <td class="cellAlt"><select class="formSelect" name="settings[78]">{html_options values=array(1, 2, 0) output=array($modules.Language->getString('always'), $modules.Language->getString('guests_only'), $modules.Language->getString('never')) selected=$configValues['save_ip_address']}</select></td>
  </tr>
  <tr>
   <td class="cellStd"><span class="fontNorm">{$modules.Language->getString('limit_entries_in_page_navigation_bars_to_each')}</span></td>
@@ -290,7 +290,7 @@
  </tr>
  <tr>
   <td class="cellStd"><span class="fontNorm">{$modules.Language->getString('php_error_reporting_level')}</span></td>
-  <td class="cellAlt"><select class="formSelect" name="settings[75]">{foreach $errorLevels as $curErrorKey => $curErrorLevel}<option value="{$curErrorKey}"{if $curErrorKey == $configValues['error_level']} selected="selected"{/if}>{$curErrorLevel}</option>{/foreach}</select></td>
+  <td class="cellAlt"><select class="formSelect" name="settings[75]">{html_options options=$errorLevels selected=$configValues['error_level']}</select></td>
  </tr>
  <tr><td class="cellCat" colspan="2"><span class="fontCat">{$modules.Language->getString('mail_settings')}</span></td></tr>
  <tr>

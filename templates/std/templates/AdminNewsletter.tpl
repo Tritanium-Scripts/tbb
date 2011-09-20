@@ -4,7 +4,7 @@
  <tr><th class="thnorm" colspan="2"><span class="thnorm">{$modules.Language->getString('send_newsletter')}</span></th></tr>
  <tr>
   <td class="td1" style="font-weight:bold; width:10%;"><span class="norm">{$modules.Language->getString('recipient_colon')}</span></td>
-  <td class="td1" style="width:90%;"><select name="target"><option value="1">{$modules.Language->getString('all_members')}</option><option value="2">{$modules.Language->getString('only_moderators')}</option><option value="3">{$modules.Language->getString('only_administrators')}</option></select></td>
+  <td class="td1" style="width:90%;">{html_options name='target' values=array(1, 2, 3) output=array($modules.Language->getString('all_members'), $modules.Language->getString('only_moderators'), $modules.Language->getString('only_administrators'))}</td>
  </tr>
  <tr>
   <td class="td1" style="font-weight:bold; width:10%;"><span class="norm">{$modules.Language->getString('dispatch_colon')}</span></td>

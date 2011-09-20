@@ -9,7 +9,7 @@
  <tr><th class="cellTitle" colspan="2"><span class="fontTitle">{$modules.Language->getString('send_newsletter')}</span></th></tr>
  <tr>
   <td class="cellStd"><span class="fontNorm">{$modules.Language->getString('recipient_colon')}</span></td>
-  <td class="cellAlt"><select class="formSelect" name="target"><option value="1">{$modules.Language->getString('all_members')}</option><option value="2">{$modules.Language->getString('only_moderators')}</option><option value="3">{$modules.Language->getString('only_administrators')}</option></select></td>
+  <td class="cellAlt"><select class="formSelect" name="target">{html_options values=array(1, 2, 3) output=array($modules.Language->getString('all_members'), $modules.Language->getString('only_moderators'), $modules.Language->getString('only_administrators'))}</select></td>
  </tr>
  <tr>
   <td class="cellStd"><span class="fontNorm">{$modules.Language->getString('dispatch_colon')}</span></td>

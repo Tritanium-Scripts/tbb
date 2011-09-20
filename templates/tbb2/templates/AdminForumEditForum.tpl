@@ -19,7 +19,7 @@
  </tr>
  <tr>
   <td class="cellStd"><span class="fontNorm">{$modules.Language->getString('category_colon')}</span></td>
-  <td class="cellAlt"><select class="formSelect" name="kg" size="1">{foreach $catTable as $curCatID => $curCatName}<option value="{$curCatID}"{if $editCatID == $curCatID} selected="selected"{/if}>{$curCatName}</option>{/foreach}</select></td>
+  <td class="cellAlt"><select class="formSelect" name="kg" size="1">{html_options options=$catTable selected=$editCatID}</select></td>
  </tr>
  <tr><td colspan="2" class="cellCat"><span class="fontCat">{$modules.Language->getString('general_rights')}</span></td></tr>
  <tr>
