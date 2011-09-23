@@ -219,6 +219,7 @@ class Posting implements Module
 						Functions::sendMessage($notifyUser[3], 'notify_new_reply', $notifyUser[0], Main::getModule('Config')->getCfgVal('address_to_forum') . '/' . INDEXFILE . '?mode=viewthread&forum_id=' . $this->forum[0] . '&thread=' . $this->topicID);
 					//Done
 					Main::getModule('Logger')->log('New reply (' . $this->forum[0] . ',' . $this->topicID . ') posted by %s', LOG_NEW_POSTING);
+					Functions::skipConfirmMessage(INDEXFILE . '?mode=viewthread&forum_id=' . $this->forum[0] . '&thread=' . $this->topicID . '&z=last' . SID_AMPER_RAW . '#post' . $newPost[0]);
 					Main::getModule('Template')->printMessage('reply_posted', Functions::getMsgBackLinks($this->forum[0], $this->topicID, 'view_new_reply', $newPost[0]));
 				}
 			}

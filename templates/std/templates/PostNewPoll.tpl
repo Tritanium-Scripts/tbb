@@ -73,7 +73,7 @@ function deletePollOption(rowID)
  </tr>{/if}
  <tr>
   <td class="td1" style="font-weight:bold; width:20%;"><span class="norm">{$modules.Language->getString('who_may_vote_colon')}</span></td>
-  <td class="td1" style="width:80%;"><span class="norm"><select name="poll_type"><option value="1">{$modules.Language->getString('everybody')}</option><option value="2"{if $newPost.pollType == '2'} selected="selected"{/if}>{$modules.Language->getString('members_only')}</option></select></span></td>
+  <td class="td1" style="width:80%;"><span class="norm">{html_options name='poll_type' values=array(1, 2) output=array($modules.Language->getString('everybody'), $modules.Language->getString('members_only')) selected=$newPost.pollType}</span></td>
  </tr>
  <tr>
   <td class="td1" style="font-weight:bold; width:20%;"><span class="norm">{$modules.Language->getString('question_title_colon')}</span></td>

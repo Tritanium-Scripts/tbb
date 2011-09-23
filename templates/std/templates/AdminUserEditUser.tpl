@@ -18,12 +18,12 @@
  </tr>
  <tr>
   <td class="td1"><span class="norm" style="font-weight:bold;">{$modules.Language->getString('user_rank_colon')}</span></td>
-  <td class="td1"><span class="norm"><select name="status"><option value="1"{if $editUser[4] == 1} selected="selected"{/if}>{$modules.Language->getString('administrator_state')}</option><option value="6"{if $editUser[4] == 6} selected="selected"{/if}>{$modules.Language->getString('super_moderator_state')}</option><option value="2"{if $editUser[4] == 2} selected="selected"{/if}>{$modules.Language->getString('moderator_state')}</option><option value="3"{if $editUser[4] == 3} selected="selected"{/if}>{$modules.Language->getString('normal_state')}</option><option value="4"{if $editUser[4] == 4} selected="selected"{/if}>{$modules.Language->getString('banned_state')}</option></select></span></td>
+  <td class="td1"><span class="norm">{html_options name='status' values=array(1, 6, 2, 3, 4) output=array($modules.Language->getString('administrator_state'), $modules.Language->getString('super_moderator_state'), $modules.Language->getString('moderator_state'), $modules.Language->getString('normal_state'), $modules.Language->getString('banned_state')) selected=$editUser[4]}</span></td>
  </tr>
  <tr>
   <td class="td1"><span class="norm" style="font-weight:bold;">{$modules.Language->getString('special_user_rank_colon')}</span></td>
   <td class="td1"><span class="norm"><input type="text" name="specialState" value="{$editUser[17]}" style="width:250px;" /></span> <span class="small">{$modules.Language->getString('overrides_normal_user_rank')}</span></td>
- </tr>  
+ </tr>
  <tr>
   <td class="td1"><span class="norm" style="font-weight:bold;">{$modules.Language->getString('avatar_colon')}</span></td>
   <td class="td1"><span class="norm"><input type="text" name="pic" value="{$editUser[10]}" style="width:250px;" /></span></td>

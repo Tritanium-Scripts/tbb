@@ -37,7 +37,7 @@
       </fieldset>
      </td>
      <td style="vertical-align:top;">
-      <fieldset style="padding:3px">
+      <fieldset style="padding:3px;">
        <legend class="fontSmall" style="font-weight:bold;">{$modules.Language->getString('maximum_age_colon')}</legend>
        <select class="formSelect" name="age">
         <option value="0"{if $searchAge == 0} selected="selected"{/if}>{$modules.Language->getString('dont_care')}</option>
@@ -47,12 +47,10 @@
         <option value="30"{if $searchAge == 30} selected="selected"{/if}>{30|string_format:$modules.Language->getString('x_days')}</option>
        </select>
       </fieldset>
-      <fieldset style="padding:3px">
+      <fieldset style="padding:3px;">
        <legend class="fontSmall" style="font-weight:bold;">{$modules.Language->getString('search_in_colon')}</legend>
        <select class="formSelect" name="soption1">
-        <option value="1"{if $searchScope == 1} selected="selected"{/if}>{$modules.Language->getString('titles_and_posts')}</option>
-        <option value="2"{if $searchScope == 2} selected="selected"{/if}>{$modules.Language->getString('posts_only')}</option>
-        <option value="3"{if $searchScope == 3} selected="selected"{/if}>{$modules.Language->getString('titles_only')}</option>
+        {html_options values=array(1, 2, 3) output=array($modules.Language->getString('titles_and_posts'), $modules.Language->getString('posts_only'), $modules.Language->getString('titles_only')) selected=$searchScope}
        </select>
       </fieldset>
      </td>

@@ -172,6 +172,7 @@ class PostNew implements Module
 							Functions::sendMessage($curMod[3], 'notify_mod_new_poll', $curMod[0], Main::getModule('Config')->getCfgVal('address_to_forum') . '/' . INDEXFILE . '?faction=readforum&mode=viewthread&forum_id=' . $this->forum[0] . '&thread=' . $newLastTopicID);
 					//Done
 					Main::getModule('Logger')->log('New poll (' . $this->forum[0] . ',' . $newLastTopicID . ') posted by %s', LOG_NEW_POSTING);
+					Functions::skipConfirmMessage(INDEXFILE . '?mode=viewthread&forum_id=' . $this->forum[0] . '&thread=' . $newLastTopicID);
 					Main::getModule('Template')->printMessage('poll_posted', Functions::getMsgBackLinks($this->forum[0], $newLastTopicID, 'view_new_poll'));
 				}
 			}
@@ -215,6 +216,7 @@ class PostNew implements Module
 							Functions::sendMessage($curMod[3], 'notify_mod_new_topic', $curMod[0], Main::getModule('Config')->getCfgVal('address_to_forum') . '/' . INDEXFILE . '?faction=readforum&mode=viewthread&forum_id=' . $this->forum[0] . '&thread=' . $newLastTopicID);
 					//Done
 					Main::getModule('Logger')->log('New topic (' . $this->forum[0] . ',' . $newLastTopicID . ') posted by %s', LOG_NEW_POSTING);
+					Functions::skipConfirmMessage(INDEXFILE . '?mode=viewthread&forum_id=' . $this->forum[0] . '&thread=' . $newLastTopicID);
 					Main::getModule('Template')->printMessage('topic_posted', Functions::getMsgBackLinks($this->forum[0], $newLastTopicID, 'view_new_topic'));
 				}
 			}

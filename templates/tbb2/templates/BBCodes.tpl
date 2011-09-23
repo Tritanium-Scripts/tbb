@@ -32,12 +32,7 @@
 </select>
 <select class="formSelect" onchange="if(this.options.selectedIndex != 0) setTag('[size=' + this.options[this.options.selectedIndex].value + ']', '[/size]'); this.options.selectedIndex = 0;">
  <option>{$modules.Language->getString('font_size')}</option>
- <option value="-2">{$modules.Language->getString('size_down2')}</option>
- <option value="-1">{$modules.Language->getString('size_down1')}</option>
- <option value="+1">{$modules.Language->getString('size_up1')}</option>
- <option value="+2">{$modules.Language->getString('size_up2')}</option>
- <option value="+3">{$modules.Language->getString('size_up3')}</option>
- <option value="+4">{$modules.Language->getString('size_up4')}</option>
+ {html_options values=array('-2', '-1', '+1', '+2', '+3', '+4') output=array($modules.Language->getString('size_down2'), $modules.Language->getString('size_down1'), $modules.Language->getString('size_up1'), $modules.Language->getString('size_up2'), $modules.Language->getString('size_up3'), $modules.Language->getString('size_up4'))}
 </select>
 <select class="formSelect" onchange="if(this.options.selectedIndex != 0) setTag('[glow=' + this.options[this.options.selectedIndex].value + ']', '[/glow]'); this.options.selectedIndex = 0;">
  <option>{$modules.Language->getString('font_glow')}</option>

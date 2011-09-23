@@ -35,11 +35,7 @@
     {foreach $forums as $curForum}{if $curForum.catID == $curCat[0]}<option value="{$curForum.forumID}"{if $searchIn == $curForum.forumID} selected="selected"{/if}>{$curForum.forumName}</option>{/if}{/foreach}
     <option value=""></option>{/foreach}
    </select>
-   <select name="soption1">
-    <option value="1"{if $searchScope == 1} selected="selected"{/if}>{$modules.Language->getString('titles_and_posts')}</option>
-    <option value="2"{if $searchScope == 2} selected="selected"{/if}>{$modules.Language->getString('posts_only')}</option>
-    <option value="3"{if $searchScope == 3} selected="selected"{/if}>{$modules.Language->getString('titles_only')}</option>
-   </select>
+   {html_options name='soption1' values=array(1, 2, 3) output=array($modules.Language->getString('titles_and_posts'), $modules.Language->getString('posts_only'), $modules.Language->getString('titles_only')) selected=$searchScope}
   </td>
  </tr>
 </table>

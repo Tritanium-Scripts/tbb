@@ -106,7 +106,7 @@ function deletePollOption(rowID)
  <tr><td class="cellCat" colspan="2"><span class="fontCat">{$modules.Language->getString('poll', 'Forum')}</span></td></tr>
  <tr>
   <td class="cellStd"><span class="fontNorm">{$modules.Language->getString('who_may_vote_colon')}</span></td>
-  <td class="cellAlt"><span class="fontNorm"><select class="formSelect" name="poll_type"><option value="1">{$modules.Language->getString('everybody')}</option><option value="2"{if $newPost.pollType == '2'} selected="selected"{/if}>{$modules.Language->getString('members_only')}</option></select></span></td>
+  <td class="cellAlt"><span class="fontNorm"><select class="formSelect" name="poll_type">{html_options values=array(1, 2) output=array($modules.Language->getString('everybody'), $modules.Language->getString('members_only')) selected=$newPost.pollType}</select></span></td>
  </tr>
  <tr>
   <td class="cellStd" style="vertical-align:top;"><span class="fontNorm">{$modules.Language->getString('choices')}</span></td>
