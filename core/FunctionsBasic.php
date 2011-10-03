@@ -340,15 +340,15 @@ class FunctionsBasic
 	/**
 	 * Returns permission for exclusive file usage, but the file is not specified here.
 	 *
-	 * @param string $i Get the nth lock
+	 * @param string $name Name of file lock instance
 	 * @return bool Exclusive lock granted
 	 * @see releaseLock()
 	 * @see getLockObject()
 	 */
-	public static function getFileLock($i='1')
+	public static function getFileLock($name)
 	{
-		self::$cache['locks'][$i] = fopen(DATAPATH . 'vars/.lock' . $i, 'w');
-		($locked = flock($fp, LOCK_EX)) or Main::getModule('Logger')->log('Error getting ' . $i . '. file lock!', LOG_FILESYSTEM);
+		self::$cache['locks'][$name] = fopen(DATAPATH . 'vars/' . $name . '.lock', 'w');
+		($locked = flock($fp, LOCK_EX)) or Main::getModule('Logger')->log('Error getting ' . $name . ' file lock!', LOG_FILESYSTEM);
 		return $locked;
 	}
 
@@ -767,13 +767,13 @@ class FunctionsBasic
 	/**
 	 * Releases prior granted exclusive file usage.
 	 *
-	 * @param mixed $i Release the nth lock
+	 * @param mixed $name Name of file lock instance to release
 	 * @see getFileLock()
 	 */
-	public static function releaseLock($i='1')
+	public static function releaseLock($name)
 	{
-		flock(self::$cache['locks'][$i], LOCK_UN) or Main::getModule('Logger')->log('Error releasing ' . $i . '. file lock!', LOG_FILESYSTEM);
-		fclose(self::$cache['locks'][$i]);
+		flock(self::$cache['locks'][$name], LOCK_UN) or Main::getModule('Logger')->log('Error releasing ' . $name . ' file lock!', LOG_FILESYSTEM);
+		fclose(self::$cache['locks'][$name]);
 	}
 
 	/**

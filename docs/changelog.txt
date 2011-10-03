@@ -1,9 +1,9 @@
 *********************************************************
 Tritanium Bulletin Board 1.5 - Changelog (German version)
-Last changed: 23.09.2011 (Version 1.6)
+Last changed: 03.10.2011 (Version 1.6)
 *********************************************************
 
-23.09.2011: Version 1.6
+03.10.2011: Version 1.6
 	- Fehler bei Anzeige der neuesten Beiträge nach heruntersetzen der Anzahl behoben
 	- Neue Konfigurationswerte!
 	- Option für verkürzte Darstellung von Seitennavigationsleisten
@@ -18,7 +18,8 @@ Last changed: 23.09.2011 (Version 1.6)
 	- Testfunktion für die Templateinstallation im ACP hinzugefügt
 	- Bessere Nutzung der Smarty-API
 	- Überspringen von Bestätigungsmeldungen möglich
-	- Smarty auf Version 3.1.1 aktualisiert
+	- Smarty auf Version 3.1.2 aktualisiert
+	- Nebenläufigkeitsprobleme (z.B. Besucherrekord zurück auf 0) mit separaten Sperrdateien behoben
 
 19.05.2011: Version 1.5.5 (offiziell)
 	- Smarty auf Version 3.0.7 aktualisiert

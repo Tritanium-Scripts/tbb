@@ -9,9 +9,9 @@
  * 0:todaysDate - 1:0:recordMember - 1:1:recordDate[ - 2:guestCounter - 3:members]
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010 Tritanium Scripts
+ * @copyright Copyright (c) 2010, 2011 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
- * @package TBB1.5
+ * @package TBB1.6
  */
 class WhoIsOnline implements Module
 {
@@ -48,6 +48,7 @@ class WhoIsOnline implements Module
 		if(!$this->enabled)
 			return;
 		//Check WWO file
+		Functions::getFileLock('today');
 		$this->wwoFile = file_exists('vars/today.var') ? explode("\n", Functions::file_get_contents('vars/today.var')) : array('', "0\t" . date('dmYHis'));
 		$update = false;
 		if($this->wwoFile[0] != date('dmY'))
@@ -73,6 +74,7 @@ class WhoIsOnline implements Module
 		}
 		if($update)
 			Functions::file_put_contents('vars/today.var', implode("\n", $this->wwoFile));
+		Functions::releaseLock('today');
 	}
 
 	/**
@@ -83,7 +85,11 @@ class WhoIsOnline implements Module
 	public function delete($wioID)
 	{
 		if($this->enabled)
+		{
+			Functions::getFileLock('wio');
 			$this->refreshVar($wioID);
+			Functions::releaseLock('wio');
+		}
 	}
 
 	/**
@@ -466,8 +472,12 @@ class WhoIsOnline implements Module
 		$guests = $ghosts = 0;
 		$members = array();
 		if($this->enabled)
+		{
+			Functions::getFileLock('wio');
 			foreach($this->refreshVar() as $curWIOEntry)
 				is_numeric($curWIOEntry[1]) ? ($curWIOEntry[4] != '1' ? $members[] = Functions::getProfileLink($curWIOEntry[1], false, ' class="small"', true) : $ghosts++) : $guests++;
+			Functions::releaseLock('wio');
+		}
 		return array($guests, $ghosts, $members);
 	}
 
@@ -506,6 +516,7 @@ class WhoIsOnline implements Module
 		if(!$this->enabled)
 			return;
 		$found = false;
+		Functions::getFileLock('wio');
 		$wioFile = $this->refreshVar();
 		foreach($wioFile as &$curWIOEntry)
 		{
@@ -521,6 +532,7 @@ class WhoIsOnline implements Module
 		}
 		//If user was found in WIO, write updated data, otherwise append new entry
 		$found ? Functions::file_put_contents('vars/wio.var', implode("\n", $wioFile)) : Functions::file_put_contents('vars/wio.var', (count($wioFile) > 0 ? "\n" : '') . time() . "\t" . Main::getModule('Auth')->getWIOID() . "\t" . $id . "\t\t" . Main::getModule('Auth')->isGhost(), FILE_APPEND);
+		Functions::releaseLock('wio');
 	}
 
 	/**

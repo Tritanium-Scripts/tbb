@@ -116,7 +116,12 @@ abstract class Smarty_Internal_TemplateBase extends Smarty_Internal_Data {
         }
         // checks if template exists
         if (!$_template->source->exists) {
-            throw new SmartyException("Unable to load template {$_template->source->type} '{$_template->source->name}'");
+            if ($_template->parent instanceof Smarty_Internal_Template) {
+                $parent_resource = " in '{$_template->parent->template_resource}'";
+            } else {
+                $parent_resource = '';
+            }
+            throw new SmartyException("Unable to load template {$_template->source->type} '{$_template->source->name}'{$parent_resource}");
         }
         // read from cache or render
         if (!($_template->caching == Smarty::CACHING_LIFETIME_CURRENT || $_template->caching == Smarty::CACHING_LIFETIME_SAVED) || !$_template->cached->valid) {
@@ -654,6 +659,16 @@ abstract class Smarty_Internal_TemplateBase extends Smarty_Internal_Data {
     }
 
     /**
+     * preg_replace callback to convert camelcase getter/setter to underscore property names
+     *
+     * @param string $match match string
+     * @return string  replacemant
+     */
+    private function replaceCamelcase($match) {
+        return "_" . strtolower($match[1]);
+    }
+
+    /**
      * Handle unknown class methods
      *
      * @param string $name unknown method-name
@@ -661,27 +676,44 @@ abstract class Smarty_Internal_TemplateBase extends Smarty_Internal_Data {
      */
     public function __call($name, $args)
     {
-        static $camel_func;
-        // methode of Smarty object?
+        static $_prefixes = array('set' => true, 'get' => true);
+        static $_resolved_property_name = array();
+        static $_resolved_property_source = array();
+        
+        // method of Smarty object?
         if (method_exists($this->smarty, $name)) {
             return call_user_func_array(array($this->smarty, $name), $args);
         }
-        if (!isset($camel_func))
-            $camel_func = create_function('$c', 'return "_" . strtolower($c[1]);');
         // see if this is a set/get for a property
         $first3 = strtolower(substr($name, 0, 3));
-        if (in_array($first3, array('set', 'get')) && substr($name, 3, 1) !== '_') {
-            // try to keep case correct for future PHP 6.0 case-sensitive class methods
-            // lcfirst() not available < PHP 5.3.0, so improvise
-            $property_name = strtolower(substr($name, 3, 1)) . substr($name, 4);
-            // convert camel case to underscored name
-            $property_name = preg_replace_callback('/([A-Z])/', $camel_func, $property_name);
-            if (property_exists($this, $property_name)) {
+        if (isset($_prefixes[$first3]) && isset($name[3]) && $name[3] !== '_') {
+            if (isset($_resolved_property_name[$name])) {
+                $property_name = $_resolved_property_name[$name];
+            } else {
+                // try to keep case correct for future PHP 6.0 case-sensitive class methods
+                // lcfirst() not available < PHP 5.3.0, so improvise
+                $property_name = strtolower(substr($name, 3, 1)) . substr($name, 4);
+                // convert camel case to underscored name
+                $property_name = preg_replace_callback('/([A-Z])/', array($this,'replaceCamelcase'), $property_name);
+                $_resolved_property_name[$name] = $property_name;
+            }
+            if (isset($_resolved_property_source[$property_name])) {
+                $_is_this = $_resolved_property_source[$property_name];
+            } else {
+                $_is_this = null;
+                if (property_exists($this, $property_name)) {
+                    $_is_this = true;
+                } else if (property_exists($this->smarty, $property_name)) {
+                    $_is_this = false;
+                }
+                $_resolved_property_source[$property_name] = $_is_this;
+            }
+            if ($_is_this) {
                 if ($first3 == 'get')
                     return $this->$property_name;
                 else
                     return $this->$property_name = $args[0];
-            } else if (property_exists($this->smarty, $property_name)) {
+            } else if ($_is_this === false) {
                 if ($first3 == 'get')
                     return $this->smarty->$property_name;
                 else
@@ -692,7 +724,7 @@ abstract class Smarty_Internal_TemplateBase extends Smarty_Internal_Data {
             }
         }
         // must be unknown
-        throw new SmartyException("Call of unknown function '$name'.");
+        throw new SmartyException("Call of unknown method '$name'.");
     }
 
 }
