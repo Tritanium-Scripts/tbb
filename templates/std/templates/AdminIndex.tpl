@@ -80,7 +80,7 @@
  </colgroup>
  <tr><th class="thnorm" colspan="2"><span class="thnorm">{$modules.Language->getString('system_information')}</span></th></tr>
  <tr><td class="td1"><span class="norm" style="font-weight:bold;">{$modules.Language->getString('tbb_version_colon')}</span></td><td class="td1"><span class="norm">{$smarty.const.VERSION_PRIVATE|rtrim:'.0'}</span></td></tr>
- <tr><td class="td1"><span class="norm" style="font-weight:bold;">{$modules.Language->getString('smarty_version_colon')}</span></td><td class="td1"><span class="norm">{$smarty.version}</span></td></tr>
+ <tr><td class="td1"><span class="norm" style="font-weight:bold;">{$modules.Language->getString('template_engine_colon')}</span></td><td class="td1"><span class="norm">{$smarty.version}</span></td></tr>
  <tr><td class="td1"><span class="norm" style="font-weight:bold;">{$modules.Language->getString('target_version_language_colon')}</span></td><td class="td1"><span class="norm">{$modules.Language->getString('TARGET_VERSION')|rtrim:'.0'}</span></td></tr>
  <tr><td class="td1"><span class="norm" style="font-weight:bold;">{$modules.Language->getString('target_version_template_colon')}</span></td><td class="td1"><span class="norm">{$smarty.config.targetVersion|rtrim:'.0'}</span></td></tr>
  <tr><td class="td1"><span class="norm" style="font-weight:bold;">{$modules.Language->getString('server_colon')}</span></td><td class="td1"><span class="norm">{$smarty.server.SERVER_SOFTWARE}</span></td></tr>

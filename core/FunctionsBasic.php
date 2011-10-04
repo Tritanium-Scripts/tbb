@@ -348,7 +348,7 @@ class FunctionsBasic
 	public static function getFileLock($name)
 	{
 		self::$cache['locks'][$name] = fopen(DATAPATH . 'vars/' . $name . '.lock', 'w');
-		($locked = flock($fp, LOCK_EX)) or Main::getModule('Logger')->log('Error getting ' . $name . ' file lock!', LOG_FILESYSTEM);
+		($locked = flock(self::$cache['locks'][$name], LOCK_EX)) or Main::getModule('Logger')->log('Error getting ' . $name . ' file lock!', LOG_FILESYSTEM);
 		return $locked;
 	}
 
@@ -896,6 +896,7 @@ class FunctionsBasic
 	 */
 	public static function updateForumData($forumID, $topicOffset, $postOffset, $lastTopicID=null, $lastPosterID=null, $lastDate=null, $lastTSmileyID=null)
 	{
+		Functions::getFileLock('foren');
 		//Make sure forums are loaded
 		if(!isset(self::$cache['forums']))
 			self::getForumData(0);
@@ -917,6 +918,7 @@ class FunctionsBasic
 		}
 		self::file_put_contents('vars/foren.var', implode("\n", self::$cache['forums']) . "\n");
 		unset(self::$cache['forums']);
+		Functions::releaseLock('foren');
 	}
 
 	/**

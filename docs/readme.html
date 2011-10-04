@@ -242,11 +242,12 @@
    <li>Löschen Sie die <b>setUpdateFlag.php</b> wieder, sobald eine &quot;Done!&quot;-Meldung angezeigt wird.</li>
    <li>Öffnen Sie ihre <b>settings.var</b> aus dem <b>./vars/</b>-Ordner. Wenn Sie keine eigene <b>settings.var</b> haben, überspringen Sie die Punkte 10 und 11.</li>
    <li>
-    Fügen Sie folgende Werte in die Zeilen 76 bis xx ein:
+    Fügen Sie folgende Werte in die Zeilen 76 bis 81 ein:
     <pre><code>7
 3
 0
 1
+0
 0</code></pre>
    </li>
    <li>Vergewissern Sie sich, dass die &quot;<b>settings.var</b>&quot; genau xx Zeilen hat und laden Sie sie in den <b>./vars/</b>-Ordner.</li>
@@ -292,7 +293,7 @@
    <li>Löschen Sie die <b>setUpdateFlag.php</b> wieder, sobald eine &quot;Done!&quot;-Meldung angezeigt wird.</li>
    <li>Öffnen Sie ihre <b>settings.var</b> aus dem <b>./vars/</b>-Ordner und löschen sie ab Zeile 57 die ganzen Leerzeilen. Wenn Sie keine eigene <b>settings.var</b> haben, überspringen Sie die Punkte 12 bis 14.</li>
    <li>
-    Fügen Sie folgende Werte in die Zeilen 57 bis 75 ein:
+    Fügen Sie folgende Werte in die Zeilen 57 bis 81 ein:
     <pre><code>std
 0
 #FF0000
@@ -311,7 +312,13 @@ Supermoderator
 1
 1
 
-2097152</code></pre>
+2097152
+7
+3
+0
+1
+0
+0</code></pre>
    </li>
    <li>Ändern Sie Zeile 51 in <code>de-DE</code> um.</li>
    <li>Vergewissern Sie sich, dass die &quot;<b>settings.var</b>&quot; genau 75 Zeilen hat und laden Sie sie in den <b>./vars/</b>-Ordner.</li>
@@ -492,7 +499,7 @@ Supermoderator
   <p class="fontnorm">Die externen Forumwerkzeuge befinden sich im Ordner <b>./extern/</b> und dienen dazu, die letzten Beiträge und WIO-Box woanders als im Forum selber anzuzeigen (z.B. auf dem Portal der dazu gehörigen Webseite). Bedingung dafür ist, dass sich Forum und Seite auf dem gleichen Webserver befinden und die Seite auch in PHP geschrieben ist. Um die Werkzeuge zu verwenden, öffnen sie die gewünschten Dateien (ext_wio.php für &quot;Wer ist online?&quot; und ext_lposts.php für die neuesten Beiträge) in einem Texteditor und passen den Pfad an (Sie können auch relative Pfadangaben verwenden). Da das Forum mit UTF-8-Zeichensatz arbeitet, werden auch diese Daten normalerweise als UTF-8 ausgegeben. Falls die Webseite <b>keinen</b> Unicode-Zeichensatz verwendet, können Sie die Ausgabe auf Latin1 umstellen, in dem Sie <code>$isUTF8 = true;</code> in <code>$isUTF8 = false;</code> ändern. Sie können weiterhin die Übersetzungen anpassen, achten Sie dabei auf Zeichen mit % davor &ndash; diese werden am Ende mit Werten ersetzt und dürfen nicht fehlen. Wenn alle Einstellungen getroffen sind, laden Sie die Dateien im <b>Binär-Modus</b> in das Verzeichnis auf ihrem Webserver, in dem sich die Webseite befindet (nicht in das Verzeichnis des Forums!). Nun fügen Sie in der entsprechenden Datei ihrer Website die Zeile <code>include('ext_wio.php');</code> für die WIO-Box und <code>include('ext_lposts.php');</code> für die neuesten Beiträge ein.</p>
 
   <h2 id="owntemplates">6 Eigene Templates</h2>
-  <p class="fontnorm">Das TBB nutzt ab Version 1.5 zur Darstellung nicht mehr nur Styles in Form von CSS-Dateien, sondern ganzes Templates. Das bedeutet, Sie können nicht nur das Design, sondern das gesamte Layout bis hin zur Anordnung der Forenstruktur anpassen, ohne auch nur eine PHP-Datei bearbeiten zu müssen. Als Template-Engine kommt <a href="http://www.smarty.net/" target="_blank">Smarty 3</a> zum Einsatz. In diesem Kapitel werden die Anforderungen an ein eigenes Template näher vorgestellt.</p>
+  <p class="fontnorm">Das TBB nutzt ab Version 1.5 zur Darstellung nicht mehr nur Styles in Form von CSS-Dateien, sondern ganzes Templates. Das bedeutet, Sie können nicht nur das Design, sondern das gesamte Layout bis hin zur Anordnung der Forenstruktur anpassen, ohne auch nur eine PHP-Datei bearbeiten zu müssen. Als Template Engine kommt <a href="http://www.smarty.net/" target="_blank">Smarty 3</a> zum Einsatz. In diesem Kapitel werden die Anforderungen an ein eigenes Template näher vorgestellt.</p>
 
   <h3 id="tplstructure">6.1 Aufbau &amp; Struktur</h3>
   <p class="fontnorm">Templates für das TBB 1.6 müssen folgendermaßen aufgebaut sein:</p>

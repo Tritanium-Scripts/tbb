@@ -146,6 +146,7 @@ class AdminConfig implements Module
 					$this->checkTime();
 				}
 				//Counting done, save results
+				Functions::getFileLock('foren');
 				$forums = array_map(array('Functions', 'explodeByTab'), Functions::file('vars/foren.var'));
 				foreach($forums as &$curForum)
 					if(isset($_SESSION['recalculateCounters']['total'][$curForum[0]]))
@@ -154,6 +155,7 @@ class AdminConfig implements Module
 						$curForum[4] = $_SESSION['recalculateCounters']['total'][$curForum[0]]['posts'];
 					}
 				Functions::file_put_contents('vars/foren.var', implode("\n", array_map(array('Functions', 'implodeByTab'), $forums)));
+				Functions::releaseLock('foren');
 				unset($_SESSION['recalculateCounters']);
 				//Now the members
 				Functions::file_put_contents('vars/member_counter.var', count(glob(DATAPATH . 'members/[!0t]*.xbb')));

@@ -211,9 +211,11 @@ class Posting implements Module
 					Functions::updateForumData($this->forum[0], 0, 1, $this->topicID, $this->newReply['nick'], $newPost[2], $this->newReply['tSmileyID']);
 					if(Main::getModule('Auth')->isLoggedIn())
 						Functions::updateUserPostCounter($this->newReply['nick']);
+					Functions::getFileLock('ltposts');
 					if($this->forum[10][6] == '1')
 						Functions::updateLastPosts($this->forum[0], $this->topicID, $this->newReply['nick'], $newPost[2], $this->newReply['tSmileyID']);
 					Functions::updateTodaysPosts($this->forum[0], $this->topicID, $this->newReply['nick'], $newPost[2], $this->newReply['tSmileyID']);
+					Functions::releaseLock('ltposts');
 					//Notify topic creator
 					if($this->topic[4] == '1' && Main::getModule('Config')->getCfgVal('activate_mail') == 1 && Main::getModule('Config')->getCfgVal('notify_new_replies') == 1 && Main::getModule('Auth')->getUserID() != $this->topic[2] && ($notifyUser = Functions::getUserData($this->topic[2])) != false)
 						Functions::sendMessage($notifyUser[3], 'notify_new_reply', $notifyUser[0], Main::getModule('Config')->getCfgVal('address_to_forum') . '/' . INDEXFILE . '?mode=viewthread&forum_id=' . $this->forum[0] . '&thread=' . $this->topicID);
@@ -288,6 +290,7 @@ class Posting implements Module
 						Functions::updateForumData($this->forum[0], -1, -1);
 						//Done
 						Main::getModule('Logger')->log('%s deleted topic by deleting the last post (' . $this->forum[0] . ',' . $this->topicID . ',' . $this->postID . ')', LOG_EDIT_POSTING);
+						Functions::skipConfirmMessage(INDEXFILE . '?mode=viewforum&forum_id=' . $this->forum[0] . SID_AMPER_RAW);
 						Main::getModule('Template')->printMessage('topic_deleted', Functions::getMsgBackLinks($this->forum[0]));
 					}
 					else
@@ -303,6 +306,7 @@ class Posting implements Module
 						Functions::updateForumData($this->forum[0], 0, -1);
 						//Done
 						Main::getModule('Logger')->log('%s deleted post (' . $this->forum[0] . ',' . $this->topicID . ',' . $this->postID . ')', LOG_EDIT_POSTING);
+						Functions::skipConfirmMessage(INDEXFILE . '?mode=viewthread&forum_id=' . $this->forum[0] . '&thread=' . $this->topicID . SID_AMPER_RAW);
 						Main::getModule('Template')->printMessage('post_deleted', Functions::getMsgBackLinks($this->forum[0], $this->topicID));
 					}
 				}
@@ -336,6 +340,7 @@ class Posting implements Module
 					Functions::file_put_contents('foren/' . $this->forum[0] . '-' . $this->topicID . '.xbb', Functions::implodeByTab($this->topic) . "\n" . implode("\n", $this->topicFile) . "\n");
 					//Done
 					Main::getModule('Logger')->log('%s edited post (' . $this->forum[0] . ',' . $this->topicID . ',' . $this->postID . ')', LOG_EDIT_POSTING);
+					Functions::skipConfirmMessage(INDEXFILE . '?mode=viewthread&forum_id=' . $this->forum[0] . '&thread=' . $this->topicID . '&z=' . $this->page . SID_AMPER_RAW . '#post' . $this->postID);
 					Main::getModule('Template')->printMessage('post_edited', Functions::getMsgBackLinks($this->forum[0], $this->topicID, 'back_to_post', $this->postID, $this->page));
 				}
 				//Set data to edit post
@@ -399,6 +404,7 @@ class Posting implements Module
 					Functions::updateForumData($this->forum[0], -1, -$size);
 					//Done
 					Main::getModule('Logger')->log('%s deleted topic (' . $this->forum[0] . ',' . $this->topicID . ')', LOG_EDIT_POSTING);
+					Functions::skipConfirmMessage(INDEXFILE . '?mode=viewforum&forum_id=' . $this->forum[0] . SID_AMPER_RAW);
 					Main::getModule('Template')->printMessage('topic_deleted', Functions::getMsgBackLinks($this->forum[0]));
 				}
 				break;
@@ -411,6 +417,7 @@ class Posting implements Module
 					$this->topic[0] = 2;
 					Functions::file_put_contents('foren/' . $this->forum[0] . '-' . $this->topicID . '.xbb', Functions::implodeByTab($this->topic) . "\n" . implode("\n", array_map(array('Functions', 'implodeByTab'), $this->topicFile)));
 					Main::getModule('Logger')->log('%s closed topic (' . $this->forum[0] . ',' . $this->topicID . ')', LOG_EDIT_POSTING);
+					Functions::skipConfirmMessage(INDEXFILE . '?mode=viewthread&forum_id=' . $this->forum[0] . '&thread=' . $this->topicID . SID_AMPER_RAW);
 					Main::getModule('Template')->printMessage('topic_closed', Functions::getMsgBackLinks($this->forum[0], $this->topicID));
 				}
 				break;
@@ -423,6 +430,7 @@ class Posting implements Module
 					$this->topic[0] = 1;
 					Functions::file_put_contents('foren/' . $this->forum[0] . '-' . $this->topicID . '.xbb', Functions::implodeByTab($this->topic) . "\n" . implode("\n", array_map(array('Functions', 'implodeByTab'), $this->topicFile)));
 					Main::getModule('Logger')->log('%s opened topic (' . $this->forum[0] . ',' . $this->topicID . ')', LOG_EDIT_POSTING);
+					Functions::skipConfirmMessage(INDEXFILE . '?mode=viewthread&forum_id=' . $this->forum[0] . '&thread=' . $this->topicID . SID_AMPER_RAW);
 					Main::getModule('Template')->printMessage('topic_opened', Functions::getMsgBackLinks($this->forum[0], $this->topicID));
 				}
 				break;
@@ -491,8 +499,10 @@ class Posting implements Module
 						if($isLinked)
 							Functions::file_put_contents('foren/' . $this->forum[0] . '-' . $this->topicID . '.xbb', 'm' . "\t" . $this->topic[1] . "\t" . $this->topic[2] . "\t" . $this->topic[3] . "\t" . $targetForumID . "\t" . $newTopicID . "\n");
 						//Update link(s) in last and todays posts (if topic is listed in there) with some l33t h4x regex magic :)
+						Functions::getFileLock('ltposts');
 						Functions::file_put_contents('vars/lposts.var', preg_replace('/' . $this->forum[0] . ',' . $this->topicID . ',(.*?),(\d+),(\d+)/si', $targetForumID . ',' . $newTopicID . ',\1,\2,\3', Functions::file_get_contents('vars/lposts.var')));
 						Functions::file_put_contents('vars/todayposts.var', preg_replace('/' . $this->forum[0] . ',' . $this->topicID . ',(.*?),(\d+),(\d+)/si', $targetForumID . ',' . $newTopicID . ',\1,\2,\3', Functions::file_get_contents('vars/todayposts.var')));
+						Functions::releaseLock('ltposts');
 						//Done
 						Main::getModule('Logger')->log('%s moved topic from (' . $this->forum[0] . ',' . $this->topicID . ') to (' . $targetForumID . ',' . $newTopicID . ')', LOG_EDIT_POSTING);
 						Main::getModule('Template')->printMessage('topic_moved', Functions::getMsgBackLinks($targetForumID, $newTopicID, 'to_moved_topic'));
@@ -519,6 +529,7 @@ class Posting implements Module
 					$stickyFile[] = $this->topicID;
 					Functions::file_put_contents('foren/' . $this->forum[0] . '-sticker.xbb', implode("\n", $stickyFile));
 					Main::getModule('Logger')->log('%s pinned topic (' . $this->forum[0] . ',' . $this->topicID . ')', LOG_EDIT_POSTING);
+					Functions::skipConfirmMessage(INDEXFILE . '?mode=viewthread&forum_id=' . $this->forum[0] . '&thread=' . $this->topicID . SID_AMPER_RAW);
 					Main::getModule('Template')->printMessage('topic_pinned', Functions::getMsgBackLinks($this->forum[0], $this->topicID));
 				}
 				else
@@ -533,6 +544,7 @@ class Posting implements Module
 					unset($stickyFile[$key]);
 					Functions::file_put_contents('foren/' . $this->forum[0] . '-sticker.xbb', implode("\n", $stickyFile));
 					Main::getModule('Logger')->log('%s unpinned topic (' . $this->forum[0] . ',' . $this->topicID . ')', LOG_EDIT_POSTING);
+					Functions::skipConfirmMessage(INDEXFILE . '?mode=viewthread&forum_id=' . $this->forum[0] . '&thread=' . $this->topicID . SID_AMPER_RAW);
 					Main::getModule('Template')->printMessage('topic_unpinned', Functions::getMsgBackLinks($this->forum[0], $this->topicID));
 				}
 				else
@@ -601,6 +613,7 @@ class Posting implements Module
 						}
 						Functions::file_put_contents('polls/' . $this->topic[7] . '-1.xbb', Functions::implodeByTab($poll) . "\n" . implode("\n", $pollFile) . "\n");
 						Main::getModule('Logger')->log('%s edited poll (' . $this->forum[0] . ',' . $this->topicID . ')', LOG_EDIT_POSTING);
+						Functions::skipConfirmMessage(INDEXFILE . '?mode=viewthread&forum_id=' . $this->forum[0] . '&thread=' . $this->topicID . SID_AMPER_RAW);
 						Main::getModule('Template')->printMessage('poll_edited', Functions::getMsgBackLinks($this->forum[0], $this->topicID, 'back_to_poll'));
 					}
 				}

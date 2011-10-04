@@ -15,9 +15,9 @@
  * </ol>
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010 Tritanium Scripts
+ * @copyright Copyright (c) 2010, 2011 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
- * @package TBB1.5
+ * @package TBB1.6
  */
 class PrivateMessage implements Module
 {
@@ -120,7 +120,7 @@ class PrivateMessage implements Module
 
 //PrivateMessageNewPM
 			case 'reply':
-			//Replying ist just quoting, ergo look up quoted PM and go straight on into "send" mode (hence no break statement)
+			//Replying is just quoting, ergo look up quoted PM and go straight on into "send" mode (hence no break statement or nav bar)
 			foreach(array_reverse(Functions::file('members/' . $this->pmBoxID . '.pm')) as $curPM)
 			{
 				$curPM = Functions::explodeByTab($curPM);
@@ -177,6 +177,7 @@ class PrivateMessage implements Module
 						$newPM[0] = @current(Functions::explodeByTab(array_pop(Functions::file('members/' . $recipient[1] . '.pm'))))+1;
 						Functions::file_put_contents('members/' . $recipient[1] . '.pm', Functions::implodeByTab($newPM) . "\n", FILE_APPEND);
 						Main::getModule('Logger')->log('%s sent PM to ' . $recipient[0] . ' (ID: ' . $recipient[1] . ')', LOG_USER_TRAFFIC);
+						Functions::skipConfirmMessage(INDEXFILE . '?faction=pm&pmbox_id=' . $this->pmBoxID . SID_AMPER_RAW);
 						Main::getModule('Template')->printMessage('pm_sent', INDEXFILE . '?faction=pm&amp;pmbox_id=' . $this->pmBoxID . SID_AMPER, Functions::getMsgBackLinks());
 					}
 					//Get confirmation

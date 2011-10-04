@@ -3,9 +3,9 @@
  * Inits Smarty, manages configuration, assigns values to template files and prints pages.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010 Tritanium Scripts
+ * @copyright Copyright (c) 2010, 2011 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
- * @package TBB1.5
+ * @package TBB1.6
  */
 require_once('Template/Smarty.class.php');
 /**
@@ -16,7 +16,7 @@ class Template
 	/**
 	 * The Smarty object to work with.
 	 *
-	 * @var Smarty Smarty object
+	 * @var Smarty Smarty instance
 	 */
 	private $smarty;
 
@@ -37,19 +37,19 @@ class Template
 		$this->smarty = new Smarty;
 		//Settings
 		$this->smarty->setErrorUnassigned(error_reporting() == E_ALL);
-		$this->smarty->setCacheDir('cache/');
-		$this->smarty->setCompileDir('cache/');
+		$this->smarty->setCacheDir('cache/')
+			->setCompileDir('cache/');
 		$this->tplDir = 'templates/' . (Main::getModule('Config')->getCfgVal('select_tpls') == 1 ? Main::getModule('Auth')->getUserTpl() : Main::getModule('Config')->getCfgVal('default_tpl')) . '/';
-		$this->smarty->setTemplateDir($this->tplDir . 'templates/');
-		$this->smarty->setConfigDir($this->tplDir . 'config/');
-		$this->smarty->setCompileId($this->tplDir);
+		$this->smarty->setTemplateDir($this->tplDir . 'templates/')
+			->setConfigDir($this->tplDir . 'config/')
+			->setCompileId($this->tplDir);
 		//Load config(s)
 		foreach(glob($this->tplDir . 'config/*.conf') as $curConfig)
 			$this->smarty->configLoad($curConfig);
 		$this->smarty->setDebugging($this->smarty->getConfigVariable('debug'));
 		//Assign defaults
-		$this->smarty->assignByRef('modules', Main::getModules());
-		$this->smarty->assignByRef('smartyTime', $this->smarty->start_time);
+		$this->smarty->assignByRef('modules', Main::getModules())
+			->assignByRef('smartyTime', $this->smarty->start_time);
 	}
 
 	/**
