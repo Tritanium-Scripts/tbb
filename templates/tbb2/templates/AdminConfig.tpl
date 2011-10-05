@@ -138,6 +138,10 @@
   <td class="cellAlt"><input class="formText" type="text" name="settings[63]" value="{$configValues['emph_date_hours']}" style="width:250px;" />&nbsp;<span class="fontSmall">{$modules.Language->getString('in_hours')}</span></td>
  </tr>
  <tr>
+  <td class="cellStd"><span class="fontNorm">{$modules.Language->getString('show_date_of_last_two_days_as_text')}</span></td>
+  <td class="cellAlt"><input type="radio" id="y81" name="settings[81]" value="1"{if $configValues['date_as_text'] == 1} checked="checked"{/if} /><label for="y81" class="fontNorm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="n81" name="settings[81]" value="0"{if $configValues['date_as_text'] != 1} checked="checked"{/if} /><label for="n81" class="fontNorm">{$modules.Language->getString('negative')}</label></td>
+ </tr>
+ <tr>
   <td class="cellStd"><span class="fontNorm">{$modules.Language->getString('enable_steam_achievements_in_profiles')}</span></td>
   <td class="cellAlt"><input type="radio" id="y67" name="settings[67]" value="1"{if $configValues['achievements'] == 1} checked="checked"{/if} /><label for="y67" class="fontNorm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="n67" name="settings[67]" value="0"{if $configValues['achievements'] != 1} checked="checked"{/if} /><label for="n67" class="fontNorm">{$modules.Language->getString('negative')}</label></td>
  </tr>

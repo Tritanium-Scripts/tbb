@@ -117,7 +117,7 @@ class Posting implements Module
 		$this->postID = intval(Functions::getValueFromGlobals('post_id')) or $this->postID = intval(Functions::getValueFromGlobals('quote'));
 		if(($this->topicFile = @Functions::file('foren/' . $forumID . '-' . $this->topicID . '.xbb')) != false) //Not $this->forum[0] in case of "false[0]"
 		{
-			#0:postID - 1:posterID - 2:proprietaryDate - 3:post - 4:ip - 5:isSignature - 6:tSmileyID - 7:isSmiliesOn - 8:isBBCode - 9:isHTML
+			#0:postID - 1:posterID - 2:proprietaryDate - 3:post - 4:ip - 5:isSignature - 6:tSmileyID - 7:isSmiliesOn - 8:isBBCode - 9:isHTML[ - 10:lastEditUserID]
 			$this->topicFile = array_map(array('Functions', 'explodeByTab'), $this->topicFile);
 			#0:open/close[/moved] - 1:title - 2:userID - 3:tSmileyID - 4:notifyNewReplies[/movedForumID] - 5:timestamp[/movedTopicID] - 6:views - 7:pollID
 			$this->topic = array_shift($this->topicFile);
@@ -318,7 +318,7 @@ class Posting implements Module
 				//Update post
 				if(Functions::getValueFromGlobals('update') == 'true')
 				{
-					//Lokk up post to edit
+					//Look up post to edit
 					foreach($this->topicFile as &$curPost)
 					{
 						if($curPost[0] == $this->postID)
@@ -330,6 +330,8 @@ class Posting implements Module
 							$curPost[7] = $this->newReply['isSmilies'] ? '1' : '0';
 							$curPost[8] = $this->newReply['isBBCode'] ? '1' : '0';
 							$curPost[9] = $this->newReply['isXHTML'] ? '1' : '0';
+							if(Main::getModule('Config')->getCfgVal('last_edit_by'))
+								$curPost[10] = Main::getModule('Auth')->getUserID();
 						}
 						$curPost = Functions::implodeByTab($curPost);
 					}
