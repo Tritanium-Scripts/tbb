@@ -53,7 +53,12 @@
    {if $curPost.userEMail !== false}&nbsp;&nbsp;<a href="{if $curPost.userEMail === true}{$smarty.const.INDEXFILE}?faction=formmail&amp;target_id={$curPost.userID}{$smarty.const.SID_AMPER}{else}mailto:{$curPost.userEMail}{/if}"><img src="{$modules.Template->getTplDir()}images/mailto.gif" alt="{$modules.Language->getString('email')}" style="vertical-align:bottom;" /></a> {$modules.Language->getString('email')}{/if}
    {if !empty($curPost.userHP)}&nbsp;&nbsp;<a href="{$curPost.userHP}" target="_blank"><img src="{$modules.Template->getTplDir()}images/hp.gif" alt="{$modules.Language->getString('homepage')}" style="vertical-align:bottom;" /></a> {$modules.Language->getString('homepage')}{/if}
    {if $curPost.canModify}&nbsp;&nbsp;<a href="{$smarty.const.INDEXFILE}?faction=edit&amp;mode=kill&amp;forum_id={$forumID}&amp;topic_id={$topicID}&amp;post_id={$curPost.postID}{$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/deltopic.gif" alt="" style="vertical-align:bottom;" /></a> {$modules.Language->getString('delete')}{/if}</span><hr />
-   <div class="norm">{$curPost.post}{if $curPost.userSig != false}<br /><br />-----------------------<br />{$curPost.userSig}{/if}</div>
+   <div class="norm">
+    {$curPost.post}{if $curPost.userSig != false}<br /><br />
+    -----------------------<br />
+    {$curPost.userSig}{/if}{if !empty($curPost.lastEditBy)}<hr style="text-align:left; width:50%;" />
+    <span class="small">{$curPost.lastEditBy|string_format:$modules.Language->getString('last_edit_by_x')}</span>{/if}
+   </div>
   </td>
  </tr>
  <tr><td class="{cycle values="td1,td2"}" style="vertical-align:bottom; width:85%;">{if $modules.Config->getCfgVal('tspacing') < 1}<hr />{/if}<span style="font-family:Verdana; font-size:xx-small;">{* reuse sendPM value here *}{if $curPost.sendPM}{$curPost.userPosts|string_format:$modules.Language->getString('x_posts')} | {/if}{if $curPost.sendPM}{$curPost.userRegDate|string_format:$modules.Language->getString('member_since_x')} | {/if}{$curPost.postIPText}</span></td></tr>
