@@ -29,7 +29,8 @@
    <input type="checkbox" id="show_signatur" name="show_signatur" value="1"{if $editPost.isSignature} checked="checked"{/if} /> <label for="show_signatur" class="fontNorm">{$modules.Language->getString('show_signature')}</label>{/if}{if $forum.isBBCode}<br />
    <input type="checkbox" id="use_upbcode" name="use_upbcode" value="1" onclick="document.getElementById('isAddURLs').disabled = !this.checked;"{if $editPost.isBBCode} checked="checked"{/if} /> <label for="use_upbcode" class="fontNorm">{$modules.Language->getString('enable_bbcode')}</label>{/if}{if $forum.isXHTML}<br />
    <input type="checkbox" id="use_htmlcode" name="use_htmlcode" value="1"{if $editPost.isXHTML} checked="checked"{/if} /> <label for="use_htmlcode" class="fontNorm">{$modules.Language->getString('enable_xhtml')}</label>{/if}{if $forum.isBBCode}<br />
-   <input type="checkbox" id="isAddURLs" name="isAddURLs" value="true"{if $editPost.isAddURLs} checked="checked"{/if} /> <label for="isAddURLs" class="fontNorm">{$modules.Language->getString('auto_transform_links')}</label>{/if}
+   <input type="checkbox" id="isAddURLs" name="isAddURLs" value="true"{if $editPost.isAddURLs} checked="checked"{/if} /> <label for="isAddURLs" class="fontNorm">{$modules.Language->getString('auto_transform_links')}</label>{/if}<br />
+   <input type="checkbox" id="isLastEditBy" name="isLastEditBy" value="true"{if $editPost.isLastEditBy} checked="checked"{/if} /> <label for="isLastEditBy" class="fontNorm">{$modules.Language->getString('show_as_last_editor')}</label>
   </td>
  </tr>
 </table>

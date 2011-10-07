@@ -38,14 +38,13 @@ abstract class Smarty_Internal_TemplateBase extends Smarty_Internal_Data {
             $parent = $cache_id;
             $cache_id = null;
         }
-        if ($parent === null && $this instanceof Smarty) {
-            // get default Smarty data object
+        if ($parent === null && ($this instanceof Smarty || is_string($template))) {
             $parent = $this;
         }
         // create template object if necessary
         $_template = ($template instanceof $this->template_class)
             ? $template
-            : $this->createTemplate($template, $cache_id, $compile_id, $parent, false);
+            : $this->smarty->createTemplate($template, $cache_id, $compile_id, $parent, false);
         // merge all variable scopes into template
         if ($merge_tpl_vars) {
             // save local variables
@@ -230,7 +229,7 @@ abstract class Smarty_Internal_TemplateBase extends Smarty_Internal_Data {
                         $output .= preg_replace("!/\*/?%%SmartyNocache:{$_template->properties['nocache_hash']}%%\*/!", '', $cache_parts[0][$curr_idx]);
                     }
                 }
-                if (isset($this->smarty->autoload_filters['output']) || isset($this->smarty->registered_filters['output'])) {
+                if (!$no_output_filter && (isset($this->smarty->autoload_filters['output']) || isset($this->smarty->registered_filters['output']))) {
                     $output = Smarty_Internal_Filter_Handler::runFilter('output', $output, $_template);
                 }
                 // rendering (must be done before writing cache file because of {function} nocache handling)
@@ -651,11 +650,30 @@ abstract class Smarty_Internal_TemplateBase extends Smarty_Internal_Data {
                 $_plugin = array($_plugin, 'execute');
             }
             if (is_callable($_plugin)) {
-                return $this->smarty->registered_filters[$type][$_filter_name] = $_plugin;
+                $this->smarty->registered_filters[$type][$_filter_name] = $_plugin;
+                return true;
             }
         }
         throw new SmartyException("{$type}filter \"{$name}\" not callable");
         return false;
+    }
+
+    /**
+     * unload a filter of specified type and name
+     *
+     * @param string $type filter type
+     * @param string $name filter name
+     * @return bool
+     */
+    public function unloadFilter($type, $name)
+    {
+        $_filter_name = "smarty_{$type}filter_{$name}";
+        if (isset($this->smarty->registered_filters[$type][$_filter_name])) {
+            unset ($this->smarty->registered_filters[$type][$_filter_name]);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -679,7 +697,7 @@ abstract class Smarty_Internal_TemplateBase extends Smarty_Internal_Data {
         static $_prefixes = array('set' => true, 'get' => true);
         static $_resolved_property_name = array();
         static $_resolved_property_source = array();
-        
+
         // method of Smarty object?
         if (method_exists($this->smarty, $name)) {
             return call_user_func_array(array($this->smarty, $name), $args);

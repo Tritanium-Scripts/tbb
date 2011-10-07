@@ -330,8 +330,9 @@ class Posting implements Module
 							$curPost[7] = $this->newReply['isSmilies'] ? '1' : '0';
 							$curPost[8] = $this->newReply['isBBCode'] ? '1' : '0';
 							$curPost[9] = $this->newReply['isXHTML'] ? '1' : '0';
-							if(Main::getModule('Config')->getCfgVal('last_edit_by') == 1)
+							if(Functions::getValueFromGlobals('isLastEditBy') == 'true')
 								$curPost[10] = Main::getModule('Auth')->getUserID();
+							#else delete? or keep?
 						}
 						$curPost = Functions::implodeByTab($curPost);
 					}
@@ -355,7 +356,8 @@ class Posting implements Module
 						'isSmilies' => $post[7] == '1',
 						'isBBCode' => $post[8] == '1',
 						'isXHTML' => $post[9] == '1',
-						'isAddURLs' => true);
+						'isAddURLs' => true,
+						'isLastEditBy' => isset($post[10]) && is_numeric($post[10]));
 				Main::getModule('Template')->assign(array('editPost' => $this->newReply,
 					'isMod' => $isMod));
 			}
