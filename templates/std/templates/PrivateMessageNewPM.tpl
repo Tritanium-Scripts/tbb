@@ -18,7 +18,11 @@
  <tr><td class="td1" colspan="2"><hr /></td></tr>{/if}
  <tr>
   <td class="td1" style="font-weight:bold; vertical-align:top; width:20%;"><span class="norm">{$modules.Language->getString('options_colon')}</span></td>
-  <td class="td1" style="width:80%;"><input type="checkbox" id="smilies" name="smilies" value="1" style="vertical-align:middle;" checked="checked" /> <label for="smilies" class="norm">{$modules.Language->getString('enable_smilies')}</label><br /><input type="checkbox" id="use_upbcode" name="use_upbcode" value="1" style="vertical-align:middle;" checked="checked" /> <label for="use_upbcode" class="norm">{$modules.Language->getString('enable_bbcode')}</label></td>
+  <td class="td1" style="width:80%;">
+   <input type="checkbox" id="smilies" name="smilies" value="1" style="vertical-align:middle;"{if $newPM[5]} checked="checked"{/if} /> <label for="smilies" class="norm">{$modules.Language->getString('enable_smilies')}</label><br />
+   <input type="checkbox" id="use_upbcode" name="use_upbcode" value="1" style="vertical-align:middle;"{if $newPM[6]} checked="checked"{/if} /> <label for="use_upbcode" class="norm">{$modules.Language->getString('enable_bbcode')}</label><br />
+   <input type="checkbox" id="storeToOutbox" name="storeToOutbox" value="true" style="vertical-align:middle;"{if $storeToOutbox} checked="checked"{/if} /> <label for="storeToOutbox" class="norm">{$modules.Language->getString('store_to_outbox')}</label>
+  </td>
  </tr>
 </table>
 <p style="text-align:center;"><input type="submit" value="{$modules.Language->getString('send_pm')}" /></p>

@@ -11,7 +11,7 @@
  </tr>
  <tr>
   <td class="cellAlt"><span class="fontNorm">{$modules.Language->getString('subject_colon')}</span></td>
-  <td class="cellAlt"><span class="fontNorm"><b>{$pm[1]}</b> {$pm[3]|string_format:$modules.Language->getString('by_x', 'Forum')}</span></td>
+  <td class="cellAlt"><span class="fontNorm"><b>{$pm[1]}</b> {if $isOutbox}{$pm[3]|string_format:$modules.Language->getString('to_x')}{else}{$pm[3]|string_format:$modules.Language->getString('from_x', 'Profile')}{/if}</span></td>
  </tr>
  <tr><td colspan="2" class="cellStd"><span class="fontNorm">{$pm[2]}</span></td></tr>
 </table>

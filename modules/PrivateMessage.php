@@ -57,7 +57,28 @@ class PrivateMessage implements Module
 	private $pmID;
 
 	/**
-	 * Sets mode and PM box ID.
+	 * Active message box is the outbox.
+	 *
+	 * @var bool Outbox active
+	 */
+	private $isOutbox;
+
+	/**
+	 * Contains suffix for nav bar URLs depending on active box.
+	 *
+	 * @var string Appendix for URLs
+	 */
+	private $urlSuffix = '';
+
+	/**
+	 * Type of active message box (".ach" or ".pm").
+	 *
+	 * @var string Message box file ending
+	 */
+	private $boxType = '.pm';
+
+	/**
+	 * Sets mode, PM (box) ID and type.
 	 *
 	 * @param string $mode PM mode
 	 * @return PrivateMessage New instance of this class
@@ -67,6 +88,11 @@ class PrivateMessage implements Module
 		$this->mode = $mode;
 		$this->pmBoxID = Functions::getValueFromGlobals('pmbox_id') or $this->pmBoxID = Main::getModule('Auth')->getUserID();
 		$this->pmID = Functions::getValueFromGlobals('pm_id');
+		if($this->isOutbox = Functions::getValueFromGlobals('box') == 'out')
+		{
+			$this->urlSuffix = '&amp;box=out';
+			$this->boxType = '.ach';
+		}
 	}
 
 	/**
@@ -74,7 +100,7 @@ class PrivateMessage implements Module
 	 */
 	public function execute()
 	{
-		Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('pms'), INDEXFILE . '?faction=pm&amp;mode=overview' . SID_AMPER);
+		Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('pms'), INDEXFILE . '?faction=pm&amp;mode=overview' . $this->urlSuffix . SID_AMPER);
 		if(!Main::getModule('Auth')->isLoggedIn())
 			Main::getModule('Template')->printMessage('login_only', INDEXFILE . '?faction=register' . SID_AMPER, INDEXFILE . '?faction=login' . SID_AMPER);
 		elseif($this->pmBoxID != Main::getModule('Auth')->getUserID())
@@ -84,21 +110,21 @@ class PrivateMessage implements Module
 //PrivateMessageViewPM
 			case 'view':
 			$found = false;
-			$pms = array_reverse(Functions::file('members/' . $this->pmBoxID . '.pm'));
+			$pms = ($pms = @Functions::file('members/' . $this->pmBoxID . $this->boxType)) == false ? array() : array_reverse($pms);
 			foreach($pms as &$curPM)
 			{
 				$curPM = Functions::explodeByTab($curPM);
 				//Search for target pm
 				if($curPM[0] == $this->pmID)
 				{
-					Main::getModule('NavBar')->addElement($curPM[1], INDEXFILE . '?faction=pm&amp;mode=view&amp;pm_id=' . $this->pmID . '&amp;pmbox_id=' . $this->pmBoxID . SID_AMPER);
+					Main::getModule('NavBar')->addElement($curPM[1], INDEXFILE . '?faction=pm&amp;mode=view&amp;pm_id=' . $this->pmID . '&amp;pmbox_id=' . $this->pmBoxID . $this->urlSuffix . SID_AMPER);
 					//Remove unread flag, if needed
 					if($curPM[7] == '1')
 					{
 						$curPM[7] = '0';
 						//Implode for file write
 						$curPM = Functions::implodeByTab($curPM);
-						Functions::file_put_contents('members/' . $this->pmBoxID . '.pm', implode("\n", array_reverse($pms)) . "\n");
+						Functions::file_put_contents('members/' . $this->pmBoxID . $this->boxType, implode("\n", array_reverse($pms)) . "\n");
 						//Undo implode for file write
 						$curPM = Functions::explodeByTab($curPM);
 					}
@@ -135,6 +161,7 @@ class PrivateMessage implements Module
 					$newPM[2] = '[quote' . (($newPM[3] = Functions::getUserData($newPM[3])) !== false ? '=' . $newPM[3][0] : '') . ']' . Functions::br2nl($newPM[2]) . '[/quote]';
 					$newPM[3] = $this->pmBoxID; //Update sender ID
 					$newPM[4] = ''; //Remove old date
+					//Do not change the used BBCode and smiley settings
 					$newPM[7] = '1'; //Update unread flag
 					break;
 				}
@@ -153,6 +180,7 @@ class PrivateMessage implements Module
 					Functions::getValueFromGlobals('use_upbcode') == '1',
 					'1',
 					'');
+			$storeToOutbox = Functions::getValueFromGlobals('storeToOutbox') == 'true';
 			$errors = array();
 			if(!isset($recipientID))
 				$recipientID = Functions::getValueFromGlobals('target_id');
@@ -176,6 +204,16 @@ class PrivateMessage implements Module
 						//Detect new PM ID
 						$newPM[0] = @current(Functions::explodeByTab(array_pop(Functions::file('members/' . $recipient[1] . '.pm'))))+1;
 						Functions::file_put_contents('members/' . $recipient[1] . '.pm', Functions::implodeByTab($newPM) . "\n", FILE_APPEND);
+						//Handle outbox
+						if($storeToOutbox)
+						{
+							//Detect new PM ID for outbox
+							$newPM[0] = ($newPM[0] = @Functions::file('members/' . $this->pmBoxID . '.ach')) == false ? 1 : current(Functions::explodeByTab(array_pop($newPM[0])))+1;
+							$newPM[3] = $recipient[1]; //Change sender to recipient
+							$newPM[7] = '0'; //Do not use unread flag
+							Functions::file_put_contents('members/' . $this->pmBoxID . '.ach', Functions::implodeByTab($newPM) . "\n", FILE_APPEND);
+						}
+						//Done
 						Main::getModule('Logger')->log('%s sent PM to ' . $recipient[0] . ' (ID: ' . $recipient[1] . ')', LOG_USER_TRAFFIC);
 						Functions::skipConfirmMessage(INDEXFILE . '?faction=pm&pmbox_id=' . $this->pmBoxID . SID_AMPER_RAW);
 						Main::getModule('Template')->printMessage('pm_sent', INDEXFILE . '?faction=pm&amp;pmbox_id=' . $this->pmBoxID . SID_AMPER, Functions::getMsgBackLinks());
@@ -189,10 +227,14 @@ class PrivateMessage implements Module
 					}
 				}
 			}
+			//Set default options on calling new PM page the first time
+			else
+				$newPM[5] = $newPM[6] = $storeToOutbox = true;
 			Main::getModule('Template')->assign(array('newPM' => $newPM,
 				'recipient' => $recipientID,
 				'errors' => $errors,
-				'isMod' => Main::getModule('Auth')->isAdmin() || Main::getModule('Auth')->isMod()));
+				'isMod' => Main::getModule('Auth')->isAdmin() || Main::getModule('Auth')->isMod(), //Needed for smilies
+				'storeToOutbox' => $storeToOutbox));
 			break;
 
 //PrivateMessageConfirmDelete
@@ -200,13 +242,13 @@ class PrivateMessage implements Module
 			if(Functions::getValueFromGlobals('kill') != 'yes')
 			{
 				//Retrieve pm title
-				foreach(array_reverse(Functions::file('members/' . $this->pmBoxID . '.pm')) as $curPM)
+				foreach(array_reverse(Functions::file('members/' . $this->pmBoxID . $this->boxType)) as $curPM)
 				{
 					$curPM = Functions::explodeByTab($curPM);
 					if($curPM[0] == $this->pmID)
 					{
 						Main::getModule('NavBar')->addElement(array(
-							array($curPM[1], INDEXFILE . '?faction=pm&amp;mode=view&amp;pm_id=' . $this->pmID . '&amp;pmbox_id=' . $this->pmBoxID . SID_AMPER),
+							array($curPM[1], INDEXFILE . '?faction=pm&amp;mode=view&amp;pm_id=' . $this->pmID . '&amp;pmbox_id=' . $this->pmBoxID . $this->urlSuffix . SID_AMPER),
 							array(Main::getModule('Language')->getString('delete_pm'))));
 						Main::getModule('Template')->assign('pmTitle', $curPM[1]);
 						break;
@@ -224,13 +266,13 @@ class PrivateMessage implements Module
 				$toDelete = array_keys(($toDelete = Functions::getValueFromGlobals('deletepm')) != '' ? $toDelete : array());
 			if(!empty($toDelete))
 			{
-				$size = count($pms = $this->getPMs());
+				$size = count($pms = $this->getPMs($this->boxType));
 				for($i=0; $i<$size; $i++)
 					if(in_array($pms[$i][0], $toDelete))
 						unset($pms[$i]);
-				Functions::file_put_contents('members/' . $this->pmBoxID . '.pm', empty($pms) ? '' : implode("\n", array_map(array('Functions', 'implodeByTab'), $pms)) . "\n");
+				Functions::file_put_contents('members/' . $this->pmBoxID . $this->boxType, empty($pms) ? '' : implode("\n", array_map(array('Functions', 'implodeByTab'), $pms)) . "\n");
 			}
-			header('Location: ' . INDEXFILE . '?faction=pm&profile_id=' . Main::getModule('Auth')->getUserID() . SID_AMPER_RAW);
+			header('Location: ' . INDEXFILE . '?faction=pm&profile_id=' . Main::getModule('Auth')->getUserID() . ($this->isOutbox ? '&box=out' : '') . SID_AMPER_RAW);
 			Main::getModule('Template')->assign('pmBoxID', $this->pmBoxID);
 			Main::getModule('Template')->printMessage('selected_pms_deleted');
 			break;
@@ -239,7 +281,7 @@ class PrivateMessage implements Module
 			case 'pm':
 			case 'overview':
 			default:
-			$pms = array_reverse(Functions::file('members/' . $this->pmBoxID . '.pm'));
+			$pms = ($pms = @Functions::file('members/' . $this->pmBoxID . $this->boxType)) == false ? array() : array_reverse($pms);
 			foreach($pms as &$curPM)
 			{
 				$curPM = Functions::explodeByTab($curPM);
@@ -250,17 +292,20 @@ class PrivateMessage implements Module
 			break;
 		}
 		Main::getModule('Template')->printPage(self::$modeTable[array_key_exists($this->mode, self::$modeTable) ? $this->mode : '' . Main::getModule('Logger')->log('Unknown mode "' . $this->mode . '" in ' . __CLASS__ . '; using default', LOG_FILESYSTEM)], array('pmBoxID' => $this->pmBoxID,
-			'pmID' => $this->pmID));
+			'pmID' => $this->pmID,
+			'isOutbox' => $this->isOutbox,
+			'urlSuffix' => $this->urlSuffix));
 	}
 
 	/**
 	 * Returns current and fully exploded PMs from user.
 	 *
+	 * @param string PM box type file ending
 	 * @return array All saved PMs from current user
 	 */
-	private function getPMs()
+	private function getPMs($boxType)
 	{
-		return array_map(array('Functions', 'explodeByTab'), Functions::file('members/' . $this->pmBoxID . '.pm'));
+		return ($pms = @Functions::file('members/' . $this->pmBoxID . $boxType)) == false ? array() : array_map(array('Functions', 'explodeByTab'), $pms);
 	}
 
 	/**
@@ -272,7 +317,7 @@ class PrivateMessage implements Module
 	{
 		$unread = 0;
 		if(Main::getModule('Auth')->isLoggedIn())
-			foreach($this->getPMs() as $curPM)
+			foreach($this->getPMs('.pm') as $curPM)
 				if($curPM[7] == '1')
 					$unread++;
 		return $unread;

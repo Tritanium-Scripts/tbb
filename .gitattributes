@@ -50,6 +50,7 @@ templates/std/images/onntopic.gif -text
 templates/std/images/onstopic.gif -text
 templates/std/images/ontopic.gif -text
 templates/std/images/opentopic.gif -text
+templates/std/images/outbox.png -text
 templates/std/images/pintopic.png -text
 templates/std/images/pm.gif -text
 templates/std/images/pollbar.gif -text
@@ -78,6 +79,7 @@ templates/tbb2/images/buttons/newsletter.png -text
 templates/tbb2/images/buttons/pm.png -text
 templates/tbb2/images/buttons/pm_delete.png -text
 templates/tbb2/images/buttons/pm_new_reply.png -text
+templates/tbb2/images/buttons/pm_outbox.png -text
 templates/tbb2/images/buttons/pms.png -text
 templates/tbb2/images/buttons/quote.png -text
 templates/tbb2/images/buttons/register.png -text

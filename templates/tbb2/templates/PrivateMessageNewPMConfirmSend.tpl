@@ -10,5 +10,6 @@
 <input type="hidden" name="pm" value="{$newPM[2]}" />
 <input type="hidden" name="smilies" value="{$newPM[5]}" />
 <input type="hidden" name="use_upbcode" value="{$newPM[6]}" />
+<input type="hidden" name="storeToOutbox" value="{if $storeToOutbox}true{/if}" />
 <input type="hidden" name="pmbox_id" value="{$pmBoxID}" />
 </form>

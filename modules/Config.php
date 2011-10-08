@@ -98,7 +98,6 @@ class Config
 		0,										#shorten_page_bars
 		0,										#skip_confirm_msg
 		0);										#date_as_text
-		#0,										#enable_pm_outbox
 		#0);									#enable_calendar
 
 	/**
@@ -197,7 +196,6 @@ class Config
 		'shorten_page_bars',
 		'skip_confirm_msg',
 		'date_as_text');
-		#'enable_pm_outbox',
 		#'enable_calendar');
 
 	/**
