@@ -1,3 +1,32 @@
+<script type="text/javascript">
+function refreshGames()
+{
+	var ajax = window.XMLHttpRequest ? new XMLHttpRequest() : (window.ActiveXObject ? new ActiveXObject('Microsoft.XMLHTTP') : null);
+	if(ajax == null)
+	{
+		alert('{*$modules.Language->getString('your_browser_does_not_support_ajax')*}');
+		return;
+	}
+	ajax.open('POST', '{$smarty.const.INDEXFILE}', false);
+	ajax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+	ajax.send('faction=profile&mode=refreshSteamGames&profile_id={$userData[1]}{$smarty.const.SID_AMPER_RAW}');
+	var ajaxResponse = eval('(' + ajax.responseText + ')'); //Evaluate JSON string
+	for(var i=0; i<ajaxResponse.errors.length; i++)
+		alert(ajaxResponse.errors[i]);
+	if(ajaxResponse.errors.length == 0)
+		for(var i=0; i<ajaxResponse.values.length; i++)
+		{
+			var curInput = document.createElement('input');
+			curInput.type = 'checkbox';
+			curInput.name = 'steamGames[]';
+			curInput.id = curInput.value = ajaxResponse.values[i].gameID;
+			curInput.checked = ajaxResponse.values[i].selected;
+			document.getElementById('steamGames').appendChild(curInput);
+			document.getElementById('steamGames').appendChild(document.createTextNode(curInput.value));
+		}
+}
+</script>
+
 {* 0:nick - 1:id - 2:rankImage(s) - 3:mail - 4:rank - 5:posts - 6:regDate - 7:signature - 9:hp - 10:avatar - 12:realName - 13:icq - 14:mailOptions[ - 17:specialState - 18:steamProfile - 19:steamGames] *}
 <!-- EditProfile -->
 {include file='Errors.tpl'}
@@ -52,8 +81,12 @@
   <td class="td1" style="width:80%;"><input type="text" name="steamProfile" value="{$userData[18]}" style="width:250px;" /></td>
  </tr>
  <tr>
-  <td class="td1" style="width:20%; vertical-align:top;"><span class="norm" style="font-weight:bold;">{$modules.Language->getString('steam_game_names_colon')}</span><br /><span class="small">{$modules.Language->getString('steam_game_names_info')}</span></td>
-  <td class="td1" style="width:80%;"><textarea cols="55" rows="8" name="steamGames">{"\n"|implode:$userData[19]}</textarea></td>
+  <td class="td1" style="width:20%; vertical-align:top;">
+   <span class="norm" style="font-weight:bold;">{$modules.Language->getString('steam_game_names_colon')}</span><br />
+   <span class="small">{$modules.Language->getString('steam_game_names_info')}</span>{if !empty($userData[18])}<br />
+   <button type="button" onclick="refreshGames();">Refresh</button>{/if}
+  </td>
+  <td class="td1" id="steamGames" style="width:80%;">{foreach $userData[19] as $curGameName}<input type="checkbox" id="{$curGameName}" name="steamGames[]" value="{$curGameName}" /> <label for="{$curGameName}">{$curGameName}</label><br />{/foreach}</td>
  </tr>{/if}
  <tr><td class="kat" colspan="2"><span class="kat">{$modules.Language->getString('options')}</span></td></tr>
  <tr><td class="td1" colspan="2"><input type="checkbox" value="1" id="new_mail2" name="new_mail2" style="vertical-align:middle;"{if $userData[14][1] == '1'} checked="checked"{/if} /> <label for="new_mail2" class="norm">{$modules.Language->getString('show_email_address')}</label><br /><span class="small">{$modules.Language->getString('show_email_address_info')}</span></td></tr>

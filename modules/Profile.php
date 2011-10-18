@@ -3,9 +3,9 @@
  * Manages an user profile incl. sending mails, vCard download and Steam achievements.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010 Tritanium Scripts
+ * @copyright Copyright (c) 2010, 2011 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
- * @package TBB1.5
+ * @package TBB1.6
  */
 class Profile implements Module
 {
@@ -28,7 +28,13 @@ class Profile implements Module
 	 *
 	 * @var array Mode and template counterparts
 	 */
-	private static $modeTable = array('' => 'ViewProfile', 'profile' => 'ViewProfile', 'edit' => 'EditProfile', 'formmail' => 'SendMail', 'vCard' => 'vCard', 'EditProfileConfirmDelete' => 'EditProfileConfirmDelete', 'viewAchievements' => 'ViewAchievements');
+	private static $modeTable = array('' => 'ViewProfile',
+		'profile' => 'ViewProfile',
+		'edit' => 'EditProfile',
+		'formmail' => 'SendMail',
+		'vCard' => 'vCard',
+		'EditProfileConfirmDelete' => 'EditProfileConfirmDelete',
+		'viewAchievements' => 'ViewAchievements');
 
 	/**
 	 * Contains the requested user data to display or edit.
@@ -59,6 +65,29 @@ class Profile implements Module
 			Main::getModule('Template')->printMessage('user_does_not_exist');
 		switch($this->mode)
 		{
+//(Still) EditProfile
+			case 'refreshSteamGames':
+			if(Main::getModule('Config')->getCfgVal('achievements') != 1)
+				$this->errors[] = Main::getModule('Language')->getString('text_function_deactivated', 'Messages');
+			//Use cached game information of last half hour
+			elseif(file_exists($cacheFile = 'cache/' . $this->userData[1] . '-SteamGames.cache.php') && (filemtime($cacheFile) + 3600*30 > time()))
+				include($cacheFile);
+			//Load steam games for user, if any (and class to handle XML data is available)
+			elseif(!class_exists('DOMDocument', false) || ini_get('allow_url_fopen') != '1')
+				$this->errors[] = Main::getModule('Language')->getString('text_function_not_supported', 'Messages');
+			elseif(empty($this->userData[18]))
+				$this->errors[] = Main::getModule('Language')->getString('please_enter_your_steam_profile_name');
+			elseif(!$this->refreshSteamGames())
+				$this->errors[] = Main::getModule('Language')->getString('loading_steam_games_failed');
+			//Output as JSON string
+			header('Content-Type: application/json');
+			echo('{"errors":[' . (!empty($this->errors) ? '"' . implode('","', $this->errors) . '"' : '],"values":['));
+			$games = array();
+			foreach($this->userData[19] as $curGame)
+				$games[] = '{"gameID":"' . $curGame[0] . '","gameLogo":"' . $curGame[1] . '","gameName":"' . $curGame[2] . '","selected":' . ($curGame[3] ? 'true' : 'false') . '}';
+			exit(implode(',', $games) . ']}');
+			break;
+
 //EditProfile
 			case 'edit':
 			if(!Main::getModule('Auth')->isLoggedIn())
@@ -146,8 +175,8 @@ class Profile implements Module
 						//Update to file
 						Functions::file_put_contents('members/' . $this->userData[1] . '.xbb', implode("\n", $this->userData));
 						//Prepare cache
-						if(file_exists('cache/' . $this->userData[1] . '-Achievements.cache.php'))
-							Functions::unlink('cache/' . $this->userData[1] . '-Achievements.cache.php', false);
+						if(file_exists('cache/' . $this->userData[1] . '-SteamGames.cache.php'))
+							Functions::unlink('cache/' . $this->userData[1] . '-SteamGames.cache.php', false);
 						//And done
 						Main::getModule('Logger')->log('%s edited profile from ID: ' . $this->userData[1], LOG_EDIT_PROFILE);
 						Main::getModule('Template')->printMessage('profile_saved', INDEXFILE . '?faction=profile&amp;profile_id=' . $this->userData[1] . SID_AMPER, INDEXFILE . '?faction=profile&amp;mode=edit&amp;profile_id=' . $this->userData[1] . SID_AMPER, Functions::getMsgBackLinks());
@@ -327,39 +356,20 @@ class Profile implements Module
 			$this->userData[6] = Functions::formatDate($this->userData[6] . (Functions::strlen($this->userData[6]) == 6 ? '01000000' : ''));
 			$this->userData[7] = Main::getModule('BBCode')->parse(Functions::censor($this->userData[7]));
 			//Load steam games for user, if any (and class to handle XML data is available)
-			if(Main::getModule('Config')->getCfgVal('achievements') == 1 && !empty($this->userData[18]) && !empty($this->userData[19][0]) && class_exists('DOMDocument', false) && ini_get('allow_url_fopen') == '1')
+			if(Main::getModule('Config')->getCfgVal('achievements') == 1 && !empty($this->userData[18]) /*&& !empty($this->userData[19][0])*/ && class_exists('DOMDocument', false) && ini_get('allow_url_fopen') == '1')
 			{
 				//Use cached game information
-				if(file_exists($cacheFile = 'cache/' . $this->userData[1] . '-Achievements.cache.php'))
+				if(file_exists($cacheFile = 'cache/' . $this->userData[1] . '-SteamGames.cache.php'))
 				{
 					include($cacheFile);
 					break;
 				}
-				$dom = new DOMDocument;
-				if(!@$dom->loadXML(file_get_contents('http://steamcommunity.com/' . (is_numeric($this->userData[18]) ? 'profiles/' : 'id/') . $this->userData[18] . '/games/?tab=achievements&l=' . Main::getModule('Language')->getString('steam_language') . '&xml=1')))
+				if(!$this->refreshSteamGames())
 					$this->userData[19] = array();
-				else
-				{
-					$this->userData[18] = array('profileID' => $this->userData[18],
-						'profileName' => $dom->getElementsByTagName('steamID')->item(0)->nodeValue);
-					$games = array();
-					//Extract all steam games from user
-					foreach($dom->getElementsByTagName('game') as $curSteamGame)
-					{
-						$curStatLink = $curSteamGame->getElementsByTagName('statsLink');
-						//Only consider games with stats
-						if($curStatLink->length == 0)
-							continue;
-						//Filter relevant games according to provided game id
-						if(in_array(($curGame = basename($curStatLink->item(0)->nodeValue)), $this->userData[19]))
-							$games[] = array($curGame,
-								$curSteamGame->getElementsByTagName('logo')->item(0)->nodeValue,
-								Functions::str_replace("'", '&#039;', $curSteamGame->getElementsByTagName('name')->item(0)->nodeValue));
-					}
-					//Cache game data
-					Functions::file_put_contents($cacheFile, '<?php $this->userData[18] = unserialize(\'' . serialize($this->userData[18]) . '\'); $this->userData[19] = unserialize(\'' . serialize($games) . '\'); ?>');
-					$this->userData[19] = $games;
-				}
+				//Delete not selected games for
+				foreach($this->userData[19] as &$curGameData)
+					if(!$curGameData[3])
+						unset($curGameData);
 			}
 			else
 				$this->userData[18] = $this->userData[19] = '';
@@ -368,6 +378,41 @@ class Profile implements Module
 		//Append profile ID for WIO location
 		Main::getModule('Template')->printPage(self::$modeTable[array_key_exists($this->mode, self::$modeTable) ? $this->mode : '' . Main::getModule('Logger')->log('Unknown mode "' . $this->mode . '" in ' . __CLASS__ . '; using default', LOG_FILESYSTEM)], array('userData' => $this->userData,
 			'errors' => $this->errors), null, ',' . $this->userData[1]);
+	}
+
+	/**
+	 * Performs a hard refresh of user's steam games regardless of cache state.
+	 * Required preconditions are <b>not</b> checked!
+	 *
+	 * @return bool Refresh was successful
+	 */
+	private function refreshSteamGames()
+	{
+		$dom = new DOMDocument;
+		if(!@$dom->loadXML(file_get_contents('http://steamcommunity.com/' . (is_numeric($this->userData[18]) ? 'profiles/' : 'id/') . $this->userData[18] . '/games/?tab=all&l=' . Main::getModule('Language')->getString('steam_language') . '&xml=1')))
+			return false;
+		else
+		{
+			$this->userData[18] = array('profileID' => $this->userData[18],
+				'profileName' => $dom->getElementsByTagName('steamID')->item(0)->nodeValue);
+			$games = array();
+			//Extract all steam games from user
+			foreach($dom->getElementsByTagName('game') as $curSteamGame)
+			{
+				$curStatLink = $curSteamGame->getElementsByTagName('statsLink');
+				//Only consider games with stats
+				if($curStatLink->length == 0)
+					continue;
+				$games[] = array(($curGame = basename($curStatLink->item(0)->nodeValue)), //Internal game ID
+					$curSteamGame->getElementsByTagName('logo')->item(0)->nodeValue, //Game logo
+					Functions::str_replace("'", '&#039;', $curSteamGame->getElementsByTagName('name')->item(0)->nodeValue), //Full game name
+					in_array($curGame, $this->userData[19])); //Game selected by user for displaying achievements from
+			}
+			//Cache game data
+			Functions::file_put_contents($cacheFile, '<?php $this->userData[18] = unserialize(\'' . serialize($this->userData[18]) . '\'); $this->userData[19] = unserialize(\'' . serialize($games) . '\'); ?>');
+			$this->userData[19] = $games;
+		}
+		return true;
 	}
 }
 ?>
