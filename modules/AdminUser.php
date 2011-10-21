@@ -188,6 +188,8 @@ class AdminUser implements Module
 					//Bye bye
 					Functions::unlink('members/' . $editUser[1] . '.xbb');
 					Functions::unlink('members/' . $editUser[1] . '.pm');
+					if(Functions::file_exists('members/' . $editUser[1] . '.ach'))
+						Functions::unlink('members/' . $editUser[1] . '.ach');
 					//Decrease member counter
 					$lockObj = Functions::getLockObject('vars/member_counter.var');
 					$lockObj->setFileContent($lockObj->getFileContent()-1);

@@ -687,7 +687,7 @@ class FunctionsBasic
 			$user[17] = '';
 		if(!isset($user[18]))
 			$user[18] = '';
-		$user[19] = isset($user[19]) ? self::explodeByTab($user[19]) : array();
+		$user[19] = isset($user[19]) && !empty($user[19]) ? self::explodeByTab($user[19]) : array();
 		if(!isset($user[20]))
 			$user[20] = '';
 		if(!isset($user[21]))

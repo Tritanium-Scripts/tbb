@@ -1,9 +1,9 @@
 *********************************************************
 Tritanium Bulletin Board 1.5 - Changelog (German version)
-Last changed: 19.10.2011 (Version 1.6)
+Last changed: 21.10.2011 (Version 1.6)
 *********************************************************
 
-19.10.2011: Version 1.6
+21.10.2011: Version 1.6
 	- Fehler bei Anzeige der neuesten Beiträge nach heruntersetzen der Anzahl behoben
 	- Neue Konfigurationswerte!
 	- Option für verkürzte Darstellung von Seitennavigationsleisten
@@ -20,12 +20,12 @@ Last changed: 19.10.2011 (Version 1.6)
 	- Überspringen von Bestätigungsmeldungen wie im TBB2 möglich
 	- Weitere Nebenläufigkeitsprobleme (z.B. Besucherrekord zurück auf 0) mit separaten Sperrdateien behoben
 	- Datumsanzeige wahlweise als Text mit "Gestern" und "Heute"
-	- Smarty auf Version 3.1.3 aktualisiert
 	- Optionale Anzeige des letzten Bearbeiters eines Beitrags
 	- Ausgewählte Optionen beim Erstellen einer neuen PN gehen im Fehlerfall nicht mehr verloren
 	- Postausgang für private Nachrichten
 	- Fehlende SID bei "Alle Foren als gelesen markieren"-Link nachgetragen
-	- Komplett neue Verwaltung der Steam-Spiele und -Errungenschaften
+	- Smarty auf Version 3.1.4 aktualisiert
+	- Komplett neue Ajax-basierte Verwaltung der Steam-Spiele und -Errungenschaften
 
 19.05.2011: Version 1.5.5 (offiziell)
 	- Smarty auf Version 3.0.7 aktualisiert
