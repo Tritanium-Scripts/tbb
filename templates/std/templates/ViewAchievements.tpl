@@ -11,9 +11,9 @@
 {foreach $achievementsClosed as $curClosedAchievement}
  <tr>
   <td class="td1" rowspan="2" style="width:66px;"><img src="{$curClosedAchievement.icon}" alt="{$curClosedAchievement.name}" title="{$curClosedAchievement.name}" /></td>
-  <th class="td1">{$curClosedAchievement.name}</th>
+  <th class="td1"><span class="norm">{$curClosedAchievement.name}</span></th>
  </tr>
- <tr><td class="td1">{$curClosedAchievement.description}{if !empty($curClosedAchievement.unlocked)} <span class="small" style="float:right;"><span style="font-weight:bold;">{$modules.Language->getString('unlocked_colon')}</span> {$curClosedAchievement.unlocked}</span>{/if}</td></tr>
+ <tr><td class="td1"><span class="norm">{$curClosedAchievement.description}</span>{if !empty($curClosedAchievement.unlocked)} <span class="small" style="float:right;"><span style="font-weight:bold;">{$modules.Language->getString('unlocked_colon')}</span> {$curClosedAchievement.unlocked}</span>{/if}</td></tr>
 {foreachelse}
  <tr><td class="td1" colspan="2" style="font-weight:bold; text-align:center;"><span class="norm">{$modules.Language->getString('no_achievements_to_display')}</span></td></tr>
 {/foreach}
@@ -24,9 +24,9 @@
 {foreach $achievementsOpen as $curOpenAchievement}
  <tr>
   <td class="td1" rowspan="2" style="width:66px;"><img src="{$curOpenAchievement.icon}" alt="{$curOpenAchievement.name}" title="{$curOpenAchievement.name}" /></td>
-  <th class="td1">{$curOpenAchievement.name}</th>
+  <th class="td1"><span class="norm">{$curOpenAchievement.name}</span></th>
  </tr>
- <tr><td class="td1">{$curOpenAchievement.description}</td></tr>
+ <tr><td class="td1"><span class="norm">{$curOpenAchievement.description}</span></td></tr>
 {foreachelse}
  <tr><td class="td1" colspan="2" style="font-weight:bold; text-align:center;"><span class="norm">{$modules.Language->getString('no_achievements_to_display')}</span></td></tr>
 {/foreach}

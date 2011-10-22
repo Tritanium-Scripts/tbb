@@ -73,6 +73,17 @@ button.formBBCodeButton, input.formBBCodeButton
 	padding-right:8px;
 }
 
+button.formButton, input.formButton
+{
+	background-color:#D4D0C8;
+	border:2px #000000 outset;
+	font-family:Verdana,Arial;
+	font-size:11px;
+	padding:2px;
+	padding-left:15px;
+	padding-right:15px;
+}
+
 input.formBButton
 {
 	background-color:#D4D0C8;
@@ -80,17 +91,6 @@ input.formBButton
 	font-family:Verdana,Arial;
 	font-size:11px;
 	font-weight:bold;
-	padding:2px;
-	padding-left:15px;
-	padding-right:15px;
-}
-
-input.formButton
-{
-	background-color:#D4D0C8;
-	border:2px #000000 outset;
-	font-family:Verdana,Arial;
-	font-size:11px;
 	padding:2px;
 	padding-left:15px;
 	padding-right:15px;

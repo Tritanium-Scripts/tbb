@@ -119,7 +119,7 @@ function refreshGames()
     <tr>
      <td style="padding:3px; width:20%; vertical-align:top;">
       <span class="fontNorm">{$modules.Language->getString('steam_games_colon')}</span>{if !empty($userData[18].profileID)}<br /><br />
-      <button class="formButton" type="button" onclick="refreshGames();">{$modules.Language->getString('refresh')}</button>{/if}
+      <button class="formButton" type="button" onclick="refreshGames();">{$modules.Language->getString('refresh_game_list')}</button>{/if}
      </td>
      <td id="steamGames" style="padding:3px; width:80%;">{foreach $userData[19] as $curGame}
       <input type="checkbox" id="game{$curGame[0]}" name="steamGames[]" value="{$curGame[0]}"{if $curGame[3]} checked="checked"{/if} /> <label for="game{$curGame[0]}" class="fontNorm">{$curGame[2]}</label><br />{/foreach}
