@@ -442,7 +442,7 @@ class Profile implements Module
 	 * Callback to return a Steam game is selected by user.
 	 *
 	 * @param array $curSteamGame Single entry from Steam game list
-	 * @return bool User selcted provided Steam game for displaying achievements
+	 * @return bool User selected provided Steam game for displaying achievements
 	 */
 	private function isSteamGameSelected($curSteamGame)
 	{

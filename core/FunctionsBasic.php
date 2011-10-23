@@ -3,9 +3,9 @@
  * Various static functions and wrappers.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010 Tritanium Scripts
+ * @copyright Copyright (c) 2010, 2011 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
- * @package TBB1.5
+ * @package TBB1.6
  */
 class FunctionsBasic
 {
@@ -929,17 +929,18 @@ class FunctionsBasic
 	 * @param int|string $userID ID of of last user posted in forum
 	 * @param string $date Proprietary date of last post
 	 * @param int $tSmileyID ID of topic smiley
+	 * @param int $postID ID of newest post
 	 */
-	public static function updateLastPosts($forumID, $topicID, $userID, $date, $tSmileyID)
+	public static function updateLastPosts($forumID, $topicID, $userID, $date, $tSmileyID, $postID)
 	{
 		if(($max = Main::getModule('Config')->getCfgVal('show_lposts')) < 1)
 			return;
 		if(($lastPosts = self::file_get_contents('vars/lposts.var')) == '')
-			self::file_put_contents('vars/lposts.var', implode(',', array($forumID, $topicID, $userID, $date, $tSmileyID)));
+			self::file_put_contents('vars/lposts.var', implode(',', array($forumID, $topicID, $userID, $date, $tSmileyID, $postID)));
 		else
 		{
 			$lastPosts = self::explodeByTab($lastPosts);
-			array_unshift($lastPosts, implode(',', array($forumID, $topicID, $userID, $date, $tSmileyID)));
+			array_unshift($lastPosts, implode(',', array($forumID, $topicID, $userID, $date, $tSmileyID, $postID)));
 			while(count($lastPosts) > $max)
 				array_pop($lastPosts);
 			self::file_put_contents('vars/lposts.var', self::implodeByTab($lastPosts));
@@ -954,14 +955,15 @@ class FunctionsBasic
 	 * @param int|string $userID ID of of last user posted in forum
 	 * @param string $date Proprietary date of last post
 	 * @param int $tSmileyID ID of topic smiley
+	 * @param int $postID ID of newest post
 	 */
-	public static function updateTodaysPosts($forumID, $topicID, $userID, $date, $tSmileyID)
+	public static function updateTodaysPosts($forumID, $topicID, $userID, $date, $tSmileyID, $postID)
 	{
-		self::file_put_contents('vars/todayposts.var', (($todaysPosts = self::file_get_contents('vars/todayposts.var')) == '' || current(self::explodeByTab($todaysPosts)) != gmdate('Yd') ? gmdate('Yd') . "\t" : $todaysPosts . '|') . implode(',', array($forumID, $topicID, $userID, $date, $tSmileyID)));
+		self::file_put_contents('vars/todayposts.var', (($todaysPosts = self::file_get_contents('vars/todayposts.var')) == '' || current(self::explodeByTab($todaysPosts)) != gmdate('Yd') ? gmdate('Yd') . "\t" : $todaysPosts . '|') . implode(',', array($forumID, $topicID, $userID, $date, $tSmileyID, $postID)));
 	}
 
 	/**
-	 * Increases post counter of stated user. User has to exists!
+	 * Increases post counter of stated user. User has to exist!
 	 *
 	 * @param int $userID ID of user
 	 */

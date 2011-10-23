@@ -3,9 +3,9 @@
  * Manages post process of new topic or new poll.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010 Tritanium Scripts
+ * @copyright Copyright (c) 2010, 2011 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
- * @package TBB1.5
+ * @package TBB1.6
  */
 class PostNew implements Module
 {
@@ -276,8 +276,8 @@ class PostNew implements Module
 			Functions::updateUserPostCounter($this->newPost['nick']);
 		Functions::getFileLock('ltposts');
 		if($this->forum[10][6] == '1')
-			Functions::updateLastPosts($this->forum[0], $newLastTopicID, $this->newPost['nick'], $newTopic[15], $this->newPost['tSmiley']);
-		Functions::updateTodaysPosts($this->forum[0], $newLastTopicID, $this->newPost['nick'], $newTopic[15], $this->newPost['tSmiley']);
+			Functions::updateLastPosts($this->forum[0], $newLastTopicID, $this->newPost['nick'], $newTopic[15], $this->newPost['tSmiley'], 1);
+		Functions::updateTodaysPosts($this->forum[0], $newLastTopicID, $this->newPost['nick'], $newTopic[15], $this->newPost['tSmiley'], 1);
 		Functions::releaseLock('ltposts');
 		return $newTopic;
 	}

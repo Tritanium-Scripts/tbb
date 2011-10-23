@@ -3,9 +3,9 @@
  * Manages new replies, poster IPs and post/poll management.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010 Tritanium Scripts
+ * @copyright Copyright (c) 2010, 2011 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
- * @package TBB1.5
+ * @package TBB1.6
  */
 class Posting implements Module
 {
@@ -213,8 +213,8 @@ class Posting implements Module
 						Functions::updateUserPostCounter($this->newReply['nick']);
 					Functions::getFileLock('ltposts');
 					if($this->forum[10][6] == '1')
-						Functions::updateLastPosts($this->forum[0], $this->topicID, $this->newReply['nick'], $newPost[2], $this->newReply['tSmileyID']);
-					Functions::updateTodaysPosts($this->forum[0], $this->topicID, $this->newReply['nick'], $newPost[2], $this->newReply['tSmileyID']);
+						Functions::updateLastPosts($this->forum[0], $this->topicID, $this->newReply['nick'], $newPost[2], $this->newReply['tSmileyID'], $newPost[0]);
+					Functions::updateTodaysPosts($this->forum[0], $this->topicID, $this->newReply['nick'], $newPost[2], $this->newReply['tSmileyID'], $newPost[0]);
 					Functions::releaseLock('ltposts');
 					//Notify topic creator
 					if($this->topic[4] == '1' && Main::getModule('Config')->getCfgVal('activate_mail') == 1 && Main::getModule('Config')->getCfgVal('notify_new_replies') == 1 && Main::getModule('Auth')->getUserID() != $this->topic[2] && ($notifyUser = Functions::getUserData($this->topic[2])) != false)
@@ -504,8 +504,8 @@ class Posting implements Module
 							Functions::file_put_contents('foren/' . $this->forum[0] . '-' . $this->topicID . '.xbb', 'm' . "\t" . $this->topic[1] . "\t" . $this->topic[2] . "\t" . $this->topic[3] . "\t" . $targetForumID . "\t" . $newTopicID . "\n");
 						//Update link(s) in last and todays posts (if topic is listed in there) with some l33t h4x regex magic :)
 						Functions::getFileLock('ltposts');
-						Functions::file_put_contents('vars/lposts.var', preg_replace('/' . $this->forum[0] . ',' . $this->topicID . ',(.*?),(\d+),(\d+)/si', $targetForumID . ',' . $newTopicID . ',\1,\2,\3', Functions::file_get_contents('vars/lposts.var')));
-						Functions::file_put_contents('vars/todayposts.var', preg_replace('/' . $this->forum[0] . ',' . $this->topicID . ',(.*?),(\d+),(\d+)/si', $targetForumID . ',' . $newTopicID . ',\1,\2,\3', Functions::file_get_contents('vars/todayposts.var')));
+						Functions::file_put_contents('vars/lposts.var', preg_replace('/' . $this->forum[0] . ',' . $this->topicID . ',(.*?),(\d+),(\d+),(\d+)/si', $targetForumID . ',' . $newTopicID . ',\1,\2,\3,\4', Functions::file_get_contents('vars/lposts.var')));
+						Functions::file_put_contents('vars/todayposts.var', preg_replace('/' . $this->forum[0] . ',' . $this->topicID . ',(.*?),(\d+),(\d+),(\d+)/si', $targetForumID . ',' . $newTopicID . ',\1,\2,\3,\4', Functions::file_get_contents('vars/todayposts.var')));
 						Functions::releaseLock('ltposts');
 						//Done
 						Main::getModule('Logger')->log('%s moved topic from (' . $this->forum[0] . ',' . $this->topicID . ') to (' . $targetForumID . ',' . $newTopicID . ')', LOG_EDIT_POSTING);
