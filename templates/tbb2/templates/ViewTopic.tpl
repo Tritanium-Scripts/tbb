@@ -61,7 +61,7 @@
    <div class="fontNorm" style="min-height:50px;">{$curPost.post}</div>{if $curPost.userSig != false}<br />
    <div class="signature">-----------------------<br />
     {$curPost.userSig}
-   </div>{/if}{if !empty($curPost.lastEditBy)}<hr style="text-align:left; width:50%;" />
+   </div>{/if}{if !empty($curPost.lastEditBy)}<hr style="margin-left:0; text-align:left; width:50%;" />
    <span class="fontSmall">{$curPost.lastEditBy|string_format:$modules.Language->getString('last_edit_by_x')}</span>{/if}
   </td>
  </tr>

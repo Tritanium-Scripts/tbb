@@ -1,9 +1,9 @@
 **********************************************************
 Tritanium Bulletin Board 1.5+ - Changelog (German version)
-Last changed: 30.10.2011 (Version 1.6)
+Last changed: 31.10.2011 (Version 1.6)
 **********************************************************
 
-30.10.2011: Version 1.6 (offiziell)
+31.10.2011: Version 1.6 (offiziell)
 	- Fehler bei Anzeige der neuesten Beiträge nach heruntersetzen der Anzahl behoben
 	- Neue Konfigurationswerte!
 	- Option für verkürzte Darstellung von Seitennavigationsleisten

@@ -56,7 +56,7 @@
    <div class="norm">
     {$curPost.post}{if $curPost.userSig != false}<br /><br />
     -----------------------<br />
-    {$curPost.userSig}{/if}{if !empty($curPost.lastEditBy)}<hr style="text-align:left; width:50%;" />
+    {$curPost.userSig}{/if}{if !empty($curPost.lastEditBy)}<hr style="margin-left:0; text-align:left; width:50%;" />
     <span class="small">{$curPost.lastEditBy|string_format:$modules.Language->getString('last_edit_by_x')}</span>{/if}
    </div>
   </td>

@@ -326,7 +326,7 @@ a.topicLink:visited
 	color:#A62A2A;
 }
 
-input.formButton:hover
+button.formButton:hover, input.formButton:hover
 {
 	background-color:#F8F8FF;
 	border:2px #000000 inset;

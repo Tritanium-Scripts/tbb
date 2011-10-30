@@ -249,7 +249,7 @@ class Posting implements Module
 			case 'kill':
 			#0:postID - 1:posterID - 2:proprietaryDate - 3:post - 4:ip - 5:isSignature - 6:tSmileyID - 7:isSmilies - 8:isBBCode - 9:isXHTML
 			$post = $this->getPostData($this->postID) or Main::getModule('Template')->printMessage('post_not_found');
-			if(!Main::getModule('Auth')->isLoggedIn() || !Functions::checkUserAccess($this->forum[0], 4))
+			if(!Main::getModule('Auth')->isLoggedIn() || !(Functions::checkUserAccess($this->forum[0], 4) || Functions::getTimestamp(gmdate('YmdHis')) < Functions::getTimestamp($post[2])+intval(Main::getModule('Config')->getCfgVal('edit_time'))))
 				Main::getModule('Template')->printMessage(Main::getModule('Auth')->isLoggedIn() ? 'permission_denied' : 'login_only', INDEXFILE . '?faction=register' . SID_AMPER, INDEXFILE . '?faction=login' . SID_AMPER);
 			elseif(!($isMod = Functions::checkModOfForum($this->forum)) && $post[1] != Main::getModule('Auth')->getUserID() && !Main::getModule('Auth')->isAdmin())
 				Main::getModule('Template')->printMessage('permission_denied');

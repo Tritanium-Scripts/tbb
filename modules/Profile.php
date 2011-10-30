@@ -223,6 +223,8 @@ class Profile implements Module
 					$curSteamGame[] = in_array($curSteamGame[0], $this->userData[19]);
 				$this->userData[19] = &$this->steamGames;
 			}
+			else
+				$this->userData[18] = array('profileID' => '');
 			//Provide selectable templates and styles, if allowed
 			if(Main::getModule('Config')->getCfgVal('select_tpls') == 1 || Main::getModule('Config')->getCfgVal('select_styles') == 1)
 				Main::getModule('Template')->assign('templates', Main::getModule('Template')->getAvailableTpls());
