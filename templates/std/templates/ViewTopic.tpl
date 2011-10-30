@@ -34,7 +34,7 @@
  </tr>
 {foreach $posts as $curPost}
  <tr id="post{$curPost.postID}">
-  <td rowspan="2" class="{cycle values="td1,td2" advance=false}" style="vertical-align:top; width:15%;">
+  <td{if $curPost@last} id="last"{/if} rowspan="2" class="{cycle values="td1,td2" advance=false}" style="vertical-align:top; width:15%;">
    <span class="norm" style="font-weight:bold;">{$curPost.userNick}</span><br />
    <span class="small">{if !empty($curPost.userSpecialState)}{$curPost.userSpecialState}{else}{$curPost.userState}{/if}<br />
    {if !empty($curPost.userGroup)}{$curPost.userGroup}<br />{/if}{$curPost.userRank}<br />

@@ -31,7 +31,7 @@
  </tr>
 {foreach $posts as $curPost}
  <tr id="post{$curPost.postID}">
-  <td rowspan="3" class="cellAlt" style="vertical-align:top; width:15%;">
+  <td{if $curPost@last} id="last"{/if} rowspan="3" class="cellAlt" style="vertical-align:top; width:15%;">
    <span class="fontNorm" style="font-weight:bold;">{$curPost.userNick}</span><br />
    <span class="fontSmall">{if !empty($curPost.userSpecialState)}{$curPost.userSpecialState}{else}{$curPost.userState}{/if}<br />
    {if !empty($curPost.userGroup)}{$curPost.userGroup}<br />{/if}{$curPost.userRank}<br />

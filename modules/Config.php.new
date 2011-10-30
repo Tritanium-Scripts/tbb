@@ -98,7 +98,6 @@ class Config
 		0,										#shorten_page_bars
 		0,										#skip_confirm_msg
 		0);										#date_as_text
-		#0);									#enable_calendar
 
 	/**
 	 * Name of config file to work with.
@@ -196,7 +195,6 @@ class Config
 		'shorten_page_bars',
 		'skip_confirm_msg',
 		'date_as_text');
-		#'enable_calendar');
 
 	/**
 	 * Loaded configuration values are stored here.

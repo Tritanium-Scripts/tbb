@@ -1,9 +1,9 @@
-*********************************************************
-Tritanium Bulletin Board 1.5 - Changelog (German version)
-Last changed: 23.10.2011 (Version 1.6)
-*********************************************************
+**********************************************************
+Tritanium Bulletin Board 1.5+ - Changelog (German version)
+Last changed: 30.10.2011 (Version 1.6)
+**********************************************************
 
-23.10.2011: Version 1.6
+30.10.2011: Version 1.6 (offiziell)
 	- Fehler bei Anzeige der neuesten Beiträge nach heruntersetzen der Anzahl behoben
 	- Neue Konfigurationswerte!
 	- Option für verkürzte Darstellung von Seitennavigationsleisten
@@ -28,7 +28,7 @@ Last changed: 23.10.2011 (Version 1.6)
 	- Komplett neue Ajax-basierte Verwaltung der Steam-Spiele und -Errungenschaften
 	- Steam-Errungenschaften eines Benutzers werden gecachet und daher schneller angezeigt
 	- Speicherort- und mögliche Enkodierungsprobleme von gecacheten Steam-Spielen behoben
-	- Sprungmarken für neueste und heutige Beiträge hinzugefügt
+	- Sprungmarken für letzte, neueste und heutige Beiträge hinzugefügt
 
 19.05.2011: Version 1.5.5 (offiziell)
 	- Smarty auf Version 3.0.7 aktualisiert
@@ -129,7 +129,7 @@ Last changed: 23.10.2011 (Version 1.6)
 	- Upload-Funktion für Dateien mit automatischer Verlinkung im Beitrag
 	- Kontakt-Mail-Adresse(n) verschlüsselt mit JavaScript
 	- Newsfader (Newstyp "2") nicht mehr IE-only
-	- Optionaler ClickJacking-Schutz für IE 8.0, Safari und Chrome
+	- Optionaler Clickjacking-Schutz für IE 8.0, Safari und Chrome
 	- Speichernutzung in technischen Statistiken
 	- Alle Größenangaben in Bytes gemäß IEC 60027-2 Norm
 	- WIO mit mehr Details zu Position und Zeit des letzten Klicks

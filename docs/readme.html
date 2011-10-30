@@ -174,6 +174,7 @@
   </ul>
 
   <h3 id="defaults">2.2 Voreinstellungen</h3>
+  <p class="fontnorm">Benennen Sie zunächst die <b>./modules/Config.php.new</b> in <b>./modules/Config.php</b> um.</p>
   <p class="fontnorm">Das Forum wird mit fest definierten Standardeinstellungen ausgeliefert, die Sie noch vor dem Hochladen verändern können. Diese Standardwerte kommen auch zum Einsatz, wenn Sie die Forumeinstellungen zurücksetzen sollten. Sie finden im Abschnitt <a href="#configuration">Konfiguration</a> weitere Informationen zum Veränderen dieser Einstellungen. Dieser Schritt ist optional, da Sie später im Forum alle Optionen unabhängig ihrer Voreinstellungen ändern können.</p>
 
   <h3 id="uploading">2.3 Hochladen</h3>
@@ -209,7 +210,7 @@
 
   <h3 id="firststeps">2.5 Erste Schritte</h3>
   <p class="fontnorm">Ihr TBB 1.6 ist nun einsatzbereit und kann eingerichtet werden. Rufen Sie es dazu mit ihrem Browser auf (z.B. http://www.meindedomain.de/forum/index.php). Es sollte jetzt die Forenübersicht angezeigt werden. Als nächstes registrieren Sie sich erst einmal selbst, d.h. Sie klicken oben in der Menüleiste auf &quot;Registrieren&quot;, geben ihre Daten ein und schicken das ganze ab. Loggen Sie sich nun mit diesen Daten ein (Sie wurden automatisch als Administrator eingetragen). War dies erfolgreich, können Sie am unteren Ende der Seite auf den Link &quot;Administration&quot; klicken. Im Administrationsmenü können Sie nun (abhängig von den getroffenen Voreinstellungen) die Einstellungen bearbeiten und die Forenstruktur unter &quot;Foren/Kategorien&quot; anlegen. Sie sollten dabei <b>zuerst</b> mindestens eine Kategorie erstellen und danach die gewünschten Foren.</p>
-  <p class="fontnorm">Falls Probleme bei der Installation auftreten, lesen sie sich bitte zuerst das <a href="#faq">FAQ</a> durch, bevor sie das Forum auf der <a href="http://www.tritanium-scripts.com/" target="_blank">Tritanium Scripts-Webseite</a> zu Rate ziehen.</p>
+  <p class="fontnorm">Falls Probleme bei der Installation auftreten, lesen Sie sich bitte zuerst das <a href="#faq">FAQ</a> durch, bevor sie das Forum auf der <a href="http://www.tritanium-scripts.com/" target="_blank">Tritanium Scripts-Webseite</a> zu Rate ziehen.</p>
 
   <h2 id="update">3 Update einer älteren Version</h2>
   <h3 id="generalshints">3.1 Allgemeine Hinweise</h3>
@@ -251,7 +252,7 @@
 0
 0</code></pre>
    </li>
-   <li>Vergewissern Sie sich, dass die &quot;<b>settings.var</b>&quot; genau xx Zeilen hat und laden Sie sie in den <b>./vars/</b>-Ordner.</li>
+   <li>Vergewissern Sie sich, dass die &quot;<b>settings.var</b>&quot; genau 82 Zeilen hat und laden Sie sie in den <b>./vars/</b>-Ordner hoch.</li>
    <li>Das Forum ist nun aktualisiert und der Wartungsmodus kann deaktiviert werden.</li>
   </ol>
 
@@ -271,6 +272,7 @@
      <li>Alle <b>*.php</b>-Dateien<br /><span style="font-size:x-small;">(Haben Sie die &quot;settings.php&quot; und/oder &quot;datapath.php&quot; verändert, sollten Sie diese erst sichern und dann löschen.)</span></li>
     </ul>
    </li>
+   <li>Benennen Sie die <b>./modules/Config.php.new</b> in <b>./modules/Config.php</b> um.</li>
    <li>
     Laden Sie nun folgende Dateien und Ordner in das TBB-Verzeichnis im <b>Binär-Modus</b> hoch:
     <ul>
@@ -292,7 +294,7 @@
    <li>Nutzen Sie die externen Foumwerkzeuge <b>ext_lposts.php</b> und/oder <b>ext_wio.php</b>, so müssen diese durch die neuen Versionen ersetzt werden. Übertragen Sie dazu die gemachten Einstellungen in die neuen Dateien und ersetzen Sie ihre vorhandenen Dateien. Lesen Sie dazu auch <a href="#externaltools">Abschnitt 5</a> für mehr Details zu den neuen Einstellungswerten.</li>
    <li>Laden Sie nun die <b>setUpdateFlag.php</b> aus dem <b>./update/</b>-Ordner in das TBB-Verzeichnis und rufen Sie das Script mit ihrem Browser auf (z.B. http://www.meindedomain.de/forum/setUpdateFlag.php). Je nach Anzahl registrierter Mitglieder kann der Update-Prozess etwas dauern und notfalls durch erneutes Aufrufen fortgesetzt werden.</li>
    <li>Löschen Sie die <b>setUpdateFlag.php</b> wieder, sobald eine &quot;Done!&quot;-Meldung angezeigt wird.</li>
-   <li>Öffnen Sie ihre <b>settings.var</b> aus dem <b>./vars/</b>-Ordner und löschen sie ab Zeile 57 die ganzen Leerzeilen. Wenn Sie keine eigene <b>settings.var</b> haben, überspringen Sie die Punkte 12 bis 14.</li>
+   <li>Öffnen Sie ihre <b>settings.var</b> aus dem <b>./vars/</b>-Ordner und löschen sie ab Zeile 57 die ganzen Leerzeilen. Wenn Sie keine eigene <b>settings.var</b> haben, überspringen Sie die Punkte 13 bis 15.</li>
    <li>
     Fügen Sie folgende Werte in die Zeilen 57 bis 82 ein:
     <pre><code>std
@@ -323,7 +325,7 @@ Supermoderator
 0</code></pre>
    </li>
    <li>Ändern Sie Zeile 51 in <code>de-DE</code> um.</li>
-   <li>Vergewissern Sie sich, dass die &quot;<b>settings.var</b>&quot; genau 75 Zeilen hat und laden Sie sie in den <b>./vars/</b>-Ordner.</li>
+   <li>Vergewissern Sie sich, dass die &quot;<b>settings.var</b>&quot; genau 82 Zeilen hat und laden Sie sie in den <b>./vars/</b>-Ordner.</li>
    <li>Das Forum ist nun aktualisiert. Rufen Sie es auf (z.B. http://www.meindedomain.de/forum/index.php), loggen Sie sich ein und überprüfen Sie den Status. Konsultieren Sie das <a href="#faq">FAQ</a>, wenn Fehlermeldungen erscheinen.</li>
   </ol>
 
@@ -359,7 +361,7 @@ Supermoderator
   </ol>
   <p class="fontnorm">Das Forum sollte nun bereit für die Aktualisierung von 1.2.3 auf 1.6 sein.</p>
 
-  <h2 id="configuration">4 Konfiguration (&quot;settings.php&quot;)</h2>
+  <h2 id="configuration">4 Konfiguration</h2>
   <h3 id="introduction">4.1 Einführung</h3>
   <p class="fontnorm">Das TBB 1 verwaltet seine Einstellungen in zwei Dateitypen:</p>
   <ul class="fontnorm">
@@ -435,7 +437,7 @@ Supermoderator
    <tr><td>55</td><td><code>notify_new_replies</code></td><td>1</td><td>Themenabos per E-Mail aktivieren</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
 
    <tr><td>56</td><td><code>default_tpl</code></td><td>std</td><td>Standardtemplate des Forums</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
-   <tr><td>57</td><td><a href="#clickjacking"><code>clickjacking</code></a></td><td>0</td><td>ClickJacking-Schutz aktivieren</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>57</td><td><a href="#clickjacking"><code>clickjacking</code></a></td><td>0</td><td>Clickjacking-Schutz aktivieren</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
    <tr><td>58</td><td><code>wio_color_admin</code></td><td>#FF0000</td><td>Farbe für Administratoren in WIO-Box</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
    <tr><td>59</td><td><code>wio_color_mod</code></td><td>#008000</td><td>Farbe für Moderatoren in WIO-Box</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
    <tr><td>60</td><td><code>wio_color_user</code></td><td>#000000</td><td>Farbe für Mitglieder in WIO-Box</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
@@ -493,7 +495,7 @@ Supermoderator
   <p class="fontnorm">Falls sie z.B. ein Update am Forum durchführen wollen, können sie den Wert dieser Variable auf 1 setzen. Dann können sich nur noch Administratoren einloggen und das Forum benutzen, sonst bekommt man eine entsprechende Meldung angezeigt.</p>
 
   <h3 id="clickjacking">4.8 <code>clickjacking</code></h3>
-  <p class="fontnorm">Ist diese Option auf 1 gesetzt, wird ein spezieller HTTP-Header gesendet und dem Browser mitgeteilt, dass das Forum nicht in Frames auf anderen Webseiten angezeigt werden darf. Derzeit unterstützen Internet Explorer 8, Chrome 4.1, Safari 4, Firefox ab 3.6.9 und Opera 10.50 oder höher dieses Feature. Mehr Informationen zum Thema ClickJacking finden Sie z.B. in der <a href="http://de.wikipedia.org/wiki/Clickjacking" target="_blank">Wikipedia</a>.</p>
+  <p class="fontnorm">Ist diese Option auf 1 gesetzt, wird ein spezieller HTTP-Header gesendet und dem Browser mitgeteilt, dass das Forum nicht in Frames auf anderen Webseiten angezeigt werden darf. Derzeit unterstützen Internet Explorer 8, Chrome 4.1, Safari 4, Firefox ab 3.6.9 und Opera 10.50 oder höher dieses Feature. Mehr Informationen zum Thema Clickjacking finden Sie z.B. in der <a href="http://de.wikipedia.org/wiki/Clickjacking" target="_blank">Wikipedia</a>.</p>
 
   <h3 id="upload">4.9 <code>upload_allowed_ext</code> / <code>upload_max_filesize</code></h3>
   <p class="fontnorm">Ab Version 1.5 bietet das TBB die Möglichkeit, Dateien als Anhänge zu Beiträgen hochzuladen an. Sind Dateiuploads aktiviert (<code>enable_uploads</code> ist 1), können Sie mit der Option <code>upload_allowed_ext</code> genau definieren, welche Dateitypen dabei akzeptiert werden. Geben Sie die Dateiendungen mit Kommata getrennt an, z.B. <b>bmp,jpg,jpeg,gif,png,zip,rar,mp3,pdf</b> um Bilder, Archive, Audiodateien und PDFs zu erlauben. Die Dateien werden in dem <b>./uploads/</b>-Ordner gespeichert und automatisch im Beitrag mit BBCode verlinkt. Bilddateien werden dabei als solche direkt eingebunden. Sie sollten diese Einstellung auf jeden Fall setzen um zu verhindern, dass z.B. böswillige PHP-Skripte hochgeladen werden. Zusätzlich können Sie noch eine maximale Dateigröße in Bytes für hochgeladene Dateien angeben. Die Voreinstellung für <code>upload_max_filesize</code> beträgt 2 MiB. Geben Sie kein Limit an, gelten die Beschränkungen aus der php.ini bzw. der PHP-Umgebung.</p>
@@ -653,7 +655,7 @@ Supermoderator
 
   <h3 id="concurrency">8.6 Nebenläufigkeit</h3>
   <p class="fontnorm">Kein unmittelbarer Fehler, aber eine Schwäche der Vorgängerversionen war die Verwaltung von Lese- und Schreibprozessen in Dateien. Wenn etwas auf die Mikrosekunde genau gleichzeitig ausgeführt wird, waren die Chancen hoch, dass mit falschen bzw. veralteten Daten gearbeitet wurde. Beispiele dafür wären mehrfache Vergabe von Benutzer-IDs bei neuen Registrierungen oder ausrechnen von falschen Statistikwerten. Das alles ist eher unwahrscheinlich, kann aber durch einen dummen Zufall mal passieren oder sich bewusst provozieren lassen durch z.B. massenhafte DDoS-ähnliche Angriffe.</p>
-  <p class="fontnorm">Das TBB 1.6 steuert dem mit verbesserten Locking, d.h. mit geregelten und exklusiven Dateizugriffen, entgegen. Geschützt wurde damit die Vergabe von neuen Benutzer-IDs, Themen-IDs und Umfragen-IDs sowie der Mitgliedszähler. Die restlichen Komponenten sind derzeit aber weiterhin anfällig für diese Schwäche! Spätestens mit dem TBB 2.0 ist diese Problematik vollständig behoben.</p>
+  <p class="fontnorm">Das TBB 1.6 steuert dem mit verbesserten Locking, d.h. mit geregelten und exklusiven Dateizugriffen, entgegen. Geschützt wurde damit z.B. die Vergabe von neuen Benutzer-IDs, Themen-IDs und Umfragen-IDs sowie der Mitgliedszähler. Die restlichen Komponenten sind derzeit aber weiterhin anfällig für diese Schwäche! Spätestens mit dem TBB 2.0 ist diese Problematik vollständig behoben.</p>
 
   <h2 id="faq">9 FAQ</h2>
   <ul class="fontnorm">
@@ -682,6 +684,8 @@ Supermoderator
        </ul></li>
    <li style="padding-bottom:1em;"><span style="font-weight:bold;">Welche Änderungen und neuen Features gibt es?</span><br />
        Eine genaue Auflistung aller Änderungen und Neuerungen ist in der <a href="changelog.txt">changelog.txt</a> zu finden. Die Versionsgeschichte davor steht in der <a href="history.txt">history.txt</a>.</li>
+   <li style="padding-bottom:1em;"><span style="font-weight:bold;">Ich erhalte die Fehlermeldung &quot;ERROR: Module Config does not exist!&quot;?</span><br />
+       Bitte lesen Sie die Installations- bzw. Aktualisierungsanleitung genau durch.</li>
    <li style="padding-bottom:1em;"><span style="font-weight:bold;">Bei manchen Steam-Spielen werden keine Errungenschaften angezeigt?</span><br />
        Das Verhalten konnte z.B. bei <b>Alien Swarm</b> und <b>Counter-Strike: Source</b> beobachtet werden. Obwohl die Spiele richtig erkannt werden und die Erfolge ohne Fehler abgefragt werden, liefert die Steam-Plattform keine Daten. Es ist jedenfalls kein Fehler des Forums und es bleibt daher abzuwarten, wann Steam die Errungenschaften im erforderlichen Format bereitstellt.</li>
    <li style="padding-bottom:1em;"><span style="font-weight:bold;">Wie kann ich die Meldung im Wartungsmodus ändern?</span><br />

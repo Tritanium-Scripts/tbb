@@ -383,7 +383,7 @@ class Profile implements Module
 			$this->userData[6] = Functions::formatDate($this->userData[6] . (Functions::strlen($this->userData[6]) == 6 ? '01000000' : ''));
 			$this->userData[7] = Main::getModule('BBCode')->parse(Functions::censor($this->userData[7]));
 			//Load Steam games for user, if any (and class to handle XML data is available)
-			if(Main::getModule('Config')->getCfgVal('achievements') == 1 && !empty($this->userData[18]) && class_exists('DOMDocument', false) && ini_get('allow_url_fopen') == '1')
+			if(Main::getModule('Config')->getCfgVal('achievements') == 1 && !empty($this->userData[18]) && !empty($this->userData[19]) && class_exists('DOMDocument', false) && ini_get('allow_url_fopen') == '1')
 			{
 				//Use cached game information
 				if(file_exists($cacheFile = 'cache/' . $this->userData[1] . '-SteamGames.cache.php'))
