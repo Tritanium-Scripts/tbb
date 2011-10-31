@@ -29,6 +29,7 @@ Last changed: 31.10.2011 (Version 1.6)
 	- Steam-Errungenschaften eines Benutzers werden gecachet und daher schneller angezeigt
 	- Speicherort- und mögliche Enkodierungsprobleme von gecacheten Steam-Spielen behoben
 	- Sprungmarken für letzte, neueste und heutige Beiträge hinzugefügt
+	- Automatische Berechnung der Sommerzeit; kein Wechsel der Zeitzone mehr nötig
 
 19.05.2011: Version 1.5.5 (offiziell)
 	- Smarty auf Version 3.0.7 aktualisiert

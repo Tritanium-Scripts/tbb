@@ -619,16 +619,17 @@ class FunctionsBasic
 	}
 
 	/**
-	 * Returns an GMT unix timestamp with offset from a proprietary date.
+	 * Returns an GMT unix timestamp with timezone offset and daylight saving time offset from a proprietary date.
 	 *
 	 * @param string $date Proprietary date format (YYYYMMDDhhmmss)
-	 * @return int Unix GMT timestamp
+	 * @return int Unix GMT timestamp with added offsets
 	 */
 	public static function getTimestamp($date)
 	{
 		$gmtOffset = Main::getModule('Config')->getCfgVal('gmt_offset');
 		$offset = Functions::substr($gmtOffset, 1, 2)*3600 + Functions::substr($gmtOffset, 3, 2)*60;
-		return gmmktime(substr($date, 8, 2), substr($date, 10, 2), substr($date, 12, 2), substr($date, 4, 2), substr($date, 6, 2), substr($date, 0, 4)) + ($gmtOffset[0] == '-' ? $offset*-1 : $offset);# + date('Z');
+		//GMT timestamp + timezone offset + DST offset
+		return gmmktime(substr($date, 8, 2), substr($date, 10, 2), substr($date, 12, 2), substr($date, 4, 2), substr($date, 6, 2), substr($date, 0, 4)) + ($gmtOffset[0] == '-' ? $offset*-1 : $offset) + date('I')*3600;
 	}
 
 	/**
