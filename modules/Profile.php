@@ -376,13 +376,11 @@ class Profile implements Module
 				}
 			}
 			//Joined x weeks ago
-			$this->userData[8] = intval(($this->userData[11] = time()-Functions::getTimestamp($this->userData[6])) / 604800); //Reuse "forum access perms slot"
+			$this->userData[8] = intval(($this->userData[11] = abs(time()-Functions::getTimestamp($this->userData[6]))) / 604800); //Reuse "forum access perms slot"
 			//Posts per day
-			$this->userData[11] = intval($this->userData[11] / 86400); //Reuse "forum update slot"
-			if($this->userData[11] != 0)
-				$this->userData[11] = $this->userData[5] / $this->userData[11];
+			$this->userData[11] = $this->userData[5] / ceil($this->userData[11] / 86400); //Reuse "forum update slot"
 			//Format date + signature
-			$this->userData[6] = Functions::formatDate($this->userData[6] . (Functions::strlen($this->userData[6]) == 6 ? '01000000' : ''));
+			$this->userData[6] = Functions::formatDate($this->userData[6] . '01000000');
 			$this->userData[7] = Main::getModule('BBCode')->parse(Functions::censor($this->userData[7]));
 			//Load Steam games for user, if any (and class to handle XML data is available)
 			if(Main::getModule('Config')->getCfgVal('achievements') == 1 && !empty($this->userData[18]) && !empty($this->userData[19]) && class_exists('DOMDocument', false) && ini_get('allow_url_fopen') == '1')
