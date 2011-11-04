@@ -3,7 +3,7 @@
  * Manages WIO lists.
  *
  * WIO var file structure:
- * 0:timestamp - 1:user/guestSpecialID - 2:location - 3:? - [ - 4:isGhost]
+ * 0:timestamp - 1:user/guestSpecialID - 2:location - 3:? - [ - 4:isGhost - 5:userAgent]
  *
  * WWO var file structure:
  * 0:todaysDate - 1:0:recordMember - 1:1:recordDate[ - 2:guestCounter - 3:members]
@@ -110,339 +110,342 @@ class WhoIsOnline implements Module
 			//Admins may also see ghosts
 			if(!($curWIOEntryIsGhost = $curWIOEntry[4] == '1') || Main::getModule('Auth')->isAdmin())
 			{
-				$curUser = is_numeric($curWIOEntry[1]) ? Functions::getProfileLink($curWIOEntry[1]) : (Functions::stripos($_SERVER['HTTP_USER_AGENT'], 'bot') !== false || Functions::stripos($_SERVER['HTTP_USER_AGENT'], 'spider') !== false || Functions::stripos($_SERVER['HTTP_USER_AGENT'], 'crawl') !== false || Functions::stripos($_SERVER['HTTP_USER_AGENT'], 'slurp') !== false ? Main::getModule('Language')->getString('bot') : Main::getModule('Language')->getString('guest')) . Functions::substr($curWIOEntry[1], 5, 5);
+				$curUser = is_numeric($curWIOEntry[1]) ? Functions::getProfileLink($curWIOEntry[1]) : Main::getModule('Language')->getString(Functions::stripos($curWIOEntry[5], 'bot') !== false || Functions::stripos($curWIOEntry[5], 'spider') !== false || Functions::stripos($curWIOEntry[5], 'crawl') !== false || Functions::stripos($curWIOEntry[5], 'slurp') !== false ? 'bot' : 'guest') . Functions::substr($curWIOEntry[1], 5, 5);
 				$curTime = ($curTime = $time-$curWIOEntry[0]) < 60 ? sprintf(Main::getModule('Language')->getString('x_seconds_ago'), $curTime) : ($curTime < 120 ? Main::getModule('Language')->getString('one_minute_ago') : sprintf(Main::getModule('Language')->getString('x_minutes_ago'), $curTime/60));
+				//Only admins may see user agents
+				if(!Main::getModule('Auth')->isAdmin())
+					$curWIOEntry[5] = '';
 				//Switching through subAction
 				switch($curWIOEntry[2][0])
 				{
 					case 'ForumIndex':
-					$wioLocations[] = array($curUser, sprintf(Main::getModule('Language')->getString('views_the_forum_index'), INDEXFILE . SID_QMARK), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, sprintf(Main::getModule('Language')->getString('views_the_forum_index'), INDEXFILE . SID_QMARK), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'ViewForum':
-					$wioLocations[] = Main::getModule('Config')->getCfgVal('show_private_forums') == 1 || Functions::checkUserAccess($curWIOEntry[2][1], 0) ? array($curUser, sprintf(Main::getModule('Language')->getString('views_the_forum_x'), INDEXFILE . '?mode=viewforum&amp;forum_id=' . $curWIOEntry[2][1] . SID_AMPER, next(Functions::getForumData($curWIOEntry[2][1]))), $curWIOEntryIsGhost, $curTime) : $wioLocations[] = array($curUser, sprintf(Main::getModule('Language')->getString('views_a_forum'), INDEXFILE . '?mode=viewforum&amp;forum_id=' . $curWIOEntry[2][1] . SID_AMPER), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = Main::getModule('Config')->getCfgVal('show_private_forums') == 1 || Functions::checkUserAccess($curWIOEntry[2][1], 0) ? array($curUser, sprintf(Main::getModule('Language')->getString('views_the_forum_x'), INDEXFILE . '?mode=viewforum&amp;forum_id=' . $curWIOEntry[2][1] . SID_AMPER, next(Functions::getForumData($curWIOEntry[2][1]))), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]) : $wioLocations[] = array($curUser, sprintf(Main::getModule('Language')->getString('views_a_forum'), INDEXFILE . '?mode=viewforum&amp;forum_id=' . $curWIOEntry[2][1] . SID_AMPER), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'ViewTopic':
-					$wioLocations[] = Functions::checkUserAccess($curWIOEntry[2][1], 0) ? array($curUser, sprintf(Main::getModule('Language')->getString('views_the_topic_x'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER, Functions::getTopicName($curWIOEntry[2][1], $curWIOEntry[2][2])), $curWIOEntryIsGhost, $curTime) : array($curUser, sprintf(Main::getModule('Language')->getString('views_a_topic'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = Functions::checkUserAccess($curWIOEntry[2][1], 0) ? array($curUser, sprintf(Main::getModule('Language')->getString('views_the_topic_x'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER, Functions::getTopicName($curWIOEntry[2][1], $curWIOEntry[2][2])), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]) : array($curUser, sprintf(Main::getModule('Language')->getString('views_a_topic'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'ViewTodaysPosts':
-					$wioLocations[] = array($curUser, sprintf(Main::getModule('Language')->getString('views_todays_posts'), INDEXFILE . '?faction=todaysPosts' . SID_AMPER), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, sprintf(Main::getModule('Language')->getString('views_todays_posts'), INDEXFILE . '?faction=todaysPosts' . SID_AMPER), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'RSSFeed':
-					$wioLocations[] = array($curUser, sprintf(Main::getModule('Language')->getString('views_the_rss_feed'), INDEXFILE . '?faction=rssFeed' . SID_AMPER), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, sprintf(Main::getModule('Language')->getString('views_the_rss_feed'), INDEXFILE . '?faction=rssFeed' . SID_AMPER), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'WhoIsOnline':
-					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('views_the_wio_list'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('views_the_wio_list'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'MemberList':
-					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('views_the_member_list'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('views_the_member_list'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'Message':
-					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('views_a_message'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('views_a_message'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'Login':
-					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('logs_in'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('logs_in'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'RequestPassword':
-					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('requests_a_new_password'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('requests_a_new_password'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'ViewProfile':
-					$wioLocations[] = array($curUser, sprintf(Main::getModule('Language')->getString('views_the_profile_from_x'), Functions::getProfileLink($curWIOEntry[2][1])), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, sprintf(Main::getModule('Language')->getString('views_the_profile_from_x'), Functions::getProfileLink($curWIOEntry[2][1])), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'vCard':
-					$wioLocations[] = array($curUser, sprintf(Main::getModule('Language')->getString('downloads_the_vcard_from_x'), Functions::getProfileLink($curWIOEntry[2][1])), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, sprintf(Main::getModule('Language')->getString('downloads_the_vcard_from_x'), Functions::getProfileLink($curWIOEntry[2][1])), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'SendMail':
-					$wioLocations[] = array($curUser, sprintf(Main::getModule('Language')->getString('writes_a_mail_to_x'), Functions::getProfileLink($curWIOEntry[2][1])), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, sprintf(Main::getModule('Language')->getString('writes_a_mail_to_x'), Functions::getProfileLink($curWIOEntry[2][1])), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'ViewAchievements':
-					$wioLocations[] = array($curUser, sprintf(Main::getModule('Language')->getString('views_achievements_from_x'), Functions::getProfileLink($curWIOEntry[2][1])), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, sprintf(Main::getModule('Language')->getString('views_achievements_from_x'), Functions::getProfileLink($curWIOEntry[2][1])), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'EditProfile':
-					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('edits_own_profile'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('edits_own_profile'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'EditProfileConfirmDelete':
-					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('deletes_own_account'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('deletes_own_account'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'Register':
-					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('registers'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('registers'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'BoardRules':
-					$wioLocations[] = array($curUser, sprintf(Main::getModule('Language')->getString('reads_board_rules'), INDEXFILE . '?faction=regeln' . SID_AMPER), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, sprintf(Main::getModule('Language')->getString('reads_board_rules'), INDEXFILE . '?faction=regeln' . SID_AMPER), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'FAQ':
-					$wioLocations[] = array($curUser, sprintf(Main::getModule('Language')->getString('views_the_faq'), INDEXFILE . '?faction=faq' . SID_AMPER), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, sprintf(Main::getModule('Language')->getString('views_the_faq'), INDEXFILE . '?faction=faq' . SID_AMPER), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'Credits':
-					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('views_the_credits'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('views_the_credits'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'PrivateMessageIndex':
-					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('manages_pms'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('manages_pms'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'PrivateMessageViewPM':
-					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('reads_a_pm'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('reads_a_pm'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'PrivateMessageNewPM':
 					case 'PrivateMessageNewPMConfirmSend':
-					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('writes_new_pm'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('writes_new_pm'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'PrivateMessageConfirmDelete':
-					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('deletes_a_pm'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('deletes_a_pm'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'PostNewTopic':
-					$wioLocations[] = Main::getModule('Config')->getCfgVal('show_private_forums') == 1 || Functions::checkUserAccess($curWIOEntry[2][1], 0) ? array($curUser, sprintf(Main::getModule('Language')->getString('posts_new_topic_in_x'), INDEXFILE . '?mode=viewforum&amp;forum_id=' . $curWIOEntry[2][1] . SID_AMPER, next(Functions::getForumData($curWIOEntry[2][1]))), $curWIOEntryIsGhost, $curTime) : array($curUser, Main::getModule('Language')->getString('posts_new_topic'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = Main::getModule('Config')->getCfgVal('show_private_forums') == 1 || Functions::checkUserAccess($curWIOEntry[2][1], 0) ? array($curUser, sprintf(Main::getModule('Language')->getString('posts_new_topic_in_x'), INDEXFILE . '?mode=viewforum&amp;forum_id=' . $curWIOEntry[2][1] . SID_AMPER, next(Functions::getForumData($curWIOEntry[2][1]))), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]) : array($curUser, Main::getModule('Language')->getString('posts_new_topic'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'PostNewPoll':
-					$wioLocations[] = Main::getModule('Config')->getCfgVal('show_private_forums') == 1 || Functions::checkUserAccess($curWIOEntry[2][1], 0) ? array($curUser, sprintf(Main::getModule('Language')->getString('posts_new_poll_in_x'), INDEXFILE . '?mode=viewforum&amp;forum_id=' . $curWIOEntry[2][1] . SID_AMPER, next(Functions::getForumData($curWIOEntry[2][1]))), $curWIOEntryIsGhost, $curTime) : array($curUser, Main::getModule('Language')->getString('posts_new_poll'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = Main::getModule('Config')->getCfgVal('show_private_forums') == 1 || Functions::checkUserAccess($curWIOEntry[2][1], 0) ? array($curUser, sprintf(Main::getModule('Language')->getString('posts_new_poll_in_x'), INDEXFILE . '?mode=viewforum&amp;forum_id=' . $curWIOEntry[2][1] . SID_AMPER, next(Functions::getForumData($curWIOEntry[2][1]))), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]) : array($curUser, Main::getModule('Language')->getString('posts_new_poll'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'PostReply':
-					$wioLocations[] = Functions::checkUserAccess($curWIOEntry[2][1], 0) ? array($curUser, sprintf(Main::getModule('Language')->getString('writes_reply_to_topic_x'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER, Functions::getTopicName($curWIOEntry[2][1], $curWIOEntry[2][2])), $curWIOEntryIsGhost, $curTime) : array($curUser, sprintf(Main::getModule('Language')->getString('writes_reply_to_a_topic'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = Functions::checkUserAccess($curWIOEntry[2][1], 0) ? array($curUser, sprintf(Main::getModule('Language')->getString('writes_reply_to_topic_x'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER, Functions::getTopicName($curWIOEntry[2][1], $curWIOEntry[2][2])), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]) : array($curUser, sprintf(Main::getModule('Language')->getString('writes_reply_to_a_topic'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'PostViewIP':
-					$wioLocations[] = Functions::checkUserAccess($curWIOEntry[2][1], 0) ? array($curUser, sprintf(Main::getModule('Language')->getString('views_ip_of_post_x'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER . '&amp;z=' . $curWIOEntry[2][4] . '#post' . $curWIOEntry[2][3], Functions::getTopicName($curWIOEntry[2][1], $curWIOEntry[2][2])), $curWIOEntryIsGhost, $curTime) : array($curUser, sprintf(Main::getModule('Language')->getString('views_ip_of_a_post'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER . '&amp;z=' . $curWIOEntry[2][4] . '#post' . $curWIOEntry[2][3]), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = Functions::checkUserAccess($curWIOEntry[2][1], 0) ? array($curUser, sprintf(Main::getModule('Language')->getString('views_ip_of_post_x'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER . '&amp;z=' . $curWIOEntry[2][4] . '#post' . $curWIOEntry[2][3], Functions::getTopicName($curWIOEntry[2][1], $curWIOEntry[2][2])), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]) : array($curUser, sprintf(Main::getModule('Language')->getString('views_ip_of_a_post'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER . '&amp;z=' . $curWIOEntry[2][4] . '#post' . $curWIOEntry[2][3]), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'PostBlockIP':
-					$wioLocations[] = Functions::checkUserAccess($curWIOEntry[2][1], 0) ? array($curUser, sprintf(Main::getModule('Language')->getString('blocks_ip_of_post_x'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER . '&amp;z=' . $curWIOEntry[2][4] . '#post' . $curWIOEntry[2][3], Functions::getTopicName($curWIOEntry[2][1], $curWIOEntry[2][2])), $curWIOEntryIsGhost, $curTime) : array($curUser, sprintf(Main::getModule('Language')->getString('blocks_ip_of_a_post'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER . '&amp;z=' . $curWIOEntry[2][4] . '#post' . $curWIOEntry[2][3]), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = Functions::checkUserAccess($curWIOEntry[2][1], 0) ? array($curUser, sprintf(Main::getModule('Language')->getString('blocks_ip_of_post_x'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER . '&amp;z=' . $curWIOEntry[2][4] . '#post' . $curWIOEntry[2][3], Functions::getTopicName($curWIOEntry[2][1], $curWIOEntry[2][2])), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]) : array($curUser, sprintf(Main::getModule('Language')->getString('blocks_ip_of_a_post'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER . '&amp;z=' . $curWIOEntry[2][4] . '#post' . $curWIOEntry[2][3]), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'EditPoll':
-					$wioLocations[] = Functions::checkUserAccess($curWIOEntry[2][1], 0) ? array($curUser, sprintf(Main::getModule('Language')->getString('edits_the_poll_x'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER, Functions::getTopicName($curWIOEntry[2][1], $curWIOEntry[2][2])), $curWIOEntryIsGhost, $curTime) : array($curUser, sprintf(Main::getModule('Language')->getString('edits_a_poll'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = Functions::checkUserAccess($curWIOEntry[2][1], 0) ? array($curUser, sprintf(Main::getModule('Language')->getString('edits_the_poll_x'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER, Functions::getTopicName($curWIOEntry[2][1], $curWIOEntry[2][2])), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]) : array($curUser, sprintf(Main::getModule('Language')->getString('edits_a_poll'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'EditPost':
-					$wioLocations[] = Functions::checkUserAccess($curWIOEntry[2][1], 0) ? array($curUser, sprintf(Main::getModule('Language')->getString('edits_the_post_x'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER . '&amp;z=' . $curWIOEntry[2][4] . '#post' . $curWIOEntry[2][3], Functions::getTopicName($curWIOEntry[2][1], $curWIOEntry[2][2])), $curWIOEntryIsGhost, $curTime) : array($curUser, sprintf(Main::getModule('Language')->getString('edits_a_post'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER . '&amp;z=' . $curWIOEntry[2][4] . '#post' . $curWIOEntry[2][3]), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = Functions::checkUserAccess($curWIOEntry[2][1], 0) ? array($curUser, sprintf(Main::getModule('Language')->getString('edits_the_post_x'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER . '&amp;z=' . $curWIOEntry[2][4] . '#post' . $curWIOEntry[2][3], Functions::getTopicName($curWIOEntry[2][1], $curWIOEntry[2][2])), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]) : array($curUser, sprintf(Main::getModule('Language')->getString('edits_a_post'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER . '&amp;z=' . $curWIOEntry[2][4] . '#post' . $curWIOEntry[2][3]), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'EditPostConfirmDelete':
-					$wioLocations[] = Functions::checkUserAccess($curWIOEntry[2][1], 0) ? array($curUser, sprintf(Main::getModule('Language')->getString('deletes_the_post_x'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER . '&amp;z=' . $curWIOEntry[2][4] . '#post' . $curWIOEntry[2][3], Functions::getTopicName($curWIOEntry[2][1], $curWIOEntry[2][2])), $curWIOEntryIsGhost, $curTime) : array($curUser, sprintf(Main::getModule('Language')->getString('deletes_a_post'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER . '&amp;z=' . $curWIOEntry[2][4] . '#post' . $curWIOEntry[2][3]), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = Functions::checkUserAccess($curWIOEntry[2][1], 0) ? array($curUser, sprintf(Main::getModule('Language')->getString('deletes_the_post_x'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER . '&amp;z=' . $curWIOEntry[2][4] . '#post' . $curWIOEntry[2][3], Functions::getTopicName($curWIOEntry[2][1], $curWIOEntry[2][2])), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]) : array($curUser, sprintf(Main::getModule('Language')->getString('deletes_a_post'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER . '&amp;z=' . $curWIOEntry[2][4] . '#post' . $curWIOEntry[2][3]), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'EditTopicDelete':
-					$wioLocations[] = Functions::checkUserAccess($curWIOEntry[2][1], 0) ? array($curUser, sprintf(Main::getModule('Language')->getString('deletes_the_topic_x'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER, Functions::getTopicName($curWIOEntry[2][1], $curWIOEntry[2][2])), $curWIOEntryIsGhost, $curTime) : array($curUser, sprintf(Main::getModule('Language')->getString('deletes_a_topic'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = Functions::checkUserAccess($curWIOEntry[2][1], 0) ? array($curUser, sprintf(Main::getModule('Language')->getString('deletes_the_topic_x'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER, Functions::getTopicName($curWIOEntry[2][1], $curWIOEntry[2][2])), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]) : array($curUser, sprintf(Main::getModule('Language')->getString('deletes_a_topic'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'EditTopicClose':
-					$wioLocations[] = Functions::checkUserAccess($curWIOEntry[2][1], 0) ? array($curUser, sprintf(Main::getModule('Language')->getString('closes_the_topic_x'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER, Functions::getTopicName($curWIOEntry[2][1], $curWIOEntry[2][2])), $curWIOEntryIsGhost, $curTime) : array($curUser, sprintf(Main::getModule('Language')->getString('closes_a_topic'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = Functions::checkUserAccess($curWIOEntry[2][1], 0) ? array($curUser, sprintf(Main::getModule('Language')->getString('closes_the_topic_x'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER, Functions::getTopicName($curWIOEntry[2][1], $curWIOEntry[2][2])), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]) : array($curUser, sprintf(Main::getModule('Language')->getString('closes_a_topic'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'EditTopicOpen':
-					$wioLocations[] = Functions::checkUserAccess($curWIOEntry[2][1], 0) ? array($curUser, sprintf(Main::getModule('Language')->getString('opens_the_topic_x'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER, Functions::getTopicName($curWIOEntry[2][1], $curWIOEntry[2][2])), $curWIOEntryIsGhost, $curTime) : array($curUser, sprintf(Main::getModule('Language')->getString('opens_a_topic'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = Functions::checkUserAccess($curWIOEntry[2][1], 0) ? array($curUser, sprintf(Main::getModule('Language')->getString('opens_the_topic_x'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER, Functions::getTopicName($curWIOEntry[2][1], $curWIOEntry[2][2])), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]) : array($curUser, sprintf(Main::getModule('Language')->getString('opens_a_topic'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'EditTopicMove':
-					$wioLocations[] = Functions::checkUserAccess($curWIOEntry[2][1], 0) ? array($curUser, sprintf(Main::getModule('Language')->getString('moves_the_topic_x'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER, Functions::getTopicName($curWIOEntry[2][1], $curWIOEntry[2][2])), $curWIOEntryIsGhost, $curTime) : array($curUser, sprintf(Main::getModule('Language')->getString('moves_a_topic'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = Functions::checkUserAccess($curWIOEntry[2][1], 0) ? array($curUser, sprintf(Main::getModule('Language')->getString('moves_the_topic_x'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER, Functions::getTopicName($curWIOEntry[2][1], $curWIOEntry[2][2])), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]) : array($curUser, sprintf(Main::getModule('Language')->getString('moves_a_topic'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'Search':
-					$wioLocations[] = array($curUser, sprintf(Main::getModule('Language')->getString('searches_the_board'), INDEXFILE . '?faction=search' . SID_AMPER), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, sprintf(Main::getModule('Language')->getString('searches_the_board'), INDEXFILE . '?faction=search' . SID_AMPER), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'SearchResults':
-					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('views_search_results'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('views_search_results'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'Newsletter':
-					$wioLocations[] = array($curUser, sprintf(Main::getModule('Language')->getString('is_in_newsletter_archive'), INDEXFILE . '?faction=newsletter' . SID_AMPER), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, sprintf(Main::getModule('Language')->getString('is_in_newsletter_archive'), INDEXFILE . '?faction=newsletter' . SID_AMPER), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'NewsletterReadLetter':
-					$wioLocations[] = array($curUser, sprintf(Main::getModule('Language')->getString('reads_a_newsletter'), INDEXFILE . '?faction=newsletter&amp;mode=read&amp;newsletter=' . $curWIOEntry[2][1] . SID_AMPER), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, sprintf(Main::getModule('Language')->getString('reads_a_newsletter'), INDEXFILE . '?faction=newsletter&amp;mode=read&amp;newsletter=' . $curWIOEntry[2][1] . SID_AMPER), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'Upload':
-					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('uploads_a_file'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('uploads_a_file'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'AdminIndex':
-					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('is_in_administration'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('is_in_administration'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'AdminForum':
-					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('manages_forums_categories'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('manages_forums_categories'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'AdminForumIndex':
-					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('manages_forums'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('manages_forums'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'AdminForumEditForum':
-					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('edits_a_forum'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('edits_a_forum'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'AdminForumDeleteForum':
-					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('deletes_a_forum'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('deletes_a_forum'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'AdminForumNewForum':
-					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('creates_a_new_forum'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('creates_a_new_forum'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'AdminForumSpecialRights':
-					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('manages_special_rights'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('manages_special_rights'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'AdminForumNewUserRight':
-					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('creates_new_user_special_right'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('creates_new_user_special_right'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'AdminForumNewGroupRight':
-					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('creates_new_group_special_right'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('creates_new_group_special_right'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'AdminForumIndexCat':
-					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('manages_categories'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('manages_categories'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'AdminForumEditCat':
-					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('edits_a_category'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('edits_a_category'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'AdminForumNewCat':
-					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('creates_new_category'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('creates_new_category'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'AdminRankIndex':
-					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('manages_user_ranks'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('manages_user_ranks'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'AdminRankEditRank':
-					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('edits_an_user_rank'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('edits_an_user_rank'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'AdminRankNewRank':
-					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('creates_new_user_rank'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('creates_new_user_rank'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'AdminConfig':
-					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('edits_board_settings'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('edits_board_settings'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'AdminConfigResetConfirm':
-					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('resets_board_settings'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('resets_board_settings'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'AdminConfigCountersConfirm':
-					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('recalculates_counters'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('recalculates_counters'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'AdminLogfile':
-					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('manages_logfiles'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('manages_logfiles'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'AdminLogfileViewLog':
-					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('views_a_logfile'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('views_a_logfile'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'AdminTemplate':
-					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('manages_templates'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('manages_templates'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'AdminNews':
-					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('writes_board_news'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('writes_board_news'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'AdminMailList':
-					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('retrieves_mail_list'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('retrieves_mail_list'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'AdminUser':
-					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('manages_user'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('manages_user'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'AdminUserNewUser':
-					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('creates_new_user'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('creates_new_user'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'AdminUserEditUser':
-					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('edits_an_user'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('edits_an_user'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'AdminGroup':
-					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('manages_groups'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('manages_groups'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'AdminGroupNewGroup':
-					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('creates_new_group'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('creates_new_group'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'AdminGroupEditGroup':
-					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('edits_a_group'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('edits_a_group'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'AdminGroupDeleteGroup':
-					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('deletes_a_group'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('deletes_a_group'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'AdminCensor':
-					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('manages_censorships'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('manages_censorships'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'AdminCensorNewWord':
-					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('creates_new_censorship'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('creates_new_censorship'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'AdminCensorEditWord':
-					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('edits_a_censorship'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('edits_a_censorship'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'AdminIP':
-					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('manages_ip_blocks'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('manages_ip_blocks'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'AdminIPNewBlock':
-					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('creates_new_ip_block'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('creates_new_ip_block'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'AdminSmiley':
-					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('manages_smilies'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('manages_smilies'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'AdminSmileyNewSmiley':
-					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('creates_new_smiley'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('creates_new_smiley'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'AdminSmileyEditSmiley':
-					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('edits_a_smiley'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('edits_a_smiley'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'AdminNewsletter':
 					case 'AdminNewsletterConfirm':
-					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('writes_a_newsletter'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('writes_a_newsletter'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'AdminDeleteOld':
-					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('deletes_old_topics'), $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('deletes_old_topics'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					default:
-					$wioLocations[] = array($curUser, '<b>WARNING: Unknown WIO location!</b>', $curWIOEntryIsGhost, $curTime);
+					$wioLocations[] = array($curUser, '<b>WARNING: Unknown WIO location!</b>', $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 				}
 			}
@@ -531,7 +534,7 @@ class WhoIsOnline implements Module
 			$curWIOEntry = Functions::implodeByTab($curWIOEntry);
 		}
 		//If user was found in WIO, write updated data, otherwise append new entry
-		$found ? Functions::file_put_contents('vars/wio.var', implode("\n", $wioFile)) : Functions::file_put_contents('vars/wio.var', (count($wioFile) > 0 ? "\n" : '') . time() . "\t" . Main::getModule('Auth')->getWIOID() . "\t" . $id . "\t\t" . Main::getModule('Auth')->isGhost(), FILE_APPEND);
+		$found ? Functions::file_put_contents('vars/wio.var', implode("\n", $wioFile)) : Functions::file_put_contents('vars/wio.var', (count($wioFile) > 0 ? "\n" : '') . time() . "\t" . Main::getModule('Auth')->getWIOID() . "\t" . $id . "\t\t" . Main::getModule('Auth')->isGhost() . "\t" . htmlspecialchars($_SERVER['HTTP_USER_AGENT']), FILE_APPEND);
 		Functions::releaseLock('wio');
 	}
 
