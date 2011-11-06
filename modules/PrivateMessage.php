@@ -2,7 +2,7 @@
 /**
  * Manages private messages.
  *
- * PM file structure:
+ * PM / ACH file structure:
  * <ol>
  *  <li>pmID</li>
  *  <li>title</li>
