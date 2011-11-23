@@ -507,7 +507,7 @@ class Forum implements Module
 					$curNewestPost = Functions::explodeByComma($curNewestPost . ',1,'); //Make sure index 4 and 5 are available
 					$newestPosts[] = sprintf(Main::getModule('Language')->getString('x_by_x_on_x'),
 						//Topic check + link + title preparation
-						!Functions::file_exists('foren/' . $curNewestPost[0] . '-' . $curNewestPost[1] . '.xbb') ? Main::getModule('Language')->getString('deleted') : '<img src="' . Functions::getTSmileyURL($curNewestPost[4]) . '" alt="" /> <a href="' . INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curNewestPost[0] . '&amp;thread=' . $curNewestPost[1] . '&amp;z=last#post' . $curNewestPost[5] . SID_AMPER . '">' . (Functions::shorten(Functions::censor(Functions::getTopicName($curNewestPost[0], $curNewestPost[1])), 53)) . '</a>',
+						!Functions::file_exists('foren/' . $curNewestPost[0] . '-' . $curNewestPost[1] . '.xbb') ? Main::getModule('Language')->getString('deleted') : '<img src="' . Functions::getTSmileyURL($curNewestPost[4]) . '" alt="" /> <a href="' . INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curNewestPost[0] . '&amp;thread=' . $curNewestPost[1] . '&amp;z=last' . SID_AMPER . '#post' . $curNewestPost[5] . '">' . (Functions::shorten(Functions::censor(Functions::getTopicName($curNewestPost[0], $curNewestPost[1])), 53)) . '</a>',
 						Functions::getProfileLink($curNewestPost[2], true),
 						Functions::formatDate($curNewestPost[3]));
 				}
