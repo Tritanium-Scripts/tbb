@@ -119,7 +119,7 @@ class AdminForum implements Module
 					{
 						if($curUser == false)
 							unset($newModIDs[$curKey]);
-						elseif($curUser[4] != -1 && !in_array($curUser[1], $this->getModIDs()))
+						elseif($curUser[4] != 1 && !in_array($curUser[1], $this->getModIDs()))
 						{
 							$curUser[4] = 2;
 							Functions::file_put_contents('members/' . $curUser[1] . '.xbb', implode("\n", $curUser));
