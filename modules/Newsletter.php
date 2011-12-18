@@ -3,9 +3,9 @@
  * Manages archived newsletters.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010 Tritanium Scripts
+ * @copyright Copyright (c) 2010, 2011 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
- * @package TBB1.5
+ * @package TBB1.6
  */
 class Newsletter implements Module
 {
@@ -105,7 +105,7 @@ class Newsletter implements Module
 			Main::getModule('Template')->assign('newsletter', $newsletter);
 			break;
 		}
-		Main::getModule('Template')->printPage(self::$modeTable[array_key_exists($this->mode, self::$modeTable) ? $this->mode : 'newsletter' . Main::getModule('Logger')->log('Unknown mode "' . $this->mode . '" in ' . __CLASS__ . '; using default', LOG_FILESYSTEM)], null, null, ',' . $this->newsletterID);
+		Main::getModule('Template')->printPage(FunctionsBasic::handleMode($this->mode, self::$modeTable, __CLASS__, 'newsletter'), null, null, ',' . $this->newsletterID);
 	}
 }
 ?>

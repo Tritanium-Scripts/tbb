@@ -3,9 +3,9 @@
  * Loads main module and executes desired forum action and/or subAction.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010 Tritanium Scripts
+ * @copyright Copyright (c) 2010, 2011 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
- * @package TBB1.5
+ * @package TBB1.6
  */
 /**
  * Interface template for every implementing module which can be called "directly" from an user.
@@ -20,9 +20,9 @@ interface Module
 	public function execute();
 }
 /**
- * Main module of TBB 1.5.
+ * Main module of TBB 1.6.
  *
- * @package TBB1.5
+ * @package TBB1.6
  */
 class Main implements Module
 {
@@ -226,7 +226,7 @@ class Main implements Module
 		if(!isset(self::$loadedModules[$module]))
 		{
 			if(!file_exists('modules/' . $module . '.php'))
-				exit('<b>ERROR:</b> Module ' . $module . ' does not exist!');
+				exit(self::getModule('Logger')->log('Call to unknown module "' . $module . '"', LOG_FILESYSTEM) . '<b>ERROR:</b> Module ' . $module . ' does not exist!');
 			include('modules/' . $module . '.php');
 			self::$loadedModules[$module] = !isset($mode) ? new $module : new $module($mode);
 		}

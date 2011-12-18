@@ -524,7 +524,7 @@ class Forum implements Module
 			break;
 		}
 		//Always append IDs to WIO location. WIO will not parse them in inapplicable mode.
-		Main::getModule('Template')->printPage(self::$modeTable[array_key_exists($this->mode, self::$modeTable) ? $this->mode : '' . Main::getModule('Logger')->log('Unknown mode "' . $this->mode . '" in ' . __CLASS__ . '; using default', LOG_FILESYSTEM)], null, null, ',' . $this->forumID . ',' . $this->topicID);
+		Main::getModule('Template')->printPage(FunctionsBasic::handleMode($this->mode, self::$modeTable, __CLASS__), null, null, ',' . $this->forumID . ',' . $this->topicID);
 	}
 
 	/**

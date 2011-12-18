@@ -3,9 +3,9 @@
  * Manages registrations of new user.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010 Tritanium Scripts
+ * @copyright Copyright (c) 2010, 2011 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
- * @package TBB1.5
+ * @package TBB1.6
  */
 class Register implements Module
 {
@@ -233,7 +233,7 @@ class Register implements Module
 			$newUser = array_combine(self::$newUserKeys, array('', '', '', '', '', ''));
 			break;
 		}
-		Main::getModule('Template')->printPage(self::$modeTable[array_key_exists($this->mode, self::$modeTable) ? $this->mode : '' . Main::getModule('Logger')->log('Unknown mode "' . $this->mode . '" in ' . __CLASS__ . '; using default', LOG_FILESYSTEM)], array('newUser' => $newUser,
+		Main::getModule('Template')->printPage(FunctionsBasic::handleMode($this->mode, self::$modeTable, __CLASS__), array('newUser' => $newUser,
 			'errors' => $this->errors,
 			'rulesLink' => INDEXFILE . '?faction=regeln' . SID_AMPER));
 	}

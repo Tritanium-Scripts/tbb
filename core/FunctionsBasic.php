@@ -710,6 +710,21 @@ class FunctionsBasic
 	}
 
 	/**
+	 * Handles and returns template filename requested from given mode translation table and logs unknown modes.
+	 *
+	 * @param string $mode Requested template file for this mode
+	 * @param string $modeTable Mode and template counterparts
+	 * @param string $module Name of executing module
+	 * @param string $defaultMode Another default mode to use in case of unknown mode
+	 * @return string Name of template file from stated table
+	 */
+	public static function handleMode(&$mode, &$modeTable, $module, $defaultMode='')
+	{
+		//Escaping of '%' to protect logger
+		return $modeTable[array_key_exists($mode, $modeTable) ? $mode : $defaultMode . Main::getModule('Logger')->log('Unknown mode "' . Functions::str_replace('%', '%%', $mode) . '" in ' . $module . '; using default', LOG_FILESYSTEM)];
+	}
+
+	/**
 	 * Implodes an array by tabulator.
 	 *
 	 * @param array $pieces Array to implode
