@@ -197,7 +197,7 @@ class Template
 	}
 
 	/**
-	 * Prints a full page with provided template file, optional values to assign before, additional WIO location and exists program execution.
+	 * Prints a full page with provided template file, optional values to assign before, additional WIO location and exits program execution.
 	 *
 	 * @param string $tplName Name of template file
 	 * @param mixed $tplVar Name of single value or array with name+value pairs
