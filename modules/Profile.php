@@ -147,7 +147,7 @@ class Profile implements Module
 					$this->userData[9] = Functions::getValueFromGlobals('new_hp');
 					$this->userData[10] = Functions::getValueFromGlobals('new_pic');
 					$this->userData[12] = htmlspecialchars(trim(Functions::getValueFromGlobals('new_realname')));
-					if(($this->userData[13] = Functions::getValueFromGlobals('new_icq')) != '' && !is_numeric($this->userData[13]))
+					if(($this->userData[13] = Functions::getValueFromGlobals('new_icq')) != '' && !ctype_digit($this->userData[13]))
 						$this->errors[] = Main::getModule('Language')->getString('please_enter_a_valid_icq_number');
 					$this->userData[14][0] = Functions::getValueFromGlobals('new_mail1') == '1' ? '1' : '0';
 					$this->userData[14][1] = Functions::getValueFromGlobals('new_mail2') == '1' ? '1' : '0';
@@ -308,7 +308,7 @@ class Profile implements Module
 			elseif(!class_exists('DOMDocument', false) || ini_get('allow_url_fopen') != '1')
 				Main::getModule('Template')->printMessage('function_not_supported');
 			$dom = new DOMDocument;
-			if(!@$dom->loadXML(file_get_contents('http://steamcommunity.com/' . (is_numeric($this->userData[18]) ? 'profiles/' : 'id/') . $this->userData[18] . '/stats/' . $game . '/?tab=achievements&l=' . Main::getModule('Language')->getString('steam_language') . '&xml=all')))
+			if(!@$dom->loadXML(file_get_contents('http://steamcommunity.com/' . (ctype_digit($this->userData[18]) ? 'profiles/' : 'id/') . $this->userData[18] . '/stats/' . $game . '/?tab=achievements&l=' . Main::getModule('Language')->getString('steam_language') . '&xml=all')))
 				$this->errors[] = Main::getModule('Language')->getString('loading_achievements_failed');
 			elseif($dom->getElementsByTagName('error')->length == 0)
 			{
@@ -412,7 +412,7 @@ class Profile implements Module
 	private function refreshSteamGames($cacheFile)
 	{
 		$dom = new DOMDocument;
-		if(!@$dom->loadXML(file_get_contents('http://steamcommunity.com/' . (is_numeric($this->userData[18]) ? 'profiles/' : 'id/') . $this->userData[18] . '/games/?tab=all&l=' . Main::getModule('Language')->getString('steam_language') . '&xml=1')))
+		if(!@$dom->loadXML(file_get_contents('http://steamcommunity.com/' . (ctype_digit($this->userData[18]) ? 'profiles/' : 'id/') . $this->userData[18] . '/games/?tab=all&l=' . Main::getModule('Language')->getString('steam_language') . '&xml=1')))
 			return false;
 		else
 		{
