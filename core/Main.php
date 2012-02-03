@@ -3,7 +3,7 @@
  * Loads main module and executes desired forum action and/or subAction.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010, 2011 Tritanium Scripts
+ * @copyright Copyright (c) 2010 - 2012 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1.6
  */
@@ -143,7 +143,7 @@ class Main implements Module
 		if(self::getModule('Config')->getCfgVal('use_file_caching') != 1)
 			Functions::setFileCaching(false);
 		//Check available disk space
-		if(self::getModule('Config')->getCfgVal('use_diskfreespace') == 1 && (($fds = round(disk_free_space('.')/1024)) <= self::getModule('Config')->getCfgVal('warn_admin_fds')*1024))
+		if(self::getModule('Config')->getCfgVal('use_diskfreespace') == 1 && (($fds = round((($fds = disk_free_space('.')) === false ? PHP_INT_MAX : $fds)/1024)) <= self::getModule('Config')->getCfgVal('warn_admin_fds')*1024))
 		{
 			$fdsVar = intval(Functions::file_get_contents('vars/fds.var')); //false = 0, if file does not exist or if file is empty
 			if($fdsVar == 0) //Is this first time warning?
@@ -215,7 +215,7 @@ class Main implements Module
 	}
 
 	/**
-	 * Loads the stated module. Exits if module could not be found.
+	 * Loads the stated module. Exits if module could not be found with a log entry.
 	 *
 	 * @param string $module The module to load
 	 * @param string $mode Optional mode for not yet loaded module

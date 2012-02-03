@@ -82,7 +82,7 @@
   </style>
  </head>
  <body>
-  <h1>Tritanium Bulletin Board 1.6</h1>
+  <h1>Tritanium Bulletin Board 1.6.1</h1>
   <h2>Inhaltsverzeichnis</h2>
   <ol class="fontnorm">
    <li><a href="#preamble">Vorwort</a></li>
@@ -99,7 +99,13 @@
    <li>
     <a href="#update">Update einer älteren Version</a>
     <ul>
-     <li><a href="#generalshints">Allgemeine Hinweise</a></li>
+     <li>
+      <a href="#generalshints">Allgemeine Hinweise</a>
+      <ul>
+       <li><a href="#updatetemplate">Update der Template-Engine</a></li>
+      </ul>
+     </li>
+     <li><a href="#updatetbb160">Update von TBB 1.6.x</a></li>
      <li><a href="#updatetbb150">Update von TBB 1.5.x</a></li>
      <li>
       <a href="#updatetbb123">Update von TBB 1.2.3</a>
@@ -214,13 +220,56 @@
 
   <h2 id="update">3 Update einer älteren Version</h2>
   <h3 id="generalshints">3.1 Allgemeine Hinweise</h3>
-  <p class="fontnorm">Das TBB 1.6 unterstützt ausschließlich die Aktualisierung eines TBB 1.2.3 oder höher. Wenn Sie eine ältere Version als 1.2.3 betreiben, müssen Sie diese erst auf Version 1.2.3 aktualisieren. Dies können Sie mit den mitgelieferten Update-Routinen durchführen, die in den Unterkapiteln <a href="#updatetbb110">3.3.1</a> und <a href="#updatetbb10b">3.3.2</a> näher beschrieben sind.</p>
+  <p class="fontnorm">Das TBB 1.6 unterstützt ausschließlich die Aktualisierung eines TBB 1.2.3 oder höher. Wenn Sie eine ältere Version als 1.2.3 betreiben, müssen Sie diese erst auf Version 1.2.3 aktualisieren. Dies können Sie mit den mitgelieferten Update-Routinen durchführen, die in den Unterkapiteln <a href="#updatetbb110">3.4.1</a> und <a href="#updatetbb10b">3.4.2</a> näher beschrieben sind.</p>
   <p class="fontnorm">Bevor Sie mit irgendeiner Aktualisierung beginnen, ist es empfehlenswert die Ordner <b>foren</b>, <b>members</b>, <b>polls</b> und <b>vars</b> zu sichern. Es kann leider keine Garantie für ein reibungsloses Update übernommen werden. Laden Sie am besten erst die genannten Ordner per FTP runter, um sie ggf. wiederherstellen zu können. Achten Sie dabei unbedingt auf die Verwendung des <b>Binär-Übertragungsmodus</b>!</p>
   <p class="fontnorm">Weiterhin können zusätzliche oder modifizierte Dateien von der Update-Anleitung nicht berücksichtigt werden. Haben Sie ihr Forum z.B. um neue Grafiken, var-Dateien oder eigene CSS-Styles erweitert, sollten Sie diese ebenfalls sichern, um Sie nach der Aktualisierung wiederherstellen zu können. Lesen Sie sich zum Thema Hack-Kompatiblität auch das <a href="#faq">FAQ</a> durch.</p>
-  <p class="fontnorm">Falls Sie nach dem Update Probleme bei der Darstellung - vor allem bei den BBCode-Buttons - haben, sollten sie ihre CSS-Datei aktualisieren, d.h. die &quot;standard.css&quot;, die dem Forum beiliegt, auf neue Abschnitte überprüfen (z.B. &quot;forumcode&quot;) und diese in ihre modifizierte CSS-Datei einsetzen.</p>
+  <p class="fontnorm">Falls Sie nach dem Update Probleme bei der Darstellung &ndash;vor allem bei den BBCode-Buttons&ndash; haben, sollten sie ihre CSS-Datei aktualisieren, d.h. die &quot;standard.css&quot;, die dem Forum beiliegt, auf neue Abschnitte überprüfen (z.B. &quot;forumcode&quot;) und diese in ihre modifizierte CSS-Datei einsetzen.</p>
   <p class="fontnorm">Nach erfolgreichem Update von 1.2.3 auf 1.6.x müssten alle Mitglieder ein neues Passwort anfordern, da eine neue sichere Verschlüsselungstechnik zum Einsatz kommt.</p>
 
-  <h3 id="updatetbb150">3.2 Update von TBB 1.5.x</h3>
+  <h4 id="updatetemplate">3.1.1 Update der Template-Engine</h4>
+  <p class="fontnorm">Unabhängig von neuen TBB-Versionen kann die Template-Engine auch separat aktualisiert werden. Die aktuell verwendete Version ist auf der Startseite der Administration unter den Systeminformationen aufgelistet. Beachten Sie hierbei unbedingt die Versionssprünge, d.h. es dürfen nur Aktualisierungen auf Patch-Ebene (dritte Stelle einer Versionsnummer) durchgeführt werden. Beispielsweise ist ein Update von 3.1.7 auf 3.1.8 problemlos möglich, aber nicht auf 3.2.0 oder gar 4.0. Gehen Sie dabei vor wie folgt:</p>
+  <ol class="fontnorm">
+   <li>
+    Laden Sie die neuste <b>passende</b> Version von der <a href="http://www.smarty.net/download" target="_blank">offiziellen Webseite</a> runter.<br />
+    Die benötigten Dateien sind im Archiv unter <b>./Smarty-3.x.x/libs/</b> zu finden.
+   </li>
+   <li>Versetzen Sie das Forum in den Wartungsmodus.</li>
+   <li>
+    Ersetzen Sie sämtliche Dateien bzw. Ordner mit den neuen Versionen im Verzeichnis <b>./modules/Template/</b> wie folgt:
+    <ul>
+     <li><b>./plugins/</b> (+ Inhalt)</li>
+     <li><b>./sysplugins/</b> (+ Inhalt)</li>
+     <li><b>debug.tpl</b></li>
+     <li><b>Smarty.class.php</b></li>
+    </ul>
+    Achten Sie darauf, dass keine alten bzw. inzwischen entfernte Dateien in den Unterordnern zurück bleiben.
+   </li>
+   <li>Löschen Sie alle Inhalte im Ordner <b>./cache/</b>.</li>
+   <li>Die Template-Engine ist nun aktualisiert und der Wartungsmodus kann deaktiviert werden.</li>
+  </ol>
+
+  <h3 id="updatetbb160">3.2 Update von TBB 1.6.x</h3>
+  <ol class="fontnorm">
+   <li>Versetzen Sie das Forum zunächst in den Wartungsmodus.</li>
+   <li>
+    Ersetzen Sie sämtliche Dateien bzw. Ordner mit den neuen Versionen im TBB-Verzeichnis wie folgt:<br />
+    <span style="font-size:x-small;">(Falls Sie bestehende Dateien geändert haben, sichern Sie diese zu erst und führen Sie nach der Aktualisierung die Modifikationen ggf. erneut durch.)</span>
+    <ul>
+     <li><b>./core/</b> (+ Inhalt, Ausnahme: <b>DataPath.php</b>)</li>
+     <li><b>./languages/</b> (+ Inhalt)</li>
+     <li><b>./modules/</b> (+ Inhalt, Ausnahme: <b>Config.php.new</b>)<br />
+         <span style="font-size:x-small;">Achten Sie darauf, dass keine alten bzw. inzwischen entfernte Dateien in den Unterordnern von <b>./modules/Template/</b> zurück bleiben.</span></li>
+     <li><b>./templates/</b> (+ Inhalt)</li>
+     <li><b>index.php</b></li>
+    </ul>
+   </li>
+   <li>Löschen Sie alle Inhalte im Ordner <b>./cache/</b>.</li>
+   <li>Laden Sie nun die <b>setUpdateFlag.php</b> aus dem <b>./update/</b>-Ordner in das TBB-Verzeichnis und rufen Sie das Script mit ihrem Browser auf (z.B. http://www.meindedomain.de/forum/setUpdateFlag.php). Je nach Anzahl registrierter Mitglieder kann der Update-Prozess etwas dauern und notfalls durch erneutes Aufrufen fortgesetzt werden.</li>
+   <li>Löschen Sie die <b>setUpdateFlag.php</b> wieder, sobald eine &quot;Done!&quot;-Meldung angezeigt wird.</li>
+   <li>Das Forum ist nun aktualisiert und der Wartungsmodus kann deaktiviert werden.</li>
+  </ol>
+
+  <h3 id="updatetbb150">3.3 Update von TBB 1.5.x</h3>
   <ol class="fontnorm">
    <li>Versetzen Sie das Forum zunächst in den Wartungsmodus.</li>
    <li>
@@ -257,7 +306,7 @@
    <li>Das Forum ist nun aktualisiert und der Wartungsmodus kann deaktiviert werden.</li>
   </ol>
 
-  <h3 id="updatetbb123">3.3 Update von TBB 1.2.3</h3>
+  <h3 id="updatetbb123">3.4 Update von TBB 1.2.3</h3>
   <ol class="fontnorm">
    <li>Versetzen Sie das Forum zunächst in den Wartungsmodus.</li>
    <li>
@@ -330,7 +379,7 @@ Supermoderator
    <li>Das Forum ist nun aktualisiert. Rufen Sie es auf (z.B. http://www.meindedomain.de/forum/index.php), loggen Sie sich ein und überprüfen Sie den Status. Konsultieren Sie das <a href="#faq">FAQ</a>, wenn Fehlermeldungen erscheinen.</li>
   </ol>
 
-  <h4 id="updatetbb110">3.3.1 Update von Version 1.1</h4>
+  <h4 id="updatetbb110">3.4.1 Update von Version 1.1</h4>
   <p class="fontnorm">In diesem Abschnitt wird beschrieben, wie Sie ein TBB 1.1 auf 1.2.3 aktualisieren.</p>
   <ol class="fontnorm">
    <li>Nehmen Sie alle Einstellungen in settings.php vor</li>
@@ -346,7 +395,7 @@ Supermoderator
   </ol>
   <p class="fontnorm">Das Forum sollte nun bereit für die Aktualisierung von 1.2.3 auf 1.6 sein.</p>
 
-  <h4 id="updatetbb10b">3.3.2 Update von Version 1.0 Beta</h4>
+  <h4 id="updatetbb10b">3.4.2 Update von Version 1.0 Beta</h4>
   <p class="fontnorm">In diesem Abschnitt wird beschrieben, wie Sie ein TBB 1.0 Beta auf 1.2.3 aktualisieren.</p>
   <ol class="fontnorm">
    <li>Nehmen Sie alle Einstellungen in settings.php vor</li>
@@ -436,7 +485,7 @@ Supermoderator
    <tr><td>53</td><td><code>forum_email</code></td><td>admin@meinedomain.de</td><td>E-Mail-Adresse für E-Mails vom Forum</td><td style="color:green; text-align:center;">&#10003;</td></tr>
    <tr><td>54</td><td><code>mail_admin_new_registration</code></td><td>0</td><td>Administrator über Registrierungen informieren</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
    <tr><td>55</td><td><code>notify_new_replies</code></td><td>1</td><td>Themenabos per E-Mail aktivieren</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
-
+   <tr><th colspan="5">Neu ab TBB 1.5</th></tr>
    <tr><td>56</td><td><code>default_tpl</code></td><td>std</td><td>Standardtemplate des Forums</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
    <tr><td>57</td><td><a href="#clickjacking"><code>clickjacking</code></a></td><td>0</td><td>Clickjacking-Schutz aktivieren</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
    <tr><td>58</td><td><code>wio_color_admin</code></td><td>#FF0000</td><td>Farbe für Administratoren in WIO-Box</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
@@ -456,7 +505,7 @@ Supermoderator
    <tr><td>72</td><td><a href="#upload"><code>enable_uploads</code></a></td><td>1</td><td>Dateiuploads aktivieren</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
    <tr><td>73</td><td><a href="#upload"><code>upload_allowed_ext</code></a></td><td></td><td>Erlaubte Dateitypen (mit Komma trennen)</td><td style="color:green; text-align:center;">&#10003;</td></tr>
    <tr><td>74</td><td><a href="#upload"><code>upload_max_filesize</code></a></td><td>2097152</td><td>Maximale Dateigröße in Bytes</td><td style="color:green; text-align:center;">&#10003;</td></tr>
-
+   <tr><th colspan="5">Neu ab TBB 1.6</th></tr>
    <tr><td>75</td><td><code>error_level</code></td><td>ERR_REPORTING</td><td>Stufe der PHP-Fehlermeldungen</td><td style="color:red; text-align:center;">&#10005;</td></tr>
    <tr><td>76</td><td><code>spam_delay</code></td><td>3</td><td>Wartezeit für Spamschutz / Doppelpostings</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
    <tr><td>77</td><td><code>edit_time</code></td><td>0</td><td>Zeitlich begrenztes Bearbeiten neuer Beiträge</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
@@ -728,6 +777,6 @@ Ich hoffe, das hier interessiert wenigstens ein paar Leute, denn es war, auch we
 mfg <b>Julian</b></p></blockquote>
    <p class="fontnorm">Also dann, bis zur nächsten Version! Oder so. ;)<br /><br />mfg <b>Chris</b></p>
 
-  <div class="fontcopyright">&copy; 2010/2011 <a href="http://www.tritanium-scripts.com/" target="_blank">Tritanium Scripts</a></div>
+  <div class="fontcopyright">&copy; 2010-2012 <a href="http://www.tritanium-scripts.com/" target="_blank">Tritanium Scripts</a></div>
  </body>
 </html>

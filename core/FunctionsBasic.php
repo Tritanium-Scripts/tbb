@@ -3,7 +3,7 @@
  * Various static functions and wrappers.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010, 2011 Tritanium Scripts
+ * @copyright Copyright (c) 2010 - 2012 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1.6
  */
@@ -711,6 +711,7 @@ class FunctionsBasic
 
 	/**
 	 * Handles and returns template filename requested from given mode translation table and logs unknown modes.
+	 * By having encountered a certain number of unknown modes, the IP address will be banned.
 	 *
 	 * @param string $mode Requested template file for this mode
 	 * @param string $modeTable Mode and template counterparts
@@ -720,8 +721,19 @@ class FunctionsBasic
 	 */
 	public static function handleMode(&$mode, &$modeTable, $module, $defaultMode='')
 	{
-		//Escaping of '%' to protect logger
-		return $modeTable[array_key_exists($mode, $modeTable) ? $mode : $defaultMode . Main::getModule('Logger')->log('Unknown mode "' . Functions::str_replace('%', '%%', $mode) . '" in ' . $module . '; using default', LOG_FILESYSTEM)];
+		if(!array_key_exists($mode, $modeTable))
+		{
+			//Escaping of '%' to protect logger
+			Main::getModule('Logger')->log('Unknown mode "' . Functions::str_replace('%', '%%', $mode) . '" in ' . $module . '; using default', LOG_FILESYSTEM);
+			isset($_SESSION['unknownModes']) ? $_SESSION['unknownModes']++ : $_SESSION['unknownModes'] = 0;
+			if($_SESSION['unknownModes'] > mt_rand(5, 10))
+			{
+				Functions::file_put_contents('vars/ip.var', $_SERVER['REMOTE_ADDR'] . "\t-1\t-1\t" . (end(@end(Functions::getBannedIPs()))+1) . "\t\n", FILE_APPEND);
+				Main::getModule('Logger')->log('Auto-banned %s after catching ' . $_SESSION['unknownModes'] . ' unknown modes of a possible hacking attempt!', LOG_ACP_ACTION);
+			}
+			$mode = $defaultMode;
+		}
+		return $modeTable[$mode];
 	}
 
 	/**

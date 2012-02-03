@@ -1,15 +1,18 @@
 **********************************************************
 Tritanium Bulletin Board 1.5+ - Changelog (German version)
-Last changed: 21.12.2011 (Version 1.6.1)
+Last changed: 03.02.2012 (Version 1.6.1)
 **********************************************************
 
-21.12.2011: Version 1.6.1
+03.02.2012: Version 1.6.1
 	- Falsch gesetzten Anker bei den neuesten Beiträgen korrigiert
 	- Deutsche Sprachstrings korrigiert
 	- Fehler behoben, dass ein Admin seine Rechte verliert wenn er sich selber als Moderator beim Hinzufügen eines neuen Forums einträgt
 	- Aufrufe von unbekannten Modulen werden geloggt
 	- Keine möglichen leeren Einträge beim Loggen von unbekannten Modi in öffentlichen Modulen mehr
     - Smarty auf Version 3.1.7 aktualisiert
+    - Automatisches Bannen einer IP-Adresse nach spätestens zehn Aufrufen von unbekannten Modi
+    - Mögliches Fehlverhalten von disk_free_space() wird abgefangen
+	- Dokumentation aktualisiert und alleiniges Update der Template-Engine beschrieben
 
 04.11.2011: Version 1.6 (offiziell)
 	- Fehler bei Anzeige der neuesten Beiträge nach heruntersetzen der Anzahl behoben
