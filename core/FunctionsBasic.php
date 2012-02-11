@@ -728,7 +728,8 @@ class FunctionsBasic
 			isset($_SESSION['unknownModes']) ? $_SESSION['unknownModes']++ : $_SESSION['unknownModes'] = 0;
 			if($_SESSION['unknownModes'] > mt_rand(5, 10))
 			{
-				Functions::file_put_contents('vars/ip.var', $_SERVER['REMOTE_ADDR'] . "\t-1\t-1\t" . (end(@end(Functions::getBannedIPs()))+1) . "\t\n", FILE_APPEND);
+                list(,,,$lastIPID) = @end(Functions::getBannedIPs());
+				Functions::file_put_contents('vars/ip.var', $_SERVER['REMOTE_ADDR'] . "\t-1\t-1\t" . ($lastIPID+1) . "\t\n", FILE_APPEND);
 				Main::getModule('Logger')->log('Auto-banned %s after catching ' . $_SESSION['unknownModes'] . ' unknown modes of a possible hacking attempt!', LOG_ACP_ACTION);
 			}
 			$mode = $defaultMode;
