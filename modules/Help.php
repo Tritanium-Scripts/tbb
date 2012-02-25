@@ -50,7 +50,7 @@ class Help implements Module
 				if(Functions::strpos($curIndex, 'faq_question_') !== false)
 					$faqQuestions[] = $curString;
 				else
-					//Filter out answer with special conditions
+					//Filter out answers with special conditions
 					switch($curIndex)
 					{
 						case 'faq_answer_what_are_smilies':
