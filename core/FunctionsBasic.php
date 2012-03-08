@@ -308,7 +308,7 @@ class FunctionsBasic
 	{
 		$timestamp = self::getTimestamp($date);
 		//Encode as UTF-8, because month names lack proper encoding
-		return sprintf(time()-$timestamp < Main::getModule('Config')->getCfgVal('emph_date_hours')*3600 ? '<b>%s</b>' : '%s', utf8_encode(gmstrftime(isset($format) ? $format : Main::getModule('Language')->getString(Main::getModule('Config')->getCfgVal('date_as_text') == 1 && gmdate('Yz', time()-86400) <= ($yz = gmdate('Yz', $timestamp)) ? (gmdate('Yz') == $yz ? 'TODAY_DATEFORMAT' : 'YESTERDAY_DATEFORMAT') : 'DATEFORMAT'), $timestamp)));
+		return sprintf(time()-$timestamp < Main::getModule('Config')->getCfgVal('emph_date_hours')*3600 ? '<b>%s</b>' : '%s', utf8_encode(gmstrftime(isset($format) ? $format : Main::getModule('Language')->getString(Main::getModule('Config')->getCfgVal('date_as_text') == 1 && self::getProperYz(time()-86400) <= ($yz = self::getProperYz($timestamp)) ? (self::getProperYz(time()) == $yz ? 'TODAY_DATEFORMAT' : 'YESTERDAY_DATEFORMAT') : 'DATEFORMAT'), $timestamp)));
 	}
 
 	/**
@@ -515,6 +515,17 @@ class FunctionsBasic
 				}
 		return count($userLinks) < 2 ? current($userLinks) : $userLinks;
 	}
+
+	/**
+	 * Returns "Yz" call from {@link gmdate()} with proper padded zeros of the day of year.
+	 *
+	 * @param int $timestamp Timestamp to use
+	 * @return string Proper "Yz" result
+	 */
+	 public static function getProperYz($timestamp)
+	 {
+		return gmdate('Y', $timestamp) . sprintf('%03d', gmdate('z', $timestamp));
+	 }
 
 	/**
 	 * Generates a 10-character random password incl. special chars.
@@ -728,7 +739,7 @@ class FunctionsBasic
 			isset($_SESSION['unknownModes']) ? $_SESSION['unknownModes']++ : $_SESSION['unknownModes'] = 0;
 			if($_SESSION['unknownModes'] > mt_rand(5, 10))
 			{
-                list(,,,$lastIPID) = @end(Functions::getBannedIPs());
+				list(,,,$lastIPID) = @end(Functions::getBannedIPs());
 				Functions::file_put_contents('vars/ip.var', $_SERVER['REMOTE_ADDR'] . "\t-1\t-1\t" . ($lastIPID+1) . "\t\n", FILE_APPEND);
 				Main::getModule('Logger')->log('Auto-banned %s after catching ' . $_SESSION['unknownModes'] . ' unknown modes of a possible hacking attempt!', LOG_ACP_ACTION);
 			}

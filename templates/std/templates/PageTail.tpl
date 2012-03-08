@@ -10,7 +10,7 @@
   <br />
   <p class="copyr" style="text-align:center;">
    Tritanium Bulletin Board {$smarty.const.VERSION_PUBLIC}<br />
-   &copy; 2010/2011 <a class="copyr" href="http://www.tritanium-scripts.com/" target="_blank">Tritanium Scripts</a>
+   &copy; 2010&ndash;2012 <a class="copyr" href="http://www.tritanium-scripts.com/" target="_blank">Tritanium Scripts</a>
   </p>
   <br />{if $modules.Config->getCfgVal('show_site_creation_time')}
   <p class="stat" style="text-align:center;">
