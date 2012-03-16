@@ -181,7 +181,7 @@
 
   <h3 id="defaults">2.2 Voreinstellungen</h3>
   <p class="fontnorm">Benennen Sie zunächst die <b>./modules/Config.php.new</b> in <b>./modules/Config.php</b> um.</p>
-  <p class="fontnorm">Das Forum wird mit fest definierten Standardeinstellungen ausgeliefert, die Sie noch vor dem Hochladen verändern können. Diese Standardwerte kommen auch zum Einsatz, wenn Sie die Forumeinstellungen zurücksetzen sollten. Sie finden im Abschnitt <a href="#configuration">Konfiguration</a> weitere Informationen zum Veränderen dieser Einstellungen. Dieser Schritt ist optional, da Sie später im Forum alle Optionen unabhängig ihrer Voreinstellungen ändern können.</p>
+  <p class="fontnorm">Das Forum wird mit fest definierten Standardeinstellungen ausgeliefert, die Sie noch vor dem Hochladen verändern können. Diese Standardwerte kommen auch zum Einsatz, wenn Sie die Forumeinstellungen zurücksetzen sollten. Sie finden im Abschnitt <a href="#configuration">Konfiguration</a> weitere Informationen zum Veränderen dieser Einstellungen. Dieser Schritt ist <b>optional</b>, da Sie später im Forum alle Optionen unabhängig ihrer Voreinstellungen ändern können.</p>
 
   <h3 id="uploading">2.3 Hochladen</h3>
   <p class="fontnorm">Sind die Voraussetzungen erfüllt und wurden die Voreinstellungen ggf. angepasst, können Sie mit dem Upload beginnen. Dabei sind die verschiedenen Übertragungsmodi <b>Binär</b> und <b>ASCII</b> zu beachten. Ihr FTP-Programm wird wahrscheinlich beide Modi unterstützen oder sogar eine automatische Auswahl anbieten. Bitte übertragen Sie alle Dateien ausschließlich im <b>Binär-Modus</b>.<br />
@@ -227,7 +227,7 @@
   <p class="fontnorm">Nach erfolgreichem Update von 1.2.3 auf 1.6.x müssten alle Mitglieder ein neues Passwort anfordern, da eine neue sichere Verschlüsselungstechnik zum Einsatz kommt.</p>
 
   <h4 id="updatetemplate">3.1.1 Update der Template-Engine</h4>
-  <p class="fontnorm">Unabhängig von neuen TBB-Versionen kann die Template-Engine auch separat aktualisiert werden. Die aktuell verwendete Version ist auf der Startseite der Administration unter den Systeminformationen aufgelistet. Beachten Sie hierbei unbedingt die Versionssprünge, d.h. es dürfen nur Aktualisierungen auf Patch-Ebene (dritte Stelle einer Versionsnummer) durchgeführt werden. Beispielsweise ist ein Update von 3.1.7 auf 3.1.8 problemlos möglich, aber nicht auf 3.2.0 oder gar 4.0. Gehen Sie dabei vor wie folgt:</p>
+  <p class="fontnorm">Unabhängig von neuen TBB-Versionen kann die Template-Engine auch separat aktualisiert werden. Die aktuell verwendete Version ist auf der Startseite der Administration unter den Systeminformationen aufgelistet. Beachten Sie hierbei unbedingt die Versionssprünge, d.h. es dürfen nur Aktualisierungen auf Patch-Ebene (dritte Stelle einer Versionsnummer) durchgeführt werden. Beispielsweise ist ein Update von 3.1.9 auf 3.1.10 problemlos möglich, aber nicht auf 3.2.0 oder gar 4.0. Gehen Sie dabei vor wie folgt:</p>
   <ol class="fontnorm">
    <li>
     Laden Sie die neuste <b>passende</b> Version von der <a href="http://www.smarty.net/download" target="_blank">offiziellen Webseite</a> runter.<br />
@@ -264,6 +264,7 @@
     </ul>
    </li>
    <li>Löschen Sie alle Inhalte im Ordner <b>./cache/</b>.</li>
+   <li>Nutzen Sie das externe Foumwerkzeug <b>ext_lposts.php</b>, so muss dieses durch die neuen Version ersetzt werden. Übertragen Sie dazu die vorhandenen Einstellungen in die neue Datei und ersetzen Sie ihre vorhandene Datei. Lesen Sie dazu auch <a href="#externaltools">Abschnitt 5</a> für mehr Details zu den Einstellungswerten.</li>
    <li>Laden Sie nun die <b>setUpdateFlag.php</b> aus dem <b>./update/</b>-Ordner in das TBB-Verzeichnis und rufen Sie das Script mit ihrem Browser auf (z.B. http://www.meindedomain.de/forum/setUpdateFlag.php). Je nach Anzahl registrierter Mitglieder kann der Update-Prozess etwas dauern und notfalls durch erneutes Aufrufen fortgesetzt werden.</li>
    <li>Löschen Sie die <b>setUpdateFlag.php</b> wieder, sobald eine &quot;Done!&quot;-Meldung angezeigt wird.</li>
    <li>Das Forum ist nun aktualisiert und der Wartungsmodus kann deaktiviert werden.</li>
@@ -288,7 +289,7 @@
    <li>Benennen Sie die <b>./modules/Config.php.new</b> in <b>./modules/Config.php</b> um und überschreiben eine evtl. existierende Config.php.</li>
    <li>Wenn vorhanden, tauschen Sie die <b>./uploads/.htaccess</b> durch die <b>./uploads/index.php</b> aus.</li>
    <li>Löschen Sie alle Inhalte im Ordner <b>./cache/</b>.</li>
-   <li>Nutzen Sie das externe Foumwerkzeug <b>ext_lposts.php</b>, so muss diese durch die neuen Version ersetzt werden. Übertragen Sie dazu die vorhandenen Einstellungen in die neue Datei und ersetzen Sie ihre vorhandene Datei. Lesen Sie dazu auch <a href="#externaltools">Abschnitt 5</a> für mehr Details zu den Einstellungswerten.</li>
+   <li>Nutzen Sie das externe Foumwerkzeug <b>ext_lposts.php</b>, so muss dieses durch die neuen Version ersetzt werden. Übertragen Sie dazu die vorhandenen Einstellungen in die neue Datei und ersetzen Sie ihre vorhandene Datei. Lesen Sie dazu auch <a href="#externaltools">Abschnitt 5</a> für mehr Details zu den Einstellungswerten.</li>
    <li>Laden Sie nun die <b>setUpdateFlag.php</b> aus dem <b>./update/</b>-Ordner in das TBB-Verzeichnis und rufen Sie das Script mit ihrem Browser auf (z.B. http://www.meindedomain.de/forum/setUpdateFlag.php). Je nach Anzahl registrierter Mitglieder kann der Update-Prozess etwas dauern und notfalls durch erneutes Aufrufen fortgesetzt werden.</li>
    <li>Löschen Sie die <b>setUpdateFlag.php</b> wieder, sobald eine &quot;Done!&quot;-Meldung angezeigt wird.</li>
    <li>Öffnen Sie ihre <b>settings.var</b> aus dem <b>./vars/</b>-Ordner. Wenn Sie keine eigene <b>settings.var</b> haben, überspringen Sie die Punkte 11 und 12.</li>

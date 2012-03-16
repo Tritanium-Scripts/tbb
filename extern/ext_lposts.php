@@ -3,7 +3,7 @@
  * Provides external access to newest posts of the forum.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010, 2011 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2012 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1.6
  */
@@ -85,7 +85,7 @@ class ExtLastPosts
 				$curNewestPost = ExtFunctions::explodeByComma($curNewestPost . ',1,'); //Make sure index 4 and 5 are available
 				echo(sprintf(self::$x_by_x_on_x,
 					//Topic check + link + title preparation
-					!ExtFunctions::file_exists('foren/' . $curNewestPost[0] . '-' . $curNewestPost[1] . '.xbb') ? self::$deleted : '<img src="' . ExtFunctions::getTSmileyURL($curNewestPost[4]) . '" alt="" /> <a href="' . EXT_PATH_TO_FORUM . INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curNewestPost[0] . '&amp;thread=' . $curNewestPost[1] . '&amp;z=last#post' . $curNewestPost[5] . '">' . ExtFunctions::getTopicName($curNewestPost[0], $curNewestPost[1]) . '</a>',
+					!ExtFunctions::file_exists('foren/' . $curNewestPost[0] . '-' . $curNewestPost[1] . '.xbb') ? (EXT_IS_UTF8 ? self::$deleted : utf8_decode(self::$deleted)) : '<img src="' . ExtFunctions::getTSmileyURL($curNewestPost[4]) . '" alt="" /> <a href="' . EXT_PATH_TO_FORUM . INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curNewestPost[0] . '&amp;thread=' . $curNewestPost[1] . '&amp;z=last#post' . $curNewestPost[5] . '">' . ExtFunctions::getTopicName($curNewestPost[0], $curNewestPost[1]) . '</a>',
 					ExtFunctions::getProfileLink($curNewestPost[2], true),
 					ExtFunctions::formatDate($curNewestPost[3], self::$DATEFORMAT)) . '<br />');
 				self::$numOfLastPosts--;

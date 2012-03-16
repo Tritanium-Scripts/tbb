@@ -1,9 +1,9 @@
 **********************************************************
 Tritanium Bulletin Board 1.5+ - Changelog (German version)
-Last changed: 08.03.2012 (Version 1.6.1)
+Last changed: 16.03.2012 (Version 1.6.1)
 **********************************************************
 
-08.03.2012: Version 1.6.1
+16.03.2012: Version 1.6.1 (offiziell)
 	- Falsch gesetzten Anker bei den neuesten Beiträgen korrigiert
 	- Deutsche Sprachstrings korrigiert
 	- Fehler behoben, dass ein Admin seine Rechte verliert wenn er sich selber als Moderator beim Hinzufügen eines neuen Forums einträgt
@@ -15,6 +15,7 @@ Last changed: 08.03.2012 (Version 1.6.1)
     - Smarty auf Version 3.1.8 aktualisiert
     - Fehler bei Datumsanzeige mit Text und bestimmten Datenkonstellationen behoben
     - Copyright-Jahreszahl aktualisiert
+    - Enkodierungsprobleme bei externer Anzeige der neuesten Beiträge behoben
 
 04.11.2011: Version 1.6 (offiziell)
 	- Fehler bei Anzeige der neuesten Beiträge nach heruntersetzen der Anzahl behoben

@@ -127,7 +127,7 @@ class ExtFunctions
 	 */
 	public static function getTopicName($forumID, $topicID)
 	{
-		return ($topic = self::file('foren/' . $forumID . '-' . $topicID . '.xbb')) == false ? ExtLastPosts::$deleted_moved : @next(self::explodeByTab($topic[0]));
+		return ($topic = self::file('foren/' . $forumID . '-' . $topicID . '.xbb')) == false ? (EXT_IS_UTF8 ? ExtLastPosts::$deleted_moved : utf8_decode(ExtLastPosts::$deleted_moved)) : @next(self::explodeByTab($topic[0]));
 	}
 
 	/**
