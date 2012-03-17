@@ -9,13 +9,13 @@ Last changed: 16.03.2012 (Version 1.6.1)
 	- Fehler behoben, dass ein Admin seine Rechte verliert wenn er sich selber als Moderator beim Hinzufügen eines neuen Forums einträgt
 	- Aufrufe von unbekannten Modulen werden geloggt
 	- Keine möglichen leeren Einträge beim Loggen von unbekannten Modi in öffentlichen Modulen mehr
-    - Automatisches Sperren einer IP-Adresse nach spätestens zehn Aufrufen von unbekannten Modi
-    - Mögliches Fehlverhalten von disk_free_space() wird abgefangen
+	- Automatisches Sperren einer IP-Adresse nach spätestens zehn Aufrufen von unbekannten Modi
+	- Mögliches Fehlverhalten von disk_free_space() wird abgefangen
 	- Dokumentation aktualisiert und alleiniges Update der Template-Engine beschrieben
-    - Smarty auf Version 3.1.8 aktualisiert
-    - Fehler bei Datumsanzeige mit Text und bestimmten Datenkonstellationen behoben
-    - Copyright-Jahreszahl aktualisiert
-    - Enkodierungsprobleme bei externer Anzeige der neuesten Beiträge behoben
+	- Smarty auf Version 3.1.8 aktualisiert
+	- Fehler bei Datumsanzeige mit Text und bestimmten Datenkonstellationen behoben
+	- Copyright-Jahreszahl aktualisiert
+	- Enkodierungsprobleme bei externer Anzeige der neuesten Beiträge behoben
 
 04.11.2011: Version 1.6 (offiziell)
 	- Fehler bei Anzeige der neuesten Beiträge nach heruntersetzen der Anzahl behoben
