@@ -1,0 +1,783 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="de-DE" xml:lang="de-DE">
+ <head>
+  <title>Tritanium Bulletin Board 1.6 Dokumentation</title>
+  <meta name="author" content="Chrissyx" />
+  <meta name="copyright" content="&copy; 2010&ndash;2012 Tritanium Scripts" />
+  <meta name="keywords" content="TBB,Tritanium,Tritanium Scripts,TBB 1.5,TBB 1.6,Tritanium Bulletin Board,Readme,Liesmich,Anleitung,Dokumentation" />
+  <meta name="description" content="Dokumentation für das Tritanium Bulletin Board 1.6" />
+  <meta name="revisit-after" content="14 days" />
+  <meta name="generator" content="Notepad 4.10.1998" />
+  <meta http-equiv="Content-Language" content="de-DE" />
+  <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <meta http-equiv="X-UA-Compatible" content="IE=8" />
+  <style type="text/css">
+   a:link
+   {
+    color:blue;
+    text-decoration:none;
+   }
+
+   a:visited
+   {
+    color:blue;
+    text-decoration:none;
+   }
+
+   a:hover
+   {
+    color:red;
+    text-decoration:underline;
+   }
+
+   h1
+   {
+    text-align:center;
+    font-family:Verdana,Arial;
+    font-size:30px;
+    font-weight:normal;
+    margin-bottom:60px;
+   }
+
+   h2
+   {
+    font-family:Verdana,Arial;
+    font-size:20px;
+    font-weight:normal;
+    margin-top:50px;
+   }
+
+   h3
+   {
+    font-family:Verdana,Arial;
+    font-size:16px;
+   }
+
+   h4
+   {
+    font-family:Verdana,Arial;
+    font-size:14px;
+   }
+
+   .fontnorm
+   {
+    font-family:Verdana,Arial;
+    font-size:13px;
+   }
+
+   .fontcopyright
+   {
+    font-family:Verdana,Arial;
+    font-size:10px;
+    margin-top:50px;
+   }
+
+   p
+   {
+    text-align:justify;
+   }
+  </style>
+ </head>
+ <body>
+  <h1>Tritanium Bulletin Board 1.6.1</h1>
+  <h2>Inhaltsverzeichnis</h2>
+  <ol class="fontnorm">
+   <li><a href="#preamble">Vorwort</a></li>
+   <li>
+    <a href="#installation">Installation</a>
+    <ul>
+     <li><a href="#requirements">Voraussetzungen</a></li>
+     <li><a href="#defaults">Voreinstellungen</a></li>
+     <li><a href="#uploading">Hochladen</a></li>
+     <li><a href="#setpermissions">Rechte setzen</a></li>
+     <li><a href="#firststeps">Erste Schritte</a></li>
+    </ul>
+   </li>
+   <li>
+    <a href="#update">Update einer älteren Version</a>
+    <ul>
+     <li>
+      <a href="#generalshints">Allgemeine Hinweise</a>
+      <ul>
+       <li><a href="#updatetemplate">Update der Template-Engine</a></li>
+      </ul>
+     </li>
+     <li><a href="#updatetbb160">Update von TBB 1.6.x</a></li>
+     <li><a href="#updatetbb150">Update von TBB 1.5.x</a></li>
+     <li>
+      <a href="#updatetbb123">Update von TBB 1.2.3</a>
+      <ul>
+       <li><a href="#updatetbb110">Update von Version 1.1</a></li>
+       <li><a href="#updatetbb10b">Update von Version 1.0 Beta</a></li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+   <li>
+    <a href="#configuration">Konfiguration (&quot;settings.php&quot;)</a>
+    <ul>
+     <li><a href="#introduction">Einführung</a></li>
+     <li><a href="#configurationvalues">Die Konfigurationswerte</a></li>
+     <li><a href="#addresstoforum"><code>address_to_forum</code></a></li>
+     <li><a href="#logoptions"><code>log_options</code></a></li>
+     <li><a href="#fds"><code>warn_admin_fds</code> / <code>close_forum_fds</code></a></li>
+     <li><a href="#reg"><code>create_reg_pw</code> / <code>confirm_reg_mail</code></a></li>
+     <li><a href="#uc"><code>uc</code></a></li>
+     <li><a href="#clickjacking"><code>clickjacking</code></a></li>
+     <li><a href="#upload"><code>upload_allowed_ext</code> / <code>upload_max_filesize</code></a></li>
+    </ul>
+   </li>
+   <li><a href="#externaltools">Externe Werkzeuge</a></li>
+   <li>
+    <a href="#owntemplates">Eigene Templates</a>
+    <ul>
+     <li><a href="#tplstructure">Aufbau &amp; Struktur</a></li>
+     <li><a href="#tplexample">Beispiel-Struktur</a></li>
+     <li><a href="#tplinstall">Einbau</a></li>
+    </ul>
+   </li>
+   <li>
+    <a href="#ownlocalizations">Eigene Lokalisierungen</a>
+    <ul>
+     <li><a href="#lochints">Wichtige Hinweise</a></li>
+     <li>
+      <a href="#loccode">Der Sprachcode</a>
+      <ul>
+       <li><a href="#loccodesteam">Sprachcode für Steam-Errungenschaften</a></li>
+      </ul>
+     </li>
+     <li><a href="#locinstall">Einbau</a></li>
+    </ul>
+   </li>
+   <li>
+    <a href="#additionalnotes">Weitere Anmerkungen</a>
+    <ul>
+     <li><a href="#newsfader">Forumnews im Modus &quot;Überblenden&quot;</a></li>
+     <li><a href="#htaccess">Sicherheit des Forums / .htaccess-Unterstützung</a></li>
+     <li><a href="#otherstyles">Nutzung anderer Styles (CSS-Dateien)</a></li>
+     <li><a href="#afewwords">Ein paar Worte zum Code</a></li>
+     <li><a href="#groupsystem">Das Gruppensystem</a></li>
+     <li><a href="#concurrency">Nebenläufigkeit</a></li>
+    </ul>
+   </li>
+   <li><a href="#faq">FAQ</a></li>
+   <li><a href="#closingwords">Schlusswort</a></li>
+  </ol>
+
+  <h2 id="preamble">1 Vorwort</h2>
+  <p class="fontnorm">Vielen Dank, dass Sie sich für das TBB 1.6 entschieden haben. Es ist die Neuauflage des TBB 1.2.3 aus den Jahren 2001/2002 und wird Ihnen hoffentlich genau so viel Freude bereiten, wie ich sie während der Entwicklung hatte.<br />
+     Im Folgenden wird die Installation des TBBs und die Aktualisierung einer älteren Vorgängerversion beschrieben. Falls es Probleme gibt, konsultieren Sie das <a href="#faq">FAQ</a> oder fragen Sie im Forum von <a href="http://www.tritanium-scripts.com/" target="_blank">Tritanium Scripts</a> nach. Dort wird Ihnen sicher weiter geholfen.</p>
+
+  <h2 id="installation">2 Installation</h2>
+  <h3 id="requirements">2.1 Voraussetzungen</h3>
+  <p class="fontnorm">Für einen optimalen Betrieb des TBB 1.6 sollten folgende Mindestvoraussetzungen erfüllt sein:</p>
+  <ul class="fontnorm">
+   <li>ca. 5 MiB freier Webspace (je nach späterer Größe des Forums kann dies erheblich mehr werden!)</li>
+   <li>PHP Version 5.1.0 oder höher (PHP 4 oder 5.0 werden nicht unterstützt)</li>
+  </ul>
+
+  <h3 id="defaults">2.2 Voreinstellungen</h3>
+  <p class="fontnorm">Benennen Sie zunächst die <b>./modules/Config.php.new</b> in <b>./modules/Config.php</b> um.</p>
+  <p class="fontnorm">Das Forum wird mit fest definierten Standardeinstellungen ausgeliefert, die Sie noch vor dem Hochladen verändern können. Diese Standardwerte kommen auch zum Einsatz, wenn Sie die Forumeinstellungen zurücksetzen sollten. Sie finden im Abschnitt <a href="#configuration">Konfiguration</a> weitere Informationen zum Veränderen dieser Einstellungen. Dieser Schritt ist <b>optional</b>, da Sie später im Forum alle Optionen unabhängig ihrer Voreinstellungen ändern können.</p>
+
+  <h3 id="uploading">2.3 Hochladen</h3>
+  <p class="fontnorm">Sind die Voraussetzungen erfüllt und wurden die Voreinstellungen ggf. angepasst, können Sie mit dem Upload beginnen. Dabei sind die verschiedenen Übertragungsmodi <b>Binär</b> und <b>ASCII</b> zu beachten. Ihr FTP-Programm wird wahrscheinlich beide Modi unterstützen oder sogar eine automatische Auswahl anbieten. Bitte übertragen Sie alle Dateien ausschließlich im <b>Binär-Modus</b>.<br />
+     Als erstes sollten Sie ein eigenes Verzeichnis für das Forum auf ihrem Webserver erstellen (z.B. &quot;forum&quot; oder &quot;TBB&quot;). In dieses Verzeichnis laden sie anschließend die folgenden Dateien und Ordner:</p>
+  <ul class="fontnorm">
+   <li><b>./cache/</b></li>
+   <li><b>./core/</b> (+ Inhalt)</li>
+   <li><b>./foren/</b> (+ Inhalt)</li>
+   <li><b>./images/</b> (+ Inhalt)</li>
+   <li><b>./languages/</b> (+ Inhalt)</li>
+   <li><b>./logs/</b> (+ Inhalt)</li>
+   <li><b>./members/</b> (+ Inhalt)</li>
+   <li><b>./modules/</b> (+ Inhalt)</li>
+   <li><b>./polls/</b> (+ Inhalt)</li>
+   <li><b>./templates/</b> (+ Inhalt)</li>
+   <li><b>./uploads/</b> (+ Inhalt)</li>
+   <li><b>./vars/</b> (+ Inhalt)</li>
+   <li><b>index.php</b></li>
+  </ul>
+
+  <h3 id="setpermissions">2.4 Rechte setzen</h3>
+  <p class="fontnorm">Grundsätzlich sollten alle Ordner die Rechte <b>700</b> und alle Dateien die Rechte <b>600</b> besitzen und keine weitere Anpassung benötigen. Ist der Webserver schlecht konfiguriert, kann es helfen die Rechte auf <b>755</b> für Ordner und auf <b>644</b> für Dateien zu setzen. Sollten damit immernoch Probleme bestehen, können noch folgende einzelne Spezialrechte gesetzt werden. Allerdings ist dies sehr <b>sicherheitskritisch</b> und sollte möglichst vermieden werden!</p>
+  <ul class="fontnorm">
+   <li><b>./cache/</b>: 777</li>
+   <li><b>./foren/</b>: 777</li>
+   <li><b>./logs/</b>: 777</li>
+   <li><b>./members/</b>: 777</li>
+   <li><b>./polls/</b>: 777</li>
+   <li><b>./uploads/</b>: 777</li>
+   <li><b>./vars/</b>: 777</li>
+  </ul>
+
+  <h3 id="firststeps">2.5 Erste Schritte</h3>
+  <p class="fontnorm">Ihr TBB 1.6 ist nun einsatzbereit und kann eingerichtet werden. Rufen Sie es dazu mit ihrem Browser auf (z.B. http://www.meindedomain.de/forum/index.php). Es sollte jetzt die Forenübersicht angezeigt werden. Als nächstes registrieren Sie sich erst einmal selbst, d.h. Sie klicken oben in der Menüleiste auf &quot;Registrieren&quot;, geben ihre Daten ein und schicken das ganze ab. Loggen Sie sich nun mit diesen Daten ein (Sie wurden automatisch als Administrator eingetragen). War dies erfolgreich, können Sie am unteren Ende der Seite auf den Link &quot;Administration&quot; klicken. Im Administrationsmenü können Sie nun (abhängig von den getroffenen Voreinstellungen) die Einstellungen bearbeiten und die Forenstruktur unter &quot;Foren/Kategorien&quot; anlegen. Sie sollten dabei <b>zuerst</b> mindestens eine Kategorie erstellen und danach die gewünschten Foren.</p>
+  <p class="fontnorm">Falls Probleme bei der Installation auftreten, lesen Sie sich bitte zuerst das <a href="#faq">FAQ</a> durch, bevor sie das Forum auf der <a href="http://www.tritanium-scripts.com/" target="_blank">Tritanium Scripts-Webseite</a> zu Rate ziehen.</p>
+
+  <h2 id="update">3 Update einer älteren Version</h2>
+  <h3 id="generalshints">3.1 Allgemeine Hinweise</h3>
+  <p class="fontnorm">Das TBB 1.6 unterstützt ausschließlich die Aktualisierung eines TBB 1.2.3 oder höher. Wenn Sie eine ältere Version als 1.2.3 betreiben, müssen Sie diese erst auf Version 1.2.3 aktualisieren. Dies können Sie mit den mitgelieferten Update-Routinen durchführen, die in den Unterkapiteln <a href="#updatetbb110">3.4.1</a> und <a href="#updatetbb10b">3.4.2</a> näher beschrieben sind.</p>
+  <p class="fontnorm">Bevor Sie mit irgendeiner Aktualisierung beginnen, ist es empfehlenswert die Ordner <b>foren</b>, <b>members</b>, <b>polls</b> und <b>vars</b> zu sichern. Es kann leider keine Garantie für ein reibungsloses Update übernommen werden. Laden Sie am besten erst die genannten Ordner per FTP runter, um sie ggf. wiederherstellen zu können. Achten Sie dabei unbedingt auf die Verwendung des <b>Binär-Übertragungsmodus</b>!</p>
+  <p class="fontnorm">Weiterhin können zusätzliche oder modifizierte Dateien von der Update-Anleitung nicht berücksichtigt werden. Haben Sie ihr Forum z.B. um neue Grafiken, var-Dateien oder eigene CSS-Styles erweitert, sollten Sie diese ebenfalls sichern, um Sie nach der Aktualisierung wiederherstellen zu können. Lesen Sie sich zum Thema Hack-Kompatiblität auch das <a href="#faq">FAQ</a> durch.</p>
+  <p class="fontnorm">Falls Sie nach dem Update Probleme bei der Darstellung &ndash;vor allem bei den BBCode-Buttons&ndash; haben, sollten sie ihre CSS-Datei aktualisieren, d.h. die &quot;standard.css&quot;, die dem Forum beiliegt, auf neue Abschnitte überprüfen (z.B. &quot;forumcode&quot;) und diese in ihre modifizierte CSS-Datei einsetzen.</p>
+  <p class="fontnorm">Nach erfolgreichem Update von 1.2.3 auf 1.6.x müssten alle Mitglieder ein neues Passwort anfordern, da eine neue sichere Verschlüsselungstechnik zum Einsatz kommt.</p>
+
+  <h4 id="updatetemplate">3.1.1 Update der Template-Engine</h4>
+  <p class="fontnorm">Unabhängig von neuen TBB-Versionen kann die Template-Engine auch separat aktualisiert werden. Die aktuell verwendete Version ist auf der Startseite der Administration unter den Systeminformationen aufgelistet. Beachten Sie hierbei unbedingt die Versionssprünge, d.h. es dürfen nur Aktualisierungen auf Patch-Ebene (dritte Stelle einer Versionsnummer) durchgeführt werden. Beispielsweise ist ein Update von 3.1.9 auf 3.1.10 problemlos möglich, aber nicht auf 3.2.0 oder gar 4.0. Gehen Sie dabei vor wie folgt:</p>
+  <ol class="fontnorm">
+   <li>
+    Laden Sie die neuste <b>passende</b> Version von der <a href="http://www.smarty.net/download" target="_blank">offiziellen Webseite</a> runter.<br />
+    Die benötigten Dateien sind im Archiv unter <b>./Smarty-3.x.x/libs/</b> zu finden.
+   </li>
+   <li>Versetzen Sie das Forum in den Wartungsmodus.</li>
+   <li>
+    Ersetzen Sie sämtliche Dateien bzw. Ordner mit den neuen Versionen im Verzeichnis <b>./modules/Template/</b> wie folgt:
+    <ul>
+     <li><b>./plugins/</b> (+ Inhalt)</li>
+     <li><b>./sysplugins/</b> (+ Inhalt)</li>
+     <li><b>debug.tpl</b></li>
+     <li><b>Smarty.class.php</b></li>
+    </ul>
+    Achten Sie darauf, dass keine alten bzw. inzwischen entfernte Dateien in den Unterordnern zurück bleiben.
+   </li>
+   <li>Löschen Sie alle Inhalte im Ordner <b>./cache/</b>.</li>
+   <li>Die Template-Engine ist nun aktualisiert und der Wartungsmodus kann deaktiviert werden.</li>
+  </ol>
+
+  <h3 id="updatetbb160">3.2 Update von TBB 1.6.x</h3>
+  <ol class="fontnorm">
+   <li>Versetzen Sie das Forum zunächst in den Wartungsmodus.</li>
+   <li>
+    Ersetzen Sie sämtliche Dateien bzw. Ordner mit den neuen Versionen im TBB-Verzeichnis wie folgt:<br />
+    <span style="font-size:x-small;">(Falls Sie bestehende Dateien geändert haben, sichern Sie diese zu erst und führen Sie nach der Aktualisierung die Modifikationen ggf. erneut durch.)</span>
+    <ul>
+     <li><b>./core/</b> (+ Inhalt, Ausnahme: <b>DataPath.php</b>)</li>
+     <li><b>./languages/</b> (+ Inhalt)</li>
+     <li><b>./modules/</b> (+ Inhalt, Ausnahme: <b>Config.php.new</b>)<br />
+         <span style="font-size:x-small;">Achten Sie darauf, dass keine alten bzw. inzwischen entfernte Dateien in den Unterordnern von <b>./modules/Template/</b> zurück bleiben.</span></li>
+     <li><b>./templates/</b> (+ Inhalt)</li>
+     <li><b>index.php</b></li>
+    </ul>
+   </li>
+   <li>Löschen Sie alle Inhalte im Ordner <b>./cache/</b>.</li>
+   <li>Nutzen Sie das externe Foumwerkzeug <b>ext_lposts.php</b>, so muss dieses durch die neuen Version ersetzt werden. Übertragen Sie dazu die vorhandenen Einstellungen in die neue Datei und ersetzen Sie ihre vorhandene Datei. Lesen Sie dazu auch <a href="#externaltools">Abschnitt 5</a> für mehr Details zu den Einstellungswerten.</li>
+   <li>Laden Sie nun die <b>setUpdateFlag.php</b> aus dem <b>./update/</b>-Ordner in das TBB-Verzeichnis und rufen Sie das Script mit ihrem Browser auf (z.B. http://www.meindedomain.de/forum/setUpdateFlag.php). Je nach Anzahl registrierter Mitglieder kann der Update-Prozess etwas dauern und notfalls durch erneutes Aufrufen fortgesetzt werden.</li>
+   <li>Löschen Sie die <b>setUpdateFlag.php</b> wieder, sobald eine &quot;Done!&quot;-Meldung angezeigt wird.</li>
+   <li>Das Forum ist nun aktualisiert und der Wartungsmodus kann deaktiviert werden.</li>
+  </ol>
+
+  <h3 id="updatetbb150">3.3 Update von TBB 1.5.x</h3>
+  <ol class="fontnorm">
+   <li>Versetzen Sie das Forum zunächst in den Wartungsmodus.</li>
+   <li>
+    Ersetzen Sie sämtliche Dateien bzw. Ordner mit den neuen Versionen im TBB-Verzeichnis wie folgt:<br />
+    <span style="font-size:x-small;">(Falls Sie bestehende Dateien geändert haben, sichern Sie diese zu erst und führen Sie nach der Aktualisierung die Modifikationen ggf. erneut durch.)</span>
+    <ul>
+     <li><b>./core/</b> (+ Inhalt, Ausnahme: <b>DataPath.php</b>)</li>
+     <li><b>./languages/</b> (+ Inhalt)</li>
+     <li><b>./modules/</b> (+ Inhalt)<br />
+         <span style="font-size:x-small;">Achten Sie darauf, dass keine alten bzw. inzwischen entfernte Dateien in den Unterordnern von <b>./modules/Template/</b> zurück bleiben.</span></li>
+     <li><b>./templates/</b> (+ Inhalt)</li>
+     <li><b>index.php</b></li>
+    </ul>
+   </li>
+   <li>Übertragen Sie ihre &ndash;sofern vorhanden&ndash; eigenen Einstellungen aus der <b>./modules/Config.php</b> in die <b>./modules/Config.php.new</b>.</li>
+   <li>Benennen Sie die <b>./modules/Config.php.new</b> in <b>./modules/Config.php</b> um und überschreiben eine evtl. existierende Config.php.</li>
+   <li>Wenn vorhanden, tauschen Sie die <b>./uploads/.htaccess</b> durch die <b>./uploads/index.php</b> aus.</li>
+   <li>Löschen Sie alle Inhalte im Ordner <b>./cache/</b>.</li>
+   <li>Nutzen Sie das externe Foumwerkzeug <b>ext_lposts.php</b>, so muss dieses durch die neuen Version ersetzt werden. Übertragen Sie dazu die vorhandenen Einstellungen in die neue Datei und ersetzen Sie ihre vorhandene Datei. Lesen Sie dazu auch <a href="#externaltools">Abschnitt 5</a> für mehr Details zu den Einstellungswerten.</li>
+   <li>Laden Sie nun die <b>setUpdateFlag.php</b> aus dem <b>./update/</b>-Ordner in das TBB-Verzeichnis und rufen Sie das Script mit ihrem Browser auf (z.B. http://www.meindedomain.de/forum/setUpdateFlag.php). Je nach Anzahl registrierter Mitglieder kann der Update-Prozess etwas dauern und notfalls durch erneutes Aufrufen fortgesetzt werden.</li>
+   <li>Löschen Sie die <b>setUpdateFlag.php</b> wieder, sobald eine &quot;Done!&quot;-Meldung angezeigt wird.</li>
+   <li>Öffnen Sie ihre <b>settings.var</b> aus dem <b>./vars/</b>-Ordner. Wenn Sie keine eigene <b>settings.var</b> haben, überspringen Sie die Punkte 11 und 12.</li>
+   <li>
+    Fügen Sie folgende Werte in die Zeilen 76 bis 82 ein:
+    <pre><code>7
+3
+0
+1
+0
+0
+0</code></pre>
+   </li>
+   <li>Vergewissern Sie sich, dass die &quot;<b>settings.var</b>&quot; genau 82 Zeilen hat und laden Sie sie in den <b>./vars/</b>-Ordner hoch.</li>
+   <li>Das Forum ist nun aktualisiert und der Wartungsmodus kann deaktiviert werden.</li>
+  </ol>
+
+  <h3 id="updatetbb123">3.4 Update von TBB 1.2.3</h3>
+  <ol class="fontnorm">
+   <li>Versetzen Sie das Forum zunächst in den Wartungsmodus.</li>
+   <li>
+    Löschen Sie nun folgende Dateien und Ordner aus dem TBB-Verzeichnis:
+    <ul>
+     <li><b>./docs/</b> (falls vorhanden)</li>
+     <li><b>./extern/</b> (falls vorhanden)</li>
+     <li>Alle <b>*.gif</b>-Dateien in <b>./images/</b><br /><span style="font-size:x-small;">(Haben Sie eigene oder zusätzliche Grafiken, sollten Sie diese erst sichern und dann löschen.)</span></li>
+     <li><b>./images/rank/</b> (+ Inhalt)<br /><span style="font-size:x-small;">(Haben Sie eigene oder zusätzliche Rangbilder, sollten Sie diese erst sichern und dann löschen.)</span></li>
+     <li><b>./language/</b> (+ Inhalt)</li>
+     <li><b>./styles/</b> (+ Inhalt)<br /><span style="font-size:x-small;">(Haben Sie eigene CSS-Dateien oder die &quot;standard.css&quot; modifiziert, sollten Sie diese erst sichern und dann löschen.)</span></li>
+     <li><b>./update/</b> (falls vorhanden)</li>
+     <li>Alle <b>*.php</b>-Dateien<br /><span style="font-size:x-small;">(Haben Sie die &quot;settings.php&quot; und/oder &quot;datapath.php&quot; verändert, sollten Sie diese erst sichern und dann löschen.)</span></li>
+    </ul>
+   </li>
+   <li>Benennen Sie die <b>./modules/Config.php.new</b> in <b>./modules/Config.php</b> um.</li>
+   <li>
+    Laden Sie nun folgende Dateien und Ordner in das TBB-Verzeichnis im <b>Binär-Modus</b> hoch:
+    <ul>
+     <li><b>./cache/</b></li>
+     <li><b>./core/</b> (+ Inhalt)</li>
+     <li><b>./images/asmilies/</b></li>
+     <li><b>./images/ranks/</b> (+ Inhalt)</li>
+     <li><b>./languages/</b> (+ Inhalt)</li>
+     <li><b>./modules/</b> (+ Inhalt)</li>
+     <li><b>./templates/</b> (+ Inhalt)</li>
+     <li><b>./uploads/</b> (+ Inhalt)</li>
+     <li><b>index.php</b></li>
+    </ul>
+   </li>
+   <li>Passen Sie ggf. die Rechte wie unter <a href="#setpermissions">Kapitel 2.4</a> beschrieben an.</li>
+   <li>Haben Sie eigene oder modifizierte CSS-Dateien gesichert, laden Sie diese in das Verzeichnis <b>./templates/std/styles/</b> und überschreiben ggf. den Standardstyle.</li>
+   <li>Haben Sie die gesicherte <b>settings.php</b> verändert und möchten die gemachten Einstellungen wieder fest ins TBB 1.6 einpflegen, lesen Sie bitte das Kapitel <a href="#configuration">Konfiguration</a>.</li>
+   <li>Haben Sie die gesicherte <b>datapath.php</b> verändert, öffnen Sie die <b>./core/DataPath.php</b> und übertragen Sie die Pfadeinstellung. Ersetzen Sie dazu die Voreinstellung <code>./</code> durch ihren eigenen Pfad und laden die aktualisierte <b>DataPath.php</b> wieder in das <b>./core/</b>-Verzeichnis hoch.</li>
+   <li>Nutzen Sie die externen Foumwerkzeuge <b>ext_lposts.php</b> und/oder <b>ext_wio.php</b>, so müssen diese durch die neuen Versionen ersetzt werden. Übertragen Sie dazu die gemachten Einstellungen in die neuen Dateien und ersetzen Sie ihre vorhandenen Dateien. Lesen Sie dazu auch <a href="#externaltools">Abschnitt 5</a> für mehr Details zu den neuen Einstellungswerten.</li>
+   <li>Laden Sie nun die <b>setUpdateFlag.php</b> aus dem <b>./update/</b>-Ordner in das TBB-Verzeichnis und rufen Sie das Script mit ihrem Browser auf (z.B. http://www.meindedomain.de/forum/setUpdateFlag.php). Je nach Anzahl registrierter Mitglieder kann der Update-Prozess etwas dauern und notfalls durch erneutes Aufrufen fortgesetzt werden.</li>
+   <li>Löschen Sie die <b>setUpdateFlag.php</b> wieder, sobald eine &quot;Done!&quot;-Meldung angezeigt wird.</li>
+   <li>Öffnen Sie ihre <b>settings.var</b> aus dem <b>./vars/</b>-Ordner und löschen sie ab Zeile 57 die ganzen Leerzeilen. Wenn Sie keine eigene <b>settings.var</b> haben, überspringen Sie die Punkte 13 bis 15.</li>
+   <li>
+    Fügen Sie folgende Werte in die Zeilen 57 bis 82 ein:
+    <pre><code>std
+0
+#FF0000
+#008000
+#000000
+#CC6600
+#0000FF
+48
+6
+Supermoderator
+30
+1
+0
+60
+1
+1
+1
+
+2097152
+7
+3
+0
+1
+0
+0
+0</code></pre>
+   </li>
+   <li>Ändern Sie Zeile 51 in <code>de-DE</code> um.</li>
+   <li>Vergewissern Sie sich, dass die &quot;<b>settings.var</b>&quot; genau 82 Zeilen hat und laden Sie sie in den <b>./vars/</b>-Ordner.</li>
+   <li>Das Forum ist nun aktualisiert. Rufen Sie es auf (z.B. http://www.meindedomain.de/forum/index.php), loggen Sie sich ein und überprüfen Sie den Status. Konsultieren Sie das <a href="#faq">FAQ</a>, wenn Fehlermeldungen erscheinen.</li>
+  </ol>
+
+  <h4 id="updatetbb110">3.4.1 Update von Version 1.1</h4>
+  <p class="fontnorm">In diesem Abschnitt wird beschrieben, wie Sie ein TBB 1.1 auf 1.2.3 aktualisieren.</p>
+  <ol class="fontnorm">
+   <li>Nehmen Sie alle Einstellungen in settings.php vor</li>
+   <li>Uploaden Sie alle .php Dateien auf ihren Webserver in das TBB-Verzeichnis, überschreiben Sie gegebenenfalls vorhandene (achten Sie darauf, die Dateien im ASCII-Modus zu übertragen!)</li>
+   <li>Die Dateien &quot;mailsettings.php&quot; und &quot;faderset.php&quot; können Sie nun auf ihrem Webserver löschen</li>
+   <li>Die Ordner &quot;jscripts&quot; und &quot;templates&quot; können Sie nun auf ihrem Webserver löschen</li>
+   <li>Erstellen Sie den Ordner &quot;polls&quot; und geben Sie ihm die Rechte <b>777</b></li>
+   <li>Uploaden Sie die Datei .htaccess aus dem Ordner /update in den Ordner &quot;polls&quot;</li>
+   <li>Uploaden Sie den Ordner &quot;language&quot; (mit Inhalt; ASCII-Modus!) auf ihren Webserver</li>
+   <li>Updaten Sie den Ordner &quot;images&quot;, d.h. laden Sie den Ordner+Inhalt ins TBB-Verzeichnis und überschreiben Sie gegebenfalls ältere Dateien</li>
+   <li>Uploaden Sie die Datei &quot;update_11.php&quot; aus dem Ordner /update in ihr TBB-Verzeichnis (ASCII-Modus!) und öffnen Sie die Datei im Browser (z.B. http://www.meindedomain.de/tbb/update_11.php). Das Script updatet dann das Forum.</li>
+   <li>Löschen Sie die Datei &quot;update_11.php&quot; auf ihrem Webserver.</li>
+  </ol>
+  <p class="fontnorm">Das Forum sollte nun bereit für die Aktualisierung von 1.2.3 auf 1.6 sein.</p>
+
+  <h4 id="updatetbb10b">3.4.2 Update von Version 1.0 Beta</h4>
+  <p class="fontnorm">In diesem Abschnitt wird beschrieben, wie Sie ein TBB 1.0 Beta auf 1.2.3 aktualisieren.</p>
+  <ol class="fontnorm">
+   <li>Nehmen Sie alle Einstellungen in settings.php vor</li>
+   <li>Uploaden Sie alle .php Dateien auf ihren Webserver in das TBB-Verzeichnis, überschreiben Sie gegebenenfalls vorhandene (achten Sie darauf, die Dateien im ASCII-Modus zu übertragen!)</li>
+   <li>Uploaden Sie die Ordner &quot;styles&quot; und &quot;language&quot; (jeweils mit Inhalt; ASCII-Modus!) ins TBB-Verzeichnis.</li>
+   <li>Updaten Sie den Ordner &quot;images&quot;, d.h. laden Sie den Ordner+Inhalt ins TBB-Verzeichnis und überschreiben Sie gegebenfalls ältere Dateien</li>
+   <li>Die Datei ad.php auf ihrem Webserver können Sie nun löschen (ihre Funktionen übernimmt adminpanel.php)</li>
+   <li>Erstellen Sie im TBB-Verzeichnis die Ordner &quot;logs&quot;, &quot;vars&quot; und &quot;polls&quot;.</li>
+   <li>Geben Sie den neu erstellten Ordnern &quot;logs&quot;, &quot;vars&quot; und &quot;polls&quot; die Rechte <b>777</b></li>
+   <li>Uploaden Sie die Datei .htaccess (Binarymodus!) aus dem Ordner /update in die Verzeichnisse: &quot;foren&quot;, &quot;logs&quot;, &quot;members&quot;, &quot;vars&quot; und &quot;polls&quot; (das verhindert, dass jemand Daten per Browser lesen kann)</li>
+   <li>Uploaden Sie die Datei &quot;update_10.php&quot; aus dem Ordner /update in ihr TBB-Verzeichnis (ASCII-Modus!) und öffnen Sie die Datei im Browser (z.B. http://www.meindedomain.de/tbb/update_10.php). Das Script überprüft ihre Einstellungen und updatet dann das Forum.</li>
+   <li>Sie die Datei &quot;update_10.php&quot; auf ihrem Webserver.</li>
+  </ol>
+  <p class="fontnorm">Das Forum sollte nun bereit für die Aktualisierung von 1.2.3 auf 1.6 sein.</p>
+
+  <h2 id="configuration">4 Konfiguration</h2>
+  <h3 id="introduction">4.1 Einführung</h3>
+  <p class="fontnorm">Das TBB 1 verwaltet seine Einstellungen in zwei Dateitypen:</p>
+  <ul class="fontnorm">
+   <li><b>.php-Datei:</b> Fest vorgegebene, nicht von der Forumadministration aus änderbare, Standardwerte</li>
+   <li><b>.var-Datei:</b> Eigene, von den Standards abweichende Einstellungen, die sich in den Forumeinstellungen ändern lassen</li>
+  </ul>
+  <p class="fontnorm">Bis zur Version 1.2.3 waren die Standardwerte in der <b>settings.php</b> hinterlegt. Ab Version 1.5 wird keine einzelne Datei mehr verwendet, statt dessen wurden die Werte direkt in das Modul <b>./modules/Config.php</b> integriert (ab Zeile 17). Die Vorgehensweise zum Ändern der Standardwerte bleibt aber gleich: Es muss nachwievor die PHP-Datei geöffnet, die vorgegeben Werte geändert und die modifizierte Datei auf den Webserver geladen werden. Die Bezeichner der einzelnen Werte sind gleich geblieben, so dass Nutzer eines TBB 1.2.3 sich schnell zurecht finden sollten. In den nächsten Kapiteln folgen eine Übersicht aller Werte und ausführlichere Erklärungen ausgewählter Optionen.</p>
+
+  <h3 id="configurationvalues">4.2 Die Konfigurationswerte</h3>
+  <p class="fontnorm">Es folgt eine tabellarische Übersicht aller Werte mit einer Änderungsempfehlung.</p>
+  <p class="fontnorm" style="font-size:x-small;">
+   <span style="color:red;">&#10005;</span> Änderung wird nicht empfohlen<br />
+   <span style="color:green;">&#10003;</span> Wert sollte angepasst werden<br />
+   <span style="color:grey;">&#9675;</span> Wert bei Bedarf in der Administration ändern
+  </p>
+  <table border="1" class="fontnorm">
+   <tr><th>Nr.</th><th>Bezeichner</th><th>Standardwert</th><th>Beschreibung</th><th>Ändern?</th></tr>
+   <tr><td>0</td><td><code>path_to_forum</code></td><td>/</td><td>Pfad für Cookies</td><td style="color:red; text-align:center;">&#10005;</td></tr>
+   <tr><td>1</td><td><a href="#addresstoforum"><code>address_to_forum</code></a></td><td>http://www.meindedomain.de/forum</td><td>URL zum Forum</td><td style="color:green; text-align:center;">&#10003;</td></tr>
+   <tr><td>2</td><td><code>site_name</code></td><td>Meineseite</td><td>Name der Webseite, zu der das Forum gehört</td><td style="color:green; text-align:center;">&#10003;</td></tr>
+   <tr><td>3</td><td><code>site_address</code></td><td>http://www.meindedomain.de/</td><td>URL der Webseite, zu der das Forum gehört</td><td style="color:green; text-align:center;">&#10003;</td></tr>
+   <tr><td>4</td><td><code>site_contact</code></td><td>kontakt@meinedomain.de</td><td>Allgemeine E-Mail-Adresse zur Kontaktaufnahme</td><td style="color:green; text-align:center;">&#10003;</td></tr>
+   <tr><td>5</td><td><code>forum_name</code></td><td>Meinforum</td><td>Name des Forums</td><td style="color:green; text-align:center;">&#10003;</td></tr>
+   <tr><td>6</td><td><code>forum_logo</code></td><td></td><td>URL / Pfad des Forumlogos</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>7</td><td><code>uc_message</code></td><td></td><td>Nachricht im Wartungsmodus (<span style="font-style:italic;">obsolet, siehe <a href="#faq">FAQ</a></span>)</td><td style="color:red; text-align:center;">&#10005;</td></tr>
+   <tr><td>8</td><td><code>gmt_offset</code></td><td>+0100</td><td>Zeitzone bzw. Abweichung von GMT-Zeitzone</td><td style="color:green; text-align:center;">&#10003;</td></tr>
+   <tr><td>9</td><td><a href="#logoptions"><code>log_options</code></a></td><td></td><td>Protokollierungsoptionen (mit Komma trennen)</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>10</td><td><a href="#fds"><code>warn_admin_fds</code></a></td><td>3</td><td>Warngrenze für verbleibender freier Speicherplatz</td><td style="color:red; text-align:center;">&#10005;</td></tr>
+   <tr><td>11</td><td><a href="#fds"><code>close_forum_fds</code></a></td><td>1</td><td>Alarmgrenze für verbleibender freier Speicherplatz</td><td style="color:red; text-align:center;">&#10005;</td></tr>
+   <tr><td>12</td><td><code>activate_registration</code></td><td>1</td><td>Neue Registrierungen erlauben</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>13</td><td><code>max_registrations</code></td><td>-1</td><td>Maximale Anzahl an Registrierungen, -1 = kein Limit</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>14</td><td><a href="#reg"><code>create_reg_pw</code></a></td><td>0</td><td>Zufallspasswörter generieren für Registrierungen</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>15</td><td><a href="#uc"><code>uc</code></a></td><td>0</td><td>Wartungsmodus aktiviert</td><td style="color:red; text-align:center;">&#10005;</td></tr>
+   <tr><td>16</td><td><code>topics_per_page</code></td><td>30</td><td>Anzahl von Themen pro Seite</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>17</td><td><code>posts_per_page</code></td><td>20</td><td>Anzahl von Beiträgen pro Seite</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>18</td><td><code>wio_timeout</code></td><td>15</td><td>Minuten ohne Aktivität in der WIO bleiben</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>19</td><td><code>wio</code></td><td>1</td><td>&quot;Wer ist/war online?&quot; aktivieren</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>20</td><td><code>show_site_creation_time</code></td><td>1</td><td>Aufbauzeit / technische Statistiken anzeigen</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>21</td><td><code>show_board_stats</code></td><td>1</td><td>Forumstatistiken anzeigen</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>22</td><td><code>show_lposts</code></td><td>10</td><td>Neueste Beiträge anzeigen / RSS Feed aktivieren</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>23</td><td><code>show_kats</code></td><td>1</td><td>Kategorien anzeigen</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>24</td><td><code>censored</code></td><td>0</td><td>Titel, Beiträge und Signaturen zensieren</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>25</td><td><code>must_be_logged_in</code></td><td>0</td><td>Forumnutzung nur im eingeloggten Zustand</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>26</td><td><code>var_admin</code></td><td>Administrator</td><td>Rangbezeichner für Administratoren</td><td style="color:red; text-align:center;">&#10005;</td></tr>
+   <tr><td>27</td><td><code>var_mod</code></td><td>Moderator</td><td>Rangbezeichner für Moderatoren</td><td style="color:red; text-align:center;">&#10005;</td></tr>
+   <tr><td>28</td><td><code>var_banned</code></td><td>Verbannt</td><td>Rangbezeichner für verbannte Mitglieder</td><td style="color:red; text-align:center;">&#10005;</td></tr>
+   <tr><td>29</td><td><code>var_killed</code></td><td>Gelöscht</td><td>Rangbezeichner für gelöschte Mitglieder</td><td style="color:red; text-align:center;">&#10005;</td></tr>
+   <tr><td>30</td><td><code>stars_admin</code></td><td>6</td><td>Anzahl Sterne für Administratoren</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>31</td><td><code>stars_mod</code></td><td>5</td><td>Anzahl Sterne für Moderatoren</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>32</td><td><code>news_position</code></td><td>1</td><td>Position der Forumnews (1 oder 2)</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>33</td><td><code>topic_is_hot</code></td><td>15</td><td>Anzahl Beiträge für &quot;hot&quot;-Status eines Themas</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>34</td><td><code>formmail_mbli</code></td><td>1</td><td>Versenden von Formular-E-Mails nur eingeloggt</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>35</td><td><code>activate_mlist</code></td><td>1</td><td>Mitgliederliste aktivieren</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>36</td><td><code>nli_must_enter_name</code></td><td>1</td><td>Gäste müssen einen Namen eingeben</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>37</td><td><code>show_private_forums</code></td><td>1</td><td>Private Foren anzeigen</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>38</td><td><code>css_file</code></td><td>styles/standard.css</td><td>Standard-Style des Templates</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>39</td><td><code>twidth</code></td><td>95%</td><td>Tabellenweite</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>40</td><td><code>tspacing</code></td><td>0</td><td>Zellenabstand</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>41</td><td><code>tpadding</code></td><td>4</td><td>Zelleninnenabstand</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>42</td><td><code>append_sid_url</code></td><td>0</td><td>Session-ID immer an URL anhängen</td><td style="color:red; text-align:center;">&#10005;</td></tr>
+   <tr><td>43</td><td><code>use_gzip_compression</code></td><td>1</td><td>gzip-Komprimierung nutzen</td><td style="color:red; text-align:center;">&#10005;</td></tr>
+   <tr><td>44</td><td><code>use_file_caching</code></td><td>1</td><td>Caching von Dateien aktivieren</td><td style="color:red; text-align:center;">&#10005;</td></tr>
+   <tr><td>45</td><td><code>activate_ob</code></td><td>1</td><td>Ausgabe auf jeden Fall cachen</td><td style="color:red; text-align:center;">&#10005;</td></tr>
+   <tr><td>46</td><td><code>use_getimagesize</code></td><td>0</td><td>getimagesize() verwenden</td><td style="color:red; text-align:center;">&#10005;</td></tr>
+   <tr><td>47</td><td><code>avatar_height</code></td><td>64</td><td>Höhe von Avataren</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>48</td><td><code>avatar_width</code></td><td>64</td><td>Breite von Avataren</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>49</td><td><code>use_diskfreespace</code></td><td>1</td><td>disk_free_space() verwenden</td><td style="color:red; text-align:center;">&#10005;</td></tr>
+   <tr><td>50</td><td><code>lng_folder</code></td><td>de-DE</td><td>Native Sprache des Forums</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>51</td><td><code>activate_mail</code></td><td>1</td><td>E-Mail-Funktionen aktivieren</td><td style="color:red; text-align:center;">&#10005;</td></tr>
+   <tr><td>52</td><td><code>admin_email</code></td><td>admin@meinedomain.de</td><td>E-Mail-Adresse des Administrators</td><td style="color:green; text-align:center;">&#10003;</td></tr>
+   <tr><td>53</td><td><code>forum_email</code></td><td>admin@meinedomain.de</td><td>E-Mail-Adresse für E-Mails vom Forum</td><td style="color:green; text-align:center;">&#10003;</td></tr>
+   <tr><td>54</td><td><code>mail_admin_new_registration</code></td><td>0</td><td>Administrator über Registrierungen informieren</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>55</td><td><code>notify_new_replies</code></td><td>1</td><td>Themenabos per E-Mail aktivieren</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><th colspan="5">Neu ab TBB 1.5</th></tr>
+   <tr><td>56</td><td><code>default_tpl</code></td><td>std</td><td>Standardtemplate des Forums</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>57</td><td><a href="#clickjacking"><code>clickjacking</code></a></td><td>0</td><td>Clickjacking-Schutz aktivieren</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>58</td><td><code>wio_color_admin</code></td><td>#FF0000</td><td>Farbe für Administratoren in WIO-Box</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>59</td><td><code>wio_color_mod</code></td><td>#008000</td><td>Farbe für Moderatoren in WIO-Box</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>60</td><td><code>wio_color_user</code></td><td>#000000</td><td>Farbe für Mitglieder in WIO-Box</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>61</td><td><code>wio_color_banned</code></td><td>#808080</td><td>Farbe für verbannte Mitglieder in WIO-Box</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>62</td><td><code>wio_color_smod</code></td><td>#0000FF</td><td>Farbe für Supermoderatoren in WIO-Box</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>63</td><td><code>emph_date_hours</code></td><td>48</td><td>Datum hervorheben nicht älter als x Stunden</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>64</td><td><code>stars_smod</code></td><td>5</td><td>Anzahl Sterne für Supermoderatoren</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>65</td><td><code>var_smod</code></td><td>Supermoderator</td><td>Rangbezeichner für Supermoderatoren</td><td style="color:red; text-align:center;">&#10005;</td></tr>
+   <tr><td>66</td><td><code>members_per_page</code></td><td>30</td><td>Mitglieder pro Seite in der Mitgliederliste</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>67</td><td><code>achievements</code></td><td>1</td><td>Steam-Errungenschaften aktivieren</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>68</td><td><a href="#reg"><code>confirm_reg_mail</code></a></td><td>0</td><td>E-Mail-Adressen mit Aktivierungscode überprüfen</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>69</td><td><code>new_pm_reminder</code></td><td>60</td><td>Erinnerung an ungelesene PNs in Sekunden</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>70</td><td><code>select_tpls</code></td><td>1</td><td>Mitglieder dürfen andere Templates nutzen</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>71</td><td><code>select_styles</code></td><td>1</td><td>Mitglieder dürfen andere Styles nutzen</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>72</td><td><a href="#upload"><code>enable_uploads</code></a></td><td>1</td><td>Dateiuploads aktivieren</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>73</td><td><a href="#upload"><code>upload_allowed_ext</code></a></td><td></td><td>Erlaubte Dateitypen (mit Komma trennen)</td><td style="color:green; text-align:center;">&#10003;</td></tr>
+   <tr><td>74</td><td><a href="#upload"><code>upload_max_filesize</code></a></td><td>2097152</td><td>Maximale Dateigröße in Bytes</td><td style="color:green; text-align:center;">&#10003;</td></tr>
+   <tr><th colspan="5">Neu ab TBB 1.6</th></tr>
+   <tr><td>75</td><td><code>error_level</code></td><td>ERR_REPORTING</td><td>Stufe der PHP-Fehlermeldungen</td><td style="color:red; text-align:center;">&#10005;</td></tr>
+   <tr><td>76</td><td><code>spam_delay</code></td><td>3</td><td>Wartezeit für Spamschutz / Doppelpostings</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>77</td><td><code>edit_time</code></td><td>0</td><td>Zeitlich begrenztes Bearbeiten neuer Beiträge</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>78</td><td><code>save_ip_address</code></td><td>1</td><td>Datenschutzmodus um IP-Adressen zu speichern</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>79</td><td><code>shorten_page_bars</code></td><td>0</td><td>Seitennavigationsleisten verkürzen</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>80</td><td><code>skip_confirm_msg</code></td><td>0</td><td>Bestätigungsmeldungen überspringen</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>81</td><td><code>date_as_text</code></td><td>0</td><td>Datum der letzten beiden Tage als Text</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+  </table>
+
+  <h3 id="addresstoforum">4.3 <code>address_to_forum</code></h3>
+  <p class="fontnorm">Dieser Wert ist vor allem für die E-Mail-Funktionen wichtig, da oft Links zu ihrem Forum angehängt werden und diese sollten schon korrekt sein. Sie müssen die WWW-Adresse zu ihrem Forum angeben (z.B. http://www.meinedomain.de/forum). Am Ende <b>kein</b> Schrägstrich anhängen! Die Richtigkeit können Sie einfach überprüfen, in dem sie ein <b>/index.php</b> anhängen (z.B. http://www.meinedomain.de/forum/index.php). Dieser Link sollte dann die Forenübersicht aufrufen; ansonsten ist etwas falsch. Vergessen Sie aber das http:// nicht, auch wenn es heutzutage nicht mehr so oft explizit angegeben wird.</p>
+
+  <h3 id="logoptions">4.4 <code>log_options</code></h3>
+  <p class="fontnorm">Diese Angabe steuert die sehr umfangreiche Logfunktion des Forums. Sie können mit ihr genau bestimmen, was protokolliert werden soll. Dabei sollten Sie beachten, dass dadurch der Speicherplatz (besonders bei vielen Nutzern) zum Teil stark beansprucht werden kann. Die Logdateien finden sie im Ordner <b>./logs/</b> auf ihrem Webserver und können seit dem TBB 1.5 auch direkt in der Administration eingesehen, heruntergeladen und gelöscht werden. Für jeden Tag wird eine Logdatei erstellt, die den Namen TTMMJJJJ.log trägt. Um zu bestimmen, was protokolliert werden soll, geben Sie einfach die unten aufgeführten Kennzahlen der gewünschten Bereiche mit Kommata getrennt an, also z.B. 1,6,10. Die Reihenfolge spielt dabei keine Rolle, d.h. 5,8,2 und 2,5,8 bewirkt das gleiche.</p>
+  <ul class="fontnorm">
+   <li><b>1</b>: Dateisystemprobleme (Lesen/Schreiben/Speicherplatz)</li>
+   <li><b>2</b>: Fehlgeschlagene Administrationszugriffsversuche</li>
+   <li><b>3</b>: Fehlgeschlagene Logins</li>
+   <li><b>4</b>: Neue Themen/Beiträge erstellt</li>
+   <li><b>5</b>: Beiträge bearbeitet/gelöscht, Themen gelöscht/geschlossen/geöffnet/verschoben/gepinnt</li>
+   <li><b>6</b>: Benutzer betreten Forum</li>
+   <li><b>7</b>: Logins/Logouts</li>
+   <li><b>8</b>: Administrationsaktionen</li>
+   <li><b>9</b>: E-Mail-/PN-Verkehr</li>
+   <li><b>10</b>: Profile bearbeitet</li>
+   <li><b>11</b>: Neue Registrierungen</li>
+   <li><b>12</b>: Neue Passwörter angefordert</li>
+  </ul>
+
+  <h3 id="fds">4.5 <code>warn_admin_fds</code> / <code>close_forum_fds</code></h3>
+  <p class="fontnorm">Diese Variablen sind extrem wichtig, da sie ihr Forum vor Schäden bewahren können/sollen. Die erste Variable <code>warn_admin_fds</code> setzt fest, ab wieviel MiB restlichem Speicherplatz der Administrator eine Warn-E-Mail zugeschickt bekommen soll. Haben Sie den Wert z.B. auf 5 gesetzt und es sind nur noch 5 MiB frei, bekommen Sie (oder der entsprechende Administrator) eine E-Mail zugeschickt, in der Sie/er gewarnt werden/wird. Wichtig ist dabei, dass Sie die E-Mail-Adresse des Administrators unter <code>admin_email</code> angeben und die E-Mail-Funktionen mit <code>activate_mail</code> aktiviert haben! Die zweite Variable <code>close_forum_fds</code> bewirkt das gleiche wie <code>warn_admin_fds</code>, nur dass hier das Forum gleichzeitig gesperrt wird. Haben Sie im Ernstfall wie auch immer zusätzlichen Speicherplatz freigegeben, müssen Sie noch die Datei <b>fds.var</b> im Verzeichnis <b>./vars/</b> auf ihrem Webserver löschen, da Sie sonst das nächste Mal <b>keine</b> Warn-E-Mail bekommen!</p>
+
+  <h3 id="reg">4.6 <code>create_reg_pw</code> / <code>confirm_reg_mail</code></h3>
+  <p class="fontnorm">Diese Option dient dazu, dass sich niemand mit einer ungültigen E-Mail-Adresse anmeldet. Wird der Wert dieser Variable auf 1 gesetzt, kann man beim Registrieren kein eigenes Password eingeben. Dafür wird ein Zufallspasswort und per E-Mail zugeschickt. Nachteil dabei ist, es wird auf jeden Fall ein neues Benutzerkonto angelegt. Seit dem TBB 1.5 gibt es mit der Einstellung <code>confirm_reg_mail</code> die Möglichkeit, Aktivierungscodes an die E-Mail-Adresse zu verschicken. Erst wenn dieser Code vom neuen Mitglied eingegeben wurde, wird auch das Benutzerkonto angelegt und freigeschaltet.</p>
+
+  <h3 id="uc">4.7 <code>uc</code></h3>
+  <p class="fontnorm">Falls sie z.B. ein Update am Forum durchführen wollen, können sie den Wert dieser Variable auf 1 setzen. Dann können sich nur noch Administratoren einloggen und das Forum benutzen, sonst bekommt man eine entsprechende Meldung angezeigt.</p>
+
+  <h3 id="clickjacking">4.8 <code>clickjacking</code></h3>
+  <p class="fontnorm">Ist diese Option auf 1 gesetzt, wird ein spezieller HTTP-Header gesendet und dem Browser mitgeteilt, dass das Forum nicht in Frames auf anderen Webseiten angezeigt werden darf. Derzeit unterstützen Internet Explorer 8, Chrome 4.1, Safari 4, Firefox ab 3.6.9 und Opera 10.50 oder höher dieses Feature. Mehr Informationen zum Thema Clickjacking finden Sie z.B. in der <a href="http://de.wikipedia.org/wiki/Clickjacking" target="_blank">Wikipedia</a>.</p>
+
+  <h3 id="upload">4.9 <code>upload_allowed_ext</code> / <code>upload_max_filesize</code></h3>
+  <p class="fontnorm">Ab Version 1.5 bietet das TBB die Möglichkeit, Dateien als Anhänge zu Beiträgen hochzuladen an. Sind Dateiuploads aktiviert (<code>enable_uploads</code> ist 1), können Sie mit der Option <code>upload_allowed_ext</code> genau definieren, welche Dateitypen dabei akzeptiert werden. Geben Sie die Dateiendungen mit Kommata getrennt an, z.B. <b>bmp,jpg,jpeg,gif,png,zip,rar,mp3,pdf</b> um Bilder, Archive, Audiodateien und PDFs zu erlauben. Die Dateien werden in dem <b>./uploads/</b>-Ordner gespeichert und automatisch im Beitrag mit BBCode verlinkt. Bilddateien werden dabei als solche direkt eingebunden. Sie sollten diese Einstellung auf jeden Fall setzen um zu verhindern, dass z.B. böswillige PHP-Skripte hochgeladen werden. Zusätzlich können Sie noch eine maximale Dateigröße in Bytes für hochgeladene Dateien angeben. Die Voreinstellung für <code>upload_max_filesize</code> beträgt 2 MiB. Geben Sie kein Limit an, gelten die Beschränkungen aus der php.ini bzw. der PHP-Umgebung.</p>
+
+  <h2 id="externaltools">5 Externe Werkzeuge</h2>
+  <p class="fontnorm">Die externen Forumwerkzeuge befinden sich im Ordner <b>./extern/</b> und dienen dazu, die letzten Beiträge und WIO-Box woanders als im Forum selber anzuzeigen (z.B. auf dem Portal der dazu gehörigen Webseite). Bedingung dafür ist, dass sich Forum und Seite auf dem gleichen Webserver befinden und die Seite auch in PHP geschrieben ist. Um die Werkzeuge zu verwenden, öffnen sie die gewünschten Dateien (ext_wio.php für &quot;Wer ist online?&quot; und ext_lposts.php für die neuesten Beiträge) in einem Texteditor und passen den Pfad an (Sie können auch relative Pfadangaben verwenden). Da das Forum mit UTF-8-Zeichensatz arbeitet, werden auch diese Daten normalerweise als UTF-8 ausgegeben. Falls die Webseite <b>keinen</b> Unicode-Zeichensatz verwendet, können Sie die Ausgabe auf Latin1 umstellen, in dem Sie <code>$isUTF8 = true;</code> in <code>$isUTF8 = false;</code> ändern. Sie können weiterhin die Übersetzungen anpassen, achten Sie dabei auf Zeichen mit % davor &ndash; diese werden am Ende mit Werten ersetzt und dürfen nicht fehlen. Wenn alle Einstellungen getroffen sind, laden Sie die Dateien im <b>Binär-Modus</b> in das Verzeichnis auf ihrem Webserver, in dem sich die Webseite befindet (nicht in das Verzeichnis des Forums!). Nun fügen Sie in der entsprechenden Datei ihrer Webseite die Zeile <code>include('ext_wio.php');</code> für die WIO-Box und <code>include('ext_lposts.php');</code> für die neuesten Beiträge ein.</p>
+
+  <h2 id="owntemplates">6 Eigene Templates</h2>
+  <p class="fontnorm">Das TBB nutzt ab Version 1.5 zur Darstellung nicht mehr nur Styles in Form von CSS-Dateien, sondern ganzes Templates. Das bedeutet, Sie können nicht nur das Design, sondern das gesamte Layout bis hin zur Anordnung der Forenstruktur anpassen, ohne auch nur eine PHP-Datei bearbeiten zu müssen. Als Template Engine kommt <a href="http://www.smarty.net/" target="_blank">Smarty 3</a> zum Einsatz. In diesem Kapitel werden die Anforderungen an ein eigenes Template näher vorgestellt.</p>
+
+  <h3 id="tplstructure">6.1 Aufbau &amp; Struktur</h3>
+  <p class="fontnorm">Templates für das TBB 1.6 müssen folgendermaßen aufgebaut sein:</p>
+  <ul class="fontnorm">
+   <li><b>Template-ID</b><br />
+       Die Template-ID ist die Kurzbezeichnung und identifiziert das Template eindeutig. Z.B. &quot;std&quot; für das offizielle Standardtemplate oder &quot;mytpl&quot; für &quot;Mein Template&quot;. Der Bezeichner ist beliebig wählbar, sollte aber Aufschluss über den vollen Namen geben. Die Template-ID ist auch der Name des Verzeichnis, welches die weiteren Daten des Templates beinhaltet.</li>
+   <li><b>config</b>-Ordner<br />
+       In diesem Ordner werden Konfigurationsdateien als <b>*.conf</b> hinterlegt. Anzahl und Namen der Dateien sind beliebig wählbar, solange die folgenden acht Werte enthalten sind:
+       <ul>
+        <li><b>templateName</b>: Der volle Name des Templates</li>
+        <li><b>authorName</b>: Der Name des Autors</li>
+        <li><b>authorURL</b>: Die Webseite des Autors</li>
+        <li><b>authorComment</b>: Eine treffende Kurzbeschreibung des Templates</li>
+        <li><b>defaultStyle</b>: Die Standard-CSS-Datei, die im Auswahlmenü der Templates als erstes ausgewählt werden soll</li>
+        <li><b>targetVersion</b>: Die Version des TBBs, für die das Template geschrieben wurde <span style="color:red; font-size:x-small;">(Neu ab TBB 1.5.1)</span></li>
+        <li><b>navBarDelim</b>: Der Trenner von Elementen in der Navigationsleiste</li>
+        <li><b>debug</b>: Sollte nur zu Entwicklungszwecken verwendet werden<br />
+            <span style="font-size:x-small;">Wenn auf <code>true</code> gesetzt, wird die <code>$action</code> und <code>$subAction</code> in der Navigationsleiste angezeigt und die Smarty-Konsole geöffnet.</span></li>
+       </ul>
+       Wenn erforderlich, lassen sich beliebig weitere Konfigurationswerte definieren, die Sie in ihrem Template verwenden können. Ihre eigenen Werte können Sie dazu auch in einer weiteren conf-Datei hinterlegen, z.B. &quot;defaults.conf&quot; mit den Pflichtwerten und &quot;mycfg.conf&quot; mit Ihren eigenen Einstellungen. Das TBB 1.6 wird alle Werte auslesen und sie an Smarty übergeben. Sie können die conf-Dateien auch für eigene Sprachstrings zweckentfremden, falls notwendig.
+   </li>
+   <li><b>images</b>-Ordner<br />
+       Alle Grafiken sollten hier hinterlegt werden inkl. eines Favoriten-Symbols.</li>
+   <li><b>scripts</b>-Ordner<br />
+       Wenn Sie JavaScripte oder ganze Bibliotheken (z.B. <a href="http://www.dojotoolkit.org/" target="_blank">Dojo Toolkit</a>) benötigen, platzieren Sie ihre Skripte hier.</li>
+   <li><b>styles</b>-Ordner<br />
+       Alls CSS-Dateien müssen in dieses Verzeichnis gespeichert werden. Mehrere Styles werden dabei dem Administrator zur Auswahl angeboten, d.h. Sie sollten alle zusammenhängenden Stil-Klassen in eine Datei hinterlegen. Es kann immer nur eine CSS-Datei verwendet werden.</li>
+   <li><b>templates</b>-Ordner<br />
+       Alle Template-Dateien (normalerweise 93 Stück) müssen in diesem Ordner sein und die exakten Namen besitzen, wie es das Standardtemplate vorgibt. Sie können selbstverständlich weitere Template-Dateien zur Inkludierung o.ä. anlegen, wenn notwendig. In den tpl-Dateien finden Sie weitere Kommentare zu den gelieferten Daten.</li>
+  </ul>
+
+  <h3 id="tplexample">6.2 Beispiel-Struktur</h3>
+  <ul class="fontnorm">
+   <li>
+    newtpl/
+    <ul>
+     <li>
+      config/
+      <ul>
+       <li>defaults.conf</li>
+       <li>newtpl.conf</li>
+       <li>morecfgs.conf</li>
+      </ul>
+     </li>
+     <li>
+      images/
+      <ul>
+       <li>newbuttons/</li>
+       <li>*.png</li>
+       <li>myfavicon.ico</li>
+      </ul>
+     </li>
+     <li>
+      scripts/
+      <ul>
+       <li>dojo/</li>
+       <li>ajax.js</li>
+       <li>bbcode.js</li>
+       <li>morescripts.js</li>
+       <li>newsfader.js</li>
+      </ul>
+     </li>
+     <li>
+      styles/
+      <ul>
+       <li>bluetheme.css</li>
+       <li>default.css</li>
+       <li>leetpwntheme.css</li>
+       <li>silvertheme.css</li>
+      </ul>
+     </li>
+     <li>
+      templates/
+      <ul>
+       <li>*.tpl</li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+  </ul>
+
+  <h3 id="tplinstall">6.3 Einbau</h3>
+  <p class="fontnorm">Fertige Templates müssen in den <b>./templates/</b>-Ordner hochgeladen werden mit genau der vorgegeben Struktur. Sie stehen dann in der Administration (bzw. den Mitgliedern in ihrem Profil, wenn erlaubt) zur Auswahl.</p>
+
+  <h2 id="ownlocalizations">7 Eigene Lokalisierungen</h2>
+  <p class="fontnorm">Auch diese Version ist multilingual fähig. Allerdings kommt die Übersetzungstechnik aus dem TBB 2.0 zum Einsatz, weshalb vorhandene Sprachpakete <b>nicht</b> kompatibel sind. Derzeit gibt es eine deutsche und englische Lokalisierung; jeder ist eingeladen, weitere Übersetzungen anzufertigen! Es folgen dazu ein paar Hinweise, die dabei beachtet werden sollten.</p>
+  <h3 id="lochints">7.1 Wichtige Hinweise</h3>
+  <ul class="fontnorm">
+   <li>Alle 33 Dateien müssen vorhanden sein und dürfen nicht umbenannt werden</li>
+   <li>Die Übersetzungen werden im ini-Format notiert, d.h. links steht ein Identifikator (darf nicht verändert werden!) und rechts die Übersetzung in Anführungszeichen</li>
+   <li>Verwenden Sie auf jeden Fall einen Unicode-Zeichensatz, da das Forum mit UTF-8 arbeitet</li>
+   <li>XHTML-Sonderzeichen müssen als Entitäten notiert werden, z.B. &amp; als &amp;amp; oder &quot; als &amp;quot;</li>
+   <li>XHTML ist aktiviert, so kann z.B. &lt;br /&gt; für Zeilenumbrüche verwendet werden. Kein \n verwenden, sondern eine echte neue Zeile anfangen!</li>
+   <li>Das Anführungszeichen &quot; kann derzeit nicht verwendet werden, nutzen Sie stattdessen das Apostroph ', um z.B. Links zu erstellen</li>
+   <li>Die <b>Main.ini</b> wird immer geladen und beinhaltet gemeinsam genutzte Sprachstrings, die in mehreren Modulen zum Einsatz kommen</li>
+   <li>Kommentare starten mit ; und beinhalten manchmal weitere Hinweise</li>
+   <li>Konsultieren Sie die <a href="http://www.php.net/strftime" target="_blank">Dokumentation des PHP-Handbuchs</a> bzgl. Angabe von Datum- und Zeitformaten</li>
+  </ul>
+
+  <h3 id="loccode">7.2 Der Sprachcode</h3>
+  <p class="fontnorm">Alle Sprachdateien müssen in einem Ordner sein, der nach dem offiziellen Sprachkürzel benannt ist. Dieses besteht aus zwei Buchstaben bzw. vier Buchstaben mit Trennstrich. Die ersten beiden Buchstaben (klein geschrieben, nach ISO 639) definieren die <b>sprachliche</b> Einteilung, z.B. <code>de</code> für Deutsch oder <code>en</code> für Englisch. Die letzten beiden Buchstaben (groß geschrieben, nach ISO 3166) geben zusätzlich die <b>geographische</b> Einteilung an, z.B. <code>de-CH</code> für Deutsch in der Schweiz oder <code>en-US</code> für amerikanisches Englisch. Die geographische Angabe ist optional, d.h. wenn Sie sich nicht sicher sind oder eine länderübergreifende Lokalisierung haben, reicht die zweistellige Codeangabe aus.</p>
+  <p class="fontnorm">Das TBB 1.6 versucht anhand der Browserinformationen, die optimalste Sprache automatisch auszuwählen. Dies erfolgt in drei Schritten:</p>
+  <ol class="fontnorm">
+   <li>Es wird versucht die genaue Lokalisierung des Benutzers zu laden, z.B. <code>fr-FR</code> für Französich aus Frankreich.</li>
+   <li>Ist diese nicht vorhanden, wird versucht die Sprache ohne geographische Begrenzung zu laden, z.B. <code>fr</code> für Französich oder <code>fr-GF</code> für Französich aus Französisch-Guayana.</li>
+   <li>Ist auch diese Lokalisierung nicht verfügbar, wird die native Sprache des Forum eingesetzt, z.B. <code>de-DE</code> für Deutsch aus Deutschland.</li>
+  </ol>
+  <p class="fontnorm">Es wird daher empfohlen, Sprachpakete immer mit geographischer Angabe zu versehen. Eine Liste der Länderkennungen finden Sie z.B. in der <a href="http://de.wikipedia.org/wiki/ISO-3166-1-Kodierliste" target="_blank">Wikipedia</a>.</p>
+
+  <h4 id="loccodesteam">7.2.1 Sprachcode für Steam-Errungenschaften</h4>
+  <p class="fontnorm">Für die korrekte Übersetzung der Erfolge aus Steam-Spielen kommt ein Steam-eigener Bezeichner zum Einsatz. Am besten suchen Sie unter <a href="https://steamcommunity.com/" target="_blank">https://steamcommunity.com/</a> im Auswahlmenü der angebotenen Sprachen nach dem passenden Bezeichner. Z.B. <code>german</code> für Deutsch oder <code>french</code> für Französisch. Notieren Sie die Angabe dann in der <b>Profile.ini</b> beim Identifikator <code>steam_language</code>.</p>
+
+  <h3 id="locinstall">7.3 Einbau</h3>
+  <p class="fontnorm">Fertige Sprachpakete müssen in den <b>./languages/</b>-Ordner hochgeladen werden mit genau der vorgegeben Struktur aus Sprachcode und -dateien. <b>Leeren Sie den Cache</b> in der Administration und die Pakete stehen dann als weitere native Sprachen zur Auswahl. Sie werden je nach Herkunft des Benutzers automatisch geladen und verwendet.</p>
+
+  <h2 id="additionalnotes">8 Weitere Anmerkungen</h2>
+  <h3 id="newsfader">8.1 Forumnews im Modus &quot;Überblenden&quot;</h3>
+  <p class="fontnorm">Der Überblend-Modus wurde verbessert und funktioniert nun mit sämtlichen Browsern. Es wird allerdings nicht empfohlen, gleichzeitig BBCode zu verwenden, da das entstehende Dokument nicht mehr valide sein könnte oder seltsame Anzeigefehler auftreten könnten.</p>
+
+  <h3 id="htaccess">8.2 Sicherheit des Forums / .htaccess-Unterstützung</h3>
+  <p class="fontnorm">Sie sollten auf jeden Fall darauf achten, dass ihr Webserver .htaccess-Dateien unterstützt, da sonst jeder mit ein wenig Geschick alle Daten des Forums auslesen kann (Beiträge (auch in privaten Foren), Benutzerdaten, PNs, Logdateien, Einstellungen, ...).</p>
+  <p class="fontnorm">Eine andere Möglichkeit um das Auslesen der meisten Daten zu verhindern, wäre sie gar nicht erst im TBB-Verzeichnis zu speichern. Sie können dazu den Pfad in der <b>./core/DataPath.php</b> anpassen und so einen Speicherort angeben, der außerhalb des sogenannten Webroots liegt (d.h. dieser Ordner ist mit einem Browser <b>nicht</b> aufrufbar). Beispiel:</p>
+  <ul class="fontnorm">
+   <li>Der interne Pfad zum Forum auf dem Server ist: <code>/home/user123/public_html/homepage/forum/index.php</code></li>
+   <li>Dann ist der Webroot-Ordner: <code>/home/user123/public_html/</code></li>
+   <li>Dann wäre ein Verzeichnis außerhalb des Webroots: <code>/home/user123/forumdata/</code></li>
+   <li>Dann würde der <b>relative</b> Pfad für die <b>DataPath.php</b> lauten: <code>../../../forumdata/</code></li>
+   <li>Dann würde der <b>absolute</b> Pfad für die <b>DataPath.php</b> lauten: <code>/home/user123/forumdata/</code></li>
+  </ul>
+  <p class="fontnorm">Von dieser Methode sind folgende Ordner mit Inhalt betroffen:</p>
+  <ul class="fontnorm">
+   <li>./foren/</li>
+   <li>./members/</li>
+   <li>./logs/</li>
+   <li>./polls/</li>
+   <li>./vars/</li>
+  </ul>
+  <p class="fontnorm">Beachten Sie, dass diese Ordner mit Inhalt an der neuen Position existieren müssen, z.B. <code>/home/user123/forumdata/foren/</code>.</p>
+
+  <h3 id="otherstyles">8.3 Nutzung anderer Styles (CSS-Dateien)</h3>
+  <p class="fontnorm">In der Administration können Sie unter dem Menüpunkt &quot;Templates&quot; andere Styles als Standard auswählen und sogar ihren Mitgliedern die freie Wahl über Template- und Style-Nutzung erlauben. Ein Aufruf mit <code>index.php?var_css_file=</code> ist nicht mehr notwendig und wird daher nicht länger unterstützt. Das Standardtemplate des TBB 1.6 wurde dem originalen Aufbau und Style der 1.2.3er Version nachempfunden, so dass es abwärtskompatibel zu den CSS-Klassen ist. Wenn Sie also andere Styles verwenden oder den originalen Standard modifiziert haben, können Sie diese weiterhin verwenden.</p>
+
+  <h3 id="afewwords">8.4 Ein paar Worte zum Code</h3>
+  <p class="fontnorm">Die Vorgängerversionen wurden für ihren übersichtlichen und leicht verständlichen Code gelobt. Diese Tradition möchte ich fortsetzen und deswegen ist der <b>gesamte</b> Code (ohne Ausnahme) mit <a href="http://www.phpdoc.org/" target="_blank">phpDoc</a> dokumentiert. Hilfreich zum Verständnis dürfte auch die Architektur mit der Modulstruktur und die vielen weiteren Inline-Kommentare sein. :)</p>
+
+  <h3 id="groupsystem">8.5 Das Gruppensystem</h3>
+  <p class="fontnorm">Es gibt die Möglichkeit in der Administration Benutzergruppen zu erstellen. Dies dient dazu, damit Sie z.B. nicht immer den gleichen Mitgliedern Zugriff auf bestimmte Foren gewähren müssen, denn anstatt dessen können Sie auch diese Leute einer Gruppe zuweisen und müssen dann nur noch der Gruppe Zugang gewähren. Sie können für jede Gruppe auch ein extra Avatar bestimmen. Dieser bekommt das Gruppenmitglied dann automatisch zugewiesen, falls es nicht selber einen anderen Avatar angegeben hat. Beachten Sie bitte, dass jeder Benutzer nur Mitglied <b>einer</b> Gruppe sein kann. Wundern Sie sich also nicht, wenn Sie einen Benutzer einer Gruppe zuweisen wollen, dies aber nicht geschieht. Das liegt dann normalerweise daran, dass der betreffende Benutzer schon Mitglied einer anderen Gruppe ist.</p>
+
+  <h3 id="concurrency">8.6 Nebenläufigkeit</h3>
+  <p class="fontnorm">Kein unmittelbarer Fehler, aber eine Schwäche der Vorgängerversionen war die Verwaltung von Lese- und Schreibprozessen in Dateien. Wenn etwas auf die Mikrosekunde genau gleichzeitig ausgeführt wird, waren die Chancen hoch, dass mit falschen bzw. veralteten Daten gearbeitet wurde. Beispiele dafür wären mehrfache Vergabe von Benutzer-IDs bei neuen Registrierungen oder ausrechnen von falschen Statistikwerten. Das alles ist eher unwahrscheinlich, kann aber durch einen dummen Zufall mal passieren oder sich bewusst provozieren lassen durch z.B. massenhafte DDoS-ähnliche Angriffe.</p>
+  <p class="fontnorm">Das TBB 1.6 steuert dem mit verbesserten Locking, d.h. mit geregelten und exklusiven Dateizugriffen, entgegen. Geschützt wurde damit z.B. die Vergabe von neuen Benutzer-IDs, Themen-IDs und Umfragen-IDs sowie der Mitgliedszähler. Die restlichen Komponenten sind derzeit aber weiterhin anfällig für diese Schwäche! Spätestens mit dem TBB 2.0 ist diese Problematik vollständig behoben.</p>
+
+  <h2 id="faq">9 FAQ</h2>
+  <ul class="fontnorm">
+   <li style="padding-bottom:1em;"><span style="font-weight:bold;">Julian?</span><br />
+       Nein. Naja, indirekt schon, also es war so: Julian fing 2003 mit der Entwicklung des TBB 2.0 an und das zog sich wegen Zeitmangel (Studium etc.) in die Länge. Im Mai 2005 gab es die bis dato letzte Version (Alpha 9) und im Herbst 2006 bin ich dann mehr oder weniger als Co-Entwickler dazu gestoßen, weil es mir einfach zu lange dauerte. Zusammen veröffentlichten wir dann Ostern 2008 die Alpha 10 und Weihnachten 2008 die erste Beta-Version. Die Entwicklung der Beta 2 ging zügig weiter, bis Julian dermaßen in Zeitnot gerriet und es bis heute nicht wirklich besser wurde. Viel konnte ich alleine nicht machen, so dass ich gegen Ende meines Studiums im Juli 2010 mit der Entwicklung eines TBB 1.5 angefangen hab &ndash; eine Art Übergangslösung zwischen dem altem TBB 1.2.3 und der irgendwann kommenden 2.0. Dabei wurden bereits viele Konzepte und Funktionen des 2.0ers in das 1.5 integriert, so dass der &quot;Geist Julians&quot; durchaus vorhanden ist. ;)</li>
+   <li style="padding-bottom:1em;"><span style="font-weight:bold;">Ich habe Hack xyz eingebaut, kann ich das TBB 1.6 trotzdem nutzen?</span><br />
+       Wahrscheinlich ja. Bei der Entwicklung wurden sogar einzelne Hacks berücksichtigt und deren Datenstruktur übernommen. Da in den letzten 8 Jahren allerdings eine Vielzahl an verschiedenen Hacks entstanden sind, kann natürlich nur ein sehr kleiner Anteil an Hacks berücksichtigt werden. Problematisch dürften auf jeden Fall Hacks sein, die neue Einstellungswerte oder neue Profilfelder dem TBB 1.2.3 hinzugefügt haben. Das TBB 1.6 bringt ebenfalls neue Konfigurationswerte (26 Stück) und neue Profilfelder (6 Stück) mit, so dass es dort zu Konflikten kommen wird. Erwartet das TBB 1.6 an einer Stelle einen bestimmten Wert, der von einem Hack bereits andersweitig belegt wurde, können unvorhersehbare Effekte oder Fehler auftreten. Vollkommen unproblematisch hingegen sind Hacks, die mit eigenen Dateien arbeiten bzw. die originale Struktur einfach nicht verändert haben. Beispielsweise neue BBCodes oder neue Funktionen auf Basis eigener .var-Dateien.</li>
+   <li style="padding-bottom:1em;"><span style="font-weight:bold;">Welche Hacks werden unterstützt?</span><br />
+       Eine vollständige Liste habe ich nicht geführt, aber das TBB 1.6 berücksichtigt mindestens die Datenstrukturen folgender Hacks:
+       <ul>
+        <li><span style="font-style:italic;">Adminsmilies</span> von N!CO</li>
+        <li><span style="font-style:italic;">Beitragsgrafik-in-lastpost</span> von Björn</li>
+        <li><span style="font-style:italic;">Newsletter Archiv</span> von N!CO</li>
+        <li><span style="font-style:italic;">Pinnen (Stiky)</span> von kaisasossi</li>
+        <li><span style="font-style:italic;">Spezieller User Rang</span> von xadraz</li>
+        <li><span style="font-style:italic;">Thread verschoben</span> von dummschnigger</li>
+        <li><span style="font-style:italic;">Who-Was-Online</span> von Koraktor</li>
+        <li><span style="font-style:italic;">pm archiv</span> von sysop</li>
+       </ul>
+       Folgende BBCodes aus Hacks werden unterstützt (Liste muss auch nicht vollständig sein):
+       <ul>
+        <li><span style="font-style:italic;">Flashanimationen einfügen</span> von N!CO</li>
+        <li><span style="font-style:italic;">HIDE Button</span> von CyberTheMaster</li>
+        <li><span style="font-style:italic;">Schriftgröße</span> von N!CO</li>
+        <li><span style="font-style:italic;">UPB-Code</span> von Hunsruns</li>
+       </ul></li>
+   <li style="padding-bottom:1em;"><span style="font-weight:bold;">Welche Änderungen und neuen Features gibt es?</span><br />
+       Eine genaue Auflistung aller Änderungen und Neuerungen ist in der <a href="changelog.txt">changelog.txt</a> zu finden. Die Versionsgeschichte davor steht in der <a href="history.txt">history.txt</a>.</li>
+   <li style="padding-bottom:1em;"><span style="font-weight:bold;">Ich erhalte die Fehlermeldung &quot;ERROR: Module Config does not exist!&quot;?</span><br />
+       Bitte lesen Sie die Installations- bzw. Aktualisierungsanleitung genau durch.</li>
+   <li style="padding-bottom:1em;"><span style="font-weight:bold;">Bei manchen Steam-Spielen werden keine Errungenschaften angezeigt?</span><br />
+       Das Verhalten konnte z.B. bei <b>Alien Swarm</b> und <b>Counter-Strike: Source</b> beobachtet werden. Obwohl die Spiele richtig erkannt werden und die Erfolge ohne Fehler abgefragt werden, liefert die Steam-Plattform keine Daten. Es ist jedenfalls kein Fehler des Forums und es bleibt daher abzuwarten, wann Steam die Errungenschaften im erforderlichen Format bereitstellt.</li>
+   <li style="padding-bottom:1em;"><span style="font-weight:bold;">Wie kann ich die Meldung im Wartungsmodus ändern?</span><br />
+       Da die Wartungsmeldung im TBB 1.6 auch lokalisiert wurde, muss dazu ein Eintrag in den Sprachdateien geändert werden. Die Meldung kann nicht mehr im Einstellungsmenü der Administration geändert werden. Besagte Sprachdatei ist die <b>Messages.ini</b> in der jeweiligen Lokalisierung im <b>./languages/</b>-Ordner (z.B. <b>./languages/de-DE/Messages.ini</b>). Der Eintrag lautet <b><code>text_maintenance_mode_on</code></b> und ist normalerweise in Zeile 10 zu finden. Dort müssen Sie den Text zwischen den Anführungszeichen ändern. Beachten Sie auch die Hinweise zur Übersetzung in Kapitel <a href="#ownlocalizations">Eigene Lokalisierungen</a>.</li>
+   <li style="padding-bottom:1em;"><span style="font-weight:bold;">Wenn ich in der Administration etwas ändere, wird die Änderung scheinbar nicht übernommen?</span><br />
+       Es liegt vermutlich ein Cache-Problem vor. Löschen Sie dazu den Cache mit der Funktion &quot;Cache leeren&quot; unter dem Punkt &quot;Forumeinstellungen&quot; in der Administration. Wenn dies nicht hilft, stellen Sie sicher, dass ihr Browser die Seite auch wirklich neulädt (STRG+F5) und schalten Sie evtl. verwendete Proxy-Server ab.</li>
+   <li style="padding-bottom:1em;"><span style="font-weight:bold;">Ich erhalte eine Fehlermeldung in der Art &quot;Warning: disk_free_space() [function.disk-free-space]: Value too large for defined data type&quot;?</span><br />
+       Die Überprüfung auf freien Speicherplatz ist hier wohl unnötig, da mehr als genug vorhanden ist und es die Funktion überfordert. Setzen Sie in den Foreneinstellungen den Punkt &quot;Den Befehl disk_free_space() verwenden&quot; auf &quot;Nein&quot;. Sie können dies auch über die Voreinstellungen mit dem Konfigurationswert <code>use_diskfreespace</code>, wie in <a href="#configuration">Kapitel 4</a> näher beschrieben, abschalten.</li>
+   <li style="padding-bottom:1em;"><span style="font-weight:bold;">Wenn ich eine neue Sprache hinzugefügt habe, steht diese im Forum nicht zur Auswahl&#8253;</span><br />
+       Siehe Punkt <a href="#locinstall">7.3 Einbau</a> von neuen Sprachpaketen.</li>
+   <li style="padding-bottom:1em;"><span style="font-weight:bold;">Ich teste das Forum auf meinem eigenen Webserver, beim Aufrufen erhalte ich aber immer Fehlermeldungen in der Art &quot;Warning: open(/tmp\sess_0e83b056d7f6aad8ccfed8c7ef93f6e9, O_RDWR) failed: ...&quot;</span><br />
+       Anscheinend haben Sie in der php.ini den Wert von <code>session.save_path</code> auf einem ungültigen Verzeichnis stehen. Arbeiten sie unter Windows, müssen sie zum Beispiel C:\WINDOWS\Temp angeben, unter Linux z.B. /tmp</li>
+   <li style="padding-bottom:1em;"><span style="font-weight:bold;">Funktioniert das Forum auch mit IIS?</span><br />
+       Ich hab keine Ahnung, ob das TBB 1.6 in so einer Umgebung besser läuft der Vorgänger. Getestet habe ich es jedenfalls nicht.</li>
+   <li style="padding-bottom:1em;"><span style="font-weight:bold;">Wie alt bist Du?</span><br />
+       Julian wurde am 1.6.1985 geboren und mich gibt's seit dem 6.8.1983. Das Alter darf man sich dementsprechend immer noch selber ausrechnen. ;)</li>
+   <li style="padding-bottom:1em;"><span style="font-weight:bold;">Programmierst Du das Forum auch ganz alleine?</span><br />
+       Größtenteils ja. Den Aktionsablauf hab ich vom 1.2.3 übernommen und auch einige Komponenten des TBB 2.0 verwertet. Gegen nette Programmiererinnen habe ich aber auch nichts einzuwenden. ;)</li>
+   <li style="padding-bottom:1em;"><span style="font-weight:bold;">Ich bin von deiner Arbeit total begeistert! Kann man dich irgendwie unterstützen?</span><br />
+       Empfehl mich weiter. Eine Kontonummer habe ich wie Julian auch. :P</li>
+   <li style="padding-bottom:1em;"><span style="font-weight:bold;">Kann man irgendwie mehr über dich erfahren?</span><br />
+       Hier sind unsere privaten Webseiten und E-Mail-Adressen:
+       <ul>
+        <li><a href="http://www.julianbackes.de/" target="_blank">Julian</a> &ndash; <a href="mailto:julian@tritanium-scripts.com">julian@tritanium-scripts.com</a></li>
+        <li><a href="http://www.chrissyx.de.vu/" target="_blank">Chris</a> &ndash; <a href="mailto:chris@tritanium-scripts.com">chris@tritanium-scripts.com</a></li>
+       </ul></li>
+   <li style="padding-bottom:1em;"><span style="font-weight:bold;">Was sollen diese ganzen persönlichen Fragen überhaupt?</span><br />
+       Ich hab sie einfach alle aus der Doku vom TBB 1.2.3 übernommen...</li>
+   <li style="padding-bottom:1em;"><span style="font-weight:bold;">Meine Frage wurde nicht beantwortet!</span><br />
+       Dann bitte im Forum unter <a href="http://www.tritanium-scripts.com/" target="_blank">Tritanium Scripts</a> nachfragen oder Kontakt über die oben genannten E-Mail-Adressen aufnehmen.</li>
+  </ul>
+
+  <h2 id="closingwords">10 Schlusswort</h2>
+  <p class="fontnorm">Den Werdegang hab ich bereits als erstes in der FAQ erzählt. An dieser Stelle zitiere ich einfach Julians Schlusswort aus der TBB 1.2.3 Readme:</p>
+  <blockquote style="font-style:italic;"><p class="fontnorm">Viele (oder auch wenige :) fragen sich bestimmt, warum jemand auf die Idee kommt, ein Forum in PHP ohne MySQL zu programmieren, wenn letzteres doch viel einfacher und vielleicht auch schneller gehen würde. Dazu muss ich ein bisschen ausholen: Im Sommer 2000 hatte ich nichts, aber wirklich gar nichts mit PHP oder HTML am Hut, meine Webseiten bastelte ich mit allen möglichen Editoren zusammen, hauptsache ich musste selber kein Code schreiben. Da ich damals (wie heute auch immer noch ;) kein Geld hatte, nutzte ich außerdem den tollen Service von vielen verschiedenen Freewebspaceprovidern. Dabei hatte ich eigentlich so ziemlich ausprobiert (und da bin ich bestimmt nicht der einzige gewesen). Das Problem war, dass ich unbedingt CGI (besser gesagt Perl) Unterstützung brauchte um ein Forum einzurichten, aber auch keine Werbung wollte. Zuerst war da snoop.dk, dann supertown.de, dann f2s.com und schließlich Barrysworld. Auf Grund extremer Überlastung musste letzteres aber die Perl Unterstützung streichen, was in Form einer Mail verkündet wurde. In der Mail (ich hab sie leider nicht mehr) stand, man müsse sich wohl nach einem anderen Provider umsehen, wenn man weiterhin ein Forum oder sonstiges haben wolle. PHP wurde zwar unterstützt, allerdings kein MySQL, was PHP Foren damit auch ausschloss, da die alle nur mit einer Datenbank funktionierten. Weiterhin stand in der Mail, man könne ja selber PHP lernen und ein dateibasierendes Forum in PHP schreiben. Und da fing dann alles an. Innerhalb eines halben Monats hatte ich ein Kontaktformular und ein Gästebuch geschrieben, beides natürlich auf Dateibasis. Dann begann ich mit dem Forum, was ziemlich schnell immer besser wurde (fast täglich eine neue Version, aber meistens nur mit wenigen Änderungen). Dass ich dieses eigentlich nur für mich verwenden wollte, glaubt mir wohl heute keiner mehr, aber es war tatsächlich so. Irgendwann habe ich das Forum dann zum ersten Mal mit anderen getestet und es lief auf Anhieb prima. Irgendwie hab ich dann ein paar Leute kennengelernt, die auch so ein Forum haben wollten, und da hab ich natürlich nicht gezögert und auch gleich eine benutzerfreundliche Version gebastelt. Danach ist für ungefähr 3 Monate nichts passiert (vielleicht 4 oder 5 Seiten verwendeten das Forum), bis ich das ganze dann im November in drei Scriptarchive eintrug. Danach ging es Schlag auf Schlag, bis heute, wo ich um ca. 500 Mails reicher bin, meine Kontaktliste in ICQ von 10 auf 120 Leute gewachsen ist, das Forum ca. 3500 mal runtergeladen wurde (ca. 470 MB :) und ich viele viele Leute kennen gelernt habe, mit denen ich sonst wohl nie was zu tun gehabt hätte.<br />
+Noch mehr Leute als zu Beginn dieses Textes werden sich jetzt wohl fragen, warum ich so einen Text überhaupt schreibe. Erstens will ich jeden, der sich ein bisschen für dieses Thema interessiert, dazu ermutigen, auch Scripte (oder sontige Sachen) zu schreiben. Und es ist nicht schlimm z.B. ein Forum zu programmieren, obwohl es schon hunderte davon gibt, denn die Erfahrungen, die man dabei gewinnt, die sind wirklich einmalig! Und wie man sieht braucht man kein riesen Team für sowas. Ich habe bisher alle meine Projekte was das programmieren angeht alleine über die Bühne gebracht und ich denke, dass zumindest das Forum besser ist, als so manch anderes, was im Team entstanden ist (Was aber nicht heißen soll, dass Teams keine guten Sachen machen!).<br />
+Ich hoffe, das hier interessiert wenigstens ein paar Leute, denn es war, auch wenn es nicht danach aus sieht, verdammt viel Arbeit diesen Text hier zu schreiben ;)<br />
+<br />
+mfg <b>Julian</b></p></blockquote>
+   <p class="fontnorm">Also dann, bis zur nächsten Version! Oder so. ;)<br /><br />mfg <b>Chris</b></p>
+
+  <div class="fontcopyright">&copy; 2010&ndash;2012 <a href="http://www.tritanium-scripts.com/" target="_blank">Tritanium Scripts</a></div>
+ </body>
+</html>

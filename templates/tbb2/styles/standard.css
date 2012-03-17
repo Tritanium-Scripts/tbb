@@ -1,0 +1,626 @@
+/* Zentrale Formate, Element-spezifisch */
+
+a.fontNav
+{
+	color:darkblue;
+	font-family:Verdana,Arial;
+	font-size:11px;
+	text-decoration:none;
+}
+
+a.forumLink
+{
+	color:blue;
+}
+
+a.topicLink
+{
+	color:#0C6B9C;
+	text-decoration:none;
+}
+
+div
+{
+	padding:0px;
+	margin:0px;
+}
+
+form
+{
+	padding:0px;
+	margin:0px;
+}
+
+hr.lineNav
+{
+	background-color:black;
+	border:1px black solid;
+	color:black;
+	height:1px;
+	margin:4px;
+	padding:0px;
+}
+
+img
+{
+	border:none;
+}
+
+img.imageButton
+{
+	margin:0 3px 2px;
+	vertical-align:middle;
+}
+
+img.imageIcon
+{
+	float:left;
+	margin-right:4px;
+	vertical-align:middle;
+}
+
+input[type=radio], input[type=checkbox]
+{
+	vertical-align:middle;
+}
+
+button.formBBCodeButton, input.formBBCodeButton
+{
+	border:1px #000000 solid;
+	font-family:Verdana,Arial;
+	font-size:10px;
+	padding-left:8px;
+	padding-right:8px;
+}
+
+button.formButton, input.formButton
+{
+	background-color:#D4D0C8;
+	border:2px #000000 outset;
+	font-family:Verdana,Arial;
+	font-size:11px;
+	padding:2px;
+	padding-left:15px;
+	padding-right:15px;
+}
+
+input.formBButton
+{
+	background-color:#D4D0C8;
+	border:2px #000000 outset;
+	font-family:Verdana,Arial;
+	font-size:11px;
+	font-weight:bold;
+	padding:2px;
+	padding-left:15px;
+	padding-right:15px;
+}
+
+input.formText
+{
+	border:1px #000000 dotted;
+	font-family:Verdana,Arial;
+	font-size:11px;
+	padding:3px;
+}
+
+label
+{
+	border-bottom:1px gray dotted;
+}
+
+select
+{
+	cursor:pointer;
+}
+
+select.formSelect
+{
+	border:2px #000000 inset;
+	font-family:Verdana,Arial;
+	font-size:11px;
+	padding:2px;
+}
+
+table
+{
+	padding:0px;
+}
+
+table.tableNavBar
+{
+	background-color:#FFFFFF;
+	border:#000000 2px solid;
+	border-spacing:0px;
+	padding:1px;
+	width:100%;
+}
+
+table.tableStd
+{
+	background-color:#FFFFFF;
+	border:2px #000000 solid;
+	border-spacing:1px;
+	empty-cells:show;
+	border-collapse:separate;
+}
+
+textarea.formTextArea
+{
+	border:1px #000000 dotted;
+	font-family:Verdana,Arial;
+	font-size:11px;
+	padding:4px;
+}
+
+td
+{
+	padding:0px;
+}
+
+td.cellAlt
+{
+	background-color:#DFE6EF;
+	border:#ACACAC 1px solid;
+	padding:3px;
+}
+
+td.cellCat
+{
+	background-color:#000000;
+	background-image:url(../images/cellcat.gif);
+	border:1px #000000 solid;
+	height:25px;
+	padding:0px;
+	padding-left:3px;
+	padding-right:3px;
+}
+
+td.cellError
+{
+	background-color:#FFD1D1;
+	border:1px #FF0000 solid;
+	padding:3px;
+}
+
+td.cellHighlight
+{
+	background-color:#d5dce5;
+	border:#8c8c8c 1px dashed;
+	padding:3px;
+}
+
+td.cellInfoBox
+{
+	background-color:#FAFAD2;
+	border:1px olive dotted;
+	margin-top:3px;
+	margin-bottom:3px;
+	padding:4px;
+	vertical-align:middle;
+}
+
+td.cellMessageBox
+{
+	background-color:#EEF0F2;
+	border:1px #ACACAC solid;
+	padding:15px;
+	text-align:center;
+}
+
+td.cellNav
+{
+	background-color:#FFFFFF;
+	cursor:default;
+	padding:5px;
+	padding-top:8px;
+	padding-bottom:8px;
+}
+
+td.cellNavActive
+{
+	background-color:#a9b3d9;
+	border:1px #838ba8 solid;
+	cursor:default;
+	padding:4px;
+	padding-top:7px;
+	padding-bottom:7px;
+}
+
+td.cellNavBar
+{
+	background-image:url(../images/v3.gif);
+	background-color:#F1FAFF;
+	border:#ACACAC 1px solid;
+	height:17px;
+	padding:0px;
+	padding-left:2px;
+}
+
+td.cellNavBarBig
+{
+	background-color:#F1FAFF;
+	background-image:url(../images/v4.gif);
+	border:#ACACAC 1px solid;
+	height:27px;
+	padding:0px;
+	padding-left:2px;
+}
+
+td.cellNavNone
+{
+	cursor:default;
+	background-color:#FFFFFF;
+	padding:3px;
+}
+
+td.cellStd
+{
+	background-color:#EEF0F2;
+	border:#ACACAC 1px solid;
+	padding:3px;
+}
+
+th.cellCat
+{
+	background-color:#000000;
+	background-image:url(../images/cellcat.gif);
+	border:1px #000000 solid;
+	height:25px;
+	padding:0px;
+	padding-left:3px;
+	padding-right:3px;
+	text-align:left;
+}
+
+/* Pseudoklassen */
+
+a:link
+{
+	color:blue;
+	text-decoration:none;
+}
+
+a:hover
+{
+	text-decoration:underline;
+}
+
+a:visited
+{
+	color:blue;
+	text-decoration:none;
+}
+
+a.forumLink:visited
+{
+	color:#4169E1;
+}
+
+a.topicLink:hover
+{
+	color:#014F77;
+	text-decoration:underline;
+}
+
+a.topicLink:visited
+{
+	color:#014F77;
+	text-decoration:none;
+}
+
+.cellTitle a:link, .cellTitle a:visited
+{
+	color:yellow;
+	text-decoration:none;
+}
+
+.cellTitle a:hover
+{
+	color:yellow;
+	text-decoration:underline;
+}
+
+#copyrightBox a:active, #copyrightBox a:link, #copyrightBox a:visited
+{
+	color:#A62A2A;
+}
+
+button.formButton:hover, input.formButton:hover
+{
+	background-color:#F8F8FF;
+	border:2px #000000 inset;
+	cursor:pointer;
+	font-family:Verdana,Arial;
+	font-size:11px;
+	padding:2px;
+	padding-left:15px;
+	padding-right:15px;
+}
+
+input.formBButton:hover
+{
+	background-color:#F8F8FF;
+	border:2px #000000 inset;
+	cursor:pointer;
+	font-family:Verdana,Arial;
+	font-size:11px;
+	font-weight:bold;
+	padding:2px;
+	padding-left:15px;
+	padding-right:15px;
+}
+
+input.formText:focus
+{
+	border:1px #000000 solid;
+	font-family:Verdana,Arial;
+	font-size:11px;
+	padding:3px;
+}
+
+input.formText:hover
+{
+	border:1px #696969 solid;
+}
+
+label:hover
+{
+	border-bottom:1px gray solid;
+	cursor:pointer;
+}
+
+textarea.formTextArea:hover
+{
+	border:1px #696969 solid;
+}
+
+textarea.formTextArea:focus
+{
+	border:1px #000000 solid;
+	font-family:Verdana,Arial;
+	font-size:11px;
+	padding:4px;
+}
+
+td.cellCat a:link, td.cellCat a:visited, th.cellCat a:link, th.cellCat a:visited
+{
+	color:yellow;
+	text-decoration:none;
+}
+
+td.cellCat a:hover, th.cellCat a:hover
+{
+	color:yellow;
+	text-decoration:underline;
+}
+
+td.cellNav:hover
+{
+	background-color:#E5F3FF;
+	border:1px #4169E1 solid;
+	cursor:pointer;
+	padding:4px;
+	padding-top:7px;
+	padding-bottom:7px;
+}
+
+/* Allgemeine Individualformate */
+
+#adminBox
+{
+	margin-top:20px;
+	text-align:center;
+}
+
+.cellButtons
+{
+	background-color:#778899;
+	border:1px #000000 solid;
+	padding:1px;
+	text-align:center;
+}
+
+.cellTitle
+{
+	background-color:#107AB0;
+	background-image:url(../images/celltitle.gif);
+	height:30px;
+	padding:0px;
+	padding-left:3px;
+	padding-right:3px;
+	text-align:left;
+}
+
+#copyrightBox
+{
+	background-color:#F0F8FF;
+	border:1px #ACACAC solid;
+	color:#666699;
+	font-family:Verdana,Arial;
+	font-size:10px;
+	font-weight:bold;
+	margin:auto;
+	margin-top:20px;
+	padding:5px;
+	text-align:center;
+	width:200px;
+}
+
+.divInfoBox
+{
+	background-color:#E6E6FA;
+	border:1px #0000CD dotted;
+	margin-bottom:4px;
+	margin-top:4px;
+	padding:4px;
+	vertical-align:middle;
+}
+
+.fade
+{
+	filter:alpha(opacity=0);
+	left:0;
+	opacity:0.0;
+	position:absolute;
+	text-align:center;
+	top:0;
+	width:100%;
+}
+
+.fontBig
+{
+	color:#000000;
+	font-family:Verdana,Arial;
+	font-size:17px;
+}
+
+.fontCat
+{
+	color:#FFFFFF;
+	font-family:Verdana,Arial;
+	font-size:13px;
+	font-weight:bold;
+}
+
+.fontCatSmall
+{
+	color:#FFFFFF;
+	font-family:Verdana,Arial;
+	font-size:10px;
+	font-weight:bold;
+}
+
+.fontError
+{
+	color:#FF0000;
+	font-family:Verdana;
+	font-size:13px;
+}
+
+.fontInfoBox
+{
+	color:#111755;
+	font-family:Verdana,Arial;
+	font-size:13px;
+}
+
+.fontNavBar
+{
+	color:black;
+	font-family:Verdana,Arial;
+	font-size:10px;
+	font-weight:bold;
+}
+
+.fontNorm
+{
+	color:#000000;
+	font-family:Verdana,Arial;
+	font-size:13px;
+}
+
+.fontSmall
+{
+	color:#000000;
+	font-family:Verdana,Arial;
+	font-size:10px;
+}
+
+.fontTitle
+{
+	color:#FFFFFF;
+	font-family:Verdana,Arial;
+	font-size:13px;
+	font-weight:bold;
+	letter-spacing:1px;
+}
+
+.fontTitleSmall
+{
+	color:#FFFFFF;
+	font-family:Verdana,Arial;
+	font-size:11px;
+	font-weight:bold;
+}
+
+.forumLink
+{
+	color:black;
+	font-family:Verdana,Arial;
+	font-size:13px;
+	font-weight:bold;
+}
+
+#headerBox
+{
+	background-color:#FFFFFF;
+	border-spacing:0px;
+	border:2px #000000 solid;
+	margin-bottom:20px;
+}
+
+#headerInfoBox
+{
+	background-color:#F0F8FF;
+	border:1px #00008B dotted;
+	font-family:Verdana,Arial,sans-serif;
+	font-size:12px;
+	padding:5px;
+}
+
+#headerInnerBox
+{
+	background-color:#AEC9D7;
+	background-image:url(../images/header_background.jpg);
+	background-repeat:repeat-x;
+	border:1px #ACACAC solid;
+	border-spacing:0px;
+	margin:1px;
+}
+
+#headerNavigationBox
+{
+	width:auto;
+	margin:auto;
+	text-align:center;
+}
+
+#mainBox
+{
+	margin:auto;
+	padding:0px;
+	text-align:left;
+}
+
+.news
+{
+	color:black;
+	font-family:Verdana,Arial;
+	font-size:10pt;
+	font-weight:bold;
+	padding:6pt;
+}
+
+.signature
+{
+	color:black;
+	font-family:Verdana,Arial;
+	font-size:13px;
+}
+
+#techStats
+{
+	color:#A9A9A9;
+	font-family:Verdana,Arial;
+	font-size:10px;
+	text-align:center;
+}
+
+.topicLink
+{
+	color:black;
+	font-family:Verdana,Arial;
+	font-size:13px;
+	font-weight:bold;
+}

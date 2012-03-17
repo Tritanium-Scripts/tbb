@@ -1,0 +1,307 @@
+/*
+
+Standard TBB-Style - http://www.tritanium-scripts.com
+
+Falls Sie sich nicht so gute mit CSS auskennen, finden sie auf
+http://de.selfhtml.org/ viele Informationen dazu.
+
+Kurze Erklärung:
+color - Textfarbe (z.B. blue, FFFFFF, #000000)
+font-family - Schriftart (z.B. Verdana, Arial)
+font-size - Schriftgröße (z.B. 10pt, 10px)
+font-weight - Schriftdicke (z.B. bold, bolder, lighter)
+text-decoration - Unterstrichen, Überstrichen... (z.B. none, overline, underline)
+background-color - Hintergrundfarbe (z.B. blue, FFFFFF, #000000)
+text-align - Ausrichtung des Textes (z.B. left, right)
+padding - Abstand des Textes zum Rahmen (z.B. 2pt, 4px)
+
+Um ein Hintergrundbild zu verwenden, müssen Sie im Abschnitt body
+folgendes einfügen:
+background-image:url(background.jpg);
+
+*/
+
+/* Allgemeine Linkfarben und -eigenschaften */
+a:link
+{
+	color:#CC6600;
+	text-decoration:none;
+}
+
+a:visited
+{
+	color:#666699;
+	text-decoration:none;
+}
+
+a:active
+{
+	color:#333366;
+	text-decoration:none;
+}
+
+a:hover
+{
+	text-decoration:underline;
+}
+
+/* <body>-Einstellungen */
+body
+{
+	background-color:white;
+	font-family:Verdana;
+	color:black;
+}
+
+/* Die Fläche "hinter" dem Forum */
+#main
+{
+
+}
+
+/* Kategorieleisten */
+.kat
+{
+	font-family:Verdana;
+	font-size:10pt;
+	font-weight:bold;
+	color:#CCCCFF;
+}
+
+td.kat
+{
+	background-color:#333366;
+}
+
+/* Überschriftenleiste (kleine Schrift) */
+.thsmall
+{
+	font-family:Verdana;
+	font-size:8pt;
+	font-weight:bold;
+	color:white;
+}
+
+th.thsmall
+{
+	background-color:#666699;
+}
+
+/* Überschriftenleiste (normale Schriftgröße) */
+.thnorm
+{
+	font-family:Verdana;
+	font-size:10pt;
+	color:white;
+	font-weight:bold;
+}
+
+td.thnorm
+{
+	padding:2pt;
+	background-color:#666699;
+}
+
+th.thnorm
+{
+	padding:2pt;
+	background-color:#666699;
+	text-align:left;
+}
+
+/* Tabellen allgemein (außer Navigationsleiste) */
+.tbl
+{
+	background-color:#666699; /* Dies ist auch die Farbe "zwischen" den Zellen, wenn $tspacing > 0 ist */
+	border:#666699 1px solid;
+}
+
+/* Tabellenfeld (Farbe) 1 */
+.td1
+{
+	background-color:#F7F7F7;
+}
+
+/* Tabellenfeld (Farbe) 2 */
+.td2
+{
+	background-color:#DEDFDF;
+}
+
+/* kleine Schrift */
+.small
+{
+	font-family:Verdana;
+	font-size:10px;
+	color:black;
+}
+
+/* normale Schrift */
+.norm
+{
+	font-family:Verdana;
+	font-size:10pt;
+	color:black;
+}
+
+/* Fehler Schrift */
+.error
+{
+	font-family:Verdana;
+	font-size:10pt;
+	color:red;
+}
+
+/* Link zur Themenübersicht eines Forums in der Forenübersicht */
+.forumlink
+{
+	font-family:Verdana;
+	font-size:10pt;
+	color:black;
+	font-weight:bold;
+}
+
+a.forumlink
+{
+	color:#CC6600;
+}
+
+a.forumlink:visited
+{
+	color:#666699;
+}
+
+/* Link zu einem Thema in der Themenübersicht */
+.topiclink
+{
+	font-family:Verdana;
+	font-size:10pt;
+	color:black;
+}
+
+a.topiclink
+{
+	font-weight:bold;
+	color:#CC6600;
+}
+
+a.topiclink:visited
+{
+	font-weight:bold;
+	color:#666699;
+}
+
+/* Navigationsleiste */
+.navbar
+{
+	font-family:Verdana;
+	font-size:10px;
+	color:black;
+	font-weight:bold;
+}
+
+td.navbar
+{
+	padding:2px;
+	background-color:#F7F7F7;
+}
+
+table.navbar
+{
+	background-color:#666699;
+	border:#666699 1px solid;
+}
+
+/* Uhrzeit Schrift */
+.time
+{
+	font-family:Verdana;
+	color:#A62A2A;
+}
+
+/* News */
+.news
+{
+	font-family:Verdana;
+	font-size:10pt;
+	color:black;
+	font-weight:bold;
+	padding:6pt;
+}
+
+/* Zitate ([quote][/quote]) */
+.quote
+{
+	font-family:Verdana;
+	font-size:10px;
+	color:black;
+	font-weight:bold;
+}
+
+/* Die kleine "Toolbar" rechts neben dem Logo */
+.tbar
+{
+	font-size:10px;
+	font-family:Verdana;
+}
+
+/* Der Forumname rechts neben dem Logo (über der "Toolbar") */
+.finfo
+{
+	color:black;
+	font-size:13pt;
+	font-family:Verdana;
+	font-weight:bold;
+}
+
+/* Technische Statistik (am Seitenende) */
+.stat
+{
+	font-size:10px;
+	color:gray;
+	font-family:Verdana;
+}
+
+/* Die Buttons um Forumcode einzufügen */
+button.forumcode, input.forumcode
+{
+	border-width:1px;
+	font-size:12px;
+}
+
+select.forumcode
+{
+	border-width:1px;
+	font-size:12px;
+}
+
+/*
+
+Copyright
+ACHTUNG: Das Copyright muss immer gut erkennbar sein, sonst wird gegen die Lizenz verstoßen!
+Wenn sie die Hintergrundfarbe des Forums ändern, müssen sie auch darauf achten, dass man
+das Copyright immer noch erkennen kann. Vor allem, wenn Hintergrundfarbe = Schriftfarbe
+des Copyrights ist, ist dies ein Verstoß!!!
+
+*/
+.copyr
+{
+	font-size:10px;
+	color:#666699;
+	font-family:Verdana;
+}
+
+a.copyr:link
+{
+	color:#A62A2A;
+}
+
+a.copyr:visited
+{
+	color:#A62A2A;
+}
+
+a.copyr:active
+{
+	color:#A62A2A;
+}
