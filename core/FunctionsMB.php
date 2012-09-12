@@ -1,6 +1,6 @@
 <?php
 /**
- * Wraps PHP's normal string functions to its Multibyte counterpart and defining the final feature set of Functions class with mbstring extension support enabled.
+ * Wraps PHP's normal string functions to its Multibyte counterparts and defining the final feature set of Functions class with mbstring extension support enabled.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
  * @copyright Copyright (c) 2010 Tritanium Scripts

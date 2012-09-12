@@ -218,7 +218,7 @@ class AdminConfig implements Module
 				//Look up string with "tz[Minutes]" (Minutes ranges from 0 (=-12 hours) to 1440 (=+12 hours))
 				if(preg_match('/^tz(\d+)$/si', $curIndex, $curMatch) == 1)
 					//Format minutes from strings to positive and negative hours
-					$timeZones[] = array(Functions::str_replace(',', '', sprintf('%+06.2f', ($curMatch[1]-720)/60)), $curString);
+					$timeZones[] = array(Functions::str_replace('.', '', sprintf('%+06.2F', ($curMatch[1]-720)/60)), $curString);
 			//Prepare log settings
 			Main::getModule('Config')->setCfgVal('log_options', Functions::explodeByComma(Main::getModule('Config')->getCfgVal('log_options')));
 			Main::getModule('Template')->assign(array('oldTableWidth' => $oldTableWidth,
