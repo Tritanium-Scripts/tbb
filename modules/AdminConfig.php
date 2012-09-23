@@ -43,7 +43,8 @@ class AdminConfig implements Module
 	function __construct($mode)
 	{
 		$this->mode = $mode;
-		$this->timeout = ini_get('max_execution_time')-10;
+        if(($this->timeout = ini_get('max_execution_time')) > 10)
+            $this->timeout -= 10;
 	}
 
 	/**
