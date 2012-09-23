@@ -1,11 +1,12 @@
 **********************************************************
 Tritanium Bulletin Board 1.5+ - Changelog (German version)
-Last changed: 12.09.2012 (Version 1.6.2)
+Last changed: 23.09.2012 (Version 1.6.2)
 **********************************************************
 
 2012: Version 1.6.2
     - Smarty auf Version 3.1.11 aktualisiert
     - Potenzieller Fehler beim Speichern der Zeitzone behoben
+    - Fehler bei der Anwendung des ausgewählten Datenschutzmodus von IP-Adressen behoben
 
 16.03.2012: Version 1.6.1 (offiziell)
 	- Falsch gesetzten Anker bei den neuesten Beiträgen korrigiert

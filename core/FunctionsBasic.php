@@ -428,7 +428,7 @@ class FunctionsBasic
 	 */
 	public static function getIPAddress()
 	{
-		return ($saveIPAddress = Main::getModule('Config')->getCfgVal('save_ip_address')) > 1 ? ($saveIPAddress == 2 && Main::getModule('Auth')->isLoggedIn() ? '' : $_SERVER['REMOTE_ADDR']) : '';
+		return ($saveIPAddress = Main::getModule('Config')->getCfgVal('save_ip_address')) > 0 ? ($saveIPAddress == 2 && Main::getModule('Auth')->isLoggedIn() ? '' : $_SERVER['REMOTE_ADDR']) : '';
 	}
 
 	/**
