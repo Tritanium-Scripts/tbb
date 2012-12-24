@@ -882,7 +882,7 @@ class FunctionsBasic
 	 */
 	public static function unifyUserMail($userMail, $ignoreID=-1)
 	{
-		foreach(glob(DATAPATH . 'members/[!0]*.xbb') as $curMember)
+		foreach(@glob(DATAPATH . 'members/[!0]*.xbb') as $curMember)
 		{
 			$curMember = self::file($curMember);
 			if($curMember[3] == $userMail && $curMember[1] != $ignoreID)
@@ -901,7 +901,7 @@ class FunctionsBasic
 	public static function unifyUserName($userName, $ignoreID=-1)
 	{
 		$userName = Functions::strtolower($userName);
-		foreach(glob(DATAPATH . 'members/[!0]*.xbb') as $curMember)
+		foreach(@glob(DATAPATH . 'members/[!0]*.xbb') as $curMember)
 		{
 			$curMember = self::file($curMember);
 			if(Functions::strtolower($curMember[0]) == $userName && $curMember[4] != '5' && $curMember[1] != $ignoreID)

@@ -447,11 +447,14 @@ class Forum implements Module
 			setcookie('upbwhere', INDEXFILE);
 			//Process categories and forums
 			$topicCounter = $postCounter = 0;
-			$cats = $forums = $newestPosts = array();
+			$cats = $forums = $newestPosts = $processedCats = array();
 			//Prepare categories
 			foreach(Functions::file('vars/kg.var') as $curCat)
+            {
 				#0:id - 1:name
 				$cats[] = Functions::explodeByTab($curCat);
+                $processedCats[current(end($cats))] = false;
+            }
 			//Prepare forums
 			$showPrivateForums = Main::getModule('Config')->getCfgVal('show_private_forums') == 1;
 			foreach(array_map(array('Functions', 'explodeByTab'), Functions::file('vars/foren.var')) as $curForum)
@@ -496,8 +499,15 @@ class Forum implements Module
 						'mods' => Functions::getProfileLink($curForum[11]));
 					$topicCounter += $curForum[3];
 					$postCounter += $curForum[4];
+                    //Update processed cats LUT
+                    if(array_key_exists($curForum[5], $processedCats))
+                        $processedCats[$curForum[5]] = true;
 				}
 			}
+            //Filter out cats having no forums to display
+            foreach($cats as $curKey => $curCat)
+                if(!$processedCats[$curCat[0]])
+                    unset($cats[$curKey]);
 			//Process newest posts
 			if(Main::getModule('Config')->getCfgVal('show_lposts') >= 1 && ($lastPosts = Functions::file_get_contents('vars/lposts.var')) != '')
 			{
