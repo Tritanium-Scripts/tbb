@@ -49,7 +49,7 @@
    </div>
   </div>
 
-  <p id="headerInfoBox"><img src="{$modules.Template->getTplDir()}images/icons/info.png" alt="" class="imageIcon" /> {if $modules.Auth->isLoggedIn()}{sprintf($modules.Language->getString('hello_x_time'), $modules.Auth->getUserNick(), $smarty.now|date_format:$modules.Language->getString('TIMEFORMAT'))}. {if $unreadPMs > 0}<a href="{$smarty.const.INDEXFILE}?faction=pm{$smarty.const.SID_AMPER}" style="font-weight:bold;">{$modules.Language->getString('new_pms_received')}</a>{else}{$modules.Language->getString('no_new_pms')}{/if}{else}{$modules.Config->getCfgVal('forum_name')|string_format:$smarty.config.langWelcome}{/if}</p>
+  <p id="headerInfoBox"><img src="{$modules.Template->getTplDir()}images/icons/info.png" alt="" class="imageIcon" /> {if $modules.Auth->isLoggedIn()}{sprintf($modules.Language->getString('hello_x_time'), $modules.Auth->getUserNick(), $currentTime)}. {if $unreadPMs > 0}<a href="{$smarty.const.INDEXFILE}?faction=pm{$smarty.const.SID_AMPER}" style="font-weight:bold;">{$modules.Language->getString('new_pms_received')}</a>{else}{$modules.Language->getString('no_new_pms')}{/if}{else}{$modules.Config->getCfgVal('forum_name')|string_format:$smarty.config.langWelcome}{/if}</p>
 
   <!-- NavBar -->
   <table class="tableNavBar">

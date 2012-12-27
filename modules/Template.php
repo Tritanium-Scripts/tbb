@@ -172,7 +172,9 @@ class Template
 		if(Main::getModule('Config')->getCfgVal('clickjacking') == 1)
 			header('X-FRAME-OPTIONS: SAMEORIGIN');
 		//Announce amount of *now* unread pms to template, just before printing out any of them
-		$this->display('PageHeader', 'unreadPMs', Main::getModule('PrivateMessage')->getUnreadPMs());
+		$this->display('PageHeader', array('unreadPMs' => Main::getModule('PrivateMessage')->getUnreadPMs(),
+            //Not using $smarty.now because of GMT and DST stuff
+            'currentTime' => gmstrftime(Main::getModule('Language')->getString('TIMEFORMAT'), Functions::getTimestamp(gmdate('YmdHis')))));
 	}
 
 	/**

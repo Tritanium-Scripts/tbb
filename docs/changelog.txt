@@ -1,9 +1,9 @@
 **********************************************************
 Tritanium Bulletin Board 1.5+ - Changelog (German version)
-Last changed: 24.12.2012 (Version 1.6.2)
+Last changed: 27.12.2012 (Version 1.6.2)
 **********************************************************
 
-12.2012: Version 1.6.2
+27.12.2012: Version 1.6.2 (offiziell)
     - Potenzieller Fehler beim Speichern der Zeitzone behoben
     - Fehler bei der Anwendung des ausgewählten Datenschutzmodus von IP-Adressen behoben
     - Potenzielle Probleme bei der Darstellung von englischen Zeiten behoben
@@ -11,6 +11,7 @@ Last changed: 24.12.2012 (Version 1.6.2)
     - Smarty auf Version 3.1.12 aktualisiert
     - Leere Kategorien ohne Foren werden nicht mehr angezeigt
     - Irreführende PHP-Warnungen auf schlecht konfigurierten Systemen bei Erstregistrierung tauchen nicht mehr auf
+    - Anzeige der aktuellen Uhrzeit im Seitenkopf auf Basis der eingestellen Zeitzone
 
 16.03.2012: Version 1.6.1 (offiziell)
 	- Falsch gesetzten Anker bei den neuesten Beiträgen korrigiert
