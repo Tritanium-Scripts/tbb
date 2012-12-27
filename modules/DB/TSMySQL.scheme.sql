@@ -24,6 +24,26 @@ CREATE TABLE /*!32312 IF NOT EXISTS*/ "/*TABLEPREFIX*/config" (
   PRIMARY KEY  ("configName")
 ) ENGINE=MyISAM /*!40100 DEFAULT CHARSET=utf8*/;
 
+CREATE TABLE /*!32312 IF NOT EXISTS*/ "/*TABLEPREFIX*/files" (
+  "fileID" mediumint(8) unsigned NOT NULL auto_increment,
+  "userID" mediumint(8) unsigned default NULL,
+  "fileUploadTimestamp" int(10) unsigned NOT NULL default '0',
+  "fileIsUsed" tinyint(1) unsigned NOT NULL default '0',
+  "fileName" varchar(255) NOT NULL default '',
+  "fileSize" int(10) unsigned NOT NULL default '0',
+  "fileDownloadsCounter" int(10) unsigned NOT NULL default '0',
+  "fileData" blob,
+  "fileThumbnail" blob,
+  PRIMARY KEY ("fileID"),
+  KEY "userID_fileID" ("userID","fileID")
+) ENGINE=InnoDB /*!40100 DEFAULT CHARSET=utf8*/;
+
+CREATE TABLE /*!32312 IF NOT EXISTS*/ "/*TABLEPREFIX*/files_posts" (
+  "fileID" mediumint(8) unsigned NOT NULL default '0',
+  "postID" mediumint(8) unsigned NOT NULL default '0',
+  PRIMARY KEY ("fileID","postID")
+) ENGINE=InnoDB /*!40100 DEFAULT CHARSET=utf8*/;
+
 CREATE TABLE /*!32312 IF NOT EXISTS*/ "/*TABLEPREFIX*/forums" (
   "forumID" mediumint(8) unsigned NOT NULL auto_increment,
   "catID" mediumint(8) unsigned NOT NULL default '0',
