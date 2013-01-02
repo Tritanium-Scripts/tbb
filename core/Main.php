@@ -165,12 +165,12 @@ class Main implements Module
 		}
 		//Manage output compressions
 		if(self::getModule('Config')->getCfgVal('use_gzip_compression') == 1)
-        {
+		{
 			if(ini_get('zlib.output_compression') != '1' && ini_get('output_handler') != 'ob_gzhandler')
 				ob_start('ob_gzhandler');
 			else
 				self::getModule('Config')->setCfgVal('use_gzip_compression', 0); //Set actual state for tec stats
-        }
+		}
 		if(self::getModule('Config')->getCfgVal('use_gzip_compression') == 0 && self::getModule('Config')->getCfgVal('activate_ob') == 1)
 			ob_start();
 		//Manage session

@@ -40,8 +40,8 @@ class AdminNewsletter implements Module
 	function __construct($mode)
 	{
 		$this->mode = $mode;
-        if(($this->timeout = ini_get('max_execution_time')) > 10)
-            $this->timeout -= 10;
+		if(($this->timeout = ini_get('max_execution_time')) > 10)
+			$this->timeout -= 10;
 	}
 
 	/**

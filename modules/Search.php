@@ -85,8 +85,8 @@ class Search implements Module
 		$this->searchIn = Functions::getValueFromGlobals('auswahl');
 		$this->searchOption = Functions::getValueFromGlobals('searchOption');
 		$this->searchScope = intval(Functions::getValueFromGlobals('soption1'));
-        if(($this->timeout = ini_get('max_execution_time')) > 10)
-            $this->timeout -= 10;
+		if(($this->timeout = ini_get('max_execution_time')) > 10)
+			$this->timeout -= 10;
 	}
 
 	/**
@@ -172,7 +172,7 @@ class Search implements Module
 			//Search forums
 			while(!empty($_SESSION[$this->searchID]['sIn']))
 			{
-                $this->checkTime();
+				$this->checkTime();
 				$curForumID = key($_SESSION[$this->searchID]['sIn']);
 				//Get topics
 				if(!isset($_SESSION[$this->searchID]['sIn'][$curForumID][0]))
@@ -180,7 +180,7 @@ class Search implements Module
 				//Search topics / posts
 				while(!empty($_SESSION[$this->searchID]['sIn'][$curForumID]))
 				{
-                    $this->checkTime();
+					$this->checkTime();
 					$curTopicID = current($_SESSION[$this->searchID]['sIn'][$curForumID]);
 					$curTopicFile = Functions::file('foren/' . $curForumID . '-' . $curTopicID . '.xbb');
 					$curTopicData = Functions::explodeByTab(array_shift($curTopicFile));

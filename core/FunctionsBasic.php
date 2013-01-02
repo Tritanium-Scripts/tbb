@@ -721,6 +721,18 @@ class FunctionsBasic
 	}
 
 	/**
+	 * Extending PHP's {@link glob()} to handle invalid return values.
+	 *
+	 * @param string $pattern The pattern to use
+	 * @param int $flags Optional flags to use
+	 * @return array Matched files/directories or empty array
+	 */
+	public static function glob($pattern, $flags=null)
+	{
+		return is_array($files = glob($pattern, $flags)) ? $files : array();
+	}
+
+	/**
 	 * Handles and returns template filename requested from given mode translation table and logs unknown modes.
 	 * By having encountered a certain number of unknown modes, the IP address will be banned.
 	 *
@@ -882,7 +894,7 @@ class FunctionsBasic
 	 */
 	public static function unifyUserMail($userMail, $ignoreID=-1)
 	{
-		foreach(@glob(DATAPATH . 'members/[!0]*.xbb') as $curMember)
+		foreach(self::glob(DATAPATH . 'members/[!0]*.xbb') as $curMember)
 		{
 			$curMember = self::file($curMember);
 			if($curMember[3] == $userMail && $curMember[1] != $ignoreID)
@@ -901,7 +913,7 @@ class FunctionsBasic
 	public static function unifyUserName($userName, $ignoreID=-1)
 	{
 		$userName = Functions::strtolower($userName);
-		foreach(@glob(DATAPATH . 'members/[!0]*.xbb') as $curMember)
+		foreach(self::glob(DATAPATH . 'members/[!0]*.xbb') as $curMember)
 		{
 			$curMember = self::file($curMember);
 			if(Functions::strtolower($curMember[0]) == $userName && $curMember[4] != '5' && $curMember[1] != $ignoreID)
