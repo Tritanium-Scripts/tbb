@@ -1,10 +1,11 @@
 **********************************************************
 Tritanium Bulletin Board 1.5+ - Changelog (German version)
-Last changed: 02.01.2013 (Version 1.6.3)
+Last changed: 16.01.2013 (Version 1.6.3)
 **********************************************************
 
 2013: Version 1.6.3
 	- Irreführende PHP-Warnungen auf schlecht konfigurierten Systemen bei Erstregistrierung tauchen wirklich nicht mehr auf
+    - Smarty auf Version 3.1.13 aktualisiert
 
 27.12.2012: Version 1.6.2 (offiziell)
 	- Potenzieller Fehler beim Speichern der Zeitzone behoben
