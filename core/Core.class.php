@@ -8,38 +8,40 @@
  */
 class Core extends ModuleTemplate {
 	public function executeMe() {
-		/**
+		/*
 		 * Some basic settings:
 		 * - Show all PHP-messages
 		 * - Set GET argument seperator to &amp; (for XHTML compatibility)
 		 * - Disable slashing of database query results
 		 */
 		error_reporting(E_ALL);
-		set_magic_quotes_runtime(0);
+		ini_set('magic_quotes_runtime', '0');
 		ini_set('arg_separator.output','&amp;');
+		//Qick 'n' dirty fix to set "proper" timezone and avoid Strict Standards notice
+		@date_default_timezone_set(date_default_timezone_get());
 
 
-		/**
+		/*
 		 * Make indexFile everywhere available
 		 */
 		define('INDEXFILE',$this->getC('indexFile'));
 
 
-		/**
+		/*
 		 * Enable output compression
 		 */
 		if($this->getC('enableOutputCompression')) {
-			if(ini_get('zlib.output_compression') != 1 && ini_get('output_handler') != 'ob_gzhandler')
+			if(ini_get('zlib.output_compression') != '1' && ini_get('output_handler') != 'ob_gzhandler')
 				@ob_start('ob_gzhandler');
 		}
 
 
-		/**
+		/*
 		 * Some GPC-Stuff
 		 * - Strip slashes
 		 * - Sets available checkbox variables to 1 if a form was submitted
 		 */
-		if(get_magic_quotes_gpc() == 1) {
+		if(ini_get('magic_quotes_gpc') == '1') {
 			$_POST = Functions::stripSlashes($_POST);
 			$_GET = Functions::stripSlashes($_GET);
 			$_COOKIE = Functions::stripSlashes($_COOKIE);
@@ -57,7 +59,7 @@ class Core extends ModuleTemplate {
 
 		if(Factory::moduleExists('Globals'))
 			Factory::singleton('Globals');
-		
+
 		$this->modules[$action] = Factory::singleton($action);
 		$this->modules[$action]->executeMe();
 	}
