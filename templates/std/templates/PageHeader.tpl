@@ -13,7 +13,7 @@
   <meta http-equiv="Content-Type" content="application/xhtml+xml; charset={$modules.Language->getString('html_encoding')}" />
   <meta http-equiv="Content-Style-Type" content="text/css" />
   <meta http-equiv="Content-Script-Type" content="text/javascript" />
-  <meta http-equiv="X-UA-Compatible" content="IE=8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <link rel="stylesheet" media="all" href="{$modules.Template->getTplDir()}{$modules.Auth->getUserStyle()}" />
   <link rel="shortcut icon" type="image/x-icon" href="{$modules.Template->getTplDir()}images/favicon.ico" />
   <link rel="alternate" type="application/rss+xml" title="{$modules.Config->getCfgVal('forum_name')|string_format:$modules.Language->getString('x_rss_feed')}" href="{$smarty.const.INDEXFILE}?faction=rssFeed" />

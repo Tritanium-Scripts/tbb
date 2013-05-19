@@ -16,7 +16,7 @@ define('ERR_REPORTING', E_ERROR | E_WARNING | E_PARSE); //Report only warnings o
  * security vulnerabilities of a specific version.
  */
 define('VERSION_PUBLIC', '1.6');
-define('VERSION_PRIVATE', VERSION_PUBLIC . '.2.0');
+define('VERSION_PRIVATE', VERSION_PUBLIC . '.3.0');
 //Define global data path
 include('DataPath.php');
 //Logging constants
