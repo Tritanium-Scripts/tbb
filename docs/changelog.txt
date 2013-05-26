@@ -1,12 +1,13 @@
 **********************************************************
 Tritanium Bulletin Board 1.5+ - Changelog (German version)
-Last changed: 19.05.2013 (Version 1.6.3)
+Last changed: 26.05.2013 (Version 1.6.3)
 **********************************************************
 
 2013: Version 1.6.3
 	- Irreführende PHP-Warnungen auf schlecht konfigurierten Systemen bei Erstregistrierung tauchen wirklich nicht mehr auf
     - Smarty auf Version 3.1.13 aktualisiert
     - Verwendung des Edge-Modus im Internet Explorer
+    - Laden von Steam-Spielen und -Errungenschaften mittels cURL als Alternative bei fehlender Unterstützung von Zugriffen auf entfernte Dateien
 
 27.12.2012: Version 1.6.2 (offiziell)
 	- Potenzieller Fehler beim Speichern der Zeitzone behoben

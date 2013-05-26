@@ -3,7 +3,7 @@
  * Manages an user profile incl. sending mails, vCard download and Steam achievements.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2012 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2013 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1.6
  */
@@ -51,6 +51,20 @@ class Profile implements Module
 	private $steamGames = array();
 
 	/**
+	 * Use {@link file_get_contents()} for fetching achievements XML data.
+	 *
+	 * @var bool php.ini supporting allow_url_fopen
+	 */
+	private $isFGC;
+
+	/**
+	 * Use cURL for fetching achievements XML data.
+	 *
+	 * @var bool cURL extension loaded
+	 */
+	private $isCURL;
+
+	/**
 	 * Loads user data and sets mode.
 	 *
 	 * @param string $mode Profile mode
@@ -60,6 +74,9 @@ class Profile implements Module
 	{
 		$this->mode = $mode;
 		$this->userData = Functions::getUserData(($userID = Functions::getValueFromGlobals($this->mode == 'formmail' ? 'target_id' : 'profile_id')) == '' ? Main::getModule('Auth')->getUserID() : $userID);
+		//Detect method to fetch achievements data (if enabled)
+		if(Main::getModule('Config')->getCfgVal('achievements') == 1 && !($this->isFGC = ini_get('allow_url_fopen') == '1'))
+			$this->isCURL = extension_loaded('curl');
 	}
 
 	/**
@@ -80,7 +97,7 @@ class Profile implements Module
 			elseif(file_exists($cacheFile = 'cache/' . $this->userData[1] . '-SteamGames.cache.php') && (filemtime($cacheFile) + 1800 > time()))
 				include($cacheFile);
 			//Load Steam games for user, if any (and class to handle XML data is available)
-			elseif(!class_exists('DOMDocument', false) || ini_get('allow_url_fopen') != '1')
+			elseif(!class_exists('DOMDocument', false) || (!$this->isFGC && !$this->isCURL))
 				$this->errors[] = Main::getModule('Language')->getString('text_function_not_supported', 'Messages');
 			elseif(empty($this->userData[18]))
 				$this->errors[] = Main::getModule('Language')->getString('please_enter_your_steam_profile_name');
@@ -209,7 +226,7 @@ class Profile implements Module
 			//Delete not needed data or: the template doesn't need to know these
 			unset($this->userData[8], $this->userData[11], $this->userData[15], $this->userData[16]);
 			//Prepare Steam games
-			if(Main::getModule('Config')->getCfgVal('achievements') == 1 && !empty($this->userData[18]) && class_exists('DOMDocument', false) && ini_get('allow_url_fopen') == '1')
+			if(Main::getModule('Config')->getCfgVal('achievements') == 1 && !empty($this->userData[18]) && class_exists('DOMDocument', false) && ($this->isFGC || $this->isCURL))
 			{
 				if(file_exists($cacheFile = 'cache/' . $this->userData[1] . '-SteamGames.cache.php'))
 					include($cacheFile);
@@ -305,10 +322,10 @@ class Profile implements Module
 				include($cacheFile);
 				break;
 			}
-			elseif(!class_exists('DOMDocument', false) || ini_get('allow_url_fopen') != '1')
+			elseif(!class_exists('DOMDocument', false) || (!$this->isFGC && !$this->isCURL))
 				Main::getModule('Template')->printMessage('function_not_supported');
 			$dom = new DOMDocument;
-			if(!@$dom->loadXML(file_get_contents('http://steamcommunity.com/' . (ctype_digit($this->userData[18]) ? 'profiles/' : 'id/') . $this->userData[18] . '/stats/' . $game . '/?tab=achievements&l=' . Main::getModule('Language')->getString('steam_language') . '&xml=all')))
+			if(!@$dom->loadXML($this->loadURL('http://steamcommunity.com/' . (ctype_digit($this->userData[18]) ? 'profiles/' : 'id/') . $this->userData[18] . '/stats/' . $game . '/?tab=achievements&l=' . Main::getModule('Language')->getString('steam_language') . '&xml=all')))
 				$this->errors[] = Main::getModule('Language')->getString('loading_achievements_failed');
 			elseif($dom->getElementsByTagName('error')->length == 0)
 			{
@@ -383,7 +400,7 @@ class Profile implements Module
 			$this->userData[6] = Functions::formatDate($this->userData[6] . '01000000');
 			$this->userData[7] = Main::getModule('BBCode')->parse(Functions::censor($this->userData[7]));
 			//Load Steam games for user, if any (and class to handle XML data is available)
-			if(Main::getModule('Config')->getCfgVal('achievements') == 1 && !empty($this->userData[18]) && !empty($this->userData[19]) && class_exists('DOMDocument', false) && ini_get('allow_url_fopen') == '1')
+			if(Main::getModule('Config')->getCfgVal('achievements') == 1 && !empty($this->userData[18]) && !empty($this->userData[19]) && class_exists('DOMDocument', false) && ($this->isFGC || $this->isCURL))
 			{
 				//Use cached game information
 				if(file_exists($cacheFile = 'cache/' . $this->userData[1] . '-SteamGames.cache.php'))
@@ -403,6 +420,31 @@ class Profile implements Module
 	}
 
 	/**
+	 * Loads data from the given URL depending on the supported modes.
+	 *
+	 * @param string $url URL to load its content
+	 * @return string|bool Loaded content or false
+	 */
+	private function loadURL($url)
+	{
+		if($this->isFGC)
+			return file_get_contents($url);
+		elseif($this->isCURL)
+		{
+			$cURL = curl_init($url);
+			curl_setopt($cURL, CURLOPT_HEADER, false);
+			curl_setopt($cURL, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($cURL, CURLOPT_TIMEOUT, ini_get('default_socket_timeout'));
+			curl_setopt($cURL, CURLOPT_USERAGENT, 'TBB ' . VERSION_PUBLIC);
+			$data = curl_exec($cURL);
+			curl_close($cURL);
+			return $data;
+		}
+		else
+			return false;
+	}
+
+	/**
 	 * Performs a hard refresh of user's Steam games regardless of cache state.
 	 * Required preconditions are <b>not</b> checked!
 	 *
@@ -412,7 +454,7 @@ class Profile implements Module
 	private function refreshSteamGames($cacheFile)
 	{
 		$dom = new DOMDocument;
-		if(!@$dom->loadXML(file_get_contents('http://steamcommunity.com/' . (ctype_digit($this->userData[18]) ? 'profiles/' : 'id/') . $this->userData[18] . '/games/?tab=all&l=' . Main::getModule('Language')->getString('steam_language') . '&xml=1')))
+		if(!@$dom->loadXML($this->loadURL('http://steamcommunity.com/' . (ctype_digit($this->userData[18]) ? 'profiles/' : 'id/') . $this->userData[18] . '/games/?tab=all&l=' . Main::getModule('Language')->getString('steam_language') . '&xml=1')))
 			return false;
 		else
 		{
