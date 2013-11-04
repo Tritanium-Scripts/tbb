@@ -1,6 +1,6 @@
 **********************************************************
 Tritanium Bulletin Board 1.5+ - Changelog (German version)
-Last changed: 02.10.2013 (Version 1.6.3)
+Last changed: 04.11.2013 (Version 1.6.3)
 **********************************************************
 
 2013: Version 1.6.3
@@ -243,5 +243,5 @@ Last changed: 02.10.2013 (Version 1.6.3)
 	- Verbesserte Locking-Technik verhindert die Vergabe von gleichen IDs bei neuen Benutzern, Themen und Umfragen und falschen Mitgliederzahlen im Falle von DDoS-ähnlichen Attacken
 
 Written by Chrissyx
-(c) 2010–2012 Tritanium Scripts
+(c) 2010–2013 Tritanium Scripts
 http://www.tritanium-scripts.com/

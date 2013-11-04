@@ -15,9 +15,9 @@ class Config
 	 * @var array Default values
 	 */
 	private static $cfgDefaults = array('/',	#path_to_forum
-		'http://www.meindedomain.de/forum',		#address_to_forum
+		'http://www.meinedomain.de/forum',		#address_to_forum
 		'Meineseite',							#site_name
-		'http://www.meindedomain.de/',			#site_address
+		'http://www.meinedomain.de/',			#site_address
 		'kontakt@meinedomain.de',				#site_contact
 		'Meinforum',							#forum_name
 		'',										#forum_logo

@@ -215,7 +215,7 @@
   </ul>
 
   <h3 id="firststeps">2.5 Erste Schritte</h3>
-  <p class="fontnorm">Ihr TBB 1.6 ist nun einsatzbereit und kann eingerichtet werden. Rufen Sie es dazu mit ihrem Browser auf (z.B. http://www.meindedomain.de/forum/index.php). Es sollte jetzt die Forenübersicht angezeigt werden. Als nächstes registrieren Sie sich erst einmal selbst, d.h. Sie klicken oben in der Menüleiste auf &quot;Registrieren&quot;, geben ihre Daten ein und schicken das ganze ab. Loggen Sie sich nun mit diesen Daten ein (Sie wurden automatisch als Administrator eingetragen). War dies erfolgreich, können Sie am unteren Ende der Seite auf den Link &quot;Administration&quot; klicken. Im Administrationsmenü können Sie nun (abhängig von den getroffenen Voreinstellungen) die Einstellungen bearbeiten und die Forenstruktur unter &quot;Foren/Kategorien&quot; anlegen. Sie sollten dabei <b>zuerst</b> mindestens eine Kategorie erstellen und danach die gewünschten Foren.</p>
+  <p class="fontnorm">Ihr TBB 1.6 ist nun einsatzbereit und kann eingerichtet werden. Rufen Sie es dazu mit ihrem Browser auf (z.B. http://www.meinedomain.de/forum/index.php). Es sollte jetzt die Forenübersicht angezeigt werden. Als nächstes registrieren Sie sich erst einmal selbst, d.h. Sie klicken oben in der Menüleiste auf &quot;Registrieren&quot;, geben ihre Daten ein und schicken das ganze ab. Loggen Sie sich nun mit diesen Daten ein (Sie wurden automatisch als Administrator eingetragen). War dies erfolgreich, können Sie am unteren Ende der Seite auf den Link &quot;Administration&quot; klicken. Im Administrationsmenü können Sie nun (abhängig von den getroffenen Voreinstellungen) die Einstellungen bearbeiten und die Forenstruktur unter &quot;Foren/Kategorien&quot; anlegen. Sie sollten dabei <b>zuerst</b> mindestens eine Kategorie erstellen und danach die gewünschten Foren.</p>
   <p class="fontnorm">Falls Probleme bei der Installation auftreten, lesen Sie sich bitte zuerst das <a href="#faq">FAQ</a> durch, bevor sie das Forum auf der <a href="http://www.tritanium-scripts.com/" target="_blank">Tritanium Scripts-Webseite</a> zu Rate ziehen.</p>
 
   <h2 id="update">3 Update einer älteren Version</h2>
@@ -265,7 +265,7 @@
    </li>
    <li>Löschen Sie alle Inhalte im Ordner <b>./cache/</b>.</li>
    <li>Nutzen Sie das externe Foumwerkzeug <b>ext_lposts.php</b>, so muss dieses durch die neuen Version ersetzt werden. Übertragen Sie dazu die vorhandenen Einstellungen in die neue Datei und ersetzen Sie ihre vorhandene Datei. Lesen Sie dazu auch <a href="#externaltools">Abschnitt 5</a> für mehr Details zu den Einstellungswerten.</li>
-   <li>Laden Sie nun die <b>setUpdateFlag.php</b> aus dem <b>./update/</b>-Ordner in das TBB-Verzeichnis und rufen Sie das Script mit ihrem Browser auf (z.B. http://www.meindedomain.de/forum/setUpdateFlag.php). Je nach Anzahl registrierter Mitglieder kann der Update-Prozess etwas dauern und notfalls durch erneutes Aufrufen fortgesetzt werden.</li>
+   <li>Laden Sie nun die <b>setUpdateFlag.php</b> aus dem <b>./update/</b>-Ordner in das TBB-Verzeichnis und rufen Sie das Script mit ihrem Browser auf (z.B. http://www.meinedomain.de/forum/setUpdateFlag.php). Je nach Anzahl registrierter Mitglieder kann der Update-Prozess etwas dauern und notfalls durch erneutes Aufrufen fortgesetzt werden.</li>
    <li>Löschen Sie die <b>setUpdateFlag.php</b> wieder, sobald eine &quot;Done!&quot;-Meldung angezeigt wird.</li>
    <li>Das Forum ist nun aktualisiert und der Wartungsmodus kann deaktiviert werden.</li>
   </ol>
@@ -290,7 +290,7 @@
    <li>Wenn vorhanden, tauschen Sie die <b>./uploads/.htaccess</b> durch die <b>./uploads/index.php</b> aus.</li>
    <li>Löschen Sie alle Inhalte im Ordner <b>./cache/</b>.</li>
    <li>Nutzen Sie das externe Foumwerkzeug <b>ext_lposts.php</b>, so muss dieses durch die neuen Version ersetzt werden. Übertragen Sie dazu die vorhandenen Einstellungen in die neue Datei und ersetzen Sie ihre vorhandene Datei. Lesen Sie dazu auch <a href="#externaltools">Abschnitt 5</a> für mehr Details zu den Einstellungswerten.</li>
-   <li>Laden Sie nun die <b>setUpdateFlag.php</b> aus dem <b>./update/</b>-Ordner in das TBB-Verzeichnis und rufen Sie das Script mit ihrem Browser auf (z.B. http://www.meindedomain.de/forum/setUpdateFlag.php). Je nach Anzahl registrierter Mitglieder kann der Update-Prozess etwas dauern und notfalls durch erneutes Aufrufen fortgesetzt werden.</li>
+   <li>Laden Sie nun die <b>setUpdateFlag.php</b> aus dem <b>./update/</b>-Ordner in das TBB-Verzeichnis und rufen Sie das Script mit ihrem Browser auf (z.B. http://www.meinedomain.de/forum/setUpdateFlag.php). Je nach Anzahl registrierter Mitglieder kann der Update-Prozess etwas dauern und notfalls durch erneutes Aufrufen fortgesetzt werden.</li>
    <li>Löschen Sie die <b>setUpdateFlag.php</b> wieder, sobald eine &quot;Done!&quot;-Meldung angezeigt wird.</li>
    <li>Öffnen Sie ihre <b>settings.var</b> aus dem <b>./vars/</b>-Ordner. Wenn Sie keine eigene <b>settings.var</b> haben, überspringen Sie die Punkte 11 und 12.</li>
    <li>
@@ -343,7 +343,7 @@
    <li>Haben Sie die gesicherte <b>settings.php</b> verändert und möchten die gemachten Einstellungen wieder fest ins TBB 1.6 einpflegen, lesen Sie bitte das Kapitel <a href="#configuration">Konfiguration</a>.</li>
    <li>Haben Sie die gesicherte <b>datapath.php</b> verändert, öffnen Sie die <b>./core/DataPath.php</b> und übertragen Sie die Pfadeinstellung. Ersetzen Sie dazu die Voreinstellung <code>./</code> durch ihren eigenen Pfad und laden die aktualisierte <b>DataPath.php</b> wieder in das <b>./core/</b>-Verzeichnis hoch.</li>
    <li>Nutzen Sie die externen Foumwerkzeuge <b>ext_lposts.php</b> und/oder <b>ext_wio.php</b>, so müssen diese durch die neuen Versionen ersetzt werden. Übertragen Sie dazu die gemachten Einstellungen in die neuen Dateien und ersetzen Sie ihre vorhandenen Dateien. Lesen Sie dazu auch <a href="#externaltools">Abschnitt 5</a> für mehr Details zu den neuen Einstellungswerten.</li>
-   <li>Laden Sie nun die <b>setUpdateFlag.php</b> aus dem <b>./update/</b>-Ordner in das TBB-Verzeichnis und rufen Sie das Script mit ihrem Browser auf (z.B. http://www.meindedomain.de/forum/setUpdateFlag.php). Je nach Anzahl registrierter Mitglieder kann der Update-Prozess etwas dauern und notfalls durch erneutes Aufrufen fortgesetzt werden.</li>
+   <li>Laden Sie nun die <b>setUpdateFlag.php</b> aus dem <b>./update/</b>-Ordner in das TBB-Verzeichnis und rufen Sie das Script mit ihrem Browser auf (z.B. http://www.meinedomain.de/forum/setUpdateFlag.php). Je nach Anzahl registrierter Mitglieder kann der Update-Prozess etwas dauern und notfalls durch erneutes Aufrufen fortgesetzt werden.</li>
    <li>Löschen Sie die <b>setUpdateFlag.php</b> wieder, sobald eine &quot;Done!&quot;-Meldung angezeigt wird.</li>
    <li>Öffnen Sie ihre <b>settings.var</b> aus dem <b>./vars/</b>-Ordner und löschen sie ab Zeile 57 die ganzen Leerzeilen. Wenn Sie keine eigene <b>settings.var</b> haben, überspringen Sie die Punkte 13 bis 15.</li>
    <li>
@@ -377,7 +377,7 @@ Supermoderator
    </li>
    <li>Ändern Sie Zeile 51 in <code>de-DE</code> um.</li>
    <li>Vergewissern Sie sich, dass die &quot;<b>settings.var</b>&quot; genau 82 Zeilen hat und laden Sie sie in den <b>./vars/</b>-Ordner.</li>
-   <li>Das Forum ist nun aktualisiert. Rufen Sie es auf (z.B. http://www.meindedomain.de/forum/index.php), loggen Sie sich ein und überprüfen Sie den Status. Konsultieren Sie das <a href="#faq">FAQ</a>, wenn Fehlermeldungen erscheinen.</li>
+   <li>Das Forum ist nun aktualisiert. Rufen Sie es auf (z.B. http://www.meinedomain.de/forum/index.php), loggen Sie sich ein und überprüfen Sie den Status. Konsultieren Sie das <a href="#faq">FAQ</a>, wenn Fehlermeldungen erscheinen.</li>
   </ol>
 
   <h4 id="updatetbb110">3.4.1 Update von Version 1.1</h4>
@@ -391,7 +391,7 @@ Supermoderator
    <li>Uploaden Sie die Datei .htaccess aus dem Ordner /update in den Ordner &quot;polls&quot;</li>
    <li>Uploaden Sie den Ordner &quot;language&quot; (mit Inhalt; ASCII-Modus!) auf ihren Webserver</li>
    <li>Updaten Sie den Ordner &quot;images&quot;, d.h. laden Sie den Ordner+Inhalt ins TBB-Verzeichnis und überschreiben Sie gegebenfalls ältere Dateien</li>
-   <li>Uploaden Sie die Datei &quot;update_11.php&quot; aus dem Ordner /update in ihr TBB-Verzeichnis (ASCII-Modus!) und öffnen Sie die Datei im Browser (z.B. http://www.meindedomain.de/tbb/update_11.php). Das Script updatet dann das Forum.</li>
+   <li>Uploaden Sie die Datei &quot;update_11.php&quot; aus dem Ordner /update in ihr TBB-Verzeichnis (ASCII-Modus!) und öffnen Sie die Datei im Browser (z.B. http://www.meinedomain.de/tbb/update_11.php). Das Script updatet dann das Forum.</li>
    <li>Löschen Sie die Datei &quot;update_11.php&quot; auf ihrem Webserver.</li>
   </ol>
   <p class="fontnorm">Das Forum sollte nun bereit für die Aktualisierung von 1.2.3 auf 1.6 sein.</p>
@@ -407,7 +407,7 @@ Supermoderator
    <li>Erstellen Sie im TBB-Verzeichnis die Ordner &quot;logs&quot;, &quot;vars&quot; und &quot;polls&quot;.</li>
    <li>Geben Sie den neu erstellten Ordnern &quot;logs&quot;, &quot;vars&quot; und &quot;polls&quot; die Rechte <b>777</b></li>
    <li>Uploaden Sie die Datei .htaccess (Binarymodus!) aus dem Ordner /update in die Verzeichnisse: &quot;foren&quot;, &quot;logs&quot;, &quot;members&quot;, &quot;vars&quot; und &quot;polls&quot; (das verhindert, dass jemand Daten per Browser lesen kann)</li>
-   <li>Uploaden Sie die Datei &quot;update_10.php&quot; aus dem Ordner /update in ihr TBB-Verzeichnis (ASCII-Modus!) und öffnen Sie die Datei im Browser (z.B. http://www.meindedomain.de/tbb/update_10.php). Das Script überprüft ihre Einstellungen und updatet dann das Forum.</li>
+   <li>Uploaden Sie die Datei &quot;update_10.php&quot; aus dem Ordner /update in ihr TBB-Verzeichnis (ASCII-Modus!) und öffnen Sie die Datei im Browser (z.B. http://www.meinedomain.de/tbb/update_10.php). Das Script überprüft ihre Einstellungen und updatet dann das Forum.</li>
    <li>Löschen Sie die Datei &quot;update_10.php&quot; auf ihrem Webserver.</li>
   </ol>
   <p class="fontnorm">Das Forum sollte nun bereit für die Aktualisierung von 1.2.3 auf 1.6 sein.</p>
@@ -431,9 +431,9 @@ Supermoderator
   <table border="1" class="fontnorm">
    <tr><th>Nr.</th><th>Bezeichner</th><th>Standardwert</th><th>Beschreibung</th><th>Ändern?</th></tr>
    <tr><td>0</td><td><code>path_to_forum</code></td><td>/</td><td>Pfad für Cookies</td><td style="color:red; text-align:center;">&#10005;</td></tr>
-   <tr><td>1</td><td><a href="#addresstoforum"><code>address_to_forum</code></a></td><td>http://www.meindedomain.de/forum</td><td>URL zum Forum</td><td style="color:green; text-align:center;">&#10003;</td></tr>
+   <tr><td>1</td><td><a href="#addresstoforum"><code>address_to_forum</code></a></td><td>http://www.meinedomain.de/forum</td><td>URL zum Forum</td><td style="color:green; text-align:center;">&#10003;</td></tr>
    <tr><td>2</td><td><code>site_name</code></td><td>Meineseite</td><td>Name der Webseite, zu der das Forum gehört</td><td style="color:green; text-align:center;">&#10003;</td></tr>
-   <tr><td>3</td><td><code>site_address</code></td><td>http://www.meindedomain.de/</td><td>URL der Webseite, zu der das Forum gehört</td><td style="color:green; text-align:center;">&#10003;</td></tr>
+   <tr><td>3</td><td><code>site_address</code></td><td>http://www.meinedomain.de/</td><td>URL der Webseite, zu der das Forum gehört</td><td style="color:green; text-align:center;">&#10003;</td></tr>
    <tr><td>4</td><td><code>site_contact</code></td><td>kontakt@meinedomain.de</td><td>Allgemeine E-Mail-Adresse zur Kontaktaufnahme</td><td style="color:green; text-align:center;">&#10003;</td></tr>
    <tr><td>5</td><td><code>forum_name</code></td><td>Meinforum</td><td>Name des Forums</td><td style="color:green; text-align:center;">&#10003;</td></tr>
    <tr><td>6</td><td><code>forum_logo</code></td><td></td><td>URL / Pfad des Forumlogos</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
