@@ -43,6 +43,18 @@ $this->DB->query('
 ');
 
 $this->DB->queryParams('
+    UPDATE
+        '.TBLPFX.'config
+    SET
+        "configValue"=$1
+    WHERE
+        "configName"=$2',
+array(
+    'std',
+    'standard_tpl'
+);
+
+$this->DB->queryParams('
 	INSERT INTO '.TBLPFX.'config SET
 		"configName"=$1,
 		"configValue"=$2
@@ -51,10 +63,38 @@ $this->DB->queryParams('
 	'1'
 ));
 
-//TODO: ok?
 $this->DB->query('
 	ALTER TABLE '.TBLPFX.'sessions
 		CHANGE "sessionLastLocation" "sessionLastLocation" VARCHAR(255) NOT NULL DEFAULT \'ForumIndex\'
 ');
+
+$this->DB->queryParams('
+    UPDATE
+        '.TBLPFX.'sessions
+    SET
+        "sessionLastLocation"=$1
+    WHERE
+        "sessionLastLocation"=$2',
+array(
+    'ForumIndex',
+    'forumindex'
+);
+
+$this->DB->queryParams('
+    UPDATE
+        '.TBLPFX.'profile_fields
+    SET
+        "fieldVarName"=$1,
+        "fieldLink"=$2,
+        "fieldIsLocked"=$3
+    WHERE
+        "fieldName"=$4
+        AND "fieldVarName" LIKE \'a%\'
+',array(
+    'homepage',
+    '<a href="%1$s" target="_blank">%1$s</a>',
+    1,
+    'Homepage'
+));
 
 $nextUpdateFile = '';
