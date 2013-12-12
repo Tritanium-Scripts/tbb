@@ -42,17 +42,18 @@ $this->DB->query('
 		ADD "userAuthDownload" tinyint(1) unsigned NOT NULL default \'2\' AFTER "userAuthUpload"
 ');
 
+//Update configs
 $this->DB->queryParams('
     UPDATE
         '.TBLPFX.'config
     SET
         "configValue"=$1
     WHERE
-        "configName"=$2',
-array(
+        "configName"=$2
+',array(
     'std',
     'standard_tpl'
-);
+));
 
 $this->DB->queryParams('
 	INSERT INTO '.TBLPFX.'config SET
@@ -63,6 +64,7 @@ $this->DB->queryParams('
 	'1'
 ));
 
+//Update session locations
 $this->DB->query('
 	ALTER TABLE '.TBLPFX.'sessions
 		CHANGE "sessionLastLocation" "sessionLastLocation" VARCHAR(255) NOT NULL DEFAULT \'ForumIndex\'
@@ -74,12 +76,13 @@ $this->DB->queryParams('
     SET
         "sessionLastLocation"=$1
     WHERE
-        "sessionLastLocation"=$2',
-array(
+        "sessionLastLocation"=$2
+',array(
     'ForumIndex',
     'forumindex'
-);
+));
 
+//Update profile fields
 $this->DB->queryParams('
     UPDATE
         '.TBLPFX.'profile_fields
@@ -95,6 +98,17 @@ $this->DB->queryParams('
     '<a href="%1$s" target="_blank">%1$s</a>',
     1,
     'Homepage'
+));
+
+$this->DB->queryParams('
+    UPDATE
+        '.TBLPFX.'profile_fields
+    SET
+        "fieldData"=$1
+    WHERE
+        "fieldData"=\'\'
+',array(
+    serialize(array())
 ));
 
 $nextUpdateFile = '';

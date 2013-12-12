@@ -12,7 +12,7 @@
 </tr>
 <tr>
  <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('field_variable_name')}:</span><br/><span class="FontSmall">{$modules.Language->getString('field_variable_name_info')}</span></td>
- <td class="CellAlt"><input class="FormText" type="text" size="40" name="p[fieldVarName]" value="{$p.fieldVarName}"/></td>
+ <td class="CellAlt"><input class="FormText" type="text" size="40" name="p[fieldVarName]" value="{$p.fieldVarName}"{if $p.fieldIsLocked == 1} disabled="disabled"{/if}/></td>
 </tr>
 <tr>
  <td class="CellStd"><span class="FontNorm">{$modules.Language->getString('field_type')}:</span></td>

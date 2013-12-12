@@ -42,7 +42,7 @@ class AdminProfileFields extends ModuleTemplate {
 			case 'AddField':
 				$p = Functions::getSGValues($_POST['p'],array('fieldName','fieldRegexVerification','fieldLink','fieldData','fieldType','fieldVarName'),'');
 				$c = Functions::getSGValues($_POST['c'],array('fieldIsRequired','fieldShowRegistration','fieldShowMemberlist'),0);
-				
+
 				$errors = array();
 
 				if(!in_array($p['fieldType'],array(PROFILE_FIELD_TYPE_SELECTMULTI,PROFILE_FIELD_TYPE_SELECTSINGLE,PROFILE_FIELD_TYPE_TEXT,PROFILE_FIELD_TYPE_TEXTAREA)))
@@ -52,7 +52,7 @@ class AdminProfileFields extends ModuleTemplate {
 
 				if(isset($_GET['doit'])) {
 					$c = Functions::getSGValues($_POST['c'],array('fieldIsRequired','fieldShowRegistration','fieldShowMemberlist'),0);
-					
+
 					$this->modules['DB']->queryParams('SELECT "fieldID" FROM '.TBLPFX.'profile_fields WHERE "fieldVarName"=$1',array($p['fieldVarName']));
 					if(trim($p['fieldVarName']) == '' || $this->modules['DB']->numRows() > 0) $errors[] = $this->modules['Language']->getString('error_existing_field_variable_name');
 
@@ -60,7 +60,7 @@ class AdminProfileFields extends ModuleTemplate {
 						$fieldData = array();
 						if(trim($p['fieldData']) != '')
 							$fieldData = explode("\n",Functions::str_replace("\r",'',trim($p['fieldData'])));
-	
+
 	                    $this->modules['DB']->queryParams('
 	                        INSERT INTO
 	                            '.TBLPFX.'profile_fields
@@ -85,7 +85,7 @@ class AdminProfileFields extends ModuleTemplate {
 	                        $p['fieldLink'],
 	                        $p['fieldVarName']
 	                    ));
-	
+
 						Functions::myHeader(INDEXFILE.'?action=AdminProfileFields&'.MYSID);
 					}
 				}
@@ -105,11 +105,10 @@ class AdminProfileFields extends ModuleTemplate {
 
                 $this->modules['DB']->queryParams('SELECT * FROM '.TBLPFX.'profile_fields WHERE "fieldID"=$1', array($fieldID));
 				($this->modules['DB']->getAffectedRows() == 0) ? die('Cannot load data: profile field') : $fieldData = $this->modules['DB']->fetchArray();
-				//if($fieldData['fieldIsLocked'] == 1) die('Cannot edit field: locked field');
-				
+
 				$errors = array();
 
-				$p = Functions::getSGValues($_POST['p'],array('fieldName','fieldRegexVerification','fieldLink','fieldType','fieldVarName'),'',$fieldData);
+				$p = Functions::getSGValues($_POST['p'],array('fieldName','fieldRegexVerification','fieldLink','fieldType','fieldVarName','fieldIsLocked'),'',$fieldData);
 				$c = Functions::getSGValues($_POST['c'],array('fieldIsRequired','fieldShowRegistration','fieldShowMemberlist'),0,$fieldData);
 
 				$p['fieldData'] = isset($_POST['p']['fieldData']) ? $_POST['p']['fieldData'] : implode("\n",unserialize($fieldData['fieldData']));
@@ -124,12 +123,12 @@ class AdminProfileFields extends ModuleTemplate {
 
 					$this->modules['DB']->queryParams('SELECT "fieldID" FROM '.TBLPFX.'profile_fields WHERE "fieldVarName"=$1 AND "fieldID"<>$2',array($p['fieldVarName'],$fieldID));
 					if(trim($p['fieldVarName']) == '' || $this->modules['DB']->numRows() > 0) $errors[] = $this->modules['Language']->getString('error_existing_field_variable_name');
-					
+
 					if(count($errors) == 0) {
 						$fieldData = array();
 						if(trim($p['fieldData']) != '')
 							$fieldData = explode("\n",Functions::str_replace("\r",'',trim($p['fieldData'])));
-	
+
 	                    $this->modules['DB']->queryParams('
 	                        UPDATE
 	                            '.TBLPFX.'profile_fields
@@ -157,7 +156,7 @@ class AdminProfileFields extends ModuleTemplate {
 	                        $fieldID,
 	                        $p['fieldVarName']
 	                    ));
-	                    
+
 						Functions::myHeader(INDEXFILE.'?action=AdminProfileFields&'.MYSID);
 					}
 				}

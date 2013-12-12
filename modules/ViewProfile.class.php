@@ -322,7 +322,7 @@ class ViewProfile extends ModuleTemplate {
 				while($curResult = $this->modules['DB']->fetchArray())
 					$fieldsData[$curResult['fieldVarName']] = $curResult;
 				//Start building the vCard
-				$vCard = "BEGIN:VCARD\nVERSION:3.0\nN:;;;;\nFN:" . ($fieldsData['realName'] ? $fieldsData['realName']['fieldValue'] : '') . "\nNICKNAME:" . $profileData['userNick'] . "\n" . (($profileData['userHideEmailAddress'] != '1') ? 'EMAIL;TYPE=internet:' . $profileData['userEmailAddress'] . "\n" : '') . 'URL:' . $fieldsData['homepage']['fieldValue'] . "\nCLASS:" . (($this->modules['Config']->getValue('guests_enter_board') != '1') ? 'PRIVATE' : 'PUBLIC') . "\nX-GENERATOR:Tritanium Bulletin Board 2\nEND:VCARD";
+				$vCard = "BEGIN:VCARD\nVERSION:3.0\nN:;;;;\nFN:" . (isset($fieldsData['realName']) ? $fieldsData['realName']['fieldValue'] : '') . "\nNICKNAME:" . $profileData['userNick'] . "\n" . (($profileData['userHideEmailAddress'] != '1') ? 'EMAIL;TYPE=internet:' . $profileData['userEmailAddress'] . "\n" : '') . 'URL:' . $fieldsData['homepage']['fieldValue'] . "\nCLASS:" . (($this->modules['Config']->getValue('guests_enter_board') != '1') ? 'PRIVATE' : 'PUBLIC') . "\nX-GENERATOR:Tritanium Bulletin Board 2\nEND:VCARD";
 				header('Content-Disposition: attachment; filename=' . $profileData['userNick'] . '.vcf');
 				header('Content-Length: ' . strlen($vCard));
 				header('Content-Type: text/x-vCard; charset=UTF-8; name=' . $profileData['userNick'] . '.vcf');
