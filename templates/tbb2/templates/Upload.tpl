@@ -6,7 +6,7 @@
  <head>
   <title>{$smarty.config.navBarDelim|implode:$modules.NavBar->getNavBar(false)}</title>
   <meta name="author" content="Chrissyx" />
-  <meta name="copyright" content="&copy; 2010&ndash;2012 Tritanium Scripts" />
+  <meta name="copyright" content="&copy; 2010&ndash;2014 Tritanium Scripts" />
   <meta name="keywords" content="TBB,Tritanium,Tritanium Scripts,TBB {$smarty.const.VERSION_PUBLIC},Tritanium Bulletin Board,{$modules.Config->getCfgVal('site_name')},{','|implode:$modules.NavBar->getNavBar(false)}" />
   <meta name="description" content="{sprintf($modules.Language->getString('html_description'), $modules.Config->getCfgVal('site_name'), $smarty.const.VERSION_PUBLIC)}" />
   <meta name="robots" content="all" />
@@ -39,7 +39,7 @@
   <br />
   <p id="copyrightBox">
    Tritanium Bulletin Board {$smarty.const.VERSION_PUBLIC}<br />
-   &copy; 2010&ndash;2012 <a href="http://www.tritanium-scripts.com/" target="_blank">Tritanium Scripts</a>
+   &copy; 2010&ndash;2014 <a href="http://www.tritanium-scripts.com/" target="_blank">Tritanium Scripts</a>
   </p>
   </div>
  </body>

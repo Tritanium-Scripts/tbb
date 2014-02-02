@@ -3,7 +3,7 @@
  * Manages an user profile incl. sending mails, vCard download and Steam achievements.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2013 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2014 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1.6
  */
@@ -435,7 +435,7 @@ class Profile implements Module
 			curl_setopt($cURL, CURLOPT_HEADER, false);
 			curl_setopt($cURL, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($cURL, CURLOPT_TIMEOUT, ini_get('default_socket_timeout'));
-			curl_setopt($cURL, CURLOPT_USERAGENT, 'TBB ' . VERSION_PUBLIC);
+			curl_setopt($cURL, CURLOPT_USERAGENT, 'TBB/' . VERSION_PUBLIC);
 			$data = curl_exec($cURL);
 			curl_close($cURL);
 			return $data;

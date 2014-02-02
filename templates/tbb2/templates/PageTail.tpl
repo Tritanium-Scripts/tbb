@@ -6,7 +6,7 @@
   <br />
   <p id="copyrightBox">
    Tritanium Bulletin Board {$smarty.const.VERSION_PUBLIC}<br />
-   &copy; 2010&ndash;2012 <a href="http://www.tritanium-scripts.com/" target="_blank">Tritanium Scripts</a>
+   &copy; 2010&ndash;2014 <a href="http://www.tritanium-scripts.com/" target="_blank">Tritanium Scripts</a>
   </p>
   <br />{if $modules.Config->getCfgVal('show_site_creation_time')}
   <p id="techStats">
