@@ -434,9 +434,17 @@ class Profile implements Module
 			$cURL = curl_init($url);
 			curl_setopt($cURL, CURLOPT_HEADER, false);
 			curl_setopt($cURL, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($cURL, CURLOPT_TIMEOUT, ini_get('default_socket_timeout'));
+			$checkRedir = !@curl_setopt($cURL, CURLOPT_FOLLOWLOCATION, true);
+			curl_setopt($cURL, CURLOPT_TIMEOUT, ini_get('default_socket_timeout'));
 			curl_setopt($cURL, CURLOPT_USERAGENT, 'TBB/' . VERSION_PUBLIC);
 			$data = curl_exec($cURL);
+			if($checkRedir)
+			{
+				$cURLInfo = curl_getinfo($cURL);
+				//Perform a manual location following if not supported by cURL
+				if($cURLInfo['http_code'] == 302 && isset($cURLInfo['redirect_url']))
+					$data = $this->loadURL($cURLInfo['redirect_url']);
+			}
 			curl_close($cURL);
 			return $data;
 		}
