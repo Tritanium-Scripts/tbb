@@ -1,10 +1,12 @@
 **********************************************************
 Tritanium Bulletin Board 1.5+ - Changelog (German version)
-Last changed: 08.02.2014 (Version 1.6.4)
+Last changed: 15.03.2014 (Version 1.6.4)
 **********************************************************
 
 2015: Version 1.6.4
 	- Manuelles Nachverfolgen von Weiterleitungen wenn cURL dies nicht unterstützt
+	- Smarty auf Version 3.1.17 aktualisiert
+	- Verkürzte Thementitel von letzten Beiträgen komplett sichtbar als Tooltip
 
 02.02.2014: Version 1.6.3 (offiziell)
 	- Irreführende PHP-Warnungen auf schlecht konfigurierten Systemen bei Erstregistrierung tauchen wirklich nicht mehr auf

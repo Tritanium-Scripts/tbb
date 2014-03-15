@@ -300,7 +300,7 @@ class Profile implements Module
 			Main::getModule('WhoIsOnline')->setLocation('vCard,' . $this->userData[1]);
 			$vCard = "BEGIN:VCARD\nVERSION:3.0\nN:;;;;\nFN:" . $this->userData[12] . "\nNICKNAME:" . $this->userData[0] . "\n" . ($this->userData[14][1] == '1' ? 'EMAIL;TYPE=INTERNET:' . $this->userData[3] . "\n" : '') . 'URL:' . $this->userData[9] . "\nCLASS:" . (Main::getModule('Config')->getCfgVal('must_be_logged_in') == 1 ? 'PRIVATE' : 'PUBLIC') . "\nX-GENERATOR:Tritanium Bulletin Board " . VERSION_PUBLIC . "\n" . (!empty($this->userData[13]) ? 'X-ICQ:' . $this->userData[13] . "\n" : '') . 'END:VCARD';
 			header('Content-Disposition: attachment; filename=' . htmlspecialchars_decode($this->userData[0]) . '.vcf');
-			header('Content-Length: ' . strlen($vCard));
+			header('Content-Length: ' . Functions::strlen($vCard));
 			header('Content-Type: text/x-vCard; charset=' . Main::getModule('Language')->getString('vcard_encoding') . '; name=' . htmlspecialchars_decode($this->userData[0]) . '.vcf');
 			exit($vCard);
 			break;

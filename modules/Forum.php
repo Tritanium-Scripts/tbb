@@ -481,7 +481,7 @@ class Forum implements Module
 						$curLastPost = Main::getModule('Template')->fetch('LastPost', array('tSmileyURL' => Functions::getTSmileyURL($curLastPostData[3]),
 							'forumID' => $curForum[0],
 							'topicID' => $curLastPostData[0],
-							'topicTitle' => Functions::shorten(Functions::censor(@next(Functions::explodeByTab(current(Functions::file($curTopicFile))))), 22),
+							'topicTitle' => Functions::censor(@next(Functions::explodeByTab(current(Functions::file($curTopicFile))))),
 							//Prepare user of current last posting
 							'user' => Functions::getProfileLink($curLastPostData[1], true),
 							'date' => Functions::formatDate($curLastPostData[2])));
