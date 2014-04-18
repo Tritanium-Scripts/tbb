@@ -182,9 +182,9 @@ class Main implements Module
 		if(self::getModule('Config')->getCfgVal('append_sid_url') == 1 || SID != '')
 		{
 			//URL-based
-			define('SID_QMARK', '?sid=' . session_id());
-			define('SID_AMPER', '&amp;sid=' . session_id());
-			define('SID_AMPER_RAW', '&sid=' . session_id());
+            define('SID_QMARK', '?' . htmlspecialchars(SID));
+            define('SID_AMPER', '&amp;' . htmlspecialchars(SID));
+            define('SID_AMPER_RAW', '&' . htmlspecialchars(SID));
 		}
 		else
 		{
