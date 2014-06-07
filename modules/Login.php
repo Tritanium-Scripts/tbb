@@ -193,7 +193,7 @@ class Login implements Module
 				}
 			}
 			else
-				//In case the nick was submitted from login formular (send != 1) additional decode is needed
+				//In case the nick was submitted from login form (send != 1) additional decode is needed
 				$this->loginName = urldecode($this->loginName);
 			break;
 
@@ -217,7 +217,7 @@ class Login implements Module
 			Main::getModule('Template')->printMessage('successfully_logged_out', INDEXFILE . SID_QMARK);
 			break;
 		}
-		//Show formular (again)
+		//Show form (again)
 		Main::getModule('Template')->printPage(FunctionsBasic::handleMode($this->mode, self::$modeTable, __CLASS__), array('loginName' => $this->loginName,
 			'errors' => $this->errors));
 	}

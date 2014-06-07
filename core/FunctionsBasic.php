@@ -402,7 +402,7 @@ class FunctionsBasic
 	 * Returns hash value for stated string.
 	 * If supported, SHA-2 (SHA-512) will be used, DES as fallback and downward compatibility to TBB 1.2.3 otherwise.
 	 *
-	 * @param string $data String to hash with SHA-2 (or DES)
+	 * @param string $string String to hash with SHA-2 (or DES)
 	 * @return string Hash value of string
 	 */
 	public static function getHash($string)
@@ -692,7 +692,7 @@ class FunctionsBasic
 		if(self::isGuestID($userID) || !($user = @self::file('members/' . $userID . '.xbb')) || $user[4] == '5')
 			return false;
 		$user[14] = self::explodeByComma($user[14]); //Mail options
-		//Downward compatibility: Create fields that does't exist in TBB 1.2.3
+		//Downward compatibility: Create fields that doesn't exist in TBB 1.2.3
 		if(!isset($user[16]))
 			$user[16] = '';
 		if(!isset($user[17]))
@@ -775,7 +775,7 @@ class FunctionsBasic
 	 * Tests an user ID for being a guest ID.
 	 *
 	 * @param int|string $id User ID to test
-	 * @return ID is a guest ID
+	 * @return bool ID is a guest ID
 	 */
 	public static function isGuestID($id)
 	{

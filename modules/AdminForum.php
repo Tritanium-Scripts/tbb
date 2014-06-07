@@ -688,9 +688,9 @@ class AdminForum implements Module
 	}
 
 	/**
-	 * Returns all user IDs with moderator positons.
+	 * Returns all user IDs with moderator positions.
 	 *
-	 * @return array Moderator IDs of entire borad
+	 * @return array Moderator IDs of entire board
 	 */
 	private function getModIDs()
 	{

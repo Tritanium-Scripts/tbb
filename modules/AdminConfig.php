@@ -28,7 +28,7 @@ class AdminConfig implements Module
 		'rebuildTopicIndex' => 'AdminConfigRebuildConfirm');
 
 	/**
-	 * Maximal execution time for couting to require a break to continue.
+	 * Maximal execution time for counting to require a break to continue.
 	 *
 	 * @var int Seconds timeout
 	 */

@@ -71,6 +71,7 @@ class Forum implements Module
 	/**
 	 * Detects IDs, page and sets mode.
 	 *
+     * @param string $mode Forum mode to execute
 	 * @return Forum New instance of this class
 	 */
 	function __construct($mode)

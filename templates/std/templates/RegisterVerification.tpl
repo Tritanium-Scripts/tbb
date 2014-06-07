@@ -1,4 +1,4 @@
-<!-- RegisterVerfication -->
+<!-- RegisterVerification -->
 {include file='Errors.tpl'}
 <form action="{$smarty.const.INDEXFILE}?faction=register&amp;mode=verifyAccount{$smarty.const.SID_AMPER}" method="post">
 <table class="tbl" cellpadding="{$modules.Config->getCfgVal('tpadding')}" cellspacing="{$modules.Config->getCfgVal('tspacing')}" style="width:{$modules.Config->getCfgVal('twidth')}; margin:auto;">

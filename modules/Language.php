@@ -111,6 +111,7 @@ class Language
 	 * Parses a language file and adds its contents to cached strings.
 	 *
 	 * @param string $file Name of language INI file
+     * @return bool File contents being cached
 	 */
 	public function parseFile($file)
 	{

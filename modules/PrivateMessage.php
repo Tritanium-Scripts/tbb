@@ -300,7 +300,7 @@ class PrivateMessage implements Module
 	/**
 	 * Returns current and fully exploded PMs from user.
 	 *
-	 * @param string PM box type file ending
+	 * @param string $boxType PM box type file ending
 	 * @return array All saved PMs from current user
 	 */
 	private function getPMs($boxType)

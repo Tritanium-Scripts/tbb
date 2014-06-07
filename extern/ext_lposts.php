@@ -35,7 +35,7 @@ class ExtLastPosts
 	private static $x_by_x_on_x = '%s von %s am %s'; //Do not change the number of %s
 	public static $deleted = 'Gelöscht';
 	public static $deleted_moved = 'Gelöscht / Verschoben';
-	private static $DATEFORMAT = '%d. %B %Y %H:%M'; //Values explained @ http://www.php.net/date
+	private static $DATE_FORMAT = '%d. %B %Y %H:%M'; //Values explained @ http://www.php.net/date
 
 
 /* Do not change anything beyond this line */
@@ -64,7 +64,7 @@ class ExtLastPosts
 			define('EXT_IS_UTF8', self::$isUTF8);
 			require_once(EXT_PATH_TO_FORUM . 'core/ExtFunctions.php');
 			error_reporting(ERR_REPORTING);
-			//Qick 'n' dirty fix to set "proper" timezone
+			//Quick 'n' dirty fix to set "proper" timezone
 			@date_default_timezone_set(date_default_timezone_get());
 			#$this->oldLocale = setlocale(LC_ALL, '0');
 		}
@@ -87,7 +87,7 @@ class ExtLastPosts
 					//Topic check + link + title preparation
 					!ExtFunctions::file_exists('foren/' . $curNewestPost[0] . '-' . $curNewestPost[1] . '.xbb') ? (EXT_IS_UTF8 ? self::$deleted : utf8_decode(self::$deleted)) : '<img src="' . ExtFunctions::getTSmileyURL($curNewestPost[4]) . '" alt="" /> <a href="' . EXT_PATH_TO_FORUM . INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curNewestPost[0] . '&amp;thread=' . $curNewestPost[1] . '&amp;z=last#post' . $curNewestPost[5] . '">' . ExtFunctions::getTopicName($curNewestPost[0], $curNewestPost[1]) . '</a>',
 					ExtFunctions::getProfileLink($curNewestPost[2], true),
-					ExtFunctions::formatDate($curNewestPost[3], self::$DATEFORMAT)) . '<br />');
+					ExtFunctions::formatDate($curNewestPost[3], self::$DATE_FORMAT)) . '<br />');
 				self::$numOfLastPosts--;
 			}
 			#setlocale(LC_ALL, $this->oldLocale);

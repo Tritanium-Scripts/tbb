@@ -25,7 +25,7 @@ class AdminNewsletter implements Module
 		'accept' => 'AdminNewsletterConfirm');
 
 	/**
-	 * Maximal execution time for sending newletter to require a break to continue.
+	 * Maximal execution time for sending newsletter to require a break to continue.
 	 *
 	 * @var int Seconds timeout
 	 */

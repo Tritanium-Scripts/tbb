@@ -541,7 +541,7 @@ class WhoIsOnline implements Module
 	/**
 	 * Refreshes contents of the WIO data file by removing outdated entries.
 	 *
-	 * @param string $deleteID Optional WIO ID to delete nevertheless
+	 * @param string $deleteWIOID Optional WIO ID to delete nevertheless
 	 * @return array Already exploded contents of refreshed WIO file.
 	 */
 	private function refreshVar($deleteWIOID='')

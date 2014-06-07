@@ -42,7 +42,7 @@ class Register implements Module
 	 *
 	 * @var array Mode and template counterparts
 	 */
-	private static $modeTable = array('' => 'Register', 'register' => 'Register', 'createuser' => 'Register', 'verifyAccount' => 'RegisterVerfication');
+	private static $modeTable = array('' => 'Register', 'register' => 'Register', 'createuser' => 'Register', 'verifyAccount' => 'RegisterVerification');
 
 	/**
 	 * Provides named keys for new user data.
@@ -182,7 +182,7 @@ class Register implements Module
 			}
 			break;
 
-//RegisterVerfication
+//RegisterVerification
 			case 'verifyAccount':
 			Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('activate_account'), INDEXFILE . '?faction=register&amp;mode=verifyAccount' . SID_AMPER);
 			if(($code = Functions::getValueFromGlobals('code')) != '')
