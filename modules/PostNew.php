@@ -237,7 +237,7 @@ class PostNew implements Module
 	/**
 	 * Writes a new topic and updates all associated counters and statistics.
 	 *
-	 * @param LockObject $lastTopicIDFile File handle to user for writing new ID
+	 * @param LockObject $lastTopicIDFile File handle to use for writing new ID
 	 * @param int $newLastTopicID ID of new topic to write
 	 * @param int $newLastPollID Optional ID of new poll to link from new topic
 	 * @return array Compiled topic data from build process
