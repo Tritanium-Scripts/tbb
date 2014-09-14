@@ -62,8 +62,21 @@ class MemberList implements Module
 	 */
 	public function execute()
 	{
-		if(Main::getModule('Config')->getCfgVal('activate_mlist') != 1)
+		switch(Main::getModule('Config')->getCfgVal('activate_mlist'))
+		{
+			case 2:
+			if(!Main::getModule('Auth')->isLoggedIn())
+				Main::getModule('Template')->printMessage('login_only', INDEXFILE . '?faction=register' . SID_AMPER, INDEXFILE . '?faction=login' . SID_AMPER);
+
+			case 1:
+			//All good
+			break;
+
+			case 0:
+			default:
 			Main::getModule('Template')->printMessage('function_deactivated');
+			break;
+		}
 		$memberFiles = $members = $pageBar = array();
 		//Build page navigation bar
 		$pages = ceil(($size = count($availMembers = glob(DATAPATH . 'members/[!0t]*.xbb'))) / $this->limit);

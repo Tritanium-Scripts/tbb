@@ -91,7 +91,7 @@
  </tr>
  <tr>
   <td class="td1" style="font-weight:bold;"><span class="norm">{$modules.Language->getString('enable_member_list')}</span></td>
-  <td class="td1" style="vertical-align:top;"><input type="radio" id="y35" name="settings[35]" value="1"{if $configValues['activate_mlist'] == 1} checked="checked"{/if} /><label for="y35" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="n35" name="settings[35]" value="0"{if $configValues['activate_mlist'] != 1} checked="checked"{/if} /><label for="n35" class="norm">{$modules.Language->getString('negative')}</label></td>
+  <td class="td1" style="vertical-align:top;">{html_options name='settings[35]' values=array(1, 0, 2) output=array($modules.Language->getString('positive'), $modules.Language->getString('negative'), $modules.Language->getString('for_members_only')) selected=$configValues['activate_mlist']}</td>
  </tr>
  <tr>
   <td class="td1" style="font-weight:bold;"><span class="norm">{$modules.Language->getString('number_of_members_per_page')}</span></td>
