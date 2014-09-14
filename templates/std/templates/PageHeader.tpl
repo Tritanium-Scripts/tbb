@@ -77,7 +77,7 @@ function negateBoxes(id)
      <a href="{$smarty.const.INDEXFILE}?faction=faq{$smarty.const.SID_AMPER}">{$modules.Language->getString('faq')}</a> |
      <a href="{$smarty.const.INDEXFILE}?faction=pm&amp;mode=overview{$smarty.const.SID_AMPER}">{$modules.Language->getString('private_messages')}</a> |
      <a href="{$smarty.const.INDEXFILE}?faction=search{$smarty.const.SID_AMPER}">{$modules.Language->getString('search')}</a> | {if $modules.Config->getCfgVal('wio') == 1}
-     <a href="{$smarty.const.INDEXFILE}?faction=wio{$smarty.const.SID_AMPER}">{$modules.Language->getString('who_is_online')}</a> | {/if}{if $modules.Config->getCfgVal('activate_mlist') == 1}
+     <a href="{$smarty.const.INDEXFILE}?faction=wio{$smarty.const.SID_AMPER}">{$modules.Language->getString('who_is_online')}</a> | {/if}{if $modules.Config->getCfgVal('activate_mlist') != 0}
      <a href="{$smarty.const.INDEXFILE}?faction=mlist{$smarty.const.SID_AMPER}">{$modules.Language->getString('member_list')}</a> | {/if}
      <a href="{$smarty.const.INDEXFILE}?faction=todaysPosts{$smarty.const.SID_AMPER}">{$modules.Language->getString('todays_posts')}</a> |
      <a href="{$smarty.const.INDEXFILE}?faction=newsletter{$smarty.const.SID_AMPER}">{$modules.Language->getString('newsletter_archive')}</a> |
