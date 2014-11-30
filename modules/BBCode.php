@@ -4,9 +4,9 @@
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
  * @author Julian Backes <julian@tritanium-scripts.com>
- * @copyright Copyright (c) 2010 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2014 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
- * @package TBB1.5
+ * @package TBB1.6
  */
 class BBCode
 {
@@ -98,8 +98,12 @@ class BBCode
 			$string = htmlspecialchars_decode($string, ENT_COMPAT);
 		if($enableSmilies)
 		{
+			//Prevent ") -> &quot;) -> &quot<img...
+			$string = Functions::str_replace('&quot;)', '&quot;&#41;', $string);
 			$string = strtr($string, $this->smilies);
 			$string = strtr($string, $this->aSmilies);
+			//...and revert it back
+			$string = Functions::str_replace('&quot;&#41;', '&quot;)', $string);
 		}
 		if($enableBBCode)
 		{

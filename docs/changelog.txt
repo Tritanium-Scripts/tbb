@@ -1,6 +1,6 @@
 **********************************************************
 Tritanium Bulletin Board 1.5+ - Changelog (German version)
-Last changed: 19.10.2014 (Version 1.6.4)
+Last changed: 30.11.2014 (Version 1.6.4)
 **********************************************************
 
 12.2014: Version 1.6.4
@@ -9,6 +9,7 @@ Last changed: 19.10.2014 (Version 1.6.4)
 	- Mögliche XSS-Schwäche bei der Behandlung von Session-IDs behoben
 	- Mitgliederliste nur für Mitglieder anzeigbar
 	- Smarty auf Version 3.1.21 aktualisiert
+	- Ungültiges HTML durch Parsen des ;) Smileys behoben
 
 02.02.2014: Version 1.6.3 (offiziell)
 	- Irreführende PHP-Warnungen auf schlecht konfigurierten Systemen bei Erstregistrierung tauchen wirklich nicht mehr auf
