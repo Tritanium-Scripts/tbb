@@ -1,7 +1,10 @@
 **********************************************************
 Tritanium Bulletin Board 1.5+ - Changelog (German version)
-Last changed: 03.01.2015 (Version 1.6.4)
+Last changed: 26.01.2015 (Version 1.6.5)
 **********************************************************
+
+2015: Version 1.6.5
+	- Fehlerhafter Link bei Benachrichtigungen von Moderatoren behoben
 
 04.01.2015: Version 1.6.4 (offiziell)
 	- Manuelles Nachverfolgen von Weiterleitungen wenn cURL dies nicht unterstützt
@@ -253,5 +256,5 @@ Last changed: 03.01.2015 (Version 1.6.4)
 	- Verbesserte Locking-Technik verhindert die Vergabe von gleichen IDs bei neuen Benutzern, Themen und Umfragen und falschen Mitgliederzahlen im Falle von DDoS-ähnlichen Attacken
 
 Written by Chrissyx
-(c) 2010–2014 Tritanium Scripts
+(c) 2010–2015 Tritanium Scripts
 http://www.tritanium-scripts.com/

@@ -3,7 +3,7 @@
  * Manages post process of new topic or new poll.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010, 2011 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2015 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1.6
  */
@@ -169,7 +169,7 @@ class PostNew implements Module
 					//Notify mods
 					if($this->forum[7][2] == '1')
 						foreach(array_map(array('Functions', 'getUserData'), Functions::explodeByComma($this->forum[11])) as $curMod)
-							Functions::sendMessage($curMod[3], 'notify_mod_new_poll', $curMod[0], Main::getModule('Config')->getCfgVal('address_to_forum') . '/' . INDEXFILE . '?faction=readforum&mode=viewthread&forum_id=' . $this->forum[0] . '&thread=' . $newLastTopicID);
+							Functions::sendMessage($curMod[3], 'notify_mod_new_poll', $curMod[0], Main::getModule('Config')->getCfgVal('address_to_forum') . '/' . INDEXFILE . '?mode=viewthread&forum_id=' . $this->forum[0] . '&thread=' . $newLastTopicID);
 					//Done
 					Main::getModule('Logger')->log('New poll (' . $this->forum[0] . ',' . $newLastTopicID . ') posted by %s', LOG_NEW_POSTING);
 					Functions::skipConfirmMessage(INDEXFILE . '?mode=viewthread&forum_id=' . $this->forum[0] . '&thread=' . $newLastTopicID . SID_AMPER_RAW);
@@ -213,7 +213,7 @@ class PostNew implements Module
 					//Notify mods
 					if($this->forum[7][2] == '1' && !empty($this->forum[11]))
 						foreach(array_map(array('Functions', 'getUserData'), Functions::explodeByComma($this->forum[11])) as $curMod)
-							Functions::sendMessage($curMod[3], 'notify_mod_new_topic', $curMod[0], Main::getModule('Config')->getCfgVal('address_to_forum') . '/' . INDEXFILE . '?faction=readforum&mode=viewthread&forum_id=' . $this->forum[0] . '&thread=' . $newLastTopicID);
+							Functions::sendMessage($curMod[3], 'notify_mod_new_topic', $curMod[0], Main::getModule('Config')->getCfgVal('address_to_forum') . '/' . INDEXFILE . '?mode=viewthread&forum_id=' . $this->forum[0] . '&thread=' . $newLastTopicID);
 					//Done
 					Main::getModule('Logger')->log('New topic (' . $this->forum[0] . ',' . $newLastTopicID . ') posted by %s', LOG_NEW_POSTING);
 					Functions::skipConfirmMessage(INDEXFILE . '?mode=viewthread&forum_id=' . $this->forum[0] . '&thread=' . $newLastTopicID . SID_AMPER_RAW);
