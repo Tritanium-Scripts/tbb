@@ -2,21 +2,21 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" dir="{$modules.Language->getString('html_direction')}" lang="{$modules.Language->getLangCode()}" xml:lang="{$modules.Language->getLangCode()}">
  <head>
-  <title>{$smarty.config.navBarDelim|implode:$modules.NavBar->getNavBar(false)}</title>
+  <meta http-equiv="Content-Type" content="application/xhtml+xml; charset={$modules.Language->getString('html_encoding')}" />
+  <meta http-equiv="Content-Language" content="{$modules.Language->getLangCode()}" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="author" content="Chrissyx" />
   <meta name="copyright" content="&copy; 2010&ndash;2015 Tritanium Scripts" />
-  <meta name="keywords" content="TBB,Tritanium,Tritanium Scripts,TBB {$smarty.const.VERSION_PUBLIC},Tritanium Bulletin Board,{$modules.Config->getCfgVal('site_name')},{','|implode:$modules.NavBar->getNavBar(false)}" />
   <meta name="description" content="{sprintf($modules.Language->getString('html_description'), $modules.Config->getCfgVal('site_name'), $smarty.const.VERSION_PUBLIC)}" />
-  <meta name="revisit-after" content="7 days" />
   <meta name="generator" content="Notepad 4.10.1998" />
-  <meta http-equiv="Content-Language" content="{$modules.Language->getLangCode()}" />
-  <meta http-equiv="Content-Type" content="application/xhtml+xml; charset={$modules.Language->getString('html_encoding')}" />
-  <meta http-equiv="Content-Style-Type" content="text/css" />
-  <meta http-equiv="Content-Script-Type" content="text/javascript" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <link rel="stylesheet" media="all" href="{$modules.Template->getTplDir()}{$modules.Auth->getUserStyle()}" />
-  <link rel="shortcut icon" type="image/x-icon" href="{$modules.Template->getTplDir()}images/favicon.ico" />
-  <link rel="alternate" type="application/rss+xml" title="{$modules.Config->getCfgVal('forum_name')|string_format:$modules.Language->getString('x_rss_feed')}" href="{$smarty.const.INDEXFILE}?faction=rssFeed" />
+  <meta name="keywords" content="TBB,Tritanium,Tritanium Scripts,TBB {$smarty.const.VERSION_PUBLIC},Tritanium Bulletin Board,{$modules.Config->getCfgVal('site_name')},{','|implode:$modules.NavBar->getNavBar(false)}" />
+  <meta name="revisit-after" content="7 days" />
+  <meta name="robots" content="all" />
+  <link href="{$modules.Template->getTplDir()}images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+  <link href="{$modules.Template->getTplDir()}{$modules.Auth->getUserStyle()}" media="all" rel="stylesheet" />
+  <link href="{$smarty.const.INDEXFILE}?faction=rssFeed" rel="alternate" title="{$modules.Config->getCfgVal('forum_name')|string_format:$modules.Language->getString('x_rss_feed')}" type="application/rss+xml" />
   <style type="text/css">
    input[type=radio]
    {
@@ -49,7 +49,7 @@
 /**
  * Negates the checked state of stated "delete" checkboxes.
  *
- * @author Christoph Jahn <chris@tritanium-scripts.com>
+ * @author Chrissyx
  */
 function negateBoxes(id)
 {
@@ -59,6 +59,7 @@ function negateBoxes(id)
 };
 /* ]]> */
   </script>
+  <title>{$smarty.config.navBarDelim|implode:$modules.NavBar->getNavBar(false)}</title>
  </head>
  <body style="padding-top:1em;"{if $modules.PrivateMessage->isRemind() && $unreadPMs > 0} onload="if(confirm('{if $unreadPMs == 1}{$modules.Language->getString('you_have_one_new_pm')}{elseif $unreadPMs > 1}{$unreadPMs|string_format:$modules.Language->getString('you_have_x_new_pms')}{/if}')) document.location='{$smarty.const.INDEXFILE}?faction=pm';"{/if}>
   <div id="main">
