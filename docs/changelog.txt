@@ -1,12 +1,14 @@
 **********************************************************
 Tritanium Bulletin Board 1.5+ - Changelog (German version)
-Last changed: 06.03.2015 (Version 1.6.5)
+Last changed: 2015-06-16 (Version 1.6.5)
 **********************************************************
 
 2015: Version 1.6.5
 	- Fehlerhafter Link bei Benachrichtigungen von Moderatoren behoben
 	- Mögliche Umlautdarstellungsprobleme im Firefox behoben
 	- Alle HTML Kopfbereiche überarbeitet und vereinheitlicht
+	- Smarty auf Version 3.1.25 aktualisiert
+	- Neuer [iframe]-BBCode
 
 04.01.2015: Version 1.6.4 (offiziell)
 	- Manuelles Nachverfolgen von Weiterleitungen wenn cURL dies nicht unterstützt
