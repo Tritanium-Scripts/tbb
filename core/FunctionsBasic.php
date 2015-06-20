@@ -93,7 +93,7 @@ class FunctionsBasic
 		$tempBBCode = time(); //This is the placeholder for "url"
 		$subject = preg_replace_callback("/([^ ^>^\]^=^\n^\r]+?:\/\/|www\.)[^ ^<^\.^\[]+(\.[^ ^<^\.^\[^\]^\n^\r]+)+/si", create_function('$arr', 'return !empty($arr[2]) && Functions::stripos($arr[0], \'[url]\') === false && Functions::strripos($arr[0], \'[/url]\') === false ? \'[' . $tempBBCode . ']\' . ($arr[1] == \'www.\' ? \'http://\' : \'\') . $arr[0] . \'[/' . $tempBBCode . ']\' : $arr[0];'), $subject);
 		//After adding [url]s to *any* link, strip off unwanted ones:
-		foreach(array('flash', 'url', 'img', 'email', 'code', 'php', 'noparse') as $curBBCode)
+		foreach(array('iframe', 'flash', 'url', 'img', 'email', 'code', 'php', 'noparse') as $curBBCode)
 		{
 			//Remove the simple ones, e.g. [flash][url]xxx[/url][/flash]
 			$subject = Functions::str_ireplace(array('[' . $curBBCode . '][' . $tempBBCode . ']', '[/' . $tempBBCode . '][/' . $curBBCode . ']'), array('[' . $curBBCode . ']', '[/' . $curBBCode . ']'), $subject);
