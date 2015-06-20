@@ -83,7 +83,7 @@
   <meta http-equiv="Content-Script-Type" content="text/javascript" />
   <meta http-equiv="Content-Style-Type" content="text/css" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="author" content="Chrissyx" />
+  <meta name="author" content="Tritanium Scripts" />
   <meta name="copyright" content="&copy; 2010&ndash;2015 Tritanium Scripts" />
   <meta name="generator" content="Notepad 4.10.1998" />
   <meta name="robots" content="all" />
