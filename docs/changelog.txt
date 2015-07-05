@@ -1,6 +1,6 @@
 **********************************************************
 Tritanium Bulletin Board 1.5+ - Changelog (German version)
-Last changed: 2015-06-20 (Version 1.6.5)
+Last changed: 2015-07-05 (Version 1.6.5)
 **********************************************************
 
 2015: Version 1.6.5
@@ -9,6 +9,7 @@ Last changed: 2015-06-20 (Version 1.6.5)
 	- Smarty auf Version 3.1.27 aktualisiert
 	- Alle HTML Kopfbereiche überarbeitet und vereinheitlicht
 	- Neuer [iframe]-BBCode
+	- Fehler beim automatischen Einloggen, nachdem ein neues Passwort angefordert wurde, behoben
 
 04.01.2015: Version 1.6.4 (offiziell)
 	- Manuelles Nachverfolgen von Weiterleitungen wenn cURL dies nicht unterstützt

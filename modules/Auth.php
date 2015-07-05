@@ -43,9 +43,9 @@
  * </ol>
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2015 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
- * @package TBB1.5
+ * @package TBB1.6
  */
 class Auth
 {
@@ -92,7 +92,7 @@ class Auth
 		elseif(isset($_COOKIE['cookie_xbbuser']))
 		{
 			$cUser = Functions::explodeByTab($_COOKIE['cookie_xbbuser']);
-			if(!empty($cUser[1]) && ($cUserData = @Functions::file('members/' . $cUser[0] . '.xbb')) != false && $cUser[1] == $cUserData[2])
+			if(!empty($cUser[1]) && ($cUserData = @Functions::file('members/' . $cUser[0] . '.xbb')) != false && $cUser[1] == current(Functions::explodeByTab($cUserData[2])))
 			{
 				$this->loggedIn = true;
 				$_SESSION['userID'] = $cUser[0];
