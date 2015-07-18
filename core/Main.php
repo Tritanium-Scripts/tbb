@@ -123,6 +123,9 @@ class Main implements Module
 		//Revert quoted strings on GPC vars, if needed
 		if(ini_get('magic_quotes_gpc') == '1')
 			list($_GET, $_POST, $_COOKIE) = Functions::stripSlashesDeep(array($_GET, $_POST, $_COOKIE));
+        //Set proper charset, if needed
+		if(ini_get('default_charset') != 'UTF-8')
+			ini_set('default_charset', 'UTF-8');
 		//Qick 'n' dirty fix to set "proper" timezone
 		@date_default_timezone_set(date_default_timezone_get());
 	}
