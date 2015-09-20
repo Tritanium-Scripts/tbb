@@ -3,7 +3,7 @@
  * Various static functions and wrappers.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2013 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2015 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1.6
  */
@@ -429,6 +429,16 @@ class FunctionsBasic
 	public static function getIPAddress()
 	{
 		return ($saveIPAddress = Main::getModule('Config')->getCfgVal('save_ip_address')) > 0 ? ($saveIPAddress == 2 && Main::getModule('Auth')->isLoggedIn() ? '' : $_SERVER['REMOTE_ADDR']) : '';
+	}
+
+	/**
+	 * Returns additional supported ISO-8859-15 characters.
+	 *
+	 * @return array (X)HTML entities of additional supported ISO-8859-15 characters
+	 */
+	public static function getLatin9Entities()
+	{
+		return self::$latin9Entities;
 	}
 
 	/**

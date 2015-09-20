@@ -98,12 +98,14 @@ class BBCode
 			$string = htmlspecialchars_decode($string, ENT_COMPAT);
 		if($enableSmilies)
 		{
+			$unmaskedBrackets = array_map(create_function('$entity', 'return $entity . \')\';'), array_merge(array('&quot;'), Functions::getLatin9Entities()));
+			$maskedBrackets = array_map(create_function('$entity', 'return $entity . \'&#41;\';'), array_merge(array('&quot;'), Functions::getLatin9Entities()));
 			//Prevent ") -> &quot;) -> &quot<img...
-			$string = Functions::str_replace('&quot;)', '&quot;&#41;', $string);
+			$string = Functions::str_replace($unmaskedBrackets, $maskedBrackets, $string);
 			$string = strtr($string, $this->smilies);
 			$string = strtr($string, $this->aSmilies);
 			//...and revert it back
-			$string = Functions::str_replace('&quot;&#41;', '&quot;)', $string);
+			$string = Functions::str_replace($maskedBrackets, $unmaskedBrackets, $string);
 		}
 		if($enableBBCode)
 		{
