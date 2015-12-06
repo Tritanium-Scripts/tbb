@@ -581,7 +581,7 @@ class FunctionsBasic
 			$rankImage = array_fill(0, Main::getModule('Config')->getCfgVal('stars_smod'), 'bstar');
 			break;
 		}
-		return '<img src="images/ranks/' . implode('.gif" alt="*" /><img src="images/ranks/', $rankImage) . '.gif" alt="*" />';
+		return isset($rankImage) ? '<img src="images/ranks/' . implode('.gif" alt="*" /><img src="images/ranks/', $rankImage) . '.gif" alt="*" />' : '';
 	}
 
 	/**

@@ -3,7 +3,7 @@
  * Manages members.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010, 2011 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2015 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1.6
  */
@@ -193,6 +193,15 @@ class AdminUser implements Module
 					//Decrease member counter
 					$lockObj = Functions::getLockObject('vars/member_counter.var');
 					$lockObj->setFileContent($lockObj->getFileContent()-1);
+					//In case of self-deletion
+					if($editUser[1] == Main::getModule('Auth')->getUserID())
+					{
+						//Perform a logout "light"
+						unset($_SESSION['userID'], $_SESSION['userHash']);
+						//Notify other modules
+						Main::getModule('WhoIsOnline')->delete($editUser[1]);
+						Main::getModule('Auth')->loginChanged();
+					}
 					//Done
 					Main::getModule('Logger')->log('%s deleted user (ID: ' . $editUser[1] . ')', LOG_ACP_ACTION);
 					Main::getModule('Template')->printMessage('member_deleted');
