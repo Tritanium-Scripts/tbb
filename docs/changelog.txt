@@ -1,12 +1,11 @@
 **********************************************************
 Tritanium Bulletin Board 1.5+ - Changelog (German version)
-Last changed: 2015-12-07 (Version 1.6.5)
+Last changed: 2015-12-13 (Version 1.6.5)
 **********************************************************
 
-2015: Version 1.6.5
+12.2015: Version 1.6.5
 	- Fehlerhafter Link bei Benachrichtigungen von Moderatoren behoben
 	- Mögliche Umlautdarstellungsprobleme im Firefox behoben
-	- Smarty auf Version 3.1.27 aktualisiert
 	- Alle HTML Kopfbereiche überarbeitet und vereinheitlicht
 	- Neuer [iframe]-BBCode
 	- Fehler beim automatischen Einloggen, nachdem ein neues Passwort angefordert wurde, behoben
@@ -14,6 +13,7 @@ Last changed: 2015-12-07 (Version 1.6.5)
 	- Ungültiges HTML durch Parsen des ;) Smileys durch bestimmte ISO-8859-15 Zeichen behoben
 	- Fehler bei Generierung von Rangbilder behoben, wenn kein Rang für eine bestimmte Anzahl von Beiträgen definiert ist
 	- Fehler bei Löschen des eigenen Profils über das ACP behoben
+	- Smarty auf Version 3.1.28 aktualisiert (PHP 7 Kompatibilität)
 
 04.01.2015: Version 1.6.4 (offiziell)
 	- Manuelles Nachverfolgen von Weiterleitungen wenn cURL dies nicht unterstützt
