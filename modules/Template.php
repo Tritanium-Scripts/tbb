@@ -46,7 +46,7 @@ class Template
 		//Load config(s)
 		foreach(glob($this->tplDir . 'config/*.conf') as $curConfig)
 			$this->smarty->configLoad($curConfig);
-		$this->smarty->setDebugging($this->smarty->getConfigVariable('debug'));
+		$this->smarty->setDebugging($this->smarty->getConfigVars('debug'));
 		//Assign defaults
 		$this->smarty->assignByRef('modules', Main::getModules())
 			->assignByRef('smartyTime', $this->smarty->start_time);
