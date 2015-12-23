@@ -1,6 +1,6 @@
 **********************************************************
 Tritanium Bulletin Board 1.5+ - Changelog (German version)
-Last changed: 2015-12-21 (Version 1.6.5)
+Last changed: 2015-12-23 (Version 1.6.5)
 **********************************************************
 
 12.2015: Version 1.6.5
@@ -14,6 +14,7 @@ Last changed: 2015-12-21 (Version 1.6.5)
 	- Fehler bei Generierung von Rangbilder behoben, wenn kein Rang für eine bestimmte Anzahl von Beiträgen definiert ist
 	- Fehler bei Löschen des eigenen Profils über das ACP behoben
 	- Smarty auf Version 3.1.29 aktualisiert (PHP 7 Kompatibilität)
+	- Fehlerhafte Weiterleitung bei "Alle Foren als gelesen markieren"-Link behoben
 
 04.01.2015: Version 1.6.4 (offiziell)
 	- Manuelles Nachverfolgen von Weiterleitungen wenn cURL dies nicht unterstützt

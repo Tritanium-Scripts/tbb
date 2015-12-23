@@ -438,7 +438,7 @@ class Forum implements Module
 			foreach(array_map(create_function('$curForum', 'return current(Functions::explodeByTab($curForum));'), Functions::file('vars/foren.var')) as $curForumID)
 				setcookie('forum_' . $curForumID, $cookieData[0], $cookieData[1], $cookieData[2]);
 			//Simple wasn't it?
-			header('Location: ' . INDEXFILE . SID_AMPER_RAW);
+			header('Location: ' . INDEXFILE . SID_QMARK);
 			Main::getModule('Template')->printMessage('forums_marked_as_read');
 			break;
 
