@@ -1,6 +1,6 @@
 **********************************************************
 Tritanium Bulletin Board 1.5+ - Changelog (German version)
-Last changed: 2015-12-23 (Version 1.6.5)
+Last changed: 2015-12-25 (Version 1.6.5)
 **********************************************************
 
 12.2015: Version 1.6.5
@@ -14,7 +14,9 @@ Last changed: 2015-12-23 (Version 1.6.5)
 	- Fehler bei Generierung von Rangbilder behoben, wenn kein Rang für eine bestimmte Anzahl von Beiträgen definiert ist
 	- Fehler bei Löschen des eigenen Profils über das ACP behoben
 	- Smarty auf Version 3.1.29 aktualisiert (PHP 7 Kompatibilität)
-	- Fehlerhafte Weiterleitung bei "Alle Foren als gelesen markieren"-Link behoben
+	- Fehlerhafte Weiterleitung mit SID bei "Alle Foren als gelesen markieren"-Link behoben
+	- ICQ-UIN-Link aktualisiert
+	- Editieren der Homepage bei Benutzer bearbeiten im ACP
 
 04.01.2015: Version 1.6.4 (offiziell)
 	- Manuelles Nachverfolgen von Weiterleitungen wenn cURL dies nicht unterstützt
@@ -197,7 +199,7 @@ Last changed: 2015-12-23 (Version 1.6.5)
 	- Credits nicht mehr IE-only
 	- WWO-Box mit Rekordanzeige unter der WIO-Box
 	- Datum von letzten Beiträgen als fett bei bestimmten Alter
-	- Keine Cookie-Probleme mehr unter PHP5
+	- Keine Cookie-Probleme mehr unter PHP 5
 	- SID-Parameter in URL komplett optional
 	- Hinweis-Link bei verschobenen Themen
 	- Themen als wichtig anpinnen
@@ -232,7 +234,7 @@ Last changed: 2015-12-23 (Version 1.6.5)
 	- Ausgewählte Beitragsgrafik bleibt nach Vorschau selektiert
 	- Anzeige der neuesten Beiträge mit Beitragsgrafik
 	- Umfragen mit unbegrenzten Antwortmöglichkeiten, keine Vorauswahlseite mehr nötig
-	- Hinzufügen und löschen von Antwortmöglichkeiten "on-the-fly" wie im TBB 2.0
+	- Hinzufügen und Löschen von Antwortmöglichkeiten "on-the-fly" wie im TBB 2.0
 	- Automatisches entfernen von SID-Parametern bei jedem neuen Beitrag
 	- URLs in Beiträgen können automatisch mit [url]-BBCode versehen werden
 	- Sperren von IP-Adressen für das gesamte Forum von Beiträgen aus funktioniert nun

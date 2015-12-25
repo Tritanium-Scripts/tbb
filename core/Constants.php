@@ -10,6 +10,7 @@
 define('SCRIPTSTART', microtime(true));
 define('INDEXFILE', 'index.php');
 define('ERR_REPORTING', E_ERROR | E_WARNING | E_PARSE); //Report only warnings or higher
+define('COPYRIGHT_YEAR', 2015); //Displayed in page footer
 /*
  * Two version numbers of this script are used
  * to prevent selective bug using in case of
@@ -55,7 +56,7 @@ define('BBCODE_QUOTE', 18);		//Quote
 define('BBCODE_CODE', 19);		//Code / PHP
 define('BBCODE_IFRAME', 20);	//Inline frame
 //Smiley types
-define('SMILEY_SMILEY', 0);		//Normal smiles
+define('SMILEY_SMILEY', 0);		//Normal smilies
 define('SMILEY_TOPIC', 1);		//Post icons
 define('SMILEY_ADMIN', 2);		//Admin and (s)mod smilies
 ?>

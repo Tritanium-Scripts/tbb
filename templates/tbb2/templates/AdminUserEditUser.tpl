@@ -1,5 +1,5 @@
 {include file='AdminMenu.tpl'}
-{* 0:nick - 1:id - 3:mail - 4:rank - 7:signature - 10:avatar *}
+{* 0:nick - 1:id - 3:mail - 4:rank - 7:signature - 9:homepage - 10:avatar *}
 <!-- AdminUserEditUser -->
 {include file='Errors.tpl'}
 <form method="post" action="{$smarty.const.INDEXFILE}?faction=ad_user&amp;mode=edit&amp;edit=yes{$smarty.const.SID_AMPER}">
@@ -24,6 +24,10 @@
  <tr>
   <td class="cellStd"><span class="fontNorm">{$modules.Language->getString('special_user_rank_colon')}</span></td>
   <td class="cellAlt"><span class="fontNorm"><input class="formText" type="text" name="specialState" value="{$editUser[17]}" style="width:250px;" /></span> <span class="fontSmall">{$modules.Language->getString('overrides_normal_user_rank')}</span></td>
+ </tr>
+ <tr>
+  <td class="cellStd"><span class="fontNorm">{$modules.Language->getString('homepage_colon')}</span></td>
+  <td class="cellAlt"><span class="fontNorm"><input class="formText" type="text" name="hp" value="{$editUser[9]}" style="width:250px;" /></span> <span class="fontSmall">{$modules.Language->getString('http_dots')}</span></td>
  </tr>
  <tr>
   <td class="cellStd"><span class="fontNorm">{$modules.Language->getString('avatar_colon')}</span></td>
