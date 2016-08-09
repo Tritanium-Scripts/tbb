@@ -312,7 +312,7 @@ class AdminForum implements Module
 							}
 							//#2 Get IDs of users to upgrade rank
 							foreach(array_diff($editModIDs, $editForum[11]) as $curModID)
-								//Verify they need to be upgraded aka not being mod somehwere else already
+								//Verify they need to be upgraded aka not being mod somewhere else already
 								if(!in_array($curModID, $allModIDs) && !empty($curModID))
 								{
 									$curUser = Functions::getUserData($curModID);

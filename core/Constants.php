@@ -17,7 +17,7 @@ define('COPYRIGHT_YEAR', 2016); //Displayed in page footer
  * security vulnerabilities of a specific version.
  */
 define('VERSION_PUBLIC', '1.6');
-define('VERSION_PRIVATE', VERSION_PUBLIC . '.5.0');
+define('VERSION_PRIVATE', VERSION_PUBLIC . '.6.0');
 //Define global data path
 include('DataPath.php');
 //Logging constants

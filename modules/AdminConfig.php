@@ -3,7 +3,7 @@
  * Manages the board configuration and maintenance operations.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010, 2011 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2016 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1.6
  */
@@ -155,7 +155,7 @@ class AdminConfig implements Module
 						$curForum[3] = $_SESSION['recalculateCounters']['total'][$curForum[0]]['topics'];
 						$curForum[4] = $_SESSION['recalculateCounters']['total'][$curForum[0]]['posts'];
 					}
-				Functions::file_put_contents('vars/foren.var', implode("\n", array_map(array('Functions', 'implodeByTab'), $forums)));
+				Functions::file_put_contents('vars/foren.var', implode("\n", array_map(array('Functions', 'implodeByTab'), $forums)) . "\n");
 				Functions::releaseLock('foren');
 				unset($_SESSION['recalculateCounters']);
 				//Now the members

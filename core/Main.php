@@ -3,7 +3,7 @@
  * Loads main module and executes desired forum action and/or subAction.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2014 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2016 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1.6
  */
@@ -139,7 +139,7 @@ class Main implements Module
 		error_reporting(intval(self::getModule('Config')->getCfgVal('error_level')));
 		//Set locale for dates and number formats
 		setlocale(LC_ALL, Functions::explodeByComma(self::getModule('Language')->getString('locale', 'Main')));
-		//Set timeout for getting image sizes or steam achievements if not available
+		//Set timeout for getting image sizes or Steam achievements if not available
 		if(self::getModule('Config')->getCfgVal('use_getimagesize') == 1 || self::getModule('Config')->getCfgVal('achievements') == 1)
 			@ini_set('default_socket_timeout', 3);
 		//Check using file caching
@@ -231,7 +231,11 @@ class Main implements Module
 		if(!isset(self::$loadedModules[$module]))
 		{
 			if(!file_exists('modules/' . $module . '.php'))
-				exit(self::getModule('Logger')->log('Call to unknown module "' . $module . '"', LOG_FILESYSTEM) . '<b>ERROR:</b> Module ' . $module . ' does not exist!');
+			{
+				if($module != 'Config') //In case of "Config.php.new" to prevent redeclaring Logger
+					self::getModule('Logger')->log('Call to unknown module "' . $module . '"', LOG_FILESYSTEM);
+				exit('<b>ERROR:</b> Module ' . $module . ' does not exist!');
+			}
 			include('modules/' . $module . '.php');
 			self::$loadedModules[$module] = !isset($mode) ? new $module : new $module($mode);
 		}
