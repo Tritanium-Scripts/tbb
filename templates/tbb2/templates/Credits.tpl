@@ -146,12 +146,6 @@
   <p id="fader" style="position:relative; width:100%;">
     {foreach $credits as $curCredit}<span class="fade">{$curCredit}</span>{/foreach}
   </p>
-  <object data="http://www.youtube-nocookie.com/v/8Af372EQLck?rel=0&amp;autoplay=1&amp;hd=1" type="application/x-shockwave-flash" width="1" height="1">
-   <param name="allowFullScreen" value="false "/>
-   <param name="allowScriptAccess" value="sameDomain" />
-   <param name="movie" value="http://www.youtube-nocookie.com/v/8Af372EQLck?rel=0&amp;autoplay=1&amp;hd=1" />
-   <param name="quality" value="autohigh" />
-   <param name="wmode" value="transparent" />
-  </object>
+  <iframe src="https://www.youtube-nocookie.com/embed/8Af372EQLck?rel=0&amp;autoplay=1" width="1" height="1" frameborder="0"></iframe>
  </body>
 </html>

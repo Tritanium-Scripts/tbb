@@ -181,7 +181,7 @@ class Login implements Module
 						if($this->loginName == Functions::strtolower($curMember[0]))
 						{
 							$curMember[2] = current(Functions::explodeByTab($curMember[2])) . "\t" . Functions::getHash($newPass = Functions::getRandomPass());
-							Functions::file_put_contents('members/' . $curMember[1]. '.xbb', implode("\n", $curMember));
+							Functions::file_put_contents('members/' . $curMember[1] . '.xbb', implode("\n", $curMember));
 							if(!Functions::sendMessage($curMember[3], 'new_password_requested', $_SERVER['REMOTE_ADDR'], Functions::getValueFromGlobals('nick'), $newPass, Main::getModule('Config')->getCfgVal('address_to_forum') . '/' . INDEXFILE . '?faction=login'))
 								Main::getModule('Template')->printMessage('sending_mail_failed');
 							Main::getModule('Logger')->log('New password requested and sent to "' . $curMember[0] . '" (ID: ' . $curMember[1] . ')', LOG_NEW_PASSWORD);
