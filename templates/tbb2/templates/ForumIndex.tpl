@@ -49,7 +49,7 @@
 
 {if $modules.Config->getCfgVal('wio') == 1}
 {$wioUser=$modules.WhoIsOnline->getUserWIO()}
-{* 0:guests - 1:ghosts - 2:memberProfiles *}
+{* 0:guests - 1:ghosts - 2:memberProfiles - 3:bots *}
 <br />
 <!-- WIO -->
 <table class="tableStd" cellpadding="{$modules.Config->getCfgVal('tpadding')}" cellspacing="{$modules.Config->getCfgVal('tspacing')}" style="width:100%;">
@@ -57,24 +57,19 @@
  <tr><td class="cellStd"><span class="fontSmall">{$modules.Config->getCfgVal('wio_timeout')|string_format:$modules.Language->getString('in_last_x_min_were_active_colon')}<br />
   {if empty($wioUser[2])}{$modules.Language->getString('no_members')}{else}{$modules.Language->getString('members_colon')} {', '|implode:$wioUser[2]}{/if}<br />
   {if $wioUser[1] == 0}{$modules.Language->getString('no_ghosts')}{elseif $wioUser[1] == 1}{$modules.Language->getString('one_ghost')}{else}{$wioUser[1]|string_format:$modules.Language->getString('x_ghosts')}{/if}<br />
-  {if $wioUser[0] == 0}{$modules.Language->getString('no_guests')}{elseif $wioUser[0] == 1}{$modules.Language->getString('one_guest')}{else}{$wioUser[0]|string_format:$modules.Language->getString('x_guests')}{/if}<br /><br />
+  {if $wioUser[0] == 0}{$modules.Language->getString('no_guests')}{elseif $wioUser[0] == 1}{$modules.Language->getString('one_guest')}{else}{$wioUser[0]|string_format:$modules.Language->getString('x_guests')}{/if}<br />
+  {if $wioUser[3] == 0}{$modules.Language->getString('no_bots')}{elseif $wioUser[3] == 1}{$modules.Language->getString('one_bot')}{else}{$wioUser[3]|string_format:$modules.Language->getString('x_bots')}{/if}<br /><br />
   <span style="font-weight:bold;">{$modules.Language->getString('legend_colon')}</span> <span{if $modules.Config->getCfgVal('wio_color_admin') != ''} style="color:{$modules.Config->getCfgVal('wio_color_admin')};"{/if}>{$modules.Language->getString('administrator')}</span> &ndash; <span{if $modules.Config->getCfgVal('wio_color_smod') != ''} style="color:{$modules.Config->getCfgVal('wio_color_smod')};"{/if}>{$modules.Language->getString('super_moderator')}</span> &ndash; <span{if $modules.Config->getCfgVal('wio_color_mod') != ''} style="color:{$modules.Config->getCfgVal('wio_color_mod')};"{/if}>{$modules.Language->getString('moderator')}</span> &ndash; <span{if $modules.Config->getCfgVal('wio_color_user') != ''} style="color:{$modules.Config->getCfgVal('wio_color_user')};"{/if}>{$modules.Language->getString('member')}</span> &ndash; <span{if $modules.Config->getCfgVal('wio_color_banned') != ''} style="color:{$modules.Config->getCfgVal('wio_color_banned')};"{/if}>{$modules.Language->getString('banned')}</span></span></td></tr>
 </table>
 <br />
 <!-- WWO -->
 {$wwoUser=$modules.WhoIsOnline->getUserWWO()}
-{* 0:guests - 1:ghosts - 2:members - 3:0:memberProfiles - 3:1:isGhost *}
+{* 0:guests - 1:ghosts - 2:members - 3:0:memberProfiles - 3:1:isGhost - 4:bots *}
 {$record=$modules.WhoIsOnline->getRecord()}
 <table class="tableStd" cellpadding="{$modules.Config->getCfgVal('tpadding')}" cellspacing="{$modules.Config->getCfgVal('tspacing')}" style="width:100%;">
  <tr><th class="cellTitle"><span class="fontTitle">{$modules.Language->getString('who_was_online')}</span></th></tr>
  <tr><td class="cellStd"><span class="fontSmall">{$modules.Language->getString('today_were_here_colon')}<br />
   {foreach $wwoUser[3] as $curWWOUser}{if $curWWOUser[1]}<img src="{$modules.Template->getTplDir()}images/ghost.png" alt="{$modules.Language->getString('browses_as_ghost')}" title="{$modules.Language->getString('browses_as_ghost')}" style="vertical-align:middle;" /> {/if}{$curWWOUser[0]}{if !$curWWOUser@last}, {/if}{foreachelse}{$modules.Language->getString('no_members')}{/foreach}<br />
-  {if $wwoUser[2] == 1 && $wwoUser[1] != 1 && $wwoUser[0] != 1}{sprintf($modules.Language->getString('total_one_member_x_ghosts_and_x_guests'), $wwoUser[1], $wwoUser[0])}
-  {elseif $wwoUser[2] != 1 && $wwoUser[1] == 1 && $wwoUser[0] != 1}{sprintf($modules.Language->getString('total_x_member_one_ghost_and_x_guests'), $wwoUser[2], $wwoUser[0])}
-  {elseif $wwoUser[2] != 1 && $wwoUser[1] != 1 && $wwoUser[0] == 1}{sprintf($modules.Language->getString('total_x_member_x_ghosts_and_one_guest'), $wwoUser[2], $wwoUser[1])}
-  {elseif $wwoUser[2] == 1 && $wwoUser[1] == 1 && $wwoUser[0] != 1}{$wwoUser[0]|string_format:$modules.Language->getString('total_one_member_one_ghost_and_x_guests')}
-  {elseif $wwoUser[2] == 1 && $wwoUser[1] != 1 && $wwoUser[0] == 1}{$wwoUser[1]|string_format:$modules.Language->getString('total_one_member_x_ghosts_and_one_guest')}
-  {elseif $wwoUser[2] != 1 && $wwoUser[1] == 1 && $wwoUser[0] == 1}{$wwoUser[2]|string_format:$modules.Language->getString('total_x_member_one_ghost_and_one_guest')}
-  {else}{sprintf($modules.Language->getString('total_x_members_x_ghosts_and_x_guests'), $wwoUser[2], $wwoUser[1], $wwoUser[0])}{/if}<br /><br />
+  {sprintf($modules.Language->getString('total_x_member_s_x_ghost_s_x_guest_s_and_x_bot_s'), $wwoUser[2], $wwoUser[1], $wwoUser[0], $wwoUser[4])}<br /><br />
   <b>{$modules.Language->getString('record_colon')}</b> {sprintf($modules.Language->getString('x_members_on_x'), $record[0], $record[1])}</span></td></tr>
 </table>{/if}

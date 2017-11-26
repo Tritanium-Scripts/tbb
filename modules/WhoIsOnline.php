@@ -3,13 +3,13 @@
  * Manages WIO lists.
  *
  * WIO var file structure:
- * 0:timestamp - 1:user/guestSpecialID - 2:location - 3:? - [ - 4:isGhost - 5:userAgent]
+ * 0:timestamp - 1:user/guestSpecialID - 2:location - 3:?[ - 4:isGhost - 5:userAgent]
  *
  * WWO var file structure:
- * 0:todaysDate - 1:0:recordMember - 1:1:recordDate[ - 2:guestCounter - 3:members]
+ * 0:todaysDate - 1:0:recordMember - 1:1:recordDate[ - 2:guestCounter - 3:members - 4:bots]
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010, 2011 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2017 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1.6
  */
@@ -59,7 +59,10 @@ class WhoIsOnline implements Module
 		}
 		if(!Main::getModule('Auth')->isConnected() && !Main::getModule('Auth')->isLoggedIn())
 		{
-			$this->wwoFile[2]++;
+			if($this->isBot($_SERVER['HTTP_USER_AGENT']))
+				$this->wwoFile[4]++;
+			else
+				$this->wwoFile[2]++;
 			$update = true;
 		}
 		elseif(Main::getModule('Auth')->isLoggedIn() && !in_array(Main::getModule('Auth')->getUserID() . '#' . Main::getModule('Auth')->isGhost(), Functions::explodeByComma($this->wwoFile[3])))
@@ -110,7 +113,7 @@ class WhoIsOnline implements Module
 			//Admins may also see ghosts
 			if(!($curWIOEntryIsGhost = $curWIOEntry[4] == '1') || Main::getModule('Auth')->isAdmin())
 			{
-				$curUser = is_numeric($curWIOEntry[1]) ? Functions::getProfileLink($curWIOEntry[1]) : Main::getModule('Language')->getString(Functions::stripos($curWIOEntry[5], 'bot') !== false || Functions::stripos($curWIOEntry[5], 'spider') !== false || Functions::stripos($curWIOEntry[5], 'crawl') !== false || Functions::stripos($curWIOEntry[5], 'slurp') !== false ? 'bot' : 'guest') . Functions::substr($curWIOEntry[1], 5, 5);
+				$curUser = is_numeric($curWIOEntry[1]) ? Functions::getProfileLink($curWIOEntry[1]) : Main::getModule('Language')->getString($this->isBot($curWIOEntry[5]) ? 'bot' : 'guest') . Functions::substr($curWIOEntry[1], 5, 5);
 				$curTime = ($curTime = $time-$curWIOEntry[0]) < 60 ? sprintf(Main::getModule('Language')->getString('x_seconds_ago'), $curTime) : ($curTime < 120 ? Main::getModule('Language')->getString('one_minute_ago') : sprintf(Main::getModule('Language')->getString('x_minutes_ago'), $curTime/60));
 				//Only admins may see user agents
 				if(!Main::getModule('Auth')->isAdmin())
@@ -466,28 +469,28 @@ class WhoIsOnline implements Module
 	}
 
 	/**
-	 * Returns current active members and amount of guests and ghosts.
+	 * Returns current active members and amount of guests, ghosts and bots.
 	 *
-	 * @return array Guests / ghosts / memberProfiles triple
+	 * @return array Guests / ghosts / memberProfiles / bots quadruple
 	 */
 	public function getUserWIO()
 	{
-		$guests = $ghosts = 0;
+		$guests = $ghosts = $bots = 0;
 		$members = array();
 		if($this->enabled)
 		{
 			Functions::getFileLock('wio');
 			foreach($this->refreshVar() as $curWIOEntry)
-				is_numeric($curWIOEntry[1]) ? ($curWIOEntry[4] != '1' ? $members[] = Functions::getProfileLink($curWIOEntry[1], false, ' class="small"', true) : $ghosts++) : $guests++;
+				is_numeric($curWIOEntry[1]) ? ($curWIOEntry[4] != '1' ? $members[] = Functions::getProfileLink($curWIOEntry[1], false, ' class="small"', true) : $ghosts++) : ($this->isBot($curWIOEntry[5]) ? $bots++ : $guests++);
 			Functions::releaseLock('wio');
 		}
-		return array($guests, $ghosts, $members);
+		return array($guests, $ghosts, $members, $bots);
 	}
 
 	/**
-	 * Returns todays active members and amount of guests and ghosts.
+	 * Returns todays active members and amount of guests, ghosts and bots.
 	 *
-	 * @return array Guests / ghosts / members / memberProfiles-isGhost-couple quadruple
+	 * @return array Guests / ghosts / members / memberProfiles-isGhost-couples / bots quintuple
 	 */
 	public function getUserWWO()
 	{
@@ -506,7 +509,7 @@ class WhoIsOnline implements Module
 				else
 					$members[] = array(Functions::getProfileLink($curWWOEntry[0], true), false);
 			}
-		return array($this->wwoFile[2], $ghosts, count($members), $members);
+		return array($this->wwoFile[2], $ghosts, count($members), $members, $this->wwoFile[4]);
 	}
 
 	/**
@@ -562,6 +565,17 @@ class WhoIsOnline implements Module
 		if($update)
 			Functions::file_put_contents('vars/wio.var', implode("\n", array_map(array('Functions', 'implodeByTab'), $wioFile)));
 		return $wioFile;
+	}
+
+	/**
+	 * Returns given user agent being used by a web crawler.
+	 *
+	 * @param string $userAgent User agent to check
+	 * @return bool User agent being used by a search bot
+	 */
+	private function isBot($userAgent)
+	{
+		return Functions::stripos($userAgent, 'bot') !== false || Functions::stripos($userAgent, 'spider') !== false || Functions::stripos($userAgent, 'crawl') !== false || Functions::stripos($userAgent, 'slurp') !== false;
 	}
 }
 ?>

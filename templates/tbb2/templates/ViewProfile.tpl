@@ -61,7 +61,7 @@
  </tr>
  <tr>
   <td class="cellStd" style="width:30%;"><span class="fontNorm">{$modules.Language->getString('icq_number_colon')}</span></td>
-  <td class="cellAlt" style="width:70%;"><span class="fontNorm">{if empty($userData[13])}<span style="font-style:italic;">{$modules.Language->getString('not_given')}</span>{else}<a href="http://people.icq.com/people/{$userData[13]}" target="_blank"><img src="http://status.icq.com/online.gif?icq={$userData[13]}&amp;img=5" alt="" style="vertical-align:top;" /> {$userData[13]|wordwrap:3:"-":true}</a>{/if}</span></td>
+  <td class="cellAlt" style="width:70%;"><span class="fontNorm">{if empty($userData[13])}<span style="font-style:italic;">{$modules.Language->getString('not_given')}</span>{else}<a href="https://icq.com/people/{$userData[13]}" target="_blank"><img src="http://status.icq.com/online.gif?icq={$userData[13]}&amp;img=5" alt="" style="vertical-align:top;" /> {$userData[13]|wordwrap:3:"-":true}</a>{/if}</span></td>
  </tr>
 </table>{if $modules.Config->getCfgVal('achievements') == 1 && !empty($userData[19])}
 <br />
