@@ -138,6 +138,6 @@ function refreshGames()
   <td class="td1" style="width:80%;"><input type="password" name="new_pw2" style="width:250px;" /></td>
  </tr>
 </table>
-<p style="text-align:center;"><input type="submit" value="{$modules.Language->getString('change_profile')}" />&nbsp;&nbsp;<input type="submit" name="delete" value="{$modules.Language->getString('delete_account')}" /></p>
+<p style="text-align:center;"><input type="submit" value="{$modules.Language->getString('change_profile')}" />{if $modules.Config->getCfgVal('delete_profiles') == 1 || $modules.Config->getCfgVal('delete_profiles') == 2 && $userData[5] < 1}&nbsp;&nbsp;<input type="submit" name="delete" value="{$modules.Language->getString('delete_account')}" />{/if}</p>
 <input type="hidden" name="change" value="1" />
 </form>

@@ -3,9 +3,9 @@
  * Manages an user profile incl. sending mails, vCard download and Steam achievements.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2014 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2018 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
- * @package TBB1.6
+ * @package TBB1.7
  */
 class Profile implements Module
 {
@@ -124,6 +124,17 @@ class Profile implements Module
 				//Delete acc?
 				if(Functions::getValueFromGlobals('delete') != '')
 				{
+					//Allowed?
+					switch(Main::getModule('Config')->getCfgVal('delete_profiles'))
+					{
+						case 2:
+						if($this->userData[5] < 1)
+							break;
+
+						case 0:
+						Main::getModule('Template')->printMessage('function_deactivated');
+						break;
+					}
 					//Confirmed?
 					if(Functions::getValueFromGlobals('confirm') == '1')
 					{

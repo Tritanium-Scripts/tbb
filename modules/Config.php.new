@@ -3,9 +3,9 @@
  * Generic configuration getter and setter.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010, 2011 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2018 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
- * @package TBB1.6
+ * @package TBB1.7
  */
 class Config
 {
@@ -97,7 +97,9 @@ class Config
 		1,										#save_ip_address
 		0,										#shorten_page_bars
 		0,										#skip_confirm_msg
-		0);										#date_as_text
+		0,										#date_as_text
+		//New TBB 1.7 config values
+		1);										#delete_profiles
 
 	/**
 	 * Name of config file to work with.
@@ -194,7 +196,9 @@ class Config
 		'save_ip_address',
 		'shorten_page_bars',
 		'skip_confirm_msg',
-		'date_as_text');
+		'date_as_text',
+		//New TBB 1.7 config values
+		'delete_profiles');
 
 	/**
 	 * Loaded configuration values are stored here.

@@ -162,6 +162,6 @@ function refreshGames()
   </td>
  </tr>
 </table>
-<p class="cellButtons"><input class="formBButton" type="submit" value="{$modules.Language->getString('change_profile')}" />&nbsp;&nbsp;<input class="formButton" type="submit" name="delete" value="{$modules.Language->getString('delete_account')}" /></p>
+<p class="cellButtons"><input class="formBButton" type="submit" value="{$modules.Language->getString('change_profile')}" />{if $modules.Config->getCfgVal('delete_profiles') == 1 || $modules.Config->getCfgVal('delete_profiles') == 2 && $userData[5] < 1}&nbsp;&nbsp;<input class="formButton" type="submit" name="delete" value="{$modules.Language->getString('delete_account')}" />{/if}</p>
 <input type="hidden" name="change" value="1" />
 </form>

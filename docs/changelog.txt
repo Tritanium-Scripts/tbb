@@ -1,14 +1,18 @@
 **********************************************************
 Tritanium Bulletin Board 1.5+ - Changelog (German version)
-Last changed: 2017-11-26 (Version 1.6.6)
+Last changed: 2018-06-03 (Version 1.7)
 **********************************************************
 
-2017: Version 1.6.6
+2018: Version 1.7
 	- Datenstrukturfehler bei Neuberechnung der Zähler behoben
 	- Smarty auf Version 3.1.31 aktualisiert
 	- Anzeige von Bots in WIO- und WWO-Boxen
 	- ICQ-UIN-Link aktualisiert
 	- Copyright-Jahreszahl aktualisiert
+	- Boterkennung verbessert
+	- Neue Konfigurationswerte!
+	- Löschmodi für differenziertes bis kein Löschen von Profilen
+	- Dokumentation aktualisiert
 
 07.08.2016: Version 1.6.5 (offiziell)
 	- Fehlerhafter Link bei Benachrichtigungen von Moderatoren behoben

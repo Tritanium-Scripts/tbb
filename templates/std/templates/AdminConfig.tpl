@@ -175,6 +175,10 @@
   <td class="td1" style="font-weight:bold;"><span class="norm">{$modules.Language->getString('skipping_of_confirmation_messages')}</span></td>
   <td class="td1" style="vertical-align:top;"><input type="radio" id="y80" name="settings[80]" value="1"{if $configValues['skip_confirm_msg'] == 1} checked="checked"{/if} /><label for="y80" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="n80" name="settings[80]" value="0"{if $configValues['skip_confirm_msg'] != 1} checked="checked"{/if} /><label for="n80" class="norm">{$modules.Language->getString('negative')}</label></td>
  </tr>
+ <tr>
+  <td class="td1" style="font-weight:bold;"><span class="norm">{$modules.Language->getString('deletion_of_profiles')}</span></td>
+  <td class="td1" style="vertical-align:top;">{html_options name='settings[82]' values=array(1, 2, 0) output=array($modules.Language->getString('always'), $modules.Language->getString('zero_posts_only'), $modules.Language->getString('never')) selected=$configValues['delete_profiles']}</td>
+ </tr>
 
  <tr><td class="kat" colspan="2"><span class="kat">{$modules.Language->getString('disk_space_settings')}</span></td></tr>
  <tr>

@@ -575,7 +575,12 @@ class WhoIsOnline implements Module
 	 */
 	private function isBot($userAgent)
 	{
-		return Functions::stripos($userAgent, 'bot') !== false || Functions::stripos($userAgent, 'spider') !== false || Functions::stripos($userAgent, 'crawl') !== false || Functions::stripos($userAgent, 'slurp') !== false;
+		return Functions::stripos($userAgent, 'bot') !== false
+			|| Functions::stripos($userAgent, 'spider') !== false
+			|| Functions::stripos($userAgent, 'crawl') !== false
+			|| Functions::stripos($userAgent, 'slurp') !== false
+			|| Functions::stripos($userAgent, 'qwant') !== false
+			|| Functions::stripos($userAgent, 'bubing') !== false;
 	}
 }
 ?>
