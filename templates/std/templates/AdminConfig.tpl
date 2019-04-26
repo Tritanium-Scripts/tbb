@@ -42,6 +42,10 @@
   <td class="td1" style="vertical-align:top;"><input type="text" name="settings[6]" value="{$configValues['forum_logo']}" style="width:250px;" />&nbsp;<span class="small">{$modules.Language->getString('address_or_path')}</span></td>
  </tr>
  <tr>
+  <td class="td1" style="font-weight:bold;"><span class="norm">{$modules.Language->getString('privacy_policy')}</span></td>
+  <td class="td1" style="vertical-align:top;"><input type="text" name="settings[83]" value="{$configValues['privacy_policy_link']}" style="width:250px;" />&nbsp;<span class="small">{$modules.Language->getString('address_or_path')}</span></td>
+ </tr>
+ <tr>
   <td class="td1" style="font-weight:bold;"><span class="norm">{$modules.Language->getString('timezone')}</span></td>
   <td class="td1" style="vertical-align:top;"><select name="settings[8]">{foreach $timeZones as $curTimeZone}<option value="{$curTimeZone[0]}"{if $configValues['gmt_offset'] == $curTimeZone[0]} selected="selected"{/if}>{$curTimeZone[1]}</option>{/foreach}</select></td>
  </tr>

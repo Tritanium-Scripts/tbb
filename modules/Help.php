@@ -3,9 +3,9 @@
  * Serves help pages.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2019 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
- * @package TBB1.5
+ * @package TBB1.7
  */
 class Help implements Module
 {
@@ -21,7 +21,7 @@ class Help implements Module
 	 *
 	 * @var array Page and template counterparts
 	 */
-	private static $pageTable = array('' => 'FAQ', 'faq' => 'FAQ', 'regeln' => 'BoardRules');
+	private static $pageTable = array('' => 'FAQ', 'faq' => 'FAQ', 'regeln' => 'BoardRules', 'gdpr' => 'GDPR');
 
 	/**
 	 * Sets help page to display.
@@ -78,6 +78,11 @@ class Help implements Module
 
 			case 'regeln':
 			Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('board_rules'), INDEXFILE . '?faction=regeln' . SID_AMPER);
+			break;
+
+			case 'gdpr':
+			Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('privacy_policy'), INDEXFILE . '?faction=gdpr' . SID_AMPER);
+			Main::getModule('Template')->assign('gdprText', Main::getModule('BBCode')->parse(Main::getModule('Language')->getString('gdpr_text')));
 			break;
 		}
 		Main::getModule('Template')->printPage(self::$pageTable[$this->page]);

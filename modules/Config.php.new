@@ -3,7 +3,7 @@
  * Generic configuration getter and setter.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2018 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2019 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1.7
  */
@@ -99,7 +99,8 @@ class Config
 		0,										#skip_confirm_msg
 		0,										#date_as_text
 		//New TBB 1.7 config values
-		1);										#delete_profiles
+		1,										#delete_profiles
+		'?faction=gdpr');						#privacy_policy_link
 
 	/**
 	 * Name of config file to work with.
@@ -198,7 +199,8 @@ class Config
 		'skip_confirm_msg',
 		'date_as_text',
 		//New TBB 1.7 config values
-		'delete_profiles');
+		'delete_profiles',
+		'privacy_policy_link');
 
 	/**
 	 * Loaded configuration values are stored here.

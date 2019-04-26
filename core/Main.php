@@ -3,9 +3,9 @@
  * Loads main module and executes desired forum action and/or subAction.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2016 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2019 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
- * @package TBB1.6
+ * @package TBB1.7
  */
 /**
  * Interface template for every implementing module which can be called "directly" from an user.
@@ -20,9 +20,9 @@ interface Module
 	public function execute();
 }
 /**
- * Main module of TBB 1.6.
+ * Main module of TBB 1.7.
  *
- * @package TBB1.6
+ * @package TBB1.7
  */
 class Main implements Module
 {
@@ -83,6 +83,7 @@ class Main implements Module
 		'rssFeed' => 'Forum',
 		'uploadFile' => 'Upload',
 		'markAll' => 'Forum',
+		'gdpr' => 'Help',
 		//Adminpanel actions
 		'adminpanel' => 'AdminIndex',
 		'ad_forum' => 'AdminForum',
