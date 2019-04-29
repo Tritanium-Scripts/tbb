@@ -580,7 +580,8 @@ class WhoIsOnline implements Module
 			|| Functions::stripos($userAgent, 'crawl') !== false
 			|| Functions::stripos($userAgent, 'slurp') !== false
 			|| Functions::stripos($userAgent, 'qwant') !== false
-			|| Functions::stripos($userAgent, 'bubing') !== false;
+			|| Functions::stripos($userAgent, 'bubing') !== false
+			|| Functions::stripos($userAgent, 'ia_archiver') !== false;
 	}
 }
 ?>

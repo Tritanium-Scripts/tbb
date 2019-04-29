@@ -82,7 +82,11 @@ class Help implements Module
 
 			case 'gdpr':
 			Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('privacy_policy'), INDEXFILE . '?faction=gdpr' . SID_AMPER);
-			Main::getModule('Template')->assign('gdprText', Main::getModule('BBCode')->parse(Main::getModule('Language')->getString('gdpr_text')));
+			$gdprText = Main::getModule('Language')->getString('gdpr_text');
+			$gdprText = Functions::str_replace('{BOARDNAME}', Main::getModule('Config')->getCfgVal('forum_name'), $gdprText);
+			$gdprText = Functions::str_replace('{EMAIL}', Main::getModule('Config')->getCfgVal('site_contact'), $gdprText);
+			$gdprText = Functions::str_replace('{WEBSITE}', Main::getModule('Config')->getCfgVal('address_to_forum'), $gdprText);
+			Main::getModule('Template')->assignByRef('gdprText', $gdprText);
 			break;
 		}
 		Main::getModule('Template')->printPage(self::$pageTable[$this->page]);
