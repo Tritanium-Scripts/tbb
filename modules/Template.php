@@ -222,7 +222,8 @@ class Template
 	 */
 	public function printTail()
 	{
-		if(!isset($this->smarty->getTemplateVars('privacyPolicyLink')))
+		$privacyPolicyLink = $this->smarty->getTemplateVars('privacyPolicyLink');
+		if(!isset($privacyPolicyLink))
 		{
 			$privacyPolicyLink = Main::getModule('Config')->getCfgVal('privacy_policy_link');
 			if($privacyPolicyLink == '?faction=gdpr')

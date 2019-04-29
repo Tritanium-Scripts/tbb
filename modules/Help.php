@@ -84,8 +84,14 @@ class Help implements Module
 			Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('privacy_policy'), INDEXFILE . '?faction=gdpr' . SID_AMPER);
 			$gdprText = Main::getModule('Language')->getString('gdpr_text');
 			$gdprText = Functions::str_replace('{BOARDNAME}', Main::getModule('Config')->getCfgVal('forum_name'), $gdprText);
-			$gdprText = Functions::str_replace('{EMAIL}', Main::getModule('Template')->fetch('string:{mailto address="' . Main::getModule('Config')->getCfgVal('site_contact') . '" encode="javascript"}'), $gdprText);
+			$gdprText = Functions::str_replace('{EMAIL}', trim(Main::getModule('Template')->fetch('string:{mailto address="' . Main::getModule('Config')->getCfgVal('site_contact') . '" encode="javascript"}'), '.tpl'), $gdprText);
 			$gdprText = Functions::str_replace('{WEBSITE}', Main::getModule('Config')->getCfgVal('address_to_forum'), $gdprText);
+			$numOfParagraphs = Functions::substr_count($gdprText, '{PARAGRAPH}');
+			for($i=1; $i<=$numOfParagraphs; $i++)
+			{
+				$curParagraphPos = Functions::strpos($gdprText, '{PARAGRAPH}');
+				$gdprText = Functions::substr($gdprText, 0, $curParagraphPos) . $i . Functions::substr($gdprText, $curParagraphPos + 11);
+			}
 			Main::getModule('Template')->assign('gdprText', $gdprText);
 			break;
 		}
