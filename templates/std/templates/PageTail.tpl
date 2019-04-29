@@ -6,7 +6,7 @@
   </table>
   <br />{/if}
   {if $modules.Auth->isAdmin()}<p class="norm" style="text-align:center;"><a class="norm" href="{$smarty.const.INDEXFILE}?faction=adminpanel{$smarty.const.SID_AMPER}">{$modules.Language->getString('administration')}</a></p><br />{/if}
-  <p class="norm" style="text-align:center;">{mailto address=$modules.Config->getCfgVal('site_contact') text=$modules.Language->getString('contact') extra='class="norm"' encode="javascript"} | <a class="norm" href="{$modules.Config->getCfgVal('site_address')}">{$modules.Config->getCfgVal('site_name')}</a> | <a class="norm" href="{$smarty.const.INDEXFILE}?faction=regeln{$smarty.const.SID_AMPER}">{$modules.Language->getString('board_rules')}</a>{if $modules.Config->getCfgVal('privacy_policy_link')} | <a class="norm" href="{$modules.Config->getCfgVal('privacy_policy_link')}">{$modules.Language->getString('privacy_policy')}</a>{/if}</p>
+  <p class="norm" style="text-align:center;">{mailto address=$modules.Config->getCfgVal('site_contact') text=$modules.Language->getString('contact') extra='class="norm"' encode="javascript"} | <a class="norm" href="{$modules.Config->getCfgVal('site_address')}">{$modules.Config->getCfgVal('site_name')}</a> | <a class="norm" href="{$smarty.const.INDEXFILE}?faction=regeln{$smarty.const.SID_AMPER}">{$modules.Language->getString('board_rules')}</a>{if !empty($privacyPolicyLink)} | <a class="norm" href="{$privacyPolicyLink}">{$modules.Language->getString('privacy_policy')}</a>{/if}</p>
   <br />
   <p class="copyr" style="text-align:center;">
    Tritanium Bulletin Board {$smarty.const.VERSION_PUBLIC}<br />

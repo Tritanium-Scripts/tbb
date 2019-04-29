@@ -39,7 +39,8 @@
      <td style="padding:3px; width:30%; vertical-align:top;"><span class="fontNorm" style="font-weight:bold;">{$modules.Language->getString('signature_colon')}</span><br /><span class="fontSmall">{$modules.Language->getString('signature_info')}</span></td>
      <td style="padding:3px; width:70%;"><textarea class="formTextArea" cols="60" rows="8" name="newuser_signatur">{$newUser.signature}</textarea></td>
     </tr>
-    <tr><td colspan="2"><input type="checkbox" id="regeln" name="regeln" value="yes" /> <label for="regeln" class="fontNorm" style="font-weight:bold;">{$rulesLink|string_format:$modules.Language->getString('i_accept_board_rules_denoted')}</label></td></tr>
+    <tr><td colspan="2"><input type="checkbox" id="regeln" name="regeln" value="yes" /> <label for="regeln" class="fontNorm" style="font-weight:bold;">{$rulesLink|string_format:$modules.Language->getString('i_accept_board_rules_denoted')}</label></td></tr>{if !empty($privacyPolicyLink)}
+    <tr><td colspan="2"><input type="checkbox" id="privacyPolicy" name="privacyPolicy" value="yes" /> <label for="privacyPolicy" class="fontNorm" style="font-weight:bold;">{$privacyPolicyLink|string_format:$modules.Language->getString('i_accept_privacy_policy_denoted')}</label></td></tr>{/if}
    </table>
   </td>
  </tr>

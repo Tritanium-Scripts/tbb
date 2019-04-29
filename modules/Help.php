@@ -84,9 +84,9 @@ class Help implements Module
 			Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('privacy_policy'), INDEXFILE . '?faction=gdpr' . SID_AMPER);
 			$gdprText = Main::getModule('Language')->getString('gdpr_text');
 			$gdprText = Functions::str_replace('{BOARDNAME}', Main::getModule('Config')->getCfgVal('forum_name'), $gdprText);
-			$gdprText = Functions::str_replace('{EMAIL}', Main::getModule('Config')->getCfgVal('site_contact'), $gdprText);
+			$gdprText = Functions::str_replace('{EMAIL}', Main::getModule('Template')->fetch('string:{mailto address="' . Main::getModule('Config')->getCfgVal('site_contact') . '" encode="javascript"}'), $gdprText);
 			$gdprText = Functions::str_replace('{WEBSITE}', Main::getModule('Config')->getCfgVal('address_to_forum'), $gdprText);
-			Main::getModule('Template')->assignByRef('gdprText', $gdprText);
+			Main::getModule('Template')->assign('gdprText', $gdprText);
 			break;
 		}
 		Main::getModule('Template')->printPage(self::$pageTable[$this->page]);

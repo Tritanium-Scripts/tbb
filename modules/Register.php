@@ -3,9 +3,9 @@
  * Manages registrations of new user.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010, 2011 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2019 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
- * @package TBB1.6
+ * @package TBB1.7
  */
 class Register implements Module
 {
@@ -15,6 +15,13 @@ class Register implements Module
 	 * @var bool User may not choose an own password
 	 */
 	private $createRegPass;
+
+	/**
+	 * Link to privacy policy to be accepted by new users.
+	 *
+	 * @var string Privacy policy link
+	 */
+    private $privacyPolicyLink;
 
 	/**
 	 * Detected errors during registration.
@@ -52,7 +59,7 @@ class Register implements Module
 	private static $newUserKeys = array('nick', 'mail', 'homepage', 'realName', 'icq', 'signature');
 
 	/**
-	 * Sets member counter and mode.
+	 * Sets privacy policy link, member counter and mode.
 	 *
 	 * @param string $mode Registration mode
 	 * @return Register New instance of this class
@@ -60,6 +67,9 @@ class Register implements Module
 	function __construct($mode)
 	{
 		$this->createRegPass = Main::getModule('Config')->getCfgVal('create_reg_pw') == 1;
+		$this->privacyPolicyLink = Main::getModule('Config')->getCfgVal('privacy_policy_link');
+		if($this->privacyPolicyLink == '?faction=gdpr')
+			$this->privacyPolicyLink = INDEXFILE . $this->privacyPolicyLink . SID_AMPER;
 		$this->memberCounter = Functions::getLockObject('vars/member_counter.var');
 		$this->mode = $mode;
 	}
@@ -124,6 +134,8 @@ class Register implements Module
 				$this->errors[] = Main::getModule('Language')->getString('please_enter_a_valid_icq_number');
 			if(Functions::getValueFromGlobals('regeln') != 'yes')
 				$this->errors[] = Main::getModule('Language')->getString('you_have_to_accept_board_rules');
+			if(!empty($this->privacyPolicyLink) && Functions::getValueFromGlobals('privacyPolicy') != 'yes')
+				$this->errors[] = Main::getModule('Language')->getString('you_have_to_accept_privacy_policy');
 			if(empty($this->errors))
 			{
 				//Detect new ID
@@ -235,7 +247,8 @@ class Register implements Module
 		}
 		Main::getModule('Template')->printPage(FunctionsBasic::handleMode($this->mode, self::$modeTable, __CLASS__), array('newUser' => $newUser,
 			'errors' => $this->errors,
-			'rulesLink' => INDEXFILE . '?faction=regeln' . SID_AMPER));
+			'rulesLink' => INDEXFILE . '?faction=regeln' . SID_AMPER,
+			'privacyPolicyLink' => $this->privacyPolicyLink));
 	}
 }
 ?>

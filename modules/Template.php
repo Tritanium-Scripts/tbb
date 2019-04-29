@@ -3,9 +3,9 @@
  * Inits Smarty, manages configuration, assigns values to template files and prints pages.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010, 2011 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2019 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
- * @package TBB1.6
+ * @package TBB1.7
  */
 require_once('Template/Smarty.class.php');
 /**
@@ -222,6 +222,13 @@ class Template
 	 */
 	public function printTail()
 	{
+		if(!isset($this->smarty->getTemplateVars('privacyPolicyLink')))
+		{
+			$privacyPolicyLink = Main::getModule('Config')->getCfgVal('privacy_policy_link');
+			if($privacyPolicyLink == '?faction=gdpr')
+				$privacyPolicyLink = INDEXFILE . $privacyPolicyLink . SID_AMPER;
+			$this->assign('privacyPolicyLink', $privacyPolicyLink);
+		}
 		$this->display('PageTail', array('creationTime' => microtime(true)-SCRIPTSTART,
 			'processedFiles' => Functions::getFileCounter(),
 			'memoryUsage' => memory_get_usage()/1024));

@@ -36,7 +36,8 @@
   <td class="td1" style="width:30%; vertical-align:top;"><span class="norm" style="font-weight:bold;">{$modules.Language->getString('signature_colon')}</span><br /><span class="small">{$modules.Language->getString('signature_info')}</span></td>
   <td class="td1" style="width:70%;"><textarea cols="40" rows="7" name="newuser_signatur">{$newUser.signature}</textarea></td>
  </tr>
- <tr><td class="td1" colspan="2"><input type="checkbox" id="regeln" name="regeln" value="yes" style="vertical-align:middle;" /> <label for="regeln" class="norm">{$rulesLink|string_format:$modules.Language->getString('i_accept_board_rules_denoted')}</label></td></tr>
+ <tr><td class="td1" colspan="2"><input type="checkbox" id="regeln" name="regeln" value="yes" style="vertical-align:middle;" /> <label for="regeln" class="norm">{$rulesLink|string_format:$modules.Language->getString('i_accept_board_rules_denoted')}</label></td></tr>{if !empty($privacyPolicyLink)}
+ <tr><td class="td1" colspan="2"><input type="checkbox" id="privacyPolicy" name="privacyPolicy" value="yes" style="vertical-align:middle;" /> <label for="privacyPolicy" class="norm">{$privacyPolicyLink|string_format:$modules.Language->getString('i_accept_privacy_policy_denoted')}</label></td></tr>{/if}
 </table>
 <p style="text-align:center;"><input type="submit" value="{$modules.Language->getString('register')}" /></p>
 <input type="hidden" name="mode" value="createuser" />
