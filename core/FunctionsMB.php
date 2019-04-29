@@ -114,5 +114,13 @@ class Functions extends FunctionsBasic
 	{
 		return isset($length) ? mb_substr($string, $start, $length) : mb_substr($string, $start);
 	}
+
+	/**
+	 * Wraps PHP's {@link substr_count()} to Multibyte's {@link mb_substr_count()}.
+	 */
+	public static function substr_count($haystack, $needle, $encoding=null)
+	{
+		return isset($encoding) ? mb_substr_count($haystack, $needle, $encoding) : mb_substr_count($string, $start);
+	}
 }
 ?>

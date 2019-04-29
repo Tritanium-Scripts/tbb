@@ -114,5 +114,13 @@ class Functions extends FunctionsBasic
 	{
 		return isset($length) ? substr($string, $start, $length) : substr($string, $start);
 	}
+
+	/**
+	 * PHP's {@link substr_count()}.
+	 */
+	public static function substr_count($haystack, $needle, $encoding=null)
+	{
+		return isset($encoding) ? substr_count($haystack, $needle, $encoding) : substr_count($haystack, $needle);
+	}
 }
 ?>

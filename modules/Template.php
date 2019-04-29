@@ -137,7 +137,7 @@ class Template
 				$templates[$curTemplateName]['target'] = '1.5.0.0';
 			else
 				//Provide proper version number with all 4 parts (major.minor.patch.build)
-				while(substr_count($templates[$curTemplateName]['target'], '.') < 3)
+				while(Functions::substr_count($templates[$curTemplateName]['target'], '.') < 3)
 					$templates[$curTemplateName]['target'] .= '.0';
 		}
 		return $templates;
