@@ -581,7 +581,9 @@ class WhoIsOnline implements Module
 			|| Functions::stripos($userAgent, 'slurp') !== false
 			|| Functions::stripos($userAgent, 'qwant') !== false
 			|| Functions::stripos($userAgent, 'bubing') !== false
-			|| Functions::stripos($userAgent, 'ia_archiver') !== false;
+			|| Functions::stripos($userAgent, 'ia_archiver') !== false
+			|| Functions::stripos($userAgent, 'panscient') !== false
+            || Functions::stripos($userAgent, 'daum') !== false;
 	}
 }
 ?>
