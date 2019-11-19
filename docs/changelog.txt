@@ -1,6 +1,6 @@
 **********************************************************
 Tritanium Bulletin Board 1.5+ - Changelog (German version)
-Last changed: 2019-04-29 (Version 1.7)
+Last changed: 2019-11-19 (Version 1.7)
 **********************************************************
 
 2019: Version 1.7
@@ -12,10 +12,10 @@ Last changed: 2019-04-29 (Version 1.7)
 	- Löschmodi für differenziertes bis kein Löschen von Profilen
 	- Dokumentation aktualisiert
 	- Copyright-Jahreszahl aktualisiert
-	- Smarty auf Version 3.1.33 aktualisiert
 	- Optionaler Link für Datenschutzerklärung
 	- Vorkonfigurierte Datenschutzerklärung gemäß DSGVO
 	- Neue Benutzer müssen vorhandene Datenschutzerklärung akzeptieren
+	- Smarty auf Version 3.1.34 aktualisiert
 
 07.08.2016: Version 1.6.5 (offiziell)
 	- Fehlerhafter Link bei Benachrichtigungen von Moderatoren behoben
