@@ -1,9 +1,9 @@
 **********************************************************
 Tritanium Bulletin Board 1.5+ - Changelog (German version)
-Last changed: 2019-11-19 (Version 1.7)
+Last changed: 2020-01-12 (Version 1.7)
 **********************************************************
 
-2019: Version 1.7
+2020: Version 1.7
 	- Datenstrukturfehler bei Neuberechnung der Zähler behoben
 	- Anzeige von Bots in WIO- und WWO-Boxen
 	- ICQ-UIN-Link aktualisiert
@@ -11,11 +11,12 @@ Last changed: 2019-11-19 (Version 1.7)
 	- Neue Konfigurationswerte!
 	- Löschmodi für differenziertes bis kein Löschen von Profilen
 	- Dokumentation aktualisiert
-	- Copyright-Jahreszahl aktualisiert
 	- Optionaler Link für Datenschutzerklärung
 	- Vorkonfigurierte Datenschutzerklärung gemäß DSGVO
 	- Neue Benutzer müssen vorhandene Datenschutzerklärung akzeptieren
 	- Smarty auf Version 3.1.34 aktualisiert
+	- Copyright-Jahreszahl aktualisiert
+	- Fehler bei Seitenberechnung im RSS-Feed und der Suche korrigiert
 
 07.08.2016: Version 1.6.5 (offiziell)
 	- Fehlerhafter Link bei Benachrichtigungen von Moderatoren behoben
@@ -284,5 +285,5 @@ Last changed: 2019-11-19 (Version 1.7)
 	- Verbesserte Locking-Technik verhindert die Vergabe von gleichen IDs bei neuen Benutzern, Themen und Umfragen und falschen Mitgliederzahlen im Falle von DDoS-ähnlichen Attacken
 
 Written by Chrissyx
-(c) 2010–2019 Tritanium Scripts
+(c) 2010–2020 Tritanium Scripts
 http://www.tritanium-scripts.com/

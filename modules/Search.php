@@ -3,9 +3,9 @@
  * Searches for user defined terms in posts and titles with additional options and displays results.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2020 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
- * @package TBB1.5
+ * @package TBB1.7
  */
 class Search implements Module
 {
@@ -151,7 +151,7 @@ class Search implements Module
 										$results[$curForumID][$curTopicID][$curPostID] = array('post' => Functions::shorten(Functions::censor(Functions::br2nl(preg_replace("/\[lock\](.*?)\[\/lock\]/si", '', $curPost[3]))), 50),
 											'creator' => Functions::getProfileLink($curPost[1], true),
 											'date' => Functions::formatDate($curPost[2]),
-											'page' => ceil($curKey / Main::getModule('Config')->getCfgVal('posts_per_page')));
+											'page' => ceil(($curKey+1) / Main::getModule('Config')->getCfgVal('posts_per_page')));
 									}
 								}
 							$topicCounter++;

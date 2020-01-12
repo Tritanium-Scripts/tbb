@@ -3,9 +3,9 @@
  * Displays specific forum, topic or all forums index with additional stats.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2015 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2020 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
- * @package TBB1.6
+ * @package TBB1.7
  */
 class Forum implements Module
 {
@@ -375,13 +375,13 @@ class Forum implements Module
 				while($firstUser == false && $i <= $size);
 				//RSS header
 				header('Content-Type: application/rss+xml');
-				echo('<?xml version="1.0" encoding="' . Main::getModule('Language')->getString('html_encoding') .'" ?>
+				echo('<?xml version="1.0" encoding="' . Main::getModule('Language')->getString('html_encoding') . '" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:slash="http://purl.org/rss/1.0/modules/slash/">
  <channel>
   <title>' . sprintf(Main::getModule('Language')->getString('x_rss_feed'), Main::getModule('Config')->getCfgVal('forum_name')) . '</title>
   <link>' . Main::getModule('Config')->getCfgVal('address_to_forum') . '/' . INDEXFILE . '</link>
   <description>' . sprintf(Main::getModule('Language')->getString('newest_posts_from_x'), Main::getModule('Config')->getCfgVal('forum_name')) . '</description>
-  <language>' . Main::getModule('Language')->getLangCode() .'</language>
+  <language>' . Main::getModule('Language')->getLangCode() . '</language>
   <lastBuildDate>' . current(array_slice($newestPosts[0], 5, 1)) . '</lastBuildDate>
   <pubDate>' . date('r', $firstUser != false ? Functions::getTimestamp($firstUser[6] . '01000000')-date('Z') : time()) . '</pubDate>
   <docs>http://www.rssboard.org/rss-specification</docs>
@@ -401,7 +401,7 @@ class Forum implements Module
 								$curTopic = array('title' => Functions::censor(@next(Functions::explodeByTab($curTopic[0]))),
 									'post' => htmlspecialchars(Main::getModule('BBCode')->parse($curPost[3])),
 									'count' => count($curTopic)-2,
-									'page' => ceil($curKey / Main::getModule('Config')->getCfgVal('posts_per_page')),
+									'page' => ceil(($curKey+1) / Main::getModule('Config')->getCfgVal('posts_per_page')),
 									'postID' => $curPost[0]);
 							}
 						}
