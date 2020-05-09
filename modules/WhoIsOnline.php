@@ -9,9 +9,9 @@
  * 0:todaysDate - 1:0:recordMember - 1:1:recordDate[ - 2:guestCounter - 3:members - 4:bots]
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2017 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2020 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
- * @package TBB1.6
+ * @package TBB1.7
  */
 class WhoIsOnline implements Module
 {
@@ -195,6 +195,10 @@ class WhoIsOnline implements Module
 
 					case 'FAQ':
 					$wioLocations[] = array($curUser, sprintf(Main::getModule('Language')->getString('views_the_faq'), INDEXFILE . '?faction=faq' . SID_AMPER), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
+					break;
+
+					case 'GDPR':
+					$wioLocations[] = array($curUser, sprintf(Main::getModule('Language')->getString('reads_privacy_policy'), INDEXFILE . '?faction=gdpr' . SID_AMPER), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
 					case 'Credits':
