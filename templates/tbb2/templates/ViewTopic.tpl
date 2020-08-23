@@ -27,7 +27,7 @@
 <table class="tableStd" cellpadding="{$modules.Config->getCfgVal('tpadding')}" cellspacing="{$modules.Config->getCfgVal('tspacing')}" style="width:100%;">
  <tr>
   <th class="cellTitle" style="text-align:left; width:15%;"><span class="fontTitle">{$modules.Language->getString('author')}</span></th>
-  <th class="cellTitle" style="text-align:left; width:85%;"><span class="fontTitle">{$modules.Language->getString('topic_colon')} {$topicTitle}{if $modules.Auth->isLoggedIn()} (<a href="{$smarty.const.INDEXFILE}?faction=topic&amp;mode={if $isSubscribed}subscribe&amp;forum_id={$forumID}&amp;topic_id={$topicID}{$smarty.const.SID_AMPER}">{$modules.Language->getString('subscribe')}{else}unsubscribe&amp;forum_id={$forumID}&amp;thread_id={$topicID}{$smarty.const.SID_AMPER}">{$modules.Language->getString('unsubscribe')}{/if}</a>){/if}</span></th>
+  <th class="cellTitle" style="text-align:left; width:85%;"><span class="fontTitle">{$modules.Language->getString('topic_colon')} {$topicTitle}{if $modules.Auth->isLoggedIn()} (<a href="{$smarty.const.INDEXFILE}?faction=topic&amp;mode={if $isSubscribed}unsubscribe&amp;forum_id={$forumID}&amp;topic_id={$topicID}{$smarty.const.SID_AMPER}">{$modules.Language->getString('unsubscribe')}{else}subscribe&amp;forum_id={$forumID}&amp;topic_id={$topicID}{$smarty.const.SID_AMPER}">{$modules.Language->getString('subscribe')}{/if}</a>){/if}</span></th>
  </tr>
 {foreach $posts as $curPost}
  <tr id="post{$curPost.postID}">

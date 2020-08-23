@@ -329,7 +329,7 @@ class Forum implements Module
 				'canModify' => ($canModify = Main::getModule('Auth')->isAdmin() || $isMod),
 				'isOpen' => $topic[0] == '1' || $topic[0] == 'open',
 				'isSticky' => $canModify && ($stickyFile = @Functions::file('foren/' . $this->forumID . '-sticker.xbb', FILE_SKIP_EMPTY_LINES)) != false && in_array($this->topicID, $stickyFile),
-				'isSubscribed' => $topic[4] == '1' && Main::getModule('Auth')->getUserID() == $topic[2] || in_array(Main::getModule('Auth')->getUserID(), Functions::explodeByComma($topic[8])),
+				'isSubscribed' => Main::getModule('Auth')->isLoggedIn() && ($topic[4] == '1' && Main::getModule('Auth')->getUserID() == $topic[2] || in_array(Main::getModule('Auth')->getUserID(), Functions::explodeByComma($topic[8]))),
 				'posts' => $posts)); //Prepared posts with users
 			break;
 
