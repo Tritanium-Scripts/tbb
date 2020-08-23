@@ -3,9 +3,9 @@
  * Manages new replies, poster IPs and post/poll management.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010, 2011 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2020 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
- * @package TBB1.6
+ * @package TBB1.7
  */
 class Posting implements Module
 {
@@ -119,7 +119,7 @@ class Posting implements Module
 		{
 			#0:postID - 1:posterID - 2:proprietaryDate - 3:post - 4:ip - 5:isSignature - 6:tSmileyID - 7:isSmiliesOn - 8:isBBCode - 9:isHTML[ - 10:lastEditByID]
 			$this->topicFile = array_map(array('Functions', 'explodeByTab'), $this->topicFile);
-			#0:open/close[/moved] - 1:title - 2:userID - 3:tSmileyID - 4:notifyNewReplies[/movedForumID] - 5:timestamp[/movedTopicID] - 6:views - 7:pollID
+			#0:open/close[/moved] - 1:title - 2:userID - 3:tSmileyID - 4:notifyNewReplies[/movedForumID] - 5:timestamp[/movedTopicID] - 6:views - 7:pollID[ - 8:subscribedUserIDs]
 			$this->topic = array_shift($this->topicFile);
 			$this->page = ceil(array_search($this->postID, array_map('current', $this->topicFile)) / Main::getModule('Config')->getCfgVal('posts_per_page'));
 		}
@@ -158,6 +158,44 @@ class Posting implements Module
 		//Execute action (and subaction)
 		switch($this->mode)
 		{
+//EditTopicSubscribe
+			case 'subscribe':
+			Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('subscribe'), INDEXFILE . '?faction=topic&amp;mode=subscribe&amp;forum_id=' . $this->forum[0] . '&amp;topic_id=' . $this->topicID . SID_AMPER);
+			if(!Functions::checkUserAccess($this->forum[0], 0))
+				Main::getModule('Template')->printMessage(Main::getModule('Auth')->isLoggedIn() ? 'permission_denied' : 'login_only', INDEXFILE . '?faction=register' . SID_AMPER, INDEXFILE . '?faction=login' . SID_AMPER);
+			if($this->topic[4] == '0' && Main::getModule('Auth')->getUserID() == $this->topic[2])
+				$this->topic[4] = '1';
+			elseif(!in_array(Main::getModule('Auth')->getUserID(), $subscribedUserIDs = Functions::explodeByComma($this->topic[8])) && Main::getModule('Auth')->getUserID() != $this->topic[2])
+			{
+				$subscribedUserIDs[] = Main::getModule('Auth')->getUserID();
+				$this->topic[8] = implode(',', $subscribedUserIDs);
+			}
+			else
+				Main::getModule('Template')->printMessage('topic_already_subscribed');
+			Functions::file_put_contents('foren/' . $this->forum[0] . '-' . $this->topicID . '.xbb', Functions::implodeByTab($this->topic) . "\n" . implode("\n", array_map(array('Functions', 'implodeByTab'), $this->topicFile)));
+			Functions::skipConfirmMessage(INDEXFILE . '?mode=viewthread&forum_id=' . $this->forum[0] . '&thread=' . $this->topicID . SID_AMPER_RAW);
+			Main::getModule('Template')->printMessage('topic_subscribed', Functions::getMsgBackLinks($this->forum[0], $this->topicID));
+			break;
+
+//EditTopicUnsubscribe
+			case 'unsubscribe':
+			Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('unsubscribe'), INDEXFILE . '?faction=topic&amp;mode=unsubscribe&amp;forum_id=' . $this->forum[0] . '&amp;topic_id=' . $this->topicID . SID_AMPER);
+			if(!Functions::checkUserAccess($this->forum[0], 0))
+				Main::getModule('Template')->printMessage(Main::getModule('Auth')->isLoggedIn() ? 'permission_denied' : 'login_only', INDEXFILE . '?faction=register' . SID_AMPER, INDEXFILE . '?faction=login' . SID_AMPER);
+			if($this->topic[4] == '1' && Main::getModule('Auth')->getUserID() == $this->topic[2])
+				$this->topic[4] = '0';
+			elseif(in_array(Main::getModule('Auth')->getUserID(), $subscribedUserIDs = Functions::explodeByComma($this->topic[8])) && Main::getModule('Auth')->getUserID() != $this->topic[2])
+			{
+				unset($subscribedUserIDs[array_search(Main::getModule('Auth')->getUserID(), $subscribedUserIDs)]);
+				$this->topic[8] = implode(',', $subscribedUserIDs);
+			}
+			else
+				Main::getModule('Template')->printMessage('topic_already_unsubscribed');
+			Functions::file_put_contents('foren/' . $this->forum[0] . '-' . $this->topicID . '.xbb', Functions::implodeByTab($this->topic) . "\n" . implode("\n", array_map(array('Functions', 'implodeByTab'), $this->topicFile)));
+			Functions::skipConfirmMessage(INDEXFILE . '?mode=viewthread&forum_id=' . $this->forum[0] . '&thread=' . $this->topicID . SID_AMPER_RAW);
+			Main::getModule('Template')->printMessage('topic_unsubscribed', Functions::getMsgBackLinks($this->forum[0], $this->topicID));
+			break;
+
 //PostReply
 			case 'reply':
 			case 'save':
@@ -216,9 +254,15 @@ class Posting implements Module
 						Functions::updateLastPosts($this->forum[0], $this->topicID, $this->newReply['nick'], $newPost[2], $this->newReply['tSmileyID'], $newPost[0]);
 					Functions::updateTodaysPosts($this->forum[0], $this->topicID, $this->newReply['nick'], $newPost[2], $this->newReply['tSmileyID'], $newPost[0]);
 					Functions::releaseLock('ltposts');
-					//Notify topic creator
-					if($this->topic[4] == '1' && Main::getModule('Config')->getCfgVal('activate_mail') == 1 && Main::getModule('Config')->getCfgVal('notify_new_replies') == 1 && Main::getModule('Auth')->getUserID() != $this->topic[2] && ($notifyUser = Functions::getUserData($this->topic[2])) != false)
-						Functions::sendMessage($notifyUser[3], 'notify_new_reply', $notifyUser[0], Main::getModule('Config')->getCfgVal('address_to_forum') . '/' . INDEXFILE . '?mode=viewthread&forum_id=' . $this->forum[0] . '&thread=' . $this->topicID);
+					//Notify topic creator and subscribed users
+					if(Main::getModule('Config')->getCfgVal('activate_mail') == 1 && Main::getModule('Config')->getCfgVal('notify_new_replies') == 1)
+					{
+						if($this->topic[4] == '1' && Main::getModule('Auth')->getUserID() != $this->topic[2] && ($notifyUser = Functions::getUserData($this->topic[2])) != false)
+							Functions::sendMessage($notifyUser[3], 'notify_new_reply', $notifyUser[0], Main::getModule('Config')->getCfgVal('address_to_forum') . '/' . INDEXFILE . '?mode=viewthread&forum_id=' . $this->forum[0] . '&thread=' . $this->topicID);
+						foreach(Functions::explodeByComma($this->topic[8]) as $curSubscribedUserID)
+							if(Main::getModule('Auth')->getUserID() != $curSubscribedUserID && ($notifyUser = Functions::getUserData($curSubscribedUserID)) != false)
+								Functions::sendMessage($notifyUser[3], 'notify_sub_new_reply', $notifyUser[0], Main::getModule('Config')->getCfgVal('address_to_forum') . '/' . INDEXFILE . '?mode=viewthread&forum_id=' . $this->forum[0] . '&thread=' . $this->topicID);
+					}
 					//Done
 					Main::getModule('Logger')->log('New reply (' . $this->forum[0] . ',' . $this->topicID . ') posted by %s', LOG_NEW_POSTING);
 					Functions::skipConfirmMessage(INDEXFILE . '?mode=viewthread&forum_id=' . $this->forum[0] . '&thread=' . $this->topicID . '&z=last' . SID_AMPER_RAW . '#post' . $newPost[0]);
@@ -572,7 +616,7 @@ class Posting implements Module
 			if(Functions::getValueFromGlobals('edit') != '' || $this->mode == 'editpoll' || $this->mode == 'update')
 			{
 //EditPoll
-				Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('edit_poll'), INDEXFILE . '?faction=editpoll&amp;forum_id=' . $this->forum[0] . '&amp;topic_id=' . $this->topicID . '&amp;poll_id=' . $this->topic[7]);
+				Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('edit_poll'), INDEXFILE . '?faction=editpoll&amp;forum_id=' . $this->forum[0] . '&amp;topic_id=' . $this->topicID . '&amp;poll_id=' . $this->topic[7] . SID_AMPER);
 				if(!Main::getModule('Auth')->isLoggedIn() || !Functions::checkUserAccess($this->forum[0], 5))
 					Main::getModule('Template')->printMessage(Main::getModule('Auth')->isLoggedIn() ? 'permission_denied' : 'login_only', INDEXFILE . '?faction=register' . SID_AMPER, INDEXFILE . '?faction=login' . SID_AMPER);
 				elseif($poll[1] != Main::getModule('Auth')->getUserID() && !Functions::checkModOfForum($this->forum) && !Main::getModule('Auth')->isAdmin())
@@ -630,7 +674,7 @@ class Posting implements Module
 			else
 			{
 				$voteID = intval(Functions::getValueFromGlobals('vote_id'));
-				Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('vote'), INDEXFILE . '?faction=vote&amp;forum_id=' . $this->forum[0] . '&amp;topic_id=' . $this->topicID . '&amp;poll_id=' . $this->topic[7] . '&amp;vote_id=' . $voteID);
+				Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('vote'), INDEXFILE . '?faction=vote&amp;forum_id=' . $this->forum[0] . '&amp;topic_id=' . $this->topicID . '&amp;poll_id=' . $this->topic[7] . '&amp;vote_id=' . $voteID . SID_AMPER);
 				if(!Functions::checkUserAccess($this->forum[0], 0))
 					Main::getModule('Template')->printMessage(Main::getModule('Auth')->isLoggedIn() ? 'permission_denied' : 'login_only', INDEXFILE . '?faction=register' . SID_AMPER, INDEXFILE . '?faction=login' . SID_AMPER);
 				//Check for vote permission

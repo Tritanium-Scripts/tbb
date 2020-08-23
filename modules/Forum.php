@@ -135,7 +135,7 @@ class Forum implements Module
 			{
 				$curLastPost = Functions::explodeByTab(@end($curTopic = Functions::file('foren/' . $this->forumID . '-' . $topicFile[$i] . '.xbb')));
 				$curEnd = ceil(($curSize = count($curTopic)-1) / Main::getModule('Config')->getCfgVal('posts_per_page'));
-				#0:open/close[/moved] - 1:title - 2:userID - 3:tSmileyID - 4:[/movedForumID] - 5:timestamp[/movedTopicID] - 6:views - 7:pollID - ...
+				#0:open/close[/moved] - 1:title - 2:userID - 3:tSmileyID - 4:notifyNewReplies[/movedForumID] - 5:timestamp[/movedTopicID] - 6:views - 7:pollID[ - 8:subscribedUserIDs]
 				$curTopic = Functions::explodeByTab($curTopic[0]);
 				//Detect new posts
 				$curCookieID = 'topic_' . $this->forumID . '_' . $topicFile[$i];
@@ -204,7 +204,7 @@ class Forum implements Module
 				Main::getModule('Template')->printMessage('forum_' . (Main::getModule('Auth')->isLoggedIn() ? 'no_access' : 'need_login'));
 			Main::getModule('NavBar')->addElement($forum[1], INDEXFILE . '?mode=viewforum&amp;forum_id=' . $this->forumID . SID_AMPER);
 			$topicFile = @Functions::file('foren/' . $this->forumID . '-' . $this->topicID . '.xbb') or Main::getModule('Template')->printMessage('topic_not_found');
-			#0:open/close[/moved] - 1:title - 2:userID - 3:tSmileyID - 4:notifyNewReplies[/movedForumID] - 5:timestamp[/movedTopicID] - 6:views - 7:pollID - ...
+			#0:open/close[/moved] - 1:title - 2:userID - 3:tSmileyID - 4:notifyNewReplies[/movedForumID] - 5:timestamp[/movedTopicID] - 6:views - 7:pollID[ - 8:subscribedUserIDs]
 			$topic = Functions::explodeByTab(array_shift($topicFile));
 			if($topic[0] == 'm')
 				Main::getModule('Template')->printMessage('topic_has_moved', INDEXFILE . '?mode=viewthread&amp;forum_id=' . $topic[4] . '&amp;thread=' . $topic[5] . SID_AMPER, Functions::getMsgBackLinks($this->forumID));
@@ -329,6 +329,7 @@ class Forum implements Module
 				'canModify' => ($canModify = Main::getModule('Auth')->isAdmin() || $isMod),
 				'isOpen' => $topic[0] == '1' || $topic[0] == 'open',
 				'isSticky' => $canModify && ($stickyFile = @Functions::file('foren/' . $this->forumID . '-sticker.xbb', FILE_SKIP_EMPTY_LINES)) != false && in_array($this->topicID, $stickyFile),
+				'isSubscribed' => $topic[4] == '1' && Main::getModule('Auth')->getUserID() == $topic[2] || in_array(Main::getModule('Auth')->getUserID(), Functions::explodeByComma($topic[8])),
 				'posts' => $posts)); //Prepared posts with users
 			break;
 
