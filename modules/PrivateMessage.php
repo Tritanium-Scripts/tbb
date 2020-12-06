@@ -191,7 +191,7 @@ class PrivateMessage implements Module
 				if($recipient == false)
 					$errors[] = Main::getModule('Language')->getString('recipient_does_not_exist');
 				else
-					$recipient = array_slice($recipient, 0, 2); //Cut off not needed infos
+					$recipient = array_slice($recipient, 0, 15); //Cut off not needed infos
 				if($newPM[1] == '')
 					$errors[] = Main::getModule('Language')->getString('please_enter_a_subject');
 				if(empty($errors))
@@ -204,6 +204,9 @@ class PrivateMessage implements Module
 						//Detect new PM ID
 						$newPM[0] = @current(Functions::explodeByTab(array_pop(Functions::file('members/' . $recipient[1] . '.pm'))))+1;
 						Functions::file_put_contents('members/' . $recipient[1] . '.pm', Functions::implodeByTab($newPM) . "\n", FILE_APPEND);
+						//Notify recipient via email
+						if(Main::getModule('Config')->getCfgVal('activate_mail') == 1 && $recipient[14][0] == '1')
+							Functions::sendMessage($recipient[3], 'pm_from_user', $recipient[0], Main::getModule('Auth')->getUserNick(), $newPM[1], Main::getModule('Config')->getCfgVal('address_to_forum') . '/' . INDEXFILE . '?faction=pm&mode=view&pm_id=' . $newPM[0] . '&pmbox_id=' . $recipient[1]);
 						//Handle outbox
 						if($storeToOutbox)
 						{
