@@ -336,7 +336,7 @@ class Profile implements Module
 			elseif(!class_exists('DOMDocument', false) || (!$this->isFGC && !$this->isCURL))
 				Main::getModule('Template')->printMessage('function_not_supported');
 			$dom = new DOMDocument;
-			if(!@$dom->loadXML($this->loadURL('http://steamcommunity.com/' . (ctype_digit($this->userData[18]) ? 'profiles/' : 'id/') . $this->userData[18] . '/stats/' . $game . '/?tab=achievements&l=' . Main::getModule('Language')->getString('steam_language') . '&xml=all')))
+			if(!@$dom->loadXML($this->loadURL('https://steamcommunity.com/' . (ctype_digit($this->userData[18]) ? 'profiles/' : 'id/') . $this->userData[18] . '/stats/' . $game . '/?tab=achievements&l=' . Main::getModule('Language')->getString('steam_language') . '&xml=all')))
 				$this->errors[] = Main::getModule('Language')->getString('loading_achievements_failed');
 			elseif($dom->getElementsByTagName('error')->length == 0)
 			{
@@ -448,7 +448,7 @@ class Profile implements Module
 			$checkRedir = !@curl_setopt($cURL, CURLOPT_FOLLOWLOCATION, true);
 			curl_setopt($cURL, CURLOPT_TIMEOUT, ini_get('default_socket_timeout'));
 			curl_setopt($cUrl, CURLOPT_ENCODING, ''); //Support for gzip
-			curl_setopt($cURL, CURLOPT_USERAGENT, 'TBB/' . VERSION_PUBLIC);
+			curl_setopt($cURL, CURLOPT_USERAGENT, 'TBB/' . VERSION_PUBLIC); //RFC 2616
 			$content = curl_exec($cURL);
 			if($checkRedir)
 			{
@@ -474,7 +474,7 @@ class Profile implements Module
 	private function refreshSteamGames($cacheFile)
 	{
 		$dom = new DOMDocument;
-		if(!@$dom->loadXML($this->loadURL('http://steamcommunity.com/' . (ctype_digit($this->userData[18]) ? 'profiles/' : 'id/') . $this->userData[18] . '/games/?tab=all&l=' . Main::getModule('Language')->getString('steam_language') . '&xml=1')))
+		if(!@$dom->loadXML($this->loadURL('https://steamcommunity.com/' . (ctype_digit($this->userData[18]) ? 'profiles/' : 'id/') . $this->userData[18] . '/games/?tab=all&l=' . Main::getModule('Language')->getString('steam_language') . '&xml=1')))
 			return false;
 		else
 		{

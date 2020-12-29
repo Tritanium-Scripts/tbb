@@ -2,6 +2,10 @@
 <!-- AdminNews -->
 <form method="post" action="{$smarty.const.INDEXFILE}?faction=ad_news&amp;save=yes{$smarty.const.SID_AMPER}">
 <table class="tableStd" cellpadding="{$modules.Config->getCfgVal('tpadding')}" cellspacing="{$modules.Config->getCfgVal('tspacing')}" style="width:100%;">
+ <colgroup>
+  <col width="20%" />
+  <col width="80%" />
+ </colgroup>
  <tr><th class="cellTitle" colspan="2"><span class="fontTitle">{$modules.Language->getString('edit_forum_news')}</span></th></tr>
  <tr><td class="cellCat" colspan="2"><span class="fontCat">{$modules.Language->getString('options')}</span></td></tr>
  <tr>

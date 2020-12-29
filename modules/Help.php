@@ -82,7 +82,40 @@ class Help implements Module
 
 			case 'gdpr':
 			Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('privacy_policy'), INDEXFILE . '?faction=gdpr' . SID_AMPER);
-			$gdprText = Main::getModule('Language')->getString('gdpr_text');
+			//Dynamically build the GDPR text based on the enabled functions
+			$gdprParagraphs = array();
+			$curConfigKey;
+			foreach(Main::getModule('Language')->getStrings() as $curIndex => $curString)
+				if(Functions::strpos($curIndex, 'gdpr_') !== false)
+				{
+					switch($curIndex)
+					{
+						case 'gdpr_registration':
+						$curConfigKey = 'activate_registration';
+						break;
+
+						case 'gdpr_contact_possibility':
+						$curConfigKey = 'activate_mail';
+						break;
+
+						case 'gdpr_topic_subscriptions':
+						$curConfigKey = 'notify_new_replies';
+						break;
+
+						case 'gdpr_steam':
+						$curConfigKey = 'achievements';
+						break;
+
+						default:
+						$curConfigKey = null;
+						break;
+					}
+					//Exclude any paragraph related to a deactivated function
+					if(!empty($curConfigKey) && Main::getModule('Config')->getCfgVal($curConfigKey) != 1)
+						continue;
+					$gdprParagraphs[] = $curString;
+				}
+			$gdprText = implode("\n", $gdprParagraphs);
 			$gdprText = Functions::str_replace('{BOARDNAME}', Main::getModule('Config')->getCfgVal('forum_name'), $gdprText);
 			$gdprText = Functions::str_replace('{EMAIL}', trim(Main::getModule('Template')->fetch('string:{mailto address="' . Main::getModule('Config')->getCfgVal('site_contact') . '" encode="javascript"}'), '.tpl'), $gdprText);
 			$gdprText = Functions::str_replace('{WEBSITE}', Main::getModule('Config')->getCfgVal('address_to_forum'), $gdprText);
