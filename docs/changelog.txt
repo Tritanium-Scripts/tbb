@@ -1,6 +1,6 @@
 **********************************************************
 Tritanium Bulletin Board 1.5+ - Changelog (German version)
-Last changed: 2020-12-06 (Version 1.7)
+Last changed: 2020-12-29 (Version 1.7)
 **********************************************************
 
 2020: Version 1.7
