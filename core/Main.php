@@ -233,9 +233,23 @@ class Main implements Module
 		{
 			if(!file_exists('modules/' . $module . '.php'))
 			{
-				if($module != 'Config') //In case of "Config.php.new" to prevent redeclaring Logger
-					self::getModule('Logger')->log('Call to unknown module "' . $module . '"', LOG_FILESYSTEM);
-				exit('<b>ERROR:</b> Module ' . $module . ' does not exist!');
+				$missing;
+				if(is_null($module))
+				{
+					self::getModule('Logger')->log('Call to unknown module "' . $mode . '"', LOG_FILESYSTEM);
+					if(function_exists('http_response_code'))
+						http_response_code(400);
+					$missing = $mode;
+				}
+				else
+				{
+					if($module != 'Config') //In case of "Config.php.new" to prevent redeclaring Logger
+						self::getModule('Logger')->log('Call to missing module "' . $module . '"', LOG_FILESYSTEM);
+					if(function_exists('http_response_code'))
+						http_response_code(500);
+					$missing = $module;
+				}
+				exit('<b>ERROR:</b> Module ' . $missing . ' does not exist!');
 			}
 			include('modules/' . $module . '.php');
 			self::$loadedModules[$module] = !isset($mode) ? new $module : new $module($mode);

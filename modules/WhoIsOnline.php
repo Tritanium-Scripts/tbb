@@ -54,7 +54,7 @@ class WhoIsOnline implements Module
 		if($this->wwoFile[0] != date('dmY'))
 		{
 			//Reset WWO statistics for new day
-			$this->wwoFile = array(date('dmY'), $this->wwoFile[1], 0, '');
+			$this->wwoFile = array(date('dmY'), $this->wwoFile[1], 0, '', 0);
 			$update = true;
 		}
 		if(!Main::getModule('Auth')->isConnected() && !Main::getModule('Auth')->isLoggedIn())

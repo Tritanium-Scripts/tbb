@@ -17,8 +17,10 @@ Last changed: 2020-12-29 (Version 1.7)
 	- Copyright-Jahreszahl aktualisiert
 	- Fehler bei Seitenberechnung im RSS-Feed und der Suche korrigiert
 	- Smarty auf Version 3.1.36 aktualisiert
-	- Themen für alle Mitglieder jederzeit abonnierbar
+	- Themen für alle Mitglieder jederzeit (de)abonnierbar
 	- Benachrichtigung per E-Mail über neue private Nachrichten
+	- Verlust von Beiträgen in größeren Themen bei Aktualisierung von Views behoben
+	- Aufruf von unbekannten oder fehlenden Modulen endet mit passenden HTTP-Statuscode
 
 07.08.2016: Version 1.6.5 (offiziell)
 	- Fehlerhafter Link bei Benachrichtigungen von Moderatoren behoben

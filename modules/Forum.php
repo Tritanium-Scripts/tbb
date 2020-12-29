@@ -203,6 +203,7 @@ class Forum implements Module
 			if(!Functions::checkUserAccess($forum, 0))
 				Main::getModule('Template')->printMessage('forum_' . (Main::getModule('Auth')->isLoggedIn() ? 'no_access' : 'need_login'));
 			Main::getModule('NavBar')->addElement($forum[1], INDEXFILE . '?mode=viewforum&amp;forum_id=' . $this->forumID . SID_AMPER);
+			Functions::getFileLock('tview-' . $this->forumID);
 			$topicFile = @Functions::file('foren/' . $this->forumID . '-' . $this->topicID . '.xbb') or Main::getModule('Template')->printMessage('topic_not_found');
 			#0:open/close[/moved] - 1:title - 2:userID - 3:tSmileyID - 4:notifyNewReplies[/movedForumID] - 5:timestamp[/movedTopicID] - 6:views - 7:pollID[ - 8:subscribedUserIDs]
 			$topic = Functions::explodeByTab(array_shift($topicFile));
@@ -216,6 +217,7 @@ class Forum implements Module
 				Functions::file_put_contents('foren/' . $this->forumID . '-' . $this->topicID . '.xbb', implode("\n", array_merge(array(Functions::implodeByTab($topic)), $topicFile)) . "\n");
 				$_SESSION['session.tview.' . $this->forumID . '.' . $this->topicID] = true;
 			}
+			Functions::releaseLock('tview-' . $this->forumID);
 			$topic[1] = Functions::censor($topic[1]);
 			//Build page navigation bar
 			$pages = ceil(($size = count($topicFile)) / Main::getModule('Config')->getCfgVal('posts_per_page'));
