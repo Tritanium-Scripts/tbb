@@ -1,9 +1,9 @@
 **********************************************************
 Tritanium Bulletin Board 1.5+ - Changelog (German version)
-Last changed: 2020-12-29 (Version 1.7)
+Last changed: 2020-12-31 (Version 1.7)
 **********************************************************
 
-2020: Version 1.7
+31.12.2020: Version 1.7 (offiziell)
 	- Datenstrukturfehler bei Neuberechnung der Zähler behoben
 	- Anzeige von Bots in WIO- und WWO-Boxen
 	- ICQ-UIN-Link aktualisiert

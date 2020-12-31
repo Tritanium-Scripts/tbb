@@ -246,6 +246,11 @@ class AdminForum implements Module
 							$sizeCounter += Functions::unlink('foren/' . $forumID . '-sticker.xbb');
 							$fileCounter++;
 						}
+						if(Functions::file_exists('vars/tview-' . $forumID . '.lock'))
+						{
+							$sizeCounter += Functions::unlink('vars/tview-' . $forumID . '.lock');
+							$fileCounter++;
+						}
 						//Check mods (if any)
 						foreach($editForum[11] as $curModID)
 							//By deleting forum from index, all mod IDs won't list them either
