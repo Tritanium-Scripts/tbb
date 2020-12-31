@@ -120,7 +120,7 @@ class Functions extends FunctionsBasic
 	 */
 	public static function substr_count($haystack, $needle, $encoding=null)
 	{
-		return isset($encoding) ? mb_substr_count($haystack, $needle, $encoding) : mb_substr_count($string, $start);
+		return isset($encoding) ? mb_substr_count($haystack, $needle, $encoding) : mb_substr_count($haystack, $needle);
 	}
 }
 ?>
