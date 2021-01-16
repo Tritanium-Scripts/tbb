@@ -6,7 +6,7 @@
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
+ * version 3.0 of the License, or (at your option) any later version.
  *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -27,7 +27,6 @@
  * @author    Uwe Tews   <uwe dot tews at gmail dot com>
  * @author    Rodney Rehm
  * @package   Smarty
- * @version   3.1.36
  */
 /**
  * set SMARTY_DIR to absolute path to Smarty library files.
@@ -112,7 +111,7 @@ class Smarty extends Smarty_Internal_TemplateBase
     /**
      * smarty version
      */
-    const SMARTY_VERSION = '3.1.36';
+    const SMARTY_VERSION = '3.1.38';
     /**
      * define variable scopes
      */

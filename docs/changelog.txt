@@ -1,7 +1,10 @@
 **********************************************************
 Tritanium Bulletin Board 1.5+ - Changelog (German version)
-Last changed: 2020-12-31 (Version 1.7)
+Last changed: 2021-01-08 (Version 1.7.1)
 **********************************************************
+
+2021: Version 1.7.1
+	- Smarty auf Version 3.1.38 aktualisiert
 
 31.12.2020: Version 1.7 (offiziell)
 	- Datenstrukturfehler bei Neuberechnung der Zähler behoben
@@ -289,5 +292,5 @@ Last changed: 2020-12-31 (Version 1.7)
 	- Verbesserte Locking-Technik verhindert die Vergabe von gleichen IDs bei neuen Benutzern, Themen und Umfragen und falschen Mitgliederzahlen im Falle von DDoS-ähnlichen Attacken
 
 Written by Chrissyx
-(c) 2010–2020 Tritanium Scripts
+(c) 2010–2021 Tritanium Scripts
 http://www.tritanium-scripts.com/
