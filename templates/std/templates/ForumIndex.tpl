@@ -20,7 +20,7 @@
   <td class="td1" style="text-align:center;"><span class="norm">{$curForum.forumTopics}</span></td>
   <td class="td2" style="text-align:center;"><span class="norm">{$curForum.forumPosts}</span></td>
   <td class="td1 small" style="text-align:center;">{$curForum.lastPost}</td>
-  <td class="td2" style="text-align:center;"><span class="small">{if count($curForum.mods) > 1}{', '|implode:$curForum.mods}{else}{$curForum.mods}{/if}</span></td>
+  <td class="td2" style="text-align:center;"><span class="small">{if is_array($curForum.mods)}{', '|implode:$curForum.mods}{else}{$curForum.mods}{/if}</span></td>
  </tr>
 {/if}
 {foreachelse}
