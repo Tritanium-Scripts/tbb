@@ -15,7 +15,7 @@
  * </ol>
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2020 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2021 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1.7
  */
@@ -202,10 +202,21 @@ class PrivateMessage implements Module
 						$newPM[2] = Functions::nl2br($newPM[2]);
 						$newPM[4] = gmdate('YmdHis');
 						//Detect new PM ID
-						$newPM[0] = @current(Functions::explodeByTab(array_pop(Functions::file('members/' . $recipient[1] . '.pm'))))+1;
+						$recipientLastPM = @Functions::explodeByTab(array_pop(Functions::file('members/' . $recipient[1] . '.pm')));
+						$recipientUnreadPMs;
+						if(empty($recipientLastPM[0]))
+						{
+							$newPM[0] = 1;
+							$recipientUnreadPMs = false;
+						}
+						else
+						{
+							$newPM[0] = $recipientLastPM[0]+1;
+							$recipientUnreadPMs = $recipientLastPM[7] == '1';
+						}
 						Functions::file_put_contents('members/' . $recipient[1] . '.pm', Functions::implodeByTab($newPM) . "\n", FILE_APPEND);
-						//Notify recipient via email
-						if(Main::getModule('Config')->getCfgVal('activate_mail') == 1 && $recipient[14][0] == '1')
+						//Notify recipient via email by having no other unread PMs
+						if(!$recipientUnreadPMs && $recipient[14][0] == '1')
 							Functions::sendMessage($recipient[3], 'pm_from_user', $recipient[0], Main::getModule('Auth')->getUserNick(), $newPM[1], Main::getModule('Config')->getCfgVal('address_to_forum') . '/' . INDEXFILE . '?faction=pm&mode=view&pm_id=' . $newPM[0] . '&pmbox_id=' . $recipient[1]);
 						//Handle outbox
 						if($storeToOutbox)
