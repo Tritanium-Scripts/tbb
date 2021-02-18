@@ -24,5 +24,5 @@
  <param name="movie" value="{$flashLink}" />
  <param name="quality" value="autohigh" />
  <param name="wmode" value="transparent" />
- <p><a href="http://get.adobe.com/flashplayer/" target="_blank">{$modules.Language->getString('no_flash_installed', 'BBCode')}</a></p>
+ <p><a href="https://get.adobe.com/flashplayer/" target="_blank">{$modules.Language->getString('no_flash_installed', 'BBCode')}</a></p>
 </object>{elseif $type == $smarty.const.BBCODE_CODE}<code>{$codeLines}</code>{/if}

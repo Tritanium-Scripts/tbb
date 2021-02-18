@@ -1,12 +1,14 @@
 **********************************************************
 Tritanium Bulletin Board 1.5+ - Changelog (German version)
-Last changed: 2021-01-24 (Version 1.7.1)
+Last changed: 2021-02-18 (Version 1.7.1)
 **********************************************************
 
 2021: Version 1.7.1
-	- Smarty auf Version 3.1.38 aktualisiert
 	- Warnung bei Moderatorenanzeige ab PHP 7.2 behoben
 	- Benachrichtigung per E-Mail über neue PNs erfolgt nur es keine anderen ungelesenen PNs gibt
+	- Boterkennung verbessert
+	- Smarty auf Version 3.1.39 aktualisiert
+	- [flash]-BBCode entfernt
 
 31.12.2020: Version 1.7 (offiziell)
 	- Datenstrukturfehler bei Neuberechnung der Zähler behoben

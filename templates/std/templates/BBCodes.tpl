@@ -55,7 +55,6 @@
 <input class="forumcode" type="button" value="IMG" onclick="setTag('[img]','[/img]');" />
 <input class="forumcode" type="button" value="{$modules.Language->getString('email')}" onclick="setTag('[email]','[/email]');" />
 <input class="forumcode" type="button" value="{$modules.Language->getString('bullet_list')}" onclick="setTag('[list]\n[*]','\n[/list]');" />
-<input class="forumcode" type="button" value="{$modules.Language->getString('flash')}" onclick="setTag('[flash]','[/flash]');" />
+<input class="forumcode" type="button" value="IFRAME" onclick="setTag('[iframe]','[/iframe]');" />
 <input class="forumcode" type="button" value="{$modules.Language->getString('hidden_text')}" onclick="setTag('[hide]','[/hide]');" />
 <input class="forumcode" type="button" value="{$modules.Language->getString('locked_text')}" onclick="setTag('[lock]','[/lock]');" />
-<input class="forumcode" type="button" value="IFRAME" onclick="setTag('[iframe]','[/iframe]');" />
