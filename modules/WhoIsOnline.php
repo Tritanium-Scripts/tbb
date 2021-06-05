@@ -590,7 +590,8 @@ class WhoIsOnline implements Module
 			|| Functions::stripos($userAgent, 'daum') !== false
 			|| Functions::stripos($userAgent, 'ubermetrics') !== false
 			|| Functions::stripos($userAgent, 'knowledge ai') !== false
-			|| Functions::stripos($userAgent, 'buck') !== false;
+			|| Functions::stripos($userAgent, 'buck') !== false
+			|| Functions::stripos($userAgent, 'http://') !== false;
 	}
 }
 ?>
