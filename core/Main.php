@@ -3,7 +3,7 @@
  * Loads main module and executes desired forum action and/or subAction.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2019 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2021 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1.7
  */
@@ -118,7 +118,11 @@ class Main implements Module
 	function __construct()
 	{
 		error_reporting(ERR_REPORTING);
-		set_exception_handler(create_function('$e', 'Main::getModule(\'Logger\')->log(get_class($e) . \': \' . $e->getMessage(), LOG_FILESYSTEM); echo($e);'));
+		set_exception_handler(function($e)
+		{
+			Main::getModule('Logger')->log(get_class($e) . ': ' . $e->getMessage(), LOG_FILESYSTEM);
+			echo($e);
+		});
 		//Finalize feature set of Functions class by either using Multibyte string functions and/or (overloaded) default PHP ones
 		require('Functions' . (!extension_loaded('mbstring') || (extension_loaded('mbstring') && ini_set('mbstring.func_overload', '7') !== false) ? '' : 'MB') . '.php');
 		//Revert quoted strings on GPC vars, if needed
@@ -127,7 +131,7 @@ class Main implements Module
         //Set proper charset, if needed
 		if(ini_get('default_charset') != 'UTF-8')
 			ini_set('default_charset', 'UTF-8');
-		//Qick 'n' dirty fix to set "proper" timezone
+		//Quick 'n' dirty fix to set "proper" timezone
 		@date_default_timezone_set(date_default_timezone_get());
 	}
 

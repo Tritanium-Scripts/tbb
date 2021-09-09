@@ -3,9 +3,9 @@
  * Various static functions and wrappers, optimized for external calls and standalone actions.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2021 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
- * @package TBB1.5
+ * @package TBB1.7
  */
 class ExtFunctions
 {
@@ -47,7 +47,10 @@ class ExtFunctions
 	 */
 	public static function file($filename, $flags=null)
 	{
-		return array_map(array('self', 'utf8_encode'), array_map(create_function('$entry', 'return trim($entry, " \n\r\0\x0B");'), file(EXT_PATH_TO_DATA . $filename, $flags)));
+		return array_map(array('self', 'utf8_encode'), array_map(function($entry)
+		{
+			return trim($entry, " \n\r\0\x0B");
+		}, file(EXT_PATH_TO_DATA . $filename, $flags)));
 	}
 
 	/**

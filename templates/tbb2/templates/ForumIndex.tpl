@@ -22,7 +22,7 @@
   <td class="cellAlt" style="text-align:center;"><span class="fontSmall">{$curForum.forumTopics}</span></td>
   <td class="cellAlt" style="text-align:center;"><span class="fontSmall">{$curForum.forumPosts}</span></td>
   <td class="cellStd" style="text-align:center;"><div class="fontSmall">{$curForum.lastPost}</div></td>
-  <td class="cellAlt" style="text-align:center;"><span class="fontSmall">{if count($curForum.mods) > 1}{', '|implode:$curForum.mods}{else}{$curForum.mods}{/if}</span></td>
+  <td class="cellAlt" style="text-align:center;"><span class="fontSmall">{if is_array($curForum.mods)}{', '|implode:$curForum.mods}{else}{$curForum.mods}{/if}</span></td>
  </tr>
 {/if}
 {foreachelse}

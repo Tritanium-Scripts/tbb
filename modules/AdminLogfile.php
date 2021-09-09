@@ -3,9 +3,9 @@
  * Manages various logfile tasks.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2021 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
- * @package TBB1.5
+ * @package TBB1.7
  */
 class AdminLogfile implements Module
 {
@@ -113,17 +113,26 @@ class AdminLogfile implements Module
 			{
 				case 'byDate':
 				default:
-				usort($logfiles, create_function('$file1, $file2', 'return strnatcasecmp($file1[\'timestamp\'], $file2[\'timestamp\']);'));
+				usort($logfiles, function($file1, $file2)
+				{
+					return strnatcasecmp($file1['timestamp'], $file2['timestamp']);
+				});
 				$orderTypeDate = !$orderType;
 				break;
 
 				case 'bySize':
-				usort($logfiles, create_function('$file1, $file2', 'return strnatcasecmp($file1[\'size\'], $file2[\'size\']);'));
+				usort($logfiles, function($file1, $file2)
+				{
+					return strnatcasecmp($file1['size'], $file2['size']);
+				});
 				$orderTypeSize = !$orderType;
 				break;
 
 				case 'byEntries':
-				usort($logfiles, create_function('$file1, $file2', 'return strnatcasecmp($file1[\'entries\'], $file2[\'entries\']);'));
+				usort($logfiles, function($file1, $file2)
+				{
+					return strnatcasecmp($file1['entries'], $file2['entries']);
+				});
 				$orderTypeEntries = !$orderType;
 				break;
 			}

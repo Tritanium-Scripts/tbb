@@ -3,9 +3,9 @@
  * Manages the board configuration and maintenance operations.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2016 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2021 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
- * @package TBB1.6
+ * @package TBB1.7
  */
 class AdminConfig implements Module
 {
@@ -110,7 +110,10 @@ class AdminConfig implements Module
 			if(Functions::getValueFromGlobals('confirmed') == 'true')
 			{
 				//Prepare rebuild stuff
-				$_SESSION['rebuildTopicIndex'] = array_combine($forums = array_map(create_function('$forum', 'return current(Functions::explodeByTab($forum));'), Functions::file('vars/foren.var', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES)), array_fill(0, count($forums), array()));
+				$_SESSION['rebuildTopicIndex'] = array_combine($forums = array_map(function($forum)
+				{
+					return current(Functions::explodeByTab($forum));
+				}, Functions::file('vars/foren.var', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES)), array_fill(0, count($forums), array()));
 				if(empty($forums))
 					$_SESSION['rebuildTopicIndex'] = array();
 				$this->checkTime(false, 'rebuildTopicIndex');
@@ -166,7 +169,10 @@ class AdminConfig implements Module
 			if(Functions::getValueFromGlobals('confirmed') == 'true')
 			{
 				//Prepare recalculation stuff
-				$_SESSION['recalculateCounters'] = array('forums' => array_combine($forums = array_map(create_function('$forum', 'return current(Functions::explodeByTab($forum));'), Functions::file('vars/foren.var', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES)), array_fill(0, count($forums), array())), 'total' => array());
+				$_SESSION['recalculateCounters'] = array('forums' => array_combine($forums = array_map(function($forum)
+				{
+					return current(Functions::explodeByTab($forum));
+				}, Functions::file('vars/foren.var', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES)), array_fill(0, count($forums), array())), 'total' => array());
 				$this->checkTime(false);
 			}
 			break;

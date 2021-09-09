@@ -133,7 +133,8 @@ class Forum implements Module
 			$end = $this->page*Main::getModule('Config')->getCfgVal('topics_per_page');
 			for($i=$end-Main::getModule('Config')->getCfgVal('topics_per_page'); $i<($end > $size ? $size : $end); $i++)
 			{
-				$curLastPost = Functions::explodeByTab(@end($curTopic = Functions::file('foren/' . $this->forumID . '-' . $topicFile[$i] . '.xbb')));
+				$curTopic = Functions::file('foren/' . $this->forumID . '-' . $topicFile[$i] . '.xbb');
+				$curLastPost = Functions::explodeByTab(@end($curTopic));
 				$curEnd = ceil(($curSize = count($curTopic)-1) / Main::getModule('Config')->getCfgVal('posts_per_page'));
 				#0:open/close[/moved] - 1:title - 2:userID - 3:tSmileyID - 4:notifyNewReplies[/movedForumID] - 5:timestamp[/movedTopicID] - 6:views - 7:pollID[ - 8:subscribedUserIDs]
 				$curTopic = Functions::explodeByTab($curTopic[0]);

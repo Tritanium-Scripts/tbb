@@ -3,9 +3,9 @@
  * Shows the member list with different ordering and sorting.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2014 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2021 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
- * @package TBB1.6
+ * @package TBB1.7
  */
 class MemberList implements Module
 {
@@ -93,7 +93,10 @@ class MemberList implements Module
 		if($this->sortMethod == 'id')
 		{
 			//Extract user IDs only
-			$availMembers = array_map(create_function('$member', 'return intval(basename($member, \'.xbb\'));'), $availMembers);
+			$availMembers = array_map(function($member)
+			{
+				return intval(basename($member, '.xbb'));
+			}, $availMembers);
 			//Detect crawling direction
 			if($this->orderType)
 			{

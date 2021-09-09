@@ -3,7 +3,7 @@
  * Manages an user profile incl. sending mails, vCard download and Steam achievements.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2020 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2021 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1.7
  */
@@ -493,7 +493,10 @@ class Profile implements Module
 					Functions::str_replace("'", '&#039;', $curSteamGame->getElementsByTagName('name')->item(0)->nodeValue)); //Full game name
 			}
 			//Sort by display game name
-			usort($this->steamGames, create_function('$game1, $game2', 'return strcmp($game1[2], $game2[2]);'));
+			usort($this->steamGames, function($game1, $game2)
+			{
+				return strcmp($game1[2], $game2[2]);
+			});
 			//Cache game data
 			Functions::file_put_contents($cacheFile, '<?php $this->userData[18] = unserialize(\'' . serialize($this->userData[18]) . '\'); $this->steamGames = unserialize(\'' . serialize($this->steamGames) . '\'); ?>', LOCK_EX, false, false);
 		}

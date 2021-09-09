@@ -3,9 +3,9 @@
  * Manages user ranking.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2021 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
- * @package TBB1.5
+ * @package TBB1.7
  */
 class AdminRank implements Module
 {
@@ -194,7 +194,10 @@ class AdminRank implements Module
 	private function sortAndSaveRanks()
 	{
 		//Sort
-		usort($this->ranks, create_function('$rank1, $rank2', 'return strnatcasecmp($rank1[2], $rank2[2]);'));
+		usort($this->ranks, function($rank1, $rank2)
+		{
+			return strnatcasecmp($rank1[2], $rank2[2]);
+		});
 		//Recalculate
 		$size = count($this->ranks);
 		for($i=1; $i<$size; $i++)

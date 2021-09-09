@@ -3,9 +3,9 @@
  * Various static functions and wrappers.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2015 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2021 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
- * @package TBB1.6
+ * @package TBB1.7
  */
 class FunctionsBasic
 {
@@ -91,7 +91,10 @@ class FunctionsBasic
 	public static function addURL($subject)
 	{
 		$tempBBCode = time(); //This is the placeholder for "url"
-		$subject = preg_replace_callback("/([^ ^>^\]^=^\n^\r]+?:\/\/|www\.)[^ ^<^\.^\[]+(\.[^ ^<^\.^\[^\]^\n^\r]+)+/si", create_function('$arr', 'return !empty($arr[2]) && Functions::stripos($arr[0], \'[url]\') === false && Functions::strripos($arr[0], \'[/url]\') === false ? \'[' . $tempBBCode . ']\' . ($arr[1] == \'www.\' ? \'http://\' : \'\') . $arr[0] . \'[/' . $tempBBCode . ']\' : $arr[0];'), $subject);
+		$subject = preg_replace_callback("/([^ ^>^\]^=^\n^\r]+?:\/\/|www\.)[^ ^<^\.^\[]+(\.[^ ^<^\.^\[^\]^\n^\r]+)+/si", function($arr) use($tempBBCode)
+		{
+			return !empty($arr[2]) && Functions::stripos($arr[0], '[url]') === false && Functions::strripos($arr[0], '[/url]') === false ? '[' . $tempBBCode . ']' . ($arr[1] == 'www.' ? 'http://' : '') . $arr[0] . '[/' . $tempBBCode . ']' : $arr[0];
+		}, $subject);
 		//After adding [url]s to *any* link, strip off unwanted ones:
 		foreach(array('iframe', 'flash', 'url', 'img', 'email', 'code', 'php', 'noparse') as $curBBCode)
 		{
@@ -236,20 +239,24 @@ class FunctionsBasic
 	 * @param int $flags Optional constants
 	 * @param string $trimCharList Characters to trim from each entry (default: all except \t)
 	 * @param bool $datapath Apply the global datapath to filename, there is usually no need to change this
-	 * @return array Read in file contents as array
+	 * @return array|bool Read in file contents as array or false if not found
 	 */
 	public static function file($filename, $flags=null, $trimCharList=null, $datapath=true)
 	{
-		$trimCallback = create_function('$entry', 'return trim($entry, "' . (empty($trimCharList) ? ' \n\r\0\x0B' : $trimCharList) . '");');
+		$trimCallback = function($entry) use($trimCharList)
+		{
+			return trim($entry, empty($trimCharList) ? " \n\r\0\x0B" : $trimCharList);
+		};
 		if($datapath && self::$isCaching)
 		{
 			if(isset(self::$fileCache[$filename][0]))
 				return array_map('utf8_encode', array_map($trimCallback, self::$fileCache[$filename][0]));
 			self::$fileCounter++;
-			return array_map('utf8_encode', array_map($trimCallback, self::$fileCache[$filename][0] = file(DATAPATH . $filename, $flags)));
+			return file_exists(DATAPATH . $filename) ? array_map('utf8_encode', array_map($trimCallback, self::$fileCache[$filename][0] = file(DATAPATH . $filename, $flags))) : false;
 		}
 		self::$fileCounter++;
-		return array_map('utf8_encode', array_map($trimCallback, file(($datapath ? DATAPATH : '') . $filename, $flags)));
+		$filePath = ($datapath ? DATAPATH : '') . $filename;
+		return file_exists($filePath) ? array_map('utf8_encode', array_map($trimCallback, file($filePath, $flags))) : false;
 	}
 
 	/**
@@ -418,7 +425,10 @@ class FunctionsBasic
 	 */
 	public static function getHTMLJSTransTable()
 	{
-		return isset(self::$cache['htmlJSDecoder']) ? self::$cache['htmlJSDecoder'] : (self::$cache['htmlJSDecoder'] = array_combine(array_keys($temp = array_flip($temp = get_html_translation_table(HTML_SPECIALCHARS, ENT_QUOTES))+array('&#' . (in_array('&#39;', $temp) ? '0' : '') . '39;' => "'", '&apos;' => "'")), array_map(create_function('$string', 'return \'\u00\' . bin2hex($string);'), array_values($temp))));
+		return isset(self::$cache['htmlJSDecoder']) ? self::$cache['htmlJSDecoder'] : (self::$cache['htmlJSDecoder'] = array_combine(array_keys($temp = array_flip($temp = get_html_translation_table(HTML_SPECIALCHARS, ENT_QUOTES))+array('&#' . (in_array('&#39;', $temp) ? '0' : '') . '39;' => "'", '&apos;' => "'")), array_map(function($string)
+		{
+			return '\u00' . bin2hex($string);
+		}, array_values($temp))));
 	}
 
 	/**
@@ -650,7 +660,7 @@ class FunctionsBasic
 		$gmtOffset = Main::getModule('Config')->getCfgVal('gmt_offset');
 		$offset = Functions::substr($gmtOffset, 1, 2)*3600 + Functions::substr($gmtOffset, 3, 2)*60;
 		//GMT timestamp + timezone offset + DST offset
-		return gmmktime(substr($date, 8, 2), substr($date, 10, 2), substr($date, 12, 2), substr($date, 4, 2), substr($date, 6, 2), substr($date, 0, 4)) + ($gmtOffset[0] == '-' ? $offset*-1 : $offset) + date('I')*3600;
+		return gmmktime((int) substr($date, 8, 2), (int) substr($date, 10, 2), (int) substr($date, 12, 2), (int) substr($date, 4, 2), (int) substr($date, 6, 2), (int) substr($date, 0, 4)) + ($gmtOffset[0] == '-' ? $offset*-1 : $offset) + date('I')*3600;
 	}
 
 	/**

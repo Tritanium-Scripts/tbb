@@ -3,7 +3,7 @@
  * Manages categories and forums incl. special rights.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2020 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2021 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1.7
  */
@@ -454,7 +454,10 @@ class AdminForum implements Module
 			{
 				//Get special rights or create new
 				$specialRights = @Functions::file('foren/' . $forumID . '-rights.xbb') or $specialRights = array();
-				$specialUserIDs = array_map(create_function('$right', 'return $right[1] == 1 ? $right[2] : 0;'), $specialRights = array_map(array('Functions', 'explodeByTab'), $specialRights));
+				$specialUserIDs = array_map(function($right)
+				{
+					return $right[1] == 1 ? $right[2] : 0;
+				}, $specialRights = array_map(array('Functions', 'explodeByTab'), $specialRights));
 				//Get new user IDs and rights to add
 				$newUserIDs = array_unique(Functions::explodeByComma(Functions::getValueFromGlobals('new_user_ids')));
 				$newUserRights = Functions::getValueFromGlobals('new_right') + array_fill(0, 6, '');
@@ -475,7 +478,10 @@ class AdminForum implements Module
 				Main::getModule('Template')->printMessage('special_right_added');
 			}
 			Main::getModule('Template')->assign(array('forumID' => $forumID,
-				'forumRights' => array_map(create_function('$right', 'return $right == 1;'), Functions::explodeByComma($this->forums[$key][10]))));
+				'forumRights' => array_map(function($right)
+				{
+					return $right == 1;
+				}, Functions::explodeByComma($this->forums[$key][10]))));
 			break;
 
 //AdminForumNewGroupRight
@@ -494,7 +500,10 @@ class AdminForum implements Module
 				Main::getModule('Template')->printMessage('no_groups_available');
 			//Get special rights or create new
 			$specialRights = @Functions::file('foren/' . $forumID . '-rights.xbb') or $specialRights = array();
-			$specialGroupIDs = array_filter(array_map(create_function('$right', 'return $right[1] == 2 ? $right[2] : null;'), $specialRights = array_map(array('Functions', 'explodeByTab'), $specialRights)), 'is_numeric');
+			$specialGroupIDs = array_filter(array_map(function($right)
+			{
+				return $right[1] == 2 ? $right[2] : null;
+			}, $specialRights = array_map(array('Functions', 'explodeByTab'), $specialRights)), 'is_numeric');
 			//Make sure there are groups with no special rights for current forum
 			if(count($specialGroupIDs) == count($groups))
 				Main::getModule('Template')->printMessage('all_groups_assigned');
@@ -534,8 +543,14 @@ class AdminForum implements Module
 			}
 			Main::getModule('Template')->assign(array('forumID' => $forumID,
 				//Only assign groups without having special rights for this forum
-				'groups' => array_filter($groups, create_function('$group', 'return !in_array($group[0], array(' . implode(',', $specialGroupIDs) . '));')),
-				'forumRights' => array_map(create_function('$right', 'return $right == 1;'), Functions::explodeByComma($this->forums[$key][10]))));
+				'groups' => array_filter($groups, function($group) use($specialGroupIDs)
+				{
+					return !in_array($group[0], array(implode(',', $specialGroupIDs)));
+				}),
+				'forumRights' => array_map(function($right)
+				{
+					return $right == 1;
+				}, Functions::explodeByComma($this->forums[$key][10]))));
 			break;
 
 			case 'kill_right':
@@ -699,7 +714,10 @@ class AdminForum implements Module
 	 */
 	private function getModIDs()
 	{
-		return array_filter(Functions::explodeByComma(implode(',', array_map(create_function('$forum', 'return implode(\',\', (array) $forum[11]);'), $this->forums))), 'is_numeric');
+		return array_filter(Functions::explodeByComma(implode(',', array_map(function($forum)
+		{
+			return implode(',', (array) $forum[11]);
+		}, $this->forums))), 'is_numeric');
 	}
 }
 ?>

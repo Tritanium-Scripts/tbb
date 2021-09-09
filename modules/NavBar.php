@@ -3,9 +3,9 @@
  * Manages elements of the navigation bar.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2021 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
- * @package TBB1.5
+ * @package TBB1.7
  */
 class NavBar
 {
@@ -40,7 +40,10 @@ class NavBar
 	 */
 	public function getNavBar($isLinked=true)
 	{
-		return array_map(create_function('$element', 'return ' . ($isLinked ? 'array($element[0] . $element[2], $element[1])' : '$element[0]') . ';'), $this->elements);
+		return array_map(function($element) use($isLinked)
+		{
+			return $isLinked ? array($element[0] . $element[2], $element[1]) : $element[0];
+		}, $this->elements);
 	}
 }
 ?>

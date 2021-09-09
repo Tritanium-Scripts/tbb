@@ -3,7 +3,7 @@
  * Manages new replies, poster IPs and post/poll management.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2020 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2021 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1.7
  */
@@ -273,7 +273,10 @@ class Posting implements Module
 			elseif(!empty($this->postID))
 			{
 				if(($quote = $this->getPostData($this->postID)) != false)
-					$this->newReply['post'] = '[quote=' . (!Functions::isGuestID($quote[1]) ? (($this->newReply['post'] = Functions::getUserData($quote[1])) !== false ? current($this->newReply['post']) : Main::getModule('Language')->getString('deleted')) : Functions::substr($quote[1], 1)) . ']' . Functions::br2nl(in_array(Main::getModule('Auth')->getUserID(), array_filter(array_unique(array_map('next', $this->topicFile)), create_function('$id', 'return !Functions::isGuestID($id);'))) ? $quote[3] : preg_replace("/\[lock\](.*?)\[\/lock\]/si", '', $quote[3])) . '[/quote]';
+					$this->newReply['post'] = '[quote=' . (!Functions::isGuestID($quote[1]) ? (($this->newReply['post'] = Functions::getUserData($quote[1])) !== false ? current($this->newReply['post']) : Main::getModule('Language')->getString('deleted')) : Functions::substr($quote[1], 1)) . ']' . Functions::br2nl(in_array(Main::getModule('Auth')->getUserID(), array_filter(array_unique(array_map('next', $this->topicFile)), function($id)
+					{
+						return !Functions::isGuestID($id);
+					})) ? $quote[3] : preg_replace("/\[lock\](.*?)\[\/lock\]/si", '', $quote[3])) . '[/quote]';
 				else
 					$this->errors[] = Main::getModule('Language')->getString('quoted_post_was_not_found');
 			}

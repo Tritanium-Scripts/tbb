@@ -3,7 +3,7 @@
  * Searches for user defined terms in posts and titles with additional options and displays results.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2020 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2021 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1.7
  */
@@ -289,7 +289,10 @@ class Search implements Module
 						//Compile search parameters
 						$_SESSION[$this->searchID] = array('sAge' => $this->searchAge*3600*24,
 							'sFor' => $this->searchOption == 'exact' ? array($this->searchFor) : explode(' ', $this->searchOption == 'user' ? '0' . $this->searchFor : $this->searchFor),
-							'sIn' => $this->searchIn == 'all' ? array_map(create_function('$oldKey', 'return array();'), array_flip(array_map('current', $forums))) : array($this->searchIn => array()),
+							'sIn' => $this->searchIn == 'all' ? array_map(function($oldKey)
+							{
+								return array();
+							}, array_flip(array_map('current', $forums))) : array($this->searchIn => array()),
 							'sOpt' => $this->searchOption == 'user' ? 1 : 0,
 							'sScp' => $this->searchScope,
 							'sAnd' => $this->searchOption == 'and',
