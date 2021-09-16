@@ -3,9 +3,9 @@
  * Wraps PHP's normal string functions to its Multibyte counterparts and defining the final feature set of Functions class with mbstring extension support enabled.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2021 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
- * @package TBB1.5
+ * @package TBB1.7
  */
 class Functions extends FunctionsBasic
 {
@@ -52,19 +52,28 @@ class Functions extends FunctionsBasic
 	}
 
 	/**
-	 * PHP's {@link str_replace()}. No Multibyte version available.
+	 * PHP's {@link str_replace()} with multi-dimensional array support. No Multibyte version available.
 	 */
 	public static function str_replace($search, $replace, $subject, $count=null)
 	{
-		return str_replace($search, $replace, $subject, $count);
+		if(is_array($subject))
+		{
+			array_walk_recursive($subject, function($value, $key) use($search, $replace, $count)
+			{
+				return str_replace($search, $replace, $value, $count);
+			});
+			return $subject;
+		}
+		else
+			return str_replace($search, $replace, $subject, $count);
 	}
 
 	/**
-	 * Wraps PHP's {@link stripos()} to Multibyte's {@link mb_stripos()}, if PHP >= 5.2.
+	 * Wraps PHP's {@link stripos()} to Multibyte's {@link mb_stripos()}.
 	 */
 	public static function stripos($haystack, $needle, $offset=null)
 	{
-		return function_exists('mb_stripos') ? mb_stripos($haystack, $needle, $offset) : stripos($haystack, $needle, $offset);
+		return mb_stripos($haystack, $needle, $offset);
 	}
 
 	/**
@@ -84,11 +93,11 @@ class Functions extends FunctionsBasic
 	}
 
 	/**
-	 * Wraps PHP's {@link stripos()} to Multibyte's {@link mb_stripos()}, if PHP >= 5.2.
+	 * Wraps PHP's {@link stripos()} to Multibyte's {@link mb_stripos()}.
 	 */
 	public static function strripos($haystack, $needle, $offset=null)
 	{
-		return function_exists('mb_strripos') ? mb_strripos($haystack, $needle, $offset) : strripos($haystack, $needle, $offset);
+		return mb_strripos($haystack, $needle, $offset);
 	}
 
 	/**

@@ -3,9 +3,9 @@
  * Wraps PHP's normal string functions to itself and defining the final feature set of Functions class with mbstring extension support disabled.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2021 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
- * @package TBB1.5
+ * @package TBB1.7
  */
 class Functions extends FunctionsBasic
 {
@@ -52,11 +52,20 @@ class Functions extends FunctionsBasic
 	}
 
 	/**
-	 * PHP's {@link str_replace()}.
+	 * PHP's {@link str_replace()} with multi-dimensional array support.
 	 */
 	public static function str_replace($search, $replace, $subject, $count=null)
 	{
-		return str_replace($search, $replace, $subject, $count);
+		if(is_array($subject))
+		{
+			array_walk_recursive($subject, function($value, $key) use($search, $replace, $count)
+			{
+				return str_replace($search, $replace, $value, $count);
+			});
+			return $subject;
+		}
+		else
+			return str_replace($search, $replace, $subject, $count);
 	}
 
 	/**

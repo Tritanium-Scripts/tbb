@@ -83,7 +83,7 @@ class AdminGroup implements Module
 					$this->errors[] = Main::getModule('Language')->getString('please_enter_a_group_name');
 				else
 				{
-					$this->groupID = current(end($this->groups))+1;
+					$this->groupID = current(end($this->groups) ?: array())+1;
 					foreach($newUserIDs as $curKey => $curUserID)
 					{
 						//Don't add to group if user is invalid or already belongs to a group
