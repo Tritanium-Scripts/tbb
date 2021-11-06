@@ -94,6 +94,10 @@ class Auth
 			$cUser = Functions::explodeByTab($_COOKIE['cookie_xbbuser']);
 			if(!empty($cUser[1]) && ($cUserData = @Functions::file('members/' . $cUser[0] . '.xbb')) != false && $cUser[1] == current(Functions::explodeByTab($cUserData[2])))
 			{
+				//Also update last seen value
+				$cUserData[16] = time();
+				Functions::file_put_contents('members/' . $cUserData[1] . '.xbb', implode("\n", $cUserData));
+				//Apply cookie values to session
 				$this->loggedIn = true;
 				$_SESSION['userID'] = $cUser[0];
 				$_SESSION['userHash'] = $cUser[1];
