@@ -18,7 +18,7 @@ function setTag(openingTag, closingTag)
   range.text = openingTag + selectedText + closingTag;
   range = document.selection.createRange();
   selectedText.length == 0 ? range.move('character', -closingTag.length) : range.findText(selectedText);
-  range.select();  
+  range.select();
  }
  else if(typeof curBox.selectionStart != 'undefined') //Gecko
  {
@@ -26,7 +26,8 @@ function setTag(openingTag, closingTag)
   var end = curBox.selectionEnd;
   var selectedText = curBox.value.substring(start, end);
   curBox.value = curBox.value.substr(0, start) + openingTag + selectedText + closingTag + curBox.value.substr(end);
-  if(selectedText.length == 0) curBox.selectionStart = curBox.selectionEnd = start + openingTag.length;
+  if(selectedText.length == 0)
+   curBox.selectionStart = curBox.selectionEnd = start + openingTag.length;
   else
   {
    curBox.selectionStart = start + openingTag.length;
