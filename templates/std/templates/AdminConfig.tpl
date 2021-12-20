@@ -90,6 +90,10 @@
   <td class="td1" style="vertical-align:top;"><input type="text" name="settings[33]" value="{$configValues['topic_is_hot']}" style="width:250px;" /></td>
  </tr>
  <tr>
+  <td class="td1" style="font-weight:bold;"><span class="norm">{$modules.Language->getString('user_must_be_logged_in_to_view_profiles')}</span></td>
+  <td class="td1" style="vertical-align:top;"><input type="radio" id="y84" name="settings[84]" value="1"{if $configValues['profile_mbli'] == 1} checked="checked"{/if} /><label for="y84" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="n84" name="settings[84]" value="0"{if $configValues['profile_mbli'] != 1} checked="checked"{/if} /><label for="n84" class="norm">{$modules.Language->getString('negative')}</label></td>
+ </tr>
+ <tr>
   <td class="td1" style="font-weight:bold;"><span class="norm">{$modules.Language->getString('user_must_be_logged_in_to_send_form_mails')}</span></td>
   <td class="td1" style="vertical-align:top;"><input type="radio" id="y34" name="settings[34]" value="1"{if $configValues['formmail_mbli'] == 1} checked="checked"{/if} /><label for="y34" class="norm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="n34" name="settings[34]" value="0"{if $configValues['formmail_mbli'] != 1} checked="checked"{/if} /><label for="n34" class="norm">{$modules.Language->getString('negative')}</label></td>
  </tr>

@@ -5,7 +5,7 @@
  * @author Christoph Jahn <chris@tritanium-scripts.com>
  * @copyright Copyright (c) 2010-2021 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
- * @package TBB1.7
+ * @package TBB1.8
  */
 class Profile implements Module
 {
@@ -84,8 +84,10 @@ class Profile implements Module
 	 */
 	public function execute()
 	{
+		if(!Main::getModule('Auth')->isLoggedIn() && Main::getModule('Config')->getCfgVal('profile_mbli') == 1)
+			Main::getModule('Template')->printMessage('login_only', INDEXFILE . '?faction=register' . SID_AMPER, INDEXFILE . '?faction=login' . SID_AMPER);
 		//Global guest or deleted check
-		if(empty($this->userData) || $this->userData[4] == '5')
+		elseif(empty($this->userData) || $this->userData[4] == '5')
 			Main::getModule('Template')->printMessage('user_does_not_exist');
 		switch($this->mode)
 		{
