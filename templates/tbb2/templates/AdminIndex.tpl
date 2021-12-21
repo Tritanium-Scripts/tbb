@@ -1,9 +1,9 @@
 {include file='AdminMenu.tpl'}
 <!-- AdminIndex -->
-{if $isNewVersion}<div id="updateFrame" style="display:none;">
+{if $isNewVersion}<div id="updateFrame">
 <table class="tableStd" cellpadding="{$modules.Config->getCfgVal('tpadding')}" cellspacing="{$modules.Config->getCfgVal('tspacing')}" style="width:100%;">
  <tr><th class="cellCat"><span class="fontCat">{$modules.Language->getString('news_from_tritanium_scripts')}</span></th></tr>
- <tr><td class="cellStd"><span class="fontNorm"><script type="text/javascript"{if empty($versionNews)} src="http://www.tritanium-scripts.com/update.php?tbb={$smarty.const.VERSION_PRIVATE}"></script>{else}>document.getElementById('updateFrame').style.display='';</script>{$versionNews}{/if}</span></td></tr>
+ <tr><td class="cellStd"><span class="fontNorm">{$versionNews}</span></td></tr>
 </table>
 <br />
 </div>{/if}

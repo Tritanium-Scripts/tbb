@@ -102,7 +102,7 @@ class Config
 		1,										#delete_profiles
 		'?faction=gdpr',						#privacy_policy_link
 		//New TBB 1.8.0 config values
-		1);										#profile_mbli
+		0);										#profile_mbli
 
 	/**
 	 * Name of config file to work with.

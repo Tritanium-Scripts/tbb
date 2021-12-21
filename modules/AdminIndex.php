@@ -1,11 +1,11 @@
 <?php
 /**
- * Handles version check and displays the admin control panel.
+ * Performs version check and displays the admin control panel.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2021 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
- * @package TBB1.5
+ * @package TBB1.8
  */
 class AdminIndex implements Module
 {
@@ -16,20 +16,27 @@ class AdminIndex implements Module
 	{
 		Functions::accessAdminPanel();
 		//If version check was done before, cache result to session
-		if(!isset($_SESSION['isNewVersion']) && isset($_COOKIE['versionCompare']))
+		if(!isset($_SESSION['isNewVersion']))
 		{
-			$_SESSION['isNewVersion'] = $_COOKIE['versionCompare'] == '-1';
-			setcookie('versionCompare', '', time()-60);
-			//Also save news text in case of new version
-			if($_SESSION['isNewVersion'] && isset($_COOKIE['versionNews']))
+			$latestRelease = Functions::loadURL('https://api.github.com/repos/Tritanium-Scripts/tbb/releases/latest');
+			if($latestRelease !== false)
 			{
-				$_SESSION['versionNews'] = nl2br(base64_decode($_COOKIE['versionNews']));
-				setcookie('versionNews', '', time()-60);
+				$latestRelease = json_decode($latestRelease, true);
+				if(json_last_error() == JSON_ERROR_NONE && $latestRelease != null && isset($latestRelease['tag_name']))
+				{
+					$latestReleaseVersion = trim($latestRelease['tag_name']);
+					//Ensure four parted version number for proper comparing
+					while(substr_count($latestReleaseVersion, '.') < 3)
+						$latestReleaseVersion .= '.0';
+					$_SESSION['isNewVersion'] = version_compare(VERSION_PRIVATE, $latestReleaseVersion) == -1;
+					//Also save release notes in case of new version
+					$_SESSION['versionNews'] = $_SESSION['isNewVersion'] && isset($latestRelease['body']) ? Functions::nl2br(trim($latestRelease['body'])) : '';
+				}
 			}
 		}
 		Main::getModule('Template')->printPage('AdminIndex', array(
 			'styleURL' => urlencode(Main::getModule('Config')->getCfgVal('address_to_forum') . '/' . Main::getModule('Template')->getTplDir() . Main::getModule('Auth')->getUserStyle()),
-			'isNewVersion' => isset($_SESSION['isNewVersion']) ? $_SESSION['isNewVersion'] : true, //true on first time to get actual state for current session
+			'isNewVersion' => isset($_SESSION['isNewVersion']) ? $_SESSION['isNewVersion'] : false,
 			'versionNews' => isset($_SESSION['versionNews']) ? $_SESSION['versionNews'] : ''));
 	}
 }

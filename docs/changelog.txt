@@ -4,6 +4,7 @@ Last changed: 2021-12-20 (Version 1.8.0)
 **********************************************************
 
 2021: Version 1.8.0
+	- Umzug zu GitHub: https://github.com/Tritanium-Scripts/tbb
 	- Warnung bei Moderatorenanzeige ab PHP 7.2 behoben
 	- Benachrichtigung per E-Mail über neue PNs erfolgt nur es keine anderen ungelesenen PNs gibt
 	- [flash]-BBCode entfernt
@@ -13,6 +14,8 @@ Last changed: 2021-12-20 (Version 1.8.0)
 	- Automatisches Einloggen aktualisiert auch "Zuletzt hier am"
 	- Neue Konfigurationswerte!
 	- Profile nur für Mitglieder anzeigbar
+	- Dokumentation aktualisiert
+	- Suche nach neuen Forumversionen umgestellt auf github.com
 
 31.12.2020: Version 1.7 (offiziell)
 	- Datenstrukturfehler bei Neuberechnung der Zähler behoben

@@ -5,7 +5,7 @@
  * @author Christoph Jahn <chris@tritanium-scripts.com>
  * @copyright Copyright (c) 2010-2021 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
- * @package TBB1.7
+ * @package TBB1.8
  */
 class FunctionsBasic
 {
@@ -823,6 +823,46 @@ class FunctionsBasic
 	public static function latin9ToEntities($data)
 	{
 		return Functions::str_replace(self::$latin9Chars, self::$latin9Entities, $data);
+	}
+
+	/**
+	 * Loads data from the given URL depending on the given or supported methods.
+	 *
+	 * @param bool $useFGC Use {@link file_get_contents()} for loading content (null = detect automatically)
+	 * @param bool $useCURL Use cURL for loading content (null = detect automatically)
+	 * @param string $url URL to load its content
+	 * @return string|bool Loaded content or false
+	 */
+	public static function loadURL($url, $useFGC=null, $useCURL=null)
+	{
+		if(is_null($useFGC))
+			$useFGC = ini_get('allow_url_fopen') == '1';
+		if(is_null($useCURL))
+			$useCURL = $useFGC ? false : extension_loaded('curl');
+		if($useFGC)
+			return @file_get_contents($url);
+		elseif($useCURL)
+		{
+			$cURL = curl_init($url);
+			curl_setopt($cURL, CURLOPT_HEADER, false);
+			curl_setopt($cURL, CURLOPT_RETURNTRANSFER, true);
+			$checkRedir = !@curl_setopt($cURL, CURLOPT_FOLLOWLOCATION, true);
+			curl_setopt($cURL, CURLOPT_TIMEOUT, ini_get('default_socket_timeout'));
+			curl_setopt($cURL, CURLOPT_ENCODING, ''); //Support for gzip
+			curl_setopt($cURL, CURLOPT_USERAGENT, 'TBB/' . VERSION_PUBLIC); //RFC 2616
+			$content = curl_exec($cURL);
+			if($checkRedir)
+			{
+				$cURLInfo = curl_getinfo($cURL);
+				//Perform a manual location following if not supported by cURL
+				if($cURLInfo['http_code'] == 302 && isset($cURLInfo['redirect_url']))
+					$content = self::loadURL($cURLInfo['redirect_url'], false, true);
+			}
+			curl_close($cURL);
+			return $content;
+		}
+		else
+			return false;
 	}
 
 	/**

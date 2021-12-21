@@ -171,7 +171,7 @@ class Profile implements Module
 					//Check and update settings
 					if(($this->userData[3] = Functions::getValueFromGlobals('new_mail')) == '')
 						$this->errors[] = Main::getModule('Language')->getString('please_enter_your_mail');
-					elseif(!FunctionsBasic::isValidMail($this->userData[3]))
+					elseif(!Functions::isValidMail($this->userData[3]))
 						$this->errors[] = Main::getModule('Language')->getString('please_enter_a_valid_mail');
 					$this->userData[7] = Functions::nl2br(htmlspecialchars(trim(Functions::getValueFromGlobals('new_signatur', false))));
 					$this->userData[9] = Functions::getValueFromGlobals('new_hp');
@@ -283,7 +283,7 @@ class Profile implements Module
 				{
 					if(empty($senderMail))
 						$this->errors[] = Main::getModule('Language')->getString('please_enter_your_mail');
-					elseif(!FunctionsBasic::isValidMail($senderMail))
+					elseif(!Functions::isValidMail($senderMail))
 						$this->errors[] = Main::getModule('Language')->getString('please_enter_a_valid_mail');
 					if(empty($senderName))
 						$this->errors[] = Main::getModule('Language')->getString('please_enter_your_name');
@@ -338,7 +338,7 @@ class Profile implements Module
 			elseif(!class_exists('DOMDocument', false) || (!$this->isFGC && !$this->isCURL))
 				Main::getModule('Template')->printMessage('function_not_supported');
 			$dom = new DOMDocument;
-			if(!@$dom->loadXML($this->loadURL('https://steamcommunity.com/' . (ctype_digit($this->userData[18]) ? 'profiles/' : 'id/') . $this->userData[18] . '/stats/' . $game . '/?tab=achievements&l=' . Main::getModule('Language')->getString('steam_language') . '&xml=all')))
+			if(!@$dom->loadXML(Functions::loadURL('https://steamcommunity.com/' . (ctype_digit($this->userData[18]) ? 'profiles/' : 'id/') . $this->userData[18] . '/stats/' . $game . '/?tab=achievements&l=' . Main::getModule('Language')->getString('steam_language') . '&xml=all', $this->isFGC, $this->isCURL)))
 				$this->errors[] = Main::getModule('Language')->getString('loading_achievements_failed');
 			elseif($dom->getElementsByTagName('error')->length == 0)
 			{
@@ -428,42 +428,8 @@ class Profile implements Module
 			break;
 		}
 		//Append profile ID for WIO location
-		Main::getModule('Template')->printPage(FunctionsBasic::handleMode($this->mode, self::$modeTable, __CLASS__), array('userData' => $this->userData,
+		Main::getModule('Template')->printPage(Functions::handleMode($this->mode, self::$modeTable, __CLASS__), array('userData' => $this->userData,
 			'errors' => $this->errors), null, ',' . $this->userData[1]);
-	}
-
-	/**
-	 * Loads data from the given URL depending on the supported modes.
-	 *
-	 * @param string $url URL to load its content
-	 * @return string|bool Loaded content or false
-	 */
-	private function loadURL($url)
-	{
-		if($this->isFGC)
-			return file_get_contents($url);
-		elseif($this->isCURL)
-		{
-			$cURL = curl_init($url);
-			curl_setopt($cURL, CURLOPT_HEADER, false);
-			curl_setopt($cURL, CURLOPT_RETURNTRANSFER, true);
-			$checkRedir = !@curl_setopt($cURL, CURLOPT_FOLLOWLOCATION, true);
-			curl_setopt($cURL, CURLOPT_TIMEOUT, ini_get('default_socket_timeout'));
-			curl_setopt($cUrl, CURLOPT_ENCODING, ''); //Support for gzip
-			curl_setopt($cURL, CURLOPT_USERAGENT, 'TBB/' . VERSION_PUBLIC); //RFC 2616
-			$content = curl_exec($cURL);
-			if($checkRedir)
-			{
-				$cURLInfo = curl_getinfo($cURL);
-				//Perform a manual location following if not supported by cURL
-				if($cURLInfo['http_code'] == 302 && isset($cURLInfo['redirect_url']))
-					$content = $this->loadURL($cURLInfo['redirect_url']);
-			}
-			curl_close($cURL);
-			return $content;
-		}
-		else
-			return false;
 	}
 
 	/**
@@ -476,7 +442,7 @@ class Profile implements Module
 	private function refreshSteamGames($cacheFile)
 	{
 		$dom = new DOMDocument;
-		if(!@$dom->loadXML($this->loadURL('https://steamcommunity.com/' . (ctype_digit($this->userData[18]) ? 'profiles/' : 'id/') . $this->userData[18] . '/games/?tab=all&l=' . Main::getModule('Language')->getString('steam_language') . '&xml=1')))
+		if(!@$dom->loadXML(Functions::loadURL('https://steamcommunity.com/' . (ctype_digit($this->userData[18]) ? 'profiles/' : 'id/') . $this->userData[18] . '/games/?tab=all&l=' . Main::getModule('Language')->getString('steam_language') . '&xml=1', $this->isFGC, $this->isCURL)))
 			return false;
 		else
 		{

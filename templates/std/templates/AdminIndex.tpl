@@ -1,8 +1,8 @@
 <!-- AdminIndex -->
-{if $isNewVersion}<div id="updateFrame" style="display:none;">
+{if $isNewVersion}<div id="updateFrame">
  <table class="tbl" cellpadding="{$modules.Config->getCfgVal('tpadding')}" cellspacing="{$modules.Config->getCfgVal('tspacing')}" style="width:{$modules.Config->getCfgVal('twidth')}; margin:auto;">
   <tr><th class="thnorm"><span class="thnorm">{$modules.Language->getString('news_from_tritanium_scripts')}</span></th></tr>
-  <tr><td class="td1"><span class="norm"><script type="text/javascript"{if empty($versionNews)} src="http://www.tritanium-scripts.com/update.php?tbb={$smarty.const.VERSION_PRIVATE}"></script>{else}>document.getElementById('updateFrame').style.display='';</script>{$versionNews}{/if}</span></td></tr>
+  <tr><td class="td1"><span class="norm">{$versionNews}</span></td></tr>
  </table>
  <br />
 </div>{/if}
