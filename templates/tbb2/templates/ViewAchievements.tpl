@@ -13,7 +13,7 @@
    <table style="width:100%;">
 {foreach $achievementsClosed as $curClosedAchievement}
     <tr>
-     <td rowspan="2" style="width:66px;"><img src="{$curClosedAchievement.icon}" alt="{$curClosedAchievement.name}" title="{$curClosedAchievement.name}" /></td>
+     <td rowspan="2" style="width:66px;"><img src="{$curClosedAchievement.icon}" alt="{$curClosedAchievement.name}" title="{$curClosedAchievement.name}" style="width:64px; height:64px;" /></td>
      <th><span class="fontNorm">{$curClosedAchievement.name}</span></th>
     </tr>
     <tr><td><span class="fontNorm">{$curClosedAchievement.description}</span>{if !empty($curClosedAchievement.unlocked)} <span class="fontSmall" style="float:right;"><span style="font-weight:bold;">{$modules.Language->getString('unlocked_colon')}</span> {$curClosedAchievement.unlocked}</span>{/if}</td></tr>
@@ -32,7 +32,7 @@
    <table style="width:100%;">
 {foreach $achievementsOpen as $curOpenAchievement}
     <tr>
-     <td rowspan="2" style="width:66px;"><img src="{$curOpenAchievement.icon}" alt="{$curOpenAchievement.name}" title="{$curOpenAchievement.name}" /></td>
+     <td rowspan="2" style="width:66px;"><img src="{$curOpenAchievement.icon}" alt="{$curOpenAchievement.name}" title="{$curOpenAchievement.name}" style="width:64px; height:64px;" /></td>
      <th><span class="fontNorm">{$curOpenAchievement.name}</span></th>
     </tr>
     <tr><td><span class="fontNorm">{$curOpenAchievement.description}</span></td></tr>
