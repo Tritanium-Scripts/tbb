@@ -185,6 +185,10 @@
   <td class="cellStd"><span class="fontNorm">{$modules.Language->getString('deletion_of_profiles')}</span></td>
   <td class="cellAlt"><select class="formSelect" name="settings[82]">{html_options values=array(1, 2, 0) output=array($modules.Language->getString('always'), $modules.Language->getString('zero_posts_only'), $modules.Language->getString('never')) selected=$configValues['delete_profiles']}</select></td>
  </tr>
+ <tr>
+  <td class="cellStd"><span class="fontNorm">{$modules.Language->getString('enable_calendar')}</span></td>
+  <td class="cellAlt"><input type="radio" id="y85" name="settings[85]" value="1"{if $configValues['activate_calendar'] == 1} checked="checked"{/if} /><label for="y85" class="fontNorm">{$modules.Language->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="n85" name="settings[85]" value="0"{if $configValues['activate_calendar'] != 1} checked="checked"{/if} /><label for="n85" class="fontNorm">{$modules.Language->getString('negative')}</label></td>
+ </tr>
 
  <tr><td class="cellCat" colspan="2"><span class="fontCat">{$modules.Language->getString('disk_space_settings')}</span></td></tr>
  <tr>

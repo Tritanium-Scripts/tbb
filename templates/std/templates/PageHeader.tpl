@@ -81,7 +81,8 @@ function negateBoxes(id)
      <a href="{$smarty.const.INDEXFILE}?faction=wio{$smarty.const.SID_AMPER}">{$modules.Language->getString('who_is_online')}</a> | {/if}{if $modules.Config->getCfgVal('activate_mlist') != 0}
      <a href="{$smarty.const.INDEXFILE}?faction=mlist{$smarty.const.SID_AMPER}">{$modules.Language->getString('member_list')}</a> | {/if}
      <a href="{$smarty.const.INDEXFILE}?faction=todaysPosts{$smarty.const.SID_AMPER}">{$modules.Language->getString('todays_posts')}</a> |
-     <a href="{$smarty.const.INDEXFILE}?faction=newsletter{$smarty.const.SID_AMPER}">{$modules.Language->getString('newsletter_archive')}</a> |
+     <a href="{$smarty.const.INDEXFILE}?faction=newsletter{$smarty.const.SID_AMPER}">{$modules.Language->getString('newsletter_archive')}</a> | {if $modules.Config->getCfgVal('activate_calendar') != 0}
+     <a href="{$smarty.const.INDEXFILE}?faction=calendar{$smarty.const.SID_AMPER}">{$modules.Language->getString('calendar')}</a> | {/if}
      <a href="{$smarty.const.INDEXFILE}?faction=logout{$smarty.const.SID_AMPER}">{$modules.Language->getString('logout')}</a>
      {else}{$modules.Config->getCfgVal('forum_name')}</span><br />
      <span class="tbar">
@@ -90,8 +91,8 @@ function negateBoxes(id)
      <a href="{$smarty.const.INDEXFILE}?faction=search{$smarty.const.SID_AMPER}">{$modules.Language->getString('search')}</a> | {if $modules.Config->getCfgVal('wio') == 1}
      <a href="{$smarty.const.INDEXFILE}?faction=wio{$smarty.const.SID_AMPER}">{$modules.Language->getString('who_is_online')}</a> | {/if}{if $modules.Config->getCfgVal('activate_mlist') == 1}
      <a href="{$smarty.const.INDEXFILE}?faction=mlist{$smarty.const.SID_AMPER}">{$modules.Language->getString('member_list')}</a> | {/if}
-     <a href="{$smarty.const.INDEXFILE}?faction=todaysPosts{$smarty.const.SID_AMPER}">{$modules.Language->getString('todays_posts')}</a> |
-{*     <a href="{$smarty.const.INDEXFILE}?faction=newsletter{$smarty.const.SID_AMPER}">{$modules.Language->getString('newsletter_archive')}</a> | *}
+     <a href="{$smarty.const.INDEXFILE}?faction=todaysPosts{$smarty.const.SID_AMPER}">{$modules.Language->getString('todays_posts')}</a> | {if $modules.Config->getCfgVal('activate_calendar') != 0}
+     <a href="{$smarty.const.INDEXFILE}?faction=calendar{$smarty.const.SID_AMPER}">{$modules.Language->getString('calendar')}</a> | {/if}
      <a href="{$smarty.const.INDEXFILE}?faction=login{$smarty.const.SID_AMPER}">{$modules.Language->getString('login')}</a>
      {/if}</span>
     </td>

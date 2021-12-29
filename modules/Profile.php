@@ -406,7 +406,7 @@ class Profile implements Module
 				}
 			}
 			//Joined x weeks ago
-			$this->userData[8] = intval(($this->userData[11] = abs(time()-Functions::getTimestamp($this->userData[6]))) / 604800); //Reuse "forum access perms slot"
+			$this->userData[8] = intval(($this->userData[11] = abs(time()-Functions::getTimestamp($this->userData[6] . '01000000'))) / 604800); //Reuse "forum access perms slot"
 			//Posts per day
 			$this->userData[11] = $this->userData[5] / ceil($this->userData[11] / 86400); //Reuse "forum update slot"
 			//Format date + signature

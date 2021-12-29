@@ -102,7 +102,8 @@ class Config
 		1,										#delete_profiles
 		'?faction=gdpr',						#privacy_policy_link
 		//New TBB 1.8.0 config values
-		0);										#profile_mbli
+		0,										#profile_mbli
+		1);										#activate_calendar
 
 	/**
 	 * Name of config file to work with.
@@ -204,7 +205,8 @@ class Config
 		'delete_profiles',
 		'privacy_policy_link',
 		//New TBB 1.8.0 config values
-		'profile_mbli');
+		'profile_mbli',
+		'activate_calendar');
 
 	/**
 	 * Loaded configuration values are stored here.

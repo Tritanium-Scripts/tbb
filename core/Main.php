@@ -5,7 +5,7 @@
  * @author Christoph Jahn <chris@tritanium-scripts.com>
  * @copyright Copyright (c) 2010-2021 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
- * @package TBB1.7
+ * @package TBB1.8
  */
 /**
  * Interface template for every implementing module which can be called "directly" from an user.
@@ -80,6 +80,7 @@ class Main implements Module
 		'credits' => 'Credits',
 		'newsletter' => 'Newsletter',
 		'todaysPosts' => 'Forum',
+		'calendar' => 'Calendar',
 		'rssFeed' => 'Forum',
 		'uploadFile' => 'Upload',
 		'markAll' => 'Forum',

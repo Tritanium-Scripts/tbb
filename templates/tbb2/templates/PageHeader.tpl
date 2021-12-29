@@ -35,7 +35,8 @@
      <a href="{$smarty.const.INDEXFILE}?faction=wio{$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/buttons/wio.png" class="imageButton" alt="{$modules.Language->getString('who_is_online')}" /></a>{/if}{if $modules.Config->getCfgVal('activate_mlist') != 0}
      <a href="{$smarty.const.INDEXFILE}?faction=mlist{$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/buttons/member_list.png" class="imageButton" alt="{$modules.Language->getString('member_list')}" /></a>{/if}
      <a href="{$smarty.const.INDEXFILE}?faction=todaysPosts{$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/buttons/todays_posts.png" class="imageButton" alt="{$modules.Language->getString('todays_posts')}" /></a>
-     <a href="{$smarty.const.INDEXFILE}?faction=newsletter{$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/buttons/newsletter.png" class="imageButton" alt="{$modules.Language->getString('newsletter_archive')}" /></a>
+     <a href="{$smarty.const.INDEXFILE}?faction=newsletter{$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/buttons/newsletter.png" class="imageButton" alt="{$modules.Language->getString('newsletter_archive')}" /></a>{if $modules.Config->getCfgVal('activate_calendar') != 0}
+     <a href="{$smarty.const.INDEXFILE}?faction=calendar{$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/buttons/calendar.png" class="imageButton" alt="{$modules.Language->getString('calendar')}" /></a>{/if}
      <a href="{$smarty.const.INDEXFILE}?faction=logout{$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/buttons/logout.png" class="imageButton" alt="{$modules.Language->getString('logout')}" /></a>
 {else}
      <a href="{$smarty.const.INDEXFILE}?faction=register{$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/buttons/register.png" class="imageButton" alt="{$modules.Language->getString('register')}" /></a>
@@ -43,7 +44,8 @@
      <a href="{$smarty.const.INDEXFILE}?faction=search{$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/buttons/search.png" class="imageButton" alt="{$modules.Language->getString('search')}" /></a>{if $modules.Config->getCfgVal('wio') == 1}
      <a href="{$smarty.const.INDEXFILE}?faction=wio{$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/buttons/wio.png" class="imageButton" alt="{$modules.Language->getString('who_is_online')}" /></a>{/if}{if $modules.Config->getCfgVal('activate_mlist') == 1}
      <a href="{$smarty.const.INDEXFILE}?faction=mlist{$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/buttons/member_list.png" class="imageButton" alt="{$modules.Language->getString('member_list')}" /></a>{/if}
-     <a href="{$smarty.const.INDEXFILE}?faction=todaysPosts{$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/buttons/todays_posts.png" class="imageButton" alt="{$modules.Language->getString('todays_posts')}" /></a>
+     <a href="{$smarty.const.INDEXFILE}?faction=todaysPosts{$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/buttons/todays_posts.png" class="imageButton" alt="{$modules.Language->getString('todays_posts')}" /></a>{if $modules.Config->getCfgVal('activate_calendar') != 0}
+     <a href="{$smarty.const.INDEXFILE}?faction=calendar{$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/buttons/calendar.png" class="imageButton" alt="{$modules.Language->getString('calendar')}" /></a>{/if}
      <a href="{$smarty.const.INDEXFILE}?faction=login{$smarty.const.SID_AMPER}"><img src="{$modules.Template->getTplDir()}images/buttons/login.png" class="imageButton" alt="{$modules.Language->getString('login')}" /></a>{/if}
     </div>
    </div>

@@ -286,6 +286,10 @@ class WhoIsOnline implements Module
 					$wioLocations[] = array($curUser, sprintf(Main::getModule('Language')->getString('reads_a_newsletter'), INDEXFILE . '?faction=newsletter&amp;mode=read&amp;newsletter=' . $curWIOEntry[2][1] . SID_AMPER), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;
 
+					case 'Calendar':
+					$wioLocations[] = array($curUser, sprintf(Main::getModule('Language')->getString('views_the_calendar'), INDEXFILE . '?faction=calendar' . SID_AMPER), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
+					break;
+
 					case 'Upload':
 					$wioLocations[] = array($curUser, Main::getModule('Language')->getString('uploads_a_file'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
 					break;

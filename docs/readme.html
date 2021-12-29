@@ -274,10 +274,11 @@
    <li>Löschen Sie die <b>setUpdateFlag.php</b> wieder, sobald eine &quot;Done!&quot;-Meldung angezeigt wird.</li>
    <li>Öffnen Sie ihre <b>settings.var</b> aus dem <b>./vars/</b>-Ordner. Wenn Sie keine eigene <b>settings.var</b> haben, überspringen Sie die Punkte 10 und 11.</li>
    <li>
-    Fügen Sie folgende Wert in die Zeile 85 ein:
-    <pre><code>0</code></pre>
+    Fügen Sie folgende Wert in die Zeilen 85 bis 86 ein:
+    <pre><code>0
+1</code></pre>
    </li>
-   <li>Vergewissern Sie sich, dass die &quot;<b>settings.var</b>&quot; genau 85 Zeilen hat und laden Sie sie in den <b>./vars/</b>-Ordner hoch.</li>
+   <li>Vergewissern Sie sich, dass die &quot;<b>settings.var</b>&quot; genau 86 Zeilen hat und laden Sie sie in den <b>./vars/</b>-Ordner hoch.</li>
    <li>Das Forum ist nun aktualisiert und der Wartungsmodus kann deaktiviert werden.</li>
   </ol>
 
@@ -304,12 +305,13 @@
    <li>Löschen Sie die <b>setUpdateFlag.php</b> wieder, sobald eine &quot;Done!&quot;-Meldung angezeigt wird.</li>
    <li>Öffnen Sie ihre <b>settings.var</b> aus dem <b>./vars/</b>-Ordner. Wenn Sie keine eigene <b>settings.var</b> haben, überspringen Sie die Punkte 10 und 11.</li>
    <li>
-    Fügen Sie folgende Werte in die Zeilen 83 bis 85 ein:
+    Fügen Sie folgende Werte in die Zeilen 83 bis 86 ein:
     <pre><code>1
 ?faction=gdpr
-0</code></pre>
+0
+1</code></pre>
    </li>
-   <li>Vergewissern Sie sich, dass die &quot;<b>settings.var</b>&quot; genau 85 Zeilen hat und laden Sie sie in den <b>./vars/</b>-Ordner hoch.</li>
+   <li>Vergewissern Sie sich, dass die &quot;<b>settings.var</b>&quot; genau 86 Zeilen hat und laden Sie sie in den <b>./vars/</b>-Ordner hoch.</li>
    <li>Das Forum ist nun aktualisiert und der Wartungsmodus kann deaktiviert werden.</li>
   </ol>
 
@@ -337,7 +339,7 @@
    <li>Löschen Sie die <b>setUpdateFlag.php</b> wieder, sobald eine &quot;Done!&quot;-Meldung angezeigt wird.</li>
    <li>Öffnen Sie ihre <b>settings.var</b> aus dem <b>./vars/</b>-Ordner. Wenn Sie keine eigene <b>settings.var</b> haben, überspringen Sie die Punkte 11 und 12.</li>
    <li>
-    Fügen Sie folgende Werte in die Zeilen 76 bis 85 ein:
+    Fügen Sie folgende Werte in die Zeilen 76 bis 86 ein:
     <pre><code>7
 3
 0
@@ -347,9 +349,10 @@
 0
 1
 ?faction=gdpr
-0</code></pre>
+0
+1</code></pre>
    </li>
-   <li>Vergewissern Sie sich, dass die &quot;<b>settings.var</b>&quot; genau 85 Zeilen hat und laden Sie sie in den <b>./vars/</b>-Ordner hoch.</li>
+   <li>Vergewissern Sie sich, dass die &quot;<b>settings.var</b>&quot; genau 86 Zeilen hat und laden Sie sie in den <b>./vars/</b>-Ordner hoch.</li>
    <li>Das Forum ist nun aktualisiert und der Wartungsmodus kann deaktiviert werden.</li>
   </ol>
 
@@ -393,7 +396,7 @@
    <li>Löschen Sie die <b>setUpdateFlag.php</b> wieder, sobald eine &quot;Done!&quot;-Meldung angezeigt wird.</li>
    <li>Öffnen Sie ihre <b>settings.var</b> aus dem <b>./vars/</b>-Ordner und löschen sie ab Zeile 57 die ganzen Leerzeilen. Wenn Sie keine eigene <b>settings.var</b> haben, überspringen Sie die Punkte 13 bis 15.</li>
    <li>
-    Fügen Sie folgende Werte in die Zeilen 57 bis 85 ein:
+    Fügen Sie folgende Werte in die Zeilen 57 bis 86 ein:
     <pre><code>std
 0
 #FF0000
@@ -422,10 +425,11 @@ Supermoderator
 0
 1
 ?faction=gdpr
-0</code></pre>
+0
+1</code></pre>
    </li>
    <li>Ändern Sie Zeile 51 in <code>de-DE</code> um.</li>
-   <li>Vergewissern Sie sich, dass die &quot;<b>settings.var</b>&quot; genau 85 Zeilen hat und laden Sie sie in den <b>./vars/</b>-Ordner.</li>
+   <li>Vergewissern Sie sich, dass die &quot;<b>settings.var</b>&quot; genau 86 Zeilen hat und laden Sie sie in den <b>./vars/</b>-Ordner.</li>
    <li>Das Forum ist nun aktualisiert. Rufen Sie es auf (z.B. https://www.meinedomain.de/forum/index.php), loggen Sie sich ein und überprüfen Sie den Status. Konsultieren Sie das <a href="#faq">FAQ</a>, wenn Fehlermeldungen erscheinen.</li>
   </ol>
 
@@ -567,7 +571,8 @@ Supermoderator
    <tr><td>82</td><td><code>delete_profiles</code></td><td>1</td><td>Löschmodus um Profile zu löschen</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
    <tr><td>83</td><td><a href="#ppl"><code>privacy_policy_link</code></a></td><td>?faction=gdpr</td><td>Link zur Datenschutzerklärung</td><td style="color:green; text-align:center;">&#10003;</td></tr>
    <tr><th colspan="5">Neu ab TBB 1.8.0</th></tr>
-   <tr><td>84</td><td><code>profile_mbli</code></td><td>1</td><td>Anzige von Profilen nur eingeloggt</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>84</td><td><code>profile_mbli</code></td><td>1</td><td>Anzeige von Profilen nur eingeloggt</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
+   <tr><td>85</td><td><code>activate_calendar</code></td><td>1</td><td>Kalender aktivieren</td><td style="color:grey; text-align:center;">&#9675;</td></tr>
   </table>
 
   <h3 id="addresstoforum">4.3 <code>address_to_forum</code></h3>
