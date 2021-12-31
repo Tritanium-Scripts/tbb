@@ -1,9 +1,9 @@
 **********************************************************
 Tritanium Bulletin Board 1.5+ - Changelog (German version)
-Last changed: 2021-12-29 (Version 1.8.0)
+Last changed: 2021-12-31 (Version 1.8.0)
 **********************************************************
 
-2021: Version 1.8.0
+31.12.2021: Version 1.8.0 (offiziell)
 	- Umzug zu GitHub: https://github.com/Tritanium-Scripts/tbb
 	- Warnung bei Moderatorenanzeige ab PHP 7.2 behoben
 	- Benachrichtigung per E-Mail über neue PNs erfolgt nur es keine anderen ungelesenen PNs gibt
@@ -17,6 +17,7 @@ Last changed: 2021-12-29 (Version 1.8.0)
 	- Dokumentation aktualisiert
 	- Suche nach neuen Forumversionen umgestellt auf github.com
 	- Neue Kalenderansicht für planbare Ereignisse und Jubiläen von Mitgliedern
+	- ICQ-UIN-Link aktualisiert
 
 31.12.2020: Version 1.7 (offiziell)
 	- Datenstrukturfehler bei Neuberechnung der Zähler behoben

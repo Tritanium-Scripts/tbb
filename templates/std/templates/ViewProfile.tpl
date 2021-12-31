@@ -59,7 +59,7 @@
  </tr>
  <tr>
   <td class="td1" style="font-weight:bold; width:20%;"><span class="norm">{$modules.Language->getString('icq_number_colon')}</span></td>
-  <td class="td1" style="width:80%;"><span class="norm">{if empty($userData[13])}<span style="font-style:italic;">{$modules.Language->getString('not_given')}</span>{else}<a href="https://icq.com/people/{$userData[13]}" target="_blank"><img src="http://status.icq.com/online.gif?icq={$userData[13]}&amp;img=5" alt="" style="vertical-align:top;" /> {$userData[13]|wordwrap:3:"-":true}</a>{/if}</span></td>
+  <td class="td1" style="width:80%;"><span class="norm">{if empty($userData[13])}<span style="font-style:italic;">{$modules.Language->getString('not_given')}</span>{else}<a href="https://icq.im/{$userData[13]}" target="_blank"><img src="http://status.icq.com/online.gif?icq={$userData[13]}&amp;img=5" alt="" style="vertical-align:top;" /> {$userData[13]|wordwrap:3:"-":true}</a>{/if}</span></td>
  </tr>{if $modules.Config->getCfgVal('achievements') == 1 && !empty($userData[19])}
  <tr id="achievements">
   <td class="td1" style="font-weight:bold; width:20%; vertical-align:top;"><span class="norm">{$modules.Language->getString('steam_achievements_colon')}</span><br /><span class="small">{$userData[18].profileName|string_format:$modules.Language->getString('from_x')}</span></td>
