@@ -3,7 +3,7 @@
  * Loads main module and executes desired forum action and/or subAction.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2021 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2022 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1.8
  */
@@ -20,12 +20,19 @@ interface Module
 	public function execute();
 }
 /**
- * Main module of TBB 1.7.
+ * Main module of TBB 1.8.
  *
- * @package TBB1.7
+ * @package TBB1.8
  */
 class Main implements Module
 {
+	/**
+	 * Indicates the used locale is based on UTF-8 and stuff like month names don't need {@link utf8_encode()}.
+	 *
+	 * @var bool UTF-8 based locale loaded
+	 */
+	private static $utf8Locale;
+
 	/**
 	 * Detected action to execute.
 	 *
@@ -144,7 +151,7 @@ class Main implements Module
 		//Set custom error level to replace default one from constructor
 		error_reporting(intval(self::getModule('Config')->getCfgVal('error_level')));
 		//Set locale for dates and number formats
-		setlocale(LC_ALL, Functions::explodeByComma(self::getModule('Language')->getString('locale', 'Main')));
+		self::$utf8Locale = Functions::stripos(setlocale(LC_ALL, Functions::explodeByComma(self::getModule('Language')->getString('locale', 'Main'))), '.utf8') !== false;
 		//Set timeout for getting image sizes or Steam achievements if not available
 		if(self::getModule('Config')->getCfgVal('use_getimagesize') == 1 || self::getModule('Config')->getCfgVal('achievements') == 1)
 			@ini_set('default_socket_timeout', 3);
@@ -270,6 +277,16 @@ class Main implements Module
 	public static function &getModules()
 	{
 		return self::$loadedModules;
+	}
+
+	/**
+	 * Returns the used locale is based on UTF-8.
+	 *
+	 * @return bool UTF-8 based locale loaded
+	 */
+	public static function isUtf8Locale()
+	{
+		return self::$utf8Locale;
 	}
 }
 ?>

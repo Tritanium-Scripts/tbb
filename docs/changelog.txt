@@ -1,6 +1,6 @@
 **********************************************************
 Tritanium Bulletin Board 1.5+ - Changelog (German version)
-Last changed: 2022-10-02 (Version 1.8.1)
+Last changed: 2022-10-28 (Version 1.8.1)
 **********************************************************
 
 2022: Version 1.8.1

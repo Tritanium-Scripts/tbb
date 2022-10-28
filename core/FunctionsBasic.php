@@ -3,7 +3,7 @@
  * Various static functions and wrappers.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2021 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2022 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1.8
  */
@@ -314,8 +314,9 @@ class FunctionsBasic
 	public static function formatDate($date, $format=null)
 	{
 		$timestamp = self::getTimestamp($date);
-		//Encode as UTF-8, because month names lack proper encoding
-		return sprintf(time()-$timestamp < Main::getModule('Config')->getCfgVal('emph_date_hours')*3600 ? '<b>%s</b>' : '%s', utf8_encode(gmstrftime(isset($format) ? $format : Main::getModule('Language')->getString(Main::getModule('Config')->getCfgVal('date_as_text') == 1 && self::getProperYz(time()-86400) <= ($yz = self::getProperYz($timestamp)) ? (self::getProperYz(time()) == $yz ? 'TODAY_DATEFORMAT' : 'YESTERDAY_DATEFORMAT') : 'DATEFORMAT'), $timestamp)));
+		$formattedDate = sprintf(time()-$timestamp < Main::getModule('Config')->getCfgVal('emph_date_hours')*3600 ? '<b>%s</b>' : '%s', gmstrftime(isset($format) ? $format : Main::getModule('Language')->getString(Main::getModule('Config')->getCfgVal('date_as_text') == 1 && self::getProperYz(time()-86400) <= ($yz = self::getProperYz($timestamp)) ? (self::getProperYz(time()) == $yz ? 'TODAY_DATEFORMAT' : 'YESTERDAY_DATEFORMAT') : 'DATEFORMAT'), $timestamp));
+		//Encode as UTF-8 in case of month names lack proper encoding
+		return Main::isUtf8Locale() ? $formattedDate : utf8_encode($formattedDate);
 	}
 
 	/**
