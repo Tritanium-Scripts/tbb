@@ -6,9 +6,8 @@
   <meta http-equiv="Content-Language" content="de-DE" />
   <meta http-equiv="Content-Script-Type" content="text/javascript" />
   <meta http-equiv="Content-Style-Type" content="text/css" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="author" content="Tritanium Scripts" />
-  <meta name="copyright" content="&copy; 2010&ndash;2021 Tritanium Scripts" />
+  <meta name="copyright" content="&copy; 2010&ndash;2022 Tritanium Scripts" />
   <meta name="description" content="Dokumentation für das Tritanium Bulletin Board 1.8" />
   <meta name="generator" content="Notepad 4.10.1998" />
   <meta name="keywords" content="TBB,Tritanium,Tritanium Scripts,TBB 1.5,TBB 1.6,TBB 1.7,TBB 1.8,Tritanium Bulletin Board,Readme,Liesmich,Anleitung,Dokumentation" />
@@ -82,7 +81,7 @@
   <title>Tritanium Bulletin Board 1.8 Dokumentation</title>
  </head>
  <body>
-  <h1>Tritanium Bulletin Board 1.8.0</h1>
+  <h1>Tritanium Bulletin Board 1.8.1</h1>
   <h2>Inhaltsverzeichnis</h2>
   <ol class="fontnorm">
    <li><a href="#preamble">Vorwort</a></li>
@@ -105,6 +104,7 @@
        <li><a href="#updatetemplate">Update der Template-Engine</a></li>
       </ul>
      </li>
+     <li><a href="#updatetbb180">Update von TBB 1.8.x</a></li>
      <li><a href="#updatetbb170">Update von TBB 1.7.x</a></li>
      <li><a href="#updatetbb160">Update von TBB 1.6.x</a></li>
      <li><a href="#updatetbb150">Update von TBB 1.5.x</a></li>
@@ -251,7 +251,31 @@
    <li>Die Template-Engine ist nun aktualisiert und der Wartungsmodus kann deaktiviert werden.</li>
   </ol>
 
-  <h3 id="updatetbb170">3.2 Update von TBB 1.7.x</h3>
+  <h3 id="updatetbb180">3.2 Update von TBB 1.8.x</h3>
+  <ol class="fontnorm">
+   <li>Versetzen Sie das Forum zunächst in den Wartungsmodus.</li>
+   <li>
+    Ersetzen Sie sämtliche Dateien bzw. Ordner mit den neuen Versionen im TBB-Verzeichnis wie folgt:<br />
+    <span style="font-size:x-small;">(Falls Sie bestehende Dateien geändert haben, sichern Sie diese zu erst und führen Sie nach der Aktualisierung die Modifikationen ggf. erneut durch.)</span>
+    <ul>
+     <li><b>./core/</b> (+ Inhalt, Ausnahme: <b>DataPath.php</b>)</li>
+     <li><b>./languages/</b> (+ Inhalt)</li>
+     <li><b>./modules/</b> (+ Inhalt, Ausnahme: <b>Config.php.new</b>)<br />
+         <span style="font-size:x-small;">Achten Sie darauf, dass keine alten bzw. inzwischen entfernte Dateien in den Unterordnern von <b>./modules/Template/</b> zurück bleiben.</span></li>
+     <li><b>./templates/</b> (+ Inhalt)</li>
+     <li><b>index.php</b></li>
+    </ul>
+   </li>
+   <li>Übertragen Sie ihre &ndash;sofern vorhanden&ndash; eigenen Einstellungen aus der <b>./modules/Config.php</b> in die <b>./modules/Config.php.new</b>.</li>
+   <li>Benennen Sie die <b>./modules/Config.php.new</b> in <b>./modules/Config.php</b> um und überschreiben eine evtl. existierende Config.php.</li>
+   <li>Löschen Sie alle Inhalte im Ordner <b>./cache/</b>.</li>
+   <li>Nutzen Sie das externe Foumwerkzeug <b>ext_lposts.php</b>, so muss dieses durch die neue Version ersetzt werden. Übertragen Sie dazu die vorhandenen Einstellungen in die neue Datei und ersetzen Sie ihre vorhandene Datei. Lesen Sie dazu auch <a href="#externaltools">Abschnitt 5</a> für mehr Details zu den Einstellungswerten.</li>
+   <li>Laden Sie nun die <b>setUpdateFlag.php</b> aus dem <b>./update/</b>-Ordner in das TBB-Verzeichnis und rufen Sie das Script mit ihrem Browser auf (z.B. https://www.meinedomain.de/forum/setUpdateFlag.php). Je nach Anzahl registrierter Mitglieder kann der Update-Prozess etwas dauern und notfalls durch erneutes Aufrufen fortgesetzt werden.</li>
+   <li>Löschen Sie die <b>setUpdateFlag.php</b> wieder, sobald eine &quot;Done!&quot;-Meldung angezeigt wird.</li>
+   <li>Das Forum ist nun aktualisiert und der Wartungsmodus kann deaktiviert werden.</li>
+  </ol>
+
+  <h3 id="updatetbb170">3.3 Update von TBB 1.7.x</h3>
   <ol class="fontnorm">
    <li>Versetzen Sie das Forum zunächst in den Wartungsmodus.</li>
    <li>
@@ -282,7 +306,7 @@
    <li>Das Forum ist nun aktualisiert und der Wartungsmodus kann deaktiviert werden.</li>
   </ol>
 
-  <h3 id="updatetbb160">3.3 Update von TBB 1.6.x</h3>
+  <h3 id="updatetbb160">3.4 Update von TBB 1.6.x</h3>
   <ol class="fontnorm">
    <li>Versetzen Sie das Forum zunächst in den Wartungsmodus.</li>
    <li>
@@ -315,7 +339,7 @@
    <li>Das Forum ist nun aktualisiert und der Wartungsmodus kann deaktiviert werden.</li>
   </ol>
 
-  <h3 id="updatetbb150">3.4 Update von TBB 1.5.x</h3>
+  <h3 id="updatetbb150">3.5 Update von TBB 1.5.x</h3>
   <ol class="fontnorm">
    <li>Versetzen Sie das Forum zunächst in den Wartungsmodus.</li>
    <li>
@@ -356,7 +380,7 @@
    <li>Das Forum ist nun aktualisiert und der Wartungsmodus kann deaktiviert werden.</li>
   </ol>
 
-  <h3 id="updatetbb123">3.5 Update von TBB 1.2.3</h3>
+  <h3 id="updatetbb123">3.6 Update von TBB 1.2.3</h3>
   <ol class="fontnorm">
    <li>Versetzen Sie das Forum zunächst in den Wartungsmodus.</li>
    <li>
@@ -433,7 +457,7 @@ Supermoderator
    <li>Das Forum ist nun aktualisiert. Rufen Sie es auf (z.B. https://www.meinedomain.de/forum/index.php), loggen Sie sich ein und überprüfen Sie den Status. Konsultieren Sie das <a href="#faq">FAQ</a>, wenn Fehlermeldungen erscheinen.</li>
   </ol>
 
-  <h4 id="updatetbb110">3.5.1 Update von Version 1.1</h4>
+  <h4 id="updatetbb110">3.6.1 Update von Version 1.1</h4>
   <p class="fontnorm">In diesem Abschnitt wird beschrieben, wie Sie ein TBB 1.1 auf 1.2.3 aktualisieren.</p>
   <ol class="fontnorm">
    <li>Nehmen Sie alle Einstellungen in settings.php vor</li>
@@ -449,7 +473,7 @@ Supermoderator
   </ol>
   <p class="fontnorm">Das Forum sollte nun bereit für die Aktualisierung von 1.2.3 auf 1.8 sein.</p>
 
-  <h4 id="updatetbb10b">3.5.2 Update von Version 1.0 Beta</h4>
+  <h4 id="updatetbb10b">3.6.2 Update von Version 1.0 Beta</h4>
   <p class="fontnorm">In diesem Abschnitt wird beschrieben, wie Sie ein TBB 1.0 Beta auf 1.2.3 aktualisieren.</p>
   <ol class="fontnorm">
    <li>Nehmen Sie alle Einstellungen in settings.php vor</li>
@@ -841,6 +865,6 @@ Ich hoffe, das hier interessiert wenigstens ein paar Leute, denn es war, auch we
 mfg <b>Julian</b></p></blockquote>
    <p class="fontnorm">Also dann, bis zur nächsten Version! Oder so. ;)<br /><br />mfg <b>Chris</b></p>
 
-  <div class="fontcopyright">&copy; 2010&ndash;2021 <a href="http://www.tritanium-scripts.com/" target="_blank">Tritanium Scripts</a></div>
+  <div class="fontcopyright">&copy; 2010&ndash;2022 <a href="http://www.tritanium-scripts.com/" target="_blank">Tritanium Scripts</a></div>
  </body>
 </html>

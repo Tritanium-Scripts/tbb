@@ -3,9 +3,9 @@
  * Displays specific forum, topic or all forums index with additional stats.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2020 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2022 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
- * @package TBB1.7
+ * @package TBB1.8
  */
 class Forum implements Module
 {
@@ -388,7 +388,7 @@ class Forum implements Module
   <language>' . Main::getModule('Language')->getLangCode() . '</language>
   <lastBuildDate>' . current(array_slice($newestPosts[0], 5, 1)) . '</lastBuildDate>
   <pubDate>' . date('r', $firstUser != false ? Functions::getTimestamp($firstUser[6] . '01000000')-date('Z') : time()) . '</pubDate>
-  <docs>http://www.rssboard.org/rss-specification</docs>
+  <docs>https://www.rssboard.org/rss-specification</docs>
   <generator>Tritanium Bulletin Board ' . VERSION_PUBLIC . '</generator>
   <atom:link href="' . Main::getModule('Config')->getCfgVal('address_to_forum') . '/' . INDEXFILE . '?faction=rssFeed" rel="self" type="application/rss+xml" />
 ');
@@ -439,9 +439,12 @@ class Forum implements Module
 			case 'markAll':
 			//Prepare cookie data to set for each forum
 			$cookieData = array(time(), time()+60*60*24*365, Main::getModule('Config')->getCfgVal('path_to_forum'));
-			foreach(array_map(create_function('$curForum', 'return current(Functions::explodeByTab($curForum));'), Functions::file('vars/foren.var')) as $curForumID)
+			foreach(array_map(function($curForum)
+			{
+				return current(Functions::explodeByTab($curForum));
+			}, Functions::file('vars/foren.var')) as $curForumID)
 				setcookie('forum_' . $curForumID, $cookieData[0], $cookieData[1], $cookieData[2]);
-			//Simple wasn't it?
+			//Simple, wasn't it?
 			header('Location: ' . INDEXFILE . SID_QMARK);
 			Main::getModule('Template')->printMessage('forums_marked_as_read');
 			break;
