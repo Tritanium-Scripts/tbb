@@ -3,9 +3,9 @@
  * Manages post process of new topic or new poll.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2015 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2023 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
- * @package TBB1.6
+ * @package TBB1.8
  */
 class PostNew implements Module
 {
@@ -114,9 +114,12 @@ class PostNew implements Module
 			//Add special poll vars
 			$this->newPost['pollType'] = intval(Functions::getValueFromGlobals('poll_type'));
 			$this->newPost['choices'] = (array) Functions::getValueFromGlobals('poll_choice');
-			while($curChoice = each($this->newPost['choices']))
-				if(($this->newPost['choices'][$curChoice[0]] = htmlspecialchars(trim($curChoice[1]))) == '')
-					unset($this->newPost['choices'][$curChoice[0]]);
+			foreach($this->newPost['choices'] as $key => &$curChoice)
+			{
+				$curChoice = htmlspecialchars(trim($curChoice));
+				if($curChoice == '')
+					unset($this->newPost['choices'][$key]);
+			}
 			//Preview...
 			if($this->preview)
 				$this->newPost['preview'] = array('title' => &$this->newPost['title'],
