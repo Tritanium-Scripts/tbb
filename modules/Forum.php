@@ -3,7 +3,7 @@
  * Displays specific forum, topic or all forums index with additional stats.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2022 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2023 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1.8
  */
@@ -396,20 +396,34 @@ class Forum implements Module
 				foreach($newestPosts as $curNewestPost)
 				{
 					//Get post data
-					if(($curTopic = @Functions::file('foren/' . $curNewestPost[0] . '-' . $curNewestPost[1] . '.xbb')) != false)
+					if(($curTopic = @Functions::file('foren/' . $curNewestPost[0] . '-' . $curNewestPost[1] . '.xbb')) !== false)
+					{
+						$curNewestPostDeleted = true;
 						foreach(array_slice($curTopic, 1) as $curKey => $curPost)
 						{
 							$curPost = Functions::explodeByTab($curPost);
 							if($curPost[2] == $curNewestPost[3])
 							{
+								//Topic and post found
 								$curTopic = array('title' => Functions::censor(@next(Functions::explodeByTab($curTopic[0]))),
 									'post' => htmlspecialchars(Main::getModule('BBCode')->parse($curPost[3])),
 									'count' => count($curTopic)-2,
 									'page' => ceil(($curKey+1) / Main::getModule('Config')->getCfgVal('posts_per_page')),
 									'postID' => $curPost[0]);
+								$curNewestPostDeleted = false;
+								break;
 							}
 						}
+						if($curNewestPostDeleted)
+							//Topic found, but post was deleted
+							$curTopic = array('title' => Functions::censor(@next(Functions::explodeByTab($curTopic[0]))),
+								'post' => Main::getModule('Language')->getString('deleted'),
+								'count' => count($curTopic)-2,
+								'page' => 1,
+								'postID' => 1);
+					}
 					else
+						//Topic not found, post therefore also deleted
 						$curTopic = array('title' => Main::getModule('Language')->getString('deleted'),
 							'post' => Main::getModule('Language')->getString('deleted'),
 							'count' => 0,
