@@ -3,9 +3,9 @@
  * Manages new replies, poster IPs and post/poll management.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2021 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2023 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
- * @package TBB1.7
+ * @package TBB1.8
  */
 class Posting implements Module
 {
@@ -121,7 +121,7 @@ class Posting implements Module
 			$this->topicFile = array_map(array('Functions', 'explodeByTab'), $this->topicFile);
 			#0:open/close[/moved] - 1:title - 2:userID - 3:tSmileyID - 4:notifyNewReplies[/movedForumID] - 5:timestamp[/movedTopicID] - 6:views - 7:pollID[ - 8:subscribedUserIDs]
 			$this->topic = array_shift($this->topicFile);
-			$this->page = ceil(array_search($this->postID, array_map('current', $this->topicFile)) / Main::getModule('Config')->getCfgVal('posts_per_page'));
+			$this->page = max(ceil(array_search($this->postID, array_map('current', $this->topicFile)) / Main::getModule('Config')->getCfgVal('posts_per_page')), 1);
 		}
 		$this->preview = Functions::getValueFromGlobals('preview') != '';
 		//Get contents for new reply
