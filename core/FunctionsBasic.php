@@ -3,7 +3,7 @@
  * Various static functions and wrappers.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2022 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2023 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1.8
  */
@@ -186,7 +186,7 @@ class FunctionsBasic
 		//Provide proper forum data and permissions
 		if(is_numeric($forum))
 			$forum = self::getForumData($forum);
-		$perms = is_array($forum[10]) ? $forum[10] : Functions::explodeByComma($forum[10]);
+		$perms = is_array($forum[10]) ? $forum[10] : self::explodeByComma($forum[10]);
 		//Check guests
 		if(!Main::getModule('Auth')->isLoggedIn())
 			return $perms[$whatGuest] == '1';
@@ -772,8 +772,8 @@ class FunctionsBasic
 			isset($_SESSION['unknownModes']) ? $_SESSION['unknownModes']++ : $_SESSION['unknownModes'] = 0;
 			if($_SESSION['unknownModes'] > mt_rand(5, 10))
 			{
-				list(,,,$lastIPID) = @end(Functions::getBannedIPs());
-				Functions::file_put_contents('vars/ip.var', $_SERVER['REMOTE_ADDR'] . "\t-1\t-1\t" . ($lastIPID+1) . "\t\n", FILE_APPEND);
+				list(,,,$lastIPID) = @end(self::getBannedIPs());
+				self::file_put_contents('vars/ip.var', $_SERVER['REMOTE_ADDR'] . "\t-1\t-1\t" . ($lastIPID+1) . "\t\n", FILE_APPEND);
 				Main::getModule('Logger')->log('Auto-banned %s after catching ' . $_SESSION['unknownModes'] . ' unknown modes of a possible hacking attempt!', LOG_ACP_ACTION);
 			}
 			$mode = $defaultMode;
@@ -804,10 +804,10 @@ class FunctionsBasic
 	}
 
 	/**
-	 * Verifies an e-mail address.
+	 * Verifies an email address.
 	 *
-	 * @param string $mailAddress The e-mail address to check
-	 * @return bool Valid e-mail address
+	 * @param string $mailAddress The email address to check
+	 * @return bool Valid email address
 	 */
 	public static function isValidMail($mailAddress)
 	{
@@ -943,13 +943,13 @@ class FunctionsBasic
 	 */
 	public static function stripSlashesDeep($value)
 	{
-		return is_array($value) ? array_map(array('Functions', 'stripSlashesDeep'), $value) : stripslashes($value);
+		return is_array($value) ? array_map(array('self', 'stripSlashesDeep'), $value) : stripslashes($value);
 	}
 
 	/**
-	 * Unifies an user e-mail address.
+	 * Unifies an user email address.
 	 *
-	 * @param string $userMail E-mail to check
+	 * @param string $userMail Email to check
 	 * @param int $ignoreID Optional user ID to ignore during check
 	 * @return bool User mail address already exists
 	 */
@@ -1009,7 +1009,7 @@ class FunctionsBasic
 	 */
 	public static function updateForumData($forumID, $topicOffset, $postOffset, $lastTopicID=null, $lastPosterID=null, $lastDate=null, $lastTSmileyID=null)
 	{
-		Functions::getFileLock('foren');
+		self::getFileLock('foren');
 		//Make sure forums are loaded
 		if(!isset(self::$cache['forums']))
 			self::getForumData(0);
@@ -1031,7 +1031,7 @@ class FunctionsBasic
 		}
 		self::file_put_contents('vars/foren.var', implode("\n", self::$cache['forums']) . "\n");
 		unset(self::$cache['forums']);
-		Functions::releaseLock('foren');
+		self::releaseLock('foren');
 	}
 
 	/**
