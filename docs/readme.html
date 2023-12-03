@@ -221,7 +221,7 @@
 
   <h2 id="update">3 Update einer älteren Version</h2>
   <h3 id="generalshints">3.1 Allgemeine Hinweise</h3>
-  <p class="fontnorm">Das TBB 1.8 unterstützt ausschließlich die Aktualisierung eines TBB 1.2.3 oder höher. Wenn Sie eine ältere Version als 1.2.3 betreiben, müssen Sie diese erst auf Version 1.2.3 aktualisieren. Dies können Sie mit den mitgelieferten Update-Routinen durchführen, die in den Unterkapiteln <a href="#updatetbb110">3.5.1</a> und <a href="#updatetbb10b">3.5.2</a> näher beschrieben sind.</p>
+  <p class="fontnorm">Das TBB 1.8 unterstützt ausschließlich die Aktualisierung eines TBB 1.2.3 oder höher. Wenn Sie eine ältere Version als 1.2.3 betreiben, müssen Sie diese erst auf Version 1.2.3 aktualisieren. Dies können Sie mit den mitgelieferten Update-Routinen durchführen, die in den Unterkapiteln <a href="#updatetbb110">3.6.1</a> und <a href="#updatetbb10b">3.6.2</a> näher beschrieben sind.</p>
   <p class="fontnorm">Bevor Sie mit irgendeiner Aktualisierung beginnen, ist es empfehlenswert die Ordner <b>foren</b>, <b>members</b>, <b>polls</b> und <b>vars</b> zu sichern. Es kann leider keine Garantie für ein reibungsloses Update übernommen werden. Laden Sie am besten erst die genannten Ordner per FTP runter, um sie ggf. wiederherstellen zu können. Achten Sie dabei unbedingt auf die Verwendung des <b>Binär-Übertragungsmodus</b>!</p>
   <p class="fontnorm">Weiterhin können zusätzliche oder modifizierte Dateien von der Update-Anleitung nicht berücksichtigt werden. Haben Sie ihr Forum z.B. um neue Grafiken, var-Dateien oder eigene CSS-Styles erweitert, sollten Sie diese ebenfalls sichern, um Sie nach der Aktualisierung wiederherstellen zu können. Lesen Sie sich zum Thema Hack-Kompatiblität auch das <a href="#faq">FAQ</a> durch.</p>
   <p class="fontnorm">Falls Sie nach dem Update Probleme bei der Darstellung &ndash;vor allem bei den BBCode-Buttons&ndash; haben, sollten sie ihre CSS-Datei aktualisieren, d.h. die &quot;standard.css&quot;, die dem Forum beiliegt, auf neue Abschnitte überprüfen (z.B. &quot;forumcode&quot;) und diese in ihre modifizierte CSS-Datei einsetzen.</p>
@@ -231,7 +231,7 @@
   <p class="fontnorm">Unabhängig von neuen TBB-Versionen kann die Template-Engine auch separat aktualisiert werden. Die aktuell verwendete Version ist auf der Startseite der Administration unter den Systeminformationen aufgelistet. Beachten Sie hierbei unbedingt die Versionssprünge, d.h. es dürfen nur Aktualisierungen auf Patch-Ebene (dritte Stelle einer Versionsnummer) durchgeführt werden. Beispielsweise ist ein Update von 3.1.9 auf 3.1.10 problemlos möglich, aber nicht auf 3.2.0 oder gar 4.0. Gehen Sie dabei vor wie folgt:</p>
   <ol class="fontnorm">
    <li>
-    Laden Sie die neuste <b>passende</b> Version von der <a href="http://www.smarty.net/download" target="_blank">offiziellen Webseite</a> runter.<br />
+    Laden Sie die neuste <b>passende</b> Version von der <a href="https://www.smarty.net/download" target="_blank">offiziellen Webseite</a> runter.<br />
     Die benötigten Dateien sind im Archiv unter <b>./smarty-3.1.x/libs/</b> zu finden.
    </li>
    <li>Versetzen Sie das Forum in den Wartungsmodus.</li>
@@ -635,7 +635,7 @@ Supermoderator
   <p class="fontnorm">Ab Version 1.5.0 bietet das TBB die Möglichkeit, Dateien als Anhänge zu Beiträgen hochzuladen an. Sind Dateiuploads aktiviert (<code>enable_uploads</code> ist 1), können Sie mit der Option <code>upload_allowed_ext</code> genau definieren, welche Dateitypen dabei akzeptiert werden. Geben Sie die Dateiendungen mit Kommata getrennt an, z.B. <b>bmp,jpg,jpeg,gif,png,zip,rar,mp3,pdf</b> um Bilder, Archive, Audiodateien und PDFs zu erlauben. Die Dateien werden in dem <b>./uploads/</b>-Ordner gespeichert und automatisch im Beitrag mit BBCode verlinkt. Bilddateien werden dabei als solche direkt eingebunden. Sie sollten diese Einstellung auf jeden Fall setzen um zu verhindern, dass z.B. böswillige PHP-Skripte hochgeladen werden. Zusätzlich können Sie noch eine maximale Dateigröße in Bytes für hochgeladene Dateien angeben. Die Voreinstellung für <code>upload_max_filesize</code> beträgt 2 MiB. Geben Sie kein Limit an, gelten die Beschränkungen aus der php.ini bzw. der PHP-Umgebung.</p>
 
   <h3 id="ppl">4.10 <code>privacy_policy_link</code></h3>
-  <p class="fontnorm">Ab Version 1.7.0 bietet das TBB die Möglichkeit, eine Datenschutzerklärung im Seitenfuß zu verlinken. Sie könnne entweder auf eine eigene Erklärung verweisen oder einen vorkonfigurierten Mustertext gemäß der europäischen DSGVO nutzen. Bitte beachten Sie, dass Tritanium Scripts keine Gewähr auf Aktualität, Vollständigkeit und Richtigkeit der Klauseln bietet und eine Haftung dafür ausschließt. Die Nutzung des Mustertextes erfolgt auf eigene Gefahr und eigenes Risiko!</p>
+  <p class="fontnorm">Ab Version 1.7.0 bietet das TBB die Möglichkeit, eine Datenschutzerklärung im Seitenfuß zu verlinken. Sie können entweder auf eine eigene Erklärung verweisen oder einen vorkonfigurierten Mustertext gemäß der europäischen DSGVO nutzen. Bitte beachten Sie, dass Tritanium Scripts keine Gewähr auf Aktualität, Vollständigkeit und Richtigkeit der Klauseln bietet und eine Haftung dafür ausschließt. Die Nutzung des Mustertextes erfolgt auf eigene Gefahr und eigenes Risiko!</p>
 
   <h2 id="externaltools">5 Externe Werkzeuge</h2>
   <p class="fontnorm">Die externen Forumwerkzeuge befinden sich im Ordner <b>./extern/</b> und dienen dazu, die letzten Beiträge und WIO-Box woanders als im Forum selber anzuzeigen (z.B. auf dem Portal der dazu gehörigen Webseite). Bedingung dafür ist, dass sich Forum und Seite auf dem gleichen Webserver befinden und die Seite auch in PHP geschrieben ist. Um die Werkzeuge zu verwenden, öffnen sie die gewünschten Dateien (ext_wio.php für &quot;Wer ist online?&quot; und ext_lposts.php für die neuesten Beiträge) in einem Texteditor und passen den Pfad an (Sie können auch relative Pfadangaben verwenden). Da das Forum mit UTF-8-Zeichensatz arbeitet, werden auch diese Daten normalerweise als UTF-8 ausgegeben. Falls die Webseite <b>keinen</b> Unicode-Zeichensatz verwendet, können Sie die Ausgabe auf Latin1 umstellen, in dem Sie <code>$isUTF8 = true;</code> in <code>$isUTF8 = false;</code> ändern. Sie können weiterhin die Übersetzungen anpassen, achten Sie dabei auf Zeichen mit % davor &ndash; diese werden am Ende mit Werten ersetzt und dürfen nicht fehlen. Wenn alle Einstellungen getroffen sind, laden Sie die Dateien im <b>Binär-Modus</b> in das Verzeichnis auf ihrem Webserver, in dem sich die Webseite befindet (nicht in das Verzeichnis des Forums!). Nun fügen Sie in der entsprechenden Datei ihrer Webseite die Zeile <code>include('ext_wio.php');</code> für die WIO-Box und <code>include('ext_lposts.php');</code> für die neuesten Beiträge ein.</p>
@@ -670,7 +670,7 @@ Supermoderator
    <li><b>styles</b>-Ordner<br />
        Alls CSS-Dateien müssen in dieses Verzeichnis gespeichert werden. Mehrere Styles werden dabei dem Administrator zur Auswahl angeboten, d.h. Sie sollten alle zusammenhängenden Stil-Klassen in eine Datei hinterlegen. Es kann immer nur eine CSS-Datei verwendet werden.</li>
    <li><b>templates</b>-Ordner<br />
-       Alle Template-Dateien (normalerweise 93 Stück) müssen in diesem Ordner sein und die exakten Namen besitzen, wie es das Standardtemplate vorgibt. Sie können selbstverständlich weitere Template-Dateien zur Inkludierung o.ä. anlegen, wenn notwendig. In den tpl-Dateien finden Sie weitere Kommentare zu den gelieferten Daten.</li>
+       Alle Template-Dateien (normalerweise 96 Stück) müssen in diesem Ordner sein und die exakten Namen besitzen, wie es das Standardtemplate vorgibt. Sie können selbstverständlich weitere Template-Dateien zur Inkludierung o.ä. anlegen, wenn notwendig. In den tpl-Dateien finden Sie weitere Kommentare zu den gelieferten Daten.</li>
   </ul>
 
   <h3 id="tplexample">6.2 Beispiel-Struktur</h3>
@@ -730,7 +730,7 @@ Supermoderator
   <p class="fontnorm">Auch diese Version ist multilingual fähig. Allerdings kommt die Übersetzungstechnik aus dem TBB 2.0 zum Einsatz, weshalb vorhandene Sprachpakete <b>nicht</b> kompatibel sind. Derzeit gibt es eine deutsche und englische Lokalisierung; jeder ist eingeladen, weitere Übersetzungen anzufertigen! Es folgen dazu ein paar Hinweise, die dabei beachtet werden sollten.</p>
   <h3 id="lochints">7.1 Wichtige Hinweise</h3>
   <ul class="fontnorm">
-   <li>Alle 33 Dateien müssen vorhanden sein und dürfen nicht umbenannt werden</li>
+   <li>Alle 34 Dateien müssen vorhanden sein und dürfen nicht umbenannt werden</li>
    <li>Die Übersetzungen werden im ini-Format notiert, d.h. links steht ein Identifikator (darf nicht verändert werden!) und rechts die Übersetzung in Anführungszeichen</li>
    <li>Verwenden Sie auf jeden Fall einen Unicode-Zeichensatz, da das Forum mit UTF-8 arbeitet</li>
    <li>XHTML-Sonderzeichen müssen als Entitäten notiert werden, z.B. &amp; als &amp;amp; oder &quot; als &amp;quot;</li>
@@ -738,7 +738,7 @@ Supermoderator
    <li>Das Anführungszeichen &quot; kann derzeit nicht verwendet werden, nutzen Sie stattdessen das Apostroph ', um z.B. Links zu erstellen</li>
    <li>Die <b>Main.ini</b> wird immer geladen und beinhaltet gemeinsam genutzte Sprachstrings, die in mehreren Modulen zum Einsatz kommen</li>
    <li>Kommentare starten mit ; und beinhalten manchmal weitere Hinweise</li>
-   <li>Konsultieren Sie die <a href="http://www.php.net/strftime" target="_blank">Dokumentation des PHP-Handbuchs</a> bzgl. Angabe von Datum- und Zeitformaten</li>
+   <li>Konsultieren Sie die <a href="https://www.php.net/strftime" target="_blank">Dokumentation des PHP-Handbuchs</a> bzgl. Angabe von Datum- und Zeitformaten</li>
   </ul>
 
   <h3 id="loccode">7.2 Der Sprachcode</h3>
@@ -785,7 +785,7 @@ Supermoderator
   <p class="fontnorm">In der Administration können Sie unter dem Menüpunkt &quot;Templates&quot; andere Styles als Standard auswählen und sogar ihren Mitgliedern die freie Wahl über Template- und Style-Nutzung erlauben. Ein Aufruf mit <code>index.php?var_css_file=</code> ist nicht mehr notwendig und wird daher nicht länger unterstützt. Das Standardtemplate des TBB 1.8 wurde dem originalen Aufbau und Style der 1.2.3er Version nachempfunden, so dass es abwärtskompatibel zu den CSS-Klassen ist. Wenn Sie also andere Styles verwenden oder den originalen Standard modifiziert haben, können Sie diese weiterhin verwenden.</p>
 
   <h3 id="afewwords">8.4 Ein paar Worte zum Code</h3>
-  <p class="fontnorm">Die Vorgängerversionen wurden für ihren übersichtlichen und leicht verständlichen Code gelobt. Diese Tradition möchte ich fortsetzen und deswegen ist der <b>gesamte</b> Code (ohne Ausnahme) mit <a href="http://www.phpdoc.org/" target="_blank">phpDoc</a> dokumentiert. Hilfreich zum Verständnis dürfte auch die Architektur mit der Modulstruktur und die vielen weiteren Inline-Kommentare sein. :)</p>
+  <p class="fontnorm">Die Vorgängerversionen wurden für ihren übersichtlichen und leicht verständlichen Code gelobt. Diese Tradition möchte ich fortsetzen und deswegen ist der <b>gesamte</b> Code (ohne Ausnahme) mit <a href="https://www.phpdoc.org/" target="_blank">phpDoc</a> dokumentiert. Hilfreich zum Verständnis dürfte auch die Architektur mit der Modulstruktur und die vielen weiteren Inline-Kommentare sein. :)</p>
   <p class="fontnorm">Seit Anfang 2021 sind alle Projekte von Tritanium Scripts auch bei <a href="https://github.com/Tritanium-Scripts">GitHub.com</a> zu finden. Die Entwicklung darf dort gerne verfolgt werden &ndash; Mitmachen erwünscht!</p>
 
   <h3 id="groupsystem">8.5 Das Gruppensystem</h3>
@@ -800,7 +800,7 @@ Supermoderator
    <li style="padding-bottom:1em;"><span style="font-weight:bold;">Julian?</span><br />
        Nein. Naja, indirekt schon, also es war so: Julian fing 2003 mit der Entwicklung des TBB 2.0 an und das zog sich wegen Zeitmangel (Studium etc.) in die Länge. Im Mai 2005 gab es die bis dato letzte Version (Alpha 9) und im Herbst 2006 bin ich dann mehr oder weniger als Co-Entwickler dazu gestoßen, weil es mir einfach zu lange dauerte. Zusammen veröffentlichten wir dann Ostern 2008 die Alpha 10 und Weihnachten 2008 die erste Beta-Version. Die Entwicklung der Beta 2 ging zügig weiter, bis Julian dermaßen in Zeitnot gerriet und es bis heute nicht wirklich besser wurde. Viel konnte ich alleine nicht machen, so dass ich gegen Ende meines Studiums im Juli 2010 mit der Entwicklung eines TBB 1.5 angefangen hab &ndash; eine Art Übergangslösung zwischen dem altem TBB 1.2.3 und der irgendwann kommenden 2.0. Dabei wurden bereits viele Konzepte und Funktionen des 2.0ers in das 1.5 integriert, so dass der &quot;Geist Julians&quot; durchaus vorhanden ist. ;)</li>
    <li style="padding-bottom:1em;"><span style="font-weight:bold;">Ich habe Hack xyz eingebaut, kann ich das TBB 1.8 trotzdem nutzen?</span><br />
-       Wahrscheinlich ja. Bei der Entwicklung wurden sogar einzelne Hacks berücksichtigt und deren Datenstruktur übernommen. Da in den letzten 8 Jahren allerdings eine Vielzahl an verschiedenen Hacks entstanden sind, kann natürlich nur ein sehr kleiner Anteil an Hacks berücksichtigt werden. Problematisch dürften auf jeden Fall Hacks sein, die neue Einstellungswerte oder neue Profilfelder dem TBB 1.2.3 hinzugefügt haben. Das TBB 1.8 bringt ebenfalls neue Konfigurationswerte (27 Stück) und neue Profilfelder (6 Stück) mit, so dass es dort zu Konflikten kommen wird. Erwartet das TBB 1.8 an einer Stelle einen bestimmten Wert, der von einem Hack bereits andersweitig belegt wurde, können unvorhersehbare Effekte oder Fehler auftreten. Vollkommen unproblematisch hingegen sind Hacks, die mit eigenen Dateien arbeiten bzw. die originale Struktur einfach nicht verändert haben. Beispielsweise neue BBCodes oder neue Funktionen auf Basis eigener .var-Dateien.</li>
+       Wahrscheinlich ja. Bei der Entwicklung wurden sogar einzelne Hacks berücksichtigt und deren Datenstruktur übernommen. Da in den letzten 8 Jahren allerdings eine Vielzahl an verschiedenen Hacks entstanden sind, kann natürlich nur ein sehr kleiner Anteil an Hacks berücksichtigt werden. Problematisch dürften auf jeden Fall Hacks sein, die neue Einstellungswerte oder neue Profilfelder dem TBB 1.2.3 hinzugefügt haben. Das TBB 1.8 bringt ebenfalls neue Konfigurationswerte (30 Stück) und neue Profilfelder (6 Stück) mit, so dass es dort zu Konflikten kommen wird. Erwartet das TBB 1.8 an einer Stelle einen bestimmten Wert, der von einem Hack bereits andersweitig belegt wurde, können unvorhersehbare Effekte oder Fehler auftreten. Vollkommen unproblematisch hingegen sind Hacks, die mit eigenen Dateien arbeiten bzw. die originale Struktur einfach nicht verändert haben. Beispielsweise neue BBCodes oder neue Funktionen auf Basis eigener .var-Dateien.</li>
    <li style="padding-bottom:1em;"><span style="font-weight:bold;">Welche Hacks werden unterstützt?</span><br />
        Eine vollständige Liste habe ich nicht geführt, aber das TBB 1.8 berücksichtigt mindestens die Datenstrukturen folgender Hacks:
        <ul>
@@ -848,7 +848,7 @@ Supermoderator
        Hier sind unsere privaten Webseiten und E-Mail-Adressen:
        <ul>
         <li><a href="http://www.julianbackes.de/" target="_blank">Julian</a> &ndash; <a href="mailto:julian@tritanium-scripts.com">julian@tritanium-scripts.com</a></li>
-        <li><a href="http://www.chrissyx.com/" target="_blank">Chris</a> &ndash; <a href="mailto:chris@tritanium-scripts.com">chris@tritanium-scripts.com</a></li>
+        <li><a href="https://www.chrissyx.com/" target="_blank">Chris</a> &ndash; <a href="mailto:chris@tritanium-scripts.com">chris@tritanium-scripts.com</a></li>
        </ul></li>
    <li style="padding-bottom:1em;"><span style="font-weight:bold;">Was sollen diese ganzen persönlichen Fragen überhaupt?</span><br />
        Ich hab sie einfach alle aus der Doku vom TBB 1.2.3 übernommen...</li>
