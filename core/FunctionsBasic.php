@@ -314,7 +314,9 @@ class FunctionsBasic
 	public static function formatDate($date, $format=null)
 	{
 		$timestamp = self::getTimestamp($date);
-		$formattedDate = sprintf(time()-$timestamp < Main::getModule('Config')->getCfgVal('emph_date_hours')*3600 ? '<b>%s</b>' : '%s', gmstrftime(isset($format) ? $format : Main::getModule('Language')->getString(Main::getModule('Config')->getCfgVal('date_as_text') == 1 && self::getProperYz(time()-86400) <= ($yz = self::getProperYz($timestamp)) ? (self::getProperYz(time()) == $yz ? 'TODAY_DATEFORMAT' : 'YESTERDAY_DATEFORMAT') : 'DATEFORMAT'), $timestamp));
+		$formattedDate = sprintf(
+			time()-$timestamp < Main::getModule('Config')->getCfgVal('emph_date_hours')*3600 ? '<b>%s</b>' : '%s',
+			gmstrftime(isset($format) ? $format : Main::getModule('Language')->getString(Main::getModule('Config')->getCfgVal('date_as_text') == 1 && self::getProperYz(time()-86400) <= ($yz = self::getProperYz($timestamp)) ? (self::getProperYz(time()) == $yz ? 'TODAY_DATEFORMAT' : 'YESTERDAY_DATEFORMAT') : 'DATEFORMAT'), $timestamp));
 		//Encode as UTF-8 in case of month names lack proper encoding
 		return Main::isUtf8Locale() ? $formattedDate : utf8_encode($formattedDate);
 	}
