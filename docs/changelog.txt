@@ -1,15 +1,16 @@
 **********************************************************
 Tritanium Bulletin Board 1.5+ - Changelog (German version)
-Last changed: 2023-12-02 (Version 1.8.1)
+Last changed: 2023-12-10 (Version 1.8.1)
 **********************************************************
 
-2023: Version 1.8.1
+10.12.2023: Version 1.8.1 (offiziell)
 	- Mögliche Enkodierungsprobleme der Monatsnamen im Kalender behoben
 	- Fehlende PHP 8 Kompatibilität bei "Alle Foren als gelesen markieren"
 	- Smarty auf Version 3.1.48 aktualisiert
 	- Fehlende PHP 8 Kompatibilität bei neue Umfrage erstellen
 	- Beitragslink nach Editieren des ersten Beitrags eines Themas korrigiert
 	- RSS-Feed mit gelöschten Beiträgen korrigiert
+	- Dokumentation aktualisiert
 
 31.12.2021: Version 1.8.0 (offiziell)
 	- Umzug zu GitHub: https://github.com/Tritanium-Scripts/tbb
