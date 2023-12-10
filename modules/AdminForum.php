@@ -460,7 +460,7 @@ class AdminForum implements Module
 				}, $specialRights = array_map(array('Functions', 'explodeByTab'), $specialRights));
 				//Get new user IDs and rights to add
 				$newUserIDs = array_unique(Functions::explodeByComma(Functions::getValueFromGlobals('new_user_ids')));
-				$newUserRights = Functions::getValueFromGlobals('new_right') + array_fill(0, 6, '');
+				$newUserRights = (array) Functions::getValueFromGlobals('new_right') + array_fill(0, 6, '');
 				ksort($newUserRights);
 				//Filter out invalid IDs
 				foreach($newUserIDs as $curKey => $curUserID)
@@ -528,7 +528,7 @@ class AdminForum implements Module
 								}
 							Functions::file_put_contents('vars/groups.var', implode("\n", array_map(array('Functions', 'implodeByTab'), $groups)) . "\n");
 							//Group done, proceed with special forum rights
-							$newGroupRights = Functions::getValueFromGlobals('new_right') + array_fill(0, 6, '');
+							$newGroupRights = (array) Functions::getValueFromGlobals('new_right') + array_fill(0, 6, '');
 							ksort($newGroupRights);
 							Functions::file_put_contents('foren/' . $forumID . '-rights.xbb', (empty($specialRights) ? 1 : current(end($specialRights))+1) . "\t2\t" . $newGroupID . "\t" . Functions::implodeByTab($newGroupRights) . "\t\t\t\t\t\t\n", FILE_APPEND);
 							//Done
