@@ -9,9 +9,9 @@
  * 0:todaysDate - 1:0:recordMember - 1:1:recordDate[ - 2:guestCounter - 3:members - 4:bots]
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2021 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2023 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
- * @package TBB1.7
+ * @package TBB1.8
  */
 class WhoIsOnline implements Module
 {
@@ -595,7 +595,8 @@ class WhoIsOnline implements Module
 			|| Functions::stripos($userAgent, 'ubermetrics') !== false
 			|| Functions::stripos($userAgent, 'knowledge ai') !== false
 			|| Functions::stripos($userAgent, 'buck') !== false
-			|| Functions::stripos($userAgent, 'http://') !== false;
+			|| Functions::stripos($userAgent, 'http://') !== false
+			|| Functions::stripos($userAgent, 'https://') !== false;
 	}
 }
 ?>
