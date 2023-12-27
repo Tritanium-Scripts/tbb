@@ -1,23 +1,23 @@
 <!-- ForumIndex -->
-<table class="tableStd" cellpadding="{$modules.Config->getCfgVal('tpadding')}" cellspacing="{$modules.Config->getCfgVal('tspacing')}" style="width:100%;">
+<table class="tableStd" cellpadding="{Config::getInstance()->getCfgVal('tpadding')}" cellspacing="{Config::getInstance()->getCfgVal('tspacing')}" style="width:100%;">
  <thead>
-{if $modules.Config->getCfgVal('news_position') == 1}{include file='News.tpl'}{/if}
+{if Config::getInstance()->getCfgVal('news_position') == 1}{include file='News.tpl'}{/if}
   <tr>
-   <th class="cellTitle" colspan="2" style="text-align:center;"><span class="fontTitleSmall">{$modules.Language->getString('forum')}</span></th>
-   <th class="cellTitle" style="text-align:center;"><span class="fontTitleSmall">{$modules.Language->getString('topics')}</span></th>
-   <th class="cellTitle" style="text-align:center;"><span class="fontTitleSmall">{$modules.Language->getString('posts')}</span></th>
-   <th class="cellTitle" style="text-align:center; width:28%;"><span class="fontTitleSmall">{$modules.Language->getString('last_post')}</span></th>
-   <th class="cellTitle" style="text-align:center;"><span class="fontTitleSmall">{$modules.Language->getString('moderators')}</span></th>
+   <th class="cellTitle" colspan="2" style="text-align:center;"><span class="fontTitleSmall">{Language::getInstance()->getString('forum')}</span></th>
+   <th class="cellTitle" style="text-align:center;"><span class="fontTitleSmall">{Language::getInstance()->getString('topics')}</span></th>
+   <th class="cellTitle" style="text-align:center;"><span class="fontTitleSmall">{Language::getInstance()->getString('posts')}</span></th>
+   <th class="cellTitle" style="text-align:center; width:28%;"><span class="fontTitleSmall">{Language::getInstance()->getString('last_post')}</span></th>
+   <th class="cellTitle" style="text-align:center;"><span class="fontTitleSmall">{Language::getInstance()->getString('moderators')}</span></th>
   </tr>
  </thead>
-{if $modules.Config->getCfgVal('news_position') == 2}{include file='News.tpl'}{/if}
+{if Config::getInstance()->getCfgVal('news_position') == 2}{include file='News.tpl'}{/if}
 {foreach $cats as $curCat}
 {* 0:id - 1:name *}
-{if $modules.Config->getCfgVal('show_kats')} <tr><td class="cellCat" colspan="6"><span class="fontCat"><img src="{$modules.Template->getTplDir()}images/minus.gif" alt="" /> {$curCat[1]}</span></td></tr>{/if}
+{if Config::getInstance()->getCfgVal('show_kats')} <tr><td class="cellCat" colspan="6"><span class="fontCat"><img src="{Template::getInstance()->getTplDir()}images/minus.gif" alt="" /> {$curCat[1]}</span></td></tr>{/if}
 {foreach $forums as $curForum}
 {if $curForum.catID == $curCat[0]}
  <tr onmouseover="setRowCellsClass(this, 'cellHighlight');" onmouseout="restoreRowCellsClass(this);">
-  <td class="cellAlt" style="text-align:center;"><img src="{$modules.Template->getTplDir()}images/{if !$curForum.isNewPost}no_{/if}new_post.gif" alt="" /></td>
+  <td class="cellAlt" style="text-align:center;"><img src="{Template::getInstance()->getTplDir()}images/{if !$curForum.isNewPost}no_{/if}new_post.gif" alt="" /></td>
   <td class="cellStd"><span class="forumLink"><a class="forumLink" href="{$smarty.const.INDEXFILE}?mode=viewforum&amp;forum_id={$curForum.forumID}{$smarty.const.SID_AMPER}">{$curForum.forumTitle}</a></span><br /><span class="fontSmall">{$curForum.forumDescr}</span></td>
   <td class="cellAlt" style="text-align:center;"><span class="fontSmall">{$curForum.forumTopics}</span></td>
   <td class="cellAlt" style="text-align:center;"><span class="fontSmall">{$curForum.forumPosts}</span></td>
@@ -26,50 +26,50 @@
  </tr>
 {/if}
 {foreachelse}
- <tr><td class="cellStd" colspan="6" style="font-weight:bold; text-align:center;"><span class="fontNorm">{$modules.Language->getString('no_forum_available')}</span></td></tr>
+ <tr><td class="cellStd" colspan="6" style="font-weight:bold; text-align:center;"><span class="fontNorm">{Language::getInstance()->getString('no_forum_available')}</span></td></tr>
 {/foreach}
 {foreachelse}
- <tr><td class="cellStd" colspan="6" style="font-weight:bold; text-align:center;"><span class="fontNorm">{$modules.Language->getString('no_cat_available')}</span></td></tr>
+ <tr><td class="cellStd" colspan="6" style="font-weight:bold; text-align:center;"><span class="fontNorm">{Language::getInstance()->getString('no_cat_available')}</span></td></tr>
 {/foreach}
 </table>
 
-{if $modules.Config->getCfgVal('show_lposts') >= 1}<br />
+{if Config::getInstance()->getCfgVal('show_lposts') >= 1}<br />
 <!-- NewestPosts -->
-<table class="tableStd" cellpadding="{$modules.Config->getCfgVal('tpadding')}" cellspacing="{$modules.Config->getCfgVal('tspacing')}" style="width:100%;">
- <tr><th class="cellTitle"><span class="fontTitle">{$modules.Language->getString('newest_posts')}</span><a href="{$smarty.const.INDEXFILE}?faction=rssFeed" style="float:right;"><img src="{$modules.Template->getTplDir()}images/feed.png" alt="" /></a></th></tr>
- <tr><td class="cellStd"><span class="fontSmall">{if !empty($newestPosts)}{'<br />'|implode:$newestPosts}{else}{$modules.Language->getString('no_newest_posts')}{/if}</span></td></tr>
+<table class="tableStd" cellpadding="{Config::getInstance()->getCfgVal('tpadding')}" cellspacing="{Config::getInstance()->getCfgVal('tspacing')}" style="width:100%;">
+ <tr><th class="cellTitle"><span class="fontTitle">{Language::getInstance()->getString('newest_posts')}</span><a href="{$smarty.const.INDEXFILE}?faction=rssFeed" style="float:right;"><img src="{Template::getInstance()->getTplDir()}images/feed.png" alt="" /></a></th></tr>
+ <tr><td class="cellStd"><span class="fontSmall">{if !empty($newestPosts)}{'<br />'|implode:$newestPosts}{else}{Language::getInstance()->getString('no_newest_posts')}{/if}</span></td></tr>
 </table>{/if}
 
-{if $modules.Config->getCfgVal('show_board_stats') == 1}<br />
+{if Config::getInstance()->getCfgVal('show_board_stats') == 1}<br />
 <!-- BoardStatistics -->
-<table class="tableStd" cellpadding="{$modules.Config->getCfgVal('tpadding')}" cellspacing="{$modules.Config->getCfgVal('tspacing')}" style="width:100%;">
- <tr><th class="cellTitle"><span class="fontTitle">{$modules.Language->getString('board_statistics')}</span></th></tr>
- <tr><td class="cellStd"><span class="fontSmall">{$modules.Language->getString('registered_members_colon')} {$memberCounter}<br />{$modules.Language->getString('newest_member_colon')} {$newestMember}<br />{$modules.Language->getString('total_amount_of_topics_posts_colon')} {$topicCounter}/{$postCounter}</span></td></tr>
+<table class="tableStd" cellpadding="{Config::getInstance()->getCfgVal('tpadding')}" cellspacing="{Config::getInstance()->getCfgVal('tspacing')}" style="width:100%;">
+ <tr><th class="cellTitle"><span class="fontTitle">{Language::getInstance()->getString('board_statistics')}</span></th></tr>
+ <tr><td class="cellStd"><span class="fontSmall">{Language::getInstance()->getString('registered_members_colon')} {$memberCounter}<br />{Language::getInstance()->getString('newest_member_colon')} {$newestMember}<br />{Language::getInstance()->getString('total_amount_of_topics_posts_colon')} {$topicCounter}/{$postCounter}</span></td></tr>
 </table>{/if}
 
-{if $modules.Config->getCfgVal('wio') == 1}
-{$wioUser=$modules.WhoIsOnline->getUserWIO()}
+{if Config::getInstance()->getCfgVal('wio') == 1}
+{$wioUser=WhoIsOnline::getInstance()->getUserWIO()}
 {* 0:guests - 1:ghosts - 2:memberProfiles - 3:bots *}
 <br />
 <!-- WIO -->
-<table class="tableStd" cellpadding="{$modules.Config->getCfgVal('tpadding')}" cellspacing="{$modules.Config->getCfgVal('tspacing')}" style="width:100%;">
- <tr><th class="cellTitle"><span class="fontTitle">{$modules.Language->getString('who_is_online')}</span></th></tr>
- <tr><td class="cellStd"><span class="fontSmall">{$modules.Config->getCfgVal('wio_timeout')|string_format:$modules.Language->getString('in_last_x_min_were_active_colon')}<br />
-  {if empty($wioUser[2])}{$modules.Language->getString('no_members')}{else}{$modules.Language->getString('members_colon')} {', '|implode:$wioUser[2]}{/if}<br />
-  {if $wioUser[1] == 0}{$modules.Language->getString('no_ghosts')}{elseif $wioUser[1] == 1}{$modules.Language->getString('one_ghost')}{else}{$wioUser[1]|string_format:$modules.Language->getString('x_ghosts')}{/if}<br />
-  {if $wioUser[0] == 0}{$modules.Language->getString('no_guests')}{elseif $wioUser[0] == 1}{$modules.Language->getString('one_guest')}{else}{$wioUser[0]|string_format:$modules.Language->getString('x_guests')}{/if}<br />
-  {if $wioUser[3] == 0}{$modules.Language->getString('no_bots')}{elseif $wioUser[3] == 1}{$modules.Language->getString('one_bot')}{else}{$wioUser[3]|string_format:$modules.Language->getString('x_bots')}{/if}<br /><br />
-  <span style="font-weight:bold;">{$modules.Language->getString('legend_colon')}</span> <span{if $modules.Config->getCfgVal('wio_color_admin') != ''} style="color:{$modules.Config->getCfgVal('wio_color_admin')};"{/if}>{$modules.Language->getString('administrator')}</span> &ndash; <span{if $modules.Config->getCfgVal('wio_color_smod') != ''} style="color:{$modules.Config->getCfgVal('wio_color_smod')};"{/if}>{$modules.Language->getString('super_moderator')}</span> &ndash; <span{if $modules.Config->getCfgVal('wio_color_mod') != ''} style="color:{$modules.Config->getCfgVal('wio_color_mod')};"{/if}>{$modules.Language->getString('moderator')}</span> &ndash; <span{if $modules.Config->getCfgVal('wio_color_user') != ''} style="color:{$modules.Config->getCfgVal('wio_color_user')};"{/if}>{$modules.Language->getString('member')}</span> &ndash; <span{if $modules.Config->getCfgVal('wio_color_banned') != ''} style="color:{$modules.Config->getCfgVal('wio_color_banned')};"{/if}>{$modules.Language->getString('banned')}</span></span></td></tr>
+<table class="tableStd" cellpadding="{Config::getInstance()->getCfgVal('tpadding')}" cellspacing="{Config::getInstance()->getCfgVal('tspacing')}" style="width:100%;">
+ <tr><th class="cellTitle"><span class="fontTitle">{Language::getInstance()->getString('who_is_online')}</span></th></tr>
+ <tr><td class="cellStd"><span class="fontSmall">{Config::getInstance()->getCfgVal('wio_timeout')|string_format:Language::getInstance()->getString('in_last_x_min_were_active_colon')}<br />
+  {if empty($wioUser[2])}{Language::getInstance()->getString('no_members')}{else}{Language::getInstance()->getString('members_colon')} {', '|implode:$wioUser[2]}{/if}<br />
+  {if $wioUser[1] == 0}{Language::getInstance()->getString('no_ghosts')}{elseif $wioUser[1] == 1}{Language::getInstance()->getString('one_ghost')}{else}{$wioUser[1]|string_format:Language::getInstance()->getString('x_ghosts')}{/if}<br />
+  {if $wioUser[0] == 0}{Language::getInstance()->getString('no_guests')}{elseif $wioUser[0] == 1}{Language::getInstance()->getString('one_guest')}{else}{$wioUser[0]|string_format:Language::getInstance()->getString('x_guests')}{/if}<br />
+  {if $wioUser[3] == 0}{Language::getInstance()->getString('no_bots')}{elseif $wioUser[3] == 1}{Language::getInstance()->getString('one_bot')}{else}{$wioUser[3]|string_format:Language::getInstance()->getString('x_bots')}{/if}<br /><br />
+  <span style="font-weight:bold;">{Language::getInstance()->getString('legend_colon')}</span> <span{if Config::getInstance()->getCfgVal('wio_color_admin') != ''} style="color:{Config::getInstance()->getCfgVal('wio_color_admin')};"{/if}>{Language::getInstance()->getString('administrator')}</span> &ndash; <span{if Config::getInstance()->getCfgVal('wio_color_smod') != ''} style="color:{Config::getInstance()->getCfgVal('wio_color_smod')};"{/if}>{Language::getInstance()->getString('super_moderator')}</span> &ndash; <span{if Config::getInstance()->getCfgVal('wio_color_mod') != ''} style="color:{Config::getInstance()->getCfgVal('wio_color_mod')};"{/if}>{Language::getInstance()->getString('moderator')}</span> &ndash; <span{if Config::getInstance()->getCfgVal('wio_color_user') != ''} style="color:{Config::getInstance()->getCfgVal('wio_color_user')};"{/if}>{Language::getInstance()->getString('member')}</span> &ndash; <span{if Config::getInstance()->getCfgVal('wio_color_banned') != ''} style="color:{Config::getInstance()->getCfgVal('wio_color_banned')};"{/if}>{Language::getInstance()->getString('banned')}</span></span></td></tr>
 </table>
 <br />
 <!-- WWO -->
-{$wwoUser=$modules.WhoIsOnline->getUserWWO()}
+{$wwoUser=WhoIsOnline::getInstance()->getUserWWO()}
 {* 0:guests - 1:ghosts - 2:members - 3:0:memberProfiles - 3:1:isGhost - 4:bots *}
-{$record=$modules.WhoIsOnline->getRecord()}
-<table class="tableStd" cellpadding="{$modules.Config->getCfgVal('tpadding')}" cellspacing="{$modules.Config->getCfgVal('tspacing')}" style="width:100%;">
- <tr><th class="cellTitle"><span class="fontTitle">{$modules.Language->getString('who_was_online')}</span></th></tr>
- <tr><td class="cellStd"><span class="fontSmall">{$modules.Language->getString('today_were_here_colon')}<br />
-  {foreach $wwoUser[3] as $curWWOUser}{if $curWWOUser[1]}<img src="{$modules.Template->getTplDir()}images/ghost.png" alt="{$modules.Language->getString('browses_as_ghost')}" title="{$modules.Language->getString('browses_as_ghost')}" style="vertical-align:middle;" /> {/if}{$curWWOUser[0]}{if !$curWWOUser@last}, {/if}{foreachelse}{$modules.Language->getString('no_members')}{/foreach}<br />
-  {sprintf($modules.Language->getString('total_x_member_s_x_ghost_s_x_guest_s_and_x_bot_s'), $wwoUser[2], $wwoUser[1], $wwoUser[0], $wwoUser[4])}<br /><br />
-  <b>{$modules.Language->getString('record_colon')}</b> {sprintf($modules.Language->getString('x_members_on_x'), $record[0], $record[1])}</span></td></tr>
+{$record=WhoIsOnline::getInstance()->getRecord()}
+<table class="tableStd" cellpadding="{Config::getInstance()->getCfgVal('tpadding')}" cellspacing="{Config::getInstance()->getCfgVal('tspacing')}" style="width:100%;">
+ <tr><th class="cellTitle"><span class="fontTitle">{Language::getInstance()->getString('who_was_online')}</span></th></tr>
+ <tr><td class="cellStd"><span class="fontSmall">{Language::getInstance()->getString('today_were_here_colon')}<br />
+  {foreach $wwoUser[3] as $curWWOUser}{if $curWWOUser[1]}<img src="{Template::getInstance()->getTplDir()}images/ghost.png" alt="{Language::getInstance()->getString('browses_as_ghost')}" title="{Language::getInstance()->getString('browses_as_ghost')}" style="vertical-align:middle;" /> {/if}{$curWWOUser[0]}{if !$curWWOUser@last}, {/if}{foreachelse}{Language::getInstance()->getString('no_members')}{/foreach}<br />
+  {sprintf(Language::getInstance()->getString('total_x_member_s_x_ghost_s_x_guest_s_and_x_bot_s'), $wwoUser[2], $wwoUser[1], $wwoUser[0], $wwoUser[4])}<br /><br />
+  <b>{Language::getInstance()->getString('record_colon')}</b> {sprintf(Language::getInstance()->getString('x_members_on_x'), $record[0], $record[1])}</span></td></tr>
 </table>{/if}

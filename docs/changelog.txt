@@ -1,320 +1,326 @@
 **********************************************************
 Tritanium Bulletin Board 1.5+ - Changelog (German version)
-Last changed: 2023-12-10 (Version 1.8.2)
+Last changed: 2023-12-27 (Version 1.10.0)
 **********************************************************
 
-2024: Version 1.8.2
-	- Fehler beim Hinzufügen von leeren speziellen Benutzer- und Gruppenrechten behoben
+2024: Version 1.10.0
+    - Fehler beim Hinzufügen von leeren speziellen Benutzer- und Gruppenrechten behoben
+    - Boterkennung verbessert
+    - Umstellung auf Composer und dessen Autoloader
+    - Smarty auf Version 4.3.4 aktualisiert
+    - Umstellung und Nutzung der Features und Syntax von PHP 7.4 (= Mindestversion)
+    - Mögliche Enkodierungsprobleme bei "Zuletzt hier am" in der Profilansicht behoben
+    - Formatierung mit Tabs durch Leerzeichen ersetzt
 
 10.12.2023: Version 1.8.1 (offiziell)
-	- Mögliche Enkodierungsprobleme der Monatsnamen im Kalender behoben
-	- Fehlende PHP 8 Kompatibilität bei "Alle Foren als gelesen markieren"
-	- Smarty auf Version 3.1.48 aktualisiert
-	- Fehlende PHP 8 Kompatibilität bei neue Umfrage erstellen
-	- Beitragslink nach Editieren des ersten Beitrags eines Themas korrigiert
-	- RSS-Feed mit gelöschten Beiträgen korrigiert
-	- Dokumentation aktualisiert
+    - Mögliche Enkodierungsprobleme der Monatsnamen im Kalender behoben
+    - Fehlende PHP 8 Kompatibilität bei "Alle Foren als gelesen markieren"
+    - Smarty auf Version 3.1.48 aktualisiert
+    - Fehlende PHP 8 Kompatibilität bei neue Umfrage erstellen
+    - Beitragslink nach Editieren des ersten Beitrags eines Themas korrigiert
+    - RSS-Feed mit gelöschten Beiträgen korrigiert
+    - Dokumentation aktualisiert
 
 31.12.2021: Version 1.8.0 (offiziell)
-	- Umzug zu GitHub: https://github.com/Tritanium-Scripts/tbb
-	- Warnung bei Moderatorenanzeige ab PHP 7.2 behoben
-	- Benachrichtigung per E-Mail über neue PNs erfolgt nur es keine anderen ungelesenen PNs gibt
-	- [flash]-BBCode entfernt
-	- Boterkennung verbessert
-	- PHP 8 Kompatibilität; die Mindestversion ist nun PHP 5.3
-	- Smarty auf Version 3.1.40 aktualisiert
-	- Automatisches Einloggen aktualisiert auch "Zuletzt hier am"
-	- Neue Konfigurationswerte!
-	- Profile nur für Mitglieder anzeigbar
-	- Dokumentation aktualisiert
-	- Suche nach neuen Forumversionen umgestellt auf github.com
-	- Neue Kalenderansicht für planbare Ereignisse und Jubiläen von Mitgliedern
-	- ICQ-UIN-Link aktualisiert
+    - Umzug zu GitHub: https://github.com/Tritanium-Scripts/tbb
+    - Warnung bei Moderatorenanzeige ab PHP 7.2 behoben
+    - Benachrichtigung per E-Mail über neue PNs erfolgt nur es keine anderen ungelesenen PNs gibt
+    - [flash]-BBCode entfernt
+    - Boterkennung verbessert
+    - PHP 8 Kompatibilität; die Mindestversion ist nun PHP 5.3
+    - Smarty auf Version 3.1.40 aktualisiert
+    - Automatisches Einloggen aktualisiert auch "Zuletzt hier am"
+    - Neue Konfigurationswerte!
+    - Profile nur für Mitglieder anzeigbar
+    - Dokumentation aktualisiert
+    - Suche nach neuen Forumversionen umgestellt auf github.com
+    - Neue Kalenderansicht für planbare Ereignisse und Jubiläen von Mitgliedern
+    - ICQ-UIN-Link aktualisiert
 
 31.12.2020: Version 1.7 (offiziell)
-	- Datenstrukturfehler bei Neuberechnung der Zähler behoben
-	- Anzeige von Bots in WIO- und WWO-Boxen
-	- ICQ-UIN-Link aktualisiert
-	- Boterkennung verbessert
-	- Neue Konfigurationswerte!
-	- Löschmodi für differenziertes bis kein Löschen von Profilen
-	- Dokumentation aktualisiert
-	- Optionaler Link für Datenschutzerklärung
-	- Vorkonfigurierte Datenschutzerklärung gemäß DSGVO
-	- Neue Benutzer müssen vorhandene Datenschutzerklärung akzeptieren
-	- Copyright-Jahreszahl aktualisiert
-	- Fehler bei Seitenberechnung im RSS-Feed und der Suche korrigiert
-	- Smarty auf Version 3.1.36 aktualisiert
-	- Themen für alle Mitglieder jederzeit (de)abonnierbar
-	- Benachrichtigung per E-Mail über neue private Nachrichten
-	- Verlust von Beiträgen in größeren Themen bei Aktualisierung von Views behoben
-	- Aufruf von unbekannten oder fehlenden Modulen endet mit passenden HTTP-Statuscode
+    - Datenstrukturfehler bei Neuberechnung der Zähler behoben
+    - Anzeige von Bots in WIO- und WWO-Boxen
+    - ICQ-UIN-Link aktualisiert
+    - Boterkennung verbessert
+    - Neue Konfigurationswerte!
+    - Löschmodi für differenziertes bis kein Löschen von Profilen
+    - Dokumentation aktualisiert
+    - Optionaler Link für Datenschutzerklärung
+    - Vorkonfigurierte Datenschutzerklärung gemäß DSGVO
+    - Neue Benutzer müssen vorhandene Datenschutzerklärung akzeptieren
+    - Copyright-Jahreszahl aktualisiert
+    - Fehler bei Seitenberechnung im RSS-Feed und der Suche korrigiert
+    - Smarty auf Version 3.1.36 aktualisiert
+    - Themen für alle Mitglieder jederzeit (de)abonnierbar
+    - Benachrichtigung per E-Mail über neue private Nachrichten
+    - Verlust von Beiträgen in größeren Themen bei Aktualisierung von Views behoben
+    - Aufruf von unbekannten oder fehlenden Modulen endet mit passenden HTTP-Statuscode
 
 07.08.2016: Version 1.6.5 (offiziell)
-	- Fehlerhafter Link bei Benachrichtigungen von Moderatoren behoben
-	- Mögliche Umlautdarstellungsprobleme im Firefox behoben
-	- Alle HTML Kopfbereiche überarbeitet und vereinheitlicht
-	- Neuer [iframe]-BBCode
-	- Fehler beim automatischen Einloggen, nachdem ein neues Passwort angefordert wurde, behoben
-	- Mögliche Enkodierungsprobleme ab PHP 5.6 behoben
-	- Ungültiges HTML durch Parsen des ;) Smileys durch bestimmte ISO-8859-15 Zeichen behoben
-	- Fehler bei Generierung von Rangbilder behoben, wenn kein Rang für eine bestimmte Anzahl von Beiträgen definiert ist
-	- Fehler bei Löschen des eigenen Profils über das ACP behoben
-	- Fehlerhafte Weiterleitung mit SID bei "Alle Foren als gelesen markieren"-Link behoben
-	- ICQ-UIN-Link aktualisiert
-	- Editieren der Homepage bei Benutzer bearbeiten im ACP
-	- Copyright-Jahreszahl aktualisiert
-	- cURL mit Unterstützung für gzip-komprimierte Steam-Webseiten
-	- Smarty auf Version 3.1.30 aktualisiert (PHP 7 Kompatibilität)
+    - Fehlerhafter Link bei Benachrichtigungen von Moderatoren behoben
+    - Mögliche Umlautdarstellungsprobleme im Firefox behoben
+    - Alle HTML Kopfbereiche überarbeitet und vereinheitlicht
+    - Neuer [iframe]-BBCode
+    - Fehler beim automatischen Einloggen, nachdem ein neues Passwort angefordert wurde, behoben
+    - Mögliche Enkodierungsprobleme ab PHP 5.6 behoben
+    - Ungültiges HTML durch Parsen des ;) Smileys durch bestimmte ISO-8859-15 Zeichen behoben
+    - Fehler bei Generierung von Rangbilder behoben, wenn kein Rang für eine bestimmte Anzahl von Beiträgen definiert ist
+    - Fehler bei Löschen des eigenen Profils über das ACP behoben
+    - Fehlerhafte Weiterleitung mit SID bei "Alle Foren als gelesen markieren"-Link behoben
+    - ICQ-UIN-Link aktualisiert
+    - Editieren der Homepage bei Benutzer bearbeiten im ACP
+    - Copyright-Jahreszahl aktualisiert
+    - cURL mit Unterstützung für gzip-komprimierte Steam-Webseiten
+    - Smarty auf Version 3.1.30 aktualisiert (PHP 7 Kompatibilität)
 
 04.01.2015: Version 1.6.4 (offiziell)
-	- Manuelles Nachverfolgen von Weiterleitungen wenn cURL dies nicht unterstützt
-	- Verkürzte Thementitel von letzten Beiträgen komplett sichtbar als Tooltip
-	- Mögliche XSS-Schwäche bei der Behandlung von Session-IDs behoben
-	- Mitgliederliste nur für Mitglieder anzeigbar
-	- Smarty auf Version 3.1.21 aktualisiert
-	- Ungültiges HTML durch Parsen des ;) Smileys behoben
-	- Copyright-Jahreszahl aktualisiert
+    - Manuelles Nachverfolgen von Weiterleitungen wenn cURL dies nicht unterstützt
+    - Verkürzte Thementitel von letzten Beiträgen komplett sichtbar als Tooltip
+    - Mögliche XSS-Schwäche bei der Behandlung von Session-IDs behoben
+    - Mitgliederliste nur für Mitglieder anzeigbar
+    - Smarty auf Version 3.1.21 aktualisiert
+    - Ungültiges HTML durch Parsen des ;) Smileys behoben
+    - Copyright-Jahreszahl aktualisiert
 
 02.02.2014: Version 1.6.3 (offiziell)
-	- Irreführende PHP-Warnungen auf schlecht konfigurierten Systemen bei Erstregistrierung tauchen wirklich nicht mehr auf
-	- Verwendung des Edge-Modus im Internet Explorer
-	- Laden von Steam-Spielen und -Errungenschaften mittels cURL als Alternative bei fehlender Unterstützung von Zugriffen auf entfernte Dateien
-	- Smarty auf Version 3.1.16 aktualisiert
-	- Copyright-Jahreszahl aktualisiert
+    - Irreführende PHP-Warnungen auf schlecht konfigurierten Systemen bei Erstregistrierung tauchen wirklich nicht mehr auf
+    - Verwendung des Edge-Modus im Internet Explorer
+    - Laden von Steam-Spielen und -Errungenschaften mittels cURL als Alternative bei fehlender Unterstützung von Zugriffen auf entfernte Dateien
+    - Smarty auf Version 3.1.16 aktualisiert
+    - Copyright-Jahreszahl aktualisiert
 
 27.12.2012: Version 1.6.2 (offiziell)
-	- Potenzieller Fehler beim Speichern der Zeitzone behoben
-	- Fehler bei der Anwendung des ausgewählten Datenschutzmodus von IP-Adressen behoben
-	- Potenzielle Probleme bei der Darstellung von englischen Zeiten behoben
-	- Potenzielle Endlosschleifen bei der Suche, bei Wartungsfunktionen und beim Versand von Newslettern behoben
-	- Smarty auf Version 3.1.12 aktualisiert
-	- Leere Kategorien ohne Foren werden nicht mehr angezeigt
-	- Irreführende PHP-Warnungen auf schlecht konfigurierten Systemen bei Erstregistrierung tauchen nicht mehr auf
-	- Anzeige der aktuellen Uhrzeit im Seitenkopf auf Basis der eingestellen Zeitzone
+    - Potenzieller Fehler beim Speichern der Zeitzone behoben
+    - Fehler bei der Anwendung des ausgewählten Datenschutzmodus von IP-Adressen behoben
+    - Potenzielle Probleme bei der Darstellung von englischen Zeiten behoben
+    - Potenzielle Endlosschleifen bei der Suche, bei Wartungsfunktionen und beim Versand von Newslettern behoben
+    - Smarty auf Version 3.1.12 aktualisiert
+    - Leere Kategorien ohne Foren werden nicht mehr angezeigt
+    - Irreführende PHP-Warnungen auf schlecht konfigurierten Systemen bei Erstregistrierung tauchen nicht mehr auf
+    - Anzeige der aktuellen Uhrzeit im Seitenkopf auf Basis der eingestellen Zeitzone
 
 16.03.2012: Version 1.6.1 (offiziell)
-	- Falsch gesetzten Anker bei den neuesten Beiträgen korrigiert
-	- Deutsche Sprachstrings korrigiert
-	- Fehler behoben, dass ein Admin seine Rechte verliert wenn er sich selber als Moderator beim Hinzufügen eines neuen Forums einträgt
-	- Aufrufe von unbekannten Modulen werden geloggt
-	- Keine möglichen leeren Einträge beim Loggen von unbekannten Modi in öffentlichen Modulen mehr
-	- Automatisches Sperren einer IP-Adresse nach spätestens zehn Aufrufen von unbekannten Modi
-	- Mögliches Fehlverhalten von disk_free_space() wird abgefangen
-	- Dokumentation aktualisiert und alleiniges Update der Template-Engine beschrieben
-	- Smarty auf Version 3.1.8 aktualisiert
-	- Fehler bei Datumsanzeige mit Text und bestimmten Datenkonstellationen behoben
-	- Copyright-Jahreszahl aktualisiert
-	- Enkodierungsprobleme bei externer Anzeige der neuesten Beiträge behoben
+    - Falsch gesetzten Anker bei den neuesten Beiträgen korrigiert
+    - Deutsche Sprachstrings korrigiert
+    - Fehler behoben, dass ein Admin seine Rechte verliert wenn er sich selber als Moderator beim Hinzufügen eines neuen Forums einträgt
+    - Aufrufe von unbekannten Modulen werden geloggt
+    - Keine möglichen leeren Einträge beim Loggen von unbekannten Modi in öffentlichen Modulen mehr
+    - Automatisches Sperren einer IP-Adresse nach spätestens zehn Aufrufen von unbekannten Modi
+    - Mögliches Fehlverhalten von disk_free_space() wird abgefangen
+    - Dokumentation aktualisiert und alleiniges Update der Template-Engine beschrieben
+    - Smarty auf Version 3.1.8 aktualisiert
+    - Fehler bei Datumsanzeige mit Text und bestimmten Datenkonstellationen behoben
+    - Copyright-Jahreszahl aktualisiert
+    - Enkodierungsprobleme bei externer Anzeige der neuesten Beiträge behoben
 
 04.11.2011: Version 1.6 (offiziell)
-	- Fehler bei Anzeige der neuesten Beiträge nach heruntersetzen der Anzahl behoben
-	- Neue Konfigurationswerte!
-	- Option für verkürzte Darstellung von Seitennavigationsleisten
-	- Sprachstrings überarbeitet, korrigiert und ergänzt
-	- 1.5.5-spezifischer Fehler bei Ergänzung von Spezialrechtüberprüfung für Beitrag bearbeiten in der Themenansicht behoben
-	- Überprüfung der Endungen von hochgeladenen Dateien unabhängig von Groß-/Kleinschreibung
-	- Stufe für PHP-Fehlermeldungen einstellbar
-	- Spamschutz mit Wartezeit zwischen dem Erstellen von neuen Beiträgen
-	- Zeitlich begrenztes Bearbeiten von neu erstellten Beiträgen möglich
-	- Dokumentation aktualisiert
-	- Datenschutzmodi für differenziertes bis kein Speichern von IP-Adressen
-	- Testfunktion für die Templateinstallation im ACP hinzugefügt
-	- Bessere Nutzung der Smarty-API
-	- Überspringen von Bestätigungsmeldungen wie im TBB2 möglich
-	- Weitere Nebenläufigkeitsprobleme (z.B. Besucherrekord zurück auf 0) mit separaten Sperrdateien behoben
-	- Datumsanzeige wahlweise als Text mit "Gestern" und "Heute"
-	- Optionale Anzeige des letzten Bearbeiters eines Beitrags
-	- Ausgewählte Optionen beim Erstellen einer neuen PN gehen im Fehlerfall nicht mehr verloren
-	- Postausgang für private Nachrichten
-	- Fehlende SID bei "Alle Foren als gelesen markieren"-Link nachgetragen
-	- Smarty auf Version 3.1.4 aktualisiert
-	- Komplett neue Ajax-basierte Verwaltung der Steam-Spiele und -Errungenschaften
-	- Steam-Errungenschaften eines Benutzers werden gecachet und daher schneller angezeigt
-	- Speicherort- und mögliche Enkodierungsprobleme von gecacheten Steam-Spielen behoben
-	- Sprungmarken für letzte, neueste und heutige Beiträge hinzugefügt
-	- Automatische Berechnung der Sommerzeit; kein Wechsel der Zeitzone mehr nötig
-	- Präzisere Berechnung der Beiträge pro Tag in der Profilansicht
-	- Boterkennung in der WIO-Liste korrigiert
-	- Anzeige von User-Agents als Tooltip in der WIO-Liste für Admins
+    - Fehler bei Anzeige der neuesten Beiträge nach heruntersetzen der Anzahl behoben
+    - Neue Konfigurationswerte!
+    - Option für verkürzte Darstellung von Seitennavigationsleisten
+    - Sprachstrings überarbeitet, korrigiert und ergänzt
+    - 1.5.5-spezifischer Fehler bei Ergänzung von Spezialrechtüberprüfung für Beitrag bearbeiten in der Themenansicht behoben
+    - Überprüfung der Endungen von hochgeladenen Dateien unabhängig von Groß-/Kleinschreibung
+    - Stufe für PHP-Fehlermeldungen einstellbar
+    - Spamschutz mit Wartezeit zwischen dem Erstellen von neuen Beiträgen
+    - Zeitlich begrenztes Bearbeiten von neu erstellten Beiträgen möglich
+    - Dokumentation aktualisiert
+    - Datenschutzmodi für differenziertes bis kein Speichern von IP-Adressen
+    - Testfunktion für die Templateinstallation im ACP hinzugefügt
+    - Bessere Nutzung der Smarty-API
+    - Überspringen von Bestätigungsmeldungen wie im TBB2 möglich
+    - Weitere Nebenläufigkeitsprobleme (z.B. Besucherrekord zurück auf 0) mit separaten Sperrdateien behoben
+    - Datumsanzeige wahlweise als Text mit "Gestern" und "Heute"
+    - Optionale Anzeige des letzten Bearbeiters eines Beitrags
+    - Ausgewählte Optionen beim Erstellen einer neuen PN gehen im Fehlerfall nicht mehr verloren
+    - Postausgang für private Nachrichten
+    - Fehlende SID bei "Alle Foren als gelesen markieren"-Link nachgetragen
+    - Smarty auf Version 3.1.4 aktualisiert
+    - Komplett neue Ajax-basierte Verwaltung der Steam-Spiele und -Errungenschaften
+    - Steam-Errungenschaften eines Benutzers werden gecachet und daher schneller angezeigt
+    - Speicherort- und mögliche Enkodierungsprobleme von gecacheten Steam-Spielen behoben
+    - Sprungmarken für letzte, neueste und heutige Beiträge hinzugefügt
+    - Automatische Berechnung der Sommerzeit; kein Wechsel der Zeitzone mehr nötig
+    - Präzisere Berechnung der Beiträge pro Tag in der Profilansicht
+    - Boterkennung in der WIO-Liste korrigiert
+    - Anzeige von User-Agents als Tooltip in der WIO-Liste für Admins
 
 19.05.2011: Version 1.5.5 (offiziell)
-	- Smarty auf Version 3.0.7 aktualisiert
-	- Automatisches Hinzufügen von [url]-BBCode kompatibel mit BBCode in Großbuchstaben
-	- Kodierung von Monatsnamen in der Profilansicht korrigiert
-	- Unbekannte Modi von öffentlichen Modulen werden abgefangen und geloggt
-	- 1.5.3-spezifischer Fehler beim automatischen Hinzufügen von [url]-BBCode behoben
-	- Maskierung von XHTML-Sonderzeichen in der Logdatei-Ansicht
-	- Zurücksetzen der BBCode-Auswahllisten nach Benutzung
-	- Spezialrechtüberprüfung für Beitrag bearbeiten in der Themenansicht ergänzt
-	- Behandlung von ungültigen Zeichen im Forumnamen beim Versand von E-Mails
-	- "Profil anzeigen"-Link nach Bearbeitung des eigenen Profils hinzugefügt
-	- Suche nach neuen Forumversionen via tritanium-scripts.com und ggf. Anzeige von Neuigkeiten
-	- Löschen von Benutzerrängen nur möglich wenn mindestens einer übrig bleibt
-	- Cache-Problem bei nicht vorhandenen Smileys behoben
-	- Hinweis in der Smiley-Tabelle im FAQ wenn gar keine Smileys vorhanden sind
+    - Smarty auf Version 3.0.7 aktualisiert
+    - Automatisches Hinzufügen von [url]-BBCode kompatibel mit BBCode in Großbuchstaben
+    - Kodierung von Monatsnamen in der Profilansicht korrigiert
+    - Unbekannte Modi von öffentlichen Modulen werden abgefangen und geloggt
+    - 1.5.3-spezifischer Fehler beim automatischen Hinzufügen von [url]-BBCode behoben
+    - Maskierung von XHTML-Sonderzeichen in der Logdatei-Ansicht
+    - Zurücksetzen der BBCode-Auswahllisten nach Benutzung
+    - Spezialrechtüberprüfung für Beitrag bearbeiten in der Themenansicht ergänzt
+    - Behandlung von ungültigen Zeichen im Forumnamen beim Versand von E-Mails
+    - "Profil anzeigen"-Link nach Bearbeitung des eigenen Profils hinzugefügt
+    - Suche nach neuen Forumversionen via tritanium-scripts.com und ggf. Anzeige von Neuigkeiten
+    - Löschen von Benutzerrängen nur möglich wenn mindestens einer übrig bleibt
+    - Cache-Problem bei nicht vorhandenen Smileys behoben
+    - Hinweis in der Smiley-Tabelle im FAQ wenn gar keine Smileys vorhanden sind
 
 10.02.2011: Version 1.5.4 (offiziell)
-	- Logging-Funktion arbeitet sicherer
-	- Fehler bei der internen Erfassung von freigeschalteten Benutzerkonten zu verschiedenen Anlässen behoben
-	- Fehler beim Cachen von Steam-Spielen mit bestimmten Zeichen im Namen behoben
-	- Datenstrukturfehler bei Aktualisierung der Themenansichten behoben
-	- Loggen von Exceptions (z.B. von Smarty)
+    - Logging-Funktion arbeitet sicherer
+    - Fehler bei der internen Erfassung von freigeschalteten Benutzerkonten zu verschiedenen Anlässen behoben
+    - Fehler beim Cachen von Steam-Spielen mit bestimmten Zeichen im Namen behoben
+    - Datenstrukturfehler bei Aktualisierung der Themenansichten behoben
+    - Loggen von Exceptions (z.B. von Smarty)
 
 20.01.2011: Version 1.5.3 (offiziell)
-	- Bestimmte ISO-8859-15 Zeichen (u.a. €) werden als Entitäten konvertiert, so dass sie als ISO-8859-1 gespeichert werden können
-	- Aktualisierung des Caches beim Verwalten von Smileys korrigiert
-	- Smarty auf Version 3.0.6 aktualisiert
-	- Animation des Hochladen-Statusbild verbessert
-	- Steam-Spiele eines Benutzers werden gecachet und daher schneller angezeigt
-	- Spam-Schutz mit drei Sekunden Wartezeit zwischen dem Schreiben von neuen Beiträgen
-	- Anzeige von ungelesen Beiträgen mit Forensymbolen verbessert
-	- Alle Foren als gelesen markieren
-	- Zusätzliche Überprüfung auf korrekte Steam-Spielenamen
-	- Nochmal Fehler beim automatischen Hinzufügen von [url]-BBCode behoben
-	- Fehlerhafter Link bei Benachrichtigungen von Themenabos behoben
-	- Copyright-Jahreszahl aktualisiert
-	- Handhabung von Logouts bei bereits ausgeloggten Benutzern verbessert
-	- error_reporting Level korrigiert
-	- Diverse Optimierungen
+    - Bestimmte ISO-8859-15 Zeichen (u.a. €) werden als Entitäten konvertiert, so dass sie als ISO-8859-1 gespeichert werden können
+    - Aktualisierung des Caches beim Verwalten von Smileys korrigiert
+    - Smarty auf Version 3.0.6 aktualisiert
+    - Animation des Hochladen-Statusbild verbessert
+    - Steam-Spiele eines Benutzers werden gecachet und daher schneller angezeigt
+    - Spam-Schutz mit drei Sekunden Wartezeit zwischen dem Schreiben von neuen Beiträgen
+    - Anzeige von ungelesen Beiträgen mit Forensymbolen verbessert
+    - Alle Foren als gelesen markieren
+    - Zusätzliche Überprüfung auf korrekte Steam-Spielenamen
+    - Nochmal Fehler beim automatischen Hinzufügen von [url]-BBCode behoben
+    - Fehlerhafter Link bei Benachrichtigungen von Themenabos behoben
+    - Copyright-Jahreszahl aktualisiert
+    - Handhabung von Logouts bei bereits ausgeloggten Benutzern verbessert
+    - error_reporting Level korrigiert
+    - Diverse Optimierungen
 
 24.11.2010: Version 1.5.2 (offiziell)
-	- Fehler beim Verlinken von Adressen, die kein http-Protokoll verwenden, behoben
-	- Dokumentation aktualisiert
-	- Indikator für angegebene Steam-Errungenschaften in der Themenansicht arbeitet eindeutiger
-	- Schutz vor Auflistung der Inhalte im uploads-Ordners auf PHP umgestellt
-	- Kleinere Entitätsprobleme behoben
-	- Wartungsfunktion zur Neuerstellung des Themenindex im ACP hinzugefügt
-	- Marginaler Fehler während des Einloggens behoben
-	- Weitere BBCode-Beispiele im FAQ
-	- Hochladen von Dateien mit Statusbild
-	- Smarty auf Version 3.0.5 aktualisiert
-	- WIO-Box-Farbe für Verbannte in Grau geändert
-	- Boterkennung in der WIO-Liste erweitert
-	- Mein Profil bietet Bearbeitung von Steam-Errungenschaften nur an wenn diese aktiviert sind
-	- Fehler beim Versand von Formular-E-Mails bzgl. Absendername behoben
+    - Fehler beim Verlinken von Adressen, die kein http-Protokoll verwenden, behoben
+    - Dokumentation aktualisiert
+    - Indikator für angegebene Steam-Errungenschaften in der Themenansicht arbeitet eindeutiger
+    - Schutz vor Auflistung der Inhalte im uploads-Ordners auf PHP umgestellt
+    - Kleinere Entitätsprobleme behoben
+    - Wartungsfunktion zur Neuerstellung des Themenindex im ACP hinzugefügt
+    - Marginaler Fehler während des Einloggens behoben
+    - Weitere BBCode-Beispiele im FAQ
+    - Hochladen von Dateien mit Statusbild
+    - Smarty auf Version 3.0.5 aktualisiert
+    - WIO-Box-Farbe für Verbannte in Grau geändert
+    - Boterkennung in der WIO-Liste erweitert
+    - Mein Profil bietet Bearbeitung von Steam-Errungenschaften nur an wenn diese aktiviert sind
+    - Fehler beim Versand von Formular-E-Mails bzgl. Absendername behoben
 
 06.10.2010: Version 1.5.1 (offiziell)
-	- Fehler beim automatischen Hinzufügen von [url]-BBCode behoben
-	- Fehler mit beim Auslesen von Templateeinstellungen mit mehreren conf-Dateien behoben
-	- Nicht lokalisierter String in den Suchergebnissen übersetzt
-	- Fehler beim Zitieren von gelöschten Benutzern behoben
-	- Fehler beim Verwalten der Empfänger-ID beim Versenden von PNs mit leeren Betreff behoben
-	- Fehler bei [php]-BBCode behoben
-	- Fehler bei [lock]-BBCode in Verbindung mit vorhandener Forumnews behoben
-	- Nutzung eines nicht vorhandenen Styles wird nun abgefangen und stattdessen der Standard geladen
-	- Sprachstrings überarbeitet, korrigiert und ergänzt
-	- Forumversionsnummer für Templates und Sprachpakete eingeführt zwecks Mindestvoraussetzungen
-	- Neuer Abschnitt über Systeminformationen in der Administration
-	- Anzeige von Steam-Errungenschaften mit Datum des Freischaltens (wenn bekannt/vorhanden)
-	- Steam-Errungenschaften aus Alien Swarm werden nun angezeigt
-	- Indikator für angegebene Steam-Errungenschaften in der Themenansicht
-	- Smarty auf Version 3.0 RC4 aktualisiert
-	- Anzeige von ungelesen Beiträgen mit Foren- und Themensymbolen korrigiert
-	- Themenansicht mit Links zu Beiträgen zum Kopieren
-	- Heutige Beiträge listen nun Beiträge aus privaten Foren, sofern Berechtigung vorhanden ist
+    - Fehler beim automatischen Hinzufügen von [url]-BBCode behoben
+    - Fehler mit beim Auslesen von Templateeinstellungen mit mehreren conf-Dateien behoben
+    - Nicht lokalisierter String in den Suchergebnissen übersetzt
+    - Fehler beim Zitieren von gelöschten Benutzern behoben
+    - Fehler beim Verwalten der Empfänger-ID beim Versenden von PNs mit leeren Betreff behoben
+    - Fehler bei [php]-BBCode behoben
+    - Fehler bei [lock]-BBCode in Verbindung mit vorhandener Forumnews behoben
+    - Nutzung eines nicht vorhandenen Styles wird nun abgefangen und stattdessen der Standard geladen
+    - Sprachstrings überarbeitet, korrigiert und ergänzt
+    - Forumversionsnummer für Templates und Sprachpakete eingeführt zwecks Mindestvoraussetzungen
+    - Neuer Abschnitt über Systeminformationen in der Administration
+    - Anzeige von Steam-Errungenschaften mit Datum des Freischaltens (wenn bekannt/vorhanden)
+    - Steam-Errungenschaften aus Alien Swarm werden nun angezeigt
+    - Indikator für angegebene Steam-Errungenschaften in der Themenansicht
+    - Smarty auf Version 3.0 RC4 aktualisiert
+    - Anzeige von ungelesen Beiträgen mit Foren- und Themensymbolen korrigiert
+    - Themenansicht mit Links zu Beiträgen zum Kopieren
+    - Heutige Beiträge listen nun Beiträge aus privaten Foren, sofern Berechtigung vorhanden ist
 
 28.08.2010: Version 1.5 (offiziell)
-	- Alle Features des TBB 1.2.3 übernommen
-	- Komplett neuer technischer Unterbau in PHP 5.1 (= Mindestvoraussetzung) oder höher
-	- Komplett valides XHTML 1.0 transitional
-	- Code komplett mit phpDoc dokumentiert
-	- PHP 6 kompatibel
-	- Design als Template ausgelagert mit Smarty 3.0 als Engine
-	- Leichte Anpassungen am Design an heutige Forenstandards
-	- Abwärtskompatibel mit TBB 1.2.3 CSS-Dateien
-	- Schreibt Daten nicht mehr im Zeichensatz des Benutzers
-	- UTF-8 fähig, schreibt aber intern zwecks Ab- und Aufwärtskompatiblität in ISO-8859-1
-	- Nutzt Multibyte für UTF-8, wenn möglich
-	- Abwärtskompatibel mit TBB 1.2.3 Daten (Foren, Themen, Umfragen, Mitgliedern, Logs, Einstellungen, News usw.)
-	- Cache-Funktionalität teils persistent
-	- Automatische Spracherkennung und -auswahl
-	- Aufwärtskompatibel für TBB 2.0 oder höher
-	- Rang für Supermoderatoren
-	- Neue Sterne bei Rangbilder
-	- Admin- & (Super-)Moderatoren-Smileys
-	- Neues Format für Übersetzungen auf Basis von INI-Dateien (nicht abwärtskompatibel)
-	- Upload-Funktion für Dateien mit automatischer Verlinkung im Beitrag
-	- Kontakt-Mail-Adresse(n) verschlüsselt mit JavaScript
-	- Newsfader (Newstyp "2") nicht mehr IE-only
-	- Optionaler Clickjacking-Schutz für IE 8.0, Safari und Chrome
-	- Speichernutzung in technischen Statistiken
-	- Alle Größenangaben in Bytes gemäß IEC 60027-2 Norm
-	- WIO mit mehr Details zu Position und Zeit des letzten Klicks
-	- WIO unterscheidet zwischen Bots und Gästen
-	- Anzeige von Geistern in WIO und WWO für Admins
-	- Anzahl von Geistern in WIO-Box in der Forenübersicht
-	- Einstellbare, farbige Hervorhebung von Admins, (S-)Mods, Nutzer und Verbannten in WIO-Box
-	- Credits nicht mehr IE-only
-	- WWO-Box mit Rekordanzeige unter der WIO-Box
-	- Datum von letzten Beiträgen als fett bei bestimmten Alter
-	- Keine Cookie-Probleme mehr unter PHP 5
-	- SID-Parameter in URL komplett optional
-	- Hinweis-Link bei verschobenen Themen
-	- Themen als wichtig anpinnen
-	- Registrierungsdaten exakt, nicht mehr Monats-weise
-	- Verwendung von getimagesize() ist nun schneller
-	- Abwärtskompatibel mit vielen "Hacks" für das TBB 1.2.3
-	- Wesentlich mehr BBCode inkl. Liste, Spoiler, erst-antworten-dann-Text, PHP-Code, Farbe, Größe und Flash
-	- Kein separates Login für Admins im Wartungsmodus mehr nötig
-	- Vorhandene Passwörter bleiben weiterhin gültig, bis man ein neues, angefordertes Passwort auch benutzt hat
-	- Hashes von Passwörtern basieren nun auf SHA-512, wenn vom System unterstützt, ansonsten DES zwecks Abwärtskompatiblität
-	- Aktuelle Uhrzeit wird im eingeloggten Zustand über der Werkzeugleiste angezeigt
-	- Mitgliederliste lässt sich nun ab- und aufsteigend für alle Kritieren sortieren
-	- Mitglieder pro Seite in der Mitgliederliste einstellbar
-	- Mitgliederliste mit Sortierung nach ID weniger speicherintensiv
-	- Unterstützung zur Präsentation von Errungenschaften aus Steam-Spielen
-	- Angabe von Steam-Spielen mit Errungenschaften im eigenen Profil
-	- Profilansicht mit PN-Link, "Suche alles von"-Links, vCard-Download und Errungenschafts-Listen von Steam-Spielen
-	- Profilansicht mit Details zu Anmeldedatum, vor x Wochen registriert, durchschnittliche Beiträge pro Tag, letzter Aktivität und Gruppe
-	- Zusätzliche Erklärungen zu den E-Mail-Einstellungen im eigenen Profil
-	- Automatische Generierung von Metatags zu Keywords und Description
-	- Fehlermeldungen vereinheitlicht in separaten Boxen
-	- Vergabe von eigenen Spezialrängen, die normale Ränge überschreiben
-	- Senden von leeren E-Mails per Formular mit Bestätigung
-	- Registrierung überprüft nun auch auf bereits vorhandene E-Mail-Adressen
-	- Registrierungen können zusätzlich eine Freischaltung durch Gültigkeitsprüfung der E-Mail-Adresse durch versenden eines Aktivierungscode erfordern
-	- FAQ mit Übersicht zu vorhandenen Rängen und mehr Beispielen zu BBCode
-	- Postfach mit "Alle markieren"-Funktion
-	- PNs beantworten mit automatischem Zitat
-	- Erinnerung alle x Minuten für neue PNs
-	- Checkboxen auch per Beschriftung anklickbar
-	- Anzahl letzter Beiträge beliebig einstellbar
-	- Ausgewählte Beitragsgrafik bleibt nach Vorschau selektiert
-	- Anzeige der neuesten Beiträge mit Beitragsgrafik
-	- Umfragen mit unbegrenzten Antwortmöglichkeiten, keine Vorauswahlseite mehr nötig
-	- Hinzufügen und Löschen von Antwortmöglichkeiten "on-the-fly" wie im TBB 2.0
-	- Automatisches entfernen von SID-Parametern bei jedem neuen Beitrag
-	- URLs in Beiträgen können automatisch mit [url]-BBCode versehen werden
-	- Sperren von IP-Adressen für das gesamte Forum von Beiträgen aus funktioniert nun
-	- Sperren von IP-Adressen von Beiträgen aus mit Rückmeldung
-	- Kein "Mehr Smileys"-Fenster mehr notwendig
-	- Thementitel und Beitragsgrafik können nun auch mit Beitrag bearbeiten geändert werden
-	- Verschieben von Themen mit optionalen Verweis im alten Forum zur Position im neuen Forum
-	- Letzter Beitrag eine verschobenen Themas kann als neuster Beitrag des Zielforum eingestellt werden
-	- Links zu Beiträgen von verschobenen Themen in der Anzeige der letzten Beiträge werden auch aktualisiert
-	- Suche mit neuem Algorithmus und Beachtung der maximalen Ausführungszeit des Skripts, so dass auch größere Foren ohne Timeout durchsucht werden können
-	- Suche mit neuen Optionen UND, ODER, exakte Eingabe und Benutzer
-	- Bereits fertige Suchergebnisse werden zwischen gespeichert
-	- Suchergebnisse mit mehr Details und Beitragsansicht
-	- "Cache leeren"-Funktion im ACP
-	- Zähler von Themen, Beiträgen und Mitglieder neu berechnen lassen im ACP
-	- Verwalten von Admin- & Moderatoren-Smileys, Templates und Logdateien im ACP
-	- Zeitzonen aktualisiert
-	- Mehr Optionen zu den Forumeinstellungen im ACP
-	- Forumnews mit Unterstützung für BBCode und Smileys
-	- Mitglieder können andere Templates und Styles auswählen
-	- Angabe von maximalen Beiträgen wird für Ränge automatisch berechnet (keine 1000000 mehr als Limit)
-	- Korrekte Benennung von Smileys und IP-Adressen
-	- Versenden von Newslettern auch bei vielen Mitgliedern ohne Probleme oder Timeouts
-	- Optionale Archivierung von verschickten Newslettern
-	- Schnell antworten in der Themenansicht
-	- Übersicht heutiger Beiträge
-	- Externe Anzeige der neuesten Beiträge und WIO-Daten funktioniert nun auch mit geänderten Datenpfad (DataPath.php)
-	- Externe Anzeige der WIO-Box mit Anzahl von Geistern und funktioniert nun auch mit geänderten Datenpfad (DataPath.php)
-	- RSS Feed der neuesten Beiträge
-	- Die Datenstruktur kann nicht mehr durch Tabulatoren oder Neue Zeile-Zeichen zerstört werden
-	- Verbesserte Locking-Technik verhindert die Vergabe von gleichen IDs bei neuen Benutzern, Themen und Umfragen und falschen Mitgliederzahlen im Falle von DDoS-ähnlichen Attacken
+    - Alle Features des TBB 1.2.3 übernommen
+    - Komplett neuer technischer Unterbau in PHP 5.1 (= Mindestvoraussetzung) oder höher
+    - Komplett valides XHTML 1.0 transitional
+    - Code komplett mit phpDoc dokumentiert
+    - PHP 6 kompatibel
+    - Design als Template ausgelagert mit Smarty 3.0 als Engine
+    - Leichte Anpassungen am Design an heutige Forenstandards
+    - Abwärtskompatibel mit TBB 1.2.3 CSS-Dateien
+    - Schreibt Daten nicht mehr im Zeichensatz des Benutzers
+    - UTF-8 fähig, schreibt aber intern zwecks Ab- und Aufwärtskompatiblität in ISO-8859-1
+    - Nutzt Multibyte für UTF-8, wenn möglich
+    - Abwärtskompatibel mit TBB 1.2.3 Daten (Foren, Themen, Umfragen, Mitgliedern, Logs, Einstellungen, News usw.)
+    - Cache-Funktionalität teils persistent
+    - Automatische Spracherkennung und -auswahl
+    - Aufwärtskompatibel für TBB 2.0 oder höher
+    - Rang für Supermoderatoren
+    - Neue Sterne bei Rangbilder
+    - Admin- & (Super-)Moderatoren-Smileys
+    - Neues Format für Übersetzungen auf Basis von INI-Dateien (nicht abwärtskompatibel)
+    - Upload-Funktion für Dateien mit automatischer Verlinkung im Beitrag
+    - Kontakt-Mail-Adresse(n) verschlüsselt mit JavaScript
+    - Newsfader (Newstyp "2") nicht mehr IE-only
+    - Optionaler Clickjacking-Schutz für IE 8.0, Safari und Chrome
+    - Speichernutzung in technischen Statistiken
+    - Alle Größenangaben in Bytes gemäß IEC 60027-2 Norm
+    - WIO mit mehr Details zu Position und Zeit des letzten Klicks
+    - WIO unterscheidet zwischen Bots und Gästen
+    - Anzeige von Geistern in WIO und WWO für Admins
+    - Anzahl von Geistern in WIO-Box in der Forenübersicht
+    - Einstellbare, farbige Hervorhebung von Admins, (S-)Mods, Nutzer und Verbannten in WIO-Box
+    - Credits nicht mehr IE-only
+    - WWO-Box mit Rekordanzeige unter der WIO-Box
+    - Datum von letzten Beiträgen als fett bei bestimmten Alter
+    - Keine Cookie-Probleme mehr unter PHP 5
+    - SID-Parameter in URL komplett optional
+    - Hinweis-Link bei verschobenen Themen
+    - Themen als wichtig anpinnen
+    - Registrierungsdaten exakt, nicht mehr Monats-weise
+    - Verwendung von getimagesize() ist nun schneller
+    - Abwärtskompatibel mit vielen "Hacks" für das TBB 1.2.3
+    - Wesentlich mehr BBCode inkl. Liste, Spoiler, erst-antworten-dann-Text, PHP-Code, Farbe, Größe und Flash
+    - Kein separates Login für Admins im Wartungsmodus mehr nötig
+    - Vorhandene Passwörter bleiben weiterhin gültig, bis man ein neues, angefordertes Passwort auch benutzt hat
+    - Hashes von Passwörtern basieren nun auf SHA-512, wenn vom System unterstützt, ansonsten DES zwecks Abwärtskompatiblität
+    - Aktuelle Uhrzeit wird im eingeloggten Zustand über der Werkzeugleiste angezeigt
+    - Mitgliederliste lässt sich nun ab- und aufsteigend für alle Kritieren sortieren
+    - Mitglieder pro Seite in der Mitgliederliste einstellbar
+    - Mitgliederliste mit Sortierung nach ID weniger speicherintensiv
+    - Unterstützung zur Präsentation von Errungenschaften aus Steam-Spielen
+    - Angabe von Steam-Spielen mit Errungenschaften im eigenen Profil
+    - Profilansicht mit PN-Link, "Suche alles von"-Links, vCard-Download und Errungenschafts-Listen von Steam-Spielen
+    - Profilansicht mit Details zu Anmeldedatum, vor x Wochen registriert, durchschnittliche Beiträge pro Tag, letzter Aktivität und Gruppe
+    - Zusätzliche Erklärungen zu den E-Mail-Einstellungen im eigenen Profil
+    - Automatische Generierung von Metatags zu Keywords und Description
+    - Fehlermeldungen vereinheitlicht in separaten Boxen
+    - Vergabe von eigenen Spezialrängen, die normale Ränge überschreiben
+    - Senden von leeren E-Mails per Formular mit Bestätigung
+    - Registrierung überprüft nun auch auf bereits vorhandene E-Mail-Adressen
+    - Registrierungen können zusätzlich eine Freischaltung durch Gültigkeitsprüfung der E-Mail-Adresse durch versenden eines Aktivierungscode erfordern
+    - FAQ mit Übersicht zu vorhandenen Rängen und mehr Beispielen zu BBCode
+    - Postfach mit "Alle markieren"-Funktion
+    - PNs beantworten mit automatischem Zitat
+    - Erinnerung alle x Minuten für neue PNs
+    - Checkboxen auch per Beschriftung anklickbar
+    - Anzahl letzter Beiträge beliebig einstellbar
+    - Ausgewählte Beitragsgrafik bleibt nach Vorschau selektiert
+    - Anzeige der neuesten Beiträge mit Beitragsgrafik
+    - Umfragen mit unbegrenzten Antwortmöglichkeiten, keine Vorauswahlseite mehr nötig
+    - Hinzufügen und Löschen von Antwortmöglichkeiten "on-the-fly" wie im TBB 2.0
+    - Automatisches entfernen von SID-Parametern bei jedem neuen Beitrag
+    - URLs in Beiträgen können automatisch mit [url]-BBCode versehen werden
+    - Sperren von IP-Adressen für das gesamte Forum von Beiträgen aus funktioniert nun
+    - Sperren von IP-Adressen von Beiträgen aus mit Rückmeldung
+    - Kein "Mehr Smileys"-Fenster mehr notwendig
+    - Thementitel und Beitragsgrafik können nun auch mit Beitrag bearbeiten geändert werden
+    - Verschieben von Themen mit optionalen Verweis im alten Forum zur Position im neuen Forum
+    - Letzter Beitrag eine verschobenen Themas kann als neuster Beitrag des Zielforum eingestellt werden
+    - Links zu Beiträgen von verschobenen Themen in der Anzeige der letzten Beiträge werden auch aktualisiert
+    - Suche mit neuem Algorithmus und Beachtung der maximalen Ausführungszeit des Skripts, so dass auch größere Foren ohne Timeout durchsucht werden können
+    - Suche mit neuen Optionen UND, ODER, exakte Eingabe und Benutzer
+    - Bereits fertige Suchergebnisse werden zwischen gespeichert
+    - Suchergebnisse mit mehr Details und Beitragsansicht
+    - "Cache leeren"-Funktion im ACP
+    - Zähler von Themen, Beiträgen und Mitglieder neu berechnen lassen im ACP
+    - Verwalten von Admin- & Moderatoren-Smileys, Templates und Logdateien im ACP
+    - Zeitzonen aktualisiert
+    - Mehr Optionen zu den Forumeinstellungen im ACP
+    - Forumnews mit Unterstützung für BBCode und Smileys
+    - Mitglieder können andere Templates und Styles auswählen
+    - Angabe von maximalen Beiträgen wird für Ränge automatisch berechnet (keine 1000000 mehr als Limit)
+    - Korrekte Benennung von Smileys und IP-Adressen
+    - Versenden von Newslettern auch bei vielen Mitgliedern ohne Probleme oder Timeouts
+    - Optionale Archivierung von verschickten Newslettern
+    - Schnell antworten in der Themenansicht
+    - Übersicht heutiger Beiträge
+    - Externe Anzeige der neuesten Beiträge und WIO-Daten funktioniert nun auch mit geänderten Datenpfad (DataPath.php)
+    - Externe Anzeige der WIO-Box mit Anzahl von Geistern und funktioniert nun auch mit geänderten Datenpfad (DataPath.php)
+    - RSS Feed der neuesten Beiträge
+    - Die Datenstruktur kann nicht mehr durch Tabulatoren oder Neue Zeile-Zeichen zerstört werden
+    - Verbesserte Locking-Technik verhindert die Vergabe von gleichen IDs bei neuen Benutzern, Themen und Umfragen und falschen Mitgliederzahlen im Falle von DDoS-ähnlichen Attacken
 
 Written by Chrissyx
 (c) 2010–2023 Tritanium Scripts

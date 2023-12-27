@@ -5,242 +5,246 @@
  * @author Christoph Jahn <chris@tritanium-scripts.com>
  * @copyright Copyright (c) 2010-2023 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
- * @package TBB1.10
+ * @package TBB1
  */
 class Template
 {
-	/**
-	 * The Smarty object to work with.
-	 *
-	 * @var Smarty Smarty instance
-	 */
-	private $smarty;
+    use Singleton;
 
-	/**
-	 * Directory of used template.
-	 *
-	 * @var string Template folder
-	 */
-	private $tplDir;
+    /**
+     * The Smarty object to work with.
+     *
+     * @var Smarty Smarty instance
+     */
+    private $smarty;
 
-	/**
-	 * Sets up Smarty instance, loads configuration values and assigns default vars.
-	 *
-	 * @return Template New instance of this class
-	 */
-	function __construct()
-	{
-		$this->smarty = new Smarty();
-		//Settings
-		$this->smarty->setErrorUnassigned(error_reporting() == E_ALL);
-		$this->smarty->setCacheDir('cache/')
-			->setCompileDir('cache/');
-		$this->tplDir = 'templates/' . (Main::getModule('Config')->getCfgVal('select_tpls') == 1 ? Main::getModule('Auth')->getUserTpl() : Main::getModule('Config')->getCfgVal('default_tpl')) . '/';
-		$this->smarty->setTemplateDir($this->tplDir . 'templates/')
-			->setConfigDir($this->tplDir . 'config/')
-			->setCompileId($this->tplDir);
-		//Load config(s)
-		foreach(glob($this->tplDir . 'config/*.conf') as $curConfig)
-			$this->smarty->configLoad($curConfig);
-		$this->smarty->setDebugging($this->smarty->getConfigVars('debug'));
-		//Assign defaults
-		$this->smarty->assignByRef('modules', Main::getModules())
-			->assignByRef('smartyTime', $this->smarty->start_time);
-	}
+    /**
+     * Directory of used template.
+     *
+     * @var string Template folder
+     */
+    private string $tplDir;
 
-	/**
-	 * Assigns value(s) to Smarty.
-	 *
-	 * @param mixed $tplVar Name of value or array with name+value pairs
-	 * @param mixed $value Value for single var
-	 */
-	public function assign($tplVar, $value=null)
-	{
-		$this->smarty->assign($tplVar, $value);
-	}
+    /**
+     * Sets up Smarty instance, loads configuration values and assigns default vars.
+     *
+     * @return Template New instance of this class
+     */
+    function __construct()
+    {
+        $this->smarty = new Smarty();
+        //Settings
+        $this->smarty->setErrorUnassigned(error_reporting() == E_ALL);
+        $this->smarty->setCacheDir('cache/')
+            ->setCompileDir('cache/');
+        $this->tplDir = 'templates/' . (Config::getInstance()->getCfgVal('select_tpls') == 1 ? Auth::getInstance()->getUserTpl() : Config::getInstance()->getCfgVal('default_tpl')) . '/';
+        $this->smarty->setTemplateDir($this->tplDir . 'templates/')
+            ->setConfigDir($this->tplDir . 'config/')
+            //TODO replace registerPlugins with wildcard extension having Smarty 5
+            ->registerPlugin('modifier', 'in_array', 'in_array')
+            ->registerPlugin('modifier', 'implode', 'implode')
+            ->registerPlugin('modifier', 'rtrim', 'rtrim')
+            ->setCompileId($this->tplDir);
+        //Load config(s)
+        foreach(glob($this->tplDir . 'config/*.conf') as $curConfig)
+            $this->smarty->configLoad($curConfig);
+        $this->smarty->setDebugging($this->smarty->getConfigVars('debug'));
+        //Assign defaults
+        $this->smarty->assignByRef('smartyTime', $this->smarty->start_time);
+    }
 
-	/**
-	 * Clears the entire Smarty cache.
-	 *
-	 * @return int Amount of deleted files
-	 */
-	public function clearCache()
-	{
-		return $this->smarty->clearAllCache();
-	}
+    /**
+     * Assigns value(s) to Smarty.
+     *
+     * @param mixed $tplVar Name of value or array with name+value pairs
+     * @param mixed $value Value for single var
+     */
+    public function assign($tplVar, $value=null): void
+    {
+        $this->smarty->assign($tplVar, $value);
+    }
 
-	/**
-	 * Displays a template file and assigns prior optional values to it.
-	 *
-	 * @param string $tplName Name of template file
-	 * @param mixed $tplVar Name of single value or array with name+value pairs
-	 * @param mixed $value Value for single var
-	 */
-	public function display($tplName, $tplVar=null, $value=null)
-	{
-		if(!empty($tplVar))
-			$this->assign($tplVar, $value);
-		$this->smarty->display($tplName . '.tpl');
-	}
+    /**
+     * Clears the entire Smarty cache.
+     *
+     * @return int Amount of deleted files
+     */
+    public function clearCache(): int
+    {
+        return $this->smarty->clearAllCache();
+    }
 
-	/**
-	 * Returns fetched contents (with assigned data) of a template file.
-	 *
-	 * @param string $tplName Name of template file
-	 * @param mixed $tplVar Name of single value or array with name+value pairs
-	 * @param mixed $value Value for single var
-	 * @return string Rendered template output
-	 */
-	public function fetch($tplName, $tplVar=null, $value=null)
-	{
-		if(!empty($tplVar))
-			$this->assign($tplVar, $value);
-		return $this->smarty->fetch($tplName . '.tpl');
-	}
+    /**
+     * Displays a template file and assigns prior optional values to it.
+     *
+     * @param string $tplName Name of template file
+     * @param mixed $tplVar Name of single value or array with name+value pairs
+     * @param mixed $value Value for single var
+     */
+    public function display(string $tplName, $tplVar=null, $value=null): void
+    {
+        if(!empty($tplVar))
+            $this->assign($tplVar, $value);
+        $this->smarty->display($tplName . '.tpl');
+    }
 
-	/**
-	 * Returns available templates with their styles.
-	 *
-	 * @return array Available templates with config values and styles
-	 */
-	public function getAvailableTpls()
-	{
-		$templates = array();
-		//Get all templates
-		foreach(glob('templates/*') as $curTemplate)
-		{
-			$curTemplateName = basename($curTemplate);
-			//Get all config files from each template and parse their contents
-			foreach(@array_map('parse_ini_file', glob($curTemplate . '/config/*.conf')) as $curConfigFile)
-			{
-				if(isset($curConfigFile['templateName']))
-					$templates[$curTemplateName]['name'] = $curConfigFile['templateName'];
-				if(isset($curConfigFile['authorName']))
-					$templates[$curTemplateName]['author'] = $curConfigFile['authorName'];
-				if(isset($curConfigFile['authorURL']))
-					$templates[$curTemplateName]['website'] = $curConfigFile['authorURL'];
-				if(isset($curConfigFile['authorComment']))
-					$templates[$curTemplateName]['comment'] = $curConfigFile['authorComment'];
-				if(isset($curConfigFile['defaultStyle']))
-					$templates[$curTemplateName]['style'] = $curConfigFile['defaultStyle'];
-				if(isset($curConfigFile['targetVersion']))
-					$templates[$curTemplateName]['target'] = $curConfigFile['targetVersion'];
-				//Get all styles from each template
-				if(!isset($templates[$curTemplateName]['styles']))
-					$templates[$curTemplateName]['styles'] = array_map('basename', glob($curTemplate . '/styles/*.css'));
-			}
-			if(!isset($templates[$curTemplateName]['target']))
-				$templates[$curTemplateName]['target'] = '1.5.0.0';
-			else
-				//Provide proper version number with all 4 parts (major.minor.patch.build)
-				while(Functions::substr_count($templates[$curTemplateName]['target'], '.') < 3)
-					$templates[$curTemplateName]['target'] .= '.0';
-		}
-		return $templates;
-	}
+    /**
+     * Returns fetched contents (with assigned data) of a template file.
+     *
+     * @param string $tplName Name of template file
+     * @param mixed $tplVar Name of single value or array with name+value pairs
+     * @param mixed $value Value for single var
+     * @return string Rendered template output
+     */
+    public function fetch(string $tplName, $tplVar=null, $value=null): string
+    {
+        if(!empty($tplVar))
+            $this->assign($tplVar, $value);
+        return $this->smarty->fetch($tplName . '.tpl');
+    }
 
-	/**
-	 * Returns configuration values from template config file(s).
-	 *
-	 * @return array All found and loaded config values
-	 */
-	public function getTplCfg()
-	{
-		return $this->smarty->getConfigVars();
-	}
+    /**
+     * Returns available templates with their styles.
+     *
+     * @return array Available templates with config values and styles
+     */
+    public function getAvailableTpls(): array
+    {
+        $templates = [];
+        //Get all templates
+        foreach(glob('templates/*') as $curTemplate)
+        {
+            $curTemplateName = basename($curTemplate);
+            //Get all config files from each template and parse their contents
+            foreach(@array_map('parse_ini_file', glob($curTemplate . '/config/*.conf')) as $curConfigFile)
+            {
+                if(isset($curConfigFile['templateName']))
+                    $templates[$curTemplateName]['name'] = $curConfigFile['templateName'];
+                if(isset($curConfigFile['authorName']))
+                    $templates[$curTemplateName]['author'] = $curConfigFile['authorName'];
+                if(isset($curConfigFile['authorURL']))
+                    $templates[$curTemplateName]['website'] = $curConfigFile['authorURL'];
+                if(isset($curConfigFile['authorComment']))
+                    $templates[$curTemplateName]['comment'] = $curConfigFile['authorComment'];
+                if(isset($curConfigFile['defaultStyle']))
+                    $templates[$curTemplateName]['style'] = $curConfigFile['defaultStyle'];
+                if(isset($curConfigFile['targetVersion']))
+                    $templates[$curTemplateName]['target'] = $curConfigFile['targetVersion'];
+                //Get all styles from each template
+                if(!isset($templates[$curTemplateName]['styles']))
+                    $templates[$curTemplateName]['styles'] = array_map('basename', glob($curTemplate . '/styles/*.css'));
+            }
+            if(!isset($templates[$curTemplateName]['target']))
+                $templates[$curTemplateName]['target'] = '1.5.0.0';
+            else
+                //Provide proper version number with all 4 parts (major.minor.patch.build)
+                while(Functions::substr_count($templates[$curTemplateName]['target'], '.') < 3)
+                    $templates[$curTemplateName]['target'] .= '.0';
+        }
+        return $templates;
+    }
 
-	/**
-	 * Returns used template directory.
-	 *
-	 * @return string Used template folder
-	 */
-	public function getTplDir()
-	{
-		return $this->tplDir;
-	}
+    /**
+     * Returns configuration values from template config file(s).
+     *
+     * @return array All found and loaded config values
+     */
+    public function getTplCfg(): array
+    {
+        return $this->smarty->getConfigVars();
+    }
 
-	/**
-	 * Prints the head of a page.
-	 */
-	public function printHeader()
-	{
-		//Clickjacking protection
-		if(Main::getModule('Config')->getCfgVal('clickjacking') == 1)
-			header('X-FRAME-OPTIONS: SAMEORIGIN');
-		//Announce amount of *now* unread pms to template, just before printing out any of them
-		$this->display('PageHeader', array('unreadPMs' => Main::getModule('PrivateMessage')->getUnreadPMs(),
-			//Not using $smarty.now because of GMT and DST stuff
-			'currentTime' => gmstrftime(Main::getModule('Language')->getString('TIMEFORMAT'), Functions::getTimestamp(gmdate('YmdHis')))));
-	}
+    /**
+     * Returns used template directory.
+     *
+     * @return string Used template folder
+     */
+    public function getTplDir(): string
+    {
+        return $this->tplDir;
+    }
 
-	/**
-	 * Prints a full page message and exits program execution.
-	 *
-	 * @param string $msgIndex Identifier part of message title and text
-	 * @param mixed $args,... Optional arguments to be replaced in message text
-	 */
-	public function printMessage($msgIndex, $args=null)
-	{
-		$this->assign('subAction', 'Message');
-		//Update NavBar + WIO
-		Main::getModule('NavBar')->addElement(Main::getModule('Language')->getString('title_' . $msgIndex, 'Messages'));
-		Main::getModule('WhoIsOnline')->setLocation('Message');
-		//Print message
-		$this->printHeader();
-		$temp = func_get_args();
-		$this->display('Message', array('action' => 'Message',
-			'msgTitle' => Main::getModule('Language')->getString('title_' . $msgIndex),
-			'msgText' => vsprintf(Main::getModule('Language')->getString('text_' . $msgIndex), array_splice($temp, 1))));
-		exit($this->printTail());
-	}
+    /**
+     * Prints the head of a page.
+     */
+    public function printHeader(): void
+    {
+        //Clickjacking protection
+        if(Config::getInstance()->getCfgVal('clickjacking') == 1)
+            header('X-FRAME-OPTIONS: SAMEORIGIN');
+        //Announce amount of *now* unread pms to template, just before printing out any of them
+        $this->display('PageHeader', ['unreadPMs' => PrivateMessage::getInstance()->getUnreadPMs(),
+            //Not using $smarty.now because of GMT and DST stuff
+            'currentTime' => gmstrftime(Language::getInstance()->getString('TIMEFORMAT'), Functions::getTimestamp(gmdate('YmdHis')))]);
+    }
 
-	/**
-	 * Prints a full page with provided template file, optional values to assign before, additional WIO location and exits program execution.
-	 *
-	 * @param string $tplName Name of template file
-	 * @param mixed $tplVar Name of single value or array with name+value pairs
-	 * @param mixed $value Value for single var
-	 * @param string $addToWIOLoc Additional value to append to WIO location
-	 */
-	public function printPage($tplName, $tplVar=null, $value=null, $addToWIOLoc=null)
-	{
-		if(!empty($tplVar))
-			$this->assign($tplVar, $value);
-		$this->assign('subAction', $tplName);
-		Main::getModule('WhoIsOnline')->setLocation($tplName . $addToWIOLoc);
-		$this->printHeader();
-		$this->display($tplName);
-		exit($this->printTail());
-	}
+    /**
+     * Prints a full page message and exits program execution.
+     *
+     * @param string $msgIndex Identifier part of message title and text
+     * @param mixed $args,... Optional arguments to be replaced in message text
+     */
+    public function printMessage(string $msgIndex, mixed ...$args): void
+    {
+        $this->assign('subAction', 'Message');
+        //Update NavBar + WIO
+        NavBar::getInstance()->addElement(Language::getInstance()->getString('title_' . $msgIndex, 'Messages'));
+        WhoIsOnline::getInstance()->setLocation('Message');
+        //Print message
+        $this->printHeader();
+        $this->display('Message', ['action' => 'Message',
+            'msgTitle' => Language::getInstance()->getString('title_' . $msgIndex),
+            'msgText' => vsprintf(Language::getInstance()->getString('text_' . $msgIndex), $args)]);
+        exit($this->printTail());
+    }
 
-	/**
-	 * Prints the tail of a page.
-	 */
-	public function printTail()
-	{
-		$privacyPolicyLink = $this->smarty->getTemplateVars('privacyPolicyLink');
-		if(!isset($privacyPolicyLink))
-		{
-			$privacyPolicyLink = Main::getModule('Config')->getCfgVal('privacy_policy_link');
-			if($privacyPolicyLink == '?faction=gdpr')
-				$privacyPolicyLink = INDEXFILE . $privacyPolicyLink . SID_AMPER;
-			$this->assign('privacyPolicyLink', $privacyPolicyLink);
-		}
-		$this->display('PageTail', array('creationTime' => microtime(true)-SCRIPTSTART,
-			'processedFiles' => Functions::getFileCounter(),
-			'memoryUsage' => memory_get_usage()/1024));
-	}
+    /**
+     * Prints a full page with provided template file, optional values to assign before, additional WIO location and exits program execution.
+     *
+     * @param string $tplName Name of template file
+     * @param mixed $tplVar Name of single value or array with name+value pairs
+     * @param mixed $value Value for single var
+     * @param string $addToWIOLoc Additional value to append to WIO location
+     */
+    public function printPage(string $tplName, $tplVar=null, $value=null, ?string $addToWIOLoc=null): void
+    {
+        if(!empty($tplVar))
+            $this->assign($tplVar, $value);
+        $this->assign('subAction', $tplName);
+        WhoIsOnline::getInstance()->setLocation($tplName . $addToWIOLoc);
+        $this->printHeader();
+        $this->display($tplName);
+        exit($this->printTail());
+    }
 
-	/**
-	 * Tests template engine installation and returns found errors.
-	 *
-	 * @return array Reported errors during test run
-	 */
-	public function testTplInstallation()
-	{
-		$errors = array();
-		$this->smarty->testInstall($errors);
-		return $errors;
-	}
+    /**
+     * Prints the tail of a page.
+     */
+    public function printTail(): void
+    {
+        $privacyPolicyLink = $this->smarty->getTemplateVars('privacyPolicyLink');
+        if(!isset($privacyPolicyLink))
+        {
+            $privacyPolicyLink = Config::getInstance()->getCfgVal('privacy_policy_link');
+            if($privacyPolicyLink == '?faction=gdpr')
+                $privacyPolicyLink = INDEXFILE . $privacyPolicyLink . SID_AMPER;
+            $this->assign('privacyPolicyLink', $privacyPolicyLink);
+        }
+        $this->display('PageTail', ['creationTime' => microtime(true)-SCRIPTSTART,
+            'processedFiles' => Functions::getFileCounter(),
+            'memoryUsage' => memory_get_usage()/1024]);
+    }
+
+    /**
+     * Tests template engine installation and returns found errors.
+     *
+     * @return array Reported errors during test run
+     */
+    public function testTplInstallation(): array
+    {
+        $errors = [];
+        $this->smarty->testInstall($errors);
+        return $errors;
+    }
 }
 ?>

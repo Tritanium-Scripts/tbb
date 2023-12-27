@@ -74,12 +74,12 @@
 
 
 
-*}<?xml version="1.0" encoding="{$modules.Language->getString('html_encoding')}" standalone="no" ?>
+*}<?xml version="1.0" encoding="{Language::getInstance()->getString('html_encoding')}" standalone="no" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" dir="{$modules.Language->getString('html_direction')}" lang="{$modules.Language->getLangCode()}" xml:lang="{$modules.Language->getLangCode()}">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="{Language::getInstance()->getString('html_direction')}" lang="{Language::getInstance()->getLangCode()}" xml:lang="{Language::getInstance()->getLangCode()}">
  <head>
-  <meta http-equiv="Content-Type" content="application/xhtml+xml; charset={$modules.Language->getString('html_encoding')}" />
-  <meta http-equiv="Content-Language" content="{$modules.Language->getLangCode()}" />
+  <meta http-equiv="Content-Type" content="application/xhtml+xml; charset={Language::getInstance()->getString('html_encoding')}" />
+  <meta http-equiv="Content-Language" content="{Language::getInstance()->getLangCode()}" />
   <meta http-equiv="Content-Script-Type" content="text/javascript" />
   <meta http-equiv="Content-Style-Type" content="text/css" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -87,8 +87,8 @@
   <meta name="copyright" content="&copy; 2010&ndash;{$smarty.const.COPYRIGHT_YEAR} Tritanium Scripts" />
   <meta name="generator" content="Notepad 4.10.1998" />
   <meta name="robots" content="all" />
-  <link href="{$modules.Template->getTplDir()}images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-  <script src="{$modules.Template->getTplDir()}scripts/scripts.js" type="text/javascript"></script>
+  <link href="{Template::getInstance()->getTplDir()}images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+  <script src="{Template::getInstance()->getTplDir()}scripts/scripts.js" type="text/javascript"></script>
   <style type="text/css">
    a:link
    {
@@ -139,7 +139,7 @@
     width:100%;
    }
   </style>
-  <title>{$modules.Language->getString('credits')}</title>
+  <title>{Language::getInstance()->getString('credits')}</title>
  </head>
  <body onload="next();">
   <!-- Credits -->

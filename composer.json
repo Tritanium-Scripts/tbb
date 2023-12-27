@@ -15,7 +15,7 @@
             "role": "Founder"
         },
         {
-            "name": "Chrissyx",
+            "name": "Chris",
             "email": "chris@tritanium-scripts.com",
             "homepage": "https://www.chrissyx.com",
             "role": "Developer"
@@ -30,18 +30,18 @@
     },
     "require": {
         "oomphinc/composer-installers-extender": "2.*",
-        "php": ">=5.3",
-        "smarty/smarty": "3.1.*"
+        "php": ">=7.4",
+        "smarty/smarty": "4.3.*"
     },
     "suggest": {
         "ext-curl": "Proper fetching of Steam achievements",
         "ext-dom": "Loading of fetched Steam achievements",
-        "ext-hash": "Better hashing for PHP <7.4",
         "ext-json": "Needed for PHP <8.0",
         "ext-mbstring": "Multibyte string extension for proper Unicode usage"
     },
     "autoload": {
-        "classmap": ["modules/"]
+        "classmap": ["modules/"],
+        "exclude-from-classmap": ["modules/Template/**"]
     },
     "minimum-stability": "dev",
     "prefer-stable": true,

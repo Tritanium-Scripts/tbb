@@ -1,10 +1,10 @@
 <!-- PrivateMessageNewPMConfirmSend -->
 <form method="post" action="{$smarty.const.INDEXFILE}?faction=pm&amp;mode=send&amp;send=yes&amp;check=yes{$smarty.const.SID_AMPER}">
-<table class="tbl" cellpadding="{$modules.Config->getCfgVal('tpadding')}" cellspacing="{$modules.Config->getCfgVal('tspacing')}" style="width:{$modules.Config->getCfgVal('twidth')}; margin:auto;">
- <tr><th class="thnorm"><span class="thnorm">{$modules.Language->getString('confirmation')}</span></th></tr>
- <tr><td class="td1" style="text-align:center;"><p><span class="norm">{sprintf($modules.Language->getString('really_send_pm_x_to_user_x'), $newPM[1], $recipient[1], $recipient[0])}</span></p></td></tr>
+<table class="tbl" cellpadding="{Config::getInstance()->getCfgVal('tpadding')}" cellspacing="{Config::getInstance()->getCfgVal('tspacing')}" style="width:{Config::getInstance()->getCfgVal('twidth')}; margin:auto;">
+ <tr><th class="thnorm"><span class="thnorm">{Language::getInstance()->getString('confirmation')}</span></th></tr>
+ <tr><td class="td1" style="text-align:center;"><p><span class="norm">{sprintf(Language::getInstance()->getString('really_send_pm_x_to_user_x'), $newPM[1], $recipient[1], $recipient[0])}</span></p></td></tr>
 </table>
-<p style="text-align:center;"><input type="submit" value="{$modules.Language->getString('send_pm')}" /></p>
+<p style="text-align:center;"><input type="submit" value="{Language::getInstance()->getString('send_pm')}" /></p>
 <input type="hidden" name="target_id" value="{$recipient[1]}" />
 <input type="hidden" name="betreff" value="{$newPM[1]}" />
 <input type="hidden" name="pm" value="{$newPM[2]}" />

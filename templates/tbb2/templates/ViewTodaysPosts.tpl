@@ -1,10 +1,10 @@
 <!-- ViewTodaysPosts -->
-<table class="tableStd" cellpadding="{$modules.Config->getCfgVal('tpadding')}" cellspacing="{$modules.Config->getCfgVal('tspacing')}" style="width:100%;">
+<table class="tableStd" cellpadding="{Config::getInstance()->getCfgVal('tpadding')}" cellspacing="{Config::getInstance()->getCfgVal('tspacing')}" style="width:100%;">
  <tr>
-  <th class="cellTitle" style="text-align:center;"><span class="fontTitleSmall">{$modules.Language->getString('topic')}</span></th>
-  <th class="cellTitle" style="text-align:center;"><span class="fontTitleSmall">{$modules.Language->getString('author')}</span></th>
-  <th class="cellTitle" style="text-align:center;"><span class="fontTitleSmall">{$modules.Language->getString('date')}</span></th>
-  <th class="cellTitle" style="text-align:center;"><span class="fontTitleSmall">{$modules.Language->getString('forum')}</span></th>
+  <th class="cellTitle" style="text-align:center;"><span class="fontTitleSmall">{Language::getInstance()->getString('topic')}</span></th>
+  <th class="cellTitle" style="text-align:center;"><span class="fontTitleSmall">{Language::getInstance()->getString('author')}</span></th>
+  <th class="cellTitle" style="text-align:center;"><span class="fontTitleSmall">{Language::getInstance()->getString('date')}</span></th>
+  <th class="cellTitle" style="text-align:center;"><span class="fontTitleSmall">{Language::getInstance()->getString('forum')}</span></th>
  </tr>
 {foreach $todaysPosts as $curTodaysPost}
  <tr onmouseover="setRowCellsClass(this, 'cellHighlight');" onmouseout="restoreRowCellsClass(this);">
@@ -14,6 +14,6 @@
   <td class="cellAlt"><span class="fontNorm"><a href="{$smarty.const.INDEXFILE}?mode=viewforum&amp;forum_id={$curTodaysPost.forumID}{$smarty.const.SID_AMPER}">{$curTodaysPost.forumTitle}</a></span></td>
  </tr>
 {foreachelse}
- <tr><td class="cellStd" colspan="4" style="text-align:center;"><span class="fontNorm" style="font-weight:bold;">{$modules.Language->getString('no_todays_posts')}</span></td></tr>
+ <tr><td class="cellStd" colspan="4" style="text-align:center;"><span class="fontNorm" style="font-weight:bold;">{Language::getInstance()->getString('no_todays_posts')}</span></td></tr>
 {/foreach}
 </table>

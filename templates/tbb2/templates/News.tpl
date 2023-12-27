@@ -1,5 +1,5 @@
 {if $news != false}
-<tr><td class="cellTitle" colspan="6"><span class="fontTitle">{$modules.Language->getString('news')}</span></td></tr>
+<tr><td class="cellTitle" colspan="6"><span class="fontTitle">{Language::getInstance()->getString('news')}</span></td></tr>
 {if $newsType == 1}
 <tr><td class="cellStd" colspan="6"><div class="fontNorm">{$news[0]}</div></td></tr>
 {elseif $newsType == 2}

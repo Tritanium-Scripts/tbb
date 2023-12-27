@@ -36,7 +36,7 @@ function addPollOption()
 	newSpan.className = 'fontSmall';
 	var newA = document.createElement('a');
 	newA.href = 'javascript:deletePollOption(\'idOption' + lastRowID + '\');';
-	newA.appendChild(document.createTextNode('{$modules.Language->getString('delete')}'));
+	newA.appendChild(document.createTextNode('{Language::getInstance()->getString('delete')}'));
 	newSpan.appendChild(newA);
 	newTD.appendChild(newSpan);
 	newTR.appendChild(newTD);
@@ -58,62 +58,62 @@ function deletePollOption(rowID)
 </script>
 
 {if $preview}
-<table class="tableStd" cellpadding="{$modules.Config->getCfgVal('tpadding')}" cellspacing="{$modules.Config->getCfgVal('tspacing')}" style="width:100%;">
- <tr><th class="cellTitle"><span class="fontTitle">{$modules.Language->getString('preview')}</span></th></tr>
+<table class="tableStd" cellpadding="{Config::getInstance()->getCfgVal('tpadding')}" cellspacing="{Config::getInstance()->getCfgVal('tspacing')}" style="width:100%;">
+ <tr><th class="cellTitle"><span class="fontTitle">{Language::getInstance()->getString('preview')}</span></th></tr>
  <tr><td class="cellStd"><div class="fontNorm">{$newPost.preview.post}</div>{if $newPost.isSignature && !empty($newPost.preview.signature)}<br /><div class="signature">-----------------------<br />{$newPost.preview.signature}</div>{/if}</td></tr>
 </table>
 <br />
 {else}{include file='Errors.tpl'}{/if}
 <form method="post" action="{$smarty.const.INDEXFILE}?faction=newpoll&amp;forum_id={$forum.forumID}&amp;mode=step2{$smarty.const.SID_AMPER}" name="beitrag">
-<table class="tableStd" cellpadding="{$modules.Config->getCfgVal('tpadding')}" cellspacing="{$modules.Config->getCfgVal('tspacing')}" style="width:100%;">
+<table class="tableStd" cellpadding="{Config::getInstance()->getCfgVal('tpadding')}" cellspacing="{Config::getInstance()->getCfgVal('tspacing')}" style="width:100%;">
  <colgroup>
   <col width="20%" />
   <col width="80%" />
  </colgroup>
- <tr><th class="cellTitle" colspan="2"><span class="fontTitle">{$modules.Language->getString('post_new_poll')}</span></th></tr>
- <tr><td class="cellCat" colspan="2"><span class="fontCat">{$modules.Language->getString('post')}</span></td></tr>{if !$modules.Auth->isLoggedIn()}
+ <tr><th class="cellTitle" colspan="2"><span class="fontTitle">{Language::getInstance()->getString('post_new_poll')}</span></th></tr>
+ <tr><td class="cellCat" colspan="2"><span class="fontCat">{Language::getInstance()->getString('post')}</span></td></tr>{if !Auth::getInstance()->isLoggedIn()}
  <tr>
-  <td class="cellStd"><span class="fontNorm">{$modules.Language->getString('your_name_colon')}</span></td>
+  <td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('your_name_colon')}</span></td>
   <td class="cellAlt"><input class="formText" type="text" name="nli_name" value="{$newPost.nick}" /></td>
  </tr>{/if}
  <tr>
-  <td class="cellStd" style="vertical-align:top;"><span class="fontNorm">{$modules.Language->getString('post_icon_colon')}</span></td>
+  <td class="cellStd" style="vertical-align:top;"><span class="fontNorm">{Language::getInstance()->getString('post_icon_colon')}</span></td>
   <td class="cellAlt" style="vertical-align:top;">{include file='TopicSmilies.tpl' checked=$newPost.tSmiley}</td>
  </tr>
  <tr>
-  <td class="cellStd"><span class="fontNorm">{$modules.Language->getString('question_title_colon')}</span></td>
+  <td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('question_title_colon')}</span></td>
   <td class="cellAlt"><input class="formText" type="text" size="65" name="title" value="{$newPost.title}" /></td>
  </tr>{if $forum.isBBCode}
  <tr>
-  <td class="cellStd" style="vertical-align:top;"><span class="fontNorm">{$modules.Language->getString('bbcode_colon')}</span></td>
+  <td class="cellStd" style="vertical-align:top;"><span class="fontNorm">{Language::getInstance()->getString('bbcode_colon')}</span></td>
   <td class="cellAlt">{include file='BBCodes.tpl' targetBoxID='post'}</td>
  </tr>{/if}
  <tr>
-  <td class="cellStd" style="vertical-align:top;"><span class="fontNorm">{$modules.Language->getString('post_colon')}</span><br /><br />{include file='Smilies.tpl' targetBoxID='post'}</td>
+  <td class="cellStd" style="vertical-align:top;"><span class="fontNorm">{Language::getInstance()->getString('post_colon')}</span><br /><br />{include file='Smilies.tpl' targetBoxID='post'}</td>
   <td class="cellAlt"><textarea class="formTextArea" id="post" name="post" rows="15" cols="80">{$newPost.post}</textarea></td>
  </tr>
  <tr>
-  <td class="cellStd" style="vertical-align:top;"><span class="fontNorm">{$modules.Language->getString('options_colon')}</span></td>
+  <td class="cellStd" style="vertical-align:top;"><span class="fontNorm">{Language::getInstance()->getString('options_colon')}</span></td>
   <td class="cellAlt">
-   <input type="checkbox" id="smilies" name="smilies" value="1"{if !$preview || $newPost.isSmilies} checked="checked"{/if} /> <label for="smilies" class="fontNorm">{$modules.Language->getString('enable_smilies')}</label>{if $modules.Auth->isLoggedIn()}<br />
-   <input type="checkbox" id="show_signatur" name="show_signatur" value="1"{if !$preview || $newPost.isSignature} checked="checked"{/if} /> <label for="show_signatur" class="fontNorm">{$modules.Language->getString('show_signature')}</label>{/if}{if $forum.isBBCode}<br />
-   <input type="checkbox" id="use_upbcode" name="use_upbcode" value="1" onclick="document.getElementById('isAddURLs').disabled = !this.checked;"{if !$preview || $newPost.isBBCode} checked="checked"{/if} /> <label for="use_upbcode" class="fontNorm">{$modules.Language->getString('enable_bbcode')}</label>{/if}{if $forum.isXHTML}<br />
-   <input type="checkbox" id="use_htmlcode" name="use_htmlcode" value="1"{if $newPost.isXHTML} checked="checked"{/if} /> <label for="use_htmlcode" class="fontNorm">{$modules.Language->getString('enable_xhtml')}</label>{/if}{if $modules.Config->getCfgVal('activate_mail') == 1 && $modules.Config->getCfgVal('notify_new_replies') == 1 && $modules.Auth->isLoggedIn()}<br />
-   <input type="checkbox" id="sendmail2" name="sendmail2" value="1"{if $newPost.isNotify} checked="checked"{/if} /> <label for="sendmail2" class="fontNorm">{$modules.Language->getString('notify_on_new_reply')}</label>{/if}{if $forum.isBBCode}<br />
-   <input type="checkbox" id="isAddURLs" name="isAddURLs" value="true"{if !$preview || $newPost.isAddURLs} checked="checked"{/if} /> <label for="isAddURLs" class="fontNorm">{$modules.Language->getString('auto_transform_links')}</label>{/if}
+   <input type="checkbox" id="smilies" name="smilies" value="1"{if !$preview || $newPost.isSmilies} checked="checked"{/if} /> <label for="smilies" class="fontNorm">{Language::getInstance()->getString('enable_smilies')}</label>{if Auth::getInstance()->isLoggedIn()}<br />
+   <input type="checkbox" id="show_signatur" name="show_signatur" value="1"{if !$preview || $newPost.isSignature} checked="checked"{/if} /> <label for="show_signatur" class="fontNorm">{Language::getInstance()->getString('show_signature')}</label>{/if}{if $forum.isBBCode}<br />
+   <input type="checkbox" id="use_upbcode" name="use_upbcode" value="1" onclick="document.getElementById('isAddURLs').disabled = !this.checked;"{if !$preview || $newPost.isBBCode} checked="checked"{/if} /> <label for="use_upbcode" class="fontNorm">{Language::getInstance()->getString('enable_bbcode')}</label>{/if}{if $forum.isXHTML}<br />
+   <input type="checkbox" id="use_htmlcode" name="use_htmlcode" value="1"{if $newPost.isXHTML} checked="checked"{/if} /> <label for="use_htmlcode" class="fontNorm">{Language::getInstance()->getString('enable_xhtml')}</label>{/if}{if Config::getInstance()->getCfgVal('activate_mail') == 1 && Config::getInstance()->getCfgVal('notify_new_replies') == 1 && Auth::getInstance()->isLoggedIn()}<br />
+   <input type="checkbox" id="sendmail2" name="sendmail2" value="1"{if $newPost.isNotify} checked="checked"{/if} /> <label for="sendmail2" class="fontNorm">{Language::getInstance()->getString('notify_on_new_reply')}</label>{/if}{if $forum.isBBCode}<br />
+   <input type="checkbox" id="isAddURLs" name="isAddURLs" value="true"{if !$preview || $newPost.isAddURLs} checked="checked"{/if} /> <label for="isAddURLs" class="fontNorm">{Language::getInstance()->getString('auto_transform_links')}</label>{/if}
   </td>
  </tr>
- <tr><td class="cellCat" colspan="2"><span class="fontCat">{$modules.Language->getString('poll', 'Forum')}</span></td></tr>
+ <tr><td class="cellCat" colspan="2"><span class="fontCat">{Language::getInstance()->getString('poll', 'Forum')}</span></td></tr>
  <tr>
-  <td class="cellStd"><span class="fontNorm">{$modules.Language->getString('who_may_vote_colon')}</span></td>
-  <td class="cellAlt"><span class="fontNorm"><select class="formSelect" name="poll_type">{html_options values=array(1, 2) output=array($modules.Language->getString('everybody'), $modules.Language->getString('members_only')) selected=$newPost.pollType}</select></span></td>
+  <td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('who_may_vote_colon')}</span></td>
+  <td class="cellAlt"><span class="fontNorm"><select class="formSelect" name="poll_type">{html_options values=array(1, 2) output=array(Language::getInstance()->getString('everybody'), Language::getInstance()->getString('members_only')) selected=$newPost.pollType}</select></span></td>
  </tr>
  <tr>
-  <td class="cellStd" style="vertical-align:top;"><span class="fontNorm">{$modules.Language->getString('choices')}</span></td>
+  <td class="cellStd" style="vertical-align:top;"><span class="fontNorm">{Language::getInstance()->getString('choices')}</span></td>
   <td class="cellAlt">
    <table cellpadding="1" cellspacing="0" id="idPollOptionsTable">{foreach $newPost.choices as $curChoice}
-    <tr id="idOption{$curChoice@iteration}"><td style="padding:3px;"><span class="fontNorm"><input class="formText" type="text" size="30" name="poll_choice[]" value="{$curChoice}" /></span></td><td style="padding:3px;"><span class="fontSmall"><a href="javascript:deletePollOption('idOption{$curChoice@iteration}');">{$modules.Language->getString('delete')}</a></span></td></tr>{/foreach}
-    <tr><td colspan="2"><span class="fontSmall"><a href="javascript:addPollOption();">{$modules.Language->getString('add_choice')}</a></span></td></tr>
+    <tr id="idOption{$curChoice@iteration}"><td style="padding:3px;"><span class="fontNorm"><input class="formText" type="text" size="30" name="poll_choice[]" value="{$curChoice}" /></span></td><td style="padding:3px;"><span class="fontSmall"><a href="javascript:deletePollOption('idOption{$curChoice@iteration}');">{Language::getInstance()->getString('delete')}</a></span></td></tr>{/foreach}
+    <tr><td colspan="2"><span class="fontSmall"><a href="javascript:addPollOption();">{Language::getInstance()->getString('add_choice')}</a></span></td></tr>
    </table>
   </td>
  </tr>
@@ -122,6 +122,6 @@ function deletePollOption(rowID)
 if(rowsCounter == 0)
 	addPollOption();
 </script>
-<p class="cellButtons"><input class="formButton" type="submit" value="{$modules.Language->getString('post_new_poll')}" />&nbsp;&nbsp;&nbsp;<input class="formBButton" type="submit" name="preview" value="{$modules.Language->getString('preview')}" />&nbsp;&nbsp;&nbsp;<input class="formButton" type="reset" /></p>
+<p class="cellButtons"><input class="formButton" type="submit" value="{Language::getInstance()->getString('post_new_poll')}" />&nbsp;&nbsp;&nbsp;<input class="formBButton" type="submit" name="preview" value="{Language::getInstance()->getString('preview')}" />&nbsp;&nbsp;&nbsp;<input class="formButton" type="reset" /></p>
 <input type="hidden" name="save" value="yes" />
 </form>
