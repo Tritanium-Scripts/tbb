@@ -3,13 +3,9 @@
  * Inits Smarty, manages configuration, assigns values to template files and prints pages.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2019 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2023 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
- * @package TBB1.7
- */
-require_once('Template/Smarty.class.php');
-/**
- * Wrapper class for Smarty 3 API.
+ * @package TBB1.10
  */
 class Template
 {
@@ -34,7 +30,7 @@ class Template
 	 */
 	function __construct()
 	{
-		$this->smarty = new Smarty;
+		$this->smarty = new Smarty();
 		//Settings
 		$this->smarty->setErrorUnassigned(error_reporting() == E_ALL);
 		$this->smarty->setCacheDir('cache/')

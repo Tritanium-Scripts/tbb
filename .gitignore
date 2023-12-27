@@ -1,4 +1,10 @@
 /.git
 /.svn
 cache/*.php
+foren/*.xbb
+logs/*.log
+members/*.ach
+members/*.pm
 vars/*.lock
+vendor
+composer.phar

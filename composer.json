@@ -1,0 +1,60 @@
+{
+    "name": "tritanium-scripts/tbb",
+    "description": "Tritanium Bulletin Board",
+    "type": "project",
+    "keywords" : [
+        "bulletin", "board", "forum", "discussion"
+    ],
+    "homepage": "http://www.tritanium-scripts.com/",
+    "license": "CC-BY-NC-SA-3.0",
+    "authors": [
+        {
+            "name": "Julian",
+            "email": "julian@tritanium-scripts.com",
+            "homepage": "http://www.julianbackes.de",
+            "role": "Founder"
+        },
+        {
+            "name": "Chrissyx",
+            "email": "chris@tritanium-scripts.com",
+            "homepage": "https://www.chrissyx.com",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "email": "chris@tritanium-scripts.com",
+        "issues": "https://github.com/Tritanium-Scripts/tbb/issues",
+        "forum": "http://www.tritanium-scripts.com/community/",
+        "wiki": "https://github.com/Tritanium-Scripts/tbb/wiki",
+        "source": "https://github.com/Tritanium-Scripts/tbb"
+    },
+    "require": {
+        "oomphinc/composer-installers-extender": "2.*",
+        "php": ">=5.3",
+        "smarty/smarty": "3.1.*"
+    },
+    "suggest": {
+        "ext-curl": "Proper fetching of Steam achievements",
+        "ext-dom": "Loading of fetched Steam achievements",
+        "ext-hash": "Better hashing for PHP <7.4",
+        "ext-json": "Needed for PHP <8.0",
+        "ext-mbstring": "Multibyte string extension for proper Unicode usage"
+    },
+    "autoload": {
+        "classmap": ["modules/"]
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "allow-plugins": {
+            "composer/*": true,
+            "oomphinc/composer-installers-extender": true
+        }
+    },
+    "extra": {
+        "installer-paths": {
+            "languages/{$name}/": ["type:tbb1-lng"],
+            "templates/{$name}/": ["type:tbb1-tpl"]
+        }
+    }
+}

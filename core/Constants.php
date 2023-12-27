@@ -5,7 +5,7 @@
  * @author Christoph Jahn <chris@tritanium-scripts.com>
  * @copyright Copyright (c) 2010-2023 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
- * @package TBB1.8
+ * @package TBB1.10
  */
 define('SCRIPTSTART', microtime(true));
 define('INDEXFILE', 'index.php');
@@ -16,8 +16,8 @@ define('COPYRIGHT_YEAR', 2023); //Displayed in page footer
  * to prevent selective bug using in case of
  * security vulnerabilities of a specific version.
  */
-define('VERSION_PUBLIC', '1.8');
-define('VERSION_PRIVATE', VERSION_PUBLIC . '.2.0');
+define('VERSION_PUBLIC', '1.10');
+define('VERSION_PRIVATE', VERSION_PUBLIC . '.0.0');
 //Define global data path
 include('DataPath.php');
 //Logging constants
