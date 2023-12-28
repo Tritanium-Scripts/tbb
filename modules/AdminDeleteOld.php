@@ -25,7 +25,7 @@ class AdminDeleteOld extends PublicModule
         //Get topic IDs of forum
         $topicIndex = Functions::file('foren/' . $forumID . '-threads.xbb');
         //Get sticky topics (better not delete those)
-        $stickyIndex = @Functions::file('foren/' . $forumID . '-sticker.xbb') or $stickyIndex = [];
+        $stickyIndex = @Functions::file('foren/' . $forumID . '-sticker.xbb') ?: [];
         foreach($topicIndex as $curKey => $curTopicID)
         {
             //Load current topic
@@ -58,7 +58,7 @@ class AdminDeleteOld extends PublicModule
         Functions::accessAdminPanel();
         NavBar::getInstance()->addElement(Language::getInstance()->getString('delete_old_topics'), INDEXFILE . '?faction=ad_killposts' . SID_AMPER);
         $deleteFromForumID = Functions::getValueFromGlobals('target_forum');
-        $topicAge = intval(Functions::getValueFromGlobals('topic_age')) or $topicAge = 90;
+        $topicAge = intval(Functions::getValueFromGlobals('topic_age')) ?: 90;
         if(Functions::getValueFromGlobals('mode') == 'kill')
         {
             if(empty($deleteFromForumID))

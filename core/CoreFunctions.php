@@ -241,7 +241,7 @@ class CoreFunctions
      * @param bool $datapath Apply the global datapath to filename, there is usually no need to change this
      * @return array|bool Read in file contents as array or false if not found
      */
-    public static function file(string $filename, int $flags=0, ?string $trimCharList=null, bool $datapath=true)
+    public static function file(string $filename, ?int $flags=0, ?string $trimCharList=null, bool $datapath=true)
     {
         $trimCallback = function($entry) use($trimCharList)
         {
@@ -759,12 +759,12 @@ class CoreFunctions
      * By having encountered a certain number of unknown modes, the IP address will be banned.
      *
      * @param string $mode Requested template file for this mode
-     * @param string $modeTable Mode and template counterparts
+     * @param array $modeTable Mode and template counterparts
      * @param string $module Name of executing module
      * @param string $defaultMode Another default mode to use in case of unknown mode
      * @return string Name of template file from stated table
      */
-    public static function handleMode(string &$mode, string &$modeTable, string $module, string $defaultMode=''): string
+    public static function handleMode(string &$mode, array &$modeTable, string $module, string $defaultMode=''): string
     {
         if(!array_key_exists($mode, $modeTable))
         {

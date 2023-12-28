@@ -60,7 +60,7 @@ class AdminIP extends PublicModule
             case 'new':
             NavBar::getInstance()->addElement(Language::getInstance()->getString('manage_ip_blocks'), INDEXFILE . '?faction=ad_ip&amp;mode=new' . SID_AMPER);
             $newIPAddress = Functions::getValueFromGlobals('ip');
-            $newBlockPeriod = intval(Functions::getValueFromGlobals('sperrtime')) or $newBlockPeriod = '';
+            $newBlockPeriod = intval(Functions::getValueFromGlobals('sperrtime')) ?: '';
             $newBlockForumID = intval(Functions::getValueFromGlobals('sperrziel'));
             if(Functions::getValueFromGlobals('create') == 'yes')
             {
@@ -75,7 +75,8 @@ class AdminIP extends PublicModule
                 if(empty($this->errors))
                 {
                     //$ip = $ip; I lol'd
-                    list(,,,$this->ipBlockID) = end($this->ipBlocks);
+                    if(!empty($this->ipBlocks))
+                        list(,,,$this->ipBlockID) = end($this->ipBlocks);
                     Functions::file_put_contents('vars/ip.var', $newIPAddress . "\t" . ($newBlockPeriod != -1 ? time()+$newBlockPeriod*60 : $newBlockPeriod) . "\t" . $newBlockForumID . "\t" . ++$this->ipBlockID . "\t\n", FILE_APPEND);
                     Logger::getInstance()->log('%s added new ip block (' . $newIPAddress . ', ' . $newBlockForumID . ', ' . $newBlockPeriod . ')', LOG_ACP_ACTION);
                     header('Location: ' . INDEXFILE . '?faction=ad_ip' . SID_AMPER_RAW);

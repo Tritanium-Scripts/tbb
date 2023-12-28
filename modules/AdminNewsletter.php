@@ -88,7 +88,7 @@ class AdminNewsletter extends PublicModule
                     {
                         $curRecipientID = array_shift($_SESSION['newsletter']['recipients']);
                         //Build current PM
-                        $curPM = [(int) @current(Functions::explodeByTab(array_pop(Functions::file('members/' . $curRecipientID . '.pm'))))+1,
+                        $curPM = [(int) @current(Functions::explodeByTab(array_pop(Functions::file('members/' . $curRecipientID . '.pm')) ?? ''))+1,
                             htmlspecialchars($_SESSION['newsletter']['subject']),
                             Functions::nl2br(htmlspecialchars($_SESSION['newsletter']['message'])),
                             Auth::getInstance()->getUserID(),

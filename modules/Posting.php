@@ -102,8 +102,8 @@ class Posting extends PublicModule
         parent::__construct();
         $this->mode = $mode;
         $this->forum = Functions::getForumData($forumID = intval(Functions::getValueFromGlobals('forum_id')));
-        $this->topicID = intval(Functions::getValueFromGlobals('thread_id')) or $this->topicID = intval(Functions::getValueFromGlobals('topic_id'));
-        $this->postID = intval(Functions::getValueFromGlobals('post_id')) or $this->postID = intval(Functions::getValueFromGlobals('quote'));
+        $this->topicID = intval(Functions::getValueFromGlobals('thread_id')) ?: intval(Functions::getValueFromGlobals('topic_id'));
+        $this->postID = intval(Functions::getValueFromGlobals('post_id')) ?: intval(Functions::getValueFromGlobals('quote'));
         if(($this->topicFile = @Functions::file('foren/' . $forumID . '-' . $this->topicID . '.xbb')) != false) //Not $this->forum[0] in case of "false[0]"
         {
             #0:postID - 1:posterID - 2:proprietaryDate - 3:post - 4:ip - 5:isSignature - 6:tSmileyID - 7:isSmiliesOn - 8:isBBCode - 9:isHTML[ - 10:lastEditByID]
@@ -262,7 +262,7 @@ class Posting extends PublicModule
             elseif(!empty($this->postID))
             {
                 if(($quote = $this->getPostData($this->postID)) != false)
-                    $this->newReply['post'] = '[quote=' . (!Functions::isGuestID($quote[1]) ? (($this->newReply['post'] = Functions::getUserData($quote[1])) !== false ? current($this->newReply['post']) : Language::getInstance()->getString('deleted')) : Functions::substr($quote[1], 1)) . ']' . Functions::br2nl(in_array(Auth::getInstance()->getUserID(), array_filter(array_unique(array_map('next', $this->topicFile)), function($id)
+                    $this->newReply['post'] = '[quote=' . (!Functions::isGuestID($quote[1]) ? (($this->newReply['post'] = Functions::getUserData($quote[1])) !== false ? current($this->newReply['post']) : Language::getInstance()->getString('deleted')) : Functions::substr($quote[1], 1)) . ']' . Functions::br2nl(in_array(Auth::getInstance()->getUserID(), array_filter(array_unique(@array_map('next', $this->topicFile)), function($id)
                     {
                         return !Functions::isGuestID($id);
                     })) ? $quote[3] : preg_replace("/\[lock\](.*?)\[\/lock\]/si", '', $quote[3])) . '[/quote]';
@@ -531,7 +531,7 @@ class Posting extends PublicModule
                         //Topic was pinned?
                         if($isPinned)
                         {
-                            $stickyFile = @Functions::file('foren/' . $targetForumID . '-sticker.xbb', FILE_SKIP_EMPTY_LINES) or $stickyFile = [];
+                            $stickyFile = @Functions::file('foren/' . $targetForumID . '-sticker.xbb', FILE_SKIP_EMPTY_LINES) ?: [];
                             $stickyFile[] = $newTopicID;
                             Functions::file_put_contents('foren/' . $targetForumID . '-sticker.xbb', implode("\n", $stickyFile));
                         }
@@ -563,7 +563,7 @@ class Posting extends PublicModule
 
 //EditTopicPin
                 case 'pin':
-                $stickyFile = @Functions::file('foren/' . $this->forum[0] . '-sticker.xbb', FILE_SKIP_EMPTY_LINES) or $stickyFile = [];
+                $stickyFile = @Functions::file('foren/' . $this->forum[0] . '-sticker.xbb', FILE_SKIP_EMPTY_LINES) ?: [];
                 if(!in_array($this->topicID, $stickyFile))
                 {
                     $stickyFile[] = $this->topicID;
@@ -578,7 +578,7 @@ class Posting extends PublicModule
 
 //EditTopicUnpin
                 case 'unpin':
-                $stickyFile = @Functions::file('foren/' . $this->forum[0] . '-sticker.xbb', FILE_SKIP_EMPTY_LINES) or $stickyFile = [];
+                $stickyFile = @Functions::file('foren/' . $this->forum[0] . '-sticker.xbb', FILE_SKIP_EMPTY_LINES) ?: [];
                 if(($key = array_search($this->topicID, $stickyFile)) !== false)
                 {
                     unset($stickyFile[$key]);

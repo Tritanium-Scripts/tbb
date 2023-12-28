@@ -43,8 +43,8 @@ class Newsletter extends PublicModule
     {
         parent::__construct();
         $this->mode = $mode;
-        $this->newsletterID = Functions::getValueFromGlobals('newsletter');
-        $this->newsletter = @Functions::file('vars/newsletter.var') or $this->newsletter = [];
+        $this->newsletterID = intval(Functions::getValueFromGlobals('newsletter'));
+        $this->newsletter = @Functions::file('vars/newsletter.var') ?: [];
         if(!empty($this->newsletter))
             $this->newsletter = array_map(['Functions', 'explodeByTab'], $this->newsletter);
     }
@@ -77,7 +77,7 @@ class Newsletter extends PublicModule
             NavBar::getInstance()->addElement(Language::getInstance()->getString('delete_newsletter'), INDEXFILE . '?faction=newsletter&amp;mode=delete' . SID_AMPER);
             if(!Auth::getInstance()->isAdmin())
                 Template::getInstance()->printMessage('permission_denied');
-            $toDelete = Functions::getValueFromGlobals('deleteletter') or $toDelete = [];
+            $toDelete = Functions::getValueFromGlobals('deleteletter') ?: [];
             foreach($this->newsletter as $curKey => $curNewsletter)
                 if(in_array($curNewsletter[0], $toDelete))
                     unset($this->newsletter[$curKey]);

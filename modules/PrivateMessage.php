@@ -82,7 +82,7 @@ class PrivateMessage extends PublicModule
     {
         parent::__construct();
         $this->mode = $mode;
-        $this->pmBoxID = intval(Functions::getValueFromGlobals('pmbox_id')) or $this->pmBoxID = Auth::getInstance()->getUserID();
+        $this->pmBoxID = intval(Functions::getValueFromGlobals('pmbox_id')) ?: Auth::getInstance()->getUserID();
         $this->pmID = intval(Functions::getValueFromGlobals('pm_id'));
         if($this->isOutbox = Functions::getValueFromGlobals('box') == 'out')
         {

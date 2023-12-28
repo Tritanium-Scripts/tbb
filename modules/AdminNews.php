@@ -41,8 +41,8 @@ class AdminNews extends PublicModule
     {
         parent::__construct();
         $this->news = trim(Functions::getValueFromGlobals('news', false));
-        $this->newsDuration = intval(Functions::getValueFromGlobals('expiredate')) or $this->newsDuration = -1;
-        $this->newsType = intval(Functions::getValueFromGlobals('typ')) or $this->newsType = 1;
+        $this->newsDuration = intval(Functions::getValueFromGlobals('expiredate')) ?: -1;
+        $this->newsType = intval(Functions::getValueFromGlobals('typ')) ?: 1;
     }
 
     /**

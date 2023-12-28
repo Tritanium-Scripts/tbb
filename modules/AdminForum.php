@@ -394,7 +394,7 @@ class AdminForum extends PublicModule
             if(!in_array($forumID, array_map('current', $this->forums)))
                 Template::getInstance()->printMessage('forum_not_found');
             //Get special rights or create new
-            $specialRights = @Functions::file('foren/' . $forumID . '-rights.xbb') or $specialRights = [];
+            $specialRights = @Functions::file('foren/' . $forumID . '-rights.xbb') ?: [];
             #0:rightID - 1:rightType - 2:user/groupID - 3:isAccessForum - 4:isPostTopics - 5:isPostReplies - 6:isPostPolls - 7:isEditOwnPosts - 8:isEditOwnPolls
             $specialRights = array_map(['Functions', 'explodeByTab'], $specialRights);
             if(Functions::getValueFromGlobals('change') == 'yes' && ($newRights = Functions::getValueFromGlobals('new_rights')) != '')
@@ -442,7 +442,7 @@ class AdminForum extends PublicModule
             if(Functions::getValueFromGlobals('change') == 'yes')
             {
                 //Get special rights or create new
-                $specialRights = @Functions::file('foren/' . $forumID . '-rights.xbb') or $specialRights = [];
+                $specialRights = @Functions::file('foren/' . $forumID . '-rights.xbb') ?: [];
                 $specialUserIDs = array_map(function($right)
                 {
                     return $right[1] == 1 ? $right[2] : 0;
@@ -488,7 +488,7 @@ class AdminForum extends PublicModule
             if(count($groups = array_map(['Functions', 'explodeByTab'], Functions::file('vars/groups.var'))) == 0)
                 Template::getInstance()->printMessage('no_groups_available');
             //Get special rights or create new
-            $specialRights = @Functions::file('foren/' . $forumID . '-rights.xbb') or $specialRights = [];
+            $specialRights = @Functions::file('foren/' . $forumID . '-rights.xbb') ?: [];
             $specialGroupIDs = array_filter(array_map(function($right)
             {
                 return $right[1] == 2 ? $right[2] : null;

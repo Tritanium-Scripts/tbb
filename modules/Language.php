@@ -118,7 +118,7 @@ class Language
      * @param string $file Name of language INI file
      * @return bool File contents being cached
      */
-    public function parseFile(string $file): bool
+    public function parseFile(?string $file): bool
     {
         //Already loaded?
         if(isset($this->langStrings[$this->langCode][$file]))

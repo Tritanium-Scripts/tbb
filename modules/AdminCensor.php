@@ -61,7 +61,7 @@ class AdminCensor extends PublicModule
             case 'new':
             NavBar::getInstance()->addElement(Language::getInstance()->getString('add_new_censorship'), INDEXFILE . '?faction=ad_censor&amp;mode=new' . SID_AMPER);
             $newWord = htmlspecialchars(trim(Functions::getValueFromGlobals('word')));
-            $newReplacement = htmlspecialchars(trim(Functions::getValueFromGlobals('replacement'))) or $newReplacement = '******';
+            $newReplacement = htmlspecialchars(trim(Functions::getValueFromGlobals('replacement'))) ?: '******';
             if(Functions::getValueFromGlobals('create') == '1')
             {
                 if(empty($newWord))
@@ -88,7 +88,7 @@ class AdminCensor extends PublicModule
             if(($key = array_search($this->censorshipID, array_map('current', $this->censorships))) === false)
                 Template::getInstance()->printMessage('censorship_not_found');
             $editWord = htmlspecialchars(trim(Functions::getValueFromGlobals('word')));
-            $editReplacement = htmlspecialchars(trim(Functions::getValueFromGlobals('replacement'))) or $editReplacement = '******';
+            $editReplacement = htmlspecialchars(trim(Functions::getValueFromGlobals('replacement'))) ?: '******';
             if(Functions::getValueFromGlobals('update') == '1')
             {
                 if(empty($editWord))

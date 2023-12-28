@@ -23,7 +23,7 @@ class Core
      *
      * @var string Contains detected action.
      */
-    private string $action;
+    private ?string $action;
 
     /**
      * Translates the old TBB 1.2.3 faction value to a module.
@@ -189,7 +189,7 @@ class Core
         //Set root of NavBar
         NavBar::getInstance()->addElement(Config::getInstance()->getCfgVal('forum_name'), INDEXFILE . SID_QMARK);
         //Detect action
-        $this->action = self::$actionTable[($fAction = Functions::getValueFromGlobals('faction'))];
+        $this->action = self::$actionTable[($fAction = Functions::getValueFromGlobals('faction'))] ?? null;
         Template::getInstance()->assign('action', $this->action);
         //Check maintenance mode
         if(Config::getInstance()->getCfgVal('uc') == 1 && !Auth::getInstance()->isAdmin() && $this->action != 'Login')
@@ -213,7 +213,7 @@ class Core
      * @param string $mode Optional mode for not yet loaded module
      * @return PublicModule Reference to the loaded class
      */
-    private function getModule(string $module, ?string $mode=null)
+    private function getModule(?string $module, ?string $mode=null)
     {
         if(!class_exists($module) || !is_subclass_of($module, 'PublicModule'))
         {

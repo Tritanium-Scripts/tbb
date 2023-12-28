@@ -56,8 +56,8 @@ class MemberList extends PublicModule
         parent::__construct();
         $this->limit = Config::getInstance()->getCfgVal('members_per_page');
         $this->orderType = Functions::getValueFromGlobals('orderType') == '1';
-        $this->page = intval(Functions::getValueFromGlobals('z')) or $this->page = 1;
-        $this->sortMethod = Functions::getValueFromGlobals('sortmethod') or $this->sortMethod = 'id';
+        $this->page = intval(Functions::getValueFromGlobals('z')) ?: 1;
+        $this->sortMethod = Functions::getValueFromGlobals('sortmethod') ?: 'id';
     }
 
     /**

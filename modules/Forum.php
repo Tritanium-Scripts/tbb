@@ -73,8 +73,8 @@ class Forum extends PublicModule
     {
         parent::__construct();
         $this->mode = $mode;
-        $this->forumID = intval(Functions::getValueFromGlobals('forum_id')) or $this->forumID = -1;
-        $this->topicID = intval(Functions::getValueFromGlobals('thread')) or $this->topicID = -1;
+        $this->forumID = intval(Functions::getValueFromGlobals('forum_id')) ?: -1;
+        $this->topicID = intval(Functions::getValueFromGlobals('thread')) ?: -1;
         $this->page = isset($_GET['z']) ? ($_GET['z'] != 'last' ? intval($_GET['z']) : 'last') : 1;
         $this->userKeysSize = count(self::$userKeys);
         $this->shortenPageBar = intval(Config::getInstance()->getCfgVal('shorten_page_bars'));
@@ -113,7 +113,7 @@ class Forum extends PublicModule
                 Template::getInstance()->printMessage('forum_' . (Auth::getInstance()->isLoggedIn() ? 'no_access' : 'need_login'));
             $topicFile = array_reverse(Functions::file('foren/' . $this->forumID . '-threads.xbb'));
             //Manage sticky topics
-            $stickyFile = @Functions::file('foren/' . $this->forumID . '-sticker.xbb', FILE_SKIP_EMPTY_LINES) or $stickyFile = [];
+            $stickyFile = @Functions::file('foren/' . $this->forumID . '-sticker.xbb', FILE_SKIP_EMPTY_LINES) ?: [];
             if(!empty($stickyFile))
                 //Move stickies to top with some 1337 h4x array magic :)
                 $topicFile = array_merge(array_reverse(array_intersect($stickyFile, $topicFile)), array_values(array_diff($topicFile, $stickyFile)));
@@ -369,7 +369,7 @@ class Forum extends PublicModule
                 unset($curNewestPost); //Delete remaining reference to avoid conflicts
                 //Get pubDate from regdate of first user
                 $i = 1;
-                $size = intval(Functions::file_get_contents('vars/last_user_id.var')) or $size = 1;
+                $size = intval(Functions::file_get_contents('vars/last_user_id.var')) ?: 1;
                 do
                     $firstUser = Functions::getUserData($i++);
                 while($firstUser == false && $i <= $size);

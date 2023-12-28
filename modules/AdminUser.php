@@ -231,7 +231,7 @@ class AdminUser extends PublicModule
 //AdminUser
             default:
             NavBar::getInstance()->addElement(Language::getInstance()->getString('member_search'), INDEXFILE . '?faction=ad_user&amp;mode=search' . SID_AMPER);
-            $searchMethod = Functions::getValueFromGlobals('searchmethod') or $searchMethod = 'nick';
+            $searchMethod = Functions::getValueFromGlobals('searchmethod') ?: 'nick';
             $searchFor = Functions::strtolower(htmlspecialchars(trim(Functions::getValueFromGlobals('searched'))));
             $results = [];
             if(Functions::getValueFromGlobals('search') == 'yes')
