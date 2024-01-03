@@ -51,6 +51,8 @@ class Template
         $this->smarty->setDebugging($this->smarty->getConfigVars('debug'));
         //Assign defaults
         $this->smarty->assignByRef('smartyTime', $this->smarty->start_time);
+        //Initialization done
+        PlugIns::getInstance()->callHook(PlugIns::HOOK_TEMPLATE_INIT);
     }
 
     /**
@@ -190,6 +192,7 @@ class Template
         //Update NavBar + WIO
         NavBar::getInstance()->addElement(Language::getInstance()->getString('title_' . $msgIndex, 'Messages'));
         WhoIsOnline::getInstance()->setLocation('Message');
+        PlugIns::getInstance()->callHook(PlugIns::HOOK_TEMPLATE_PAGE);
         //Print message
         $this->printHeader();
         $this->display('Message', ['action' => 'Message',
@@ -212,6 +215,7 @@ class Template
             $this->assign($tplVar, $value);
         $this->assign('subAction', $tplName);
         WhoIsOnline::getInstance()->setLocation($tplName . $addToWIOLoc);
+        PlugIns::getInstance()->callHook(PlugIns::HOOK_TEMPLATE_PAGE);
         $this->printHeader();
         $this->display($tplName);
         exit($this->printTail());

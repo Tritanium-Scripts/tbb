@@ -105,7 +105,7 @@ class Core
         error_reporting(ERR_REPORTING);
         set_exception_handler(function($e)
         {
-            Logger::getInstance()->log(get_class($e) . ': ' . $e->getMessage(), LOG_FILESYSTEM);
+            Logger::getInstance()->log(get_class($e) . ': ' . $e->getMessage(), Logger::LOG_FILESYSTEM);
             echo($e);
         });
         //Finalize feature set of Functions class by either using Multibyte string functions and/or (overloaded) default PHP ones
@@ -115,6 +115,8 @@ class Core
             ini_set('default_charset', 'UTF-8');
         //Quick 'n' dirty fix to set "proper" timezone
         @date_default_timezone_set(date_default_timezone_get());
+        //Initialization done
+        PlugIns::getInstance()->callHook(PlugIns::HOOK_CORE_INIT);
     }
 
     /**
@@ -122,6 +124,7 @@ class Core
      */
     public function run(): void
     {
+        PlugIns::getInstance()->callHook(PlugIns::HOOK_CORE_RUN);
         //Set custom error level to replace default one from constructor
         error_reporting(intval(Config::getInstance()->getCfgVal('error_level')));
         //Set locale for dates and number formats
@@ -139,7 +142,7 @@ class Core
             if($fdsVar == 0) //Is this first time warning?
             {
                 Functions::mail(Config::getInstance()->getCfgVal('admin_email'), 'fds_warning', Config::getInstance()->getCfgVal('address_to_forum') . '/' . INDEXFILE . '?faction=login');
-                Logger::getInstance()->log('Disk space warning! Admin notified', LOG_FILESYSTEM);
+                Logger::getInstance()->log('Disk space warning! Admin notified', Logger::LOG_FILESYSTEM);
                 Functions::file_put_contents('vars/fds.var', ++$fdsVar);
             }
             if($fds <= Config::getInstance()->getCfgVal('close_forum_fds')*1024)
@@ -148,7 +151,7 @@ class Core
                 if($fdsVar != 2)
                 {
                     Functions::sendMessage(Config::getInstance()->getCfgVal('admin_email'), 'fds_alert', Config::getInstance()->getCfgVal('address_to_forum') . '/' . INDEXFILE . '?faction=login');
-                    Logger::getInstance()->log('Disk space alert! Admin notified; Board closed', LOG_FILESYSTEM);
+                    Logger::getInstance()->log('Disk space alert! Admin notified; Board closed', Logger::LOG_FILESYSTEM);
                     Functions::file_put_contents('vars/fds.var', 2);
                 }
             }
@@ -203,6 +206,7 @@ class Core
         //Autoload translation of module
         Language::getInstance()->parseFile($this->action);
         //Execute module with mode or forum action as mode replacement
+        PlugIns::getInstance()->callHook(PlugIns::HOOK_CORE_MODULE_CALL);
         $this->getModule($this->action, ($mode = Functions::getValueFromGlobals('mode')) == '' ? $fAction : $mode)->publicCall();
     }
 
@@ -220,7 +224,7 @@ class Core
             $missing;
             if(is_null($module))
             {
-                Logger::getInstance()->log('Call to unknown module "' . $mode . '"', LOG_FILESYSTEM);
+                Logger::getInstance()->log('Call to unknown module "' . $mode . '"', Logger::LOG_FILESYSTEM);
                 if(function_exists('http_response_code'))
                     http_response_code(400);
                 $missing = $mode;
@@ -228,7 +232,7 @@ class Core
             else
             {
                 if($module != 'Config') //In case of "Config.php.new" to prevent redeclaring Logger
-                    Logger::getInstance()->log('Call to missing module "' . $module . '"', LOG_FILESYSTEM);
+                    Logger::getInstance()->log('Call to missing module "' . $module . '"', Logger::LOG_FILESYSTEM);
                 if(function_exists('http_response_code'))
                     http_response_code(500);
                 $missing = $module;

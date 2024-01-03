@@ -21,7 +21,6 @@ define('VERSION_PRIVATE', VERSION_PUBLIC . '.0.0');
 //Define global data path
 include('DataPath.php');
 //Logging constants
-define('LOG_FILESYSTEM', 1);    //Problems with filesystem
 define('LOG_ACP_ACCESS', 2);    //Failed ACP access
 define('LOG_FAILED_LOGIN', 3);  //Failed login
 define('LOG_NEW_POSTING', 4);   //New topic or post

@@ -57,10 +57,7 @@ class Functions extends CoreFunctions
     {
         if(is_array($subject))
         {
-            array_walk_recursive($subject, function($value, $key) use($search, $replace, $count)
-            {
-                return str_replace($search, $replace, $value, $count);
-            });
+            array_walk_recursive($subject, fn($value, $key) => str_replace($search, $replace, $value, $count));
             return $subject;
         }
         else

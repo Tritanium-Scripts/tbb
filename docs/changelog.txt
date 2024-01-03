@@ -1,6 +1,6 @@
 **********************************************************
 Tritanium Bulletin Board 1.5+ - Changelog (German version)
-Last changed: 2023-12-27 (Version 1.10.0)
+Last changed: 2024-01-03 (Version 1.10.0)
 **********************************************************
 
 2024: Version 1.10.0
@@ -11,6 +11,7 @@ Last changed: 2023-12-27 (Version 1.10.0)
     - Umstellung und Nutzung der Features und Syntax von PHP 7.4 (= Mindestversion)
     - Mögliche Enkodierungsprobleme bei "Zuletzt hier am" in der Profilansicht behoben
     - Formatierung mit Tabs durch Leerzeichen ersetzt
+    - Unterstützung für Plug-ins
 
 10.12.2023: Version 1.8.1 (offiziell)
     - Mögliche Enkodierungsprobleme der Monatsnamen im Kalender behoben

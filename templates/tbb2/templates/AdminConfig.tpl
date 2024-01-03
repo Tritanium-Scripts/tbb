@@ -349,7 +349,7 @@
  <tr><td class="cellCat" colspan="2"><span class="fontCat">{Language::getInstance()->getString('logging_settings')}</span></td></tr>
  <tr>
   <td class="cellAlt" colspan="2">
-   <input type="checkbox" id="log1" name="settings[9][0]" value="{$smarty.const.LOG_FILESYSTEM}"{if $smarty.const.LOG_FILESYSTEM|in_array:$configValues['log_options']} checked="checked"{/if} /> <label for="log1" class="fontNorm">{Language::getInstance()->getString('log_filesystem_problems')}</label><br />
+   <input type="checkbox" id="log1" name="settings[9][0]" value="{Logger::LOG_FILESYSTEM}"{if Logger::LOG_FILESYSTEM|in_array:$configValues['log_options']} checked="checked"{/if} /> <label for="log1" class="fontNorm">{Language::getInstance()->getString('log_filesystem_problems')}</label><br />
    <input type="checkbox" id="log2" name="settings[9][1]" value="{$smarty.const.LOG_ACP_ACCESS}"{if $smarty.const.LOG_ACP_ACCESS|in_array:$configValues['log_options']} checked="checked"{/if} /> <label for="log2" class="fontNorm">{Language::getInstance()->getString('log_failed_administration_access_attempts')}</label><br />
    <input type="checkbox" id="log3" name="settings[9][2]" value="{$smarty.const.LOG_FAILED_LOGIN}"{if $smarty.const.LOG_FAILED_LOGIN|in_array:$configValues['log_options']} checked="checked"{/if} /> <label for="log3" class="fontNorm">{Language::getInstance()->getString('log_failed_logins')}</label><br />
    <input type="checkbox" id="log4" name="settings[9][3]" value="{$smarty.const.LOG_NEW_POSTING}"{if $smarty.const.LOG_NEW_POSTING|in_array:$configValues['log_options']} checked="checked"{/if} /> <label for="log4" class="fontNorm">{Language::getInstance()->getString('log_new_posts')}</label><br />

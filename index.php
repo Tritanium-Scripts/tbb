@@ -10,6 +10,7 @@
 require('vendor/autoload.php');
 require('core/Constants.php');
 require('core/CoreFunctions.php');
+require('core/Interfaces.php');
 require('core/Traits.php');
 require('core/Core.php');
 

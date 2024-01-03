@@ -7,7 +7,7 @@
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
-class CoreFunctions
+abstract class CoreFunctions
 {
     /**
      * Various cached (loaded and fully exploded) data.
@@ -54,6 +54,13 @@ class CoreFunctions
     private static array $latin9Entities = ['&euro;', '&Scaron;', '&scaron;', '&#142;', '&#158;', '&OElig;', '&oelig;', '&Yuml;'];
 
     /**
+     * Hidden constructor to prevent instances of this class.
+     */
+    private function __construct()
+    {
+    }
+
+    /**
      * Default operations while accessing the admin panel.
      */
     public static function accessAdminPanel(): void
@@ -91,10 +98,7 @@ class CoreFunctions
     public static function addURL(string $subject): string
     {
         $tempBBCode = time(); //This is the placeholder for "url"
-        $subject = preg_replace_callback("/([^ ^>^\]^=^\n^\r]+?:\/\/|www\.)[^ ^<^\.^\[]+(\.[^ ^<^\.^\[^\]^\n^\r]+)+/si", function($arr) use($tempBBCode)
-        {
-            return !empty($arr[2]) && Functions::stripos($arr[0], '[url]') === false && Functions::strripos($arr[0], '[/url]') === false ? '[' . $tempBBCode . ']' . ($arr[1] == 'www.' ? 'http://' : '') . $arr[0] . '[/' . $tempBBCode . ']' : $arr[0];
-        }, $subject);
+        $subject = preg_replace_callback("/([^ ^>^\]^=^\n^\r]+?:\/\/|www\.)[^ ^<^\.^\[]+(\.[^ ^<^\.^\[^\]^\n^\r]+)+/si", fn($arr) => !empty($arr[2]) && Functions::stripos($arr[0], '[url]') === false && Functions::strripos($arr[0], '[/url]') === false ? '[' . $tempBBCode . ']' . ($arr[1] == 'www.' ? 'http://' : '') . $arr[0] . '[/' . $tempBBCode . ']' : $arr[0], $subject);
         //After adding [url]s to *any* link, strip off unwanted ones:
         foreach(['iframe', 'flash', 'url', 'img', 'email', 'code', 'php', 'noparse'] as $curBBCode)
         {
@@ -243,10 +247,7 @@ class CoreFunctions
      */
     public static function file(string $filename, ?int $flags=0, ?string $trimCharList=null, bool $datapath=true)
     {
-        $trimCallback = function($entry) use($trimCharList)
-        {
-            return trim($entry, empty($trimCharList) ? " \n\r\0\x0B" : $trimCharList);
-        };
+        $trimCallback = fn($entry) => trim($entry, empty($trimCharList) ? " \n\r\0\x0B" : $trimCharList);
         if($datapath && self::$isCaching)
         {
             if(isset(self::$fileCache[$filename][0]))
@@ -358,7 +359,7 @@ class CoreFunctions
     public static function getFileLock(string $name): bool
     {
         self::$cache['locks'][$name] = fopen(DATAPATH . 'vars/' . $name . '.lock', 'w');
-        ($locked = flock(self::$cache['locks'][$name], LOCK_EX)) or Logger::getInstance()->log('Error getting ' . $name . ' file lock!', LOG_FILESYSTEM);
+        ($locked = flock(self::$cache['locks'][$name], LOCK_EX)) or Logger::getInstance()->log('Error getting ' . $name . ' file lock!', Logger::LOG_FILESYSTEM);
         return $locked;
     }
 
@@ -749,9 +750,9 @@ class CoreFunctions
      * @param int $flags Optional flags to use
      * @return array Matched files/directories or empty array
      */
-    public static function glob(string $pattern, int $flags=null): array
+    public static function glob(string $pattern, int $flags=0): array
     {
-        return is_array($files = glob($pattern, $flags)) ? $files : [];
+        return glob($pattern, $flags) ?: [];
     }
 
     /**
@@ -769,7 +770,7 @@ class CoreFunctions
         if(!array_key_exists($mode, $modeTable))
         {
             //Escaping of '%' to protect logger
-            Logger::getInstance()->log('Unknown mode "' . Functions::str_replace('%', '%%', $mode) . '" in ' . $module . '; using default', LOG_FILESYSTEM);
+            Logger::getInstance()->log('Unknown mode "' . Functions::str_replace('%', '%%', $mode) . '" in ' . $module . '; using default', Logger::LOG_FILESYSTEM);
             isset($_SESSION['unknownModes']) ? $_SESSION['unknownModes']++ : $_SESSION['unknownModes'] = 0;
             if($_SESSION['unknownModes'] > mt_rand(5, 10))
             {
@@ -886,7 +887,7 @@ class CoreFunctions
      */
     public static function releaseLock(string $name): void
     {
-        flock(self::$cache['locks'][$name], LOCK_UN) or Logger::getInstance()->log('Error releasing ' . $name . ' file lock!', LOG_FILESYSTEM);
+        flock(self::$cache['locks'][$name], LOCK_UN) or Logger::getInstance()->log('Error releasing ' . $name . ' file lock!', Logger::LOG_FILESYSTEM);
         fclose(self::$cache['locks'][$name]);
     }
 
@@ -1083,7 +1084,7 @@ class CoreFunctions
      */
     public static function updateUserPostCounter(int $userID): void
     {
-        $user = self::file('members/' . $userID . '.xbb') or exit(Logger::getInstance()->log('Cannot access user ' . $userID . ' for updating posts!', LOG_FILESYSTEM));
+        $user = self::file('members/' . $userID . '.xbb') or exit(Logger::getInstance()->log('Cannot access user ' . $userID . ' for updating posts!', Logger::LOG_FILESYSTEM));
         $user[5]++;
         self::file_put_contents('members/' . $userID . '.xbb', implode("\n", $user));
     }

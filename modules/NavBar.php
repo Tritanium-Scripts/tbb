@@ -42,10 +42,7 @@ class NavBar
      */
     public function getNavBar(bool $isLinked=true): array
     {
-        return array_map(function($element) use($isLinked)
-        {
-            return $isLinked ? array($element[0] . $element[2], $element[1]) : $element[0];
-        }, $this->elements);
+        return array_map(fn($element) => $isLinked ? array($element[0] . $element[2], $element[1]) : $element[0], $this->elements);
     }
 }
 ?>

@@ -532,10 +532,7 @@ class AdminForum extends PublicModule
             }
             Template::getInstance()->assign(['forumID' => $forumID,
                 //Only assign groups without having special rights for this forum
-                'groups' => array_filter($groups, function($group) use($specialGroupIDs)
-                {
-                    return !in_array($group[0], [implode(',', $specialGroupIDs)]);
-                }),
+                'groups' => array_filter($groups, fn($group) => !in_array($group[0], [implode(',', $specialGroupIDs)])),
                 'forumRights' => array_map(function($right)
                 {
                     return $right == 1;

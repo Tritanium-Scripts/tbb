@@ -47,7 +47,7 @@ class Language
             foreach(glob('languages/*') as $curLangCode)
                 $this->availableLangs[] = basename($curLangCode);
             if(Config::getInstance()->getCfgVal('use_file_caching') == 1)
-                Functions::file_put_contents('cache/Languages.cache.php', '<?php $this->availableLangs = array(\'' . implode('\', \'', $this->availableLangs) . '\'); ?>', LOCK_EX, false, false);
+                Functions::file_put_contents('cache/Languages.cache.php', '<?php $this->availableLangs = [\'' . implode('\', \'', $this->availableLangs) . '\']; ?>', LOCK_EX, false, false);
         }
         $this->setPrefLang();
     }
