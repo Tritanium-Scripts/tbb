@@ -3,14 +3,14 @@
  * Defines various constants.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2023 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2024 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
 define('SCRIPTSTART', microtime(true));
 define('INDEXFILE', 'index.php');
 define('ERR_REPORTING', E_ERROR | E_WARNING | E_PARSE); //Report only warnings or higher
-define('COPYRIGHT_YEAR', 2023); //Displayed in page footer
+define('COPYRIGHT_YEAR', 2024); //Displayed in page footer
 /*
  * Two version numbers of this script are used
  * to prevent selective bug using in case of
@@ -20,18 +20,6 @@ define('VERSION_PUBLIC', '1.10');
 define('VERSION_PRIVATE', VERSION_PUBLIC . '.0.0');
 //Define global data path
 include('DataPath.php');
-//Logging constants
-define('LOG_ACP_ACCESS', 2);    //Failed ACP access
-define('LOG_FAILED_LOGIN', 3);  //Failed login
-define('LOG_NEW_POSTING', 4);   //New topic or post
-define('LOG_EDIT_POSTING', 5);  //Edited, deleted, moved post or topic
-define('LOG_USER_CONNECT', 6);  //User connected to board
-define('LOG_LOGIN_LOGOUT', 7);  //Logins and logouts
-define('LOG_ACP_ACTION', 8);    //Admin actions
-define('LOG_USER_TRAFFIC', 9);  //PMs and mails
-define('LOG_EDIT_PROFILE', 10); //Profile changed
-define('LOG_REGISTRATION', 11); //New registration
-define('LOG_NEW_PASSWORD', 12); //New password request
 //BBCode types
 define('BBCODE_LIST', 0);       //List
 define('BBCODE_BOLD', 1);       //Bold

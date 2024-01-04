@@ -163,7 +163,7 @@ class PostNew extends PublicModule
                         foreach(array_map(['Functions', 'getUserData'], Functions::explodeByComma($this->forum[11])) as $curMod)
                             Functions::sendMessage($curMod[3], 'notify_mod_new_poll', $curMod[0], Config::getInstance()->getCfgVal('address_to_forum') . '/' . INDEXFILE . '?mode=viewthread&forum_id=' . $this->forum[0] . '&thread=' . $newLastTopicID);
                     //Done
-                    Logger::getInstance()->log('New poll (' . $this->forum[0] . ',' . $newLastTopicID . ') posted by %s', LOG_NEW_POSTING);
+                    Logger::getInstance()->log('New poll (' . $this->forum[0] . ',' . $newLastTopicID . ') posted by %s', Logger::LOG_NEW_POSTING);
                     Functions::skipConfirmMessage(INDEXFILE . '?mode=viewthread&forum_id=' . $this->forum[0] . '&thread=' . $newLastTopicID . SID_AMPER_RAW);
                     Template::getInstance()->printMessage('poll_posted', Functions::getMsgBackLinks($this->forum[0], $newLastTopicID, 'view_new_poll'));
                 }
@@ -207,7 +207,7 @@ class PostNew extends PublicModule
                         foreach(array_map(['Functions', 'getUserData'], Functions::explodeByComma($this->forum[11])) as $curMod)
                             Functions::sendMessage($curMod[3], 'notify_mod_new_topic', $curMod[0], Config::getInstance()->getCfgVal('address_to_forum') . '/' . INDEXFILE . '?mode=viewthread&forum_id=' . $this->forum[0] . '&thread=' . $newLastTopicID);
                     //Done
-                    Logger::getInstance()->log('New topic (' . $this->forum[0] . ',' . $newLastTopicID . ') posted by %s', LOG_NEW_POSTING);
+                    Logger::getInstance()->log('New topic (' . $this->forum[0] . ',' . $newLastTopicID . ') posted by %s', Logger::LOG_NEW_POSTING);
                     Functions::skipConfirmMessage(INDEXFILE . '?mode=viewthread&forum_id=' . $this->forum[0] . '&thread=' . $newLastTopicID . SID_AMPER_RAW);
                     Template::getInstance()->printMessage('topic_posted', Functions::getMsgBackLinks($this->forum[0], $newLastTopicID, 'view_new_topic'));
                 }

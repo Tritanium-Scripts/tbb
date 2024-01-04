@@ -201,7 +201,7 @@ class Profile extends PublicModule
                         //Update to file
                         Functions::file_put_contents('members/' . $this->userData[1] . '.xbb', implode("\n", $this->userData));
                         //And done
-                        Logger::getInstance()->log('%s edited profile from ID: ' . $this->userData[1], LOG_EDIT_PROFILE);
+                        Logger::getInstance()->log('%s edited profile from ID: ' . $this->userData[1], Logger::LOG_EDIT_PROFILE);
                         Template::getInstance()->printMessage('profile_saved', INDEXFILE . '?faction=profile&amp;profile_id=' . $this->userData[1] . SID_AMPER, INDEXFILE . '?faction=profile&amp;mode=edit&amp;profile_id=' . $this->userData[1] . SID_AMPER, Functions::getMsgBackLinks());
                     }
                 }
@@ -298,7 +298,7 @@ class Profile extends PublicModule
 
 //vCard
             case 'vCard':
-            Logger::getInstance()->log('%s downloaded vCard from user ' . $this->userData[0] . ' (ID: ' . $this->userData[1] . ')', LOG_USER_TRAFFIC);
+            Logger::getInstance()->log('%s downloaded vCard from user ' . $this->userData[0] . ' (ID: ' . $this->userData[1] . ')', Logger::LOG_USER_TRAFFIC);
             WhoIsOnline::getInstance()->setLocation('vCard,' . $this->userData[1]);
             $vCard = "BEGIN:VCARD\nVERSION:3.0\nN:;;;;\nFN:" . $this->userData[12] . "\nNICKNAME:" . $this->userData[0] . "\n" . ($this->userData[14][1] == '1' ? 'EMAIL;TYPE=INTERNET:' . $this->userData[3] . "\n" : '') . 'URL:' . $this->userData[9] . "\nCLASS:" . (Config::getInstance()->getCfgVal('must_be_logged_in') == 1 ? 'PRIVATE' : 'PUBLIC') . "\nX-GENERATOR:Tritanium Bulletin Board " . VERSION_PUBLIC . "\n" . (!empty($this->userData[13]) ? 'X-ICQ:' . $this->userData[13] . "\n" : '') . 'END:VCARD';
             header('Content-Disposition: attachment; filename=' . htmlspecialchars_decode($this->userData[0]) . '.vcf');

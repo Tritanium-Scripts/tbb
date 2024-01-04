@@ -73,7 +73,7 @@ class AdminCensor extends PublicModule
                     //Add to censorships
                     Functions::file_put_contents('vars/cwords.var', $this->censorshipID . "\t" . $newWord . "\t" . $newReplacement . "\t\n", FILE_APPEND);
                     //Done
-                    Logger::getInstance()->log('%s added new censorship (ID: ' . $this->censorshipID . ')', LOG_ACP_ACTION);
+                    Logger::getInstance()->log('%s added new censorship (ID: ' . $this->censorshipID . ')', Logger::LOG_ACP_ACTION);
                     header('Location: ' . INDEXFILE . '?faction=ad_censor' . SID_AMPER_RAW);
                     Template::getInstance()->printMessage('censorship_added');
                 }
@@ -101,7 +101,7 @@ class AdminCensor extends PublicModule
                     //Save it
                     Functions::file_put_contents('vars/cwords.var', implode("\n", array_map(['Functions', 'implodeByTab'], $this->censorships)) . "\n");
                     //Done
-                    Logger::getInstance()->log('%s edited censorship (ID: ' . $this->censorshipID . ')', LOG_ACP_ACTION);
+                    Logger::getInstance()->log('%s edited censorship (ID: ' . $this->censorshipID . ')', Logger::LOG_ACP_ACTION);
                     header('Location: ' . INDEXFILE . '?faction=ad_censor' . SID_AMPER_RAW);
                     Template::getInstance()->printMessage('censorship_edited');
                 }
@@ -124,7 +124,7 @@ class AdminCensor extends PublicModule
             unset($this->censorships[$key]);
             Functions::file_put_contents('vars/cwords.var', empty($this->censorships) ? '' : implode("\n", array_map(['Functions', 'implodeByTab'], $this->censorships)) . "\n");
             //Done
-            Logger::getInstance()->log('%s deleted censorship (ID: ' . $this->censorshipID . ')', LOG_ACP_ACTION);
+            Logger::getInstance()->log('%s deleted censorship (ID: ' . $this->censorshipID . ')', Logger::LOG_ACP_ACTION);
             header('Location: ' . INDEXFILE . '?faction=ad_censor' . SID_AMPER_RAW);
             Template::getInstance()->printMessage('censorship_deleted');
             break;

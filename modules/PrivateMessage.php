@@ -224,7 +224,7 @@ class PrivateMessage extends PublicModule
                             Functions::file_put_contents('members/' . $this->pmBoxID . '.ach', Functions::implodeByTab($newPM) . "\n", FILE_APPEND);
                         }
                         //Done
-                        Logger::getInstance()->log('%s sent PM to ' . $recipient[0] . ' (ID: ' . $recipient[1] . ')', LOG_USER_TRAFFIC);
+                        Logger::getInstance()->log('%s sent PM to ' . $recipient[0] . ' (ID: ' . $recipient[1] . ')', Logger::LOG_USER_TRAFFIC);
                         Functions::skipConfirmMessage(INDEXFILE . '?faction=pm&pmbox_id=' . $this->pmBoxID . SID_AMPER_RAW);
                         Template::getInstance()->printMessage('pm_sent', INDEXFILE . '?faction=pm&amp;pmbox_id=' . $this->pmBoxID . SID_AMPER, Functions::getMsgBackLinks());
                     }

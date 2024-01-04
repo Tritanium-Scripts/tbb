@@ -56,7 +56,7 @@ class AdminLogfile extends PublicModule
                 Template::getInstance()->printMessage('logfile_not_found');
             Template::getInstance()->assign(['logfile' => array_map('htmlspecialchars', Functions::file($this->log)),
                 'date' => strftime(Language::getInstance()->getString('DAYLOGFORMAT'), gmmktime(0, 0, 0, Functions::substr($logfile = basename($this->log, '.log'), 2, 2), Functions::substr($logfile, 0, 2), Functions::substr($logfile, 4)))]);
-            Logger::getInstance()->log('%s viewed logfile ' . $this->log, LOG_ACP_ACTION);
+            Logger::getInstance()->log('%s viewed logfile ' . $this->log, Logger::LOG_ACP_ACTION);
             break;
 
             case 'download':
@@ -70,7 +70,7 @@ class AdminLogfile extends PublicModule
             header('Pragma: no-cache');
             header('Content-Length: ' . filesize(DATAPATH . $this->log));
             readfile(DATAPATH . $this->log);
-            Logger::getInstance()->log('%s downloaded logfile ' . $this->log, LOG_ACP_ACTION);
+            Logger::getInstance()->log('%s downloaded logfile ' . $this->log, Logger::LOG_ACP_ACTION);
             exit();
             break;
 
@@ -86,7 +86,7 @@ class AdminLogfile extends PublicModule
                 if($curLogfile != gmdate('dmY'))
                 {
                     Functions::unlink('logs/' . $curLogfile . '.log');
-                    Logger::getInstance()->log('%s deleted logfile logs/' . $curLogfile . '.log', LOG_ACP_ACTION);
+                    Logger::getInstance()->log('%s deleted logfile logs/' . $curLogfile . '.log', Logger::LOG_ACP_ACTION);
                 }
 
 //AdminLogfile

@@ -134,7 +134,7 @@ class AdminUser extends PublicModule
                     if($sendRegMail)
                         Functions::sendMessage($newUserFile[3], 'new_registration', htmlspecialchars_decode($newUserFile[0]), Config::getInstance()->getCfgVal('forum_name'), $newUserFile[1], $newUserFile[3], $newUser['pw2'], Config::getInstance()->getCfgVal('address_to_forum') . '/' . INDEXFILE);
                     //Done
-                    Logger::getInstance()->log('%s created new member (ID: ' . $newUserID . ')', LOG_ACP_ACTION);
+                    Logger::getInstance()->log('%s created new member (ID: ' . $newUserID . ')', Logger::LOG_ACP_ACTION);
                     Template::getInstance()->printMessage('member_created');
                 }
             }
@@ -192,7 +192,7 @@ class AdminUser extends PublicModule
                         Auth::getInstance()->loginChanged();
                     }
                     //Done
-                    Logger::getInstance()->log('%s deleted user (ID: ' . $editUser[1] . ')', LOG_ACP_ACTION);
+                    Logger::getInstance()->log('%s deleted user (ID: ' . $editUser[1] . ')', Logger::LOG_ACP_ACTION);
                     Template::getInstance()->printMessage('member_deleted');
                 }
                 //Normal edit
@@ -219,7 +219,7 @@ class AdminUser extends PublicModule
                     $editUser[19] = Functions::implodeByTab($editUser[19]);
                     Functions::file_put_contents('members/' . $editUser[1] . '.xbb', implode("\n", $editUser));
                     //Done
-                    Logger::getInstance()->log('%s edited user (ID: ' . $editUser[1] . ')', LOG_ACP_ACTION);
+                    Logger::getInstance()->log('%s edited user (ID: ' . $editUser[1] . ')', Logger::LOG_ACP_ACTION);
                     Template::getInstance()->printMessage('member_edited');
                 }
             }

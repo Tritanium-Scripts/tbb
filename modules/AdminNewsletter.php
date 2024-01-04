@@ -70,7 +70,7 @@ class AdminNewsletter extends PublicModule
                 //Dispatch done?
                 if(empty($_SESSION['newsletter']['recipients']))
                 {
-                    Logger::getInstance()->log('%s sent newsletter (' . $_SESSION['newsletter']['dispatch'] . ', ' . $_SESSION['newsletter']['recipient'] . ')', LOG_ACP_ACTION);
+                    Logger::getInstance()->log('%s sent newsletter (' . $_SESSION['newsletter']['dispatch'] . ', ' . $_SESSION['newsletter']['recipient'] . ')', Logger::LOG_ACP_ACTION);
                     $sent = $_SESSION['newsletter']['sent'];
                     unset($_SESSION['newsletter']);
                     Template::getInstance()->printMessage('newsletter_sent_to_x_user', $sent);

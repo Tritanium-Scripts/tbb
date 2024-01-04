@@ -3,7 +3,7 @@
  * Various static functions and wrappers.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2023 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2024 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -68,12 +68,12 @@ abstract class CoreFunctions
         NavBar::getInstance()->addElement(Language::getInstance()->getString('administration'), INDEXFILE . '?faction=adminpanel' . SID_AMPER);
         if(!Auth::getInstance()->isAdmin())
         {
-            Logger::getInstance()->log('%s tried to access administration', LOG_ACP_ACCESS);
+            Logger::getInstance()->log('%s tried to access administration', Logger::LOG_ACP_ACCESS);
             Template::getInstance()->printMessage('permission_denied');
         }
         //Log first entering of any admin panel site
         if(@Functions::stripos($_SERVER['HTTP_REFERER'], 'faction=ad') === false)
-            Logger::getInstance()->log('%s entered administration', LOG_ACP_ACTION);
+            Logger::getInstance()->log('%s entered administration', Logger::LOG_ACP_ACTION);
         Config::getInstance()->setCfgVal('twidth', '100%');
         Language::getInstance()->parseFile('AdminIndex'); //This is the 'AdminMain.ini'
     }
@@ -776,7 +776,7 @@ abstract class CoreFunctions
             {
                 list(,,,$lastIPID) = @end(self::getBannedIPs());
                 self::file_put_contents('vars/ip.var', $_SERVER['REMOTE_ADDR'] . "\t-1\t-1\t" . ($lastIPID+1) . "\t\n", FILE_APPEND);
-                Logger::getInstance()->log('Auto-banned %s after catching ' . $_SESSION['unknownModes'] . ' unknown modes of a possible hacking attempt!', LOG_ACP_ACTION);
+                Logger::getInstance()->log('Auto-banned %s after catching ' . $_SESSION['unknownModes'] . ' unknown modes of a possible hacking attempt!', Logger::LOG_ACP_ACTION);
             }
             $mode = $defaultMode;
         }

@@ -53,7 +53,7 @@ class PlugIns
         else
         {
             $plugInsCache = "<?php\n";
-            foreach(Functions::glob('plugins/*.php') as $curPlugIn)
+            foreach(Functions::glob('modules/PlugIns/*.php') as $curPlugIn)
             {
                 //Detect namespace + class name of current plug-in
                 $curDeclaredClasses = get_declared_classes();

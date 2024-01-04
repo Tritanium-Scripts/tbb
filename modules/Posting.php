@@ -253,7 +253,7 @@ class Posting extends PublicModule
                                 Functions::sendMessage($notifyUser[3], 'notify_sub_new_reply', $notifyUser[0], Config::getInstance()->getCfgVal('address_to_forum') . '/' . INDEXFILE . '?mode=viewthread&forum_id=' . $this->forum[0] . '&thread=' . $this->topicID);
                     }
                     //Done
-                    Logger::getInstance()->log('New reply (' . $this->forum[0] . ',' . $this->topicID . ') posted by %s', LOG_NEW_POSTING);
+                    Logger::getInstance()->log('New reply (' . $this->forum[0] . ',' . $this->topicID . ') posted by %s', Logger::LOG_NEW_POSTING);
                     Functions::skipConfirmMessage(INDEXFILE . '?mode=viewthread&forum_id=' . $this->forum[0] . '&thread=' . $this->topicID . '&z=last' . SID_AMPER_RAW . '#post' . $newPost[0]);
                     Template::getInstance()->printMessage('reply_posted', Functions::getMsgBackLinks($this->forum[0], $this->topicID, 'view_new_reply', $newPost[0]));
                 }
@@ -325,7 +325,7 @@ class Posting extends PublicModule
                         //Update counters and set new last post
                         Functions::updateForumData($this->forum[0], -1, -1);
                         //Done
-                        Logger::getInstance()->log('%s deleted topic by deleting the last post (' . $this->forum[0] . ',' . $this->topicID . ',' . $this->postID . ')', LOG_EDIT_POSTING);
+                        Logger::getInstance()->log('%s deleted topic by deleting the last post (' . $this->forum[0] . ',' . $this->topicID . ',' . $this->postID . ')', Logger::LOG_EDIT_POSTING);
                         Functions::skipConfirmMessage(INDEXFILE . '?mode=viewforum&forum_id=' . $this->forum[0] . SID_AMPER_RAW);
                         Template::getInstance()->printMessage('topic_deleted', Functions::getMsgBackLinks($this->forum[0]));
                     }
@@ -341,7 +341,7 @@ class Posting extends PublicModule
                         Functions::file_put_contents('foren/' . $this->forum[0] . '-' . $this->topicID . '.xbb', Functions::implodeByTab($this->topic) . "\n" . implode("\n", $this->topicFile) . "\n");
                         Functions::updateForumData($this->forum[0], 0, -1);
                         //Done
-                        Logger::getInstance()->log('%s deleted post (' . $this->forum[0] . ',' . $this->topicID . ',' . $this->postID . ')', LOG_EDIT_POSTING);
+                        Logger::getInstance()->log('%s deleted post (' . $this->forum[0] . ',' . $this->topicID . ',' . $this->postID . ')', Logger::LOG_EDIT_POSTING);
                         Functions::skipConfirmMessage(INDEXFILE . '?mode=viewthread&forum_id=' . $this->forum[0] . '&thread=' . $this->topicID . SID_AMPER_RAW);
                         Template::getInstance()->printMessage('post_deleted', Functions::getMsgBackLinks($this->forum[0], $this->topicID));
                     }
@@ -378,7 +378,7 @@ class Posting extends PublicModule
                     //Update post in topic
                     Functions::file_put_contents('foren/' . $this->forum[0] . '-' . $this->topicID . '.xbb', Functions::implodeByTab($this->topic) . "\n" . implode("\n", $this->topicFile) . "\n");
                     //Done
-                    Logger::getInstance()->log('%s edited post (' . $this->forum[0] . ',' . $this->topicID . ',' . $this->postID . ')', LOG_EDIT_POSTING);
+                    Logger::getInstance()->log('%s edited post (' . $this->forum[0] . ',' . $this->topicID . ',' . $this->postID . ')', Logger::LOG_EDIT_POSTING);
                     Functions::skipConfirmMessage(INDEXFILE . '?mode=viewthread&forum_id=' . $this->forum[0] . '&thread=' . $this->topicID . '&z=' . $this->page . SID_AMPER_RAW . '#post' . $this->postID);
                     Template::getInstance()->printMessage('post_edited', Functions::getMsgBackLinks($this->forum[0], $this->topicID, 'back_to_post', $this->postID, $this->page));
                 }
@@ -443,7 +443,7 @@ class Posting extends PublicModule
                     //Update counters
                     Functions::updateForumData($this->forum[0], -1, -$size);
                     //Done
-                    Logger::getInstance()->log('%s deleted topic (' . $this->forum[0] . ',' . $this->topicID . ')', LOG_EDIT_POSTING);
+                    Logger::getInstance()->log('%s deleted topic (' . $this->forum[0] . ',' . $this->topicID . ')', Logger::LOG_EDIT_POSTING);
                     Functions::skipConfirmMessage(INDEXFILE . '?mode=viewforum&forum_id=' . $this->forum[0] . SID_AMPER_RAW);
                     Template::getInstance()->printMessage('topic_deleted', Functions::getMsgBackLinks($this->forum[0]));
                 }
@@ -456,7 +456,7 @@ class Posting extends PublicModule
                 {
                     $this->topic[0] = 2;
                     Functions::file_put_contents('foren/' . $this->forum[0] . '-' . $this->topicID . '.xbb', Functions::implodeByTab($this->topic) . "\n" . implode("\n", array_map(['Functions', 'implodeByTab'], $this->topicFile)));
-                    Logger::getInstance()->log('%s closed topic (' . $this->forum[0] . ',' . $this->topicID . ')', LOG_EDIT_POSTING);
+                    Logger::getInstance()->log('%s closed topic (' . $this->forum[0] . ',' . $this->topicID . ')', Logger::LOG_EDIT_POSTING);
                     Functions::skipConfirmMessage(INDEXFILE . '?mode=viewthread&forum_id=' . $this->forum[0] . '&thread=' . $this->topicID . SID_AMPER_RAW);
                     Template::getInstance()->printMessage('topic_closed', Functions::getMsgBackLinks($this->forum[0], $this->topicID));
                 }
@@ -469,7 +469,7 @@ class Posting extends PublicModule
                 {
                     $this->topic[0] = 1;
                     Functions::file_put_contents('foren/' . $this->forum[0] . '-' . $this->topicID . '.xbb', Functions::implodeByTab($this->topic) . "\n" . implode("\n", array_map(['Functions', 'implodeByTab'], $this->topicFile)));
-                    Logger::getInstance()->log('%s opened topic (' . $this->forum[0] . ',' . $this->topicID . ')', LOG_EDIT_POSTING);
+                    Logger::getInstance()->log('%s opened topic (' . $this->forum[0] . ',' . $this->topicID . ')', Logger::LOG_EDIT_POSTING);
                     Functions::skipConfirmMessage(INDEXFILE . '?mode=viewthread&forum_id=' . $this->forum[0] . '&thread=' . $this->topicID . SID_AMPER_RAW);
                     Template::getInstance()->printMessage('topic_opened', Functions::getMsgBackLinks($this->forum[0], $this->topicID));
                 }
@@ -568,7 +568,7 @@ class Posting extends PublicModule
                 {
                     $stickyFile[] = $this->topicID;
                     Functions::file_put_contents('foren/' . $this->forum[0] . '-sticker.xbb', implode("\n", $stickyFile));
-                    Logger::getInstance()->log('%s pinned topic (' . $this->forum[0] . ',' . $this->topicID . ')', LOG_EDIT_POSTING);
+                    Logger::getInstance()->log('%s pinned topic (' . $this->forum[0] . ',' . $this->topicID . ')', Logger::LOG_EDIT_POSTING);
                     Functions::skipConfirmMessage(INDEXFILE . '?mode=viewthread&forum_id=' . $this->forum[0] . '&thread=' . $this->topicID . SID_AMPER_RAW);
                     Template::getInstance()->printMessage('topic_pinned', Functions::getMsgBackLinks($this->forum[0], $this->topicID));
                 }
@@ -583,7 +583,7 @@ class Posting extends PublicModule
                 {
                     unset($stickyFile[$key]);
                     Functions::file_put_contents('foren/' . $this->forum[0] . '-sticker.xbb', implode("\n", $stickyFile));
-                    Logger::getInstance()->log('%s unpinned topic (' . $this->forum[0] . ',' . $this->topicID . ')', LOG_EDIT_POSTING);
+                    Logger::getInstance()->log('%s unpinned topic (' . $this->forum[0] . ',' . $this->topicID . ')', Logger::LOG_EDIT_POSTING);
                     Functions::skipConfirmMessage(INDEXFILE . '?mode=viewthread&forum_id=' . $this->forum[0] . '&thread=' . $this->topicID . SID_AMPER_RAW);
                     Template::getInstance()->printMessage('topic_unpinned', Functions::getMsgBackLinks($this->forum[0], $this->topicID));
                 }
@@ -623,7 +623,7 @@ class Posting extends PublicModule
                         elseif($poll[0] == '4')
                             $poll[0] = 2;
                         Functions::file_put_contents('polls/' . $this->topic[7] . '-1.xbb', Functions::implodeByTab($poll) . "\n" . implode("\n", array_map(['Functions', 'implodeByTab'], $pollFile)) . "\n");
-                        Logger::getInstance()->log('%s opened poll (' . $this->forum[0] . ',' . $this->topicID . ')', LOG_EDIT_POSTING);
+                        Logger::getInstance()->log('%s opened poll (' . $this->forum[0] . ',' . $this->topicID . ')', Logger::LOG_EDIT_POSTING);
                         header('Location: ' . INDEXFILE . '?faction=editpoll&poll_id=' . $this->topic[7] . '&forum_id=' . $this->forum[0] . '&topic_id=' . $this->topicID . SID_AMPER_RAW);
                         Template::getInstance()->printMessage('poll_edited', '');
                     }
@@ -635,7 +635,7 @@ class Posting extends PublicModule
                         elseif($poll[0] == '2')
                             $poll[0] = 4;
                         Functions::file_put_contents('polls/' . $this->topic[7] . '-1.xbb', Functions::implodeByTab($poll) . "\n" . implode("\n", array_map(['Functions', 'implodeByTab'], $pollFile)) . "\n");
-                        Logger::getInstance()->log('%s closed poll (' . $this->forum[0] . ',' . $this->topicID . ')', LOG_EDIT_POSTING);
+                        Logger::getInstance()->log('%s closed poll (' . $this->forum[0] . ',' . $this->topicID . ')', Logger::LOG_EDIT_POSTING);
                         header('Location: ' . INDEXFILE . '?faction=editpoll&poll_id=' . $this->topic[7] . '&forum_id=' . $this->forum[0] . '&topic_id=' . $this->topicID . SID_AMPER_RAW);
                         Template::getInstance()->printMessage('poll_edited', '');
                     }
@@ -652,7 +652,7 @@ class Posting extends PublicModule
                             $curPollOption = Functions::implodeByTab($curPollOption);
                         }
                         Functions::file_put_contents('polls/' . $this->topic[7] . '-1.xbb', Functions::implodeByTab($poll) . "\n" . implode("\n", $pollFile) . "\n");
-                        Logger::getInstance()->log('%s edited poll (' . $this->forum[0] . ',' . $this->topicID . ')', LOG_EDIT_POSTING);
+                        Logger::getInstance()->log('%s edited poll (' . $this->forum[0] . ',' . $this->topicID . ')', Logger::LOG_EDIT_POSTING);
                         Functions::skipConfirmMessage(INDEXFILE . '?mode=viewthread&forum_id=' . $this->forum[0] . '&thread=' . $this->topicID . SID_AMPER_RAW);
                         Template::getInstance()->printMessage('poll_edited', Functions::getMsgBackLinks($this->forum[0], $this->topicID, 'back_to_poll'));
                     }

@@ -88,7 +88,7 @@ class AdminGroup extends PublicModule
                         }
                     }
                     Functions::file_put_contents('vars/groups.var', $this->groupID . "\t" . $newName . "\t" . $newAvatar . "\t" . implode(',', $newUserIDs) . "\t\t\t\t\t\t\t\t\t\t\n", FILE_APPEND);
-                    Logger::getInstance()->log('%s created new group (ID: ' . $this->groupID . ')', LOG_ACP_ACTION);
+                    Logger::getInstance()->log('%s created new group (ID: ' . $this->groupID . ')', Logger::LOG_ACP_ACTION);
                     header('Location: ' . INDEXFILE . '?faction=ad_groups' . SID_AMPER_RAW);
                     Template::getInstance()->printMessage('group_created');
                 }
@@ -143,7 +143,7 @@ class AdminGroup extends PublicModule
                         $curGroup[3] = implode(',', $curGroup[3]);
                     Functions::file_put_contents('vars/groups.var', implode("\n", array_map(['Functions', 'implodeByTab'], $this->groups)) . "\n");
                     //Done
-                    Logger::getInstance()->log('%s edited group (ID: ' . $this->groupID . ')', LOG_ACP_ACTION);
+                    Logger::getInstance()->log('%s edited group (ID: ' . $this->groupID . ')', Logger::LOG_ACP_ACTION);
                     header('Location: ' . INDEXFILE . '?faction=ad_groups' . SID_AMPER_RAW);
                     Template::getInstance()->printMessage('group_edited');
                 }
@@ -199,7 +199,7 @@ class AdminGroup extends PublicModule
                     $curGroup[3] = implode(',', $curGroup[3]);
                 Functions::file_put_contents('vars/groups.var', empty($this->groups) ? '' : implode("\n", array_map(['Functions', 'implodeByTab'], $this->groups)) . "\n");
                 //Done
-                Logger::getInstance()->log('%s deleted group (ID: ' . $this->groupID . ')', LOG_ACP_ACTION);
+                Logger::getInstance()->log('%s deleted group (ID: ' . $this->groupID . ')', Logger::LOG_ACP_ACTION);
                 header('Location: ' . INDEXFILE . '?faction=ad_groups' . SID_AMPER_RAW);
                 Template::getInstance()->printMessage('group_deleted');
             }

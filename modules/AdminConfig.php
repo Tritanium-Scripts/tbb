@@ -100,7 +100,7 @@ class AdminConfig extends PublicModule
                     unset($_SESSION['rebuildTopicIndex'][$curForumID]);
                 }
                 unset($_SESSION['rebuildTopicIndex']);
-                Logger::getInstance()->log('%s rebuilt topic index', LOG_ACP_ACTION);
+                Logger::getInstance()->log('%s rebuilt topic index', Logger::LOG_ACP_ACTION);
                 Template::getInstance()->printMessage('topic_index_rebuilt');
             }
             if(Functions::getValueFromGlobals('confirmed') == 'true')
@@ -159,7 +159,7 @@ class AdminConfig extends PublicModule
                 unset($_SESSION['recalculateCounters']);
                 //Now the members
                 Functions::file_put_contents('vars/member_counter.var', count(glob(DATAPATH . 'members/[!0t]*.xbb')));
-                Logger::getInstance()->log('%s recalculated counters', LOG_ACP_ACTION);
+                Logger::getInstance()->log('%s recalculated counters', Logger::LOG_ACP_ACTION);
                 Template::getInstance()->printMessage('counters_recalculated');
             }
             if(Functions::getValueFromGlobals('confirmed') == 'true')
@@ -179,7 +179,7 @@ class AdminConfig extends PublicModule
             foreach(glob('cache/*.[!svn]*') as $curFile)
                 if(unlink($curFile))
                     $deleted++;
-            Logger::getInstance()->log('%s cleared cache', LOG_ACP_ACTION);
+            Logger::getInstance()->log('%s cleared cache', Logger::LOG_ACP_ACTION);
             Template::getInstance()->printMessage('cache_cleared', $deleted);
             break;
 
@@ -190,7 +190,7 @@ class AdminConfig extends PublicModule
             {
                 if(Functions::file_exists('vars/settings.var'))
                     Functions::unlink('vars/settings.var');
-                Logger::getInstance()->log('%s reset board settings', LOG_ACP_ACTION);
+                Logger::getInstance()->log('%s reset board settings', Logger::LOG_ACP_ACTION);
                 Template::getInstance()->printMessage('settings_reset');
             }
             break;
@@ -212,7 +212,7 @@ class AdminConfig extends PublicModule
                 $newSettings[73] = Functions::strtolower($newSettings[73]); //Lower file extensions
                 ksort($newSettings);
                 Functions::file_put_contents('vars/settings.var', implode("\n", $newSettings));
-                Logger::getInstance()->log('%s edited board settings', LOG_ACP_ACTION);
+                Logger::getInstance()->log('%s edited board settings', Logger::LOG_ACP_ACTION);
                 Template::getInstance()->printMessage('new_settings_saved');
             }
             //Get time zones

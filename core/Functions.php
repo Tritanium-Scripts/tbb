@@ -3,7 +3,7 @@
  * Wraps PHP's normal string functions to itself and defining the final feature set of Functions class with mbstring extension support disabled.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2023 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2024 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -23,7 +23,7 @@ class Functions extends CoreFunctions
                 'Reply-To: ' . $forumName . ' <' . Config::getInstance()->getCfgVal('forum_email') . '>' . "\r\n" .
                 'X-Mailer: PHP/' . phpversion() . "\r\n" .
                 'Content-Type: text/plain; charset=' . Language::getInstance()->getString('encoding', 'Mails'));
-            Logger::getInstance()->log('Mail ' . ($isAccepted ? 'sent to ' : 'FAILED to send to ') . $to, LOG_USER_TRAFFIC);
+            Logger::getInstance()->log('Mail ' . ($isAccepted ? 'sent to ' : 'FAILED to send to ') . $to, Logger::LOG_USER_TRAFFIC);
             return $isAccepted;
         }
         return false;

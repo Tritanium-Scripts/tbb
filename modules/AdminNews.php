@@ -61,7 +61,7 @@ class AdminNews extends PublicModule
                 $this->news = $this->newsType . "\t" . $this->newsDuration . "\t\n" . ($this->newsType == 1 ? Functions::nl2br($this->news) : ($this->newsType == 2 ? $this->news : ''));
             }
             Functions::file_put_contents('vars/news.var', $this->news);
-            Logger::getInstance()->log('%s updated forum news', LOG_ACP_ACTION);
+            Logger::getInstance()->log('%s updated forum news', Logger::LOG_ACP_ACTION);
         }
         //Process available/updated news
         if(count($this->news = Functions::file('vars/news.var')) != 0)

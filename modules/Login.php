@@ -55,7 +55,7 @@ class Login extends PublicModule
         //If user is already logged in
         if(Auth::getInstance()->isLoggedIn() && $this->mode == 'login')
         {
-            Logger::getInstance()->log('%s tried to log in again', LOG_FAILED_LOGIN);
+            Logger::getInstance()->log('%s tried to log in again', Logger::LOG_FAILED_LOGIN);
             header('Location: ' . INDEXFILE . SID_QMARK);
             Template::getInstance()->printMessage('already_logged_in', Functions::getMsgBackLinks());
         }
@@ -89,7 +89,7 @@ class Login extends PublicModule
                         {
                             $this->errors[] = Language::getInstance()->getString('user_not_found');
                             $this->loginName = $curMember[0]; //Undo strtolower for template and log
-                            Logger::getInstance()->log('Login with deleted user "' . $curMember[0] . '" (ID: ' . $curMember[1] . ') failed', LOG_FAILED_LOGIN);
+                            Logger::getInstance()->log('Login with deleted user "' . $curMember[0] . '" (ID: ' . $curMember[1] . ') failed', Logger::LOG_FAILED_LOGIN);
                             break;
                         }
                         //Don't allow login for non-admins in case of active maintenance mode
@@ -100,7 +100,7 @@ class Login extends PublicModule
                         {
                             $this->errors[] = Language::getInstance()->getString('wrong_password');
                             $this->loginName = $curMember[0]; //Undo strtolower for template
-                            Logger::getInstance()->log('Login with wrong password for user "' . $curMember[0] . '" (ID: ' . $curMember[1] . ') failed', LOG_FAILED_LOGIN);
+                            Logger::getInstance()->log('Login with wrong password for user "' . $curMember[0] . '" (ID: ' . $curMember[1] . ') failed', Logger::LOG_FAILED_LOGIN);
                             break;
                         }
                         //All ok, do login
@@ -118,7 +118,7 @@ class Login extends PublicModule
                             if($this->loginPass == $curPasses[1])
                             {
                                 $curMember[2] = $curPasses[1];
-                                Logger::getInstance()->log('Requested password set as new one for "' . $curMember[0] . '" (ID: ' . $curMember[1] . ')', LOG_NEW_PASSWORD);
+                                Logger::getInstance()->log('Requested password set as new one for "' . $curMember[0] . '" (ID: ' . $curMember[1] . ')', Logger::LOG_NEW_PASSWORD);
                             }
                             Functions::file_put_contents('members/' . $curMember[1] . '.xbb', implode("\n", $curMember));
                             //Login session-based
@@ -133,7 +133,7 @@ class Login extends PublicModule
                                 $_SESSION['bewio'] = true;
                             Auth::getInstance()->loginChanged();
                             //That's it
-                            Logger::getInstance()->log($curMember[0] . ' (ID: ' . $curMember[1] . ') logged in', LOG_LOGIN_LOGOUT);
+                            Logger::getInstance()->log($curMember[0] . ' (ID: ' . $curMember[1] . ') logged in', Logger::LOG_LOGIN_LOGOUT);
                             //Detect location to redir
                             $location = $curMember[11] == '1' ? INDEXFILE . '?faction=profile&mode=edit' . SID_AMPER_RAW : (isset($_COOKIE['upbwhere']) && !empty($_COOKIE['upbwhere']) ? $_COOKIE['upbwhere'] : INDEXFILE . SID_QMARK);
                             header('Location: ' . $location);
@@ -145,7 +145,7 @@ class Login extends PublicModule
                 if(!$found)
                 {
                     $this->errors[] = Language::getInstance()->getString('user_not_found');
-                    Logger::getInstance()->log('Login with unknown user "' . $this->loginName . '" failed', LOG_FAILED_LOGIN);
+                    Logger::getInstance()->log('Login with unknown user "' . $this->loginName . '" failed', Logger::LOG_FAILED_LOGIN);
                 }
             }
             break;
@@ -173,12 +173,12 @@ class Login extends PublicModule
                             Functions::file_put_contents('members/' . $curMember[1] . '.xbb', implode("\n", $curMember));
                             if(!Functions::sendMessage($curMember[3], 'new_password_requested', $_SERVER['REMOTE_ADDR'], Functions::getValueFromGlobals('nick'), $newPass, Config::getInstance()->getCfgVal('address_to_forum') . '/' . INDEXFILE . '?faction=login'))
                                 Template::getInstance()->printMessage('sending_mail_failed');
-                            Logger::getInstance()->log('New password requested and sent to "' . $curMember[0] . '" (ID: ' . $curMember[1] . ')', LOG_NEW_PASSWORD);
+                            Logger::getInstance()->log('New password requested and sent to "' . $curMember[0] . '" (ID: ' . $curMember[1] . ')', Logger::LOG_NEW_PASSWORD);
                             Template::getInstance()->printMessage('new_password_created');
                         }
                     }
                     $this->errors[] = Language::getInstance()->getString('user_not_found');
-                    Logger::getInstance()->log('New password request for unknown user "' . $this->loginName . '" failed', LOG_NEW_PASSWORD);
+                    Logger::getInstance()->log('New password request for unknown user "' . $this->loginName . '" failed', Logger::LOG_NEW_PASSWORD);
                 }
             }
             else
@@ -190,7 +190,7 @@ class Login extends PublicModule
             case 'logout':
             if(Auth::getInstance()->isLoggedIn())
             {
-                Logger::getInstance()->log('%s logged out', LOG_LOGIN_LOGOUT);
+                Logger::getInstance()->log('%s logged out', Logger::LOG_LOGIN_LOGOUT);
                 //Delete user ID from WIO to work with previous guest ID form now on
                 WhoIsOnline::getInstance()->delete($_SESSION['userID']);
                 //Logout cookie-based

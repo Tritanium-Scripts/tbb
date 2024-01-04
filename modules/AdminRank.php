@@ -95,7 +95,7 @@ class AdminRank extends PublicModule
                             //Refresh sort order and save
                             $this->sortAndSaveRanks();
                             //Done
-                            Logger::getInstance()->log('%s edited rank (ID: ' . $rankID . ')', LOG_ACP_ACTION);
+                            Logger::getInstance()->log('%s edited rank (ID: ' . $rankID . ')', Logger::LOG_ACP_ACTION);
                             header('Location: ' . INDEXFILE . '?faction=ad_rank' . SID_AMPER_RAW);
                             Template::getInstance()->printMessage('rank_edited');
                             break;
@@ -140,7 +140,7 @@ class AdminRank extends PublicModule
                     $this->ranks[] = [$newRankID, $this->rankName, $this->requiredPosts, PHP_INT_MAX, $this->stars, ''];
                     $this->sortAndSaveRanks();
                     //Done
-                    Logger::getInstance()->log('%s created new rank (ID: ' . $newRankID . ')', LOG_ACP_ACTION);
+                    Logger::getInstance()->log('%s created new rank (ID: ' . $newRankID . ')', Logger::LOG_ACP_ACTION);
                     header('Location: ' . INDEXFILE . '?faction=ad_rank' . SID_AMPER_RAW);
                     Template::getInstance()->printMessage('new_rank_added');
                 }
@@ -161,7 +161,7 @@ class AdminRank extends PublicModule
                     if(empty($this->ranks))
                         Template::getInstance()->printMessage('one_rank_required');
                     $this->sortAndSaveRanks();
-                    Logger::getInstance()->log('%s deleted rank (ID: ' . $rankID . ')', LOG_ACP_ACTION);
+                    Logger::getInstance()->log('%s deleted rank (ID: ' . $rankID . ')', Logger::LOG_ACP_ACTION);
                     header('Location: ' . INDEXFILE . '?faction=ad_rank' . SID_AMPER_RAW);
                     Template::getInstance()->printMessage('rank_deleted');
                     break;

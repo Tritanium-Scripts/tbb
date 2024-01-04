@@ -123,7 +123,7 @@ class AdminSmiley extends PublicModule
                         Functions::file_put_contents('vars/smilies.var', $this->smileyID . "\t" . $newSynonym . "\t" . $newAddress . "\t\n", FILE_APPEND);
                         if(file_exists('cache/BBCode.cache.php'))
                             Functions::unlink('cache/BBCode.cache.php', false);
-                        Logger::getInstance()->log('%s added new smiley (ID: ' . $this->smileyID . ')', LOG_ACP_ACTION);
+                        Logger::getInstance()->log('%s added new smiley (ID: ' . $this->smileyID . ')', Logger::LOG_ACP_ACTION);
                         header('Location: ' . INDEXFILE . '?faction=ad_smilies' . SID_AMPER_RAW);
                         Template::getInstance()->printMessage('smiley_added');
                     }
@@ -140,7 +140,7 @@ class AdminSmiley extends PublicModule
                     {
                         Functions::file_put_contents('vars/tsmiliess.var', $this->smileyID = Functions::file_get_contents('vars/tsmiliess.var')+1);
                         Functions::file_put_contents('vars/tsmilies.var', $this->smileyID . "\t" . $newAddress . "\t\n", FILE_APPEND);
-                        Logger::getInstance()->log('%s added new topic smiley (ID: ' . $this->smileyID . ')', LOG_ACP_ACTION);
+                        Logger::getInstance()->log('%s added new topic smiley (ID: ' . $this->smileyID . ')', Logger::LOG_ACP_ACTION);
                         header('Location: ' . INDEXFILE . '?faction=ad_smilies' . SID_AMPER_RAW);
                         Template::getInstance()->printMessage('smiley_added');
                     }
@@ -161,7 +161,7 @@ class AdminSmiley extends PublicModule
                         Functions::file_put_contents('vars/adminsmilies.var', $this->smileyID . "\t" . $newSynonym . "\t" . $newAddress . "\t\n", FILE_APPEND);
                         if(file_exists('cache/BBCode.cache.php'))
                             Functions::unlink('cache/BBCode.cache.php', false);
-                        Logger::getInstance()->log('%s added new admin smiley (ID: ' . $this->smileyID . ')', LOG_ACP_ACTION);
+                        Logger::getInstance()->log('%s added new admin smiley (ID: ' . $this->smileyID . ')', Logger::LOG_ACP_ACTION);
                         header('Location: ' . INDEXFILE . '?faction=ad_smilies' . SID_AMPER_RAW);
                         Template::getInstance()->printMessage('smiley_added');
                     }
@@ -200,7 +200,7 @@ class AdminSmiley extends PublicModule
                         Functions::file_put_contents('vars/smilies.var', implode("\n", array_map(['Functions', 'implodeByTab'], $this->smilies)) . "\n");
                         if(file_exists('cache/BBCode.cache.php'))
                             Functions::unlink('cache/BBCode.cache.php', false);
-                        Logger::getInstance()->log('%s edited smiley (ID: ' . $this->smileyID . ')', LOG_ACP_ACTION);
+                        Logger::getInstance()->log('%s edited smiley (ID: ' . $this->smileyID . ')', Logger::LOG_ACP_ACTION);
                         header('Location: ' . INDEXFILE . '?faction=ad_smilies' . SID_AMPER_RAW);
                         Template::getInstance()->printMessage('smiley_edited');
                     }
@@ -224,7 +224,7 @@ class AdminSmiley extends PublicModule
                     {
                         $this->tSmilies[$key][1] = $editAddress;
                         Functions::file_put_contents('vars/tsmilies.var', implode("\n", array_map(['Functions', 'implodeByTab'], $this->tSmilies)) . "\n");
-                        Logger::getInstance()->log('%s edited post icon (ID: ' . $this->smileyID . ')', LOG_ACP_ACTION);
+                        Logger::getInstance()->log('%s edited post icon (ID: ' . $this->smileyID . ')', Logger::LOG_ACP_ACTION);
                         header('Location: ' . INDEXFILE . '?faction=ad_smilies' . SID_AMPER_RAW);
                         Template::getInstance()->printMessage('smiley_edited');
                     }
@@ -250,7 +250,7 @@ class AdminSmiley extends PublicModule
                         Functions::file_put_contents('vars/adminsmilies.var', implode("\n", array_map(['Functions', 'implodeByTab'], $this->aSmilies)) . "\n");
                         if(file_exists('cache/BBCode.cache.php'))
                             Functions::unlink('cache/BBCode.cache.php', false);
-                        Logger::getInstance()->log('%s edited admin smiley (ID: ' . $this->smileyID . ')', LOG_ACP_ACTION);
+                        Logger::getInstance()->log('%s edited admin smiley (ID: ' . $this->smileyID . ')', Logger::LOG_ACP_ACTION);
                         header('Location: ' . INDEXFILE . '?faction=ad_smilies' . SID_AMPER_RAW);
                         Template::getInstance()->printMessage('smiley_edited');
                     }
@@ -281,7 +281,7 @@ class AdminSmiley extends PublicModule
                 Functions::file_put_contents('vars/smilies.var', empty($this->smilies) ? '' : implode("\n", array_map(['Functions', 'implodeByTab'], $this->smilies)) . "\n");
                 if(file_exists('cache/BBCode.cache.php'))
                     Functions::unlink('cache/BBCode.cache.php', false);
-                Logger::getInstance()->log('%s deleted smiley (ID: ' . $this->smileyID . ')', LOG_ACP_ACTION);
+                Logger::getInstance()->log('%s deleted smiley (ID: ' . $this->smileyID . ')', Logger::LOG_ACP_ACTION);
                 header('Location: ' . INDEXFILE . '?faction=ad_smilies' . SID_AMPER_RAW);
                 Template::getInstance()->printMessage('smiley_deleted');
                 break;
@@ -292,7 +292,7 @@ class AdminSmiley extends PublicModule
                     Template::getInstance()->printMessage('smiley_not_found');
                 unset($this->tSmilies[$key]);
                 Functions::file_put_contents('vars/tsmilies.var', empty($this->tSmilies) ? '' : implode("\n", array_map(['Functions', 'implodeByTab'], $this->tSmilies)) . "\n");
-                Logger::getInstance()->log('%s deleted post icon (ID: ' . $this->smileyID . ')', LOG_ACP_ACTION);
+                Logger::getInstance()->log('%s deleted post icon (ID: ' . $this->smileyID . ')', Logger::LOG_ACP_ACTION);
                 header('Location: ' . INDEXFILE . '?faction=ad_smilies' . SID_AMPER_RAW);
                 Template::getInstance()->printMessage('smiley_deleted');
                 break;
@@ -305,7 +305,7 @@ class AdminSmiley extends PublicModule
                 Functions::file_put_contents('vars/adminsmilies.var', empty($this->aSmilies) ? '' : implode("\n", array_map(['Functions', 'implodeByTab'], $this->aSmilies)) . "\n");
                 if(file_exists('cache/BBCode.cache.php'))
                     Functions::unlink('cache/BBCode.cache.php', false);
-                Logger::getInstance()->log('%s deleted admin smiley (ID: ' . $this->smileyID . ')', LOG_ACP_ACTION);
+                Logger::getInstance()->log('%s deleted admin smiley (ID: ' . $this->smileyID . ')', Logger::LOG_ACP_ACTION);
                 header('Location: ' . INDEXFILE . '?faction=ad_smilies' . SID_AMPER_RAW);
                 Template::getInstance()->printMessage('smiley_deleted');
                 break;

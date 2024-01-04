@@ -3,7 +3,7 @@
  * Loads main module and executes desired forum action and/or subAction.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2023 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2024 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -188,7 +188,7 @@ class Core
         }
         //Log connected state of user
         if(!Auth::getInstance()->isConnected())
-            Logger::getInstance()->log((Auth::getInstance()->isLoggedIn() ? '%s' : 'User') . ' connected', LOG_USER_CONNECT);
+            Logger::getInstance()->log((Auth::getInstance()->isLoggedIn() ? '%s' : 'User') . ' connected', Logger::LOG_USER_CONNECT);
         //Set root of NavBar
         NavBar::getInstance()->addElement(Config::getInstance()->getCfgVal('forum_name'), INDEXFILE . SID_QMARK);
         //Detect action

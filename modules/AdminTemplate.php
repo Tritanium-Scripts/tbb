@@ -23,7 +23,7 @@ class AdminTemplate extends PublicModule
             if(Functions::getValueFromGlobals('testInstall') != '')
             {
                 Template::getInstance()->assign('errors', Template::getInstance()->testTplInstallation());
-                Logger::getInstance()->log('%s tested template installation', LOG_ACP_ACTION);
+                Logger::getInstance()->log('%s tested template installation', Logger::LOG_ACP_ACTION);
             }
             else
             {
@@ -33,7 +33,7 @@ class AdminTemplate extends PublicModule
                 Config::getInstance()->setCfgVal('css_file', 'styles/' . $styles[$newTplID]);
                 Config::getInstance()->setCfgVal('select_tpls', Functions::getValueFromGlobals('isTplSelectable') == 'true' ? 1 : 0);
                 Config::getInstance()->setCfgVal('select_styles', Functions::getValueFromGlobals('isStyleSelectable') == 'true' ? 1 : 0, true);
-                Logger::getInstance()->log('%s updated template config', LOG_ACP_ACTION);
+                Logger::getInstance()->log('%s updated template config', Logger::LOG_ACP_ACTION);
                 Template::getInstance()->printMessage('template_configuration_updated');
             }
         Template::getInstance()->printPage('AdminTemplate', array('templates' => Template::getInstance()->getAvailableTpls(),

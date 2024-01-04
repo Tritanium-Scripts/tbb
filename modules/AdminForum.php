@@ -135,7 +135,7 @@ class AdminForum extends PublicModule
                     Functions::file_put_contents('foren/' . $newForumID . '-threads.xbb', '');
                     Functions::file_put_contents('vars/foren.var', Functions::implodeByTab($newForum), FILE_APPEND);
                     //Done
-                    Logger::getInstance()->log('%s created new forum (ID: ' . $newForumID . ')', LOG_ACP_ACTION);
+                    Logger::getInstance()->log('%s created new forum (ID: ' . $newForumID . ')', Logger::LOG_ACP_ACTION);
                     header('Location: ' . INDEXFILE . '?faction=ad_forum&mode=forumview' . SID_AMPER_RAW);
                     Template::getInstance()->printMessage('new_forum_added');
                 }
@@ -254,7 +254,7 @@ class AdminForum extends PublicModule
                                 Functions::file_put_contents('members/' . $curModID . '.xbb', implode("\n", $curUser));
                             }
                         //Done
-                        Logger::getInstance()->log('%s deleted forum (ID: ' . $forumID . ')', LOG_ACP_ACTION);
+                        Logger::getInstance()->log('%s deleted forum (ID: ' . $forumID . ')', Logger::LOG_ACP_ACTION);
                         Template::getInstance()->printMessage('forum_deleted_freed_x_in_xxx', $sizeCounter/1024, $fileCounter, $editForum[4], $editForum[3]);
                     }
 //AdminForumDeleteForum
@@ -327,7 +327,7 @@ class AdminForum extends PublicModule
                         $editForum[11] = implode(',', $editForum[11]);
                         Functions::file_put_contents('vars/foren.var', implode("\n", array_map(['Functions', 'implodeByTab'], $this->forums)) . "\n");
                         //Done
-                        Logger::getInstance()->log('%s edited forum (ID: ' . $forumID . ')', LOG_ACP_ACTION);
+                        Logger::getInstance()->log('%s edited forum (ID: ' . $forumID . ')', Logger::LOG_ACP_ACTION);
                         header('Location: ' . INDEXFILE . '?faction=ad_forum&mode=forumview' . SID_AMPER_RAW);
                         Template::getInstance()->printMessage('forum_edited');
                     }
@@ -410,7 +410,7 @@ class AdminForum extends PublicModule
                     $curSpecialRight = Functions::implodeByTab($curSpecialRight);
                 }
                 Functions::file_put_contents('foren/' . $forumID . '-rights.xbb', implode("\n", $specialRights) . "\n");
-                Logger::getInstance()->log('%s edited special rights of forum (ID: ' . $forumID . ')', LOG_ACP_ACTION);
+                Logger::getInstance()->log('%s edited special rights of forum (ID: ' . $forumID . ')', Logger::LOG_ACP_ACTION);
                 //Undo implode for template
                 $specialRights = array_map(['Functions', 'explodeByTab'], $specialRights);
             }
@@ -462,7 +462,7 @@ class AdminForum extends PublicModule
                     $toAppend .= $newSpecialRightID++ . "\t1\t" . $curUserID . "\t" . Functions::implodeByTab($newUserRights) . "\t\t\t\t\t\t\n";
                 Functions::file_put_contents('foren/' . $forumID . '-rights.xbb', $toAppend, FILE_APPEND);
                 //Done
-                Logger::getInstance()->log('%s added new special user right(s) for forum (ID: ' . $forumID . ')', LOG_ACP_ACTION);
+                Logger::getInstance()->log('%s added new special user right(s) for forum (ID: ' . $forumID . ')', Logger::LOG_ACP_ACTION);
                 header('Location: ' . INDEXFILE . '?faction=ad_forum&mode=edit_forum_rights&forum_id=' . $forumID . SID_AMPER_RAW);
                 Template::getInstance()->printMessage('special_right_added');
             }
@@ -521,7 +521,7 @@ class AdminForum extends PublicModule
                             ksort($newGroupRights);
                             Functions::file_put_contents('foren/' . $forumID . '-rights.xbb', (empty($specialRights) ? 1 : current(end($specialRights))+1) . "\t2\t" . $newGroupID . "\t" . Functions::implodeByTab($newGroupRights) . "\t\t\t\t\t\t\n", FILE_APPEND);
                             //Done
-                            Logger::getInstance()->log('%s added new special group right for forum (ID: ' . $forumID . ')', LOG_ACP_ACTION);
+                            Logger::getInstance()->log('%s added new special group right for forum (ID: ' . $forumID . ')', Logger::LOG_ACP_ACTION);
                             header('Location: ' . INDEXFILE . '?faction=ad_forum&mode=edit_forum_rights&forum_id=' . $forumID . SID_AMPER_RAW);
                             Template::getInstance()->printMessage('special_right_added');
                             break;
@@ -572,7 +572,7 @@ class AdminForum extends PublicModule
                         Functions::unlink('foren/' . $forumID . '-rights.xbb');
                     else
                         Functions::file_put_contents('foren/' . $forumID . '-rights.xbb', implode("\n", array_map(['Functions', 'implodeByTab'], $specialRights)) . "\n");
-                    Logger::getInstance()->log('%s deleted special right for forum (ID: ' . $forumID . ')', LOG_ACP_ACTION);
+                    Logger::getInstance()->log('%s deleted special right for forum (ID: ' . $forumID . ')', Logger::LOG_ACP_ACTION);
                     header('Location: ' . INDEXFILE . '?faction=ad_forum&mode=edit_forum_rights&forum_id=' . $forumID . SID_AMPER_RAW);
                     Template::getInstance()->printMessage('special_right_deleted');
                     break;
@@ -603,7 +603,7 @@ class AdminForum extends PublicModule
                     //Add new category
                     Functions::file_put_contents('vars/kg.var', $newCatID . "\t" . $newName . "\t\n", FILE_APPEND);
                     //Done
-                    Logger::getInstance()->log('%s created new category (ID: ' . $newCatID . ')', LOG_ACP_ACTION);
+                    Logger::getInstance()->log('%s created new category (ID: ' . $newCatID . ')', Logger::LOG_ACP_ACTION);
                     header('Location: ' . INDEXFILE . '?faction=ad_forum&mode=viewkg' . SID_AMPER_RAW);
                     Template::getInstance()->printMessage('new_category_added');
                 }
@@ -663,7 +663,7 @@ class AdminForum extends PublicModule
                         $this->catTable[$curCatID] = [$curCatID, $curCatName];
                     Functions::file_put_contents('vars/kg.var', implode("\n", array_map(['Functions', 'implodeByTab'], $this->catTable)) . "\n");
                     //Done
-                    Logger::getInstance()->log('%s edited category (ID: ' . $catID . ')', LOG_ACP_ACTION);
+                    Logger::getInstance()->log('%s edited category (ID: ' . $catID . ')', Logger::LOG_ACP_ACTION);
                     header('Location: ' . INDEXFILE . '?faction=ad_forum&mode=viewkg' . SID_AMPER_RAW);
                     Template::getInstance()->printMessage('category_edited');
                 }
@@ -684,7 +684,7 @@ class AdminForum extends PublicModule
                 $this->catTable[$curCatID] = [$curCatID, $curCatName];
             Functions::file_put_contents('vars/kg.var', empty($this->catTable) ? '' : implode("\n", array_map(['Functions', 'implodeByTab'], $this->catTable)) . "\n");
             //Done
-            Logger::getInstance()->log('%s deleted category (ID: ' . $catID . ')', LOG_ACP_ACTION);
+            Logger::getInstance()->log('%s deleted category (ID: ' . $catID . ')', Logger::LOG_ACP_ACTION);
             header('Location: ' . INDEXFILE . '?faction=ad_forum&mode=viewkg' . SID_AMPER_RAW);
             Template::getInstance()->printMessage('category_deleted');
             break;

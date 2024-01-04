@@ -78,7 +78,7 @@ class AdminDeleteOld extends PublicModule
                 else
                     //Just this single forum
                     $stats = $this->deleteTopics($deleteFromForumID, $topicAge);
-                Logger::getInstance()->log('%s deleted ' . $stats[0] . ' old topics (target: ' . $deleteFromForumID . ')', LOG_ACP_ACTION);
+                Logger::getInstance()->log('%s deleted ' . $stats[0] . ' old topics (target: ' . $deleteFromForumID . ')', Logger::LOG_ACP_ACTION);
                 Template::getInstance()->printMessage('old_topics_deleted', $stats[0], $stats[1], $stats[2]/1024);
             }
         }

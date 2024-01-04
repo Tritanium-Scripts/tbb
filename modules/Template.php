@@ -40,6 +40,7 @@ class Template
         $this->tplDir = 'templates/' . (Config::getInstance()->getCfgVal('select_tpls') == 1 ? Auth::getInstance()->getUserTpl() : Config::getInstance()->getCfgVal('default_tpl')) . '/';
         $this->smarty->setTemplateDir($this->tplDir . 'templates/')
             ->setConfigDir($this->tplDir . 'config/')
+            ->addPluginsDir('modules/Template/plugins/')
             //TODO replace registerPlugins with wildcard extension having Smarty 5
             ->registerPlugin('modifier', 'in_array', 'in_array')
             ->registerPlugin('modifier', 'implode', 'implode')

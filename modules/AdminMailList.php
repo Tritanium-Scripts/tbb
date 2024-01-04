@@ -26,7 +26,7 @@ class AdminMailList extends PublicModule
             if(current(Functions::explodeByComma($curMailOptions)) == '1')
                 $mailAddys[] = $curMailAddy;
         }
-        Logger::getInstance()->log('%s retrieved e-mail list', LOG_ACP_ACTION);
+        Logger::getInstance()->log('%s retrieved email list', Logger::LOG_ACP_ACTION);
         Template::getInstance()->printPage('AdminMailList', 'mailAddys', $mailAddys);
     }
 }

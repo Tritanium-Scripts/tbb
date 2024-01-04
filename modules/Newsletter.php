@@ -83,7 +83,7 @@ class Newsletter extends PublicModule
                     unset($this->newsletter[$curKey]);
             Functions::file_put_contents('vars/newsletter.var', empty($this->newsletter) ? '' : implode("\n", array_map(['Functions', 'implodeByTab'], $this->newsletter)) . "\n");
             //Done
-            Logger::getInstance()->log('%s deleted ' . count($toDelete) . ' newsletter', LOG_ACP_ACTION);
+            Logger::getInstance()->log('%s deleted ' . count($toDelete) . ' newsletter', Logger::LOG_ACP_ACTION);
             header('Location: ' . INDEXFILE . '?faction=newsletter' . SID_AMPER_RAW);
             Template::getInstance()->printMessage('newsletter_deleted');
             break;
