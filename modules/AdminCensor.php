@@ -38,7 +38,6 @@ class AdminCensor extends PublicModule
      * Sets mode and loads censorships.
      *
      * @param string $mode Censor mode
-     * @return AdminCensor New instance of this class
      */
     function __construct(string $mode)
     {

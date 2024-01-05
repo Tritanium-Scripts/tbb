@@ -20,7 +20,7 @@
   <td class="cellStd"><label for="{$curTplID}" class="fontNorm">{$curTemplate.name}</label></td>
   <td class="cellAlt"><span class="fontNorm"><a href="{$curTemplate.website}" target="_blank">{$curTemplate.author}</a></span></td>
   <td class="cellStd"><span class="fontNorm">{$curTemplate.comment}</span></td>
-  <td class="cellAlt"><span class="fontNorm" style="color:{if version_compare($curTemplate.target, $smarty.const.VERSION_PRIVATE, '<')}red{else}green{/if};">{$curTemplate.target|rtrim:'.0'}</span></td>
+  <td class="cellAlt"><span class="fontNorm" style="color:{if version_compare($curTemplate.target, $smarty.const.VERSION_PRIVATE, '<')}red{else}green{/if};">{$curTemplate.target|trim_version}</span></td>
   <td class="cellStd"><select class="formSelect" name="styles[{$curTplID}]">{foreach $curTemplate.styles as $curStyle}<option value="{$curStyle}"{if ($curTplID == $defaultTplID && $curStyle == $defaultStyle) || ($curTplID != $defaultTplID && $curStyle == $curTemplate.style)} selected="selected"{/if}>{$curStyle}</option>{/foreach}</select></td>
  </tr>{/foreach}
  <tr><td class="cellCat" colspan="6"><span class="fontCat">{Language::getInstance()->getString('template_settings')}</span></td></tr>

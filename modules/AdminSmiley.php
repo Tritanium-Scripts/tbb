@@ -65,7 +65,6 @@ class AdminSmiley extends PublicModule
      * Sets mode, current smiley type, smiley id and loads all smilies.
      *
      * @param string $mode Mode
-     * @return AdminSmiley New instance of this class
      */
     function __construct(string $mode)
     {

@@ -56,7 +56,6 @@ class Profile extends PublicModule
      * Loads user data and sets mode.
      *
      * @param string $mode Profile mode
-     * @return Profile New instance of this class
      */
     function __construct(string $mode)
     {

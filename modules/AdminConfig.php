@@ -33,7 +33,6 @@ class AdminConfig extends PublicModule
      * Sets timeout and mode to execute.
      *
      * @param string $mode The mode
-     * @return AdminConfig New instance of this class
      */
     function __construct(string $mode)
     {

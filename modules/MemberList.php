@@ -48,8 +48,6 @@ class MemberList extends PublicModule
 
     /**
      * Sets order type, page and sort method.
-     *
-     * @return MemberList New instance of this class
      */
     public function __construct()
     {

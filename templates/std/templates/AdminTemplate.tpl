@@ -19,7 +19,7 @@
   <td class="td1"><label for="{$curTplID}" class="norm">{$curTemplate.name}</label></td>
   <td class="td2"><span class="norm"><a href="{$curTemplate.website}" target="_blank">{$curTemplate.author}</a></span></td>
   <td class="td1"><span class="small">{$curTemplate.comment}</span></td>
-  <td class="td2"><span class="norm" style="color:{if version_compare($curTemplate.target, $smarty.const.VERSION_PRIVATE, '<')}red{else}green{/if};">{$curTemplate.target|rtrim:'.0'}</span></td>
+  <td class="td2"><span class="norm" style="color:{if version_compare($curTemplate.target, $smarty.const.VERSION_PRIVATE, '<')}red{else}green{/if};">{$curTemplate.target|trim_version}</span></td>
   <td class="td1"><select name="styles[{$curTplID}]" class="norm">{foreach $curTemplate.styles as $curStyle}<option value="{$curStyle}"{if ($curTplID == $defaultTplID && $curStyle == $defaultStyle) || ($curTplID != $defaultTplID && $curStyle == $curTemplate.style)} selected="selected"{/if}>{$curStyle}</option>{/foreach}</select></td>
  </tr>{/foreach}
  <tr><td class="kat" colspan="6"><span class="kat">{Language::getInstance()->getString('template_settings')}</span></td></tr>

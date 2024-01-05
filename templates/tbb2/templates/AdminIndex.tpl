@@ -112,10 +112,10 @@
   <col width="50%" />
  </colgroup>
  <tr><th class="cellCat" colspan="2"><span class="fontCat">{Language::getInstance()->getString('system_information')}</span></th></tr>
- <tr><td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('tbb_version_colon')}</span></td><td class="cellAlt"><span class="fontNorm">{$smarty.const.VERSION_PRIVATE|rtrim:'.0'}</span></td></tr>
+ <tr><td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('tbb_version_colon')}</span></td><td class="cellAlt"><span class="fontNorm">{$smarty.const.VERSION_PRIVATE|trim_version}</span></td></tr>
  <tr><td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('template_engine_colon')}</span></td><td class="cellAlt"><span class="fontNorm">{$smarty.version}</span></td></tr>
- <tr><td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('target_version_language_colon')}</span></td><td class="cellAlt"><span class="fontNorm">{Language::getInstance()->getString('TARGET_VERSION')|rtrim:'.0'}</span></td></tr>
- <tr><td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('target_version_template_colon')}</span></td><td class="cellAlt"><span class="fontNorm">{$smarty.config.targetVersion|rtrim:'.0'}</span></td></tr>
+ <tr><td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('target_version_language_colon')}</span></td><td class="cellAlt"><span class="fontNorm">{Language::getInstance()->getString('TARGET_VERSION')|trim_version}</span></td></tr>
+ <tr><td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('target_version_template_colon')}</span></td><td class="cellAlt"><span class="fontNorm">{$smarty.config.targetVersion|trim_version}</span></td></tr>
  <tr><td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('server_colon')}</span></td><td class="cellAlt"><span class="fontNorm">{$smarty.server.SERVER_SOFTWARE}</span></td></tr>
  <tr><td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('php_version_colon')}</span></td><td class="cellAlt"><span class="fontNorm">{$smarty.const.PHP_VERSION}</span></td></tr>
 </table>

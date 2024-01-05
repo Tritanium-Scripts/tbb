@@ -36,7 +36,6 @@ class Login extends PublicModule
      * Prepares and sets login name, login password and mode.
      *
      * @param string $fAction Mode to execute
-     * @return Login New instance of this class
      */
     function __construct(string $fAction)
     {

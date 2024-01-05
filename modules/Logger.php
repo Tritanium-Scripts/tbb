@@ -87,8 +87,6 @@ class Logger
 
     /**
      * Sets log file and log levels.
-     *
-     * @return Logger New instance of this class
      */
     function __construct()
     {

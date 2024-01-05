@@ -79,10 +79,10 @@
   <col width="50%" />
  </colgroup>
  <tr><th class="thnorm" colspan="2"><span class="thnorm">{Language::getInstance()->getString('system_information')}</span></th></tr>
- <tr><td class="td1"><span class="norm" style="font-weight:bold;">{Language::getInstance()->getString('tbb_version_colon')}</span></td><td class="td1"><span class="norm">{$smarty.const.VERSION_PRIVATE|rtrim:'.0'}</span></td></tr>
+ <tr><td class="td1"><span class="norm" style="font-weight:bold;">{Language::getInstance()->getString('tbb_version_colon')}</span></td><td class="td1"><span class="norm">{$smarty.const.VERSION_PRIVATE|trim_version}</span></td></tr>
  <tr><td class="td1"><span class="norm" style="font-weight:bold;">{Language::getInstance()->getString('template_engine_colon')}</span></td><td class="td1"><span class="norm">{$smarty.version}</span></td></tr>
- <tr><td class="td1"><span class="norm" style="font-weight:bold;">{Language::getInstance()->getString('target_version_language_colon')}</span></td><td class="td1"><span class="norm">{Language::getInstance()->getString('TARGET_VERSION')|rtrim:'.0'}</span></td></tr>
- <tr><td class="td1"><span class="norm" style="font-weight:bold;">{Language::getInstance()->getString('target_version_template_colon')}</span></td><td class="td1"><span class="norm">{$smarty.config.targetVersion|rtrim:'.0'}</span></td></tr>
+ <tr><td class="td1"><span class="norm" style="font-weight:bold;">{Language::getInstance()->getString('target_version_language_colon')}</span></td><td class="td1"><span class="norm">{Language::getInstance()->getString('TARGET_VERSION')|trim_version}</span></td></tr>
+ <tr><td class="td1"><span class="norm" style="font-weight:bold;">{Language::getInstance()->getString('target_version_template_colon')}</span></td><td class="td1"><span class="norm">{$smarty.config.targetVersion|trim_version}</span></td></tr>
  <tr><td class="td1"><span class="norm" style="font-weight:bold;">{Language::getInstance()->getString('server_colon')}</span></td><td class="td1"><span class="norm">{$smarty.server.SERVER_SOFTWARE}</span></td></tr>
  <tr><td class="td1"><span class="norm" style="font-weight:bold;">{Language::getInstance()->getString('php_version_colon')}</span></td><td class="td1"><span class="norm">{$smarty.const.PHP_VERSION}</span></td></tr>
 </table>

@@ -35,8 +35,6 @@ class BBCode
 
     /**
      * Prepares and caches (admin) smilies.
-     *
-     * @return BBCode New instance of this class
      */
     function __construct()
     {
@@ -96,6 +94,7 @@ class BBCode
      */
     public function parse(string $string, bool $enableHTML=false, bool $enableSmilies=true, bool $enableBBCode=true, array &$topic=[]): string
     {
+        PlugIns::getInstance()->callHook(PlugIns::HOOK_BBCODE_PARSE);
         if($enableHTML)
             $string = htmlspecialchars_decode($string, ENT_COMPAT);
         if($enableSmilies)

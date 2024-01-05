@@ -36,9 +36,9 @@ class AdminTemplate extends PublicModule
                 Logger::getInstance()->log('%s updated template config', Logger::LOG_ACP_ACTION);
                 Template::getInstance()->printMessage('template_configuration_updated');
             }
-        Template::getInstance()->printPage('AdminTemplate', array('templates' => Template::getInstance()->getAvailableTpls(),
+        Template::getInstance()->printPage('AdminTemplate', ['templates' => Template::getInstance()->getAvailableTpls(),
             'defaultTplID' => Config::getInstance()->getCfgVal('default_tpl'),
-            'defaultStyle' => basename(Config::getInstance()->getCfgVal('css_file'))));
+            'defaultStyle' => basename(Config::getInstance()->getCfgVal('css_file'))]);
     }
 }
 ?>

@@ -69,8 +69,6 @@ class Search extends PublicModule
 
     /**
      * Sets search parameters and execution timeout.
-     *
-     * @return Search New instance of this class
      */
     function __construct()
     {

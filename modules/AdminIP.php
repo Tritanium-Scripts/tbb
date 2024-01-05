@@ -37,7 +37,6 @@ class AdminIP extends PublicModule
      * Sets mode.
      *
      * @param string $mode Mode
-     * @return AdminIP New instance of this class
      */
     function __construct(string $mode)
     {

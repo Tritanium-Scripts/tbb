@@ -3,7 +3,7 @@
  * Generic configuration getter and setter.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2023 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2024 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -105,7 +105,9 @@ class Config
         '?faction=gdpr',                        #privacy_policy_link
         //New TBB 1.8.0 config values
         0,                                      #profile_mbli
-        1];                                     #activate_calendar
+        1,                                      #activate_calendar
+        //New TBB 1.10.0 config values
+        1];                                     #activate_plug_ins
 
     /**
      * Name of config file to work with.
@@ -208,7 +210,9 @@ class Config
         'privacy_policy_link',
         //New TBB 1.8.0 config values
         'profile_mbli',
-        'activate_calendar'];
+        'activate_calendar',
+        //New TBB 1.10.0 config values
+        'activate_plug_ins'];
 
     /**
      * Loaded configuration values are stored here.
@@ -219,8 +223,6 @@ class Config
 
     /**
      * Loads configuration values.
-     *
-     * @return Config New instance of this class
      */
     function __construct()
     {

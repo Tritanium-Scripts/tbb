@@ -24,6 +24,6 @@ interface PlugIn
      * @param string $hook Hook name
      * @param bool $official Hook being an official one
      */
-     public function onHook(string $hook, bool $official): void;
+    public function onHook(string $hook, bool $official): void;
 }
 ?>

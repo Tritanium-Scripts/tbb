@@ -50,7 +50,6 @@ class PostNew extends PublicModule
      * Loads various data and sets mode.
      *
      * @param string $newType Type of new post
-     * @return PostNew New instance of this class
      */
     function __construct(string $newType)
     {

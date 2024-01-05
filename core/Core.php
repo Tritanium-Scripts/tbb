@@ -93,7 +93,8 @@ class Core
         'ad_killposts' => 'AdminDeleteOld',
         'ad_login' => 'Login',
         'adminLogfile' => 'AdminLogfile',
-        'adminTemplate' => 'AdminTemplate'];
+        'adminTemplate' => 'AdminTemplate',
+        'adminPlugIns' => 'AdminPlugIns'];
 
     /**
      * Some initial PHP stuff and preparations.

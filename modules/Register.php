@@ -50,7 +50,6 @@ class Register extends PublicModule
      * Sets privacy policy link, member counter and mode.
      *
      * @param string $mode Registration mode
-     * @return Register New instance of this class
      */
     function __construct(string $mode)
     {

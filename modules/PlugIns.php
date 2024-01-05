@@ -17,6 +17,8 @@ class PlugIns
     const HOOK_CORE_RUN = 'HOOK_CORE_RUN';
     const HOOK_CORE_MODULE_CALL = 'HOOK_CORE_MODULE_CALL';
 
+    const HOOK_BBCODE_PARSE = 'HOOK_BBCODE_PARSE';
+
     const HOOK_TEMPLATE_INIT = 'HOOK_TEMPLATE_INIT';
     const HOOK_TEMPLATE_PAGE = 'HOOK_TEMPLATE_PAGE';
 
@@ -43,8 +45,6 @@ class PlugIns
 
     /**
      * Loads all found / cached plug-ins and detects official hooks.
-     *
-     * @return PlugIns New instance of this class
      */
     private function __construct()
     {
@@ -67,7 +67,7 @@ class PlugIns
                 }
                 $curPlugInClass = current($curDeclaredClasses);
                 //Check for interface
-                if(is_subclass_of($curPlugInClass, __NAMESPACE__ . '\\PlugIn'))
+                if(!is_subclass_of($curPlugInClass, __NAMESPACE__ . '\\PlugIn'))
                 {
                     Logger::getInstance()->log('Plug-in "' . $curPlugIn . '" does not implement required interface, loading skipped!', Logger::LOG_FILESYSTEM);
                     continue;
@@ -78,7 +78,8 @@ class PlugIns
             }
             //Set official hook names
             $curReflectionClass = new ReflectionClass($this);
-            $plugInsCache .= '$this->officialHooks = [\'' . implode('\', \'', array_values($curReflectionClass->getConstants())) . "'];\n";
+            $this->officialHooks = array_values($curReflectionClass->getConstants());
+            $plugInsCache .= '$this->officialHooks = [\'' . implode('\', \'', $this->officialHooks) . "'];\n";
             Functions::file_put_contents('cache/PlugIns.cache.php', $plugInsCache . '?>', LOCK_EX);
         }
     }

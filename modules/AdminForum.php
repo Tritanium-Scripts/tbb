@@ -48,7 +48,6 @@ class AdminForum extends PublicModule
      * Sets mode and prepares category translation table.
      *
      * @param string $mode Forum mode to execute
-     * @return AdminForum New instance of this class
      */
     function __construct(string $mode)
     {

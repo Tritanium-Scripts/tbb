@@ -95,7 +95,6 @@ class Posting extends PublicModule
      * Loads various data, sets IDs and mode.
      *
      * @param string $mode Mode to execute
-     * @return Posting New instance of this class
      */
     function __construct(string $mode)
     {

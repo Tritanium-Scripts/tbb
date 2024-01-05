@@ -39,7 +39,6 @@ class AdminGroup extends PublicModule
      * Sets mode, group ID and loads all groups.
      *
      * @param string $mode Group mode
-     * @return AdminGroup New instance of this class
      */
     function __construct(string $mode)
     {

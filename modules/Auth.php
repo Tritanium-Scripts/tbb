@@ -81,8 +81,6 @@ class Auth
 
     /**
      * Loads user data from XBB file according to user ID in the session or cookie.
-     *
-     * @return Auth New instance of this class
      */
     function __construct()
     {

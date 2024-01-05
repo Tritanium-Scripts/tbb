@@ -27,8 +27,6 @@ class Calendar extends PublicModule
 
     /**
      * Sets (current) year and month numbers.
-     *
-     * @return Calendar New instance of this class
      */
     function __construct()
     {

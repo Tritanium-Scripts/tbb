@@ -52,7 +52,6 @@ class AdminRank extends PublicModule
      * Sets mode and loads user rank(s).
      *
      * @param string $mode Mode to execute
-     * @return AdminRank New instance of this class
      */
     function __construct(string $mode)
     {

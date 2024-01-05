@@ -76,7 +76,6 @@ class PrivateMessage extends PublicModule
      * Sets mode, PM (box) ID and type.
      *
      * @param string $mode PM mode
-     * @return PrivateMessage New instance of this class
      */
     function __construct(string $mode='overview')
     {

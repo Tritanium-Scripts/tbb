@@ -41,7 +41,7 @@
     },
     "autoload": {
         "classmap": ["modules/"],
-        "exclude-from-classmap": ["modules/Template/**"]
+        "exclude-from-classmap": ["modules/Template/**", "modules/PlugIns/**"]
     },
     "minimum-stability": "dev",
     "prefer-stable": true,

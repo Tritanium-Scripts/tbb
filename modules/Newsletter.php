@@ -37,7 +37,6 @@ class Newsletter extends PublicModule
      * Sets mode, ID and loads available newsletter.
      *
      * @param string $mode Mode
-     * @return Newsletter New instance of this class
      */
     function __construct(string $mode)
     {

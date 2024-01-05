@@ -27,8 +27,6 @@ class Template
 
     /**
      * Sets up Smarty instance, loads configuration values and assigns default vars.
-     *
-     * @return Template New instance of this class
      */
     function __construct()
     {
@@ -187,7 +185,7 @@ class Template
      * @param string $msgIndex Identifier part of message title and text
      * @param mixed $args,... Optional arguments to be replaced in message text
      */
-    public function printMessage(string $msgIndex, mixed ...$args): void
+    public function printMessage(string $msgIndex, ...$args): void
     {
         $this->assign('subAction', 'Message');
         //Update NavBar + WIO

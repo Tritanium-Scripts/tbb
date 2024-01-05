@@ -31,7 +31,6 @@ class AdminLogfile extends PublicModule
      * Sets mode and current logfile.
      *
      * @param string $mode Mode to execute
-     * @return AdminLogfile New instance of this class
      */
     function __construct(string $mode)
     {

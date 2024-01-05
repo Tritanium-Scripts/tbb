@@ -34,8 +34,6 @@ class AdminNews extends PublicModule
 
     /**
      * Sets data of news.
-     *
-     * @return AdminNews New instance of this class
      */
     function __construct()
     {

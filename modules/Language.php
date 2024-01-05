@@ -35,8 +35,6 @@ class Language
 
     /**
      * Detects available localizations and chooses the best one based on detected user's preference.
-     *
-     * @return Language New instance of this class
      */
     function __construct()
     {

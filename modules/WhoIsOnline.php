@@ -40,8 +40,6 @@ class WhoIsOnline extends PublicModule
 
     /**
      * Sets config values and prepares WWO data.
-     *
-     * @return WhoIsOnline New instance of this class
      */
     public function __construct()
     {

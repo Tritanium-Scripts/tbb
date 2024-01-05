@@ -25,7 +25,6 @@ class AdminUser extends PublicModule
      * Sets mode and provides needed lang strings.
      *
      * @param string $mode User mode
-     * @return AdminUser New instance of this class
      */
     function __construct(string $mode)
     {

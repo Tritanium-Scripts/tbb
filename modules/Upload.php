@@ -53,7 +53,6 @@ class Upload extends PublicModule
      * Sets mode and file upload parameters.
      *
      * @param string $mode Mode
-     * @return Upload New instance of this class
      */
     function __construct(string $mode)
     {

@@ -30,7 +30,6 @@ class AdminNewsletter extends PublicModule
      * Sets mode and timeout.
      *
      * @param string $mode Mode
-     * @return AdminNewsletter New instance of this class
      */
     function __construct(string $mode)
     {
@@ -45,7 +44,7 @@ class AdminNewsletter extends PublicModule
      *
      * @param bool $check Check the run time or reload script anyway
      */
-    private function checkTime(bool $check=true)
+    private function checkTime(bool $check=true): void
     {
         //Check execution time limit
         if(!$check || microtime(true)-SCRIPTSTART > $this->timeout)
