@@ -7,7 +7,7 @@
   <meta http-equiv="Content-Script-Type" content="text/javascript" />
   <meta http-equiv="Content-Style-Type" content="text/css" />
   <meta name="author" content="Tritanium Scripts" />
-  <meta name="copyright" content="&copy; 2010&ndash;2023 Tritanium Scripts" />
+  <meta name="copyright" content="&copy; 2010&ndash;2024 Tritanium Scripts" />
   <meta name="description" content="Dokumentation für das Tritanium Bulletin Board 1.10" />
   <meta name="generator" content="Notepad 4.10.1998" />
   <meta name="keywords" content="TBB,Tritanium,Tritanium Scripts,TBB 1.5,TBB 1.6,TBB 1.7,TBB 1.8,TBB 1.10,Tritanium Bulletin Board,Readme,Liesmich,Anleitung,Dokumentation" />
@@ -153,7 +153,14 @@
      <li><a href="#locinstall">Einbau</a></li>
     </ul>
    </li>
-   <li><a href="#plugins">Eigene Plug-ins</a></li>
+   <li>
+    <a href="#plugins">Eigene Plug-ins</a>
+    <ul>
+     <li><a href="#plugininterface">Beschreibung des Interfaces</a></li>
+     <li><a href="#plugininstall">Einbau</a></li>
+     <li><a href="#pluginexample">Beispiel für eine Implementierung</a></li>
+    </ul>
+   </li>
    <li>
     <a href="#additionalnotes">Weitere Anmerkungen</a>
     <ul>
@@ -170,7 +177,7 @@
   </ol>
 
   <h2 id="preamble">1 Vorwort</h2>
-  <p class="fontnorm">Vielen Dank, dass Sie sich für das TBB 1.10 entschieden haben. Es ist die Neuauflage des TBB 1.2.3 aus den Jahren 2001/2002 sowie des TBB 1.8 aus den Jahren 2010 bis 2023 und wird Ihnen hoffentlich genau so viel Freude bereiten, wie ich sie während der Entwicklung hatte.<br />
+  <p class="fontnorm">Vielen Dank, dass Sie sich für das TBB 1.10 entschieden haben. Es ist die Neuauflage des TBB 1.2.3 aus den Jahren 2001/2002 sowie des TBB 1.5 bis 1.8 aus den Jahren 2010 bis 2023 und wird Ihnen hoffentlich genau so viel Freude bereiten, wie ich sie während der Entwicklung hatte.<br />
      Im Folgenden wird die Installation des TBBs und die Aktualisierung einer älteren Vorgängerversion beschrieben. Falls es Probleme gibt, konsultieren Sie das <a href="#faq">FAQ</a> oder fragen Sie im Forum von <a href="http://www.tritanium-scripts.com/" target="_blank">Tritanium Scripts</a> oder bei <a href="https://github.com/Tritanium-Scripts/tbb/discussions" target="_blank">GitHub</a> nach. Dort wird Ihnen sicher weiter geholfen.</p>
 
   <h2 id="installation">2 Installation</h2>
@@ -730,6 +737,7 @@ Supermoderator
 
   <h2 id="ownlocalizations">7 Eigene Lokalisierungen</h2>
   <p class="fontnorm">Auch diese Version ist multilingual fähig. Allerdings kommt die Übersetzungstechnik aus dem TBB 2.0 zum Einsatz, weshalb vorhandene Sprachpakete <b>nicht</b> kompatibel sind. Derzeit gibt es eine deutsche und englische Lokalisierung; jeder ist eingeladen, weitere Übersetzungen anzufertigen! Es folgen dazu ein paar Hinweise, die dabei beachtet werden sollten.</p>
+
   <h3 id="lochints">7.1 Wichtige Hinweise</h3>
   <ul class="fontnorm">
    <li>Alle 34 Dateien müssen vorhanden sein und dürfen nicht umbenannt werden</li>
@@ -760,8 +768,30 @@ Supermoderator
   <p class="fontnorm">Fertige Sprachpakete müssen in den <b>./languages/</b>-Ordner hochgeladen werden mit genau der vorgegeben Struktur aus Sprachcode und -dateien. <b>Leeren Sie den Cache</b> in der Administration und die Pakete stehen dann als weitere native Sprachen zur Auswahl. Sie werden je nach Herkunft des Benutzers automatisch geladen und verwendet.</p>
 
   <h2 id="plugins">8 Eigene Plug-ins</h2>
-  <p class="fontnorm">Ab Version 1.10 wurde eine API zur Unterstüztung von Plug-ins hinzugefügt. Auf diesem Wege könnten Hacks wesentlich einfacher und unabhängiger von Versionssprüngen realisiert werden.</p>
-  <p class="fontnorm">Ein Plug-in hakt sich in den Programmfluss an diversen Stellen ein und hat so die Möglichkeit entweder eigene Dinge zu tun oder vorhandene Daten in den jeweiligen Modulen zu modifizieren. Die Ausführung eines Plug-ins ist dabei immer an die aufrufende Klasse gebunden, d.h. es können dort auch private Variablen adressiert werden.</p>
+  <p class="fontnorm">Ab Version 1.10 wurde eine API zur Unterstützung von Plug-ins hinzugefügt. Auf diesem Wege könnten Hacks wesentlich einfacher und unabhängiger von Versionssprüngen realisiert werden.</p>
+  <p class="fontnorm">Ein Plug-in hakt sich in den Programmfluss an diversen Stellen (sogenannte Hooks) ein und hat so die Möglichkeit entweder eigene Dinge zu tun oder vorhandene Daten in den jeweiligen Modulen zu modifizieren. Die Ausführung eines Plug-ins ist dabei immer an die aufrufende Klasse gebunden, d.h. es können dort auch private Variablen über <code>$this</code> adressiert werden.</p>
+
+  <h3 id="plugininterface">8.1 Beschreibung des Interfaces</h3>
+  <p class="fontnorm">Jedes Plug-in muss das Interface <code>PlugIn</code> aus <b>./core/Interfaces.php</b> implementieren. Die Schnittstelle ist dabei definiert wie folgt:</p>
+  <ul class="fontnorm">
+   <li><b><code>getAuthorName(): string</code></b><br />
+       Name des Autors und damit auch der Ansprechpartner.</li>
+   <li><b><code>getAuthorUrl(): ?string</code></b><br />
+       Die Webseite des Autors (optional).</li>
+   <li><b><code>getName(): string</code></b><br />
+       Möglichst eindeutiger Name des Plug-ins, wobei die Eindeutigkeit letztendlich von dem Klassennamen stammt. Es können auch Namensräume genutzt werden.</li>
+   <li><b><code>getDescription(): string</code></b><br />
+       Beschreibung der Funktionalität des Plug-ins. Dies kann ein längerer Text sein mit weitergehenden Informationen, Hilfen, FAQ usw.</li>
+   <li><b><code>onHook(string $hook, bool $official): ?callable</code></b><br />
+       Der eigentliche Code des Plug-ins wird als <a href="https://www.php.net/closure">anonyme Funktion</a> bereit gestellt. Falls das Plug-in nicht an dem angegebenen Hook interessiert ist, wird <code>null</code> zurückgegeben. Der zweite Parameter gibt an, ob es ein offizieller Hook vom TBB ist. Plug-ins können eigene und damit fremde Hooks mitbringen und diese ebenso aufrufen und so z.B. untereinander aufbauen oder miteinander interagieren.</li>
+  </ul>
+
+  <h3 id="plugininstall">8.2 Einbau</h3>
+  <p class="fontnorm">Fertige Plug-ins werden in den <b>./modules/PlugIns/</b>-Ordner hochgeladen. <b>Leeren Sie den Cache</b> in der Administration und die Plug-ins werden sofort aktiv.</p>
+
+  <h3 id="pluginexample">8.3 Beispiel für eine Implementierung</h3>
+  <p class="fontnorm">Das folgende Plug-in fügt neuen [mp3]-BBCode zum Abspielen von Audiodateien im MP3-Format hinzu.</p>
+  <pre></pre>
 
   <h2 id="additionalnotes">9 Weitere Anmerkungen</h2>
   <h3 id="newsfader">9.1 Forumnews im Modus &quot;Überblenden&quot;</h3>
@@ -871,6 +901,6 @@ Ich hoffe, das hier interessiert wenigstens ein paar Leute, denn es war, auch we
 mfg <b>Julian</b></p></blockquote>
    <p class="fontnorm">Also dann, bis zur nächsten Version! Oder so. ;)<br /><br />mfg <b>Chris</b></p>
 
-  <div class="fontcopyright">&copy; 2010&ndash;2023 <a href="http://www.tritanium-scripts.com/" target="_blank">Tritanium Scripts</a></div>
+  <div class="fontcopyright">&copy; 2010&ndash;2024 <a href="http://www.tritanium-scripts.com/" target="_blank">Tritanium Scripts</a></div>
  </body>
 </html>
