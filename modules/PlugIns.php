@@ -11,13 +11,13 @@ class PlugIns
 {
     use Singleton;
 
-    const HOOK_CONFIG_INIT = 'HOOK_CONFIG_INIT';
-
     const HOOK_CORE_INIT = 'HOOK_CORE_INIT';
     const HOOK_CORE_RUN = 'HOOK_CORE_RUN';
     const HOOK_CORE_MODULE_CALL = 'HOOK_CORE_MODULE_CALL';
 
-    const HOOK_BBCODE_PARSE = 'HOOK_BBCODE_PARSE';
+    const HOOK_BBCODE_PARSE_HTML = 'HOOK_BBCODE_PARSE_HTML';
+    const HOOK_BBCODE_PARSE_SMILIES = 'HOOK_BBCODE_PARSE_SMILIES';
+    const HOOK_BBCODE_PARSE_BBCODE = 'HOOK_BBCODE_PARSE_BBCODE';
 
     const HOOK_TEMPLATE_INIT = 'HOOK_TEMPLATE_INIT';
     const HOOK_TEMPLATE_PAGE = 'HOOK_TEMPLATE_PAGE';
@@ -35,13 +35,6 @@ class PlugIns
      * @var array Official hook names
      */
     private array $officialHooks;
-
-    /**
-     * Already called hooks during one execution run to prevent plug-ins called again.
-     *
-     * @var array Processed hook names
-     */
-    private array $calledHooks = [];
 
     /**
      * Loads all found / cached plug-ins and detects official hooks.
@@ -88,24 +81,20 @@ class PlugIns
      * Calls registered plug-ins on given hook.
      *
      * @param string $hook Official or custom hook name
+     * @param mixed $args Any arguments relevant to the hooked in execution
      * @return Hook was dispatched among all registered plug-ins
      */
-    public function callHook(string $hook): bool
+    public function callHook(string $hook, &...$args): bool
     {
-        //Hook already called before?
-        if(in_array($hook, $this->calledHooks))
-        {
-            Logger::getInstance()->log('Script "' . debug_backtrace(null, 1)[0]['file'] . '" tried to call hook "' . $hook . '" again!', Logger::LOG_FILESYSTEM);
+        if(Config::getInstance()->getCfgVal('activate_plug_ins') != 1)
             return false;
-        }
-        //Mark hook as called first and dispatch afterwards
-        $this->calledHooks[] = $hook;
+        $caller = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 2)[1]['object'];
         foreach($this->plugIns as $curPlugIn)
             try
             {
-                $curPlugIn->onHook($hook, in_array($hook, $this->officialHooks));
+                $curPlugIn->onHook($hook, in_array($hook, $this->officialHooks))?->call($caller, $args);
             }
-            catch(Exception $e)
+            catch(Throwable $e)
             {
                 Logger::getInstance()->log('Plug-in "' . get_class($curPlugIn) . '" failed execution on called hook "' . $hook . '": ' . $e->getMessage(), Logger::LOG_FILESYSTEM);
             }

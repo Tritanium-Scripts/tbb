@@ -191,6 +191,10 @@
   <td class="td1" style="font-weight:bold;"><span class="norm">{Language::getInstance()->getString('enable_calendar')}</span></td>
   <td class="td1" style="vertical-align:top;"><input type="radio" id="y85" name="settings[85]" value="1"{if $configValues['activate_calendar'] == 1} checked="checked"{/if} /><label for="y85" class="norm">{Language::getInstance()->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="n85" name="settings[85]" value="0"{if $configValues['activate_calendar'] != 1} checked="checked"{/if} /><label for="n85" class="norm">{Language::getInstance()->getString('negative')}</label></td>
  </tr>
+ <tr>
+  <td class="td1" style="font-weight:bold;"><span class="norm">{Language::getInstance()->getString('enable_plug_ins')}</span></td>
+  <td class="td1" style="vertical-align:top;"><input type="radio" id="y86" name="settings[86]" value="1"{if $configValues['activate_plug_ins'] == 1} checked="checked"{/if} /><label for="y86" class="norm">{Language::getInstance()->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="n86" name="settings[86]" value="0"{if $configValues['activate_plug_ins'] != 1} checked="checked"{/if} /><label for="n86" class="norm">{Language::getInstance()->getString('negative')}</label></td>
+ </tr>
 
  <tr><td class="kat" colspan="2"><span class="kat">{Language::getInstance()->getString('disk_space_settings')}</span></td></tr>
  <tr>

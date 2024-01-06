@@ -118,7 +118,7 @@
     </ul>
    </li>
    <li>
-    <a href="#configuration">Konfiguration (&quot;settings.php&quot;)</a>
+    <a href="#configuration">Konfiguration</a>
     <ul>
      <li><a href="#introduction">Einführung</a></li>
      <li><a href="#configurationvalues">Die Konfigurationswerte</a></li>
@@ -153,6 +153,7 @@
      <li><a href="#locinstall">Einbau</a></li>
     </ul>
    </li>
+   <li><a href="#plugins">Eigene Plug-ins</a></li>
    <li>
     <a href="#additionalnotes">Weitere Anmerkungen</a>
     <ul>
@@ -758,11 +759,15 @@ Supermoderator
   <h3 id="locinstall">7.3 Einbau</h3>
   <p class="fontnorm">Fertige Sprachpakete müssen in den <b>./languages/</b>-Ordner hochgeladen werden mit genau der vorgegeben Struktur aus Sprachcode und -dateien. <b>Leeren Sie den Cache</b> in der Administration und die Pakete stehen dann als weitere native Sprachen zur Auswahl. Sie werden je nach Herkunft des Benutzers automatisch geladen und verwendet.</p>
 
-  <h2 id="additionalnotes">8 Weitere Anmerkungen</h2>
-  <h3 id="newsfader">8.1 Forumnews im Modus &quot;Überblenden&quot;</h3>
+  <h2 id="plugins">8 Eigene Plug-ins</h2>
+  <p class="fontnorm">Ab Version 1.10 wurde eine API zur Unterstüztung von Plug-ins hinzugefügt. Auf diesem Wege könnten Hacks wesentlich einfacher und unabhängiger von Versionssprüngen realisiert werden.</p>
+  <p class="fontnorm">Ein Plug-in hakt sich in den Programmfluss an diversen Stellen ein und hat so die Möglichkeit entweder eigene Dinge zu tun oder vorhandene Daten in den jeweiligen Modulen zu modifizieren. Die Ausführung eines Plug-ins ist dabei immer an die aufrufende Klasse gebunden, d.h. es können dort auch private Variablen adressiert werden.</p>
+
+  <h2 id="additionalnotes">9 Weitere Anmerkungen</h2>
+  <h3 id="newsfader">9.1 Forumnews im Modus &quot;Überblenden&quot;</h3>
   <p class="fontnorm">Der Überblend-Modus wurde verbessert und funktioniert nun mit sämtlichen Browsern. Es wird allerdings nicht empfohlen, gleichzeitig BBCode zu verwenden, da das entstehende Dokument nicht mehr valide sein könnte oder seltsame Anzeigefehler auftreten könnten.</p>
 
-  <h3 id="htaccess">8.2 Sicherheit des Forums / .htaccess-Unterstützung</h3>
+  <h3 id="htaccess">9.2 Sicherheit des Forums / .htaccess-Unterstützung</h3>
   <p class="fontnorm">Sie sollten auf jeden Fall darauf achten, dass ihr Webserver .htaccess-Dateien unterstützt, da sonst jeder mit ein wenig Geschick alle Daten des Forums auslesen kann (Beiträge (auch in privaten Foren), Benutzerdaten, PNs, Logdateien, Einstellungen, ...).</p>
   <p class="fontnorm">Eine andere Möglichkeit um das Auslesen der meisten Daten zu verhindern, wäre sie gar nicht erst im TBB-Verzeichnis zu speichern. Sie können dazu den Pfad in der <b>./core/DataPath.php</b> anpassen und so einen Speicherort angeben, der außerhalb des sogenannten Webroots liegt (d.h. dieser Ordner ist mit einem Browser <b>nicht</b> aufrufbar). Beispiel:</p>
   <ul class="fontnorm">
@@ -782,21 +787,21 @@ Supermoderator
   </ul>
   <p class="fontnorm">Beachten Sie, dass diese Ordner mit Inhalt an der neuen Position existieren müssen, z.B. <code>/home/user123/forumdata/foren/</code>.</p>
 
-  <h3 id="otherstyles">8.3 Nutzung anderer Styles (CSS-Dateien)</h3>
+  <h3 id="otherstyles">9.3 Nutzung anderer Styles (CSS-Dateien)</h3>
   <p class="fontnorm">In der Administration können Sie unter dem Menüpunkt &quot;Templates&quot; andere Styles als Standard auswählen und sogar ihren Mitgliedern die freie Wahl über Template- und Style-Nutzung erlauben. Ein Aufruf mit <code>index.php?var_css_file=</code> ist nicht mehr notwendig und wird daher nicht länger unterstützt. Das Standardtemplate des TBB 1.10 wurde dem originalen Aufbau und Style der 1.2.3er Version nachempfunden, so dass es abwärtskompatibel zu den CSS-Klassen ist. Wenn Sie also andere Styles verwenden oder den originalen Standard modifiziert haben, können Sie diese weiterhin verwenden.</p>
 
-  <h3 id="afewwords">8.4 Ein paar Worte zum Code</h3>
+  <h3 id="afewwords">9.4 Ein paar Worte zum Code</h3>
   <p class="fontnorm">Die Vorgängerversionen wurden für ihren übersichtlichen und leicht verständlichen Code gelobt. Diese Tradition möchte ich fortsetzen und deswegen ist der <b>gesamte</b> Code (ohne Ausnahme) mit <a href="https://www.phpdoc.org/" target="_blank">phpDoc</a> dokumentiert. Hilfreich zum Verständnis dürfte auch die Architektur mit der Modulstruktur und die vielen weiteren Inline-Kommentare sein. :)</p>
   <p class="fontnorm">Seit Anfang 2021 sind alle Projekte von Tritanium Scripts auch bei <a href="https://github.com/Tritanium-Scripts">GitHub.com</a> zu finden. Die Entwicklung darf dort gerne verfolgt werden &ndash; Mitmachen erwünscht!</p>
 
-  <h3 id="groupsystem">8.5 Das Gruppensystem</h3>
+  <h3 id="groupsystem">9.5 Das Gruppensystem</h3>
   <p class="fontnorm">Es gibt die Möglichkeit in der Administration Benutzergruppen zu erstellen. Dies dient dazu, damit Sie z.B. nicht immer den gleichen Mitgliedern Zugriff auf bestimmte Foren gewähren müssen, denn anstatt dessen können Sie auch diese Leute einer Gruppe zuweisen und müssen dann nur noch der Gruppe Zugang gewähren. Sie können für jede Gruppe auch ein extra Avatar bestimmen. Dieser bekommt das Gruppenmitglied dann automatisch zugewiesen, falls es nicht selber einen anderen Avatar angegeben hat. Beachten Sie bitte, dass jeder Benutzer nur Mitglied <b>einer</b> Gruppe sein kann. Wundern Sie sich also nicht, wenn Sie einen Benutzer einer Gruppe zuweisen wollen, dies aber nicht geschieht. Das liegt dann normalerweise daran, dass der betreffende Benutzer schon Mitglied einer anderen Gruppe ist.</p>
 
-  <h3 id="concurrency">8.6 Nebenläufigkeit</h3>
+  <h3 id="concurrency">9.6 Nebenläufigkeit</h3>
   <p class="fontnorm">Kein unmittelbarer Fehler, aber eine Schwäche der Vorgängerversionen war die Verwaltung von Lese- und Schreibprozessen in Dateien. Wenn etwas auf die Mikrosekunde genau gleichzeitig ausgeführt wird, waren die Chancen hoch, dass mit falschen bzw. veralteten Daten gearbeitet wurde. Beispiele dafür wären mehrfache Vergabe von Benutzer-IDs bei neuen Registrierungen oder ausrechnen von falschen Statistikwerten. Das alles ist eher unwahrscheinlich, kann aber durch einen dummen Zufall mal passieren oder sich bewusst provozieren lassen durch z.B. massenhafte DDoS-ähnliche Angriffe.</p>
   <p class="fontnorm">Das TBB 1.10 steuert dem mit verbesserten Locking, d.h. mit geregelten und exklusiven Dateizugriffen, entgegen. Geschützt wurde damit z.B. die Vergabe von neuen Benutzer-IDs, Themen-IDs und Umfragen-IDs sowie der Mitgliedszähler. Die restlichen Komponenten sind derzeit aber weiterhin anfällig für diese Schwäche! Spätestens mit dem TBB 2.0 ist diese Problematik vollständig behoben.</p>
 
-  <h2 id="faq">9 FAQ</h2>
+  <h2 id="faq">10 FAQ</h2>
   <ul class="fontnorm">
    <li style="padding-bottom:1em;"><span style="font-weight:bold;">Julian?</span><br />
        Nein. Naja, indirekt schon, also es war so: Julian fing 2003 mit der Entwicklung des TBB 2.0 an und das zog sich wegen Zeitmangel (Studium etc.) in die Länge. Im Mai 2005 gab es die bis dato letzte Version (Alpha 9) und im Herbst 2006 bin ich dann mehr oder weniger als Co-Entwickler dazu gestoßen, weil es mir einfach zu lange dauerte. Zusammen veröffentlichten wir dann Ostern 2008 die Alpha 10 und Weihnachten 2008 die erste Beta-Version. Die Entwicklung der Beta 2 ging zügig weiter, bis Julian dermaßen in Zeitnot gerriet und es bis heute nicht wirklich besser wurde. Viel konnte ich alleine nicht machen, so dass ich gegen Ende meines Studiums im Juli 2010 mit der Entwicklung eines TBB 1.5 angefangen hab &ndash; eine Art Übergangslösung zwischen dem altem TBB 1.2.3 und der irgendwann kommenden 2.0. Dabei wurden bereits viele Konzepte und Funktionen des 2.0ers in das 1.5 integriert, so dass der &quot;Geist Julians&quot; durchaus vorhanden ist. ;)</li>
@@ -857,7 +862,7 @@ Supermoderator
        Dann bitte im Forum unter <a href="http://www.tritanium-scripts.com/" target="_blank">Tritanium Scripts</a> nachfragen, im Wiki bei <a href="https://github.com/Tritanium-Scripts/tbb/wiki" target="_blank">GitHub</a> nachschauen oder Kontakt über die oben genannten E-Mail-Adressen aufnehmen.</li>
   </ul>
 
-  <h2 id="closingwords">10 Schlusswort</h2>
+  <h2 id="closingwords">11 Schlusswort</h2>
   <p class="fontnorm">Den Werdegang hab ich bereits als erstes in der FAQ erzählt. An dieser Stelle zitiere ich einfach Julians Schlusswort aus der TBB 1.2.3 Readme:</p>
   <blockquote style="font-style:italic;"><p class="fontnorm">Viele (oder auch wenige :) fragen sich bestimmt, warum jemand auf die Idee kommt, ein Forum in PHP ohne MySQL zu programmieren, wenn letzteres doch viel einfacher und vielleicht auch schneller gehen würde. Dazu muss ich ein bisschen ausholen: Im Sommer 2000 hatte ich nichts, aber wirklich gar nichts mit PHP oder HTML am Hut, meine Webseiten bastelte ich mit allen möglichen Editoren zusammen, hauptsache ich musste selber kein Code schreiben. Da ich damals (wie heute auch immer noch ;) kein Geld hatte, nutzte ich außerdem den tollen Service von vielen verschiedenen Freewebspaceprovidern. Dabei hatte ich eigentlich so ziemlich ausprobiert (und da bin ich bestimmt nicht der einzige gewesen). Das Problem war, dass ich unbedingt CGI (besser gesagt Perl) Unterstützung brauchte um ein Forum einzurichten, aber auch keine Werbung wollte. Zuerst war da snoop.dk, dann supertown.de, dann f2s.com und schließlich Barrysworld. Auf Grund extremer Überlastung musste letzteres aber die Perl Unterstützung streichen, was in Form einer Mail verkündet wurde. In der Mail (ich hab sie leider nicht mehr) stand, man müsse sich wohl nach einem anderen Provider umsehen, wenn man weiterhin ein Forum oder sonstiges haben wolle. PHP wurde zwar unterstützt, allerdings kein MySQL, was PHP Foren damit auch ausschloss, da die alle nur mit einer Datenbank funktionierten. Weiterhin stand in der Mail, man könne ja selber PHP lernen und ein dateibasierendes Forum in PHP schreiben. Und da fing dann alles an. Innerhalb eines halben Monats hatte ich ein Kontaktformular und ein Gästebuch geschrieben, beides natürlich auf Dateibasis. Dann begann ich mit dem Forum, was ziemlich schnell immer besser wurde (fast täglich eine neue Version, aber meistens nur mit wenigen Änderungen). Dass ich dieses eigentlich nur für mich verwenden wollte, glaubt mir wohl heute keiner mehr, aber es war tatsächlich so. Irgendwann habe ich das Forum dann zum ersten Mal mit anderen getestet und es lief auf Anhieb prima. Irgendwie hab ich dann ein paar Leute kennengelernt, die auch so ein Forum haben wollten, und da hab ich natürlich nicht gezögert und auch gleich eine benutzerfreundliche Version gebastelt. Danach ist für ungefähr 3 Monate nichts passiert (vielleicht 4 oder 5 Seiten verwendeten das Forum), bis ich das ganze dann im November in drei Scriptarchive eintrug. Danach ging es Schlag auf Schlag, bis heute, wo ich um ca. 500 Mails reicher bin, meine Kontaktliste in ICQ von 10 auf 120 Leute gewachsen ist, das Forum ca. 3500 mal runtergeladen wurde (ca. 470 MB :) und ich viele viele Leute kennen gelernt habe, mit denen ich sonst wohl nie was zu tun gehabt hätte.<br />
 Noch mehr Leute als zu Beginn dieses Textes werden sich jetzt wohl fragen, warum ich so einen Text überhaupt schreibe. Erstens will ich jeden, der sich ein bisschen für dieses Thema interessiert, dazu ermutigen, auch Scripte (oder sontige Sachen) zu schreiben. Und es ist nicht schlimm z.B. ein Forum zu programmieren, obwohl es schon hunderte davon gibt, denn die Erfahrungen, die man dabei gewinnt, die sind wirklich einmalig! Und wie man sieht braucht man kein riesen Team für sowas. Ich habe bisher alle meine Projekte was das programmieren angeht alleine über die Bühne gebracht und ich denke, dass zumindest das Forum besser ist, als so manch anderes, was im Team entstanden ist (Was aber nicht heißen soll, dass Teams keine guten Sachen machen!).<br />

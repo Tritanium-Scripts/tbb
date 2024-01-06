@@ -94,6 +94,7 @@ class Core
         'ad_login' => 'Login',
         'adminLogfile' => 'AdminLogfile',
         'adminTemplate' => 'AdminTemplate',
+        'adminCalendar' => 'AdminCalendar',
         'adminPlugIns' => 'AdminPlugIns'];
 
     /**

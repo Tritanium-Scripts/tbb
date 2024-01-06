@@ -93,6 +93,16 @@
     </tr>
     <tr>
      <td style="padding:10px; vertical-align:top;">
+      <span class="fontBig"><a href="{$smarty.const.INDEXFILE}?faction=adminCalendar{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('calendar')}</a></span><br />
+      <span class="fontSmall">{Language::getInstance()->getString('calendar_text')}</span>
+     </td>
+     <td style="padding:10px; vertical-align:top;">
+      <span class="fontBig"><a href="{$smarty.const.INDEXFILE}?faction=adminPlugIns{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('plug_ins')}</a></span><br />
+      <span class="fontSmall">{Language::getInstance()->getString('plug_ins_text')}</span>
+     </td>
+    </tr>
+    <tr>
+     <td style="padding:10px; vertical-align:top;">
       <span class="fontBig"><a href="{$smarty.const.INDEXFILE}?faction=ad_emailist{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('email_list')}</a></span><br />
       <span class="fontSmall">{Language::getInstance()->getString('email_list_text')}</span>
      </td>

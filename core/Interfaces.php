@@ -23,7 +23,8 @@ interface PlugIn
      *
      * @param string $hook Hook name
      * @param bool $official Hook being an official one
+     * @return callable Callback to execute for hook or null
      */
-    public function onHook(string $hook, bool $official): void;
+    public function onHook(string $hook, bool $official): ?callable;
 }
 ?>

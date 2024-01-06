@@ -68,6 +68,10 @@
   <td class="td1" style="vertical-align:top; width:50%;"><span class="norm" style="font-weight:bold;"><a href="{$smarty.const.INDEXFILE}?faction=ad_newsletter{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('newsletter')}</a></span><br /><span class="small">{Language::getInstance()->getString('newsletter_text')}</span></td>
  </tr>
  <tr>
+  <td class="td1" style="vertical-align:top; width:50%;"><span class="norm" style="font-weight:bold;"><a href="{$smarty.const.INDEXFILE}?faction=adminCalendar{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('calendar')}</a></span><br /><span class="small">{Language::getInstance()->getString('calendar_text')}</span></td>
+  <td class="td1" style="vertical-align:top; width:50%;"><span class="norm" style="font-weight:bold;"><a href="{$smarty.const.INDEXFILE}?faction=adminPlugIns{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('plug_ins')}</a></span><br /><span class="small">{Language::getInstance()->getString('plug_ins_text')}</span></td>
+ </tr>
+ <tr>
   <td class="td1" style="vertical-align:top; width:50%;"><span class="norm" style="font-weight:bold;"><a href="{$smarty.const.INDEXFILE}?faction=ad_emailist{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('email_list')}</a></span><br /><span class="small">{Language::getInstance()->getString('email_list_text')}</span></td>
   <td class="td1" style="vertical-align:top; width:50%;"><span class="norm" style="font-weight:bold;"><a href="{$smarty.const.INDEXFILE}?faction=ad_killposts{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('delete_old_topics')}</a></span><br /><span class="small">{Language::getInstance()->getString('delete_old_topics_text')}</span></td>
  </tr>
