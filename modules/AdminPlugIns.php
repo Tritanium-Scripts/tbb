@@ -18,9 +18,13 @@ class AdminPlugIns extends PublicModule
     {
         Functions::accessAdminPanel();
         NavBar::getInstance()->addElement(Language::getInstance()->getString('manage_plug_ins'), INDEXFILE . '?faction=adminPlugIns' . SID_AMPER);
+        if(Config::getInstance()->getCfgVal('activate_plug_ins') != 1)
+            Template::getInstance()->printMessage('function_deactivated');
         $plugIns = [];
         foreach(PlugIns::getInstance()->getPlugIns() as $curPlugIn)
-            $plugIns[] = ['name' => $curPlugIn->getName(),
+            $plugIns[get_class($curPlugIn)] = ['author' => $curPlugIn->getAuthorName(),
+                'website' => $curPlugIn->getAuthorUrl(),
+                'name' => $curPlugIn->getName(),
                 'description' => $curPlugIn->getDescription()];
         Template::getInstance()->printPage('AdminPlugIns', 'plugIns', $plugIns);
     }
