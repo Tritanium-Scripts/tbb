@@ -4,7 +4,7 @@
 </table>
 <br />
 {else}{include file='Errors.tpl'}{/if}{/if}
-<form action="{$smarty.const.INDEXFILE}?faction=adminTemplate" method="post">
+<form action="{$smarty.const.INDEXFILE}?faction=adminTemplate{$smarty.const.SID_AMPER}" method="post">
 <table class="tbl" cellpadding="{Config::getInstance()->getCfgVal('tpadding')}" cellspacing="{Config::getInstance()->getCfgVal('tspacing')}" style="width:{Config::getInstance()->getCfgVal('twidth')}; margin:auto;">
  <tr><th class="thnorm" colspan="6"><span class="thnorm">{Language::getInstance()->getString('manage_templates')}</span></th></tr>
  <tr>

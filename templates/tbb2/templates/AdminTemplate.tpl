@@ -5,7 +5,7 @@
 </table>
 <br />
 {else}{include file='Errors.tpl'}{/if}{/if}
-<form action="{$smarty.const.INDEXFILE}?faction=adminTemplate" method="post">
+<form action="{$smarty.const.INDEXFILE}?faction=adminTemplate{$smarty.const.SID_AMPER}" method="post">
 <table class="tableStd" cellpadding="{Config::getInstance()->getCfgVal('tpadding')}" cellspacing="{Config::getInstance()->getCfgVal('tspacing')}" style="width:100%;">
  <tr><th class="cellTitle" colspan="6"><span class="fontTitle">{Language::getInstance()->getString('manage_templates')}</span></th></tr>
  <tr>

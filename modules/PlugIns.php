@@ -66,14 +66,14 @@ class PlugIns
                     continue;
                 }
                 //Use full class path for creating instance
-                $this->plugIns[] = new $curPlugInClass();
-                $plugInsCache .= 'include(\'' . $curPlugIn . '\'); $this->plugIns[] = new ' . $curPlugInClass . "();\n";
+                $this->plugIns[basename($curPlugIn)] = new $curPlugInClass();
+                $plugInsCache .= 'include(\'' . $curPlugIn . '\'); $this->plugIns[\'' . basename($curPlugIn) . '\'] = new ' . $curPlugInClass . "();\n";
             }
             //Set official hook names
             $curReflectionClass = new ReflectionClass($this);
             $this->officialHooks = array_values($curReflectionClass->getConstants());
             $plugInsCache .= '$this->officialHooks = [\'' . implode('\', \'', $this->officialHooks) . "'];\n";
-            Functions::file_put_contents('cache/PlugIns.cache.php', $plugInsCache . '?>', LOCK_EX);
+            Functions::file_put_contents('cache/PlugIns.cache.php', $plugInsCache . '?>', LOCK_EX, false, false);
         }
     }
 
@@ -99,6 +99,26 @@ class PlugIns
                 Logger::getInstance()->log('Plug-in "' . get_class($curPlugIn) . '" failed execution on called hook "' . $hook . '": ' . $e->getMessage(), Logger::LOG_FILESYSTEM);
             }
         return true;
+    }
+
+    /**
+     * Deletes given plug-in file.
+     *
+     * @param string $file Name of PHP file
+     * @return bool Plug-in being deleted
+     */
+    public function deletePlugIn(string $file): bool
+    {
+        $file = basename($file);
+        $plugIn = 'modules/PlugIns/' . $file;
+        if(file_exists($plugIn) && is_file($plugIn))
+        {
+            Functions::unlink($plugIn, false);
+            unset($this->plugIns[$file]);
+            Functions::unlink('cache/PlugIns.cache.php', false);
+            return true;
+        }
+        return false;
     }
 
     /**

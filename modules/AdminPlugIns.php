@@ -9,7 +9,26 @@
  */
 class AdminPlugIns extends PublicModule
 {
-    use Singleton;
+    use Singleton, Mode;
+
+    /**
+     * Translates a mode to its template file.
+     *
+     * @var array Mode and template counterparts
+     */
+    private static array $modeTable = ['adminPlugIns' => 'AdminPlugIns',
+        'delete' => 'AdminPlugIns'];
+
+    /**
+     * Sets mode.
+     *
+     * @param string $mode Mode to execute
+     */
+    function __construct(string $mode)
+    {
+        parent::__construct();
+        $this->mode = $mode;
+    }
 
     /**
      * Executes module.
@@ -20,13 +39,28 @@ class AdminPlugIns extends PublicModule
         NavBar::getInstance()->addElement(Language::getInstance()->getString('manage_plug_ins'), INDEXFILE . '?faction=adminPlugIns' . SID_AMPER);
         if(Config::getInstance()->getCfgVal('activate_plug_ins') != 1)
             Template::getInstance()->printMessage('function_deactivated');
-        $plugIns = [];
-        foreach(PlugIns::getInstance()->getPlugIns() as $curPlugIn)
-            $plugIns[get_class($curPlugIn)] = ['author' => $curPlugIn->getAuthorName(),
-                'website' => $curPlugIn->getAuthorUrl(),
-                'name' => $curPlugIn->getName(),
-                'description' => $curPlugIn->getDescription()];
-        Template::getInstance()->printPage('AdminPlugIns', 'plugIns', $plugIns);
+        switch($this->mode)
+        {
+//AdminPlugIns
+            case 'delete':
+            $plugInFile = basename(Functions::getValueFromGlobals('plugIn'));
+            if(PlugIns::getInstance()->deletePlugIn($plugInFile))
+                Logger::getInstance()->log('%s deleted plug-in ' . $plugInFile, Logger::LOG_ACP_ACTION);
+            else
+                Template::getInstance()->printMessage('plug_in_not_found');
+
+//AdminPlugIns
+            default:
+            $plugIns = [];
+            foreach(PlugIns::getInstance()->getPlugIns() as $curPlugInFile => $curPlugIn)
+                $plugIns[$curPlugInFile] = ['author' => $curPlugIn->getAuthorName(),
+                    'website' => $curPlugIn->getAuthorUrl(),
+                    'name' => $curPlugIn->getName(),
+                    'description' => $curPlugIn->getDescription()];
+            Template::getInstance()->assign('plugIns', $plugIns);
+            break;
+        }
+        Template::getInstance()->printPage(self::$modeTable[$this->mode]);
     }
 }
 ?>

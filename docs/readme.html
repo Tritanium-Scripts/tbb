@@ -740,7 +740,7 @@ Supermoderator
 
   <h3 id="lochints">7.1 Wichtige Hinweise</h3>
   <ul class="fontnorm">
-   <li>Alle 35 Dateien müssen vorhanden sein und dürfen nicht umbenannt werden</li>
+   <li>Alle 36 Dateien müssen vorhanden sein und dürfen nicht umbenannt werden</li>
    <li>Die Übersetzungen werden im ini-Format notiert, d.h. links steht ein Identifikator (darf nicht verändert werden!) und rechts die Übersetzung in Anführungszeichen</li>
    <li>Verwenden Sie auf jeden Fall einen Unicode-Zeichensatz, da das Forum mit UTF-8 arbeitet</li>
    <li>XHTML-Sonderzeichen müssen als Entitäten notiert werden, z.B. &amp; als &amp;amp; oder &quot; als &amp;quot;</li>
@@ -791,7 +791,45 @@ Supermoderator
 
   <h3 id="pluginexample">8.3 Beispiel für eine Implementierung</h3>
   <p class="fontnorm">Das folgende Plug-in fügt neuen [mp3]-BBCode zum Abspielen von Audiodateien im MP3-Format hinzu.</p>
-  <pre></pre>
+  <pre>&lt;?php
+class BBCodeMP3 implements PlugIn
+{
+    public function getAuthorName(): string
+    {
+        return 'Tritanium Scripts';
+    }
+
+    public function getAuthorUrl(): ?string
+    {
+        return 'http://www.tritanium-scripts.com/';
+    }
+
+    public function getName(): string
+    {
+        return 'BBCode MP3';
+    }
+
+    public function getDescription(): string
+    {
+        return '[mp3]-BBCode zur Einbettung von Audio im MP3-Format';
+    }
+
+    public function onHook(string $hook, bool $official): ?callable
+    {
+        if($official)
+            switch($hook)
+            {
+                case PlugIns::HOOK_BBCODE_PARSE_BBCODE:
+                return function($args)
+                {
+                    $args[0] = preg_replace(&quot;/\[mp3\](.*?)\[\/mp3\]/si&quot;, '&lt;audio src=&quot;\1&quot; type=&quot;audio/mp3&quot; controls=&quot;controls&quot;&gt;\1&lt;/audio&gt;', $args[0]);
+                };
+                break;
+            }
+        return null;
+    }
+}
+?&gt;</pre>
 
   <h2 id="additionalnotes">9 Weitere Anmerkungen</h2>
   <h3 id="newsfader">9.1 Forumnews im Modus &quot;Überblenden&quot;</h3>

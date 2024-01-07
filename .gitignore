@@ -5,6 +5,7 @@ foren/*.xbb
 logs/*.log
 members/*.ach
 members/*.pm
+modules/PlugIns/*.php
 vars/*.lock
 vendor
 composer.phar
