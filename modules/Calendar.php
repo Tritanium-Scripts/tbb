@@ -78,7 +78,7 @@ class Calendar extends PublicModule
             {
                 $curPlannedEvent = Functions::explodeByTab($curPlannedEvent);
                 $curPlannedEvent[2] = Functions::getTSmileyURL($curPlannedEvent[2]);
-                $events[] = array_combine(array('type', 'icon', 'startDate', 'endDate', 'name', 'description'), array_slice($curPlannedEvent, 1));
+                $events[] = array_combine(['type', 'icon', 'startDate', 'endDate', 'name', 'description'], array_slice($curPlannedEvent, 1));
             }
             unset($plannedEvents);
         }

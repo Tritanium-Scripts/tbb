@@ -98,7 +98,7 @@ abstract class CoreFunctions
     public static function addURL(string $subject): string
     {
         $tempBBCode = time(); //This is the placeholder for "url"
-        $subject = preg_replace_callback("/([^ ^>^\]^=^\n^\r]+?:\/\/|www\.)[^ ^<^\.^\[]+(\.[^ ^<^\.^\[^\]^\n^\r]+)+/si", fn($arr) => !empty($arr[2]) && Functions::stripos($arr[0], '[url]') === false && Functions::strripos($arr[0], '[/url]') === false ? '[' . $tempBBCode . ']' . ($arr[1] == 'www.' ? 'http://' : '') . $arr[0] . '[/' . $tempBBCode . ']' : $arr[0], $subject);
+        $subject = preg_replace_callback("/([^ ^>^\]^=^\n^\r]+?:\/\/|www\.)[^ ^<^\.^\[]+(\.[^ ^<^\.^\[^\]^\n^\r]+)+/si", fn($arr): string => !empty($arr[2]) && Functions::stripos($arr[0], '[url]') === false && Functions::strripos($arr[0], '[/url]') === false ? '[' . $tempBBCode . ']' . ($arr[1] == 'www.' ? 'http://' : '') . $arr[0] . '[/' . $tempBBCode . ']' : $arr[0], $subject);
         //After adding [url]s to *any* link, strip off unwanted ones:
         foreach(['iframe', 'flash', 'url', 'img', 'email', 'code', 'php', 'noparse'] as $curBBCode)
         {
@@ -247,7 +247,7 @@ abstract class CoreFunctions
      */
     public static function file(string $filename, ?int $flags=0, ?string $trimCharList=null, bool $datapath=true)
     {
-        $trimCallback = fn($entry) => trim($entry, empty($trimCharList) ? " \n\r\0\x0B" : $trimCharList);
+        $trimCallback = fn($entry): string => trim($entry, empty($trimCharList) ? " \n\r\0\x0B" : $trimCharList);
         if($datapath && self::$isCaching)
         {
             if(isset(self::$fileCache[$filename][0]))

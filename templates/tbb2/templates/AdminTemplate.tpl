@@ -17,7 +17,7 @@
  </tr>{foreach $templates as $curTplID => $curTemplate}
  <tr>
   <td class="cellStd" style="width:1%;"><input type="radio" id="{$curTplID}" name="template" value="{$curTplID}"{if $curTplID == $defaultTplID} checked="checked"{/if} /></td>
-  <td class="cellStd"><label for="{$curTplID}" class="fontNorm">{$curTemplate.name|escape}</label></td>
+  <td class="cellStd"><label for="{$curTplID}" class="fontNorm">{$curTemplate.name}</label></td>
   <td class="cellAlt"><span class="fontNorm"><a href="{$curTemplate.website}" target="_blank">{$curTemplate.author}</a></span></td>
   <td class="cellStd"><span class="fontNorm">{$curTemplate.comment}</span></td>
   <td class="cellAlt"><span class="fontNorm" style="color:{if version_compare($curTemplate.target, $smarty.const.VERSION_PRIVATE, '<')}red{else}green{/if};">{$curTemplate.target|trim_version}</span></td>

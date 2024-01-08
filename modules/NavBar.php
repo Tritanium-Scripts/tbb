@@ -29,9 +29,9 @@ class NavBar
     {
         if(is_array($name))
             foreach($name as $curElement)
-                $this->elements[] = array($curElement[0], !empty($curElement[1]) ? $curElement[1] : '', !empty($curElement[2]) ? $curElement[2] : '');
+                $this->elements[] = [$curElement[0], !empty($curElement[1]) ? $curElement[1] : '', !empty($curElement[2]) ? $curElement[2] : ''];
         else
-            $this->elements[] = array($name, $link, $extra);
+            $this->elements[] = [$name, $link, $extra];
     }
 
     /**
@@ -42,7 +42,7 @@ class NavBar
      */
     public function getNavBar(bool $isLinked=true): array
     {
-        return array_map(fn($element) => $isLinked ? array($element[0] . $element[2], $element[1]) : $element[0], $this->elements);
+        return array_map(fn($element) => $isLinked ? [$element[0] . $element[2], $element[1]] : $element[0], $this->elements);
     }
 }
 ?>
