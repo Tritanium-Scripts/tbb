@@ -19,8 +19,8 @@
   <td class="td{if $curDay == $currentTime|date_format:'%d' && $month == $currentTime|date_format:'%m' && $year == $currentTime|date_format:'%Y'}2{else}1{/if}">
    <p class="norm" style="float:right;">{$curDay}</p>{if !empty($curEvents)}
    <ul>{foreach $curEvents as $curEvent}{if $curEvent.type == 'member'}
-    <li style="list-style-position:inside;" class="norm" title="{$curEvent.description|escape}">{$curEvent.member}</li>{else}
-    <li style="list-style-image:url({$curEvent.icon}); list-style-position:inside;" class="norm" title="{$curEvent.description|escape}">{$curEvent.name|escape}</li>{/if}{/foreach}
+    <li style="list-style-position:inside;" class="norm" title="{$curEvent.description}">{$curEvent.member}</li>{else}
+    <li style="list-style-image:url({$curEvent.icon}); list-style-position:inside;" class="norm" title="{$curEvent.description}">{$curEvent.name}</li>{/if}{/foreach}
    </ul>{/if}
   </td>{/if}{/foreach}
  </tr>{/foreach}

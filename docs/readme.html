@@ -267,10 +267,18 @@
      <li><b>index.php</b></li>
     </ul>
    </li>
+   <li>Übertragen Sie ihre &ndash;sofern vorhanden&ndash; eigenen Einstellungen aus der <b>./modules/Config.php</b> in die <b>./modules/Config.php.new</b>.</li>
+   <li>Benennen Sie die <b>./modules/Config.php.new</b> in <b>./modules/Config.php</b> um und überschreiben eine evtl. existierende Config.php.</li>
    <li>Löschen Sie alle Inhalte im Ordner <b>./cache/</b>.</li>
    <li>Nutzen Sie das externe Foumwerkzeug <b>ext_lposts.php</b>, so muss dieses durch die neue Version ersetzt werden. Übertragen Sie dazu die vorhandenen Einstellungen in die neue Datei und ersetzen Sie ihre vorhandene Datei. Lesen Sie dazu auch <a href="#externaltools">Abschnitt 5</a> für mehr Details zu den Einstellungswerten.</li>
    <li>Laden Sie nun die <b>setUpdateFlag.php</b> aus dem <b>./update/</b>-Ordner in das TBB-Verzeichnis und rufen Sie das Script mit ihrem Browser auf (z.B. https://www.meinedomain.de/forum/setUpdateFlag.php). Je nach Anzahl registrierter Mitglieder kann der Update-Prozess etwas dauern und notfalls durch erneutes Aufrufen fortgesetzt werden.</li>
    <li>Löschen Sie die <b>setUpdateFlag.php</b> wieder, sobald eine &quot;Done!&quot;-Meldung angezeigt wird.</li>
+   <li>Öffnen Sie ihre <b>settings.var</b> aus dem <b>./vars/</b>-Ordner. Wenn Sie keine eigene <b>settings.var</b> haben, überspringen Sie die Punkte 10 und 11.</li>
+   <li>
+    Fügen Sie folgende Wert in die Zeilen 87 bis 87 ein:
+    <pre><code>1</code></pre>
+   </li>
+   <li>Vergewissern Sie sich, dass die &quot;<b>settings.var</b>&quot; genau 87 Zeilen hat und laden Sie sie in den <b>./vars/</b>-Ordner hoch.</li>
    <li>Das Forum ist nun aktualisiert und der Wartungsmodus kann deaktiviert werden.</li>
   </ol>
 
@@ -299,11 +307,12 @@
    <li>Löschen Sie die <b>setUpdateFlag.php</b> wieder, sobald eine &quot;Done!&quot;-Meldung angezeigt wird.</li>
    <li>Öffnen Sie ihre <b>settings.var</b> aus dem <b>./vars/</b>-Ordner. Wenn Sie keine eigene <b>settings.var</b> haben, überspringen Sie die Punkte 10 und 11.</li>
    <li>
-    Fügen Sie folgende Wert in die Zeilen 85 bis 86 ein:
+    Fügen Sie folgende Wert in die Zeilen 85 bis 87 ein:
     <pre><code>0
+1
 1</code></pre>
    </li>
-   <li>Vergewissern Sie sich, dass die &quot;<b>settings.var</b>&quot; genau 86 Zeilen hat und laden Sie sie in den <b>./vars/</b>-Ordner hoch.</li>
+   <li>Vergewissern Sie sich, dass die &quot;<b>settings.var</b>&quot; genau 87 Zeilen hat und laden Sie sie in den <b>./vars/</b>-Ordner hoch.</li>
    <li>Das Forum ist nun aktualisiert und der Wartungsmodus kann deaktiviert werden.</li>
   </ol>
 
@@ -332,13 +341,14 @@
    <li>Löschen Sie die <b>setUpdateFlag.php</b> wieder, sobald eine &quot;Done!&quot;-Meldung angezeigt wird.</li>
    <li>Öffnen Sie ihre <b>settings.var</b> aus dem <b>./vars/</b>-Ordner. Wenn Sie keine eigene <b>settings.var</b> haben, überspringen Sie die Punkte 10 und 11.</li>
    <li>
-    Fügen Sie folgende Werte in die Zeilen 83 bis 86 ein:
+    Fügen Sie folgende Werte in die Zeilen 83 bis 87 ein:
     <pre><code>1
 ?faction=gdpr
 0
+1
 1</code></pre>
    </li>
-   <li>Vergewissern Sie sich, dass die &quot;<b>settings.var</b>&quot; genau 86 Zeilen hat und laden Sie sie in den <b>./vars/</b>-Ordner hoch.</li>
+   <li>Vergewissern Sie sich, dass die &quot;<b>settings.var</b>&quot; genau 87 Zeilen hat und laden Sie sie in den <b>./vars/</b>-Ordner hoch.</li>
    <li>Das Forum ist nun aktualisiert und der Wartungsmodus kann deaktiviert werden.</li>
   </ol>
 
@@ -368,7 +378,7 @@
    <li>Löschen Sie die <b>setUpdateFlag.php</b> wieder, sobald eine &quot;Done!&quot;-Meldung angezeigt wird.</li>
    <li>Öffnen Sie ihre <b>settings.var</b> aus dem <b>./vars/</b>-Ordner. Wenn Sie keine eigene <b>settings.var</b> haben, überspringen Sie die Punkte 11 und 12.</li>
    <li>
-    Fügen Sie folgende Werte in die Zeilen 76 bis 86 ein:
+    Fügen Sie folgende Werte in die Zeilen 76 bis 87 ein:
     <pre><code>7
 3
 0
@@ -379,9 +389,10 @@
 1
 ?faction=gdpr
 0
+1
 1</code></pre>
    </li>
-   <li>Vergewissern Sie sich, dass die &quot;<b>settings.var</b>&quot; genau 86 Zeilen hat und laden Sie sie in den <b>./vars/</b>-Ordner hoch.</li>
+   <li>Vergewissern Sie sich, dass die &quot;<b>settings.var</b>&quot; genau 87 Zeilen hat und laden Sie sie in den <b>./vars/</b>-Ordner hoch.</li>
    <li>Das Forum ist nun aktualisiert und der Wartungsmodus kann deaktiviert werden.</li>
   </ol>
 
@@ -427,7 +438,7 @@
    <li>Löschen Sie die <b>setUpdateFlag.php</b> wieder, sobald eine &quot;Done!&quot;-Meldung angezeigt wird.</li>
    <li>Öffnen Sie ihre <b>settings.var</b> aus dem <b>./vars/</b>-Ordner und löschen sie ab Zeile 57 die ganzen Leerzeilen. Wenn Sie keine eigene <b>settings.var</b> haben, überspringen Sie die Punkte 13 bis 15.</li>
    <li>
-    Fügen Sie folgende Werte in die Zeilen 57 bis 86 ein:
+    Fügen Sie folgende Werte in die Zeilen 57 bis 87 ein:
     <pre><code>std
 0
 #FF0000
@@ -457,10 +468,11 @@ Supermoderator
 1
 ?faction=gdpr
 0
+1
 1</code></pre>
    </li>
    <li>Ändern Sie Zeile 51 in <code>de-DE</code> um.</li>
-   <li>Vergewissern Sie sich, dass die &quot;<b>settings.var</b>&quot; genau 86 Zeilen hat und laden Sie sie in den <b>./vars/</b>-Ordner.</li>
+   <li>Vergewissern Sie sich, dass die &quot;<b>settings.var</b>&quot; genau 87 Zeilen hat und laden Sie sie in den <b>./vars/</b>-Ordner.</li>
    <li>Das Forum ist nun aktualisiert. Rufen Sie es auf (z.B. https://www.meinedomain.de/forum/index.php), loggen Sie sich ein und überprüfen Sie den Status. Konsultieren Sie das <a href="#faq">FAQ</a>, wenn Fehlermeldungen erscheinen.</li>
   </ol>
 

@@ -176,7 +176,8 @@ class AdminCalendar extends PublicModule
             }
             else
                 list(, , $this->eventIcon, $this->eventStartDate, $this->eventEndDate, $this->eventName, $this->eventDescription) = $this->events[$key];
-            Template::getInstance()->assign(['editEventIcon' => $this->eventIcon,
+            Template::getInstance()->assign(['eventId' => $this->eventId,
+                'editEventIcon' => $this->eventIcon,
                 'editEventName' => $this->eventName,
                 'editEventStartDate' => $this->eventStartDate,
                 'editEventEndDate' => $this->eventEndDate,

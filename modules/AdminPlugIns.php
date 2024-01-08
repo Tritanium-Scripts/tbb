@@ -12,14 +12,6 @@ class AdminPlugIns extends PublicModule
     use Singleton, Mode;
 
     /**
-     * Translates a mode to its template file.
-     *
-     * @var array Mode and template counterparts
-     */
-    private static array $modeTable = ['adminPlugIns' => 'AdminPlugIns',
-        'delete' => 'AdminPlugIns'];
-
-    /**
      * Sets mode.
      *
      * @param string $mode Mode to execute
@@ -41,7 +33,6 @@ class AdminPlugIns extends PublicModule
             Template::getInstance()->printMessage('function_deactivated');
         switch($this->mode)
         {
-//AdminPlugIns
             case 'delete':
             $plugInFile = basename(Functions::getValueFromGlobals('plugIn'));
             if(PlugIns::getInstance()->deletePlugIn($plugInFile))
@@ -60,7 +51,7 @@ class AdminPlugIns extends PublicModule
             Template::getInstance()->assign('plugIns', $plugIns);
             break;
         }
-        Template::getInstance()->printPage(self::$modeTable[$this->mode]);
+        Template::getInstance()->printPage('AdminPlugIns');
     }
 }
 ?>

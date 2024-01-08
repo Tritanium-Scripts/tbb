@@ -456,6 +456,22 @@ class WhoIsOnline extends PublicModule
                     $wioLocations[] = array($curUser, Language::getInstance()->getString('deletes_old_topics'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
                     break;
 
+                    case 'AdminCalendar':
+                    $wioLocations[] = array($curUser, Language::getInstance()->getString('manages_calendar'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
+                    break;
+
+                    case 'AdminCalendarNewEvent':
+                    $wioLocations[] = array($curUser, Language::getInstance()->getString('creates_new_event'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
+                    break;
+
+                    case 'AdminCalendarEditEvent':
+                    $wioLocations[] = array($curUser, Language::getInstance()->getString('edits_an_event'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
+                    break;
+
+                    case 'AdminPlugIns':
+                    $wioLocations[] = array($curUser, Language::getInstance()->getString('manages_plug_ins'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
+                    break;
+
                     default:
                     $wioLocations[] = array($curUser, '<b>WARNING: Unknown WIO location!</b>', $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
                     break;
