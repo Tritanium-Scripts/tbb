@@ -38,7 +38,7 @@ class AdminSmiley extends PublicModule
      *
      * @var int Smiley type constant
      */
-    private int $smileyType = SMILEY_SMILEY;
+    private int $smileyType = BBCode::SMILEY_SMILEY;
 
     /**
      * Existing smilies.
@@ -81,11 +81,11 @@ class AdminSmiley extends PublicModule
             switch($mode[2])
             {
                 case 't':
-                $this->smileyType = SMILEY_TOPIC;
+                $this->smileyType = BBCode::SMILEY_TOPIC;
                 break;
 
                 case 'a':
-                $this->smileyType = SMILEY_ADMIN;
+                $this->smileyType = BBCode::SMILEY_ADMIN;
                 break;
             }
     }
@@ -108,7 +108,7 @@ class AdminSmiley extends PublicModule
             $newSynonym = htmlspecialchars(trim(Functions::getValueFromGlobals('synonym')));
             switch($this->smileyType)
             {
-                case SMILEY_SMILEY:
+                case BBCode::SMILEY_SMILEY:
                 NavBar::getInstance()->addElement(Language::getInstance()->getString('add_new_smiley'), INDEXFILE . '?faction=ad_smilies&amp;mode=new' . SID_AMPER);
                 if(Functions::getValueFromGlobals('save') == 'yes')
                 {
@@ -129,7 +129,7 @@ class AdminSmiley extends PublicModule
                 }
                 break;
 
-                case SMILEY_TOPIC:
+                case BBCode::SMILEY_TOPIC:
                 NavBar::getInstance()->addElement(Language::getInstance()->getString('add_new_post_icon'), INDEXFILE . '?faction=ad_smilies&amp;mode=newt' . SID_AMPER);
                 if(Functions::getValueFromGlobals('save') == 'yes')
                 {
@@ -146,7 +146,7 @@ class AdminSmiley extends PublicModule
                 }
                 break;
 
-                case SMILEY_ADMIN:
+                case BBCode::SMILEY_ADMIN:
                 NavBar::getInstance()->addElement(Language::getInstance()->getString('add_new_asmiley'), INDEXFILE . '?faction=ad_smilies&amp;mode=newa' . SID_AMPER);
                 if(Functions::getValueFromGlobals('save') == 'yes')
                 {
@@ -182,7 +182,7 @@ class AdminSmiley extends PublicModule
             $editSynonym = htmlspecialchars(trim(Functions::getValueFromGlobals('synonym')));
             switch($this->smileyType)
             {
-                case SMILEY_SMILEY:
+                case BBCode::SMILEY_SMILEY:
                 NavBar::getInstance()->addElement(Language::getInstance()->getString('edit_smiley'), INDEXFILE . '?faction=ad_smilies&amp;mode=edit&amp;id=' . $this->smileyID . SID_AMPER);
                 if(($key = array_search($this->smileyID, array_map('current', $this->smilies))) === false)
                     Template::getInstance()->printMessage('smiley_not_found');
@@ -211,7 +211,7 @@ class AdminSmiley extends PublicModule
                 }
                 break;
 
-                case SMILEY_TOPIC:
+                case BBCode::SMILEY_TOPIC:
                 NavBar::getInstance()->addElement(Language::getInstance()->getString('edit_post_icon'), INDEXFILE . '?faction=ad_smilies&amp;mode=editt&amp;id=' . $this->smileyID . SID_AMPER);
                 if(($key = array_search($this->smileyID, array_map('current', $this->tSmilies))) === false)
                     Template::getInstance()->printMessage('smiley_not_found');
@@ -232,7 +232,7 @@ class AdminSmiley extends PublicModule
                     $editAddress = $this->tSmilies[$key][1];
                 break;
 
-                case SMILEY_ADMIN:
+                case BBCode::SMILEY_ADMIN:
                 NavBar::getInstance()->addElement(Language::getInstance()->getString('edit_asmiley'), INDEXFILE . '?faction=ad_smilies&amp;mode=edita&amp;id=' . $this->smileyID . SID_AMPER);
                 if(($key = array_search($this->smileyID, array_map('current', $this->aSmilies))) === false)
                     Template::getInstance()->printMessage('smiley_not_found');
@@ -272,7 +272,7 @@ class AdminSmiley extends PublicModule
             case 'killa':
             switch($this->smileyType)
             {
-                case SMILEY_SMILEY:
+                case BBCode::SMILEY_SMILEY:
                 NavBar::getInstance()->addElement(Language::getInstance()->getString('delete_smiley'), INDEXFILE . '?faction=ad_smilies&amp;mode=kill&amp;id=' . $this->smileyID . SID_AMPER);
                 if(($key = array_search($this->smileyID, array_map('current', $this->smilies))) === false)
                     Template::getInstance()->printMessage('smiley_not_found');
@@ -285,7 +285,7 @@ class AdminSmiley extends PublicModule
                 Template::getInstance()->printMessage('smiley_deleted');
                 break;
 
-                case SMILEY_TOPIC:
+                case BBCode::SMILEY_TOPIC:
                 NavBar::getInstance()->addElement(Language::getInstance()->getString('delete_post_icon'), INDEXFILE . '?faction=ad_smilies&amp;mode=killt&amp;id=' . $this->smileyID . SID_AMPER);
                 if(($key = array_search($this->smileyID, array_map('current', $this->tSmilies))) === false)
                     Template::getInstance()->printMessage('smiley_not_found');
@@ -296,7 +296,7 @@ class AdminSmiley extends PublicModule
                 Template::getInstance()->printMessage('smiley_deleted');
                 break;
 
-                case SMILEY_ADMIN:
+                case BBCode::SMILEY_ADMIN:
                 NavBar::getInstance()->addElement(Language::getInstance()->getString('delete_asmiley'), INDEXFILE . '?faction=ad_smilies&amp;mode=killa&amp;id=' . $this->smileyID . SID_AMPER);
                 if(($key = array_search($this->smileyID, array_map('current', $this->aSmilies))) === false)
                     Template::getInstance()->printMessage('smiley_not_found');
@@ -316,7 +316,7 @@ class AdminSmiley extends PublicModule
             case 'moveupa':
             switch($this->smileyType)
             {
-                case SMILEY_SMILEY:
+                case BBCode::SMILEY_SMILEY:
                 if(($key = array_search($this->smileyID, array_map('current', $this->smilies))) === false)
                     Template::getInstance()->printMessage('smiley_not_found');
                 if($key != 0)
@@ -328,7 +328,7 @@ class AdminSmiley extends PublicModule
                 }
                 break;
 
-                case SMILEY_TOPIC:
+                case BBCode::SMILEY_TOPIC:
                 if(($key = array_search($this->smileyID, array_map('current', $this->tSmilies))) === false)
                     Template::getInstance()->printMessage('smiley_not_found');
                 if($key != 0)
@@ -338,7 +338,7 @@ class AdminSmiley extends PublicModule
                 }
                 break;
 
-                case SMILEY_ADMIN:
+                case BBCode::SMILEY_ADMIN:
                 if(($key = array_search($this->smileyID, array_map('current', $this->aSmilies))) === false)
                     Template::getInstance()->printMessage('smiley_not_found');
                 if($key != 0)
@@ -359,7 +359,7 @@ class AdminSmiley extends PublicModule
             case 'movedowna':
             switch($this->smileyType)
             {
-                case SMILEY_SMILEY:
+                case BBCode::SMILEY_SMILEY:
                 if(($key = array_search($this->smileyID, array_map('current', $this->smilies))) === false)
                     Template::getInstance()->printMessage('smiley_not_found');
                 if($key != count($this->smilies)-1)
@@ -371,7 +371,7 @@ class AdminSmiley extends PublicModule
                 }
                 break;
 
-                case SMILEY_TOPIC:
+                case BBCode::SMILEY_TOPIC:
                 if(($key = array_search($this->smileyID, array_map('current', $this->tSmilies))) === false)
                     Template::getInstance()->printMessage('smiley_not_found');
                 if($key != count($this->tSmilies)-1)
@@ -381,7 +381,7 @@ class AdminSmiley extends PublicModule
                 }
                 break;
 
-                case SMILEY_ADMIN:
+                case BBCode::SMILEY_ADMIN:
                 if(($key = array_search($this->smileyID, array_map('current', $this->aSmilies))) === false)
                     Template::getInstance()->printMessage('smiley_not_found');
                 if($key != count($this->aSmilies)-1)

@@ -22,6 +22,8 @@ class PlugIns
     const HOOK_TEMPLATE_INIT = 'HOOK_TEMPLATE_INIT';
     const HOOK_TEMPLATE_PAGE = 'HOOK_TEMPLATE_PAGE';
 
+    const HOOK_TPL_BBCODES = 'HOOK_TPL_BBCODES';
+
     /**
      * Loaded plug-in instances.
      *

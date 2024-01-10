@@ -13,6 +13,21 @@ class BBCode
     use Singleton;
 
     /**
+     * Normal smilies.
+     */
+    const SMILEY_SMILEY = 0;
+
+    /**
+     * Post icons.
+     */
+    const SMILEY_TOPIC = 1;
+
+    /**
+     * Admin and (s)mod smilies.
+     */
+    const SMILEY_ADMIN = 2;
+
+    /**
      * Contains ready-for-use admin smilies with synonym and URL.
      *
      * @var array Prepared admin smilies for search and replace

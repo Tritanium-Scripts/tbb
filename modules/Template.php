@@ -42,7 +42,6 @@ class Template
             //TODO replace registerPlugins with wildcard extension having Smarty 5
             ->registerPlugin('modifier', 'in_array', 'in_array')
             ->registerPlugin('modifier', 'implode', 'implode')
-            ->registerPlugin('modifier', 'rtrim', 'rtrim')
             ->setCompileId($this->tplDir);
         //Load config(s)
         foreach(glob($this->tplDir . 'config/*.conf') as $curConfig)

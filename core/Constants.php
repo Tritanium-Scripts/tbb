@@ -42,8 +42,4 @@ define('BBCODE_FLASH', 17);     //Flash
 define('BBCODE_QUOTE', 18);     //Quote
 define('BBCODE_CODE', 19);      //Code / PHP
 define('BBCODE_IFRAME', 20);    //Inline frame
-//Smiley types
-define('SMILEY_SMILEY', 0);     //Normal smilies
-define('SMILEY_TOPIC', 1);      //Post icons
-define('SMILEY_ADMIN', 2);      //Admin and (s)mod smilies
 ?>
