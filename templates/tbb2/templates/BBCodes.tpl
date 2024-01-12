@@ -58,3 +58,4 @@
 <input class="formBBCodeButton" type="button" value="IFRAME" onclick="setTag('[iframe]','[/iframe]');" />
 <input class="formBBCodeButton" type="button" value="{Language::getInstance()->getString('hidden_text')}" onclick="setTag('[hide]','[/hide]');" />
 <input class="formBBCodeButton" type="button" value="{Language::getInstance()->getString('locked_text')}" onclick="setTag('[lock]','[/lock]');" />
+{plugin_hook hook=PlugIns::HOOK_TPL_BBCODES}

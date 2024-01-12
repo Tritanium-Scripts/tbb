@@ -12,8 +12,8 @@
  <tr>
   <td class="cellStd"><span class="fontNorm"><img src="{$curEvent[2]}" alt="" /></span></td>
   <td class="cellAlt"><span class="fontNorm">{$curEvent[5]}</span></td>
-  <td class="cellStd"><span class="fontNorm">{$curEvent[3]|date_format:Language::getInstance()->getString('DATEFORMAT')}</span></td>
-  <td class="cellAlt"><span class="fontNorm">{$curEvent[4]|date_format:Language::getInstance()->getString('DATEFORMAT')}</span></td>
+  <td class="cellStd"><span class="fontNorm">{$curEvent[3]|date_format:Language::getInstance()->getString('DATEFORMAT')|utf8_encode}</span></td>
+  <td class="cellAlt"><span class="fontNorm">{$curEvent[4]|date_format:Language::getInstance()->getString('DATEFORMAT')|utf8_encode}</span></td>
   <td class="cellStd" style="text-align:center;"><span class="fontSmall"><a href="{$smarty.const.INDEXFILE}?faction=adminCalendar&amp;mode=delete&amp;id={$curEvent[0]}{$smarty.const.SID_AMPER}"><img src="{Template::getInstance()->getTplDir()}images/icons/calendar_delete.png" alt="{Language::getInstance()->getString('delete')}" style="vertical-align:middle;" /> {Language::getInstance()->getString('delete')}</a> | <a href="{$smarty.const.INDEXFILE}?faction=adminCalendar&amp;mode=edit&amp;id={$curEvent[0]}{$smarty.const.SID_AMPER}"><img src="{Template::getInstance()->getTplDir()}images/icons/calendar_edit.png" alt="{Language::getInstance()->getString('edit')}" style="vertical-align:middle;" /> {Language::getInstance()->getString('edit')}</a></span></td>
  </tr>
 {foreachelse}
