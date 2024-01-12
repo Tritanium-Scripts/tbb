@@ -78,6 +78,7 @@ class Calendar extends PublicModule
             {
                 $curPlannedEvent = Functions::explodeByTab($curPlannedEvent);
                 $curPlannedEvent[2] = Functions::getTSmileyURL($curPlannedEvent[2]);
+                $curPlannedEvent[6] = BBCode::getInstance()->parse($curPlannedEvent[6], false, true, false);
                 $events[] = array_combine(['type', 'icon', 'startDate', 'endDate', 'name', 'description'], array_slice($curPlannedEvent, 1));
             }
             unset($plannedEvents);

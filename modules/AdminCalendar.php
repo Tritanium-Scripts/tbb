@@ -85,7 +85,7 @@ class AdminCalendar extends PublicModule
         $this->eventName = htmlspecialchars(Functions::getValueFromGlobals('eventName'));
         $this->eventStartDate = $this->getTimestamp('eventStartDate', 0, 0, 0);
         $this->eventEndDate = $this->getTimestamp('eventEndDate', 23, 59, 59);
-        $this->eventDescription = htmlspecialchars(Functions::getValueFromGlobals('eventDescription'));
+        $this->eventDescription = htmlspecialchars(Functions::getValueFromGlobals('eventDescription', false));
     }
 
     /**
@@ -134,7 +134,7 @@ class AdminCalendar extends PublicModule
                     //Get new ID
                     $this->eventId = !empty($this->events) ? current(end($this->events))+1 : 1;
                     //Add to events
-                    Functions::file_put_contents('vars/events.var', $this->eventId . "\tevent\t" . $this->eventIcon . "\t" . $this->eventStartDate . "\t" . $this->eventEndDate . "\t" . $this->eventName . "\t" . $this->eventDescription . "\n", FILE_APPEND);
+                    Functions::file_put_contents('vars/events.var', $this->eventId . "\tevent\t" . $this->eventIcon . "\t" . $this->eventStartDate . "\t" . $this->eventEndDate . "\t" . $this->eventName . "\t" . Functions::nl2br($this->eventDescription) . "\n", FILE_APPEND);
                     //Done
                     Logger::getInstance()->log('%s added new event (ID: ' . $this->eventId . ')', Logger::LOG_ACP_ACTION);
                     header('Location: ' . INDEXFILE . '?faction=adminCalendar' . SID_AMPER_RAW);
@@ -165,7 +165,7 @@ class AdminCalendar extends PublicModule
                 if(empty($this->errors))
                 {
                     //Update event
-                    $this->events[$key] = [$this->eventId, 'event', $this->eventIcon, $this->eventStartDate, $this->eventEndDate, $this->eventName, $this->eventDescription];
+                    $this->events[$key] = [$this->eventId, 'event', $this->eventIcon, $this->eventStartDate, $this->eventEndDate, $this->eventName, Functions::nl2br($this->eventDescription)];
                     //Save it
                     Functions::file_put_contents('vars/events.var', implode("\n", array_map(['Functions', 'implodeByTab'], $this->events)) . "\n");
                     //Done
@@ -175,7 +175,10 @@ class AdminCalendar extends PublicModule
                 }
             }
             else
+            {
                 list(, , $this->eventIcon, $this->eventStartDate, $this->eventEndDate, $this->eventName, $this->eventDescription) = $this->events[$key];
+                $this->eventDescription = Functions::br2nl($this->eventDescription);
+            }
             Template::getInstance()->assign(['eventId' => $this->eventId,
                 'editEventIcon' => $this->eventIcon,
                 'editEventName' => $this->eventName,
