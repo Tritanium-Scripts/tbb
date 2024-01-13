@@ -30,7 +30,8 @@
 {else}
     <div id="event{$curDay}{$curEvent@iteration}" class="td2" style="border:thin solid #000000; cursor:pointer; display:none; height:60%; left:20%; padding:2em; position:fixed; top:20%; overflow:scroll; width:60%; z-index:1;" onclick="this.style.display='none';">
      <h2>{$curEvent.name}</h2>
-     <p>{$curEvent.description}</p>
+     <h3 class="small">{$curEvent.startDate|date_format:Language::getInstance()->getString('DATEFORMAT')} - {$curEvent.endDate|date_format:Language::getInstance()->getString('DATEFORMAT')}</h3>
+     <p class="norm">{$curEvent.description}</p>
     </div>
     <li style="list-style-image:url('{$curEvent.icon}'); list-style-position:inside;" class="norm" title="{$curEvent.startDate|date_format:Language::getInstance()->getString('DATE_MINUTES_SHORT')}-{$curEvent.endDate|date_format:Language::getInstance()->getString('DATE_MINUTES_SHORT')}"><a style="cursor:help;" onclick="document.getElementById('event{$curDay}{$curEvent@iteration}').style.display='';">{$curEvent.name}</a></li>
 {/if}

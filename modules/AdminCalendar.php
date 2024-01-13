@@ -83,8 +83,8 @@ class AdminCalendar extends PublicModule
         //Get data for new or edited event
         $this->eventIcon = intval(Functions::getValueFromGlobals('tsmilie')) ?: 1;
         $this->eventName = htmlspecialchars(Functions::getValueFromGlobals('eventName'));
-        $this->eventStartDate = $this->getTimestamp('eventStartDate', 0, 0, 0);
-        $this->eventEndDate = $this->getTimestamp('eventEndDate', 23, 59, 59);
+        $this->eventStartDate = $this->getTimestamp('eventStartDate');
+        $this->eventEndDate = $this->getTimestamp('eventEndDate');
         $this->eventDescription = htmlspecialchars(Functions::getValueFromGlobals('eventDescription', false));
     }
 
@@ -92,19 +92,16 @@ class AdminCalendar extends PublicModule
      * Provides timestamp of date set by form (convert from array).
      *
      * @param string $dateName Name of submitted date variable
-     * @param int $hour Hour to use
-     * @param int $minute Minute to use
-     * @param int $second Second to use
      * @return int Timestamp of submitted date
      */
-    private function getTimestamp(string $dateName, int $hour, int $minute, int $second): int
+    private function getTimestamp(string $dateName): int
     {
         $date = Functions::getValueFromGlobals($dateName);
         if(!is_array($date))
             return 0;
         $date = array_map('intval', $date);
         //Check if day is actually in month or roll it back otherwise (e.g. Feb 31 to Feb 28)
-        return mktime($hour, $minute, $second, $date['Month'], min($date['Day'], date('t', strtotime($date['Year'] . '-' . $date['Month']))), $date['Year']);
+        return mktime($date['Hour'], $date['Minute'], $date['Second'], $date['Month'], min($date['Day'], date('t', strtotime($date['Year'] . '-' . $date['Month']))), $date['Year']);
     }
 
     /**
@@ -140,6 +137,11 @@ class AdminCalendar extends PublicModule
                     header('Location: ' . INDEXFILE . '?faction=adminCalendar' . SID_AMPER_RAW);
                     Template::getInstance()->printMessage('event_added');
                 }
+            }
+            else
+            {
+                $this->eventStartDate = mktime(0, 0, 0);
+                $this->eventEndDate = mktime(23, 59, 59);
             }
             Template::getInstance()->assign(['newEventIcon' => $this->eventIcon,
                 'newEventName' => $this->eventName,

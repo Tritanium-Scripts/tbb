@@ -29,7 +29,8 @@
     <li style="list-style-image:url('{Template::getInstance()->getTplDir()}images/icons/{if $curEvent.icon == 'registration'}user_add{else}cake{/if}.png'); list-style-position:inside;" class="fontNorm" title="{$curEvent.description}">{$curEvent.member}</li>
 {else}
     <div id="event{$curDay}{$curEvent@iteration}" class="divInfoBox" style="cursor:pointer; display:none; height:60%; left:20%; position:fixed; top:20%; overflow:scroll; width:60%; z-index:1;" onclick="this.style.display='none';">
-     <h2 class="fontNorm">{$curEvent.name}</h2>
+     <h2 class="fontBig">{$curEvent.name}</h2>
+     <h3 class="fontSmall">{$curEvent.startDate|date_format:Language::getInstance()->getString('DATEFORMAT')} - {$curEvent.endDate|date_format:Language::getInstance()->getString('DATEFORMAT')}</h3>
      <p class="fontNorm">{$curEvent.description}</p>
     </div>
     <li style="list-style-image:url('{$curEvent.icon}'); list-style-position:inside;" class="fontNorm" title="{$curEvent.startDate|date_format:Language::getInstance()->getString('DATE_MINUTES_SHORT')}-{$curEvent.endDate|date_format:Language::getInstance()->getString('DATE_MINUTES_SHORT')}"><a style="cursor:help;" onclick="document.getElementById('event{$curDay}{$curEvent@iteration}').style.display='';">{$curEvent.name}</a></li>

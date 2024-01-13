@@ -18,11 +18,11 @@
  </tr>
  <tr>
   <td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('start')}</span></td>
-  <td class="cellAlt">{{html_select_date prefix='' time=$editEventStartDate start_year='-5' end_year='+5' reverse_years=true field_array='eventStartDate' field_order=Language::getInstance()->getString('DATE_FIELD_ORDER') field_separator=Language::getInstance()->getString('DATE_SEPARATOR')}|utf8_encode}</td>
+  <td class="cellAlt">{{html_select_date prefix='' time=$editEventStartDate start_year='-5' end_year='+5' reverse_years=true field_array='eventStartDate' field_order=Language::getInstance()->getString('DATE_FIELD_ORDER') field_separator=Language::getInstance()->getString('DATE_SEPARATOR')}|utf8_encode} {html_select_time prefix='' time=$editEventStartDate field_array='eventStartDate'}</td>
  </tr>
  <tr>
   <td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('end')}</span></td>
-  <td class="cellAlt">{{html_select_date prefix='' time=$editEventEndDate start_year='-5' end_year='+5' reverse_years=true field_array='eventEndDate' field_order=Language::getInstance()->getString('DATE_FIELD_ORDER') field_separator=Language::getInstance()->getString('DATE_SEPARATOR')}|utf8_encode}</td>
+  <td class="cellAlt">{{html_select_date prefix='' time=$editEventEndDate start_year='-5' end_year='+5' reverse_years=true field_array='eventEndDate' field_order=Language::getInstance()->getString('DATE_FIELD_ORDER') field_separator=Language::getInstance()->getString('DATE_SEPARATOR')}|utf8_encode} {html_select_time prefix='' time=$editEventEndDate field_array='eventEndDate'}</td>
  </tr>
  <tr>
   <td class="cellStd" style="vertical-align:top;"><span class="fontNorm">{Language::getInstance()->getString('description')}</span><br /><br />{include file='Smilies.tpl' targetBoxID='eventDescription'}</td>
