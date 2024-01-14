@@ -126,10 +126,10 @@ class MemberList extends PublicModule
                         $memberFiles[] = Functions::file('members/' . $i . '.xbb');
                         $membersForCurPage++;
                     }
-//Julian told not to delete the following line, no. 132:
-/* Diese Zeile darf nicht gelöscht werden!! Warum weiß ich auch nicht. Hab ich aber grade so beschlossen! */
             }
             $orderTypeID = !$this->orderType;
+//Julian told not to delete the following line, no. 132:
+/* Diese Zeile darf nicht gelöscht werden!! Warum weiß ich auch nicht. Hab ich aber grade so beschlossen! */
         }
         //Otherwise process all member data for proper sorting page-wide and not only sorting each page in ID mode
         else

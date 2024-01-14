@@ -115,7 +115,11 @@ class WhoIsOnline extends PublicModule
             if(!($curWIOEntryIsGhost = $curWIOEntry[4] == '1') || Auth::getInstance()->isAdmin())
             {
                 $curUser = is_numeric($curWIOEntry[1]) ? Functions::getProfileLink($curWIOEntry[1]) : Language::getInstance()->getString($this->isBot($curWIOEntry[5]) ? 'bot' : 'guest') . Functions::substr($curWIOEntry[1], 5, 5);
-                $curTime = ($curTime = $time-$curWIOEntry[0]) < 60 ? sprintf(Language::getInstance()->getString('x_seconds_ago'), $curTime) : ($curTime < 120 ? Language::getInstance()->getString('one_minute_ago') : sprintf(Language::getInstance()->getString('x_minutes_ago'), $curTime/60));
+                $curTime = ($curTime = $time-$curWIOEntry[0]) < 60
+                    ? sprintf(Language::getInstance()->getString('x_seconds_ago'), $curTime)
+                    : ($curTime < 120
+                        ? Language::getInstance()->getString('one_minute_ago')
+                        : sprintf(Language::getInstance()->getString('x_minutes_ago'), $curTime/60));
                 //Only admins may see user agents
                 if(!Auth::getInstance()->isAdmin())
                     $curWIOEntry[5] = '';
@@ -127,11 +131,15 @@ class WhoIsOnline extends PublicModule
                     break;
 
                     case 'ViewForum':
-                    $wioLocations[] = Config::getInstance()->getCfgVal('show_private_forums') == 1 || Functions::checkUserAccess($curWIOEntry[2][1], 0) ? array($curUser, sprintf(Language::getInstance()->getString('views_the_forum_x'), INDEXFILE . '?mode=viewforum&amp;forum_id=' . $curWIOEntry[2][1] . SID_AMPER, next(Functions::getForumData($curWIOEntry[2][1]))), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]) : $wioLocations[] = array($curUser, sprintf(Language::getInstance()->getString('views_a_forum'), INDEXFILE . '?mode=viewforum&amp;forum_id=' . $curWIOEntry[2][1] . SID_AMPER), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
+                    $wioLocations[] = Config::getInstance()->getCfgVal('show_private_forums') == 1 || Functions::checkUserAccess($curWIOEntry[2][1], 0)
+                        ? array($curUser, sprintf(Language::getInstance()->getString('views_the_forum_x'), INDEXFILE . '?mode=viewforum&amp;forum_id=' . $curWIOEntry[2][1] . SID_AMPER, @next(Functions::getForumData($curWIOEntry[2][1]))), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5])
+                        : array($curUser, sprintf(Language::getInstance()->getString('views_a_forum'), INDEXFILE . '?mode=viewforum&amp;forum_id=' . $curWIOEntry[2][1] . SID_AMPER), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
                     break;
 
                     case 'ViewTopic':
-                    $wioLocations[] = Functions::checkUserAccess($curWIOEntry[2][1], 0) ? array($curUser, sprintf(Language::getInstance()->getString('views_the_topic_x'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER, Functions::getTopicName($curWIOEntry[2][1], $curWIOEntry[2][2])), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]) : array($curUser, sprintf(Language::getInstance()->getString('views_a_topic'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
+                    $wioLocations[] = Functions::checkUserAccess($curWIOEntry[2][1], 0)
+                        ? array($curUser, sprintf(Language::getInstance()->getString('views_the_topic_x'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER, Functions::getTopicName($curWIOEntry[2][1], $curWIOEntry[2][2])), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5])
+                        : array($curUser, sprintf(Language::getInstance()->getString('views_a_topic'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
                     break;
 
                     case 'ViewTodaysPosts':
@@ -224,51 +232,74 @@ class WhoIsOnline extends PublicModule
                     break;
 
                     case 'PostNewTopic':
-                    $wioLocations[] = Config::getInstance()->getCfgVal('show_private_forums') == 1 || Functions::checkUserAccess($curWIOEntry[2][1], 0) ? array($curUser, sprintf(Language::getInstance()->getString('posts_new_topic_in_x'), INDEXFILE . '?mode=viewforum&amp;forum_id=' . $curWIOEntry[2][1] . SID_AMPER, next(Functions::getForumData($curWIOEntry[2][1]))), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]) : array($curUser, Language::getInstance()->getString('posts_new_topic'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
+                    $wioLocations[] = Config::getInstance()->getCfgVal('show_private_forums') == 1 || Functions::checkUserAccess($curWIOEntry[2][1], 0)
+                        ? array($curUser, sprintf(Language::getInstance()->getString('posts_new_topic_in_x'), INDEXFILE . '?mode=viewforum&amp;forum_id=' . $curWIOEntry[2][1] . SID_AMPER, @next(Functions::getForumData($curWIOEntry[2][1]))), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5])
+                        : array($curUser, Language::getInstance()->getString('posts_new_topic'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
                     break;
 
                     case 'PostNewPoll':
-                    $wioLocations[] = Config::getInstance()->getCfgVal('show_private_forums') == 1 || Functions::checkUserAccess($curWIOEntry[2][1], 0) ? array($curUser, sprintf(Language::getInstance()->getString('posts_new_poll_in_x'), INDEXFILE . '?mode=viewforum&amp;forum_id=' . $curWIOEntry[2][1] . SID_AMPER, next(Functions::getForumData($curWIOEntry[2][1]))), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]) : array($curUser, Language::getInstance()->getString('posts_new_poll'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
+                    $wioLocations[] = Config::getInstance()->getCfgVal('show_private_forums') == 1 || Functions::checkUserAccess($curWIOEntry[2][1], 0)
+                        ? array($curUser, sprintf(Language::getInstance()->getString('posts_new_poll_in_x'), INDEXFILE . '?mode=viewforum&amp;forum_id=' . $curWIOEntry[2][1] . SID_AMPER, @next(Functions::getForumData($curWIOEntry[2][1]))), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5])
+                        : array($curUser, Language::getInstance()->getString('posts_new_poll'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
                     break;
 
                     case 'PostReply':
-                    $wioLocations[] = Functions::checkUserAccess($curWIOEntry[2][1], 0) ? array($curUser, sprintf(Language::getInstance()->getString('writes_reply_to_topic_x'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER, Functions::getTopicName($curWIOEntry[2][1], $curWIOEntry[2][2])), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]) : array($curUser, sprintf(Language::getInstance()->getString('writes_reply_to_a_topic'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
+                    $wioLocations[] = Functions::checkUserAccess($curWIOEntry[2][1], 0)
+                        ? array($curUser, sprintf(Language::getInstance()->getString('writes_reply_to_topic_x'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER, Functions::getTopicName($curWIOEntry[2][1], $curWIOEntry[2][2])), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]) : array($curUser, sprintf(Language::getInstance()->getString('writes_reply_to_a_topic'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
                     break;
 
                     case 'PostViewIP':
-                    $wioLocations[] = Functions::checkUserAccess($curWIOEntry[2][1], 0) ? array($curUser, sprintf(Language::getInstance()->getString('views_ip_of_post_x'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER . '&amp;z=' . $curWIOEntry[2][4] . '#post' . $curWIOEntry[2][3], Functions::getTopicName($curWIOEntry[2][1], $curWIOEntry[2][2])), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]) : array($curUser, sprintf(Language::getInstance()->getString('views_ip_of_a_post'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER . '&amp;z=' . $curWIOEntry[2][4] . '#post' . $curWIOEntry[2][3]), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
+                    $wioLocations[] = Functions::checkUserAccess($curWIOEntry[2][1], 0)
+                        ? array($curUser, sprintf(Language::getInstance()->getString('views_ip_of_post_x'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER . '&amp;z=' . $curWIOEntry[2][4] . '#post' . $curWIOEntry[2][3], Functions::getTopicName($curWIOEntry[2][1], $curWIOEntry[2][2])), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5])
+                        : array($curUser, sprintf(Language::getInstance()->getString('views_ip_of_a_post'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER . '&amp;z=' . $curWIOEntry[2][4] . '#post' . $curWIOEntry[2][3]), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
                     break;
 
                     case 'PostBlockIP':
-                    $wioLocations[] = Functions::checkUserAccess($curWIOEntry[2][1], 0) ? array($curUser, sprintf(Language::getInstance()->getString('blocks_ip_of_post_x'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER . '&amp;z=' . $curWIOEntry[2][4] . '#post' . $curWIOEntry[2][3], Functions::getTopicName($curWIOEntry[2][1], $curWIOEntry[2][2])), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]) : array($curUser, sprintf(Language::getInstance()->getString('blocks_ip_of_a_post'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER . '&amp;z=' . $curWIOEntry[2][4] . '#post' . $curWIOEntry[2][3]), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
+                    $wioLocations[] = Functions::checkUserAccess($curWIOEntry[2][1], 0)
+                        ? array($curUser, sprintf(Language::getInstance()->getString('blocks_ip_of_post_x'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER . '&amp;z=' . $curWIOEntry[2][4] . '#post' . $curWIOEntry[2][3], Functions::getTopicName($curWIOEntry[2][1], $curWIOEntry[2][2])), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5])
+                        : array($curUser, sprintf(Language::getInstance()->getString('blocks_ip_of_a_post'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER . '&amp;z=' . $curWIOEntry[2][4] . '#post' . $curWIOEntry[2][3]), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
                     break;
 
                     case 'EditPoll':
-                    $wioLocations[] = Functions::checkUserAccess($curWIOEntry[2][1], 0) ? array($curUser, sprintf(Language::getInstance()->getString('edits_the_poll_x'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER, Functions::getTopicName($curWIOEntry[2][1], $curWIOEntry[2][2])), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]) : array($curUser, sprintf(Language::getInstance()->getString('edits_a_poll'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
+                    $wioLocations[] = Functions::checkUserAccess($curWIOEntry[2][1], 0)
+                        ? array($curUser, sprintf(Language::getInstance()->getString('edits_the_poll_x'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER, Functions::getTopicName($curWIOEntry[2][1], $curWIOEntry[2][2])), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5])
+                        : array($curUser, sprintf(Language::getInstance()->getString('edits_a_poll'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
                     break;
 
                     case 'EditPost':
-                    $wioLocations[] = Functions::checkUserAccess($curWIOEntry[2][1], 0) ? array($curUser, sprintf(Language::getInstance()->getString('edits_the_post_x'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER . '&amp;z=' . $curWIOEntry[2][4] . '#post' . $curWIOEntry[2][3], Functions::getTopicName($curWIOEntry[2][1], $curWIOEntry[2][2])), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]) : array($curUser, sprintf(Language::getInstance()->getString('edits_a_post'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER . '&amp;z=' . $curWIOEntry[2][4] . '#post' . $curWIOEntry[2][3]), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
+                    $wioLocations[] = Functions::checkUserAccess($curWIOEntry[2][1], 0)
+                        ? array($curUser, sprintf(Language::getInstance()->getString('edits_the_post_x'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER . '&amp;z=' . $curWIOEntry[2][4] . '#post' . $curWIOEntry[2][3], Functions::getTopicName($curWIOEntry[2][1], $curWIOEntry[2][2])), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5])
+                        : array($curUser, sprintf(Language::getInstance()->getString('edits_a_post'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER . '&amp;z=' . $curWIOEntry[2][4] . '#post' . $curWIOEntry[2][3]), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
                     break;
 
                     case 'EditPostConfirmDelete':
-                    $wioLocations[] = Functions::checkUserAccess($curWIOEntry[2][1], 0) ? array($curUser, sprintf(Language::getInstance()->getString('deletes_the_post_x'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER . '&amp;z=' . $curWIOEntry[2][4] . '#post' . $curWIOEntry[2][3], Functions::getTopicName($curWIOEntry[2][1], $curWIOEntry[2][2])), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]) : array($curUser, sprintf(Language::getInstance()->getString('deletes_a_post'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER . '&amp;z=' . $curWIOEntry[2][4] . '#post' . $curWIOEntry[2][3]), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
+                    $wioLocations[] = Functions::checkUserAccess($curWIOEntry[2][1], 0)
+                        ? array($curUser, sprintf(Language::getInstance()->getString('deletes_the_post_x'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER . '&amp;z=' . $curWIOEntry[2][4] . '#post' . $curWIOEntry[2][3], Functions::getTopicName($curWIOEntry[2][1], $curWIOEntry[2][2])), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5])
+                        : array($curUser, sprintf(Language::getInstance()->getString('deletes_a_post'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER . '&amp;z=' . $curWIOEntry[2][4] . '#post' . $curWIOEntry[2][3]), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
                     break;
 
                     case 'EditTopicDelete':
-                    $wioLocations[] = Functions::checkUserAccess($curWIOEntry[2][1], 0) ? array($curUser, sprintf(Language::getInstance()->getString('deletes_the_topic_x'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER, Functions::getTopicName($curWIOEntry[2][1], $curWIOEntry[2][2])), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]) : array($curUser, sprintf(Language::getInstance()->getString('deletes_a_topic'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
+                    $wioLocations[] = Functions::checkUserAccess($curWIOEntry[2][1], 0)
+                        ? array($curUser, sprintf(Language::getInstance()->getString('deletes_the_topic_x'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER, Functions::getTopicName($curWIOEntry[2][1], $curWIOEntry[2][2])), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5])
+                        : array($curUser, sprintf(Language::getInstance()->getString('deletes_a_topic'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
                     break;
 
                     case 'EditTopicClose':
-                    $wioLocations[] = Functions::checkUserAccess($curWIOEntry[2][1], 0) ? array($curUser, sprintf(Language::getInstance()->getString('closes_the_topic_x'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER, Functions::getTopicName($curWIOEntry[2][1], $curWIOEntry[2][2])), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]) : array($curUser, sprintf(Language::getInstance()->getString('closes_a_topic'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
+                    $wioLocations[] = Functions::checkUserAccess($curWIOEntry[2][1], 0)
+                        ? array($curUser, sprintf(Language::getInstance()->getString('closes_the_topic_x'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER, Functions::getTopicName($curWIOEntry[2][1], $curWIOEntry[2][2])), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5])
+                        : array($curUser, sprintf(Language::getInstance()->getString('closes_a_topic'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
                     break;
 
                     case 'EditTopicOpen':
-                    $wioLocations[] = Functions::checkUserAccess($curWIOEntry[2][1], 0) ? array($curUser, sprintf(Language::getInstance()->getString('opens_the_topic_x'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER, Functions::getTopicName($curWIOEntry[2][1], $curWIOEntry[2][2])), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]) : array($curUser, sprintf(Language::getInstance()->getString('opens_a_topic'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
+                    $wioLocations[] = Functions::checkUserAccess($curWIOEntry[2][1], 0)
+                        ? array($curUser, sprintf(Language::getInstance()->getString('opens_the_topic_x'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER, Functions::getTopicName($curWIOEntry[2][1], $curWIOEntry[2][2])), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5])
+                        : array($curUser, sprintf(Language::getInstance()->getString('opens_a_topic'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
                     break;
 
                     case 'EditTopicMove':
-                    $wioLocations[] = Functions::checkUserAccess($curWIOEntry[2][1], 0) ? array($curUser, sprintf(Language::getInstance()->getString('moves_the_topic_x'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER, Functions::getTopicName($curWIOEntry[2][1], $curWIOEntry[2][2])), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]) : array($curUser, sprintf(Language::getInstance()->getString('moves_a_topic'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
+                    $wioLocations[] = Functions::checkUserAccess($curWIOEntry[2][1], 0)
+                        ? array($curUser, sprintf(Language::getInstance()->getString('moves_the_topic_x'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER, Functions::getTopicName($curWIOEntry[2][1], $curWIOEntry[2][2])), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5])
+                        : array($curUser, sprintf(Language::getInstance()->getString('moves_a_topic'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curWIOEntry[2][1] . '&amp;thread=' . $curWIOEntry[2][2] . SID_AMPER), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]);
                     break;
 
                     case 'Search':
@@ -562,7 +593,10 @@ class WhoIsOnline extends PublicModule
             $curWIOEntry = Functions::implodeByTab($curWIOEntry);
         }
         //If user was found in WIO, write updated data, otherwise append new entry
-        $found ? Functions::file_put_contents('vars/wio.var', implode("\n", $wioFile)) : Functions::file_put_contents('vars/wio.var', (count($wioFile) > 0 ? "\n" : '') . time() . "\t" . Auth::getInstance()->getWIOID() . "\t" . $id . "\t\t" . Auth::getInstance()->isGhost() . "\t" . htmlspecialchars($_SERVER['HTTP_USER_AGENT']), FILE_APPEND);
+        if($found)
+            Functions::file_put_contents('vars/wio.var', implode("\n", $wioFile));
+        else
+            Functions::file_put_contents('vars/wio.var', (count($wioFile) > 0 ? "\n" : '') . time() . "\t" . Auth::getInstance()->getWIOID() . "\t" . $id . "\t\t" . Auth::getInstance()->isGhost() . "\t" . htmlspecialchars($_SERVER['HTTP_USER_AGENT']), FILE_APPEND);
         Functions::releaseLock('wio');
     }
 

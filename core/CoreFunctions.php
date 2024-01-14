@@ -98,7 +98,11 @@ abstract class CoreFunctions
     public static function addURL(string $subject): string
     {
         $tempBBCode = time(); //This is the placeholder for "url"
-        $subject = preg_replace_callback("/([^ ^>^\]^=^\n^\r]+?:\/\/|www\.)[^ ^<^\.^\[]+(\.[^ ^<^\.^\[^\]^\n^\r]+)+/si", fn($arr): string => !empty($arr[2]) && Functions::stripos($arr[0], '[url]') === false && Functions::strripos($arr[0], '[/url]') === false ? '[' . $tempBBCode . ']' . ($arr[1] == 'www.' ? 'http://' : '') . $arr[0] . '[/' . $tempBBCode . ']' : $arr[0], $subject);
+        $subject = preg_replace_callback("/([^ ^>^\]^=^\n^\r]+?:\/\/|www\.)[^ ^<^\.^\[]+(\.[^ ^<^\.^\[^\]^\n^\r]+)+/si",
+            fn($arr): string => !empty($arr[2]) && Functions::stripos($arr[0], '[url]') === false && Functions::strripos($arr[0], '[/url]') === false
+                ? '[' . $tempBBCode . ']' . ($arr[1] == 'www.' ? 'http://' : '') . $arr[0] . '[/' . $tempBBCode . ']'
+                : $arr[0],
+            $subject);
         //After adding [url]s to *any* link, strip off unwanted ones:
         foreach(['iframe', 'flash', 'url', 'img', 'email', 'code', 'php', 'noparse'] as $curBBCode)
         {
@@ -317,7 +321,11 @@ abstract class CoreFunctions
         $timestamp = self::getTimestamp($date);
         $formattedDate = sprintf(
             time()-$timestamp < Config::getInstance()->getCfgVal('emph_date_hours')*3600 ? '<b>%s</b>' : '%s',
-            gmstrftime(isset($format) ? $format : Language::getInstance()->getString(Config::getInstance()->getCfgVal('date_as_text') == 1 && self::getProperYz(time()-86400) <= ($yz = self::getProperYz($timestamp)) ? (self::getProperYz(time()) == $yz ? 'TODAY_DATEFORMAT' : 'YESTERDAY_DATEFORMAT') : 'DATEFORMAT'), $timestamp));
+            gmstrftime(isset($format)
+                ? $format
+                : Language::getInstance()->getString(Config::getInstance()->getCfgVal('date_as_text') == 1 && self::getProperYz(time()-86400) <= ($yz = self::getProperYz($timestamp))
+                    ? (self::getProperYz(time()) == $yz ? 'TODAY_DATEFORMAT' : 'YESTERDAY_DATEFORMAT')
+                    : 'DATEFORMAT'), $timestamp));
         //Encode as UTF-8 in case of month names lack proper encoding
         return Core::getInstance()->isUtf8Locale() ? $formattedDate : utf8_encode($formattedDate);
     }
@@ -424,14 +432,17 @@ abstract class CoreFunctions
      * Returns a translation table for the common HTML entities and their unicode hexadecimal representation for JavaScript environments.
      * Use this decoder to max out user comfort and valid W3C conform code. Cranks up leet level quite high!
      *
-     * @return mixed Translation table between HTML entities and their JavaScript counterparts
+     * @return array Translation table between HTML entities and their JavaScript counterparts
      */
-    public static function getHTMLJSTransTable()
+    public static function getHTMLJSTransTable(): array
     {
-        return isset(self::$cache['htmlJSDecoder']) ? self::$cache['htmlJSDecoder'] : (self::$cache['htmlJSDecoder'] = array_combine(array_keys($temp = array_flip($temp = get_html_translation_table(HTML_SPECIALCHARS, ENT_QUOTES))+['&#' . (in_array('&#39;', $temp) ? '0' : '') . '39;' => "'", '&apos;' => "'"]), array_map(function($string)
+        if(!isset(self::$cache['htmlJSDecoder']))
         {
-            return '\u00' . bin2hex($string);
-        }, array_values($temp))));
+            $temp = get_html_translation_table(HTML_SPECIALCHARS, ENT_QUOTES);
+            $temp = array_flip($temp) + ['&#' . (in_array('&#39;', $temp) ? '0' : '') . '39;' => "'", '&apos;' => "'"];
+            self::$cache['htmlJSDecoder'] = array_combine(array_keys($temp), array_map(fn($string) => '\u00' . bin2hex($string), array_values($temp)));
+        }
+        return self::$cache['htmlJSDecoder'];
     }
 
     /**
@@ -461,7 +472,7 @@ abstract class CoreFunctions
      * @param string $filename Name/path of file to initiate the LockObject with
      * @return LockObject New LockObject instance
      */
-    public static function getLockObject(string $filename)
+    public static function getLockObject(string $filename): LockObject
     {
         include_once('LockObject.php');
         return new LockObject(DATAPATH . $filename);
@@ -736,9 +747,9 @@ abstract class CoreFunctions
      *
      * @param string $key Key identifier for array access in superglobals
      * @param bool $stripNewLine Optional removal of new line characters
-     * @return mixed Value from one of the superglobals or empty string if it was not found
+     * @return string Value from one of the superglobals or empty string if it was not found
      */
-    public static function getValueFromGlobals(string $key, bool $stripNewLine=true)
+    public static function getValueFromGlobals(string $key, bool $stripNewLine=true): string
     {
         return Functions::str_replace($stripNewLine ? ["\t", "\n", "\r"] : "\t", '', isset($_GET[$key]) ? $_GET[$key] : (isset($_POST[$key]) ? $_POST[$key] : ''));
     }
