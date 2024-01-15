@@ -1,6 +1,6 @@
 **********************************************************
 Tritanium Bulletin Board 1.5+ - Changelog (German version)
-Last changed: 2024-01-10 (Version 1.10.0)
+Last changed: 2024-01-15 (Version 1.10.0)
 **********************************************************
 
 2024: Version 1.10.0
@@ -16,6 +16,7 @@ Last changed: 2024-01-10 (Version 1.10.0)
     - Globale Konstanten als Klassenkonstanten
     - Verwalten von Plug-ins im ACP
     - Planen und Verwalten von Ereignissen für die Kalenderansicht im ACP
+    - Anzeige von geplanten Ereignissen in der Kalenderansicht mit Pop-up für mehr Details
 
 10.12.2023: Version 1.8.1 (offiziell)
     - Mögliche Enkodierungsprobleme der Monatsnamen im Kalender behoben

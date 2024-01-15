@@ -442,10 +442,7 @@ class AdminForum extends PublicModule
             {
                 //Get special rights or create new
                 $specialRights = @Functions::file('foren/' . $forumID . '-rights.xbb') ?: [];
-                $specialUserIDs = array_map(function($right)
-                {
-                    return $right[1] == 1 ? $right[2] : 0;
-                }, $specialRights = array_map(['Functions', 'explodeByTab'], $specialRights));
+                $specialUserIDs = array_map(fn($right) => $right[1] == 1 ? $right[2] : 0, $specialRights = array_map(['Functions', 'explodeByTab'], $specialRights));
                 //Get new user IDs and rights to add
                 $newUserIDs = array_unique(Functions::explodeByComma(Functions::getValueFromGlobals('new_user_ids')));
                 $newUserRights = (array) Functions::getValueFromGlobals('new_right') + array_fill(0, 6, '');
@@ -466,10 +463,7 @@ class AdminForum extends PublicModule
                 Template::getInstance()->printMessage('special_right_added');
             }
             Template::getInstance()->assign(['forumID' => $forumID,
-                'forumRights' => array_map(function($right)
-                {
-                    return $right == 1;
-                }, Functions::explodeByComma($this->forums[$key][10]))]);
+                'forumRights' => array_map(fn($right): bool => $right == 1, Functions::explodeByComma($this->forums[$key][10]))]);
             break;
 
 //AdminForumNewGroupRight
@@ -488,10 +482,7 @@ class AdminForum extends PublicModule
                 Template::getInstance()->printMessage('no_groups_available');
             //Get special rights or create new
             $specialRights = @Functions::file('foren/' . $forumID . '-rights.xbb') ?: [];
-            $specialGroupIDs = array_filter(array_map(function($right)
-            {
-                return $right[1] == 2 ? $right[2] : null;
-            }, $specialRights = array_map(['Functions', 'explodeByTab'], $specialRights)), 'is_numeric');
+            $specialGroupIDs = array_filter(array_map(fn($right) => $right[1] == 2 ? $right[2] : null, $specialRights = array_map(['Functions', 'explodeByTab'], $specialRights)), 'is_numeric');
             //Make sure there are groups with no special rights for current forum
             if(count($specialGroupIDs) == count($groups))
                 Template::getInstance()->printMessage('all_groups_assigned');
@@ -532,10 +523,7 @@ class AdminForum extends PublicModule
             Template::getInstance()->assign(['forumID' => $forumID,
                 //Only assign groups without having special rights for this forum
                 'groups' => array_filter($groups, fn($group): bool => !in_array($group[0], [implode(',', $specialGroupIDs)])),
-                'forumRights' => array_map(function($right)
-                {
-                    return $right == 1;
-                }, Functions::explodeByComma($this->forums[$key][10]))]);
+                'forumRights' => array_map(fn($right): bool => $right == 1, Functions::explodeByComma($this->forums[$key][10]))]);
             break;
 
             case 'kill_right':
@@ -577,6 +565,41 @@ class AdminForum extends PublicModule
                     break;
                 }
             Template::getInstance()->printMessage('special_right_not_found');
+            break;
+
+            case 'editTopicPrefixes':
+            $forumID = intval(Functions::getValueFromGlobals('forum_id'));
+            NavBar::getInstance()->addElement([
+                [Language::getInstance()->getString('manage_forums'), INDEXFILE . '?faction=ad_forum&amp;mode=forumview' . SID_AMPER],
+                [Language::getInstance()->getString('edit_forum'), INDEXFILE . '?faction=ad_forum&amp;ad_forum_id=' . $forumID . '&amp;mode=change' . SID_AMPER],
+                [Language::getInstance()->getString('edit_topic_prefixes'), INDEXFILE . '?faction=ad_forum&amp;mode=editTopicPrefixes&amp;forum_id=' . $forumID . SID_AMPER]]);
+            //Check for valid forum ID
+            if(!in_array($forumID, array_map('current', $this->forums)))
+                Template::getInstance()->printMessage('forum_not_found');
+            //Get topic prefixes or create new
+            $topicPrefixes = array_map(['Functions', 'explodeByTab'], @Functions::file('foren/' . $forumID . '-prefixes.xbb') ?: []);
+            break;
+
+            case 'newTopicPrefix':
+            $forumID = intval(Functions::getValueFromGlobals('forum_id'));
+            NavBar::getInstance()->addElement([
+                [Language::getInstance()->getString('manage_forums'), INDEXFILE . '?faction=ad_forum&amp;mode=forumview' . SID_AMPER],
+                [Language::getInstance()->getString('edit_forum'), INDEXFILE . '?faction=ad_forum&amp;ad_forum_id=' . $forumID . '&amp;mode=change' . SID_AMPER],
+                [Language::getInstance()->getString('edit_special_rights'), INDEXFILE . '?faction=ad_forum&amp;mode=edit_forum_rights&amp;forum_id=' . $forumID . SID_AMPER],
+                [Language::getInstance()->getString('add_new_topic_prefix'), INDEXFILE . '?faction=ad_forum&amp;mode=newTopicPrefix&amp;forum_id=' . $forumID . SID_AMPER]]);
+            //Check for valid forum ID
+            if(!in_array($forumID, array_map('current', $this->forums)))
+                Template::getInstance()->printMessage('forum_not_found');
+            if(Functions::getValueFromGlobals('create') == 'yes')
+            {
+                //Get topic prefixes or create new
+                $topicPrefixes = @Functions::file('foren/' . $forumID . '-prefixes.xbb') ?: [];
+            }
+            break;
+
+            case 'deleteTopicPrefix':
+            $forumID = intval(Functions::getValueFromGlobals('forum_id'));
+            $topicPrefixes = @Functions::file('foren/' . $forumID . '-prefixes.xbb') or Template::getInstance()->printMessage('forum_not_found');
             break;
 
 //AdminForumIndexCat

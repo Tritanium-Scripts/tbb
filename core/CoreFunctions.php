@@ -747,9 +747,9 @@ abstract class CoreFunctions
      *
      * @param string $key Key identifier for array access in superglobals
      * @param bool $stripNewLine Optional removal of new line characters
-     * @return string Value from one of the superglobals or empty string if it was not found
+     * @return string|array Value from one of the superglobals or empty string if it was not found
      */
-    public static function getValueFromGlobals(string $key, bool $stripNewLine=true): string
+    public static function getValueFromGlobals(string $key, bool $stripNewLine=true)
     {
         return Functions::str_replace($stripNewLine ? ["\t", "\n", "\r"] : "\t", '', isset($_GET[$key]) ? $_GET[$key] : (isset($_POST[$key]) ? $_POST[$key] : ''));
     }
