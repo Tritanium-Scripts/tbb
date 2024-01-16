@@ -39,6 +39,10 @@ class AdminForum extends PublicModule
         'edit_forum_rights' => 'AdminForumSpecialRights',
         'new_user_right' => 'AdminForumNewUserRight',
         'new_group_right' => 'AdminForumNewGroupRight',
+        //Prefixes
+        'editTopicPrefixes' => 'AdminForumTopicPrefixes',
+        'editTopicPrefix' => 'AdminForumEditTopicPrefix',
+        'newTopicPrefix' => 'AdminForumNewTopicPrefix',
         //Cats
         'viewkg' => 'AdminForumIndexCat',
         'newkg' => 'AdminForumNewCat',
@@ -567,6 +571,7 @@ class AdminForum extends PublicModule
             Template::getInstance()->printMessage('special_right_not_found');
             break;
 
+//AdminForumTopicPrefixes
             case 'editTopicPrefixes':
             $forumID = intval(Functions::getValueFromGlobals('forum_id'));
             NavBar::getInstance()->addElement([
@@ -577,29 +582,105 @@ class AdminForum extends PublicModule
             if(!in_array($forumID, array_map('current', $this->forums)))
                 Template::getInstance()->printMessage('forum_not_found');
             //Get topic prefixes or create new
-            $topicPrefixes = array_map(['Functions', 'explodeByTab'], @Functions::file('foren/' . $forumID . '-prefixes.xbb') ?: []);
+            $topicPrefixes = @Functions::file('foren/' . $forumID . '-prefixes.xbb') ?: [];
+            #0:prefixID - 1:prefix - 2:color
+            $topicPrefixes = array_map(['Functions', 'explodeByTab'], $topicPrefixes);
+            Template::getInstance()->assign(['forumID' => $forumID,
+                'topicPrefixes' => $topicPrefixes]);
             break;
 
+//AdminForumNewTopicPrefix
             case 'newTopicPrefix':
             $forumID = intval(Functions::getValueFromGlobals('forum_id'));
             NavBar::getInstance()->addElement([
                 [Language::getInstance()->getString('manage_forums'), INDEXFILE . '?faction=ad_forum&amp;mode=forumview' . SID_AMPER],
                 [Language::getInstance()->getString('edit_forum'), INDEXFILE . '?faction=ad_forum&amp;ad_forum_id=' . $forumID . '&amp;mode=change' . SID_AMPER],
-                [Language::getInstance()->getString('edit_special_rights'), INDEXFILE . '?faction=ad_forum&amp;mode=edit_forum_rights&amp;forum_id=' . $forumID . SID_AMPER],
+                [Language::getInstance()->getString('edit_topic_prefixes'), INDEXFILE . '?faction=ad_forum&amp;mode=editTopicPrefixes&amp;forum_id=' . $forumID . SID_AMPER],
                 [Language::getInstance()->getString('add_new_topic_prefix'), INDEXFILE . '?faction=ad_forum&amp;mode=newTopicPrefix&amp;forum_id=' . $forumID . SID_AMPER]]);
             //Check for valid forum ID
             if(!in_array($forumID, array_map('current', $this->forums)))
                 Template::getInstance()->printMessage('forum_not_found');
+            $newPrefix = Functions::getValueFromGlobals('prefix');
+            $newColor = Functions::getValueFromGlobals('color');
             if(Functions::getValueFromGlobals('create') == 'yes')
             {
-                //Get topic prefixes or create new
-                $topicPrefixes = @Functions::file('foren/' . $forumID . '-prefixes.xbb') ?: [];
+                if(empty($newPrefix))
+                    $this->errors[] = Language::getInstance()->getString('please_enter_a_prefix');
+                if(empty($this->errors))
+                {
+                    //Get topic prefixes or create new
+                    $topicPrefixes = @Functions::file('foren/' . $forumID . '-prefixes.xbb') ?: [];
+                    $newTopicPrefixId = empty($topicPrefixes) ? 1 : current(end($topicPrefixes))+1;
+                    $toAppend = $newTopicPrefixId . "\t" . $newPrefix . "\t" . $newColor . "\n";
+                    Functions::file_put_contents('foren/' . $forumID . '-prefixes.xbb', $toAppend, FILE_APPEND);
+                    //Done
+                    Logger::getInstance()->log('%s added new topic prefix for forum (ID: ' . $forumID . ')', Logger::LOG_ACP_ACTION);
+                    header('Location: ' . INDEXFILE . '?faction=ad_forum&mode=editTopicPrefixes&forum_id=' . $forumID . SID_AMPER_RAW);
+                    Template::getInstance()->printMessage('topic_prefix_added');
+                }
             }
+            Template::getInstance()->assign(['forumID' => $forumID,
+                'newPrefix' => $newPrefix,
+                'newColor' => $newColor]);
+            break;
+
+//AdminForumEditTopicPrefix
+            case 'editTopicPrefix':
+            $forumID = intval(Functions::getValueFromGlobals('forum_id'));
+            $topicPrefixId = intval(Functions::getValueFromGlobals('prefixId'));
+            NavBar::getInstance()->addElement([
+                [Language::getInstance()->getString('manage_forums'), INDEXFILE . '?faction=ad_forum&amp;mode=forumview' . SID_AMPER],
+                [Language::getInstance()->getString('edit_forum'), INDEXFILE . '?faction=ad_forum&amp;ad_forum_id=' . $forumID . '&amp;mode=change' . SID_AMPER],
+                [Language::getInstance()->getString('edit_topic_prefixes'), INDEXFILE . '?faction=ad_forum&amp;mode=editTopicPrefixes&amp;forum_id=' . $forumID . SID_AMPER],
+                [Language::getInstance()->getString('edit_topic_prefix'), INDEXFILE . '?faction=ad_forum&amp;mode=editTopicPrefix&amp;forum_id=' . $forumID . '&amp;prefixId=' . $topicPrefixId . SID_AMPER]]);
+            $topicPrefixes = @Functions::file('foren/' . $forumID . '-prefixes.xbb') or Template::getInstance()->printMessage('forum_not_found');
+            $topicPrefixes = array_map(['Functions', 'explodeByTab'], $topicPrefixes);
+            if(($key = array_search($topicPrefixId, array_map('current', $topicPrefixes))) === false)
+                Template::getInstance()->printMessage('topic_prefix_not_found');
+            $editPrefix = Functions::getValueFromGlobals('prefix');
+            $editColor = Functions::getValueFromGlobals('color');
+            if(Functions::getValueFromGlobals('update') == 'yes')
+            {
+                if(empty($editPrefix))
+                    $this->errors[] = Language::getInstance()->getString('please_enter_a_prefix');
+                if(empty($this->errors))
+                {
+                    //Update prefix
+                    $topicPrefixes[$key][1] = $editPrefix;
+                    $topicPrefixes[$key][2] = $editColor;
+                    //Save it
+                    Functions::file_put_contents('foren/' . $forumID . '-prefixes.xbb', implode("\n", array_map(['Functions', 'implodeByTab'], $topicPrefixes)) . "\n");
+                    //Done
+                    Logger::getInstance()->log('%s edited topic prefix for forum (ID: ' . $forumID . ')', Logger::LOG_ACP_ACTION);
+                    header('Location: ' . INDEXFILE . '?faction=ad_forum&mode=editTopicPrefixes&forum_id=' . $forumID . SID_AMPER_RAW);
+                    Template::getInstance()->printMessage('topic_prefix_edited');
+                }
+            }
+            Template::getInstance()->assign(['forumID' => $forumID,
+                'editPrefix' => $editPrefix,
+                'editColor' => $editColor]);
             break;
 
             case 'deleteTopicPrefix':
             $forumID = intval(Functions::getValueFromGlobals('forum_id'));
             $topicPrefixes = @Functions::file('foren/' . $forumID . '-prefixes.xbb') or Template::getInstance()->printMessage('forum_not_found');
+            $topicPrefixes = array_map(['Functions', 'explodeByTab'], $topicPrefixes);
+            $topicPrefixId = intval(Functions::getValueFromGlobals('prefixId'));
+            $size = count($topicPrefixes);
+            for($i=0; $i<$size; $i++)
+                if($topicPrefixes[$i][0] == $topicPrefixId)
+                {
+                    unset($topicPrefixes[$i]);
+                    if(empty($topicPrefixes))
+                        Functions::unlink('foren/' . $forumID . '-prefixes.xbb');
+                    else
+                        Functions::file_put_contents('foren/' . $forumID . '-prefixes.xbb', implode("\n", array_map(['Functions', 'implodeByTab'], $topicPrefixes)) . "\n");
+                    Logger::getInstance()->log('%s deleted topic prefix for forum (ID: ' . $forumID . ')', Logger::LOG_ACP_ACTION);
+                    header('Location: ' . INDEXFILE . '?faction=ad_forum&mode=editTopicPrefixes&forum_id=' . $forumID . SID_AMPER_RAW);
+                    Template::getInstance()->printMessage('topic_prefix_deleted');
+                    break;
+                }
+            Template::getInstance()->printMessage('topic_prefix_not_found');
             break;
 
 //AdminForumIndexCat
@@ -722,10 +803,7 @@ class AdminForum extends PublicModule
      */
     private function getModIDs(): array
     {
-        return array_filter(Functions::explodeByComma(implode(',', array_map(function($forum)
-        {
-            return implode(',', (array) $forum[11]);
-        }, $this->forums))), 'is_numeric');
+        return array_filter(Functions::explodeByComma(implode(',', array_map(fn($forum) => implode(',', (array) $forum[11]), $this->forums))), 'is_numeric');
     }
 }
 ?>

@@ -33,6 +33,8 @@
  <tr><td colspan="2" class="td1"><input type="checkbox" id="newRights9" name="new_rights[9]" value="1"{if $editRights[9]} checked="checked"{/if} /> <label for="newRights9" class="norm">{Language::getInstance()->getString('guests_are_allowed_to_post_polls')}</label></td></tr>
  <tr><td colspan="2" class="kat"><span class="kat">{Language::getInstance()->getString('special_rights')}</span></td></tr>
  <tr><td colspan="2" class="td1"><span class="norm"><a class="norm" href="{$smarty.const.INDEXFILE}?faction=ad_forum&amp;mode=edit_forum_rights&amp;forum_id={$editID}{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('edit_special_rights')}</a></span></td></tr>
+ <tr><td colspan="2" class="kat"><span class="kat">{Language::getInstance()->getString('topic_prefixes')}</span></td></tr>
+ <tr><td colspan="2" class="td1"><span class="norm"><a class="norm" href="{$smarty.const.INDEXFILE}?faction=ad_forum&amp;mode=editTopicPrefixes&amp;forum_id={$editID}{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('edit_topic_prefixes')}</a></span></td></tr>
  <tr><td colspan="2" class="kat"><span class="kat">{Language::getInstance()->getString('options')}</span></td></tr>
  <tr><td colspan="2" class="td1"><input type="checkbox" id="isBBCode" name="upbcode" value="1"{if $editOptions[0]} checked="checked"{/if} /> <label for="isBBCode" class="norm">{Language::getInstance()->getString('enable_bbcode')}</label></td></tr>
  <tr><td colspan="2" class="td1"><input type="checkbox" id="isXHTML" name="htmlcode" value="1"{if $editOptions[1]} checked="checked"{/if} /> <label for="isXHTML" class="norm">{Language::getInstance()->getString('enable_xhtml')}</label></td></tr>
