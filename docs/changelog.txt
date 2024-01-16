@@ -1,6 +1,6 @@
 **********************************************************
 Tritanium Bulletin Board 1.5+ - Changelog (German version)
-Last changed: 2024-01-15 (Version 1.10.0)
+Last changed: 2024-01-16 (Version 1.10.0)
 **********************************************************
 
 2024: Version 1.10.0
@@ -17,6 +17,9 @@ Last changed: 2024-01-15 (Version 1.10.0)
     - Verwalten von Plug-ins im ACP
     - Planen und Verwalten von Ereignissen für die Kalenderansicht im ACP
     - Anzeige von geplanten Ereignissen in der Kalenderansicht mit Pop-up für mehr Details
+    - Dokumentation aktualisiert
+    - Verwalten von Themenpräfixen in den jeweiligen Foreneinstellungen im ACP
+    - Themen und Umfragen mit (farbigen) Präfixen
 
 10.12.2023: Version 1.8.1 (offiziell)
     - Mögliche Enkodierungsprobleme der Monatsnamen im Kalender behoben
@@ -329,5 +332,5 @@ Last changed: 2024-01-15 (Version 1.10.0)
     - Verbesserte Locking-Technik verhindert die Vergabe von gleichen IDs bei neuen Benutzern, Themen und Umfragen und falschen Mitgliederzahlen im Falle von DDoS-ähnlichen Attacken
 
 Written by Chrissyx
-(c) 2010–2023 Tritanium Scripts
+(c) 2010–2024 Tritanium Scripts
 http://www.tritanium-scripts.com/

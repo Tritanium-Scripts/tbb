@@ -38,6 +38,8 @@
  </tr>
  <tr><td colspan="2" class="cellCat"><span class="fontCat">{Language::getInstance()->getString('special_rights')}</span></td></tr>
  <tr><td colspan="2" class="cellStd"><span class="fontNorm"><a href="{$smarty.const.INDEXFILE}?faction=ad_forum&amp;mode=edit_forum_rights&amp;forum_id={$editID}{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('edit_special_rights')}</a></span></td></tr>
+ <tr><td colspan="2" class="cellCat"><span class="fontCat">{Language::getInstance()->getString('topic_prefixes')}</span></td></tr>
+ <tr><td colspan="2" class="cellStd"><span class="fontNorm"><a href="{$smarty.const.INDEXFILE}?faction=ad_forum&amp;mode=editTopicPrefixes&amp;forum_id={$editID}{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('edit_topic_prefixes')}</a></span></td></tr>
  <tr><td colspan="2" class="cellCat"><span class="fontCat">{Language::getInstance()->getString('options')}</span></td></tr>
  <tr>
   <td colspan="2" class="cellStd">

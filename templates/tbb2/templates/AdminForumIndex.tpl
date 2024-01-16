@@ -12,7 +12,7 @@
  <tr onmouseover="setRowCellsClass(this, 'cellHighlight');" onmouseout="restoreRowCellsClass(this);">
   <td class="cellStd"><span class="fontNorm">---- {$curForum.name}</span></td>
   <td class="cellStd" style="text-align:center;"><span class="fontNorm"><a href="{$smarty.const.INDEXFILE}?faction=ad_forum&amp;mode=moveforum{if $curForum@first}down&amp;id={$curForum.id}{$smarty.const.SID_AMPER}">&d{elseif $curForum@last}up&amp;id={$curForum.id}{$smarty.const.SID_AMPER}">&u{else}down&amp;id={$curForum.id}{$smarty.const.SID_AMPER}">&darr;</a> | <a href="{$smarty.const.INDEXFILE}?faction=ad_forum&amp;mode=moveforumup&amp;id={$curForum.id}{$smarty.const.SID_AMPER}">&u{/if}arr;</a></span></td>
-  <td class="cellStd" style="text-align:right;"><span class="fontSmall"><a href="{$smarty.const.INDEXFILE}?faction=ad_forum&amp;mode=edit_forum_rights&amp;forum_id={$curForum.id}{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('edit_special_rights')}</a> | <a href="{$smarty.const.INDEXFILE}?faction=ad_forum&amp;ad_forum_id={$curForum.id}&amp;mode=change{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('edit')}</a></span></td>
+  <td class="cellStd" style="text-align:right;"><span class="fontSmall"><a href="{$smarty.const.INDEXFILE}?faction=ad_forum&amp;mode=editTopicPrefixes&amp;forum_id={$curForum.id}{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('edit_topic_prefixes')}</a> | <a href="{$smarty.const.INDEXFILE}?faction=ad_forum&amp;mode=edit_forum_rights&amp;forum_id={$curForum.id}{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('edit_special_rights')}</a> | <a href="{$smarty.const.INDEXFILE}?faction=ad_forum&amp;ad_forum_id={$curForum.id}&amp;mode=change{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('edit')}</a></span></td>
  </tr>{/if}
 {foreachelse}
  <tr><td class="cellStd" colspan="3" style="text-align:center;"><span class="fontNorm" style="font-weight:bold;">{Language::getInstance()->getString('no_forums_available')}</span></td></tr>
@@ -25,7 +25,7 @@
 {foreach $forums as $curForum}{if $curForum.catID == -1}
  <tr onmouseover="setRowCellsClass(this, 'cellHighlight');" onmouseout="restoreRowCellsClass(this);">
   <td class="cellStd"><span class="fontNorm">{$curForum.name}</span></td>
-  <td class="cellStd" style="text-align:right;"><span class="fontSmall"><a href="{$smarty.const.INDEXFILE}?faction=ad_forum&amp;mode=edit_forum_rights&amp;forum_id={$curForum.id}{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('edit_special_rights')}</a> | <a href="{$smarty.const.INDEXFILE}?faction=ad_forum&amp;ad_forum_id={$curForum.id}&amp;mode=change{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('edit')}</a></span></td>
+  <td class="cellStd" style="text-align:right;"><span class="fontSmall"><a href="{$smarty.const.INDEXFILE}?faction=ad_forum&amp;mode=editTopicPrefixes&amp;forum_id={$curForum.id}{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('edit_topic_prefixes')}</a> | <a href="{$smarty.const.INDEXFILE}?faction=ad_forum&amp;mode=edit_forum_rights&amp;forum_id={$curForum.id}{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('edit_special_rights')}</a> | <a href="{$smarty.const.INDEXFILE}?faction=ad_forum&amp;ad_forum_id={$curForum.id}&amp;mode=change{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('edit')}</a></span></td>
  </tr>{/if}
 {/foreach}
 </table>

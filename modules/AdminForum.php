@@ -208,6 +208,12 @@ class AdminForum extends PublicModule
                             $sizeCounter += Functions::unlink('foren/' . $forumID . '-rights.xbb');
                             $fileCounter++;
                         }
+                        //Delete prefixes
+                        if(Functions::file_exists('foren/' . $forumID . '-prefixes.xbb'))
+                        {
+                            $sizeCounter += Functions::unlink('foren/' . $forumID . '-prefixes.xbb');
+                            $fileCounter++;
+                        }
                         //Delete topics
                         foreach(Functions::file('foren/' . $forumID . '-threads.xbb') as $curTopicID)
                         {
@@ -602,14 +608,14 @@ class AdminForum extends PublicModule
                 Template::getInstance()->printMessage('forum_not_found');
             $newPrefix = Functions::getValueFromGlobals('prefix');
             $newColor = Functions::getValueFromGlobals('color');
-            if(Functions::getValueFromGlobals('create') == 'yes')
+            if(Functions::getValueFromGlobals('change') == 'yes')
             {
                 if(empty($newPrefix))
                     $this->errors[] = Language::getInstance()->getString('please_enter_a_prefix');
                 if(empty($this->errors))
                 {
                     //Get topic prefixes or create new
-                    $topicPrefixes = @Functions::file('foren/' . $forumID . '-prefixes.xbb') ?: [];
+                    $topicPrefixes = array_map(['Functions', 'explodeByTab'], @Functions::file('foren/' . $forumID . '-prefixes.xbb') ?: []);
                     $newTopicPrefixId = empty($topicPrefixes) ? 1 : current(end($topicPrefixes))+1;
                     $toAppend = $newTopicPrefixId . "\t" . $newPrefix . "\t" . $newColor . "\n";
                     Functions::file_put_contents('foren/' . $forumID . '-prefixes.xbb', $toAppend, FILE_APPEND);
@@ -639,7 +645,7 @@ class AdminForum extends PublicModule
                 Template::getInstance()->printMessage('topic_prefix_not_found');
             $editPrefix = Functions::getValueFromGlobals('prefix');
             $editColor = Functions::getValueFromGlobals('color');
-            if(Functions::getValueFromGlobals('update') == 'yes')
+            if(Functions::getValueFromGlobals('change') == 'yes')
             {
                 if(empty($editPrefix))
                     $this->errors[] = Language::getInstance()->getString('please_enter_a_prefix');
@@ -656,7 +662,13 @@ class AdminForum extends PublicModule
                     Template::getInstance()->printMessage('topic_prefix_edited');
                 }
             }
+            else
+            {
+                $editPrefix = $topicPrefixes[$key][1];
+                $editColor = $topicPrefixes[$key][2];
+            }
             Template::getInstance()->assign(['forumID' => $forumID,
+                'prefixId' => $topicPrefixId,
                 'editPrefix' => $editPrefix,
                 'editColor' => $editColor]);
             break;
