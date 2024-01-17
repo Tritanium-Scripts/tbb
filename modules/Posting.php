@@ -3,7 +3,7 @@
  * Manages new replies, poster IPs and post/poll management.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2023 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2024 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -107,7 +107,7 @@ class Posting extends PublicModule
         {
             #0:postID - 1:posterID - 2:proprietaryDate - 3:post - 4:ip - 5:isSignature - 6:tSmileyID - 7:isSmiliesOn - 8:isBBCode - 9:isHTML[ - 10:lastEditByID]
             $this->topicFile = array_map(['Functions', 'explodeByTab'], $this->topicFile);
-            #0:open/close[/moved] - 1:title - 2:userID - 3:tSmileyID - 4:notifyNewReplies[/movedForumID] - 5:timestamp[/movedTopicID] - 6:views - 7:pollID[ - 8:subscribedUserIDs]
+            #0:open/close[/moved] - 1:title - 2:userID - 3:tSmileyID - 4:notifyNewReplies[/movedForumID] - 5:timestamp[/movedTopicID] - 6:views - 7:pollID[ - 8:subscribedUserIDs - 9:prefixID]
             $this->topic = array_shift($this->topicFile);
             $this->page = max(ceil(array_search($this->postID, array_map('current', $this->topicFile)) / Config::getInstance()->getCfgVal('posts_per_page')), 1);
         }
@@ -261,10 +261,12 @@ class Posting extends PublicModule
             elseif(!empty($this->postID))
             {
                 if(($quote = $this->getPostData($this->postID)) != false)
-                    $this->newReply['post'] = '[quote=' . (!Functions::isGuestID($quote[1]) ? (($this->newReply['post'] = Functions::getUserData($quote[1])) !== false ? current($this->newReply['post']) : Language::getInstance()->getString('deleted')) : Functions::substr($quote[1], 1)) . ']' . Functions::br2nl(in_array(Auth::getInstance()->getUserID(), array_filter(array_unique(@array_map('next', $this->topicFile)), function($id)
-                    {
-                        return !Functions::isGuestID($id);
-                    })) ? $quote[3] : preg_replace("/\[lock\](.*?)\[\/lock\]/si", '', $quote[3])) . '[/quote]';
+                    $this->newReply['post'] = '[quote=' . (!Functions::isGuestID($quote[1])
+                            ? (($this->newReply['post'] = Functions::getUserData($quote[1])) !== false ? current($this->newReply['post']) : Language::getInstance()->getString('deleted'))
+                            : Functions::substr($quote[1], 1)) . ']' .
+                        Functions::br2nl(in_array(Auth::getInstance()->getUserID(), array_filter(array_unique(@array_map('next', $this->topicFile)), fn($id) => !Functions::isGuestID($id)))
+                            ? $quote[3]
+                            : preg_replace("/\[lock\](.*?)\[\/lock\]/si", '', $quote[3])) . '[/quote]';
                 else
                     $this->errors[] = Language::getInstance()->getString('quoted_post_was_not_found');
             }
@@ -543,7 +545,7 @@ class Posting extends PublicModule
                         Functions::file_put_contents('vars/todayposts.var', preg_replace('/' . $this->forum[0] . ',' . $this->topicID . ',(.*?),(\d+),(\d+),(\d+)/si', $targetForumID . ',' . $newTopicID . ',\1,\2,\3,\4', Functions::file_get_contents('vars/todayposts.var')));
                         Functions::releaseLock('ltposts');
                         //Done
-                        Logger::getInstance()->log('%s moved topic from (' . $this->forum[0] . ',' . $this->topicID . ') to (' . $targetForumID . ',' . $newTopicID . ')', LOG_EDIT_POSTING);
+                        Logger::getInstance()->log('%s moved topic from (' . $this->forum[0] . ',' . $this->topicID . ') to (' . $targetForumID . ',' . $newTopicID . ')', Logger::LOG_EDIT_POSTING);
                         Template::getInstance()->printMessage('topic_moved', Functions::getMsgBackLinks($targetForumID, $newTopicID, 'to_moved_topic'));
                     }
                 }

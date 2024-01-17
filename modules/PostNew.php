@@ -3,7 +3,7 @@
  * Manages post process of new topic or new poll.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2023 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2024 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -30,7 +30,7 @@ class PostNew extends PublicModule
      *
      * @var array Mode and template counterparts
      */
-    private static array $modeTable = array('newtopic' => 'PostNewTopic', 'newpoll' => 'PostNewPoll', 'step2' => 'PostNewPoll');
+    private static array $modeTable = ['newtopic' => 'PostNewTopic', 'newpoll' => 'PostNewPoll', 'step2' => 'PostNewPoll'];
 
     /**
      * Data of new post.
@@ -47,6 +47,13 @@ class PostNew extends PublicModule
     private int $spamDelay;
 
     /**
+     * Configured prefixes for topics within the forum.
+     *
+     * @var array Topic prefixes to select from
+     */
+    private array $prefixes;
+
+    /**
      * Loads various data and sets mode.
      *
      * @param string $newType Type of new post
@@ -56,10 +63,11 @@ class PostNew extends PublicModule
         parent::__construct();
         $this->mode = $newType;
         $this->forum = Functions::getForumData(intval(Functions::getValueFromGlobals('forum_id')));
+        $this->prefixes = array_map(['Functions', 'explodeByTab'], Functions::file('foren/' . $this->forum[0] . '-prefixes.xbb') ?: []);
         $this->preview = Functions::getValueFromGlobals('preview') != '';
         $this->spamDelay = intval(Config::getInstance()->getCfgVal('spam_delay'));
         //Get contents for new post
-        $this->newPost = array('nick' => htmlspecialchars(trim(Functions::getValueFromGlobals('nli_name'))),
+        $this->newPost = ['nick' => htmlspecialchars(trim(Functions::getValueFromGlobals('nli_name'))),
             'title' => htmlspecialchars(trim(Functions::getValueFromGlobals('title'))),
             'post' => htmlspecialchars(trim(Functions::getValueFromGlobals('post', false))),
             'tSmiley' => intval(Functions::getValueFromGlobals('tsmilie')),
@@ -68,7 +76,8 @@ class PostNew extends PublicModule
             'isBBCode' => Functions::getValueFromGlobals('use_upbcode') == '1',
             'isXHTML' => Functions::getValueFromGlobals('use_htmlcode') == '1',
             'isNotify' => Functions::getValueFromGlobals('sendmail2') == '1',
-            'isAddURLs' => Functions::getValueFromGlobals('isAddURLs') == 'true');
+            'isAddURLs' => Functions::getValueFromGlobals('isAddURLs') == 'true',
+            'prefixId' => intval(Functions::getValueFromGlobals('prefixId'))];
         //Topic smiley fix
         if(empty($this->newPost['tSmiley']))
             $this->newPost['tSmiley'] = 1;
@@ -110,11 +119,11 @@ class PostNew extends PublicModule
             }
             //Preview...
             if($this->preview)
-                $this->newPost['preview'] = array('title' => &$this->newPost['title'],
+                $this->newPost['preview'] = ['title' => &$this->newPost['title'],
                     'tSmiley' => Functions::getTSmileyURL($this->newPost['tSmiley']),
                     'post' => BBCode::getInstance()->parse(Functions::nl2br($this->newPost['post']), $this->newPost['isXHTML'], $this->newPost['isSmilies'], $this->newPost['isBBCode']),
                     'signature' => $this->newPost['isSignature'] ? BBCode::getInstance()->parse(Auth::getInstance()->getUserSig()) : false,
-                    'choices' => &$this->newPost['choices']);
+                    'choices' => &$this->newPost['choices']];
             //...or final save
             elseif(Functions::getValueFromGlobals('save') == 'yes')
             {
@@ -144,7 +153,7 @@ class PostNew extends PublicModule
                     //Build and write topic related stuff
                     $newTopic = $this->writeTopic($lastTopicIDFile, $newLastTopicID, $newLastPollID);
                     //Build poll meta data
-                    $newPoll = array($this->newPost['pollType'],
+                    $newPoll = [$this->newPost['pollType'],
                         $this->newPost['nick'],
                         $newTopic[15],
                         $this->newPost['title'],
@@ -152,7 +161,7 @@ class PostNew extends PublicModule
                         $this->forum[0] . ',' . $newLastTopicID,
                         '', '', '', '', '',
                     //Build poll choices
-                        "\n" . implode("\n", $this->newPost['choices'])); //(incl. another empty unused value from poll meta data)
+                        "\n" . implode("\n", $this->newPost['choices'])]; //(incl. another empty unused value from poll meta data)
                     //Write poll related stuff
                     Functions::file_put_contents('polls/' . $newLastPollID . '-1.xbb', Functions::implodeByTab($newPoll));
                     Functions::file_put_contents('polls/' . $newLastPollID . '-2.xbb', '');
@@ -178,10 +187,10 @@ class PostNew extends PublicModule
                 Template::getInstance()->printMessage(Auth::getInstance()->isLoggedIn() ? 'forum_no_access' : 'login_only', INDEXFILE . '?faction=register' . SID_AMPER, INDEXFILE . '?faction=login' . SID_AMPER);
             //Preview...
             if($this->preview)
-                $this->newPost['preview'] = array('title' => &$this->newPost['title'],
+                $this->newPost['preview'] = ['title' => &$this->newPost['title'],
                     'tSmiley' => Functions::getTSmileyURL($this->newPost['tSmiley']),
                     'post' => BBCode::getInstance()->parse(Functions::nl2br($this->newPost['post']), $this->newPost['isXHTML'], $this->newPost['isSmilies'], $this->newPost['isBBCode']),
-                    'signature' => $this->newPost['isSignature'] ? BBCode::getInstance()->parse(Auth::getInstance()->getUserSig()) : false);
+                    'signature' => $this->newPost['isSignature'] ? BBCode::getInstance()->parse(Auth::getInstance()->getUserSig()) : false];
             //...or final save
             elseif(Functions::getValueFromGlobals('save') == 'yes')
             {
@@ -214,15 +223,16 @@ class PostNew extends PublicModule
             break;
         }
         //Always append IDs to WIO location. WIO will not parse them in inapplicable mode.
-        Template::getInstance()->printPage(Functions::handleMode($this->mode, self::$modeTable, __CLASS__, 'newtopic'), array('forumID' => $this->forum[0],
+        Template::getInstance()->printPage(Functions::handleMode($this->mode, self::$modeTable, __CLASS__, 'newtopic'), ['forumID' => $this->forum[0],
             'newPost' => $this->newPost,
+            'prefixes' => $this->prefixes,
             //Just give the template what it needs to know
-            'forum' => array('forumID' => $this->forum[0],
+            'forum' => ['forumID' => $this->forum[0],
                 'isBBCode' => $this->forum[7][0] == '1',
-                'isXHTML' => $this->forum[7][1] == '1'),
+                'isXHTML' => $this->forum[7][1] == '1'],
             'preview' => $this->preview,
             'isMod' => Functions::checkModOfForum($this->forum),
-            'errors' => $this->errors), null , ',' . $this->forum[0]);
+            'errors' => $this->errors], null , ',' . $this->forum[0]);
     }
 
     /**
@@ -236,7 +246,7 @@ class PostNew extends PublicModule
     private function writeTopic(&$lastTopicIDFile, int $newLastTopicID, string $newLastPollID=''): array
     {
         //Build topic meta data
-        $newTopic = array('1', //Open state
+        $newTopic = ['1', //Open state
             $this->newPost['title'],
             $this->newPost['nick'],
             $this->newPost['tSmiley'],
@@ -244,7 +254,9 @@ class PostNew extends PublicModule
             ($_SESSION['lastPost'] = time()),
             '0', //Views
             $newLastPollID,
-            '', '', '', '', '',
+            '', //Subscribed user IDs
+            $this->newPost['prefixId'],
+            '', '', '',
         //Build first post
             "\n1", //Post ID (incl. another empty unused value from topic meta data)
             $this->newPost['nick'],
@@ -256,7 +268,7 @@ class PostNew extends PublicModule
             $this->newPost['isSmilies'] ? '1' : '0',
             $this->newPost['isBBCode'] ? '1' : '0',
             $this->newPost['isXHTML'] ? '1' : '0',
-            '', '', "\n");
+            '', '', "\n"];
         //Getting serious: Time to write
         Functions::file_put_contents('foren/' . $this->forum[0] . '-threads.xbb', $newLastTopicID . "\n", FILE_APPEND);
         Functions::file_put_contents('foren/' . $this->forum[0] . '-' . $newLastTopicID . '.xbb', Functions::implodeByTab($newTopic));

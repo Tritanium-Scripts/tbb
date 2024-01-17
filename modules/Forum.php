@@ -3,7 +3,7 @@
  * Displays specific forum, topic or all forums index with additional stats.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2023 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2024 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -110,6 +110,9 @@ class Forum extends PublicModule
             $forum = Functions::getForumData($this->forumID) or Template::getInstance()->printMessage('forum_not_found');
             if(!Functions::checkUserAccess($forum, 0))
                 Template::getInstance()->printMessage('forum_' . (Auth::getInstance()->isLoggedIn() ? 'no_access' : 'need_login'));
+            //Provide prefixes with their IDs as keys
+            $topicPrefixes = array_map(['Functions', 'explodeByTab'], Functions::file('foren/' . $this->forumID . '-prefixes.xbb') ?: []);
+            $topicPrefixes = array_combine(array_map('current', $topicPrefixes), array_map(fn($topicPrefix) => ['prefix' => $topicPrefix[1], 'color' => $topicPrefix[2]], $topicPrefixes));
             $topicFile = array_reverse(Functions::file('foren/' . $this->forumID . '-threads.xbb'));
             //Manage sticky topics
             $stickyFile = @Functions::file('foren/' . $this->forumID . '-sticker.xbb', FILE_SKIP_EMPTY_LINES) ?: [];
@@ -131,7 +134,7 @@ class Forum extends PublicModule
                 $curTopic = Functions::file('foren/' . $this->forumID . '-' . $topicFile[$i] . '.xbb');
                 $curLastPost = Functions::explodeByTab(@end($curTopic));
                 $curEnd = ceil(($curSize = count($curTopic)-1) / Config::getInstance()->getCfgVal('posts_per_page'));
-                #0:open/close[/moved] - 1:title - 2:userID - 3:tSmileyID - 4:notifyNewReplies[/movedForumID] - 5:timestamp[/movedTopicID] - 6:views - 7:pollID[ - 8:subscribedUserIDs]
+                #0:open/close[/moved] - 1:title - 2:userID - 3:tSmileyID - 4:notifyNewReplies[/movedForumID] - 5:timestamp[/movedTopicID] - 6:views - 7:pollID[ - 8:subscribedUserIDs - 9:prefixID]
                 $curTopic = Functions::explodeByTab($curTopic[0]);
                 //Detect new posts
                 $curCookieID = 'topic_' . $this->forumID . '_' . $topicFile[$i];
@@ -169,6 +172,7 @@ class Forum extends PublicModule
                     'topicTitle' => wordwrap(Functions::censor($curTopic[1]), 80, '<br />', true),
                     'topicPageBar' => $curTopicPageBar,
                     'topicStarter' => Functions::getProfileLink($curTopic[2], true),
+                    'topicPrefix' => $topicPrefixes[$curTopic[9]] ?? [],
                     'isSticky' => in_array($topicFile[$i], $stickyFile),
                     'isMoved' => $isMoved) +
                     //Some values are not set for moved topics, but others needed
@@ -201,7 +205,7 @@ class Forum extends PublicModule
             NavBar::getInstance()->addElement($forum[1], INDEXFILE . '?mode=viewforum&amp;forum_id=' . $this->forumID . SID_AMPER);
             Functions::getFileLock('tview-' . $this->forumID);
             $topicFile = @Functions::file('foren/' . $this->forumID . '-' . $this->topicID . '.xbb') or Template::getInstance()->printMessage('topic_not_found');
-            #0:open/close[/moved] - 1:title - 2:userID - 3:tSmileyID - 4:notifyNewReplies[/movedForumID] - 5:timestamp[/movedTopicID] - 6:views - 7:pollID[ - 8:subscribedUserIDs]
+            #0:open/close[/moved] - 1:title - 2:userID - 3:tSmileyID - 4:notifyNewReplies[/movedForumID] - 5:timestamp[/movedTopicID] - 6:views - 7:pollID[ - 8:subscribedUserIDs - 9:prefixID]
             $topic = Functions::explodeByTab(array_shift($topicFile));
             if($topic[0] == 'm')
                 Template::getInstance()->printMessage('topic_has_moved', INDEXFILE . '?mode=viewthread&amp;forum_id=' . $topic[4] . '&amp;thread=' . $topic[5] . SID_AMPER, Functions::getMsgBackLinks($this->forumID));
