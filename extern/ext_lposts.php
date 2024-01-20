@@ -51,8 +51,6 @@ class ExtLastPosts
 
 	/**
 	 * Provides needed constants and includes required functions.
-	 *
-	 * @return ExtLastPosts New instance of this class
 	 */
 	function __construct()
 	{
@@ -73,7 +71,7 @@ class ExtLastPosts
 	/**
 	 * Prints out the last posts.
 	 */
-	public function printLastPosts()
+	public function printLastPosts(): void
 	{
 		if(($lastPosts = ExtFunctions::file_get_contents('vars/lposts.var')) != '')
 		{

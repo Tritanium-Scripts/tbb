@@ -99,8 +99,6 @@ class Core
 
     /**
      * Some initial PHP stuff and preparations.
-     *
-     * @return Main New instance of this class
      */
     function __construct()
     {

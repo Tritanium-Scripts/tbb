@@ -14,7 +14,7 @@
 function smarty_modifier_utf8_encode(string $string): string
 {
     if(!Core::getInstance()->isUtf8Locale())
-        $string = utf8_encode($string);
+        $string = Functions::utf8Encode($string);
     return $string;
 }
 ?>

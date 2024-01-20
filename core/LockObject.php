@@ -27,7 +27,6 @@ class LockObject
      * Opens stated file for reading and writing with exclusive lock.
      *
      * @param string $filename Name/path of file
-     * @return LockObject New instance of this class
      */
     function __construct(string $filename)
     {

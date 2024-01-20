@@ -47,10 +47,7 @@ class ExtFunctions
      */
     public static function file(string $filename, int $flags=0): array
     {
-        return array_map(['self', 'utf8_encode'], array_map(function($entry)
-        {
-            return trim($entry, " \n\r\0\x0B");
-        }, file(EXT_PATH_TO_DATA . $filename, $flags)));
+        return array_map(['self', 'utf8_encode'], array_map(fn($entry) => trim($entry, " \n\r\0\x0B"), file(EXT_PATH_TO_DATA . $filename, $flags)));
     }
 
     /**

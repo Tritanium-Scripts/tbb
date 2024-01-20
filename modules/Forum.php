@@ -134,7 +134,7 @@ class Forum extends PublicModule
                 $curTopic = Functions::file('foren/' . $this->forumID . '-' . $topicFile[$i] . '.xbb');
                 $curLastPost = Functions::explodeByTab(@end($curTopic));
                 $curEnd = ceil(($curSize = count($curTopic)-1) / Config::getInstance()->getCfgVal('posts_per_page'));
-                #0:open/close[/moved] - 1:title - 2:userID - 3:tSmileyID - 4:notifyNewReplies[/movedForumID] - 5:timestamp[/movedTopicID] - 6:views - 7:pollID[ - 8:subscribedUserIDs - 9:prefixID]
+                #0:open/close[/moved] - 1:title - 2:userID - 3:tSmileyID - 4:notifyNewReplies[/movedForumID] - 5:timestamp[/movedTopicID] - 6:views[/prefixID] - 7:pollID[ - 8:subscribedUserIDs - 9:prefixID]
                 $curTopic = Functions::explodeByTab($curTopic[0]);
                 //Detect new posts
                 $curCookieID = 'topic_' . $this->forumID . '_' . $topicFile[$i];
@@ -172,7 +172,6 @@ class Forum extends PublicModule
                     'topicTitle' => wordwrap(Functions::censor($curTopic[1]), 80, '<br />', true),
                     'topicPageBar' => $curTopicPageBar,
                     'topicStarter' => Functions::getProfileLink($curTopic[2], true),
-                    'topicPrefix' => $topicPrefixes[$curTopic[9]] ?? [],
                     'isSticky' => in_array($topicFile[$i], $stickyFile),
                     'isMoved' => $isMoved) +
                     //Some values are not set for moved topics, but others needed
@@ -180,12 +179,14 @@ class Forum extends PublicModule
                     'postCounter' => '-',
                     'views' => '-',
                     'lastPost' => '-',
+                    'topicPrefix' => $curTopic[6] ?? [],
                     'movedForumID' => $curTopic[4],
                     'movedTopicID' => $curTopic[5]) : array(
                     //Set needed values for non-moved topic
                     'postCounter' => $curSize-1,
                     'views' => $curTopic[6],
-                    'lastPost' => sprintf(Language::getInstance()->getString('last_post_x_from_x'), Functions::formatDate($curLastPost[2]), Functions::getProfileLink($curLastPost[1], true))));
+                    'lastPost' => sprintf(Language::getInstance()->getString('last_post_x_from_x'), Functions::formatDate($curLastPost[2]), Functions::getProfileLink($curLastPost[1], true)),
+                    'topicPrefix' => $topicPrefixes[$curTopic[9]] ?? []));
             }
             Template::getInstance()->assign(array('pageBar' => $pageBar,
                 'topics' => $topics, //Prepared topics
@@ -205,7 +206,7 @@ class Forum extends PublicModule
             NavBar::getInstance()->addElement($forum[1], INDEXFILE . '?mode=viewforum&amp;forum_id=' . $this->forumID . SID_AMPER);
             Functions::getFileLock('tview-' . $this->forumID);
             $topicFile = @Functions::file('foren/' . $this->forumID . '-' . $this->topicID . '.xbb') or Template::getInstance()->printMessage('topic_not_found');
-            #0:open/close[/moved] - 1:title - 2:userID - 3:tSmileyID - 4:notifyNewReplies[/movedForumID] - 5:timestamp[/movedTopicID] - 6:views - 7:pollID[ - 8:subscribedUserIDs - 9:prefixID]
+            #0:open/close[/moved] - 1:title - 2:userID - 3:tSmileyID - 4:notifyNewReplies[/movedForumID] - 5:timestamp[/movedTopicID] - 6:views[/prefixID] - 7:pollID[ - 8:subscribedUserIDs - 9:prefixID]
             $topic = Functions::explodeByTab(array_shift($topicFile));
             if($topic[0] == 'm')
                 Template::getInstance()->printMessage('topic_has_moved', INDEXFILE . '?mode=viewthread&amp;forum_id=' . $topic[4] . '&amp;thread=' . $topic[5] . SID_AMPER, Functions::getMsgBackLinks($this->forumID));

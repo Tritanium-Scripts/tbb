@@ -43,8 +43,6 @@ class ExtWIOBox
 
 	/**
 	 * Provides needed constants and includes required functions.
-	 *
-	 * @return ExtWIOBox New instance of this class
 	 */
 	function __construct()
 	{

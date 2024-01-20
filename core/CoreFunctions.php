@@ -14,7 +14,7 @@ abstract class CoreFunctions
      *
      * @var array Cached data
      */
-    private static array $cache = [];
+    protected static array $cache = [];
 
     /**
      * All read in contents from files are cached here.
@@ -255,13 +255,13 @@ abstract class CoreFunctions
         if($datapath && self::$isCaching)
         {
             if(isset(self::$fileCache[$filename][0]))
-                return array_map('utf8_encode', array_map($trimCallback, self::$fileCache[$filename][0]));
+                return array_map(['Functions', 'utf8Encode'], array_map($trimCallback, self::$fileCache[$filename][0]));
             self::$fileCounter++;
-            return file_exists(DATAPATH . $filename) ? array_map('utf8_encode', array_map($trimCallback, self::$fileCache[$filename][0] = file(DATAPATH . $filename, $flags))) : false;
+            return file_exists(DATAPATH . $filename) ? array_map(['Functions', 'utf8Encode'], array_map($trimCallback, self::$fileCache[$filename][0] = file(DATAPATH . $filename, $flags))) : false;
         }
         self::$fileCounter++;
         $filePath = ($datapath ? DATAPATH : '') . $filename;
-        return file_exists($filePath) ? array_map('utf8_encode', array_map($trimCallback, file($filePath, $flags))) : false;
+        return file_exists($filePath) ? array_map(['Functions', 'utf8Encode'], array_map($trimCallback, file($filePath, $flags))) : false;
     }
 
     /**
@@ -281,13 +281,13 @@ abstract class CoreFunctions
         if(self::$isCaching)
         {
             if(isset(self::$fileCache[$filename][1]))
-                return utf8_encode(self::$fileCache[$filename][1]);
+                return self::utf8Encode(self::$fileCache[$filename][1]);
             self::$fileCounter++;
-            return utf8_encode(self::$fileCache[$filename][1] = file_get_contents(DATAPATH . $filename, LOCK_SH));
+            return Functions::utf8Encode(self::$fileCache[$filename][1] = file_get_contents(DATAPATH . $filename, LOCK_SH));
         }
         //Use no caching
         self::$fileCounter++;
-        return utf8_encode(file_get_contents(DATAPATH . $filename, LOCK_SH));
+        return Functions::utf8Encode(file_get_contents(DATAPATH . $filename, LOCK_SH));
     }
 
     /**
@@ -306,7 +306,7 @@ abstract class CoreFunctions
         if(self::$isCaching)
             unset(self::$fileCache[$filename]);
         self::$fileCounter++;
-        return file_put_contents(($datapath ? DATAPATH : '') . $filename, $decUTF8 ? utf8_decode(self::latin9ToEntities($data)) : $data, $flags);
+        return file_put_contents(($datapath ? DATAPATH : '') . $filename, $decUTF8 ? Functions::utf8Decode(self::latin9ToEntities($data)) : $data, $flags);
     }
 
     /**
@@ -327,7 +327,7 @@ abstract class CoreFunctions
                     ? (self::getProperYz(time()) == $yz ? 'TODAY_DATEFORMAT' : 'YESTERDAY_DATEFORMAT')
                     : 'DATEFORMAT'), $timestamp));
         //Encode as UTF-8 in case of month names lack proper encoding
-        return Core::getInstance()->isUtf8Locale() ? $formattedDate : utf8_encode($formattedDate);
+        return Core::getInstance()->isUtf8Locale() ? $formattedDate : Functions::utf8Encode($formattedDate);
     }
 
     /**

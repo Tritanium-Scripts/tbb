@@ -97,11 +97,11 @@ class AdminLogfile extends PublicModule
                 $logfiles[] = ['name' => $curFilename,
                     'isDeletable' => $curFilename != gmdate('dmY'),
                     'timestamp' => $curTimestamp,
-                    'weekday' => utf8_encode(strftime('%A', $curTimestamp)),
+                    'weekday' => Functions::utf8Encode(strftime('%A', $curTimestamp)),
                     'date' => strftime(Language::getInstance()->getString('DAYLOGFORMAT'), $curTimestamp),
                     'size' => filesize($curLogfile)/1024,
                     'entries' => count(Functions::file($curLogfile, null, null, false)),
-                    'lastChange' => utf8_encode(strftime(Language::getInstance()->getString('DATEFORMAT'), filemtime($curLogfile)))];
+                    'lastChange' => Functions::utf8Encode(strftime(Language::getInstance()->getString('DATEFORMAT'), filemtime($curLogfile)))];
             }
             //Apply order type, one of them will be changed depending on current sort method
             $orderTypeDate = $orderTypeSize = $orderTypeEntries = false;

@@ -127,5 +127,29 @@ class Functions extends CoreFunctions
     {
         return isset($encoding) ? mb_substr_count($haystack, $needle, $encoding) : mb_substr_count($haystack, $needle);
     }
+
+    /**
+     * PHP's {@link utf8_encode()} provided it hasn't been removed yet. Some appropriate fallback otherwise.
+     *
+     * @param string $string An ISO-8859-1 string
+     * @return string UTF-8 translation
+     */
+    public static function utf8Encode(string $string): string
+    {
+        self::$cache['utf8_encode'] ??= function_exists('utf8_encode');
+        return self::$cache['utf8_encode'] ? @utf8_encode($string) : mb_convert_encoding($string, 'UTF-8', 'ISO-8859-1');
+    }
+
+    /**
+     * PHP's {@link utf8_decode()} provided it hasn't been removed yet. Some appropriate fallback otherwise.
+     *
+     * @param string $string A UTF-8 encoded string
+     * @return string ISO-8859-1 translation
+     */
+    public static function utf8Decode(string $string): string
+    {
+        self::$cache['utf8_decode'] ??= function_exists('utf8_decode');
+        return self::$cache['utf8_decode'] ? @utf8_decode($string) : mb_convert_encoding($string, 'ISO-8859-1', 'UTF-8');
+    }
 }
 ?>

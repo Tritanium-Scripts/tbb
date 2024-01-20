@@ -107,7 +107,7 @@ class Posting extends PublicModule
         {
             #0:postID - 1:posterID - 2:proprietaryDate - 3:post - 4:ip - 5:isSignature - 6:tSmileyID - 7:isSmiliesOn - 8:isBBCode - 9:isHTML[ - 10:lastEditByID]
             $this->topicFile = array_map(['Functions', 'explodeByTab'], $this->topicFile);
-            #0:open/close[/moved] - 1:title - 2:userID - 3:tSmileyID - 4:notifyNewReplies[/movedForumID] - 5:timestamp[/movedTopicID] - 6:views - 7:pollID[ - 8:subscribedUserIDs - 9:prefixID]
+            #0:open/close[/moved] - 1:title - 2:userID - 3:tSmileyID - 4:notifyNewReplies[/movedForumID] - 5:timestamp[/movedTopicID] - 6:views[/prefixID] - 7:pollID[ - 8:subscribedUserIDs - 9:prefixID]
             $this->topic = array_shift($this->topicFile);
             $this->page = max(ceil(array_search($this->postID, array_map('current', $this->topicFile)) / Config::getInstance()->getCfgVal('posts_per_page')), 1);
         }
@@ -538,7 +538,7 @@ class Posting extends PublicModule
                         }
                         //Generate permanent link?
                         if($isLinked)
-                            Functions::file_put_contents('foren/' . $this->forum[0] . '-' . $this->topicID . '.xbb', 'm' . "\t" . $this->topic[1] . "\t" . $this->topic[2] . "\t" . $this->topic[3] . "\t" . $targetForumID . "\t" . $newTopicID . "\n");
+                            Functions::file_put_contents('foren/' . $this->forum[0] . '-' . $this->topicID . '.xbb', 'm' . "\t" . $this->topic[1] . "\t" . $this->topic[2] . "\t" . $this->topic[3] . "\t" . $targetForumID . "\t" . $newTopicID . "\t" . $this->topic[9] . "\n");
                         //Update link(s) in last and todays posts (if topic is listed in there) with some l33t h4x regex magic :)
                         Functions::getFileLock('ltposts');
                         Functions::file_put_contents('vars/lposts.var', preg_replace('/' . $this->forum[0] . ',' . $this->topicID . ',(.*?),(\d+),(\d+),(\d+)/si', $targetForumID . ',' . $newTopicID . ',\1,\2,\3,\4', Functions::file_get_contents('vars/lposts.var')));

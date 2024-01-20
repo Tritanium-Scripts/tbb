@@ -337,7 +337,7 @@ class Profile extends PublicModule
                         $achievementsClosed[] = array('icon' => $curAchievement->getElementsByTagName('iconClosed')->item(0)->nodeValue,
                             'name' => htmlspecialchars($curAchievement->getElementsByTagName('name')->item(0)->nodeValue),
                             'description' => htmlspecialchars($curAchievement->getElementsByTagName('description')->item(0)->nodeValue),
-                            'unlocked' => $curAchievement->getElementsByTagName('unlockTimestamp')->length == 1 ? utf8_encode(strftime(Language::getInstance()->getString('DATEFORMAT'), $curAchievement->getElementsByTagName('unlockTimestamp')->item(0)->nodeValue)) : '');
+                            'unlocked' => $curAchievement->getElementsByTagName('unlockTimestamp')->length == 1 ? Functions::utf8Encode(strftime(Language::getInstance()->getString('DATEFORMAT'), $curAchievement->getElementsByTagName('unlockTimestamp')->item(0)->nodeValue)) : '');
                     else
                         $achievementsOpen[] = array('icon' => $curAchievement->getElementsByTagName('iconOpen')->item(0)->nodeValue,
                             'name' => htmlspecialchars($curAchievement->getElementsByTagName('name')->item(0)->nodeValue),
