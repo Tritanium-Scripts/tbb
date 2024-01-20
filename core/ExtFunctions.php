@@ -47,7 +47,7 @@ class ExtFunctions
      */
     public static function file(string $filename, int $flags=0): array
     {
-        return array_map(['self', 'utf8_encode'], array_map(fn($entry) => trim($entry, " \n\r\0\x0B"), file(EXT_PATH_TO_DATA . $filename, $flags)));
+        return array_map(['self', 'utf8Encode'], array_map(fn($entry) => trim($entry, " \n\r\0\x0B"), file(EXT_PATH_TO_DATA . $filename, $flags)));
     }
 
     /**
@@ -63,7 +63,7 @@ class ExtFunctions
      */
     public static function file_get_contents(string $filename): string
     {
-        return self::utf8_encode(file_get_contents(EXT_PATH_TO_DATA . $filename, LOCK_SH));
+        return self::utf8Encode(file_get_contents(EXT_PATH_TO_DATA . $filename, LOCK_SH));
     }
 
     /**
@@ -77,7 +77,7 @@ class ExtFunctions
     {
         $timestamp = self::getTimestamp($date);
         //Encode as UTF-8, because month names lacks proper encoding
-        return self::utf8_encode(gmstrftime($format, $timestamp));
+        return self::utf8Encode(gmstrftime($format, $timestamp));
     }
 
     /**
@@ -127,7 +127,7 @@ class ExtFunctions
      */
     public static function getTopicName(int $forumID, int $topicID): string
     {
-        return ($topic = self::file('foren/' . $forumID . '-' . $topicID . '.xbb')) == false ? (EXT_IS_UTF8 ? ExtLastPosts::$deleted_moved : utf8_decode(ExtLastPosts::$deleted_moved)) : @next(self::explodeByTab($topic[0]));
+        return ($topic = self::file('foren/' . $forumID . '-' . $topicID . '.xbb')) == false ? self::utf8Decode(ExtLastPosts::$deleted_moved) : @next(self::explodeByTab($topic[0]));
     }
 
     /**
@@ -172,15 +172,37 @@ class ExtFunctions
      */
     public static function substr(string $string, int $start, int $length=null): string
     {
-        return EXT_IS_UTF8 && function_exists('mb_substr') ? (isset($length) ? mb_substr($string, $start, $length) : mb_substr($string, $start)) : (isset($length) ? substr($string, $start, $length) : substr($string, $start));
+        return EXT_IS_UTF8 && function_exists('mb_substr')
+            ? (isset($length) ? mb_substr($string, $start, $length) : mb_substr($string, $start))
+            : (isset($length) ? substr($string, $start, $length) : substr($string, $start));
     }
 
     /**
-     * Uses PHP's {@link utf8_encode()} depending on made settings.
+     * Uses PHP's {@link utf8_encode()} or some appropriate fallback depending on made settings.
      */
-    public static function utf8_encode(string $data): string
+    public static function utf8Encode(string $string): string
     {
-        return EXT_IS_UTF8 ? utf8_encode($data) : $data;
+        return EXT_IS_UTF8
+            ? (function_exists('utf8_encode')
+                ? @utf8_encode($string)
+                : (function_exists('mb_convert_encoding')
+                    ? mb_convert_encoding($string, 'UTF-8', 'ISO-8859-1')
+                    : iconv('ISO-8859-1', 'UTF-8', $string)))
+            : $string;
+    }
+
+    /**
+     * Uses PHP's {@link utf8_decode()} or some appropriate fallback depending on made settings.
+     */
+    public static function utf8Decode(string $string): string
+    {
+        return EXT_IS_UTF8
+            ? (function_exists('utf8_decode'))
+                ? @utf8_decode($string)
+                : (function_exists('mb_convert_encoding'))
+                    ? mb_convert_encoding($string, 'ISO-8859-1', 'UTF-8')
+                    : iconv('UTF-8', 'ISO-8859-1', $string)
+            : $string;
     }
 }
 ?>

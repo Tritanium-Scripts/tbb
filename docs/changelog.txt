@@ -1,6 +1,6 @@
 **********************************************************
 Tritanium Bulletin Board 1.5+ - Changelog (German version)
-Last changed: 2024-01-16 (Version 1.10.0)
+Last changed: 2024-01-20 (Version 1.10.0)
 **********************************************************
 
 2024: Version 1.10.0
@@ -20,6 +20,7 @@ Last changed: 2024-01-16 (Version 1.10.0)
     - Dokumentation aktualisiert
     - Verwalten von Themenpräfixen in den jeweiligen Foreneinstellungen im ACP
     - Themen und Umfragen mit (farbigen) Präfixen
+    - Editieren von Beiträgen mit Präfixauswahl des Themas/Umfrage für (S-)Mods und Admins
 
 10.12.2023: Version 1.8.1 (offiziell)
     - Mögliche Enkodierungsprobleme der Monatsnamen im Kalender behoben

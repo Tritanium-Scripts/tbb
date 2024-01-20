@@ -8,7 +8,7 @@
  </tr>{if !empty($editPost.title)}
  <tr>
   <td class="td1" style="font-weight:bold; width:20%;"><span class="norm">{Language::getInstance()->getString('title_colon')}</span></td>
-  <td class="td1" style="width:80%;"><input type="text" size="30" name="title" value="{$editPost.title}" /></td>
+  <td class="td1" style="width:80%;">{if !empty($prefixes)}<select name="prefixId" class="norm"><option>{Language::getInstance()->getString('prefix')}</option>{foreach $prefixes as $curPrefix}<option value="{$curPrefix[0]}"{if $curPrefix[0] == $editPost.prefixId} selected="selected"{/if}{if !empty($curPrefix[2])} style="color:{$curPrefix[2]};"{/if}>{$curPrefix[1]}</option>{/foreach}</select> {/if}<input type="text" size="30" name="title" value="{$editPost.title}" /></td>
  </tr>{/if}{if $forum.isBBCode}
  <tr>
   <td class="td1" style="font-weight:bold; vertical-align:top; width:20%;"><span class="norm">{Language::getInstance()->getString('bbcode_colon')}</span></td>

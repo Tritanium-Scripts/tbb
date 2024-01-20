@@ -165,7 +165,7 @@ class Forum extends PublicModule
                 //Only show bar by having more than one page
                 $curTopicPageBar = count($curTopicPageBar) < 2 ? '' : ' ' . sprintf(Language::getInstance()->getString('pages'), implode(' ', $curTopicPageBar));
                 //Censor title and add to parsed topics
-                $topics[] = array('topicIcon' => $curTopicIcon,
+                $topics[] = ['topicIcon' => $curTopicIcon,
                     'tSmileyURL' => Functions::getTSmileyURL($curTopic[3]),
                     'isPoll' => !empty($curTopic[7]),
                     'topicID' => $topicFile[$i],
@@ -173,20 +173,20 @@ class Forum extends PublicModule
                     'topicPageBar' => $curTopicPageBar,
                     'topicStarter' => Functions::getProfileLink($curTopic[2], true),
                     'isSticky' => in_array($topicFile[$i], $stickyFile),
-                    'isMoved' => $isMoved) +
+                    'isMoved' => $isMoved] +
                     //Some values are not set for moved topics, but others needed
-                    ($isMoved ? array(
+                    ($isMoved ? [
                     'postCounter' => '-',
                     'views' => '-',
                     'lastPost' => '-',
-                    'topicPrefix' => $curTopic[6] ?? [],
+                    'topicPrefix' => isset($curTopic[6]) ? $topicPrefixes[$curTopic[6]] ?? [] : [],
                     'movedForumID' => $curTopic[4],
-                    'movedTopicID' => $curTopic[5]) : array(
+                    'movedTopicID' => $curTopic[5]] : [
                     //Set needed values for non-moved topic
                     'postCounter' => $curSize-1,
                     'views' => $curTopic[6],
                     'lastPost' => sprintf(Language::getInstance()->getString('last_post_x_from_x'), Functions::formatDate($curLastPost[2]), Functions::getProfileLink($curLastPost[1], true)),
-                    'topicPrefix' => $topicPrefixes[$curTopic[9]] ?? []));
+                    'topicPrefix' => $topicPrefixes[$curTopic[9]] ?? []]);
             }
             Template::getInstance()->assign(array('pageBar' => $pageBar,
                 'topics' => $topics, //Prepared topics

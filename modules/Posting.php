@@ -121,7 +121,8 @@ class Posting extends PublicModule
             'isSignature' => Functions::getValueFromGlobals('show_signatur') == '1',
             'isBBCode' => Functions::getValueFromGlobals('use_upbcode') == '1',
             'isXHTML' => Functions::getValueFromGlobals('use_htmlcode') == '1',
-            'isAddURLs' => Functions::getValueFromGlobals('isAddURLs') == 'true');
+            'isAddURLs' => Functions::getValueFromGlobals('isAddURLs') == 'true',
+            'prefixId' => intval(Functions::getValueFromGlobals('prefixId')));
         //Topic smiley fix
         if(empty($this->newReply['tSmileyID']))
             $this->newReply['tSmileyID'] = 1;
@@ -373,9 +374,13 @@ class Posting extends PublicModule
                         }
                         $curPost = Functions::implodeByTab($curPost);
                     }
-                    //Update title of topic?
-                    if(($isMod || Auth::getInstance()->isAdmin()) && !empty($this->newReply['title']))
-                        $this->topic[1] = $this->newReply['title'];
+                    //Update title/prefix of topic?
+                    if($isMod || Auth::getInstance()->isAdmin())
+                    {
+                        if(!empty($this->newReply['title']))
+                            $this->topic[1] = $this->newReply['title'];
+                        $this->topic[9] = $this->newReply['prefixId'];
+                    }
                     //Update post in topic
                     Functions::file_put_contents('foren/' . $this->forum[0] . '-' . $this->topicID . '.xbb', Functions::implodeByTab($this->topic) . "\n" . implode("\n", $this->topicFile) . "\n");
                     //Done
@@ -394,9 +399,11 @@ class Posting extends PublicModule
                         'isBBCode' => $post[8] == '1',
                         'isXHTML' => $post[9] == '1',
                         'isAddURLs' => true,
+                        'prefixId' => $isMod || Auth::getInstance()->isAdmin() ? $this->topic[9] : '',
                         'isLastEditBy' => isset($post[10]) && is_numeric($post[10]));
                 Template::getInstance()->assign(array('editPost' => $this->newReply,
-                    'isMod' => $isMod));
+                    'isMod' => $isMod,
+                    'prefixes' => array_map(['Functions', 'explodeByTab'], Functions::file('foren/' . $this->forum[0] . '-prefixes.xbb') ?: [])));
             }
             break;
 
@@ -510,6 +517,16 @@ class Posting extends PublicModule
                                 unset($topicIDs[$key]);
                                 Functions::file_put_contents('foren/' . $this->forum[0] . '-threads.xbb', empty($topicIDs) ? '' : implode("\n", $topicIDs) . "\n");
                             }
+                        }
+                        //Topic has prefix?
+                        if(!empty($this->topic[9]))
+                        {
+                            $prefixId = $this->topic[9];
+                            //Remove prefix ID since they are bound to each forum
+                            $this->topic[9] = '';
+                            Functions::file_put_contents('foren/' . $this->forum[0] . '-' . $this->topicID . '.xbb', Functions::implodeByTab($this->topic) . "\n" . implode("\n", array_map(['Functions', 'implodeByTab'], $this->topicFile)));
+                            //Restore prefix ID for possible permanent link use
+                            $this->topic[9] = $prefixId;
                         }
                         //Get new ID for moved topic
                         $newTopicID = Functions::file_get_contents('foren/' . $targetForumID . '-ltopic.xbb')+1;

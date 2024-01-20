@@ -3,9 +3,9 @@
  * Provides external access to WIO box.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2024 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
- * @package TBB1.5
+ * @package TBB1
  */
 class ExtWIOBox
 {
@@ -17,25 +17,25 @@ class ExtWIOBox
 	/**
 	 * (Relative) Path to forum.
 	 */
-	private static $extPathToForum = 'path/to/forum/'; //Has to end with trailing slash!
+	private static string $extPathToForum = 'path/to/forum/'; //Has to end with trailing slash!
 
 	/**
 	 * Encode output as UTF-8?
 	 */
-	private static $isUTF8 = true; //If your website don't use UTF-8, set this to false
+	private static bool $isUTF8 = true; //If your website don't use UTF-8, set this to false
 
 	/**
 	 * Used language strings for output; you can translate them.
 	 */
-	 private static $in_last_min_were_active_colon = 'In den letzten Minuten waren im Forum aktiv:';
-	 private static $no_members = 'Keine Mitglieder';
-	 private static $members_colon = 'Mitglieder:';
-	 private static $no_guests = 'Keine Gäste';
-	 private static $one_guest = 'Ein Gast';
-	 private static $x_guests = '%d Gäste';
-	 private static $no_ghosts = 'Keine Geister';
-	 private static $one_ghost = 'Ein Geist';
-	 private static $x_ghosts = '%d Geister';
+	 private static string $in_last_min_were_active_colon = 'In den letzten Minuten waren im Forum aktiv:';
+	 private static string $no_members = 'Keine Mitglieder';
+	 private static string $members_colon = 'Mitglieder:';
+	 private static string $no_guests = 'Keine Gäste';
+	 private static string $one_guest = 'Ein Gast';
+	 private static string $x_guests = '%d Gäste';
+	 private static string $no_ghosts = 'Keine Geister';
+	 private static string $one_ghost = 'Ein Geist';
+	 private static string $x_ghosts = '%d Geister';
 
 
 /* Do not change anything beyond this line */
@@ -62,10 +62,10 @@ class ExtWIOBox
 	/**
 	 * Prints out the WIO box with current active user.
 	 */
-	public function printWIOBox()
+	public function printWIOBox(): void
 	{
 		$guests = $ghosts = 0;
-		$members = array();
+		$members = [];
 		foreach(ExtFunctions::file('vars/wio.var') as $curWIOEntry)
 		{
 			$curWIOEntry = ExtFunctions::explodeByTab($curWIOEntry);

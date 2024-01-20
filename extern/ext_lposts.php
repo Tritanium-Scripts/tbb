@@ -3,9 +3,9 @@
  * Provides external access to newest posts of the forum.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2012 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2024 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
- * @package TBB1.6
+ * @package TBB1
  */
 class ExtLastPosts
 {
@@ -17,25 +17,25 @@ class ExtLastPosts
 	/**
 	 * (Relative) Path to forum.
 	 */
-	private static $extPathToForum = 'path/to/forum/'; //Has to end with trailing slash!
+	private static string $extPathToForum = 'path/to/forum/'; //Has to end with trailing slash!
 
 	/**
 	 * Number of latest posts to display.
 	 */
-	private static $numOfLastPosts = 5;
+	private static int $numOfLastPosts = 5;
 
 	/**
 	 * Encode output as UTF-8?
 	 */
-	private static $isUTF8 = true; //If your website don't use UTF-8, set this to false
+	private static bool $isUTF8 = true; //If your website don't use UTF-8, set this to false
 
 	/**
 	 * Used language strings for output; you can translate them.
 	 */
-	private static $x_by_x_on_x = '%s von %s am %s'; //Do not change the number of %s
-	public static $deleted = 'Gelöscht';
-	public static $deleted_moved = 'Gelöscht / Verschoben';
-	private static $DATE_FORMAT = '%d. %B %Y %H:%M'; //Values explained @ http://www.php.net/date
+	private static string $x_by_x_on_x = '%s von %s am %s'; //Do not change the number of %s
+	public static string $deleted = 'Gelöscht';
+	public static string $deleted_moved = 'Gelöscht / Verschoben';
+	private static string $DATE_FORMAT = '%d. %B %Y %H:%M'; //Values explained @ http://www.php.net/date
 
 
 /* Do not change anything beyond this line */
@@ -47,7 +47,7 @@ class ExtLastPosts
 	 *
 	 * @var string Backed up locale informations
 	 */
-	private $oldLocale;
+	private ?string $oldLocale;
 
 	/**
 	 * Provides needed constants and includes required functions.
@@ -83,7 +83,7 @@ class ExtLastPosts
 				$curNewestPost = ExtFunctions::explodeByComma($curNewestPost . ',1,'); //Make sure index 4 and 5 are available
 				echo(sprintf(self::$x_by_x_on_x,
 					//Topic check + link + title preparation
-					!ExtFunctions::file_exists('foren/' . $curNewestPost[0] . '-' . $curNewestPost[1] . '.xbb') ? (EXT_IS_UTF8 ? self::$deleted : utf8_decode(self::$deleted)) : '<img src="' . ExtFunctions::getTSmileyURL($curNewestPost[4]) . '" alt="" /> <a href="' . EXT_PATH_TO_FORUM . INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curNewestPost[0] . '&amp;thread=' . $curNewestPost[1] . '&amp;z=last#post' . $curNewestPost[5] . '">' . ExtFunctions::getTopicName($curNewestPost[0], $curNewestPost[1]) . '</a>',
+					!ExtFunctions::file_exists('foren/' . $curNewestPost[0] . '-' . $curNewestPost[1] . '.xbb') ? ExtFunctions::utf8Decode(self::$deleted) : '<img src="' . ExtFunctions::getTSmileyURL($curNewestPost[4]) . '" alt="" /> <a href="' . EXT_PATH_TO_FORUM . INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curNewestPost[0] . '&amp;thread=' . $curNewestPost[1] . '&amp;z=last#post' . $curNewestPost[5] . '">' . ExtFunctions::getTopicName($curNewestPost[0], $curNewestPost[1]) . '</a>',
 					ExtFunctions::getProfileLink($curNewestPost[2], true),
 					ExtFunctions::formatDate($curNewestPost[3], self::$DATE_FORMAT)) . '<br />');
 				self::$numOfLastPosts--;

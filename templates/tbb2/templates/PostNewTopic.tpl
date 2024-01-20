@@ -23,7 +23,7 @@
  </tr>
  <tr>
   <td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('title_colon')}</span></td>
-  <td class="cellAlt"><input class="formText" type="text" size="65" name="title" value="{$newPost.title}" /></td>
+  <td class="cellAlt">{if !empty($prefixes)}<select name="prefixId" class="fontNorm"><option>{Language::getInstance()->getString('prefix')}</option>{foreach $prefixes as $curPrefix}<option value="{$curPrefix[0]}"{if $curPrefix[0] == $newPost.prefixId} selected="selected"{/if}{if !empty($curPrefix[2])} style="color:{$curPrefix[2]};"{/if}>{$curPrefix[1]}</option>{/foreach}</select> {/if}<input class="formText" type="text" size="65" name="title" value="{$newPost.title}" /></td>
  </tr>{if $forum.isBBCode}
  <tr>
   <td class="cellStd" style="vertical-align:top;"><span class="fontNorm">{Language::getInstance()->getString('bbcode_colon')}</span></td>

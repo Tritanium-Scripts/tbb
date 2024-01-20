@@ -137,7 +137,7 @@ class Functions extends CoreFunctions
     public static function utf8Encode(string $string): string
     {
         self::$cache['utf8_encode'] ??= function_exists('utf8_encode');
-        return self::$cache['utf8_encode'] ? utf8_encode($string) : iconv('ISO-8859-1', 'UTF-8', $string);
+        return self::$cache['utf8_encode'] ? @utf8_encode($string) : iconv('ISO-8859-1', 'UTF-8', $string);
     }
 
     /**
@@ -149,7 +149,7 @@ class Functions extends CoreFunctions
     public static function utf8Decode(string $string): string
     {
         self::$cache['utf8_decode'] ??= function_exists('utf8_decode');
-        return self::$cache['utf8_decode'] ? utf8_decode($string) : iconv('UTF-8', 'ISO-8859-1', $string);
+        return self::$cache['utf8_decode'] ? @utf8_decode($string) : iconv('UTF-8', 'ISO-8859-1', $string);
     }
 }
 ?>
