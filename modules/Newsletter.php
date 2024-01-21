@@ -16,8 +16,8 @@ class Newsletter extends PublicModule
      *
      * @var array Mode and template counterparts
      */
-    private static array $modeTable = array('newsletter' => 'Newsletter',
-        'read' => 'NewsletterReadLetter');
+    private static array $modeTable = ['newsletter' => 'Newsletter',
+        'read' => 'NewsletterReadLetter'];
 
     /**
      * Archived newsletter.
@@ -64,10 +64,10 @@ class Newsletter extends PublicModule
             if(($key = array_search($this->newsletterID, array_map('current', $this->newsletter))) === false)
                 Template::getInstance()->printMessage('newsletter_not_found');
             if(!isset($this->newsletter[$key][4]) || empty($this->newsletter[$key][4]) || $this->newsletter[$key][4] == '1' || Auth::getInstance()->isAdmin() || ($this->newsletter[$key][4] == '2' && Auth::getInstance()->isMod()))
-                Template::getInstance()->assign(array('date' => Functions::formatDate($this->newsletter[$key][0]),
+                Template::getInstance()->assign(['date' => Functions::formatDate($this->newsletter[$key][0]),
                     'author' => Functions::getProfileLink($this->newsletter[$key][1], true),
                     'subject' => $this->newsletter[$key][2],
-                    'message' => $this->newsletter[$key][3]));
+                    'message' => $this->newsletter[$key][3]]);
             else
                 Template::getInstance()->printMessage('permission_denied');
             break;
@@ -93,10 +93,10 @@ class Newsletter extends PublicModule
             foreach(array_reverse($this->newsletter) as $curNewsletter)
                 //Check permissions
                 if(!isset($curNewsletter[4]) || empty($curNewsletter[4]) || $curNewsletter[4] == '1' || Auth::getInstance()->isAdmin() || ($curNewsletter[4] == '2' && Auth::getInstance()->isMod()))
-                    $newsletter[] = array('id' => $curNewsletter[0],
+                    $newsletter[] = ['id' => $curNewsletter[0],
                         'date' => Functions::formatDate($curNewsletter[0]),
                         'author' => Functions::getProfileLink($curNewsletter[1], true),
-                        'subject' => $curNewsletter[2]);
+                        'subject' => $curNewsletter[2]];
             Template::getInstance()->assign('newsletter', $newsletter);
             break;
         }

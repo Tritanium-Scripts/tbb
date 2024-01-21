@@ -23,10 +23,10 @@ class Forum extends PublicModule
      *
      * @var array Mode and template counterparts
      */
-    private static array $modeTable = array('' => 'ForumIndex',
+    private static array $modeTable = ['' => 'ForumIndex',
         'viewforum' => 'ViewForum',
         'viewthread' => 'ViewTopic',
-        'todaysPosts' => 'ViewTodaysPosts');
+        'todaysPosts' => 'ViewTodaysPosts'];
 
     /**
      * Page of queried topic.
@@ -47,7 +47,7 @@ class Forum extends PublicModule
      *
      * @var array Named keys sorted by layout of XBB files
      */
-    private static array $userKeys = array('userNick', 'userID', 'userPassHash', 'userEMail', 'userState', 'userPosts', 'userRegDate', 'userSig', 'userForumAcc', 'userHP', 'userAvatar', 'userUpdateState', 'userName', 'userICQ', 'userMailOpts', 'userGroup', 'userTimestamp', 'userSpecialState', 'userSteamName', 'userSteamGames');
+    private static array $userKeys = ['userNick', 'userID', 'userPassHash', 'userEMail', 'userState', 'userPosts', 'userRegDate', 'userSig', 'userForumAcc', 'userHP', 'userAvatar', 'userUpdateState', 'userName', 'userICQ', 'userMailOpts', 'userGroup', 'userTimestamp', 'userSpecialState', 'userSteamName', 'userSteamGames'];
 
     /**
      * Amount of named keys for user data.
@@ -93,8 +93,8 @@ class Forum extends PublicModule
             $newsConfig = Functions::explodeByTab(array_shift($news));
             foreach($news as &$curNews)
                 $curNews = BBCode::getInstance()->parse($curNews);
-            Template::getInstance()->assign(array('news' => time() < $newsConfig[1] || $newsConfig[1] == '-1' ? $news : false,
-                'newsType' => intval($newsConfig[0])));
+            Template::getInstance()->assign(['news' => time() < $newsConfig[1] || $newsConfig[1] == '-1' ? $news : false,
+                'newsType' => intval($newsConfig[0])]);
         }
         else
             Template::getInstance()->assign('news', false);
@@ -188,9 +188,9 @@ class Forum extends PublicModule
                     'lastPost' => sprintf(Language::getInstance()->getString('last_post_x_from_x'), Functions::formatDate($curLastPost[2]), Functions::getProfileLink($curLastPost[1], true)),
                     'topicPrefix' => $topicPrefixes[$curTopic[9]] ?? []]);
             }
-            Template::getInstance()->assign(array('pageBar' => $pageBar,
+            Template::getInstance()->assign(['pageBar' => $pageBar,
                 'topics' => $topics, //Prepared topics
-                'forumID' => $this->forumID));
+                'forumID' => $this->forumID]);
             break;
 
 //ViewTopic
@@ -215,7 +215,7 @@ class Forum extends PublicModule
             {
                 $topic[6]++;
                 //Not using array_unshift to avoid changes in $topicFile
-                Functions::file_put_contents('foren/' . $this->forumID . '-' . $this->topicID . '.xbb', implode("\n", array_merge(array(Functions::implodeByTab($topic)), $topicFile)) . "\n");
+                Functions::file_put_contents('foren/' . $this->forumID . '-' . $this->topicID . '.xbb', implode("\n", array_merge([Functions::implodeByTab($topic)], $topicFile)) . "\n");
                 $_SESSION['session.tview.' . $this->forumID . '.' . $this->topicID] = true;
             }
             Functions::releaseLock('tview-' . $this->forumID);
@@ -242,18 +242,18 @@ class Forum extends PublicModule
                 //Process each vote option
                 $pollOptions = [];
                 foreach(array_map(['Functions', 'explodeByTab'], $pollFile) as $curPoll)
-                    $pollOptions[] = array('optionID' => $curPoll[0],
+                    $pollOptions[] = ['optionID' => $curPoll[0],
                         'pollOption' => $curPoll[1],
                         'percent' => ($curPercent = $curPoll[2] == '0' ? 0 : round(($curPoll[2]/$poll[4])*100, 1)),
-                        'voteText' => sprintf(Language::getInstance()->getString('x_percent_x_votes'), $curPercent, $curPoll[2]));
-                Template::getInstance()->assign(array('pollID' => $topic[7],
+                        'voteText' => sprintf(Language::getInstance()->getString('x_percent_x_votes'), $curPercent, $curPoll[2])];
+                Template::getInstance()->assign(['pollID' => $topic[7],
                     'pollTitle' => $poll[3],
                     'isPollClosed' => $poll[0] > '2',
                     'hasVoted' => isset($_SESSION['session_poll_' . $topic[7]]) || isset($_COOKIE['cookie_poll_' . $topic[7]]) || (Auth::getInstance()->isLoggedIn() && in_array(Auth::getInstance()->getUserID(), $pollVoters)),
                     'needsLogin' => !(Auth::getInstance()->isLoggedIn() || $poll[0] == '1'),
                     'canEdit' => Auth::getInstance()->isAdmin() || $isMod || (Auth::getInstance()->isLoggedIn() && Auth::getInstance()->getUserID() == $poll[1]),
                     'pollOptions' => $pollOptions,
-                    'totalVotes' => $poll[4]));
+                    'totalVotes' => $poll[4]]);
             }
             //Process user and posts
             $end = $this->page*Config::getInstance()->getCfgVal('posts_per_page');
@@ -271,7 +271,7 @@ class Forum extends PublicModule
                 else
                 {
                     //User values
-                    $curPoster = array_combine(self::$userKeys, array_slice($curPoster, 0, $this->userKeysSize)) + array('sendPM' => true);
+                    $curPoster = array_combine(self::$userKeys, array_slice($curPoster, 0, $this->userKeysSize)) + ['sendPM' => true];
                     //Check user mail settings
                     if($curPoster['userMailOpts'][0] != '1' && $curPoster['userMailOpts'][1] != '1')
                         $curPoster['userEMail'] = false;
@@ -294,7 +294,7 @@ class Forum extends PublicModule
                     if(!empty($curPoster['userAvatar']))
                     {
                         $curPoster['userAvatar'] = Functions::addHTTP($curPoster['userAvatar']);
-                        list($curWidth, $curHeight) = array(Config::getInstance()->getCfgVal('avatar_width'), Config::getInstance()->getCfgVal('avatar_height'));
+                        list($curWidth, $curHeight) = [Config::getInstance()->getCfgVal('avatar_width'), Config::getInstance()->getCfgVal('avatar_height')];
                         if(Config::getInstance()->getCfgVal('use_getimagesize') == 1 && ($avatar = @getimagesize($curPoster['userAvatar'])) != false)
                         {
                             if($curWidth > $avatar[0])
@@ -315,15 +315,15 @@ class Forum extends PublicModule
                 //User values done, proceed with post
                 $curPost[3] = BBCode::getInstance()->parse($curPost[3], $curPost[9] == '1' && $forum[7][1] == '1', $curPost[7] == '1' || $curPost[7] == 'yes', $forum[7][0] == '1' && ($curPost[8] == '1' || $curPost[8] == 'yes'), $topicFile);
                 //Add prepared user data and post data
-                $posts[] = $curPoster + array('postID' => $curPost[0],
+                $posts[] = $curPoster + ['postID' => $curPost[0],
                     'tSmileyURL' => Functions::getTSmileyURL($curPost[6]),
                     'date' => Functions::formatDate($curPost[2]),
                     'postIPText' => !empty($curPost[4]) ? sprintf(Language::getInstance()->getString('ip_saved'), INDEXFILE . '?faction=viewip&amp;forum_id=' . $this->forumID . '&amp;topic_id=' . $this->topicID . '&amp;post_id=' . $curPost[0] . SID_AMPER) : Language::getInstance()->getString('ip_not_saved'),
                     'canModify' => Auth::getInstance()->isAdmin() || $isMod || (Auth::getInstance()->isLoggedIn() && Auth::getInstance()->getUserID() == $curPost[1] && (Functions::checkUserAccess($forum, 4) || Functions::getTimestamp(gmdate('YmdHis')) < Functions::getTimestamp($curPost[2])+intval(Config::getInstance()->getCfgVal('edit_time')))),
                     'post' => Functions::censor($curPost[3]),
-                    'lastEditBy' => isset($curPost[10]) && is_numeric($curPost[10]) ? Functions::getProfileLink($curPost[10], true) : '');
+                    'lastEditBy' => isset($curPost[10]) && is_numeric($curPost[10]) ? Functions::getProfileLink($curPost[10], true) : ''];
             }
-            Template::getInstance()->assign(array('page' => $this->page,
+            Template::getInstance()->assign(['page' => $this->page,
                 'pageBar' => $pageBar,
                 'topicTitle' => $topic[1],
                 'isPoll' => $isPoll,
@@ -333,7 +333,7 @@ class Forum extends PublicModule
                 'isOpen' => $topic[0] == '1' || $topic[0] == 'open',
                 'isSticky' => $canModify && ($stickyFile = @Functions::file('foren/' . $this->forumID . '-sticker.xbb', FILE_SKIP_EMPTY_LINES)) != false && in_array($this->topicID, $stickyFile),
                 'isSubscribed' => Auth::getInstance()->isLoggedIn() && ($topic[4] == '1' && Auth::getInstance()->getUserID() == $topic[2] || in_array(Auth::getInstance()->getUserID(), Functions::explodeByComma($topic[8]))),
-                'posts' => $posts)); //Prepared posts with users
+                'posts' => $posts]); //Prepared posts with users
             break;
 
 //ViewTodaysPosts
@@ -342,15 +342,15 @@ class Forum extends PublicModule
             NavBar::getInstance()->addElement(Language::getInstance()->getString('todays_posts'), INDEXFILE . '?faction=todaysPosts');
             $todaysPosts = [];
             if(($todaysPostsFile = Functions::file_get_contents('vars/todayposts.var')) != '' && current($todaysPostsFile = Functions::explodeByTab($todaysPostsFile)) == gmdate('Yd'))
-                foreach(array_map(array('Functions', 'explodeByComma'), explode('|', $todaysPostsFile[1])) as $curTodaysPost)
+                foreach(array_map(['Functions', 'explodeByComma'], explode('|', $todaysPostsFile[1])) as $curTodaysPost)
                     if(Functions::checkUserAccess($curForumData = Functions::getForumData($curTodaysPost[0]), 0))
                         #0:forumID - 1:topicID - 2:userID - 3:date - 4:tSmileyID[ - 5:postID]
-                        $todaysPosts[] = array('forumID' => $curTodaysPost[0],
+                        $todaysPosts[] = ['forumID' => $curTodaysPost[0],
                             'forumTitle' => $curForumData[1],
                             'topic' => !Functions::file_exists('foren/' . $curTodaysPost[0] . '-' . $curTodaysPost[1] . '.xbb') ? Language::getInstance()->getString('deleted_moved') : '<a href="' . INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curTodaysPost[0] . '&amp;thread=' . $curTodaysPost[1] . '&amp;z=last#post' . @$curTodaysPost[5] . SID_AMPER . '">' . (Functions::censor(Functions::getTopicName($curTodaysPost[0], $curTodaysPost[1]))) . '</a>',
                             'author' => Functions::getProfileLink($curTodaysPost[2], true),
                             'date' => Functions::formatDate($curTodaysPost[3]),
-                            'tSmiley' => Functions::getTSmileyURL($curTodaysPost[4]));
+                            'tSmiley' => Functions::getTSmileyURL($curTodaysPost[4])];
             Template::getInstance()->assign('todaysPosts', array_reverse($todaysPosts));
             break;
 
@@ -405,30 +405,30 @@ class Forum extends PublicModule
                             if($curPost[2] == $curNewestPost[3])
                             {
                                 //Topic and post found
-                                $curTopic = array('title' => Functions::censor(@next(Functions::explodeByTab($curTopic[0]))),
+                                $curTopic = ['title' => Functions::censor(@next(Functions::explodeByTab($curTopic[0]))),
                                     'post' => htmlspecialchars(BBCode::getInstance()->parse($curPost[3])),
                                     'count' => count($curTopic)-2,
                                     'page' => ceil(($curKey+1) / Config::getInstance()->getCfgVal('posts_per_page')),
-                                    'postID' => $curPost[0]);
+                                    'postID' => $curPost[0]];
                                 $curNewestPostDeleted = false;
                                 break;
                             }
                         }
                         if($curNewestPostDeleted)
                             //Topic found, but post was deleted
-                            $curTopic = array('title' => Functions::censor(@next(Functions::explodeByTab($curTopic[0]))),
+                            $curTopic = ['title' => Functions::censor(@next(Functions::explodeByTab($curTopic[0]))),
                                 'post' => Language::getInstance()->getString('deleted'),
                                 'count' => count($curTopic)-2,
                                 'page' => 1,
-                                'postID' => 1);
+                                'postID' => 1];
                     }
                     else
                         //Topic not found, post therefore also deleted
-                        $curTopic = array('title' => Language::getInstance()->getString('deleted'),
+                        $curTopic = ['title' => Language::getInstance()->getString('deleted'),
                             'post' => Language::getInstance()->getString('deleted'),
                             'count' => 0,
                             'page' => 1,
-                            'postID' => 1);
+                            'postID' => 1];
                     echo('  <item>
    <title>' . $curTopic['title'] . '</title>
    <link>' . Config::getInstance()->getCfgVal('address_to_forum') . '/' . INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curNewestPost[0] . '&amp;thread=' . $curNewestPost[1] . '&amp;z=' . $curTopic['page'] . '#post' . $curTopic['postID'] . '</link>
@@ -452,11 +452,8 @@ class Forum extends PublicModule
 
             case 'markAll':
             //Prepare cookie data to set for each forum
-            $cookieData = array(time(), time()+60*60*24*365, Config::getInstance()->getCfgVal('path_to_forum'));
-            foreach(array_map(function($curForum)
-            {
-                return current(Functions::explodeByTab($curForum));
-            }, Functions::file('vars/foren.var')) as $curForumID)
+            $cookieData = [time(), time()+60*60*24*365, Config::getInstance()->getCfgVal('path_to_forum')];
+            foreach(array_map(fn($curForum) => current(Functions::explodeByTab($curForum)), Functions::file('vars/foren.var')) as $curForumID)
                 setcookie('forum_' . $curForumID, $cookieData[0], $cookieData[1], $cookieData[2]);
             //Simple, wasn't it?
             header('Location: ' . INDEXFILE . SID_QMARK);
@@ -500,16 +497,16 @@ class Forum extends PublicModule
                     else
                     {
                         //Query template for formatting current last posting
-                        $curLastPost = Template::getInstance()->fetch('LastPost', array('tSmileyURL' => Functions::getTSmileyURL($curLastPostData[3]),
+                        $curLastPost = Template::getInstance()->fetch('LastPost', ['tSmileyURL' => Functions::getTSmileyURL($curLastPostData[3]),
                             'forumID' => $curForum[0],
                             'topicID' => $curLastPostData[0],
                             'topicTitle' => Functions::censor(@next(Functions::explodeByTab(current(Functions::file($curTopicFile))))),
                             //Prepare user of current last posting
                             'user' => Functions::getProfileLink($curLastPostData[1], true),
-                            'date' => Functions::formatDate($curLastPostData[2])));
+                            'date' => Functions::formatDate($curLastPostData[2])]);
                     }
                     //Compile (into) array with all the data for template
-                    $forums[] = array('forumID' => $curForum[0],
+                    $forums[] = ['forumID' => $curForum[0],
                         'forumTitle' => $curForum[1],
                         'forumDescr' => $curForum[2],
                         'forumTopics' => $curForum[3],
@@ -518,7 +515,7 @@ class Forum extends PublicModule
                         //Cookie check to detect new posts in current forum since last visit
                         'isNewPost' => !isset($_COOKIE['forum_' . $curForum[0]]) || $_COOKIE['forum_' . $curForum[0]] < $curForum[6],
                         'lastPost' => $curLastPost,
-                        'mods' => Functions::getProfileLink($curForum[11]));
+                        'mods' => Functions::getProfileLink($curForum[11])];
                     $topicCounter += $curForum[3];
                     $postCounter += $curForum[4];
                     //Update processed cats LUT
@@ -544,15 +541,15 @@ class Forum extends PublicModule
                         Functions::formatDate($curNewestPost[3]));
                 }
             }
-            Template::getInstance()->assign(array('cats' => $cats,
+            Template::getInstance()->assign(['cats' => $cats,
                 'forums' => $forums,
                 'topicCounter' => $topicCounter,
                 'postCounter' => $postCounter,
-                'newestPosts' => $newestPosts) +
+                'newestPosts' => $newestPosts] +
                 //Add board statistics
-                (Config::getInstance()->getCfgVal('show_board_stats') == 1 ? array(
+                (Config::getInstance()->getCfgVal('show_board_stats') == 1 ? [
                 'newestMember' => Functions::getProfileLink(Functions::file_get_contents('vars/last_user_id.var'), true),
-                'memberCounter' => Functions::file_get_contents('vars/member_counter.var')) : []));
+                'memberCounter' => Functions::file_get_contents('vars/member_counter.var')] : []));
             break;
         }
         //Always append IDs to WIO location. WIO will not parse them in inapplicable mode.
@@ -567,7 +564,7 @@ class Forum extends PublicModule
      */
     private function getGuestTemplate(string $nick): array
     {
-        return array_combine(self::$userKeys, array_merge(array($nick, 0, '', false, Language::getInstance()->getString('guest')), array_fill(0, $this->userKeysSize-5, ''))) + array('userRank' => '', 'sendPM' => false);
+        return array_combine(self::$userKeys, array_merge([$nick, 0, '', false, Language::getInstance()->getString('guest')], array_fill(0, $this->userKeysSize-5, ''))) + ['userRank' => '', 'sendPM' => false];
     }
 
     /**
@@ -578,7 +575,7 @@ class Forum extends PublicModule
      */
     private function getKilledTemplate(int $userID): array
     {
-        return array_combine(self::$userKeys, array_merge(array(Config::getInstance()->getCfgVal('var_killed'), $userID, '', false, Language::getInstance()->getString('deleted')), array_fill(0, $this->userKeysSize-5, ''))) + array('userRank' => '', 'sendPM' => false);
+        return array_combine(self::$userKeys, array_merge([Config::getInstance()->getCfgVal('var_killed'), $userID, '', false, Language::getInstance()->getString('deleted')], array_fill(0, $this->userKeysSize-5, ''))) + ['userRank' => '', 'sendPM' => false];
     }
 
     /**
@@ -599,14 +596,14 @@ class Forum extends PublicModule
                 $pageKey = array_search($this->page, $pageBar);
                 $pageBar = array_merge(
                     //Left part from current page
-                    $this->page > 1 ? array_merge(array(Functions::str_replace('>1<', '>&laquo;<', $pageBar[0])), $pageKey < $this->shortenPageBar ? array_slice($pageBar, 0, $pageKey) : array_slice($pageBar, $pageKey-$this->shortenPageBar, $this->shortenPageBar)) : [],
+                    $this->page > 1 ? array_merge([Functions::str_replace('>1<', '>&laquo;<', $pageBar[0])], $pageKey < $this->shortenPageBar ? array_slice($pageBar, 0, $pageKey) : array_slice($pageBar, $pageKey-$this->shortenPageBar, $this->shortenPageBar)) : [],
                     //The current page
-                    array($this->page),
+                    [$this->page],
                     //Right part from current page
-                    $this->page < $pages ? array_merge(array_slice($pageBar, $pageKey+1, $this->shortenPageBar), array(Functions::str_replace('>' . $pages . '<', '>&raquo;<', end($pageBar)))) : []);
+                    $this->page < $pages ? array_merge(array_slice($pageBar, $pageKey+1, $this->shortenPageBar), [Functions::str_replace('>' . $pages . '<', '>&raquo;<', end($pageBar))]) : []);
             }
             else
-                array_splice($pageBar, $this->shortenPageBar, -$this->shortenPageBar, array(Language::getInstance()->getString('dots')));
+                array_splice($pageBar, $this->shortenPageBar, -$this->shortenPageBar, [Language::getInstance()->getString('dots')]);
         }
         return $pageBar;
     }

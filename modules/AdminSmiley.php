@@ -16,7 +16,7 @@ class AdminSmiley extends PublicModule
      *
      * @var array Mode and template counterparts
      */
-    private static array $modeTable = array('ad_smilies' => 'AdminSmiley',
+    private static array $modeTable = ['ad_smilies' => 'AdminSmiley',
         //New Smilies
         'new' => 'AdminSmileyNewSmiley',
         'newt' => 'AdminSmileyNewSmiley',
@@ -24,7 +24,7 @@ class AdminSmiley extends PublicModule
         //Edit smilies
         'edit' => 'AdminSmileyEditSmiley',
         'editt' => 'AdminSmileyEditSmiley',
-        'edita' => 'AdminSmileyEditSmiley');
+        'edita' => 'AdminSmileyEditSmiley'];
 
     /**
      * ID of current smiley.
@@ -169,9 +169,9 @@ class AdminSmiley extends PublicModule
                     $newSynonym = '##mod_ad_sm::';
                 break;
             }
-            Template::getInstance()->assign(array('newAddress' => $newAddress,
+            Template::getInstance()->assign(['newAddress' => $newAddress,
                 'newSynonym' => $newSynonym,
-                'smileyType' => $this->smileyType));
+                'smileyType' => $this->smileyType]);
             break;
 
 //AdminSmileyEditSmiley
@@ -261,10 +261,10 @@ class AdminSmiley extends PublicModule
                 }
                 break;
             }
-            Template::getInstance()->assign(array('smileyID' => $this->smileyID,
+            Template::getInstance()->assign(['smileyID' => $this->smileyID,
                 'editAddress' => $editAddress,
                 'editSynonym' => $editSynonym,
-                'smileyType' => $this->smileyType));
+                'smileyType' => $this->smileyType]);
             break;
 
             case 'kill':
@@ -321,7 +321,7 @@ class AdminSmiley extends PublicModule
                     Template::getInstance()->printMessage('smiley_not_found');
                 if($key != 0)
                 {
-                    list($this->smilies[$key], $this->smilies[$key-1]) = array($this->smilies[$key-1], $this->smilies[$key]);
+                    list($this->smilies[$key], $this->smilies[$key-1]) = [$this->smilies[$key-1], $this->smilies[$key]];
                     Functions::file_put_contents('vars/smilies.var', implode("\n", array_map(['Functions', 'implodeByTab'], $this->smilies)) . "\n");
                     if(file_exists('cache/BBCode.cache.php'))
                         Functions::unlink('cache/BBCode.cache.php', false);
@@ -333,7 +333,7 @@ class AdminSmiley extends PublicModule
                     Template::getInstance()->printMessage('smiley_not_found');
                 if($key != 0)
                 {
-                    list($this->tSmilies[$key], $this->tSmilies[$key-1]) = array($this->tSmilies[$key-1], $this->tSmilies[$key]);
+                    list($this->tSmilies[$key], $this->tSmilies[$key-1]) = [$this->tSmilies[$key-1], $this->tSmilies[$key]];
                     Functions::file_put_contents('vars/tsmilies.var', implode("\n", array_map(['Functions', 'implodeByTab'], $this->tSmilies)) . "\n");
                 }
                 break;
@@ -343,7 +343,7 @@ class AdminSmiley extends PublicModule
                     Template::getInstance()->printMessage('smiley_not_found');
                 if($key != 0)
                 {
-                    list($this->aSmilies[$key], $this->aSmilies[$key-1]) = array($this->aSmilies[$key-1], $this->aSmilies[$key]);
+                    list($this->aSmilies[$key], $this->aSmilies[$key-1]) = [$this->aSmilies[$key-1], $this->aSmilies[$key]];
                     Functions::file_put_contents('vars/adminsmilies.var', implode("\n", array_map(['Functions', 'implodeByTab'], $this->aSmilies)) . "\n");
                     if(file_exists('cache/BBCode.cache.php'))
                         Functions::unlink('cache/BBCode.cache.php', false);
@@ -364,7 +364,7 @@ class AdminSmiley extends PublicModule
                     Template::getInstance()->printMessage('smiley_not_found');
                 if($key != count($this->smilies)-1)
                 {
-                    list($this->smilies[$key], $this->smilies[$key+1]) = array($this->smilies[$key+1], $this->smilies[$key]);
+                    list($this->smilies[$key], $this->smilies[$key+1]) = [$this->smilies[$key+1], $this->smilies[$key]];
                     Functions::file_put_contents('vars/smilies.var', implode("\n", array_map(['Functions', 'implodeByTab'], $this->smilies)) . "\n");
                     if(file_exists('cache/BBCode.cache.php'))
                         Functions::unlink('cache/BBCode.cache.php', false);
@@ -376,7 +376,7 @@ class AdminSmiley extends PublicModule
                     Template::getInstance()->printMessage('smiley_not_found');
                 if($key != count($this->tSmilies)-1)
                 {
-                    list($this->tSmilies[$key], $this->tSmilies[$key+1]) = array($this->tSmilies[$key+1], $this->tSmilies[$key]);
+                    list($this->tSmilies[$key], $this->tSmilies[$key+1]) = [$this->tSmilies[$key+1], $this->tSmilies[$key]];
                     Functions::file_put_contents('vars/tsmilies.var', implode("\n", array_map(['Functions', 'implodeByTab'], $this->tSmilies)) . "\n");
                 }
                 break;
@@ -386,7 +386,7 @@ class AdminSmiley extends PublicModule
                     Template::getInstance()->printMessage('smiley_not_found');
                 if($key != count($this->aSmilies)-1)
                 {
-                    list($this->aSmilies[$key], $this->aSmilies[$key+1]) = array($this->aSmilies[$key+1], $this->aSmilies[$key]);
+                    list($this->aSmilies[$key], $this->aSmilies[$key+1]) = [$this->aSmilies[$key+1], $this->aSmilies[$key]];
                     Functions::file_put_contents('vars/adminsmilies.var', implode("\n", array_map(['Functions', 'implodeByTab'], $this->aSmilies)) . "\n");
                     if(file_exists('cache/BBCode.cache.php'))
                         Functions::unlink('cache/BBCode.cache.php', false);
@@ -399,12 +399,12 @@ class AdminSmiley extends PublicModule
 
 //AdminSmiley
             default:
-            Template::getInstance()->assign(array('smilies' => $this->smilies,
+            Template::getInstance()->assign(['smilies' => $this->smilies,
                 'tSmilies' => $this->tSmilies,
-                'aSmilies' => $this->aSmilies));
+                'aSmilies' => $this->aSmilies]);
             break;
         }
-        Template::getInstance()->printPage(self::$modeTable[$this->mode], array('errors' => $this->errors));
+        Template::getInstance()->printPage(self::$modeTable[$this->mode], ['errors' => $this->errors]);
     }
 }
 ?>

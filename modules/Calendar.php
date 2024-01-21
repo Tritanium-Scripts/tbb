@@ -147,10 +147,10 @@ class Calendar extends PublicModule
         $curDay = 1;
         while(count($calendar[$lastWeek]) < 7)
             $calendar[$lastWeek][$curDay++] = false;
-        Template::getInstance()->printPage('Calendar', array('year' => $this->year,
+        Template::getInstance()->printPage('Calendar', ['year' => $this->year,
             'month' => $this->month,
             'date' => $date,
-            'calendar' => $calendar));
+            'calendar' => $calendar]);
     }
 }
 ?>

@@ -16,13 +16,13 @@ class Profile extends PublicModule
      *
      * @var array Mode and template counterparts
      */
-    private static array $modeTable = array('' => 'ViewProfile',
+    private static array $modeTable = ['' => 'ViewProfile',
         'profile' => 'ViewProfile',
         'edit' => 'EditProfile',
         'formmail' => 'SendMail',
         'vCard' => 'vCard',
         'EditProfileConfirmDelete' => 'EditProfileConfirmDelete',
-        'viewAchievements' => 'ViewAchievements');
+        'viewAchievements' => 'ViewAchievements'];
 
     /**
      * Contains the requested user data to display or edit.
@@ -233,7 +233,7 @@ class Profile extends PublicModule
                     include($cacheFile);
                 elseif(!$this->refreshSteamGames($cacheFile))
                 {
-                    $this->userData[18] = array('profileID' => $this->userData[18]);
+                    $this->userData[18] = ['profileID' => $this->userData[18]];
                     $this->errors[] = Language::getInstance()->getString('loading_steam_games_failed');
                 }
                 //Add selected state
@@ -242,7 +242,7 @@ class Profile extends PublicModule
                 $this->userData[19] = &$this->steamGames;
             }
             else
-                $this->userData[18] = array('profileID' => '');
+                $this->userData[18] = ['profileID' => ''];
             //Provide selectable templates and styles, if allowed
             if(Config::getInstance()->getCfgVal('select_tpls') == 1 || Config::getInstance()->getCfgVal('select_styles') == 1)
                 Template::getInstance()->assign('templates', Template::getInstance()->getAvailableTpls());
@@ -250,9 +250,9 @@ class Profile extends PublicModule
 
 //SendMail
             case 'formmail':
-            NavBar::getInstance()->addElement(array(
-                array(sprintf(Language::getInstance()->getString('view_profile_from_x'), $this->userData[0]), INDEXFILE . '?faction=profile&amp;profile_id=' . $this->userData[1] . SID_AMPER),
-                array(Language::getInstance()->getString('send_mail'), INDEXFILE . '?faction=formmail&amp;target_id=' . $this->userData[1] . SID_AMPER)));
+            NavBar::getInstance()->addElement([
+                [sprintf(Language::getInstance()->getString('view_profile_from_x'), $this->userData[0]), INDEXFILE . '?faction=profile&amp;profile_id=' . $this->userData[1] . SID_AMPER],
+                [Language::getInstance()->getString('send_mail'), INDEXFILE . '?faction=formmail&amp;target_id=' . $this->userData[1] . SID_AMPER]]);
             if(Config::getInstance()->getCfgVal('activate_mail') != 1)
                 Template::getInstance()->printMessage('function_deactivated');
             elseif(!Auth::getInstance()->isLoggedIn() && Config::getInstance()->getCfgVal('formmail_mbli') == 1)
@@ -286,13 +286,13 @@ class Profile extends PublicModule
                     Template::getInstance()->printMessage(Functions::sendMessage($this->userData[3], 'mail_from_user', $this->userData[0], $senderName, $senderMail, $subject, $message, Config::getInstance()->getCfgVal('address_to_forum') . '/' . INDEXFILE . '?faction=login') ? 'mail_sent' : 'sending_mail_failed');
             }
             //Recipient data (assigned automatically via reusing $this->userData)
-            $this->userData = array_slice($this->userData, 0, 2) + array('recipientName' => &$this->userData[0],
-                'recipientID' => &$this->userData[1]);
+            $this->userData = array_slice($this->userData, 0, 2) + ['recipientName' => &$this->userData[0],
+                'recipientID' => &$this->userData[1]];
             //Sender data
-            Template::getInstance()->assign(array('senderName' => $senderName,
+            Template::getInstance()->assign(['senderName' => $senderName,
                 'senderMail' => $senderMail,
                 'subject' => $subject,
-                'message' => $message));
+                'message' => $message]);
             break;
 
 //vCard
@@ -308,9 +308,9 @@ class Profile extends PublicModule
 
 //ViewAchievements
             case 'viewAchievements':
-            NavBar::getInstance()->addElement(array(
-                array(sprintf(Language::getInstance()->getString('view_profile_from_x'), $this->userData[0]), INDEXFILE . '?faction=profile&amp;profile_id=' . $this->userData[1] . SID_AMPER),
-                array(Language::getInstance()->getString('steam_achievements'), INDEXFILE . '?faction=profile&amp;profile_id=' . $this->userData[1] . '&amp;mode=viewAchievements&amp;game=' . ($game = Functions::getValueFromGlobals('game')) . SID_AMPER)));
+            NavBar::getInstance()->addElement([
+                [sprintf(Language::getInstance()->getString('view_profile_from_x'), $this->userData[0]), INDEXFILE . '?faction=profile&amp;profile_id=' . $this->userData[1] . SID_AMPER],
+                [Language::getInstance()->getString('steam_achievements'), INDEXFILE . '?faction=profile&amp;profile_id=' . $this->userData[1] . '&amp;mode=viewAchievements&amp;game=' . ($game = Functions::getValueFromGlobals('game')) . SID_AMPER]]);
             if(Config::getInstance()->getCfgVal('achievements') != 1)
                 Template::getInstance()->printMessage('function_deactivated');
             elseif(empty($this->userData[18]))
@@ -334,15 +334,15 @@ class Profile extends PublicModule
                 //Get achievements, sorted by open/close state
                 foreach(($achievements = $dom->getElementsByTagName('achievement')) as $curAchievement)
                     if($curAchievement->attributes->getNamedItem('closed')->nodeValue == '1')
-                        $achievementsClosed[] = array('icon' => $curAchievement->getElementsByTagName('iconClosed')->item(0)->nodeValue,
+                        $achievementsClosed[] = ['icon' => $curAchievement->getElementsByTagName('iconClosed')->item(0)->nodeValue,
                             'name' => htmlspecialchars($curAchievement->getElementsByTagName('name')->item(0)->nodeValue),
                             'description' => htmlspecialchars($curAchievement->getElementsByTagName('description')->item(0)->nodeValue),
-                            'unlocked' => $curAchievement->getElementsByTagName('unlockTimestamp')->length == 1 ? Functions::utf8Encode(strftime(Language::getInstance()->getString('DATEFORMAT'), $curAchievement->getElementsByTagName('unlockTimestamp')->item(0)->nodeValue)) : '');
+                            'unlocked' => $curAchievement->getElementsByTagName('unlockTimestamp')->length == 1 ? Functions::utf8Encode(strftime(Language::getInstance()->getString('DATEFORMAT'), $curAchievement->getElementsByTagName('unlockTimestamp')->item(0)->nodeValue)) : ''];
                     else
-                        $achievementsOpen[] = array('icon' => $curAchievement->getElementsByTagName('iconOpen')->item(0)->nodeValue,
+                        $achievementsOpen[] = ['icon' => $curAchievement->getElementsByTagName('iconOpen')->item(0)->nodeValue,
                             'name' => htmlspecialchars($curAchievement->getElementsByTagName('name')->item(0)->nodeValue),
-                            'description' => htmlspecialchars($curAchievement->getElementsByTagName('description')->item(0)->nodeValue));
-                Template::getInstance()->assign($achievements = array('name' => $dom->getElementsByTagName('gameName')->item(0)->nodeValue,
+                            'description' => htmlspecialchars($curAchievement->getElementsByTagName('description')->item(0)->nodeValue)];
+                Template::getInstance()->assign($achievements = ['name' => $dom->getElementsByTagName('gameName')->item(0)->nodeValue,
                     'logo' => $dom->getElementsByTagName('gameLogo')->item(0)->nodeValue,
                     'icon' => $dom->getElementsByTagName('gameIcon')->item(0)->nodeValue,
                     'numTotal' => $achievements->length,
@@ -351,7 +351,7 @@ class Profile extends PublicModule
                     //Calculate progess
                     'percentClosed' => $achievements->length != '0' ? ($done / $achievements->length)*100 : 0,
                     'achievementsClosed' => $achievementsClosed,
-                    'achievementsOpen' => $achievementsOpen));
+                    'achievementsOpen' => $achievementsOpen]);
                 //Cache entire template assign code
                 Functions::file_put_contents($cacheFile, '<?php Template::getInstance()->assign(unserialize(\'' . Functions::str_replace("'", "\'", serialize($achievements)) . '\')); ?>', LOCK_EX, false, false);
             }
@@ -384,7 +384,7 @@ class Profile extends PublicModule
             if(!empty($this->userData[10]))
             {
                 $this->userData[10] = Functions::addHTTP($this->userData[10]);
-                list($this->userData['avatarWidth'], $this->userData['avatarHeight']) = array(Config::getInstance()->getCfgVal('avatar_width'), Config::getInstance()->getCfgVal('avatar_height'));
+                list($this->userData['avatarWidth'], $this->userData['avatarHeight']) = [Config::getInstance()->getCfgVal('avatar_width'), Config::getInstance()->getCfgVal('avatar_height')];
                 if(Config::getInstance()->getCfgVal('use_getimagesize') == 1 && ($avatar = @getimagesize($this->userData[10])) != false)
                 {
                     if($this->userData['avatarWidth'] > $avatar[0])
@@ -409,15 +409,15 @@ class Profile extends PublicModule
                 else
                     $this->refreshSteamGames($cacheFile);
                 //Filter out not selected games
-                $this->userData[19] = array_filter($this->steamGames, array($this, 'isSteamGameSelected'));
+                $this->userData[19] = array_filter($this->steamGames, [$this, 'isSteamGameSelected']);
             }
             else
                 $this->userData[18] = $this->userData[19] = '';
             break;
         }
         //Append profile ID for WIO location
-        Template::getInstance()->printPage(Functions::handleMode($this->mode, self::$modeTable, __CLASS__), array('userData' => $this->userData,
-            'errors' => $this->errors), null, ',' . $this->userData[1]);
+        Template::getInstance()->printPage(Functions::handleMode($this->mode, self::$modeTable, __CLASS__), ['userData' => $this->userData,
+            'errors' => $this->errors], null, ',' . $this->userData[1]);
     }
 
     /**
@@ -437,8 +437,8 @@ class Profile extends PublicModule
             return false;
         else
         {
-            $this->userData[18] = array('profileID' => $this->userData[18],
-                'profileName' => $dom->getElementsByTagName('steamID')->item(0)->nodeValue);
+            $this->userData[18] = ['profileID' => $this->userData[18],
+                'profileName' => $dom->getElementsByTagName('steamID')->item(0)->nodeValue];
             $this->steamGames = [];
             //Extract all Steam games from user
             foreach($dom->getElementsByTagName('game') as $curSteamGame)
@@ -447,15 +447,12 @@ class Profile extends PublicModule
                 //Only consider games with stats
                 if($curStatLink->length == 0)
                     continue;
-                $this->steamGames[] = array(basename($curStatLink->item(0)->nodeValue), //Internal game name
+                $this->steamGames[] = [basename($curStatLink->item(0)->nodeValue), //Internal game name
                     $curSteamGame->getElementsByTagName('logo')->item(0)->nodeValue, //Game logo
-                    Functions::str_replace("'", '&#039;', $curSteamGame->getElementsByTagName('name')->item(0)->nodeValue)); //Full game name
+                    Functions::str_replace("'", '&#039;', $curSteamGame->getElementsByTagName('name')->item(0)->nodeValue)]; //Full game name
             }
             //Sort by display game name
-            usort($this->steamGames, function($game1, $game2)
-            {
-                return strcmp($game1[2], $game2[2]);
-            });
+            usort($this->steamGames, fn($game1, $game2) => strcmp($game1[2], $game2[2]));
             //Cache game data
             Functions::file_put_contents($cacheFile, '<?php $this->userData[18] = unserialize(\'' . serialize($this->userData[18]) . '\'); $this->steamGames = unserialize(\'' . serialize($this->steamGames) . '\'); ?>', LOCK_EX, false, false);
         }

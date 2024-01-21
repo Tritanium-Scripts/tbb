@@ -23,7 +23,7 @@ class MemberList extends PublicModule
      *
      * @var array States inferior to s-mod state
      */
-    private static array $lowerThanSMod = array('2', '3', '4', '5');
+    private static array $lowerThanSMod = ['2', '3', '4', '5'];
 
     /**
      * Ascending or descending order.
@@ -136,22 +136,22 @@ class MemberList extends PublicModule
         {
             $optNull = array_fill(0, $size, null);
             $optFalse = array_fill(0, $size, false);
-            $availMembers = array_map(array('Functions', 'file'), $availMembers, $optNull, $optNull, $optFalse);
+            $availMembers = array_map(['Functions', 'file'], $availMembers, $optNull, $optNull, $optFalse);
             //Sorting
             switch($this->sortMethod)
             {
                 case 'name':
-                usort($availMembers, array($this, 'cmpByName'));
+                usort($availMembers, [$this, 'cmpByName']);
                 $orderTypeName = !$this->orderType;
                 break;
 
                 case 'posts':
-                usort($availMembers, array($this, 'cmpByPost'));
+                usort($availMembers, [$this, 'cmpByPost']);
                 $orderTypePosts = !$this->orderType;
                 break;
 
                 case 'status':
-                usort($availMembers, array($this, 'cmpByState'));
+                usort($availMembers, [$this, 'cmpByState']);
                 $orderTypeRank = !$this->orderType;
                 break;
             }
@@ -166,19 +166,19 @@ class MemberList extends PublicModule
         foreach($memberFiles as &$curMember)
         {
             $curMember[14] = Functions::explodeByComma($curMember[14]);
-            $members[] = array('id' => $curMember[1],
+            $members[] = ['id' => $curMember[1],
                 'nick' => Functions::getProfileLink($curMember[1]),
                 'rank' => !empty($curMember[17]) ? $curMember[17] : Functions::getStateName($curMember[4], $curMember[5]),
                 'posts' => $curMember[5],
-                'eMail' => $curMember[14][0] != '1' && $curMember[14][1] != '1' ? false : ($curMember[14][0] != '1' && $curMember[14][1] == '1' ? $curMember[3] : true));
+                'eMail' => $curMember[14][0] != '1' && $curMember[14][1] != '1' ? false : ($curMember[14][0] != '1' && $curMember[14][1] == '1' ? $curMember[3] : true)];
         }
-        Template::getInstance()->printPage('MemberList', array('orderTypeID' => $orderTypeID,
+        Template::getInstance()->printPage('MemberList', ['orderTypeID' => $orderTypeID,
             'orderTypeName' => $orderTypeName,
             'orderTypeRank' => $orderTypeRank,
             'orderTypePosts' => $orderTypePosts,
             'page' => $this->page,
             'pageBar' => $pageBar,
-            'members' => $members)); //Prepared members
+            'members' => $members]); //Prepared members
     }
 
     /**

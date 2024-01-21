@@ -16,10 +16,10 @@ class AdminUser extends PublicModule
      *
      * @var array Mode and template counterparts
      */
-    private static array $modeTable = array('ad_user' => 'AdminUser',
+    private static array $modeTable = ['ad_user' => 'AdminUser',
         'search' => 'AdminUser',
         'new' => 'AdminUserNewUser',
-        'edit' => 'AdminUserEditUser');
+        'edit' => 'AdminUserEditUser'];
 
     /**
      * Sets mode and provides needed lang strings.
@@ -100,7 +100,7 @@ class AdminUser extends PublicModule
                         Functions::file_put_contents('vars/groups.var', implode("\n", array_map(['Functions', 'implodeByTab'], $groups)) . "\n");
                     }
                     //Build member file
-                    $newUserFile = array($newUser['nick'],
+                    $newUserFile = [$newUser['nick'],
                         $newUserID,
                         $newUser['pw1'],
                         $newUser['email'],
@@ -122,7 +122,7 @@ class AdminUser extends PublicModule
                         '',
                         '',
                         '',
-                        '');
+                        ''];
                     //Writing time
                     Functions::file_put_contents('members/' . $newUserID . '.xbb', implode("\n", $newUserFile));
                     Functions::file_put_contents('members/' . $newUserID . '.pm', '');
@@ -138,12 +138,12 @@ class AdminUser extends PublicModule
                 }
             }
             else
-                $newUser = array('nick' => '',
+                $newUser = ['nick' => '',
                     'email' => '',
                     'group' => '',
-                    'send_reg' => true);
-            Template::getInstance()->assign(array('newUser' => $newUser,
-                'groups' => $groups));
+                    'send_reg' => true];
+            Template::getInstance()->assign(['newUser' => $newUser,
+                'groups' => $groups]);
             break;
 
 //AdminUserEditUser
@@ -243,10 +243,10 @@ class AdminUser extends PublicModule
                     {
                         case 'id':
                         if(($userFile = Functions::getUserData($searchFor)) !== false)
-                            $results[] = array('id' => $userFile[1],
+                            $results[] = ['id' => $userFile[1],
                                 'nick' => $userFile[0],
                                 'mail' => $userFile[3],
-                                'percent' => 100);
+                                'percent' => 100];
                         break;
 
                         case 'nick':
@@ -257,23 +257,23 @@ class AdminUser extends PublicModule
                             $curMember = Functions::file($curMember, null, null, false);
                             similar_text(Functions::strtolower($curMember[$index]), $searchFor, $curPercent); //Calculate percentage of similarity
                             if($curPercent > 0) //Add to result list by having a minimum of similarity
-                                $results[] = array('id' => $curMember[1],
+                                $results[] = ['id' => $curMember[1],
                                 'nick' => $curMember[0],
                                 'mail' => $curMember[3],
-                                'percent' => $curPercent);
+                                'percent' => $curPercent];
                         }
                         break;
                     }
                     if(count($results) > 1)
-                        usort($results, array($this, 'cmpByPercent'));
+                        usort($results, [$this, 'cmpByPercent']);
                 }
             }
-            Template::getInstance()->assign(array('results' => $results,
+            Template::getInstance()->assign(['results' => $results,
                 'searchMethod' => $searchMethod,
-                'searchFor' => $searchFor));
+                'searchFor' => $searchFor]);
             break;
         }
-        Template::getInstance()->printPage(self::$modeTable[$this->mode], array('errors' => $this->errors));
+        Template::getInstance()->printPage(self::$modeTable[$this->mode], ['errors' => $this->errors]);
     }
 }
 ?>

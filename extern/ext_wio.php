@@ -27,15 +27,15 @@ class ExtWIOBox
 	/**
 	 * Used language strings for output; you can translate them.
 	 */
-	 private static string $in_last_min_were_active_colon = 'In den letzten Minuten waren im Forum aktiv:';
-	 private static string $no_members = 'Keine Mitglieder';
-	 private static string $members_colon = 'Mitglieder:';
-	 private static string $no_guests = 'Keine Gäste';
-	 private static string $one_guest = 'Ein Gast';
-	 private static string $x_guests = '%d Gäste';
-	 private static string $no_ghosts = 'Keine Geister';
-	 private static string $one_ghost = 'Ein Geist';
-	 private static string $x_ghosts = '%d Geister';
+    private static string $in_last_min_were_active_colon = 'In den letzten Minuten waren im Forum aktiv:';
+	private static string $no_members = 'Keine Mitglieder';
+	private static string $members_colon = 'Mitglieder:';
+	private static string $no_guests = 'Keine Gäste';
+	private static string $one_guest = 'Ein Gast';
+	private static string $x_guests = '%d Gäste';
+	private static string $no_ghosts = 'Keine Geister';
+	private static string $one_ghost = 'Ein Geist';
+	private static string $x_ghosts = '%d Geister';
 
 
 /* Do not change anything beyond this line */

@@ -28,14 +28,14 @@ class PrivateMessage extends PublicModule
      *
      * @var array Mode and template counterparts
      */
-    private static array $modeTable = array('' => 'PrivateMessageIndex',
+    private static array $modeTable = ['' => 'PrivateMessageIndex',
         'pm' => 'PrivateMessageIndex',
         'overview' => 'PrivateMessageIndex',
         'view' => 'PrivateMessageViewPM',
         'reply' => 'PrivateMessageNewPM',
         'send' => 'PrivateMessageNewPM',
         'PrivateMessageNewPMConfirmSend' => 'PrivateMessageNewPMConfirmSend',
-        'kill' => 'PrivateMessageConfirmDelete');
+        'kill' => 'PrivateMessageConfirmDelete'];
 
     /**
      * ID of this PM box.
@@ -166,7 +166,7 @@ class PrivateMessage extends PublicModule
             case 'send':
             NavBar::getInstance()->addElement(Language::getInstance()->getString('new_pm'), INDEXFILE . '?faction=pm&amp;pmbox_id=' . $this->pmBoxID . '&amp;mode=send' . SID_AMPER);
             if(!isset($newPM))
-                $newPM = array(-1,
+                $newPM = [-1,
                     htmlspecialchars(trim(Functions::getValueFromGlobals('betreff'))),
                     htmlspecialchars(trim(Functions::getValueFromGlobals('pm', false))),
                     $this->pmBoxID,
@@ -174,7 +174,7 @@ class PrivateMessage extends PublicModule
                     Functions::getValueFromGlobals('smilies') == '1',
                     Functions::getValueFromGlobals('use_upbcode') == '1',
                     '1',
-                    '');
+                    ''];
             $storeToOutbox = Functions::getValueFromGlobals('storeToOutbox') == 'true';
             $errors = [];
             if(!isset($recipientID))
@@ -239,11 +239,11 @@ class PrivateMessage extends PublicModule
             //Set default options on calling new PM page the first time
             else
                 $newPM[5] = $newPM[6] = $storeToOutbox = true;
-            Template::getInstance()->assign(array('newPM' => $newPM,
+            Template::getInstance()->assign(['newPM' => $newPM,
                 'recipient' => $recipientID,
                 'errors' => $errors,
                 'isMod' => Auth::getInstance()->isAdmin() || Auth::getInstance()->isMod(), //Needed for smilies
-                'storeToOutbox' => $storeToOutbox));
+                'storeToOutbox' => $storeToOutbox]);
             break;
 
 //PrivateMessageConfirmDelete
@@ -256,9 +256,9 @@ class PrivateMessage extends PublicModule
                     $curPM = Functions::explodeByTab($curPM);
                     if($curPM[0] == $this->pmID)
                     {
-                        NavBar::getInstance()->addElement(array(
-                            array($curPM[1], INDEXFILE . '?faction=pm&amp;mode=view&amp;pm_id=' . $this->pmID . '&amp;pmbox_id=' . $this->pmBoxID . $this->urlSuffix . SID_AMPER),
-                            array(Language::getInstance()->getString('delete_pm'))));
+                        NavBar::getInstance()->addElement([
+                            [$curPM[1], INDEXFILE . '?faction=pm&amp;mode=view&amp;pm_id=' . $this->pmID . '&amp;pmbox_id=' . $this->pmBoxID . $this->urlSuffix . SID_AMPER],
+                            [Language::getInstance()->getString('delete_pm')]]);
                         Template::getInstance()->assign('pmTitle', $curPM[1]);
                         break;
                     }
@@ -267,7 +267,7 @@ class PrivateMessage extends PublicModule
             }
             //Use "deletemany" to delete a single pm, hence no break
             else
-                $toDelete = array($this->pmID);
+                $toDelete = [$this->pmID];
 
 //PrivateMessageIndex (via redir)
             case 'deletemany':
@@ -300,10 +300,10 @@ class PrivateMessage extends PublicModule
             Template::getInstance()->assign('pms', $pms);
             break;
         }
-        Template::getInstance()->printPage(Functions::handleMode($this->mode, self::$modeTable, __CLASS__), array('pmBoxID' => $this->pmBoxID,
+        Template::getInstance()->printPage(Functions::handleMode($this->mode, self::$modeTable, __CLASS__), ['pmBoxID' => $this->pmBoxID,
             'pmID' => $this->pmID,
             'isOutbox' => $this->isOutbox,
-            'urlSuffix' => $this->urlSuffix));
+            'urlSuffix' => $this->urlSuffix]);
     }
 
     /**

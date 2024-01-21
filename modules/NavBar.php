@@ -21,7 +21,7 @@ class NavBar
     /**
      * Adds new element triple(s).
      *
-     * @param string|array $name Name (and only the name!) of navbar element or multiple element pairs with name and optional link (that means array([], []) at least).
+     * @param string|array $name Name (and only the name!) of navbar element or multiple element pairs with name and optional link (that means [[], []] at least).
      * @param string $link Optional link for single navbar name element
      * @param string $extra Optional stuff a name element should have apart from the name itself, e.g. linked pages
      */

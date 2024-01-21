@@ -23,7 +23,7 @@ class Help extends PublicModule
      *
      * @var array Page and template counterparts
      */
-    private static array $pageTable = array('' => 'FAQ', 'faq' => 'FAQ', 'regeln' => 'BoardRules', 'gdpr' => 'GDPR');
+    private static array $pageTable = ['' => 'FAQ', 'faq' => 'FAQ', 'regeln' => 'BoardRules', 'gdpr' => 'GDPR'];
 
     /**
      * Sets help page to display.
@@ -74,8 +74,8 @@ class Help extends PublicModule
                         break;
                     }
             //Assign FAQ entries
-            Template::getInstance()->assign(array('faqQuestions' => $faqQuestions,
-                'faqAnswers' => $faqAnswers));
+            Template::getInstance()->assign(['faqQuestions' => $faqQuestions,
+                'faqAnswers' => $faqAnswers]);
             break;
 
             case 'regeln':

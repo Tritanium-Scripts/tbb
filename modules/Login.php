@@ -30,7 +30,7 @@ class Login extends PublicModule
      *
      * @var array Mode and template counterparts
      */
-    private static array $modeTable = array('' => 'Login', 'login' => 'Login', 'verify' => 'Login', 'sendpw' => 'RequestPassword');
+    private static array $modeTable = ['' => 'Login', 'login' => 'Login', 'verify' => 'Login', 'sendpw' => 'RequestPassword'];
 
     /**
      * Prepares and sets login name, login password and mode.
@@ -206,8 +206,8 @@ class Login extends PublicModule
             break;
         }
         //Show form (again)
-        Template::getInstance()->printPage(Functions::handleMode($this->mode, self::$modeTable, __CLASS__), array('loginName' => $this->loginName,
-            'errors' => $this->errors));
+        Template::getInstance()->printPage(Functions::handleMode($this->mode, self::$modeTable, __CLASS__), ['loginName' => $this->loginName,
+            'errors' => $this->errors]);
     }
 }
 ?>

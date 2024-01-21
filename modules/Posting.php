@@ -23,7 +23,7 @@ class Posting extends PublicModule
      *
      * @var array Mode and template counterparts
      */
-    private static array $modeTable = array(
+    private static array $modeTable = [
         //Reply actions
         'reply' => 'PostReply',
         'save' => 'PostReply',
@@ -40,7 +40,7 @@ class Posting extends PublicModule
         'move' => 'EditTopicMove',
         //Poll actions
         'vote' => 'EditPoll',
-        'editpoll' => 'EditPoll');
+        'editpoll' => 'EditPoll'];
 
     /**
      * Data of new reply.
@@ -113,7 +113,7 @@ class Posting extends PublicModule
         }
         $this->preview = Functions::getValueFromGlobals('preview') != '';
         //Get contents for new reply
-        $this->newReply = array('nick' => htmlspecialchars(trim(Functions::getValueFromGlobals('nli_name'))),
+        $this->newReply = ['nick' => htmlspecialchars(trim(Functions::getValueFromGlobals('nli_name'))),
             'title' => htmlspecialchars(trim(Functions::getValueFromGlobals('title'))),
             'post' => htmlspecialchars(trim(Functions::getValueFromGlobals('post', false))),
             'tSmileyID' => intval(Functions::getValueFromGlobals('tsmilie')),
@@ -122,7 +122,7 @@ class Posting extends PublicModule
             'isBBCode' => Functions::getValueFromGlobals('use_upbcode') == '1',
             'isXHTML' => Functions::getValueFromGlobals('use_htmlcode') == '1',
             'isAddURLs' => Functions::getValueFromGlobals('isAddURLs') == 'true',
-            'prefixId' => intval(Functions::getValueFromGlobals('prefixId')));
+            'prefixId' => intval(Functions::getValueFromGlobals('prefixId'))];
         //Topic smiley fix
         if(empty($this->newReply['tSmileyID']))
             $this->newReply['tSmileyID'] = 1;
@@ -200,10 +200,10 @@ class Posting extends PublicModule
                 $this->newReply['post'] = Functions::addURL($this->newReply['post']);
             //Preview...
             if($this->preview)
-                $this->newReply['preview'] = array('title' => &$this->newReply['title'],
+                $this->newReply['preview'] = ['title' => &$this->newReply['title'],
                     'tSmileyID' => Functions::getTSmileyURL($this->newReply['tSmileyID']),
                     'post' => BBCode::getInstance()->parse(Functions::nl2br($this->newReply['post']), $this->newReply['isXHTML'], $this->newReply['isSmilies'], $this->newReply['isBBCode'], $this->topicFile),
-                    'signature' => $this->newReply['isSignature'] ? BBCode::getInstance()->parse(Auth::getInstance()->getUserSig()) : false);
+                    'signature' => $this->newReply['isSignature'] ? BBCode::getInstance()->parse(Auth::getInstance()->getUserSig()) : false];
             //...or final save...
             elseif($this->mode == 'save')
             {
@@ -218,7 +218,7 @@ class Posting extends PublicModule
                     //Set proper nick name
                     $this->newReply['nick'] = Auth::getInstance()->isLoggedIn() ? Auth::getInstance()->getUserID() : (empty($this->newReply['nick']) ? Language::getInstance()->getString('guest') : '0' . $this->newReply['nick']);
                     //Build new post
-                    $newPost = array(current(end($this->topicFile))+1,
+                    $newPost = [current(end($this->topicFile))+1,
                         $this->newReply['nick'],
                         gmdate('YmdHis'),
                         Functions::stripSIDs(Functions::nl2br($this->newReply['post'])),
@@ -228,7 +228,7 @@ class Posting extends PublicModule
                         $this->newReply['isSmilies'] ? '1' : '0',
                         $this->newReply['isBBCode'] ? '1' : '0',
                         $this->newReply['isXHTML'] ? '1' : '0',
-                        '', '', "\n");
+                        '', '', "\n"];
                     //Write post related stuff
                     $this->topic[5] = $_SESSION['lastPost'] = time();
                     $this->topicFile[] = $newPost;
@@ -274,12 +274,12 @@ class Posting extends PublicModule
             //Process last x posts in reverse order
             $lastReplies = [];
             foreach(array_reverse(array_slice($this->topicFile, -10)) as $curReply) //Just the last 10 replies
-                $lastReplies[] = array('nick' => Functions::getProfileLink($curReply[1], true),
-                    'post' => Functions::censor(BBCode::getInstance()->parse($curReply[3], $curReply[9] == '1' && $this->forum[7][1] == '1', $curReply[7] == '1' || $curReply[7] == 'yes', ($curReply[8] == '1' || $curReply[8] == 'yes') && $this->forum[7][0] == '1', $this->topicFile)));
-            Template::getInstance()->assign(array('newReply' => $this->newReply,
+                $lastReplies[] = ['nick' => Functions::getProfileLink($curReply[1], true),
+                    'post' => Functions::censor(BBCode::getInstance()->parse($curReply[3], $curReply[9] == '1' && $this->forum[7][1] == '1', $curReply[7] == '1' || $curReply[7] == 'yes', ($curReply[8] == '1' || $curReply[8] == 'yes') && $this->forum[7][0] == '1', $this->topicFile))];
+            Template::getInstance()->assign(['newReply' => $this->newReply,
                 'preview' => $this->preview,
                 'lastReplies' => $lastReplies,
-                'isMod' => isset($isMod) ? $isMod : Functions::checkModOfForum($this->forum)));
+                'isMod' => isset($isMod) ? $isMod : Functions::checkModOfForum($this->forum)]);
             break;
 
 //EditPost
@@ -391,7 +391,7 @@ class Posting extends PublicModule
                 //Set data to edit post
                 else
                     //Reuse $this->newReply for editing
-                    $this->newReply = array('title' => $isMod || Auth::getInstance()->isAdmin() ? $this->topic[1] : '',
+                    $this->newReply = ['title' => $isMod || Auth::getInstance()->isAdmin() ? $this->topic[1] : '',
                         'post' => Functions::br2nl($post[3]),
                         'isSignature' => $post[5] == '1',
                         'tSmileyID' => $post[6],
@@ -400,10 +400,10 @@ class Posting extends PublicModule
                         'isXHTML' => $post[9] == '1',
                         'isAddURLs' => true,
                         'prefixId' => $isMod || Auth::getInstance()->isAdmin() ? $this->topic[9] : '',
-                        'isLastEditBy' => isset($post[10]) && is_numeric($post[10]));
-                Template::getInstance()->assign(array('editPost' => $this->newReply,
+                        'isLastEditBy' => isset($post[10]) && is_numeric($post[10])];
+                Template::getInstance()->assign(['editPost' => $this->newReply,
                     'isMod' => $isMod,
-                    'prefixes' => array_map(['Functions', 'explodeByTab'], Functions::file('foren/' . $this->forum[0] . '-prefixes.xbb') ?: [])));
+                    'prefixes' => array_map(['Functions', 'explodeByTab'], Functions::file('foren/' . $this->forum[0] . '-prefixes.xbb') ?: [])]);
             }
             break;
 
@@ -570,13 +570,13 @@ class Posting extends PublicModule
                 $forums = [];
                 foreach(array_map(['Functions', 'explodeByTab'], Functions::file('vars/foren.var')) as $curForum)
                     if(Functions::checkUserAccess($curForum, 0) && $curForum[0] != $this->forum[0])
-                        $forums[] = array('forumID' => $curForum[0],
+                        $forums[] = ['forumID' => $curForum[0],
                             'forumName' => $curForum[1],
-                            'catID' => $curForum[5]);
-                Template::getInstance()->assign(array('cats' => array_map(['Functions', 'explodeByTab'], Functions::file('vars/kg.var')),
+                            'catID' => $curForum[5]];
+                Template::getInstance()->assign(['cats' => array_map(['Functions', 'explodeByTab'], Functions::file('vars/kg.var')),
                     'forums' => $forums,
                     'isLinked' => $isLinked,
-                    'isNewest' => $isNewest));
+                    'isNewest' => $isNewest]);
                 break;
 
 //EditTopicPin
@@ -675,10 +675,10 @@ class Posting extends PublicModule
                         Template::getInstance()->printMessage('poll_edited', Functions::getMsgBackLinks($this->forum[0], $this->topicID, 'back_to_poll'));
                     }
                 }
-                Template::getInstance()->assign(array('pollTitle' => $poll[3],
+                Template::getInstance()->assign(['pollTitle' => $poll[3],
                     'isClosed' => $poll[0] > '2',
                     'pollOptions' => $pollFile,
-                    'pollID' => $this->topic[7]));
+                    'pollID' => $this->topic[7]]);
             }
             //...or vote it
             else
@@ -741,7 +741,7 @@ class Posting extends PublicModule
                     else
                     {
                         list(,,,$lastIPID) = @end(Functions::getBannedIPs());
-                        Functions::file_put_contents('vars/ip.var', Functions::implodeByTab(array($post[4], $blockPeriod == '-1' ? $blockPeriod : time()+60*$blockPeriod, $entireBoard ? '-1' : $this->forum[0], $lastIPID+1, '')) . "\n", FILE_APPEND);
+                        Functions::file_put_contents('vars/ip.var', Functions::implodeByTab([$post[4], $blockPeriod == '-1' ? $blockPeriod : time()+60*$blockPeriod, $entireBoard ? '-1' : $this->forum[0], $lastIPID+1, '']) . "\n", FILE_APPEND);
                         Template::getInstance()->printMessage('ip_blocked_successfully', Functions::getMsgBackLinks($this->forum[0], $this->topicID));
                     }
                 }
@@ -749,14 +749,14 @@ class Posting extends PublicModule
             //Assign IP to template in any case
             Template::getInstance()->assign('ipAddress', $post[4]);
         }
-        Template::getInstance()->printPage(Functions::handleMode($this->mode, self::$modeTable, __CLASS__, 'reply'), array('forumID' => $this->forum[0],
+        Template::getInstance()->printPage(Functions::handleMode($this->mode, self::$modeTable, __CLASS__, 'reply'), ['forumID' => $this->forum[0],
             'topicID' => $this->topicID,
             'postID' => $this->postID,
             //Just give the template what it needs to know
-            'forum' => array('forumID' => $this->forum[0],
+            'forum' => ['forumID' => $this->forum[0],
                 'isBBCode' => $this->forum[7][0] == '1',
-                'isXHTML' => $this->forum[7][1] == '1'),
-            'errors' => $this->errors),
+                'isXHTML' => $this->forum[7][1] == '1'],
+            'errors' => $this->errors],
             //Always append IDs + page to WIO location. WIO will not parse them in inapplicable mode.
             null , ',' . $this->forum[0] . ',' . $this->topicID . ',' . $this->postID . ',' . $this->page);
     }

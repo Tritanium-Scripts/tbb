@@ -129,11 +129,11 @@ class Search extends PublicModule
                             {
                                 //A topic title was found during search
                                 $curLastPost = Functions::explodeByTab(end($curTopicFile));
-                                $results[$curForumID][$curTopicID][0] = array('creator' => Functions::getProfileLink($curTopic[2], true),
+                                $results[$curForumID][$curTopicID][0] = ['creator' => Functions::getProfileLink($curTopic[2], true),
                                     'replies' => count($curTopicFile)-1, //Not counting the first post
                                     'views' => $curTopic[6],
                                     'lastPoster' => Functions::getProfileLink($curLastPost[1], true),
-                                    'lastDate' => Functions::formatDate($curLastPost[2]));
+                                    'lastDate' => Functions::formatDate($curLastPost[2])];
                             }
                             else
                                 //At least one post was found in current topic during search
@@ -142,22 +142,22 @@ class Search extends PublicModule
                                     //A post was found during search
                                     if($curPost[0] == $curPostID)
                                     {
-                                        $results[$curForumID][$curTopicID][$curPostID] = array('post' => Functions::shorten(Functions::censor(Functions::br2nl(preg_replace("/\[lock\](.*?)\[\/lock\]/si", '', $curPost[3]))), 50),
+                                        $results[$curForumID][$curTopicID][$curPostID] = ['post' => Functions::shorten(Functions::censor(Functions::br2nl(preg_replace("/\[lock\](.*?)\[\/lock\]/si", '', $curPost[3]))), 50),
                                             'creator' => Functions::getProfileLink($curPost[1], true),
                                             'date' => Functions::formatDate($curPost[2]),
-                                            'page' => ceil(($curKey+1) / Config::getInstance()->getCfgVal('posts_per_page')));
+                                            'page' => ceil(($curKey+1) / Config::getInstance()->getCfgVal('posts_per_page'))];
                                     }
                                 }
                             $topicCounter++;
                         }
                     }
                 }
-                Template::getInstance()->printPage('SearchResults', array('results' => $results,
+                Template::getInstance()->printPage('SearchResults', ['results' => $results,
                     'idTable' => $idTable,
                     'forumCounter' => count($_SESSION[$this->searchID]['sHits']),
                     'topicCounter' => $topicCounter,
                     'isFullScope' => $_SESSION[$this->searchID]['sScp'] == 1,
-                    'seconds' => $_SESSION[$this->searchID]['sTime']));
+                    'seconds' => $_SESSION[$this->searchID]['sTime']]);
             }
             //Search not yet done...
             $switch = intval($_SESSION[$this->searchID]['sScp'] . $_SESSION[$this->searchID]['sOpt']);
@@ -264,9 +264,9 @@ class Search extends PublicModule
             $forums = [];
             foreach(array_map(['Functions', 'explodeByTab'], Functions::file('vars/foren.var')) as $curForum)
                 if(Functions::checkUserAccess($curForum, 0))
-                    $forums[] = array('forumID' => $curForum[0],
+                    $forums[] = ['forumID' => $curForum[0],
                         'forumName' => $curForum[1],
-                        'catID' => $curForum[5]);
+                        'catID' => $curForum[5]];
             if(Functions::getValueFromGlobals('search') == 'yes')
             {
                 if(empty($this->searchFor))
@@ -281,29 +281,26 @@ class Search extends PublicModule
                     $this->searchID = md5($this->searchAge . $this->searchFor . $this->searchIn . $this->searchOption . $this->searchScope);
                     if(!isset($_SESSION[$this->searchID]))
                         //Compile search parameters
-                        $_SESSION[$this->searchID] = array('sAge' => $this->searchAge*3600*24,
-                            'sFor' => $this->searchOption == 'exact' ? array($this->searchFor) : explode(' ', $this->searchOption == 'user' ? '0' . $this->searchFor : $this->searchFor),
-                            'sIn' => $this->searchIn == 'all' ? array_map(function($oldKey)
-                            {
-                                return [];
-                            }, array_flip(array_map('current', $forums))) : array($this->searchIn => []),
+                        $_SESSION[$this->searchID] = ['sAge' => $this->searchAge*3600*24,
+                            'sFor' => $this->searchOption == 'exact' ? [$this->searchFor] : explode(' ', $this->searchOption == 'user' ? '0' . $this->searchFor : $this->searchFor),
+                            'sIn' => $this->searchIn == 'all' ? array_map(fn($oldKey) => [], array_flip(array_map('current', $forums))) : [$this->searchIn => []],
                             'sOpt' => $this->searchOption == 'user' ? 1 : 0,
                             'sScp' => $this->searchScope,
                             'sAnd' => $this->searchOption == 'and',
                             'sHits' => [],
-                            'sTime' => 0);
+                            'sTime' => 0];
                     //Here we go
                     $this->checkTime(false);
                 }
             }
-            Template::getInstance()->printPage('Search', array('searchAge' => $this->searchAge,
+            Template::getInstance()->printPage('Search', ['searchAge' => $this->searchAge,
                 'searchFor' => htmlspecialchars($this->searchFor),
                 'searchIn' => $this->searchIn,
                 'searchOption' => $this->searchOption,
                 'searchScope' => $this->searchScope,
                 'cats' => array_map(['Functions', 'explodeByTab'], Functions::file('vars/kg.var')),
                 'forums' => $forums,
-                'errors' => $this->errors));
+                'errors' => $this->errors]);
         }
     }
 }

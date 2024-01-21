@@ -178,7 +178,7 @@ class BBCode
                 }
             }
             if(Config::getInstance()->getCfgVal('use_file_caching') == 1)
-                Functions::file_put_contents('cache/BBCode.cache.php', '<?php' . (!empty($toCache) ? ' $this->smilies = array(\'' . implode('\', \'', $toCache) . '\');' : '') . (isset($twoCache) ? ' $this->aSmilies = array(\'' . implode('\', \'', $twoCache) . '\');' : '') . ' ?>', LOCK_EX, false, false);
+                Functions::file_put_contents('cache/BBCode.cache.php', '<?php' . (!empty($toCache) ? ' $this->smilies = [\'' . implode('\', \'', $toCache) . '\'];' : '') . (isset($twoCache) ? ' $this->aSmilies = [\'' . implode('\', \'', $twoCache) . '\'];' : '') . ' ?>', LOCK_EX, false, false);
         }
     }
 
@@ -222,8 +222,8 @@ class BBCode
         if($enableSmilies)
         {
             PlugIns::getInstance()->callHook(PlugIns::HOOK_BBCODE_PARSE_SMILIES, $string);
-            $unmaskedBrackets = array_map(fn($entity): string => $entity . ')', array_merge(array('&quot;'), Functions::getLatin9Entities()));
-            $maskedBrackets = array_map(fn($entity): string => $entity . '&#41;', array_merge(array('&quot;'), Functions::getLatin9Entities()));
+            $unmaskedBrackets = array_map(fn($entity): string => $entity . ')', array_merge(['&quot;'], Functions::getLatin9Entities()));
+            $maskedBrackets = array_map(fn($entity): string => $entity . '&#41;', array_merge(['&quot;'], Functions::getLatin9Entities()));
             //Prevent ") -> &quot;) -> &quot<img...
             $string = Functions::str_replace($unmaskedBrackets, $maskedBrackets, $string);
             $string = strtr($string, $this->smilies);
@@ -242,39 +242,68 @@ class BBCode
             //Start parsing
             PlugIns::getInstance()->callHook(PlugIns::HOOK_BBCODE_PARSE_BBCODE, $string);
             $string = preg_replace_callback("/\[list\][<br \/>\r\n]*?\[\*\](.*?)\[\/list\]/si", fn($elements): string => Template::getInstance()->fetch('BBCode', ['type' => BBCode::BBCODE_LIST, 'listEntries' => explode('[*]', $elements[1])]), $string);
-            $string = preg_replace_callback("/\[b\](.*?)\[\/b\]/si", fn($elements): string => Template::getInstance()->fetch('BBCode', array('type' => BBCode::BBCODE_BOLD, 'boldText' => $elements[1])), $string);
-            $string = preg_replace_callback("/\[i\](.*?)\[\/i\]/si", fn($elements): string => Template::getInstance()->fetch('BBCode', array('type' => BBCode::BBCODE_ITALIC, 'italicText' => $elements[1])), $string);
-            $string = preg_replace_callback("/\[u\](.*?)\[\/u\]/si", fn($elements): string => Template::getInstance()->fetch('BBCode', array('type' => BBCode::BBCODE_UNDERLINE, 'underlineText' => $elements[1])), $string);
-            $string = preg_replace_callback("/\[s\](.*?)\[\/s\]/si", fn($elements): string => Template::getInstance()->fetch('BBCode', array('type' => BBCode::BBCODE_STRIKE, 'strikeText' => $elements[1])), $string);
-            $string = preg_replace_callback("/\[sup\](.*?)\[\/sup\]/si", fn($elements): string => Template::getInstance()->fetch('BBCode', array('type' => BBCode::BBCODE_SUPERSCRIPT, 'superText' => $elements[1])), $string);
-            $string = preg_replace_callback("/\[sub\](.*?)\[\/sub\]/si", fn($elements): string => Template::getInstance()->fetch('BBCode', array('type' => BBCode::BBCODE_SUBSCRIPT, 'subText' => $elements[1])), $string);
-            $string = preg_replace_callback("/\[hide\](.*?)\[\/hide\]/si", fn($elements): string => Template::getInstance()->fetch('BBCode', array('type' => BBCode::BBCODE_HIDE, 'hideText' => $elements[1])), $string);
+            $string = preg_replace_callback("/\[b\](.*?)\[\/b\]/si", fn($elements): string => Template::getInstance()->fetch('BBCode', ['type' => BBCode::BBCODE_BOLD, 'boldText' => $elements[1]]), $string);
+            $string = preg_replace_callback("/\[i\](.*?)\[\/i\]/si", fn($elements): string => Template::getInstance()->fetch('BBCode', ['type' => BBCode::BBCODE_ITALIC, 'italicText' => $elements[1]]), $string);
+            $string = preg_replace_callback("/\[u\](.*?)\[\/u\]/si", fn($elements): string => Template::getInstance()->fetch('BBCode', ['type' => BBCode::BBCODE_UNDERLINE, 'underlineText' => $elements[1]]), $string);
+            $string = preg_replace_callback("/\[s\](.*?)\[\/s\]/si", fn($elements): string => Template::getInstance()->fetch('BBCode', ['type' => BBCode::BBCODE_STRIKE, 'strikeText' => $elements[1]]), $string);
+            $string = preg_replace_callback("/\[sup\](.*?)\[\/sup\]/si", fn($elements): string => Template::getInstance()->fetch('BBCode', ['type' => BBCode::BBCODE_SUPERSCRIPT, 'superText' => $elements[1]]), $string);
+            $string = preg_replace_callback("/\[sub\](.*?)\[\/sub\]/si", fn($elements): string => Template::getInstance()->fetch('BBCode', ['type' => BBCode::BBCODE_SUBSCRIPT, 'subText' => $elements[1]]), $string);
+            $string = preg_replace_callback("/\[hide\](.*?)\[\/hide\]/si", fn($elements): string => Template::getInstance()->fetch('BBCode', ['type' => BBCode::BBCODE_HIDE, 'hideText' => $elements[1]]), $string);
             $string = preg_replace_callback("/\[lock\](.*?)\[\/lock\]/si", fn($elements): string => Template::getInstance()->fetch('BBCode', ['type' => BBCode::BBCODE_LOCK, 'lockText' => in_array(Auth::getInstance()->getUserID(), $this->posterIDs) ? $elements[1] : '']), $string);
-            $string = preg_replace_callback("/\[center\](.*?)\[\/center\]/si", fn($elements): string => Template::getInstance()->fetch('BBCode', array('type' => BBCode::BBCODE_CENTER, 'centerText' => $elements[1])), $string);
-            $string = preg_replace_callback("/\[code\](.*?)\[\/code\]/si", fn($elements): string => Template::getInstance()->fetch('BBCode', array('type' => BBCode::BBCODE_CODE, 'codeLines' => $elements[1])), $string);
-            $string = preg_replace_callback("/\[php\](.*?)\[\/php\]/si", fn($elements): string => Template::getInstance()->fetch('BBCode', array('type' => BBCode::BBCODE_CODE, 'codeLines' => Functions::str_replace(array('<code>', '</code>'), '', highlight_string(Functions::br2nl(htmlspecialchars_decode($elements[1])), true)))), $string);
-            $string = preg_replace_callback("/\[email\](.*?)\[\/email\]/si", fn($elements): string => Template::getInstance()->fetch('BBCode', array('type' => BBCode::BBCODE_EMAIL, 'eMailAddress' => $elements[1], 'eMailText' => $elements[1])), $string);
-            $string = preg_replace_callback("/\[email=(.*?)\](.*?)\[\/email\]/si", fn($elements): string => Template::getInstance()->fetch('BBCode', array('type' => BBCode::BBCODE_EMAIL, 'eMailAddress' => $elements[1], 'eMailText' => $elements[2])), $string);
-            $string = preg_replace_callback("/\[img\](.*?)\[\/img\]/si", fn($elements): string => Functions::substr($elements[1], 0, 11) == 'javascript:' ? $elements[0] : Template::getInstance()->fetch('BBCode', array('type' => BBCode::BBCODE_IMAGE, 'imageAddress' => $elements[1], 'imageText' => '')), $string);
-            #$string = preg_replace_callback("/\[img=(\d+),(\d+)\](.*?)\[\/img\]/si", fn($elements): string => Functions::substr($elements[3], 0, 11) == 'javascript:' ? $elements[0] : Template::getInstance()->fetch('BBCode', array('type' => BBCode::BBCODE_IMAGE, 'imageAddress' => $elements[3], 'imageText' => '', 'imageHeight' => $elements[2], 'imageWidth' => $elements[1])), $string);
-            $string = preg_replace_callback("/\[img=(.*?)\](.*?)\[\/img\]/si", fn($elements): string => Functions::substr($elements[1], 0, 11) == 'javascript:' ? $elements[0] : Template::getInstance()->fetch('BBCode', array('type' => BBCode::BBCODE_IMAGE, 'imageAddress' => $elements[1], 'imageText' => $elements[2])), $string);
-            $string = preg_replace_callback("/\[url\](.*?)\[\/url\]/si", fn($elements): string => Functions::substr($elements[1], 0, 11) == 'javascript:' ? $elements[0] : Template::getInstance()->fetch('BBCode', array('type' => BBCode::BBCODE_LINK, 'linkAddress' => Functions::addHTTP($elements[1]), 'linkText' => $elements[1])), $string);
-            $string = preg_replace_callback("/\[url=(.*?)\](.*?)\[\/url\]/si", fn($elements): string => Functions::substr($elements[1], 0, 11) == 'javascript:' ? $elements[0] : Template::getInstance()->fetch('BBCode', array('type' => BBCode::BBCODE_LINK, 'linkAddress' => Functions::addHTTP($elements[1]), 'linkText' => $elements[2])), $string);
-            $string = preg_replace_callback("/\[color=(\#[a-fA-F0-9]{6}|[a-zA-Z]+)\](.*?)\[\/color\]/si", fn($elements) => Template::getInstance()->fetch('BBCode', array('type' => BBCode::BBCODE_COLOR, 'colorCode' => $elements[1], 'colorText' => $elements[2])), $string);
-            $string = preg_replace_callback("/\[iframe\](.*?)\[\/iframe\]/si", fn($elements): string => Template::getInstance()->fetch('BBCode', array('type' => BBCode::BBCODE_IFRAME, 'iFrameLink' => $elements[1], 'iFrameWidth' => 560, 'iFrameHeight' => 315)), $string);
-            $string = preg_replace_callback("/\[iframe=(\d+),(\d+)\](.*?)\[\/iframe\]/si", fn($elements): string => Functions::substr($elements[3], 0, 11) == 'javascript:' ? $elements[3] : Template::getInstance()->fetch('BBCode', array('type' => BBCode::BBCODE_IFRAME, 'iFrameLink' => $elements[3], 'iFrameWidth' => $elements[1], 'iFrameHeight' => $elements[2])), $string);
+            $string = preg_replace_callback("/\[center\](.*?)\[\/center\]/si", fn($elements): string => Template::getInstance()->fetch('BBCode', ['type' => BBCode::BBCODE_CENTER, 'centerText' => $elements[1]]), $string);
+            $string = preg_replace_callback("/\[code\](.*?)\[\/code\]/si", fn($elements): string => Template::getInstance()->fetch('BBCode', ['type' => BBCode::BBCODE_CODE, 'codeLines' => $elements[1]]), $string);
+            $string = preg_replace_callback("/\[php\](.*?)\[\/php\]/si", fn($elements): string => Template::getInstance()->fetch('BBCode', ['type' => BBCode::BBCODE_CODE, 'codeLines' => Functions::str_replace(['<code>', '</code>'], '', highlight_string(Functions::br2nl(htmlspecialchars_decode($elements[1])), true))]), $string);
+            $string = preg_replace_callback("/\[email\](.*?)\[\/email\]/si", fn($elements): string => Template::getInstance()->fetch('BBCode', ['type' => BBCode::BBCODE_EMAIL, 'eMailAddress' => $elements[1], 'eMailText' => $elements[1]]), $string);
+            $string = preg_replace_callback("/\[email=(.*?)\](.*?)\[\/email\]/si", fn($elements): string => Template::getInstance()->fetch('BBCode', ['type' => BBCode::BBCODE_EMAIL, 'eMailAddress' => $elements[1], 'eMailText' => $elements[2]]), $string);
+            $string = preg_replace_callback("/\[img\](.*?)\[\/img\]/si", fn($elements): string => Functions::substr($elements[1], 0, 11) == 'javascript:' ? $elements[0] : Template::getInstance()->fetch('BBCode', ['type' => BBCode::BBCODE_IMAGE, 'imageAddress' => $elements[1], 'imageText' => '']), $string);
+            #$string = preg_replace_callback("/\[img=(\d+),(\d+)\](.*?)\[\/img\]/si", fn($elements): string => Functions::substr($elements[3], 0, 11) == 'javascript:' ? $elements[0] : Template::getInstance()->fetch('BBCode', ['type' => BBCode::BBCODE_IMAGE, 'imageAddress' => $elements[3], 'imageText' => '', 'imageHeight' => $elements[2], 'imageWidth' => $elements[1]]), $string);
+            $string = preg_replace_callback("/\[img=(.*?)\](.*?)\[\/img\]/si", fn($elements): string => Functions::substr($elements[1], 0, 11) == 'javascript:' ? $elements[0] : Template::getInstance()->fetch('BBCode', ['type' => BBCode::BBCODE_IMAGE, 'imageAddress' => $elements[1], 'imageText' => $elements[2]]), $string);
+            $string = preg_replace_callback("/\[url\](.*?)\[\/url\]/si", fn($elements): string => Functions::substr($elements[1], 0, 11) == 'javascript:' ? $elements[0] : Template::getInstance()->fetch('BBCode', ['type' => BBCode::BBCODE_LINK, 'linkAddress' => Functions::addHTTP($elements[1]), 'linkText' => $elements[1]]), $string);
+            $string = preg_replace_callback("/\[url=(.*?)\](.*?)\[\/url\]/si", fn($elements): string => Functions::substr($elements[1], 0, 11) == 'javascript:' ? $elements[0] : Template::getInstance()->fetch('BBCode', ['type' => BBCode::BBCODE_LINK, 'linkAddress' => Functions::addHTTP($elements[1]), 'linkText' => $elements[2]]), $string);
+            $string = preg_replace_callback("/\[color=(\#[a-fA-F0-9]{6}|[a-zA-Z]+)\](.*?)\[\/color\]/si", fn($elements) => Template::getInstance()->fetch('BBCode', ['type' => BBCode::BBCODE_COLOR, 'colorCode' => $elements[1], 'colorText' => $elements[2]]), $string);
+            $string = preg_replace_callback("/\[iframe\](.*?)\[\/iframe\]/si", fn($elements): string => Template::getInstance()->fetch('BBCode', ['type' => BBCode::BBCODE_IFRAME, 'iFrameLink' => $elements[1], 'iFrameWidth' => 560, 'iFrameHeight' => 315]), $string);
+            $string = preg_replace_callback("/\[iframe=(\d+),(\d+)\](.*?)\[\/iframe\]/si", fn($elements): string => Functions::substr($elements[3], 0, 11) == 'javascript:' ? $elements[3] : Template::getInstance()->fetch('BBCode', ['type' => BBCode::BBCODE_IFRAME, 'iFrameLink' => $elements[3], 'iFrameWidth' => $elements[1], 'iFrameHeight' => $elements[2]]), $string);
             $string = preg_replace("/\[marquee\](.*?)\[\/marquee\]/si", '<marquee>\1</marquee>', $string);
             //TBB 1.2.3 BBCode hack support
-            $string = preg_replace_callback("/\[size=(\-[12]{1}|\+[1-4]{1})\](.*?)\[\/size\]/si", function($elements){switch($elements[1]) {case '+4': $elements[1] = '300%'; break; case '+3': $elements[1] = 'xx-large'; break; case '+2': $elements[1] = 'x-large'; break; case '+1': $elements[1] = 'large'; break; case '-1': $elements[1] = 'x-small'; break; case '-2': $elements[1] = 'xx-small'; break;} return Template::getInstance()->fetch('BBCode', array('type' => BBCode::BBCODE_SIZE, 'sizeFont' => $elements[1], 'sizeText' => $elements[2]));}, $string);
-            $string = preg_replace_callback("/\[glow=(\#[a-fA-F0-9]{6}|[a-zA-Z]+)\](.*?)\[\/glow\]/si", fn($elements): string => Template::getInstance()->fetch('BBCode', array('type' => BBCode::BBCODE_GLOW, 'glowColor' => $elements[1], 'glowText' => $elements[2])), $string);
-            $string = preg_replace_callback("/\[shadow=(\#[a-fA-F0-9]{6}|[a-zA-Z]+)\](.*?)\[\/shadow\]/si", fn($elements): string => Template::getInstance()->fetch('BBCode', array('type' => BBCode::BBCODE_SHADOW, 'shadowColor' => $elements[1], 'shadowText' => $elements[2])), $string);
-            $string = preg_replace_callback("/\[flash\](.*?)\[\/flash\]/si", fn($elements): string => Template::getInstance()->fetch('BBCode', array('type' => BBCode::BBCODE_FLASH, 'flashLink' => $elements[1], 'flashWidth' => 425, 'flashHeight' => 355)), $string);
-            $string = preg_replace_callback("/\[flash[=| ](\d+),(\d+)\](.*?)\[\/flash\]/si", fn($elements): string => Template::getInstance()->fetch('BBCode', array('type' => BBCode::BBCODE_FLASH, 'flashLink' => $elements[3], 'flashWidth' => $elements[1], 'flashHeight' => $elements[2])), $string);
+            $string = preg_replace_callback("/\[size=(\-[12]{1}|\+[1-4]{1})\](.*?)\[\/size\]/si", function($elements)
+            {
+                switch($elements[1])
+                {
+                    case '+4':
+                    $elements[1] = '300%';
+                    break;
+
+                    case '+3':
+                    $elements[1] = 'xx-large';
+                    break;
+
+                    case '+2':
+                    $elements[1] = 'x-large';
+                    break;
+
+                    case '+1':
+                    $elements[1] = 'large';
+                    break;
+
+                    case '-1':
+                    $elements[1] = 'x-small';
+                    break;
+
+                    case '-2':
+                    $elements[1] = 'xx-small';
+                    break;
+                }
+                return Template::getInstance()->fetch('BBCode', ['type' => BBCode::BBCODE_SIZE, 'sizeFont' => $elements[1], 'sizeText' => $elements[2]]);
+            }, $string);
+            $string = preg_replace_callback("/\[glow=(\#[a-fA-F0-9]{6}|[a-zA-Z]+)\](.*?)\[\/glow\]/si", fn($elements): string => Template::getInstance()->fetch('BBCode', ['type' => BBCode::BBCODE_GLOW, 'glowColor' => $elements[1], 'glowText' => $elements[2]]), $string);
+            $string = preg_replace_callback("/\[shadow=(\#[a-fA-F0-9]{6}|[a-zA-Z]+)\](.*?)\[\/shadow\]/si", fn($elements): string => Template::getInstance()->fetch('BBCode', ['type' => BBCode::BBCODE_SHADOW, 'shadowColor' => $elements[1], 'shadowText' => $elements[2]]), $string);
+            $string = preg_replace_callback("/\[flash\](.*?)\[\/flash\]/si", fn($elements): string => Template::getInstance()->fetch('BBCode', ['type' => BBCode::BBCODE_FLASH, 'flashLink' => $elements[1], 'flashWidth' => 425, 'flashHeight' => 355]), $string);
+            $string = preg_replace_callback("/\[flash[=| ](\d+),(\d+)\](.*?)\[\/flash\]/si", fn($elements): string => Template::getInstance()->fetch('BBCode', ['type' => BBCode::BBCODE_FLASH, 'flashLink' => $elements[3], 'flashWidth' => $elements[1], 'flashHeight' => $elements[2]]), $string);
             //Quotes at the end for linked sources
             while(preg_match("/\[quote\](.*?)\[\/quote\]/si", $string))
-                $string = preg_replace_callback("/\[quote\](.*?)\[\/quote\][\r\n]*/si", fn($elements): string => Template::getInstance()->fetch('BBCode', array('type' => BBCode::BBCODE_QUOTE, 'quoteText' => $elements[1], 'quoteTitle' => Language::getInstance()->getString('quote_colon', 'BBCode'))), $string);
+                $string = preg_replace_callback("/\[quote\](.*?)\[\/quote\][\r\n]*/si", fn($elements): string => Template::getInstance()->fetch('BBCode', ['type' => BBCode::BBCODE_QUOTE, 'quoteText' => $elements[1], 'quoteTitle' => Language::getInstance()->getString('quote_colon', 'BBCode')]), $string);
             while(preg_match("/\[quote=(.*?)\](.*?)\[\/quote\]/si", $string))
-                $string = preg_replace_callback("/\[quote=(.*?)\](.*?)\[\/quote\][\r\n]*/si", fn($elements): string => Template::getInstance()->fetch('BBCode', array('type' => BBCode::BBCODE_QUOTE, 'quoteText' => $elements[2], 'quoteTitle' => sprintf(Language::getInstance()->getString('quote_by_x_colon', 'BBCode'), $elements[1]))), $string);
+                $string = preg_replace_callback("/\[quote=(.*?)\](.*?)\[\/quote\][\r\n]*/si", fn($elements): string => Template::getInstance()->fetch('BBCode', ['type' => BBCode::BBCODE_QUOTE, 'quoteText' => $elements[2], 'quoteTitle' => sprintf(Language::getInstance()->getString('quote_by_x_colon', 'BBCode'), $elements[1])]), $string);
         }
         return $string;
     }

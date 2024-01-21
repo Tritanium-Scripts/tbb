@@ -197,12 +197,12 @@ class ExtFunctions
     public static function utf8Decode(string $string): string
     {
         return EXT_IS_UTF8
-            ? (function_exists('utf8_decode'))
+            ? $string
+            : (function_exists('utf8_decode')
                 ? @utf8_decode($string)
-                : (function_exists('mb_convert_encoding'))
+                : (function_exists('mb_convert_encoding')
                     ? mb_convert_encoding($string, 'ISO-8859-1', 'UTF-8')
-                    : iconv('UTF-8', 'ISO-8859-1', $string)
-            : $string;
+                    : iconv('UTF-8', 'ISO-8859-1', $string)));
     }
 }
 ?>

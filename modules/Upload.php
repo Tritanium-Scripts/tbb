@@ -44,10 +44,15 @@ class Upload extends PublicModule
      *
      * @var array Mode and template counterparts
      */
-    private static array $modeTable = array('uploadFile' => 'Upload',
-        'upload' => 'Upload');
+    private static array $modeTable = ['uploadFile' => 'Upload',
+        'upload' => 'Upload'];
 
-    private int $targetBoxID;
+    /**
+     * ID of HTML component to paste in URL of uploaded file.
+     *
+     * @var string HTML textarea ID
+     */
+    private string $targetBoxID;
 
     /**
      * Sets mode and file upload parameters.
@@ -58,7 +63,8 @@ class Upload extends PublicModule
     {
         parent::__construct();
         $this->mode = $mode;
-        $this->allowedExtensions = ($this->allowedExtensions = Config::getInstance()->getCfgVal('upload_allowed_ext')) != '' ? Functions::explodeByComma($this->allowedExtensions) : false;
+        $this->allowedExtensions = Config::getInstance()->getCfgVal('upload_allowed_ext');
+        $this->allowedExtensions = $this->allowedExtensions != '' ? Functions::explodeByComma($this->allowedExtensions) : false;
         $this->targetBoxID = Functions::getValueFromGlobals('targetBoxID');
         //Prepare max filesizes
         $this->maxFilesize = intval(Config::getInstance()->getCfgVal('upload_max_filesize'));
@@ -121,12 +127,16 @@ class Upload extends PublicModule
                 if(empty($this->errors))
                 {
                     //Move to upload folder
-                    if(!move_uploaded_file($_FILES['uploadedFile']['tmp_name'], $uploadName = 'uploads/' . gmdate('Y-m-d-H-i-s-') . $_FILES['uploadedFile']['name']))
+                    $uploadName = 'uploads/' . gmdate('Y-m-d-H-i-s-') . basename($_FILES['uploadedFile']['name']);
+                    if(!move_uploaded_file($_FILES['uploadedFile']['tmp_name'], $uploadName))
+                    {
                         $this->errors[] = Language::getInstance()->getString('upload_failed');
+                        @unlink($_FILES['uploadedFile']['tmp_name']);
+                    }
                     else
                     {
                         $this->isUploaded = true;
-                        $this->bbCode = sprintf($this->isValidPicExt($_FILES['uploadedFile']['name']) ? '[img]%s[/img]' : '[url=%s]' . $_FILES['uploadedFile']['name'] . '[/url]', $uploadName);
+                        $this->bbCode = sprintf($this->isValidPicExt($_FILES['uploadedFile']['name']) ? '[img]%s[/img]' : '[url=%s]' . basename($_FILES['uploadedFile']['name']) . '[/url]', $uploadName);
                     }
                 }
                 break;
@@ -146,15 +156,20 @@ class Upload extends PublicModule
                 case UPLOAD_ERR_PARTIAL:
                 $this->errors[] = Language::getInstance()->getString('file_uploaded_partially_try_again');
                 break;
+
+                //Any other error
+                default:
+                $this->errors[] = Language::getInstance()->getString('upload_failed');
+                break;
             }
             break;
         }
-        exit(Template::getInstance()->display(Functions::handleMode($this->mode, self::$modeTable, __CLASS__, 'uploadFile'), array('errors' => $this->errors,
+        exit(Template::getInstance()->display(Functions::handleMode($this->mode, self::$modeTable, __CLASS__, 'uploadFile'), ['errors' => $this->errors,
             'allowedExtensions' => $this->allowedExtensions,
             'maxFilesize' => $this->maxFilesize/1024,
             'isUploaded' => $this->isUploaded,
             'bbCode' => $this->bbCode,
-            'targetBoxID' => $this->targetBoxID)));
+            'targetBoxID' => $this->targetBoxID]));
     }
 
     /**
@@ -165,7 +180,7 @@ class Upload extends PublicModule
      */
     private function isValidPicExt(string $filename): bool
     {
-        return (bool) preg_match("/(.*)\.(jpg|jpeg|gif|png|bmp)/i", $filename);
+        return (bool) preg_match("/(.*)\.(jpg|jpeg|gif|png|bmp|webp)/i", $filename);
     }
 }
 ?>

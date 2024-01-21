@@ -37,14 +37,17 @@ class Register extends PublicModule
      *
      * @var array Mode and template counterparts
      */
-    private static array $modeTable = array('' => 'Register', 'register' => 'Register', 'createuser' => 'Register', 'verifyAccount' => 'RegisterVerification');
+    private static array $modeTable = ['' => 'Register',
+        'register' => 'Register',
+        'createuser' => 'Register',
+        'verifyAccount' => 'RegisterVerification'];
 
     /**
      * Provides named keys for new user data.
      *
      * @var array Named keys
      */
-    private static array $newUserKeys = array('nick', 'mail', 'homepage', 'realName', 'icq', 'signature');
+    private static array $newUserKeys = ['nick', 'mail', 'homepage', 'realName', 'icq', 'signature'];
 
     /**
      * Sets privacy policy link, member counter and mode.
@@ -83,12 +86,12 @@ class Register extends PublicModule
         {
 //Register
             case 'createuser':
-            $newUser = array_combine(self::$newUserKeys, array(trim(Functions::getValueFromGlobals('newuser_name')),
+            $newUser = array_combine(self::$newUserKeys, [trim(Functions::getValueFromGlobals('newuser_name')),
                 trim(Functions::getValueFromGlobals('newuser_email')),
                 trim(Functions::getValueFromGlobals('newuser_hp')),
                 htmlspecialchars(trim(Functions::getValueFromGlobals('newuser_realname'))),
                 trim(Functions::getValueFromGlobals('newuser_icq')),
-                htmlspecialchars(trim(Functions::nl2br(Functions::getValueFromGlobals('newuser_signatur', false))))));
+                htmlspecialchars(trim(Functions::nl2br(Functions::getValueFromGlobals('newuser_signatur', false))))]);
             //A lot of checking...
             if(empty($newUser['nick']))
                 $this->errors[] = Language::getInstance()->getString('please_enter_an_user_name');
@@ -130,7 +133,7 @@ class Register extends PublicModule
                 $lockObj = Functions::getLockObject('vars/last_user_id.var');
                 $newUserID = $lockObj->getFileContent()+1;
                 //Prepare contents of new member file
-                $newMemberFile = array($newUser['nick'],
+                $newMemberFile = [$newUser['nick'],
                     $newUserID,
                     !$this->createRegPass ? $newPass : Functions::getHash($newPass),
                     $newUser['mail'],
@@ -152,7 +155,7 @@ class Register extends PublicModule
                     '',
                     '',
                     '',
-                    '');
+                    ''];
                 //Register as new member only, if no mail validation is required
                 if(Config::getInstance()->getCfgVal('confirm_reg_mail') != 1)
                 {
@@ -224,19 +227,19 @@ class Register extends PublicModule
             }
             elseif(isset($_POST['verify']))
                 $this->errors[] = Language::getInstance()->getString('please_enter_your_code');
-            $newUser = array('code' => $code);
+            $newUser = ['code' => $code];
             break;
 
 //Register
             case 'register':
             default:
-            $newUser = array_combine(self::$newUserKeys, array('', '', '', '', '', ''));
+            $newUser = array_combine(self::$newUserKeys, ['', '', '', '', '', '']);
             break;
         }
-        Template::getInstance()->printPage(Functions::handleMode($this->mode, self::$modeTable, __CLASS__), array('newUser' => $newUser,
+        Template::getInstance()->printPage(Functions::handleMode($this->mode, self::$modeTable, __CLASS__), ['newUser' => $newUser,
             'errors' => $this->errors,
             'rulesLink' => INDEXFILE . '?faction=regeln' . SID_AMPER,
-            'privacyPolicyLink' => $this->privacyPolicyLink));
+            'privacyPolicyLink' => $this->privacyPolicyLink]);
     }
 }
 ?>
