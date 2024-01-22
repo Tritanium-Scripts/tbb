@@ -19,6 +19,7 @@
   <link href="{$smarty.const.INDEXFILE}?faction=rssFeed" rel="alternate" title="{Config::getInstance()->getCfgVal('forum_name')|string_format:Language::getInstance()->getString('x_rss_feed')}" type="application/rss+xml" />
   <script src="{Template::getInstance()->getTplDir()}scripts/scripts.js" type="text/javascript"></script>
   <title>{$smarty.config.navBarDelim|implode:NavBar::getInstance()->getNavBar(false)}</title>
+{plugin_hook hook=PlugIns::HOOK_TPL_PAGE_HEADER_HTML_HEAD}
  </head>
  <body{if PrivateMessage::getInstance()->isRemind() && $unreadPMs > 0} onload="if(confirm('{if $unreadPMs == 1}{Language::getInstance()->getString('you_have_one_new_pm')}{elseif $unreadPMs > 1}{$unreadPMs|string_format:Language::getInstance()->getString('you_have_x_new_pms')}{/if}')) document.location='{$smarty.const.INDEXFILE}?faction=pm';"{/if}>
   <div id="mainBox" style="width:{Config::getInstance()->getCfgVal('twidth')};">
@@ -37,6 +38,7 @@
      <a href="{$smarty.const.INDEXFILE}?faction=todaysPosts{$smarty.const.SID_AMPER}"><img src="{Template::getInstance()->getTplDir()}images/buttons/todays_posts.png" class="imageButton" alt="{Language::getInstance()->getString('todays_posts')}" /></a>
      <a href="{$smarty.const.INDEXFILE}?faction=newsletter{$smarty.const.SID_AMPER}"><img src="{Template::getInstance()->getTplDir()}images/buttons/newsletter.png" class="imageButton" alt="{Language::getInstance()->getString('newsletter_archive')}" /></a>{if Config::getInstance()->getCfgVal('activate_calendar') != 0}
      <a href="{$smarty.const.INDEXFILE}?faction=calendar{$smarty.const.SID_AMPER}"><img src="{Template::getInstance()->getTplDir()}images/buttons/calendar.png" class="imageButton" alt="{Language::getInstance()->getString('calendar')}" /></a>{/if}
+{plugin_hook hook=PlugIns::HOOK_TPL_PAGE_HEADER_TOOLBAR_LOGGED_IN}
      <a href="{$smarty.const.INDEXFILE}?faction=logout{$smarty.const.SID_AMPER}"><img src="{Template::getInstance()->getTplDir()}images/buttons/logout.png" class="imageButton" alt="{Language::getInstance()->getString('logout')}" /></a>
 {else}
      <a href="{$smarty.const.INDEXFILE}?faction=register{$smarty.const.SID_AMPER}"><img src="{Template::getInstance()->getTplDir()}images/buttons/register.png" class="imageButton" alt="{Language::getInstance()->getString('register')}" /></a>
@@ -46,6 +48,7 @@
      <a href="{$smarty.const.INDEXFILE}?faction=mlist{$smarty.const.SID_AMPER}"><img src="{Template::getInstance()->getTplDir()}images/buttons/member_list.png" class="imageButton" alt="{Language::getInstance()->getString('member_list')}" /></a>{/if}
      <a href="{$smarty.const.INDEXFILE}?faction=todaysPosts{$smarty.const.SID_AMPER}"><img src="{Template::getInstance()->getTplDir()}images/buttons/todays_posts.png" class="imageButton" alt="{Language::getInstance()->getString('todays_posts')}" /></a>{if Config::getInstance()->getCfgVal('activate_calendar') != 0}
      <a href="{$smarty.const.INDEXFILE}?faction=calendar{$smarty.const.SID_AMPER}"><img src="{Template::getInstance()->getTplDir()}images/buttons/calendar.png" class="imageButton" alt="{Language::getInstance()->getString('calendar')}" /></a>{/if}
+{plugin_hook hook=PlugIns::HOOK_TPL_PAGE_HEADER_TOOLBAR_LOGGED_OUT}
      <a href="{$smarty.const.INDEXFILE}?faction=login{$smarty.const.SID_AMPER}"><img src="{Template::getInstance()->getTplDir()}images/buttons/login.png" class="imageButton" alt="{Language::getInstance()->getString('login')}" /></a>{/if}
     </div>
    </div>

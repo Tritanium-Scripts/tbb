@@ -60,6 +60,7 @@ function negateBoxes(id)
 /* ]]> */
   </script>
   <title>{$smarty.config.navBarDelim|implode:NavBar::getInstance()->getNavBar(false)}</title>
+{plugin_hook hook=PlugIns::HOOK_TPL_PAGE_HEADER_HTML_HEAD}
  </head>
  <body style="padding-top:1em;"{if PrivateMessage::getInstance()->isRemind() && $unreadPMs > 0} onload="if(confirm('{if $unreadPMs == 1}{Language::getInstance()->getString('you_have_one_new_pm')}{elseif $unreadPMs > 1}{$unreadPMs|string_format:Language::getInstance()->getString('you_have_x_new_pms')}{/if}')) document.location='{$smarty.const.INDEXFILE}?faction=pm';"{/if}>
   <div id="main">
@@ -83,6 +84,7 @@ function negateBoxes(id)
      <a href="{$smarty.const.INDEXFILE}?faction=todaysPosts{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('todays_posts')}</a> |
      <a href="{$smarty.const.INDEXFILE}?faction=newsletter{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('newsletter_archive')}</a> | {if Config::getInstance()->getCfgVal('activate_calendar') != 0}
      <a href="{$smarty.const.INDEXFILE}?faction=calendar{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('calendar')}</a> | {/if}
+{plugin_hook hook=PlugIns::HOOK_TPL_PAGE_HEADER_TOOLBAR_LOGGED_IN}
      <a href="{$smarty.const.INDEXFILE}?faction=logout{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('logout')}</a>
      {else}{Config::getInstance()->getCfgVal('forum_name')}</span><br />
      <span class="tbar">
@@ -93,6 +95,7 @@ function negateBoxes(id)
      <a href="{$smarty.const.INDEXFILE}?faction=mlist{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('member_list')}</a> | {/if}
      <a href="{$smarty.const.INDEXFILE}?faction=todaysPosts{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('todays_posts')}</a> | {if Config::getInstance()->getCfgVal('activate_calendar') != 0}
      <a href="{$smarty.const.INDEXFILE}?faction=calendar{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('calendar')}</a> | {/if}
+{plugin_hook hook=PlugIns::HOOK_TPL_PAGE_HEADER_TOOLBAR_LOGGED_OUT}
      <a href="{$smarty.const.INDEXFILE}?faction=login{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('login')}</a>
      {/if}</span>
     </td>
