@@ -142,7 +142,9 @@ class Forum extends PublicModule
                 {
                     case '1':
                     case 'open': //Downward compatibility
-                    $curTopicIcon = !isset($_COOKIE[$curCookieID]) || $_COOKIE[$curCookieID] < $curTopic[5] ? ($curSize <= Config::getInstance()->getCfgVal('topic_is_hot') ? 'ontopic' : 'onstopic') : ($curSize <= Config::getInstance()->getCfgVal('topic_is_hot') ? 'onntopic' : 'onnstopic');
+                    $curTopicIcon = !isset($_COOKIE[$curCookieID]) || $_COOKIE[$curCookieID] < $curTopic[5]
+                        ? ($curSize <= Config::getInstance()->getCfgVal('topic_is_hot') ? 'ontopic' : 'onstopic')
+                        : ($curSize <= Config::getInstance()->getCfgVal('topic_is_hot') ? 'onntopic' : 'onnstopic');
                     $isMoved = false;
                     break;
 
@@ -309,7 +311,11 @@ class Forum extends PublicModule
                     //Detect rank
                     $curPoster['userState'] = Functions::getStateName($curPoster['userState'], $curPoster['userPosts']);
                     //Signature incl. cache check =)
-                    $curPoster['userSig'] = !empty($curPoster['userSig']) && ($curPost[5] == '1' || $curPost[5] == 'yes') ? (isset($parsedSignatures[$curPost[1]]) ? $parsedSignatures[$curPost[1]] : ($parsedSignatures[$curPost[1]] = BBCode::getInstance()->parse(Functions::censor($curPoster['userSig']), false, true, true, $topicFile))) : '';
+                    $curPoster['userSig'] = !empty($curPoster['userSig']) && ($curPost[5] == '1' || $curPost[5] == 'yes')
+                        ? (isset($parsedSignatures[$curPost[1]])
+                            ? $parsedSignatures[$curPost[1]]
+                            : ($parsedSignatures[$curPost[1]] = BBCode::getInstance()->parse(Functions::censor($curPoster['userSig']), false, true, true, $topicFile)))
+                        : '';
                 }
                 unset($curPoster['userMailOpts'], $curPoster['userPassHash'], $curPoster['userForumAcc']);
                 //User values done, proceed with post
@@ -366,7 +372,11 @@ class Forum extends PublicModule
                 {
                     #0:forumID - 1:topicID - 2:userID - 3:proprietaryDate[ - 4:tSmileyID - 5:postID]
                     $curNewestPost = Functions::explodeByComma($curNewestPost . ',1'); //Make sure index 4 is available (index 5 not eligible)
-                    $curNewestPost[2] = Functions::isGuestID($curNewestPost[2]) ? Functions::substr($curNewestPost[2], 1) : (Functions::file_exists('members/' . $curNewestPost[2] . '.xbb') ? current(Functions::file('members/' . $curNewestPost[2] . '.xbb')) : Language::getInstance()->getString('deleted'));
+                    $curNewestPost[2] = Functions::isGuestID($curNewestPost[2])
+                        ? Functions::substr($curNewestPost[2], 1)
+                        : (Functions::file_exists('members/' . $curNewestPost[2] . '.xbb')
+                            ? current(Functions::file('members/' . $curNewestPost[2] . '.xbb'))
+                            : Language::getInstance()->getString('deleted'));
                     $curNewestPost[5] = date('r', Functions::getTimestamp($curNewestPost[3] . '01000000')-date('Z'));
                     $curNewestPost[4] = Functions::getTSmileyURL($curNewestPost[4]);
                 }
@@ -536,7 +546,9 @@ class Forum extends PublicModule
                     $curNewestPost = Functions::explodeByComma($curNewestPost . ',1,'); //Make sure index 4 and 5 are available
                     $newestPosts[] = sprintf(Language::getInstance()->getString('x_by_x_on_x'),
                         //Topic check + link + title preparation
-                        !Functions::file_exists('foren/' . $curNewestPost[0] . '-' . $curNewestPost[1] . '.xbb') ? Language::getInstance()->getString('deleted') : '<img src="' . Functions::getTSmileyURL($curNewestPost[4]) . '" alt="" /> <a href="' . INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curNewestPost[0] . '&amp;thread=' . $curNewestPost[1] . '&amp;z=last' . SID_AMPER . '#post' . $curNewestPost[5] . '">' . (Functions::shorten(Functions::censor(Functions::getTopicName($curNewestPost[0], $curNewestPost[1])), 53)) . '</a>',
+                        !Functions::file_exists('foren/' . $curNewestPost[0] . '-' . $curNewestPost[1] . '.xbb')
+                            ? Language::getInstance()->getString('deleted')
+                            : '<img src="' . Functions::getTSmileyURL($curNewestPost[4]) . '" alt="" /> <a href="' . INDEXFILE . '?mode=viewthread&amp;forum_id=' . $curNewestPost[0] . '&amp;thread=' . $curNewestPost[1] . '&amp;z=last' . SID_AMPER . '#post' . $curNewestPost[5] . '">' . (Functions::shorten(Functions::censor(Functions::getTopicName($curNewestPost[0], $curNewestPost[1])), 53)) . '</a>',
                         Functions::getProfileLink($curNewestPost[2], true),
                         Functions::formatDate($curNewestPost[3]));
                 }

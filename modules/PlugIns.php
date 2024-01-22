@@ -1,6 +1,6 @@
 <?php
 /**
- * Plug-in controller for caching, loading and calling all found plug-ins hooking into executing of the Newsscript.
+ * Plug-in controller for caching, loading and calling all found plug-ins hooking into executing of the board.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
  * @copyright Copyright (c) 2024 Tritanium Scripts
@@ -11,18 +11,18 @@ class PlugIns
 {
     use Singleton;
 
-    const HOOK_CORE_INIT = 'HOOK_CORE_INIT';
-    const HOOK_CORE_RUN = 'HOOK_CORE_RUN';
-    const HOOK_CORE_MODULE_CALL = 'HOOK_CORE_MODULE_CALL';
+    public const HOOK_CORE_INIT = 'HOOK_CORE_INIT';
+    public const HOOK_CORE_RUN = 'HOOK_CORE_RUN';
+    public const HOOK_CORE_MODULE_CALL = 'HOOK_CORE_MODULE_CALL';
 
-    const HOOK_BBCODE_PARSE_HTML = 'HOOK_BBCODE_PARSE_HTML';
-    const HOOK_BBCODE_PARSE_SMILIES = 'HOOK_BBCODE_PARSE_SMILIES';
-    const HOOK_BBCODE_PARSE_BBCODE = 'HOOK_BBCODE_PARSE_BBCODE';
+    public const HOOK_BBCODE_PARSE_HTML = 'HOOK_BBCODE_PARSE_HTML';
+    public const HOOK_BBCODE_PARSE_SMILIES = 'HOOK_BBCODE_PARSE_SMILIES';
+    public const HOOK_BBCODE_PARSE_BBCODE = 'HOOK_BBCODE_PARSE_BBCODE';
 
-    const HOOK_TEMPLATE_INIT = 'HOOK_TEMPLATE_INIT';
-    const HOOK_TEMPLATE_PAGE = 'HOOK_TEMPLATE_PAGE';
+    public const HOOK_TEMPLATE_INIT = 'HOOK_TEMPLATE_INIT';
+    public const HOOK_TEMPLATE_PAGE = 'HOOK_TEMPLATE_PAGE';
 
-    const HOOK_TPL_BBCODES = 'HOOK_TPL_BBCODES';
+    public const HOOK_TPL_BBCODES = 'HOOK_TPL_BBCODES';
 
     /**
      * Loaded plug-in instances.

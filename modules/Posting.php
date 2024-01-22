@@ -781,7 +781,8 @@ class Posting extends PublicModule
     private function setTopicOnTop(): void
     {
         $topicIDs = Functions::file('foren/' . $this->forum[0] . '-threads.xbb', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-        if(($oldPos = array_search($this->topicID, $topicIDs)) !== false)
+        $oldPos = array_search($this->topicID, $topicIDs);
+        if($oldPos !== false)
         {
             unset($topicIDs[$oldPos]);
             $topicIDs[] = $this->topicID;

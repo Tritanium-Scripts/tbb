@@ -91,7 +91,7 @@ class AdminLogfile extends PublicModule
 //AdminLogfile
             default:
             $logfiles = [];
-            foreach(glob(DATAPATH . 'logs/*.log') as $curLogfile)
+            foreach(Functions::glob(DATAPATH . 'logs/*.log') as $curLogfile)
             {
                 $curTimestamp = gmmktime(0, 0, 0, Functions::substr($curFilename = basename($curLogfile, '.log'), 2, 2), Functions::substr($curFilename, 0, 2), Functions::substr($curFilename, 4));
                 $logfiles[] = ['name' => $curFilename,
@@ -111,26 +111,17 @@ class AdminLogfile extends PublicModule
             {
                 case 'byDate':
                 default:
-                usort($logfiles, function($file1, $file2)
-                {
-                    return strnatcasecmp($file1['timestamp'], $file2['timestamp']);
-                });
+                usort($logfiles, fn($file1, $file2) => strnatcasecmp($file1['timestamp'], $file2['timestamp']));
                 $orderTypeDate = !$orderType;
                 break;
 
                 case 'bySize':
-                usort($logfiles, function($file1, $file2)
-                {
-                    return strnatcasecmp($file1['size'], $file2['size']);
-                });
+                usort($logfiles, fn($file1, $file2) => strnatcasecmp($file1['size'], $file2['size']));
                 $orderTypeSize = !$orderType;
                 break;
 
                 case 'byEntries':
-                usort($logfiles, function($file1, $file2)
-                {
-                    return strnatcasecmp($file1['entries'], $file2['entries']);
-                });
+                usort($logfiles, fn($file1, $file2) => strnatcasecmp($file1['entries'], $file2['entries']));
                 $orderTypeEntries = !$orderType;
                 break;
             }

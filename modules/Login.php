@@ -30,7 +30,10 @@ class Login extends PublicModule
      *
      * @var array Mode and template counterparts
      */
-    private static array $modeTable = ['' => 'Login', 'login' => 'Login', 'verify' => 'Login', 'sendpw' => 'RequestPassword'];
+    private static array $modeTable = ['' => 'Login',
+        'login' => 'Login',
+        'verify' => 'Login',
+        'sendpw' => 'RequestPassword'];
 
     /**
      * Prepares and sets login name, login password and mode.
@@ -77,7 +80,7 @@ class Login extends PublicModule
                 $this->loginPass = Functions::getHash($this->loginPass);
                 $found = false;
                 //Start crawling by ignoring XBB files with leading zeros (=skip guest) and temporary ones
-                foreach(glob(DATAPATH . 'members/[!0t]*.xbb') as $curMember)
+                foreach(Functions::glob(DATAPATH . 'members/[!0t]*.xbb') as $curMember)
                 {
                     $curMember = Functions::file($curMember, null, null, false);
                     if($this->loginName == Functions::strtolower($curMember[0]))
@@ -163,7 +166,7 @@ class Login extends PublicModule
                 {
                     //Prerequisites are met, prepare data and start crawling
                     $this->loginName = Functions::strtolower($this->loginName);
-                    foreach(glob(DATAPATH . 'members/[!0t]*.xbb') as $curMember)
+                    foreach(Functions::glob(DATAPATH . 'members/[!0t]*.xbb') as $curMember)
                     {
                         $curMember = Functions::file($curMember);
                         if($this->loginName == Functions::strtolower($curMember[0]))

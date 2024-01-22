@@ -114,7 +114,9 @@ class WhoIsOnline extends PublicModule
             //Admins may also see ghosts
             if(!($curWIOEntryIsGhost = $curWIOEntry[4] == '1') || Auth::getInstance()->isAdmin())
             {
-                $curUser = is_numeric($curWIOEntry[1]) ? Functions::getProfileLink($curWIOEntry[1]) : Language::getInstance()->getString($this->isBot($curWIOEntry[5]) ? 'bot' : 'guest') . Functions::substr($curWIOEntry[1], 5, 5);
+                $curUser = is_numeric($curWIOEntry[1])
+                    ? Functions::getProfileLink($curWIOEntry[1])
+                    : Language::getInstance()->getString($this->isBot($curWIOEntry[5]) ? 'bot' : 'guest') . Functions::substr($curWIOEntry[1], 5, 5);
                 $curTime = ($curTime = $time-$curWIOEntry[0]) < 60
                     ? sprintf(Language::getInstance()->getString('x_seconds_ago'), $curTime)
                     : ($curTime < 120
@@ -550,7 +552,9 @@ class WhoIsOnline extends PublicModule
         {
             Functions::getFileLock('wio');
             foreach($this->refreshVar() as $curWIOEntry)
-                is_numeric($curWIOEntry[1]) ? ($curWIOEntry[4] != '1' ? $members[] = Functions::getProfileLink($curWIOEntry[1], false, ' class="small"', true) : $ghosts++) : ($this->isBot($curWIOEntry[5]) ? $bots++ : $guests++);
+                is_numeric($curWIOEntry[1])
+                    ? ($curWIOEntry[4] != '1' ? $members[] = Functions::getProfileLink($curWIOEntry[1], false, ' class="small"', true) : $ghosts++)
+                    : ($this->isBot($curWIOEntry[5]) ? $bots++ : $guests++);
             Functions::releaseLock('wio');
         }
         return [$guests, $ghosts, $members, $bots];

@@ -42,7 +42,9 @@ class AdminUser extends PublicModule
      */
     private function cmpByPercent(array $m1, array $m2)
     {
-        return $m1['percent'] == $m2['percent'] ? ($m1['id'] == $m2['id'] ? 0 : ($m1['id'] > $m2['id'] ? 1 : -1)) : ($m1['percent'] < $m2['percent'] ? 1 : -1);
+        return $m1['percent'] == $m2['percent']
+            ? ($m1['id'] == $m2['id'] ? 0 : ($m1['id'] > $m2['id'] ? 1 : -1))
+            : ($m1['percent'] < $m2['percent'] ? 1 : -1);
     }
 
     /**
@@ -252,7 +254,7 @@ class AdminUser extends PublicModule
                         case 'nick':
                         case 'email':
                         $index = $searchMethod == 'nick' ? 0 : 3;
-                        foreach(glob(DATAPATH . 'members/[!0t]*.xbb') as $curMember)
+                        foreach(Functions::glob(DATAPATH . 'members/[!0t]*.xbb') as $curMember)
                         {
                             $curMember = Functions::file($curMember, null, null, false);
                             similar_text(Functions::strtolower($curMember[$index]), $searchFor, $curPercent); //Calculate percentage of similarity

@@ -10,7 +10,7 @@ trait Singleton
      * @param string $mode Optional mode for not yet loaded module
      * @return Singleton Instance of this class
      */
-    public static function getInstance(?string $mode=null)
+    public static function getInstance(?string $mode=null): object
     {
         static $instance = null;
         //Late static binding magic *zomg*

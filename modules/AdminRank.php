@@ -182,10 +182,7 @@ class AdminRank extends PublicModule
     private function sortAndSaveRanks(): void
     {
         //Sort
-        usort($this->ranks, function($rank1, $rank2)
-        {
-            return strnatcasecmp($rank1[2], $rank2[2]);
-        });
+        usort($this->ranks, fn($rank1, $rank2) => strnatcasecmp($rank1[2], $rank2[2]));
         //Recalculate
         $size = count($this->ranks);
         for($i=1; $i<$size; $i++)

@@ -828,37 +828,39 @@ class BBCodeMP3 implements PlugIn
 
     public function onHook(string $hook, bool $official): ?callable
     {
-        if($official)
-            switch($hook)
+        switch($hook)
+        {
+            case PlugIns::HOOK_BBCODE_PARSE_BBCODE:
+            return function($args)
             {
-                case PlugIns::HOOK_BBCODE_PARSE_BBCODE:
-                return function($args)
+                $args[0] = Functions::substr($args[0], 0, 11) == 'javascript:' ? $args[0] : preg_replace(&quot;/\[mp3\](.*?)\[\/mp3\]/si&quot;, '&lt;audio src=&quot;\1&quot; type=&quot;audio/mp3&quot; controls=&quot;controls&quot;&gt;\1&lt;/audio&gt;', $args[0]);
+            };
+            break;
+
+            case PlugIns::HOOK_TPL_BBCODES:
+            return function($args)
+            {
+                switch(basename(Template::getInstance()-&gt;getTplDir()))
                 {
-                    $args[0] = preg_replace(&quot;/\[mp3\](.*?)\[\/mp3\]/si&quot;, '&lt;audio src=&quot;\1&quot; type=&quot;audio/mp3&quot; controls=&quot;controls&quot;&gt;\1&lt;/audio&gt;', $args[0]);
-                };
-                break;
+                    case 'std':
+                    echo '&lt;input class=&quot;forumcode&quot; type=&quot;button&quot; value=&quot;MP3&quot; onclick=&quot;setTag(\'[mp3]\',\'[/mp3]\');&quot; /&gt;';
+                    break;
 
-                case PlugIns::HOOK_TPL_BBCODES:
-                return function($args)
-                {
-                    switch(basename(Template::getInstance()-&gt;getTplDir()))
-                    {
-                        case 'std':
-                        echo '&lt;input class=&quot;forumcode&quot; type=&quot;button&quot; value=&quot;MP3&quot; onclick=&quot;setTag(\'[mp3]\',\'[/mp3]\');&quot; /&gt;';
-                        break;
+                    case 'tbb2':
+                    echo '&lt;input class=&quot;formBBCodeButton&quot; type=&quot;button&quot; value=&quot;MP3&quot; onclick=&quot;setTag(\'[mp3]\',\'[/mp3]\');&quot; /&gt;';
+                    break;
 
-                        case 'tbb2':
-                        echo '&lt;input class=&quot;formBBCodeButton&quot; type=&quot;button&quot; value=&quot;MP3&quot; onclick=&quot;setTag(\'[mp3]\',\'[/mp3]\');&quot; /&gt;';
-                        break;
+                    default:
+                    echo '&lt;input type=&quot;button&quot; value=&quot;MP3&quot; onclick=&quot;setTag(\'[mp3]\',\'[/mp3]\');&quot; /&gt;';
+                    break;
+                }
+            };
+            break;
 
-                        default:
-                        echo '&lt;input type=&quot;button&quot; value=&quot;MP3&quot; onclick=&quot;setTag(\'[mp3]\',\'[/mp3]\');&quot; /&gt;';
-                        break;
-                    }
-                };
-                break;
-            }
-        return null;
+            default:
+            return null;
+            break;
+        }
     }
 }
 ?&gt;</pre>

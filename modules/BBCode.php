@@ -15,122 +15,122 @@ class BBCode
     /**
      * List.
      */
-    const BBCODE_LIST = 0;
+    public const BBCODE_LIST = 0;
 
     /**
      * Bold.
      */
-    const BBCODE_BOLD = 1;
+    public const BBCODE_BOLD = 1;
 
     /**
      * Italic.
      */
-    const BBCODE_ITALIC = 2;
+    public const BBCODE_ITALIC = 2;
 
     /**
      * Underline.
      */
-    const BBCODE_UNDERLINE = 3;
+    public const BBCODE_UNDERLINE = 3;
 
     /**
      * Strike.
      */
-    const BBCODE_STRIKE = 4;
+    public const BBCODE_STRIKE = 4;
 
     /**
      * Superscript.
      */
-    const BBCODE_SUPERSCRIPT = 5;
+    public const BBCODE_SUPERSCRIPT = 5;
 
     /**
      * Subscript.
      */
-    const BBCODE_SUBSCRIPT = 6;
+    public const BBCODE_SUBSCRIPT = 6;
 
     /**
      * Spoiler.
      */
-    const BBCODE_HIDE = 7;
+    public const BBCODE_HIDE = 7;
 
     /**
      * Hidden.
      */
-    const BBCODE_LOCK = 8;
+    public const BBCODE_LOCK = 8;
 
     /**
      * Center.
      */
-    const BBCODE_CENTER = 9;
+    public const BBCODE_CENTER = 9;
 
     /**
      * Email.
      */
-    const BBCODE_EMAIL = 10;
+    public const BBCODE_EMAIL = 10;
 
     /**
      * Image.
      */
-    const BBCODE_IMAGE = 11;
+    public const BBCODE_IMAGE = 11;
 
     /**
      * URL.
      */
-    const BBCODE_LINK = 12;
+    public const BBCODE_LINK = 12;
 
     /**
      * Color.
      */
-    const BBCODE_COLOR = 13;
+    public const BBCODE_COLOR = 13;
 
     /**
      * Size.
      */
-    const BBCODE_SIZE = 14;
+    public const BBCODE_SIZE = 14;
 
     /**
      * Glow.
      */
-    const BBCODE_GLOW = 15;
+    public const BBCODE_GLOW = 15;
 
     /**
      * Shadow.
      */
-    const BBCODE_SHADOW = 16;
+    public const BBCODE_SHADOW = 16;
 
     /**
      * Flash.
      */
-    const BBCODE_FLASH = 17;
+    public const BBCODE_FLASH = 17;
 
     /**
      * Quote.
      */
-    const BBCODE_QUOTE = 18;
+    public const BBCODE_QUOTE = 18;
 
     /**
      * Code / PHP.
      */
-    const BBCODE_CODE = 19;
+    public const BBCODE_CODE = 19;
 
     /**
      * Inline frame.
      */
-    const BBCODE_IFRAME = 20;
+    public const BBCODE_IFRAME = 20;
 
     /**
      * Normal smilies.
      */
-    const SMILEY_SMILEY = 0;
+    public const SMILEY_SMILEY = 0;
 
     /**
      * Post icons.
      */
-    const SMILEY_TOPIC = 1;
+    public const SMILEY_TOPIC = 1;
 
     /**
      * Admin and (s)mod smilies.
      */
-    const SMILEY_ADMIN = 2;
+    public const SMILEY_ADMIN = 2;
 
     /**
      * Contains ready-for-use admin smilies with synonym and URL.
@@ -178,7 +178,7 @@ class BBCode
                 }
             }
             if(Config::getInstance()->getCfgVal('use_file_caching') == 1)
-                Functions::file_put_contents('cache/BBCode.cache.php', '<?php' . (!empty($toCache) ? ' $this->smilies = [\'' . implode('\', \'', $toCache) . '\'];' : '') . (isset($twoCache) ? ' $this->aSmilies = [\'' . implode('\', \'', $twoCache) . '\'];' : '') . ' ?>', LOCK_EX, false, false);
+                Functions::file_put_contents('cache/BBCode.cache.php', '<?php' . (!empty($toCache) ? ' $this->smilies = [\'' . implode('\', \'', $toCache) . '\'];' : '') . (isset($twoCache) && !empty($twoCache) ? ' $this->aSmilies = [\'' . implode('\', \'', $twoCache) . '\'];' : '') . ' ?>', LOCK_EX, false, false);
         }
     }
 

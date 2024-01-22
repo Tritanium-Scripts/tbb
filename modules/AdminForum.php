@@ -230,7 +230,7 @@ class AdminForum extends PublicModule
                             $fileCounter++;
                         }
                         //Delete links of moved topics (if any)
-                        foreach(glob(DATAPATH . 'foren/' . $forumID . '-[0-9]*.xbb') as $curMovedTopic)
+                        foreach(Functions::glob(DATAPATH . 'foren/' . $forumID . '-[0-9]*.xbb') as $curMovedTopic)
                         {
                             $sizeCounter += Functions::unlink($curMovedTopic, false);
                             $fileCounter++;

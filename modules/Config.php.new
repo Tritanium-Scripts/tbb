@@ -249,7 +249,7 @@ class Config
      */
     public function getCfgVal(string $key)
     {
-        return isset($this->cfgValues[$key]) ? $this->cfgValues[$key] : !trigger_error('Config value ' . $key . ' does not exist!', E_USER_NOTICE);
+        return $this->cfgValues[$key] ?? !trigger_error('Config value ' . $key . ' does not exist!', E_USER_NOTICE);
     }
 
     /**

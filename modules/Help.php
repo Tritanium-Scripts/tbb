@@ -23,7 +23,10 @@ class Help extends PublicModule
      *
      * @var array Page and template counterparts
      */
-    private static array $pageTable = ['' => 'FAQ', 'faq' => 'FAQ', 'regeln' => 'BoardRules', 'gdpr' => 'GDPR'];
+    private static array $pageTable = ['' => 'FAQ',
+        'faq' => 'FAQ',
+        'regeln' => 'BoardRules',
+        'gdpr' => 'GDPR'];
 
     /**
      * Sets help page to display.

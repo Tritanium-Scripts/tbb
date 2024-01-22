@@ -1,6 +1,6 @@
 <?php
 /**
- * Convenient way to delete topics with a certain date.
+ * Convenient way to delete topics by a certain date.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
  * @copyright Copyright (c) 2010-2023 Tritanium Scripts

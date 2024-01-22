@@ -14,62 +14,62 @@ class Logger
     /**
      * Problems with filesystem.
      */
-    const LOG_FILESYSTEM = 1;
+    public const LOG_FILESYSTEM = 1;
 
     /**
      * Failed ACP access.
      */
-    const LOG_ACP_ACCESS = 2;
+    public const LOG_ACP_ACCESS = 2;
 
     /**
      * Failed login.
      */
-    const LOG_FAILED_LOGIN = 3;
+    public const LOG_FAILED_LOGIN = 3;
 
     /**
      * New topic or post.
      */
-    const LOG_NEW_POSTING = 4;
+    public const LOG_NEW_POSTING = 4;
 
     /**
      * Edited, deleted, moved post or topic.
      */
-    const LOG_EDIT_POSTING = 5;
+    public const LOG_EDIT_POSTING = 5;
 
     /**
      * User connected to board.
      */
-    const LOG_USER_CONNECT = 6;
+    public const LOG_USER_CONNECT = 6;
 
     /**
      * Logins and logouts.
      */
-    const LOG_LOGIN_LOGOUT = 7;
+    public const LOG_LOGIN_LOGOUT = 7;
 
     /**
      * Admin actions.
      */
-    const LOG_ACP_ACTION = 8;
+    public const LOG_ACP_ACTION = 8;
 
     /**
      * PMs and mails.
      */
-    const LOG_USER_TRAFFIC = 9;
+    public const LOG_USER_TRAFFIC = 9;
 
     /**
      * Profile changed.
      */
-    const LOG_EDIT_PROFILE = 10;
+    public const LOG_EDIT_PROFILE = 10;
 
     /**
      * New registration.
      */
-    const LOG_REGISTRATION = 11;
+    public const LOG_REGISTRATION = 11;
 
     /**
      * New password request.
      */
-    const LOG_NEW_PASSWORD = 12;
+    public const LOG_NEW_PASSWORD = 12;
 
     /**
      * File used for logging entries.

@@ -30,7 +30,7 @@ class Register extends PublicModule
      *
      * @var LockObject Amount of members
      */
-    private $memberCounter;
+    private LockObject $memberCounter;
 
     /**
      * Translates a mode to its template file.
@@ -190,7 +190,7 @@ class Register extends PublicModule
             NavBar::getInstance()->addElement(Language::getInstance()->getString('activate_account'), INDEXFILE . '?faction=register&amp;mode=verifyAccount' . SID_AMPER);
             if(($code = Functions::getValueFromGlobals('code')) != '')
             {
-                foreach(glob(DATAPATH . 'members/temp*.xbb') as $curPreMember)
+                foreach(Functions::glob(DATAPATH . 'members/temp*.xbb') as $curPreMember)
                     if($code == md5(basename($curPreMember, '.xbb')))
                     {
                         //Get temporarily data of verfied member

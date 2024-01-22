@@ -84,7 +84,7 @@ class Calendar extends PublicModule
             unset($plannedEvents);
         }
         //Filter and add member events (join or anniversary date in the selected month)
-        foreach(glob(DATAPATH . 'members/[!0t]*.xbb') as $curMember)
+        foreach(Functions::glob(DATAPATH . 'members/[!0t]*.xbb') as $curMember)
         {
             $curMember = Functions::file($curMember, null, null, false);
             $curRegYear = intval(Functions::substr($curMember[6], 0, 4));

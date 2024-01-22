@@ -112,8 +112,14 @@ class AdminIP extends PublicModule
             default:
             foreach($this->ipBlocks as &$curIPBlock)
             {
-                $curIPBlock[1] = $curIPBlock[1] == '-1' ? Language::getInstance()->getString('forever_blocked') : ($curIPBlock[1] > time() ? sprintf(Language::getInstance()->getString('x_minutes'), round(($curIPBlock[1]-time())/60)) : Language::getInstance()->getString('expired'));
-                $curIPBlock[2] = $curIPBlock[2] == '-1' ? Language::getInstance()->getString('entire_board') : @next(Functions::getForumData($curIPBlock[2]));
+                $curIPBlock[1] = $curIPBlock[1] == '-1'
+                    ? Language::getInstance()->getString('forever_blocked')
+                    : ($curIPBlock[1] > time()
+                        ? sprintf(Language::getInstance()->getString('x_minutes'), round(($curIPBlock[1]-time())/60))
+                        : Language::getInstance()->getString('expired'));
+                $curIPBlock[2] = $curIPBlock[2] == '-1'
+                    ? Language::getInstance()->getString('entire_board')
+                    : @next(Functions::getForumData($curIPBlock[2]));
             }
             Template::getInstance()->assign('ipBlocks', $this->ipBlocks);
             break;

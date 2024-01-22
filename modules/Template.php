@@ -16,7 +16,7 @@ class Template
      *
      * @var Smarty Smarty instance
      */
-    private $smarty;
+    private Smarty $smarty;
 
     /**
      * Directory of used template.
@@ -44,7 +44,7 @@ class Template
             ->registerPlugin('modifier', 'implode', 'implode')
             ->setCompileId($this->tplDir);
         //Load config(s)
-        foreach(glob($this->tplDir . 'config/*.conf') as $curConfig)
+        foreach(Functions::glob($this->tplDir . 'config/*.conf') as $curConfig)
             $this->smarty->configLoad($curConfig);
         $this->smarty->setDebugging($this->smarty->getConfigVars('debug'));
         //Assign defaults
@@ -112,11 +112,11 @@ class Template
     {
         $templates = [];
         //Get all templates
-        foreach(glob('templates/*') as $curTemplate)
+        foreach(Functions::glob('templates/*') as $curTemplate)
         {
             $curTemplateName = basename($curTemplate);
             //Get all config files from each template and parse their contents
-            foreach(@array_map('parse_ini_file', glob($curTemplate . '/config/*.conf')) as $curConfigFile)
+            foreach(@array_map('parse_ini_file', Functions::glob($curTemplate . '/config/*.conf')) as $curConfigFile)
             {
                 if(isset($curConfigFile['templateName']))
                     $templates[$curTemplateName]['name'] = $curConfigFile['templateName'];
@@ -132,7 +132,7 @@ class Template
                     $templates[$curTemplateName]['target'] = $curConfigFile['targetVersion'];
                 //Get all styles from each template
                 if(!isset($templates[$curTemplateName]['styles']))
-                    $templates[$curTemplateName]['styles'] = array_map('basename', glob($curTemplate . '/styles/*.css'));
+                    $templates[$curTemplateName]['styles'] = array_map('basename', Functions::glob($curTemplate . '/styles/*.css'));
             }
             if(!isset($templates[$curTemplateName]['target']))
                 $templates[$curTemplateName]['target'] = '1.5.0.0';

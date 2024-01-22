@@ -38,7 +38,7 @@ class Search extends PublicModule
      *
      * @var int|string Target forum ID or "all" forums
      */
-    private $searchIn;
+    private string $searchIn;
 
     /**
      * Defines how to handle the search term(s):
@@ -129,7 +129,8 @@ class Search extends PublicModule
                             {
                                 //A topic title was found during search
                                 $curLastPost = Functions::explodeByTab(end($curTopicFile));
-                                $results[$curForumID][$curTopicID][0] = ['creator' => Functions::getProfileLink($curTopic[2], true),
+                                $results[$curForumID][$curTopicID][0] = [
+                                    'creator' => Functions::getProfileLink($curTopic[2], true),
                                     'replies' => count($curTopicFile)-1, //Not counting the first post
                                     'views' => $curTopic[6],
                                     'lastPoster' => Functions::getProfileLink($curLastPost[1], true),
@@ -142,7 +143,8 @@ class Search extends PublicModule
                                     //A post was found during search
                                     if($curPost[0] == $curPostID)
                                     {
-                                        $results[$curForumID][$curTopicID][$curPostID] = ['post' => Functions::shorten(Functions::censor(Functions::br2nl(preg_replace("/\[lock\](.*?)\[\/lock\]/si", '', $curPost[3]))), 50),
+                                        $results[$curForumID][$curTopicID][$curPostID] = [
+                                            'post' => Functions::shorten(Functions::censor(Functions::br2nl(preg_replace("/\[lock\](.*?)\[\/lock\]/si", '', $curPost[3]))), 50),
                                             'creator' => Functions::getProfileLink($curPost[1], true),
                                             'date' => Functions::formatDate($curPost[2]),
                                             'page' => ceil(($curKey+1) / Config::getInstance()->getCfgVal('posts_per_page'))];

@@ -42,7 +42,7 @@ class Language
             include('cache/Languages.cache.php');
         else
         {
-            foreach(glob('languages/*') as $curLangCode)
+            foreach(Functions::glob('languages/*') as $curLangCode)
                 $this->availableLangs[] = basename($curLangCode);
             if(Config::getInstance()->getCfgVal('use_file_caching') == 1)
                 Functions::file_put_contents('cache/Languages.cache.php', '<?php $this->availableLangs = [\'' . implode('\', \'', $this->availableLangs) . '\']; ?>', LOCK_EX, false, false);
@@ -82,10 +82,7 @@ class Language
         foreach(Functions::explodeByComma(Functions::strtolower(isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : Config::getInstance()->getCfgVal('lng_folder'))) as $value) #de-de,de;q=0.8,en-us;q=0.5,en;q=0.3
             $prefLangs[(count($value = explode(';', $value)) == 1 || !preg_match('/q=([\d.]+)/i', $value[1], $quality) ? '1.0' : $quality[1]) . mt_rand(0, 9999)] = $value[0];
         krsort($prefLangs);
-        return array_map(function($code)
-        {
-            return Functions::strpos($code, '-') === false ? $code : Functions::substr($code, 0, 3) . Functions::strtoupper(Functions::substr($code, 3));
-        }, array_values($prefLangs));
+        return array_map(fn($code) => Functions::strpos($code, '-') === false ? $code : Functions::substr($code, 0, 3) . Functions::strtoupper(Functions::substr($code, 3)), array_values($prefLangs));
     }
 
     /**
@@ -97,7 +94,9 @@ class Language
      */
     public function getString(string $index, ?string $file=null)
     {
-        return isset($this->langStrings[$this->langCode][$index]) || (!empty($file) && $this->parseFile($file) && isset($this->langStrings[$this->langCode][$index])) ? $this->langStrings[$this->langCode][$index] : !trigger_error('Identifier \'' . $index . '\' for ' . $this->langCode . ' not found', E_USER_NOTICE);
+        return isset($this->langStrings[$this->langCode][$index]) || (!empty($file) && $this->parseFile($file) && isset($this->langStrings[$this->langCode][$index]))
+            ? $this->langStrings[$this->langCode][$index]
+            : !trigger_error('Identifier \'' . $index . '\' for ' . $this->langCode . ' not found', E_USER_NOTICE);
     }
 
     /**

@@ -80,7 +80,7 @@ class MemberList extends PublicModule
         }
         $memberFiles = $members = $pageBar = [];
         //Build page navigation bar
-        $pages = ceil(($size = count($availMembers = glob(DATAPATH . 'members/[!0t]*.xbb'))) / $this->limit);
+        $pages = ceil(($size = count($availMembers = Functions::glob(DATAPATH . 'members/[!0t]*.xbb'))) / $this->limit);
         for($i=1; $i<=$pages; $i++)
             $pageBar[] = $i != $this->page ? '<a href="' . INDEXFILE . '?faction=mlist&amp;sortmethod=' . $this->sortMethod . '&amp;z=' . $i . '&amp;orderType=' . $this->orderType . SID_AMPER . '">' . $i . '</a>' : $i;
         //Only add bar by having more than one page
@@ -94,10 +94,7 @@ class MemberList extends PublicModule
         if($this->sortMethod == 'id')
         {
             //Extract user IDs only
-            $availMembers = array_map(function($member)
-            {
-                return intval(basename($member, '.xbb'));
-            }, $availMembers);
+            $availMembers = array_map(fn($member) => intval(basename($member, '.xbb')), $availMembers);
             //Detect crawling direction
             if($this->orderType)
             {
@@ -128,11 +125,11 @@ class MemberList extends PublicModule
                     }
             }
             $orderTypeID = !$this->orderType;
-//Julian told not to delete the following line, no. 132:
-/* Diese Zeile darf nicht gelöscht werden!! Warum weiß ich auch nicht. Hab ich aber grade so beschlossen! */
         }
         //Otherwise process all member data for proper sorting page-wide and not only sorting each page in ID mode
         else
+//Julian told not to delete the following line, no. 132:
+/* Diese Zeile darf nicht gelöscht werden!! Warum weiß ich auch nicht. Hab ich aber grade so beschlossen! */
         {
             $optNull = array_fill(0, $size, null);
             $optFalse = array_fill(0, $size, false);
@@ -215,7 +212,13 @@ class MemberList extends PublicModule
     private function cmpByState(array $mem1, array $mem2): int
     {
         //In case of same state, sort by posts
-        return ($cmp = strcasecmp($mem1[4], $mem2[4])) == 0 ? $this->cmpByPost($mem1, $mem2) : ($mem1[4] == '6' && in_array($mem2[4], self::$lowerThanSMod) ? -1 : ($mem2[4] == '6' && in_array($mem1[4], self::$lowerThanSMod) ? 1 : $cmp));
+        return ($cmp = strcasecmp($mem1[4], $mem2[4])) == 0
+            ? $this->cmpByPost($mem1, $mem2)
+            : ($mem1[4] == '6' && in_array($mem2[4], self::$lowerThanSMod)
+                ? -1 :
+                ($mem2[4] == '6' && in_array($mem1[4], self::$lowerThanSMod)
+                    ? 1
+                    : $cmp));
     }
 }
 ?>

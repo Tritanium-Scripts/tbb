@@ -217,7 +217,7 @@ class Core
      * @param string $mode Optional mode for not yet loaded module
      * @return PublicModule Reference to the loaded class
      */
-    private function getModule(?string $module, ?string $mode=null)
+    private function getModule(?string $module, ?string $mode=null): PublicModule
     {
         if(!class_exists($module) || !is_subclass_of($module, 'PublicModule'))
         {

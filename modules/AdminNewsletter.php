@@ -110,7 +110,7 @@ class AdminNewsletter extends PublicModule
             {
                 //All members
                 case 1:
-                foreach(glob(DATAPATH . 'members/[!0t]*.xbb') as $curMember)
+                foreach(Functions::glob(DATAPATH . 'members/[!0t]*.xbb') as $curMember)
                 {
                     $curMember = Functions::getUserData(basename($curMember, '.xbb'));
                     if($curMember[4] != '5' && $curMember[14][0] == '1')
@@ -120,7 +120,7 @@ class AdminNewsletter extends PublicModule
 
                 //Only (s)mods
                 case 2:
-                foreach(glob(DATAPATH . 'members/[!0t]*.xbb') as $curMember)
+                foreach(Functions::glob(DATAPATH . 'members/[!0t]*.xbb') as $curMember)
                 {
                     $curMember = Functions::getUserData(basename($curMember, '.xbb'));
                     if($curMember[4] == '2' || $curMember[4] == '6')
@@ -130,7 +130,7 @@ class AdminNewsletter extends PublicModule
 
                 //Only admins
                 case 3:
-                foreach(glob(DATAPATH . 'members/[!0t]*.xbb') as $curMember)
+                foreach(Functions::glob(DATAPATH . 'members/[!0t]*.xbb') as $curMember)
                 {
                     $curMember = Functions::getUserData(basename($curMember, '.xbb'));
                     if($curMember[4] == '1')

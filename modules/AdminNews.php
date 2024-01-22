@@ -73,7 +73,21 @@ class AdminNews extends PublicModule
             $this->news = $newsPreview = [''];
         if($this->newsDuration != -1)
             //Get duration choice from back calculation
-            $this->newsDuration = $this->newsDuration-time() <= 3600 ? 60 : ($this->newsDuration-time() <= 7200 ? 120 : ($this->newsDuration-time() <= 18000 ? 300 : ($this->newsDuration-time() <= 86400 ? 1440 : ($this->newsDuration-time() <= 172800 ? 2880 : ($this->newsDuration-time() <= 432000 ? 7200 : ($this->newsDuration-time() <= 864000 ? 14400 : 43200))))));
+            $this->newsDuration = $this->newsDuration-time() <= 3600
+                ? 60
+                : ($this->newsDuration-time() <= 7200
+                    ? 120
+                    : ($this->newsDuration-time() <= 18000
+                        ? 300
+                        : ($this->newsDuration-time() <= 86400
+                            ? 1440
+                            : ($this->newsDuration-time() <= 172800
+                                ? 2880
+                                : ($this->newsDuration-time() <= 432000
+                                    ? 7200
+                                    : ($this->newsDuration-time() <= 864000
+                                        ? 14400
+                                        : 43200))))));
         Template::getInstance()->printPage('AdminNews', ['newsType' => $this->newsType,
             'newsDuration' => $this->newsDuration,
             'newsText' => htmlspecialchars($this->newsType == 1 ? Functions::br2nl($this->news[0]) : implode("\n", $this->news)),

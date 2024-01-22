@@ -38,8 +38,8 @@ class AdminIndex extends PublicModule
         }
         Template::getInstance()->printPage('AdminIndex', [
             'styleURL' => urlencode(Config::getInstance()->getCfgVal('address_to_forum') . '/' . Template::getInstance()->getTplDir() . Auth::getInstance()->getUserStyle()),
-            'isNewVersion' => isset($_SESSION['isNewVersion']) ? $_SESSION['isNewVersion'] : false,
-            'versionNews' => isset($_SESSION['versionNews']) ? $_SESSION['versionNews'] : '']);
+            'isNewVersion' => $_SESSION['isNewVersion'] ?? false,
+            'versionNews' => $_SESSION['versionNews'] ?? '']);
     }
 }
 ?>

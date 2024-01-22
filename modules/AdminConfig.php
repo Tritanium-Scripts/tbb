@@ -75,7 +75,7 @@ class AdminConfig extends PublicModule
                 {
                     //Fetch topic IDs for each forum
                     if(empty($curTopics))
-                        foreach(glob(DATAPATH . 'foren/' . $curForumID . '-[0-9]*.xbb') as $curTopic) //Get topics of current forum
+                        foreach(Functions::glob(DATAPATH . 'foren/' . $curForumID . '-[0-9]*.xbb') as $curTopic) //Get topics of current forum
                             //Retrieve topic IDs for index
                             if(preg_match('/' . $curForumID . '-(\d+).xbb/si', $curTopic, $curMatch) == 1)
                                 $curTopics[$curMatch[1]] = false;
@@ -105,10 +105,8 @@ class AdminConfig extends PublicModule
             if(Functions::getValueFromGlobals('confirmed') == 'true')
             {
                 //Prepare rebuild stuff
-                $_SESSION['rebuildTopicIndex'] = array_combine($forums = array_map(function($forum)
-                {
-                    return current(Functions::explodeByTab($forum));
-                }, Functions::file('vars/foren.var', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES)), array_fill(0, count($forums), []));
+                $forums = array_map(fn($forum) => current(Functions::explodeByTab($forum)), Functions::file('vars/foren.var', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES));
+                $_SESSION['rebuildTopicIndex'] = array_combine($forums, array_fill(0, count($forums), []));
                 if(empty($forums))
                     $_SESSION['rebuildTopicIndex'] = [];
                 $this->checkTime(false, 'rebuildTopicIndex');
@@ -126,7 +124,7 @@ class AdminConfig extends PublicModule
                     if(!isset($_SESSION['recalculateCounters']['forums'][$curForumID][0]))
                     {
                         //Get real existent topics
-                        $_SESSION['recalculateCounters']['forums'][$curForumID] = glob(DATAPATH . 'foren/' . $curForumID . '-[0-9]*.xbb');
+                        $_SESSION['recalculateCounters']['forums'][$curForumID] = Functions::glob(DATAPATH . 'foren/' . $curForumID . '-[0-9]*.xbb');
                         $_SESSION['recalculateCounters']['total'][$curForumID]['topics'] = $_SESSION['recalculateCounters']['total'][$curForumID]['posts'] = 0;
                     }
                     while(!empty($_SESSION['recalculateCounters']['forums'][$curForumID]))
@@ -157,17 +155,15 @@ class AdminConfig extends PublicModule
                 Functions::releaseLock('foren');
                 unset($_SESSION['recalculateCounters']);
                 //Now the members
-                Functions::file_put_contents('vars/member_counter.var', count(glob(DATAPATH . 'members/[!0t]*.xbb')));
+                Functions::file_put_contents('vars/member_counter.var', count(Functions::glob(DATAPATH . 'members/[!0t]*.xbb')));
                 Logger::getInstance()->log('%s recalculated counters', Logger::LOG_ACP_ACTION);
                 Template::getInstance()->printMessage('counters_recalculated');
             }
             if(Functions::getValueFromGlobals('confirmed') == 'true')
             {
                 //Prepare recalculation stuff
-                $_SESSION['recalculateCounters'] = ['forums' => array_combine($forums = array_map(function($forum)
-                {
-                    return current(Functions::explodeByTab($forum));
-                }, Functions::file('vars/foren.var', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES)), array_fill(0, count($forums), [])), 'total' => []];
+                $forums = array_map(fn($forum) => current(Functions::explodeByTab($forum)), Functions::file('vars/foren.var', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES));
+                $_SESSION['recalculateCounters'] = ['forums' => array_combine($forums, array_fill(0, count($forums), [])), 'total' => []];
                 $this->checkTime(false);
             }
             break;
@@ -175,7 +171,7 @@ class AdminConfig extends PublicModule
             case 'clearCache':
             NavBar::getInstance()->addElement(Language::getInstance()->getString('clear_cache'), INDEXFILE . '?faction=ad_settings&amp;mode=clearCache' . SID_AMPER);
             $deleted = Template::getInstance()->clearCache();
-            foreach(glob('cache/*.[!svn]*') as $curFile)
+            foreach(Functions::glob('cache/*.[!svn]*') as $curFile)
                 if(unlink($curFile))
                     $deleted++;
             Logger::getInstance()->log('%s cleared cache', Logger::LOG_ACP_ACTION);

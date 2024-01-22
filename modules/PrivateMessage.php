@@ -197,7 +197,7 @@ class PrivateMessage extends PublicModule
                         $newPM[2] = Functions::nl2br($newPM[2]);
                         $newPM[4] = gmdate('YmdHis');
                         //Detect new PM ID
-                        $recipientLastPM = @Functions::explodeByTab(array_pop(Functions::file('members/' . $recipient[1] . '.pm')));
+                        $recipientLastPM = @Functions::explodeByTab(array_pop(Functions::file('members/' . $recipient[1] . '.pm')) ?? '');
                         $recipientUnreadPMs;
                         if(empty($recipientLastPM[0]))
                         {

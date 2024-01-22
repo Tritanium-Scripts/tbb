@@ -23,6 +23,7 @@ Last changed: 2024-01-21 (Version 1.10.0)
     - Editieren von Beiträgen mit Präfixauswahl des Themas/Umfrage für (S-)Mods und Admins
     - Hochladen von Bildern erkennt WebP-Format
     - Hochladen von Dateien gegen Directory Traversal abgesichert
+    - Cache-Problem von leeren Admin- & Moderatoren-Smileys behoben
 
 10.12.2023: Version 1.8.1 (offiziell)
     - Mögliche Enkodierungsprobleme der Monatsnamen im Kalender behoben
