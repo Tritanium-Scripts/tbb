@@ -223,7 +223,7 @@
  <tr><td class="cellCat" colspan="2"><span class="fontCat">{Language::getInstance()->getString('who_is_was_online_settings')}</span></td></tr>
  <tr>
   <td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('enable_who_is_was_online')}</span></td>
-  <td class="cellAlt"><input type="radio" id="y19" name="settings[19]" value="1"{if $configValues['wio'] == 1} checked="checked"{/if} /><label for="y19" class="fontNorm">{Language::getInstance()->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="n19" name="settings[19]" value="0"{if $configValues['wio'] != 1} checked="checked"{/if} /><label for="n19" class="fontNorm">{Language::getInstance()->getString('negative')}</label></td>
+  <td class="cellAlt"><select class="formSelect" name="settings[19]">{html_options values=array(1, 0, 2) output=array(Language::getInstance()->getString('positive'), Language::getInstance()->getString('negative'), Language::getInstance()->getString('for_members_only')) selected=$configValues['wio']}</select></td>
  </tr>
  <tr>
   <td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('number_of_minutes_to_stay_in_wio')}</span></td>

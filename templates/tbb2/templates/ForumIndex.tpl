@@ -47,7 +47,7 @@
  <tr><td class="cellStd"><span class="fontSmall">{Language::getInstance()->getString('registered_members_colon')} {$memberCounter}<br />{Language::getInstance()->getString('newest_member_colon')} {$newestMember}<br />{Language::getInstance()->getString('total_amount_of_topics_posts_colon')} {$topicCounter}/{$postCounter}</span></td></tr>
 </table>{/if}
 
-{if Config::getInstance()->getCfgVal('wio') == 1}
+{if Config::getInstance()->getCfgVal('wio') == 1 || Auth::getInstance()->isLoggedIn() && Config::getInstance()->getCfgVal('wio') == 2}
 {$wioUser=WhoIsOnline::getInstance()->getUserWIO()}
 {* 0:guests - 1:ghosts - 2:memberProfiles - 3:bots *}
 <br />

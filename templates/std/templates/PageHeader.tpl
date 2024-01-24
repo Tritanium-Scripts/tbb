@@ -77,7 +77,7 @@ function negateBoxes(id)
      <a href="{$smarty.const.INDEXFILE}?faction=profile&amp;mode=edit&amp;profile_id={Auth::getInstance()->getUserID()}{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('my_profile')}</a> |
      <a href="{$smarty.const.INDEXFILE}?faction=faq{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('faq')}</a> |
      <a href="{$smarty.const.INDEXFILE}?faction=pm&amp;mode=overview{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('private_messages')}</a> |
-     <a href="{$smarty.const.INDEXFILE}?faction=search{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('search')}</a> | {if Config::getInstance()->getCfgVal('wio') == 1}
+     <a href="{$smarty.const.INDEXFILE}?faction=search{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('search')}</a> | {if Config::getInstance()->getCfgVal('wio') != 0}
      <a href="{$smarty.const.INDEXFILE}?faction=wio{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('who_is_online')}</a> | {/if}{if Config::getInstance()->getCfgVal('activate_mlist') != 0}
      <a href="{$smarty.const.INDEXFILE}?faction=mlist{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('member_list')}</a> | {/if}
      <a href="{$smarty.const.INDEXFILE}?faction=todaysPosts{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('todays_posts')}</a> |

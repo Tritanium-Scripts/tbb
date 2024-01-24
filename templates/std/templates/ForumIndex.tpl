@@ -31,7 +31,7 @@
 {/foreach}
 </table>
 
-{if Config::getInstance()->getCfgVal('wio') == 1}
+{if Config::getInstance()->getCfgVal('wio') == 1 || Auth::getInstance()->isLoggedIn() && Config::getInstance()->getCfgVal('wio') == 2}
 {$wioUser=WhoIsOnline::getInstance()->getUserWIO()}
 {* 0:guests - 1:ghosts - 2:memberProfiles - 3:bots *}
 <br />

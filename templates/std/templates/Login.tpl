@@ -15,7 +15,7 @@
  <tr><td colspan="2" class="kat"><span class="kat">{Language::getInstance()->getString('options')}</span></td></tr>
  <tr>
   <td colspan="2" class="td1">
-   <input type="checkbox" id="stayli" name="stayli" value="yes" onfocus="this.blur();" />&nbsp;<label for="stayli" class="norm">{Language::getInstance()->getString('login_automatically_each_visit')}</label>{if Config::getInstance()->getCfgVal('wio') == 1}<br />
+   <input type="checkbox" id="stayli" name="stayli" value="yes" onfocus="this.blur();" />&nbsp;<label for="stayli" class="norm">{Language::getInstance()->getString('login_automatically_each_visit')}</label>{if Config::getInstance()->getCfgVal('wio') != 0}<br />
    <input type="checkbox" id="bewio" name="bewio" value="yes" onfocus="this.blur();" />&nbsp;<label for="bewio" class="norm">{Language::getInstance()->getString('hide_from_wiwo')}</label>{/if}
   </td></tr>
 </table>

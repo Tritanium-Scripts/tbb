@@ -44,7 +44,7 @@ class WhoIsOnline extends PublicModule
     public function __construct()
     {
         parent::__construct();
-        $this->enabled = Config::getInstance()->getCfgVal('wio') == 1;
+        $this->enabled = Config::getInstance()->getCfgVal('wio') > 0;
         $this->timeout = Config::getInstance()->getCfgVal('wio_timeout')*60;
         if(!$this->enabled)
             return;
@@ -103,6 +103,8 @@ class WhoIsOnline extends PublicModule
     {
         if(!$this->enabled)
             Template::getInstance()->printMessage('function_deactivated');
+        elseif(!Auth::getInstance()->isLoggedIn() && Config::getInstance()->getCfgVal('wio') == 2)
+            Template::getInstance()->printMessage('login_only', INDEXFILE . '?faction=register' . SID_AMPER, INDEXFILE . '?faction=login' . SID_AMPER);
         NavBar::getInstance()->addElement(Language::getInstance()->getString('who_is_online'));
         $this->setLocation('WhoIsOnline'); //Add WIO location now, in Template module would be too late
         $time = time(); //Same time as starting basis for all entries

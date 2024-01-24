@@ -61,10 +61,15 @@ class Profile extends PublicModule
     {
         parent::__construct();
         $this->mode = $mode;
-        $this->userData = Functions::getUserData(($userID = Functions::getValueFromGlobals($this->mode == 'formmail' ? 'target_id' : 'profile_id')) == '' ? Auth::getInstance()->getUserID() : $userID);
+        $userID = Functions::getValueFromGlobals($this->mode == 'formmail' ? 'target_id' : 'profile_id');
+        $this->userData = Functions::getUserData($userID == '' ? Auth::getInstance()->getUserID() : $userID);
         //Detect method to fetch achievements data (if enabled)
-        if(Config::getInstance()->getCfgVal('achievements') == 1 && !($this->isFGC = ini_get('allow_url_fopen') == '1'))
-            $this->isCURL = extension_loaded('curl');
+        if(Config::getInstance()->getCfgVal('achievements') == 1)
+        {
+            $this->isFGC = ini_get('allow_url_fopen') == '1';
+            if(!$this->isFGC)
+                $this->isCURL = extension_loaded('curl');
+        }
     }
 
     /**

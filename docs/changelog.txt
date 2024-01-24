@@ -24,6 +24,7 @@ Last changed: 2024-01-21 (Version 1.10.0)
     - Hochladen von Bildern erkennt WebP-Format
     - Hochladen von Dateien gegen Directory Traversal abgesichert
     - Cache-Problem von leeren Admin- & Moderatoren-Smileys behoben
+    - WIO-Liste nur für Mitglieder anzeigbar
 
 10.12.2023: Version 1.8.1 (offiziell)
     - Mögliche Enkodierungsprobleme der Monatsnamen im Kalender behoben
