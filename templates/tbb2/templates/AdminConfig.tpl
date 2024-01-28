@@ -154,6 +154,10 @@
   <td class="cellAlt"><input type="radio" id="y67" name="settings[67]" value="1"{if $configValues['achievements'] == 1} checked="checked"{/if} /><label for="y67" class="fontNorm">{Language::getInstance()->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="n67" name="settings[67]" value="0"{if $configValues['achievements'] != 1} checked="checked"{/if} /><label for="n67" class="fontNorm">{Language::getInstance()->getString('negative')}</label></td>
  </tr>
  <tr>
+  <td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('steam_web_api_key')}</span><br /><span class="fontSmall">{Language::getInstance()->getString('steam_web_api_key_hint')}</span></td>
+  <td class="cellAlt"><input class="formText" type="text" name="settings[88]" value="{$configValues['web_api_key']}" style="width:250px;" /></td>
+ </tr>
+ <tr>
   <td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('show_pm_reminder_each')}</span></td>
   <td class="cellAlt"><input class="formText" type="text" name="settings[69]" value="{$configValues['new_pm_reminder']}" style="width:250px;" />&nbsp;<span class="fontSmall">{Language::getInstance()->getString('in_seconds')}</span></td>
  </tr>

@@ -3,13 +3,26 @@
  * Manages an user profile incl. sending mails, vCard download and Steam achievements.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2023 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2024 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
 class Profile extends PublicModule
 {
     use Singleton, Mode, Errors;
+
+    /**
+     * Host name of Steam's content delivery network.
+     *
+     * Examples:
+     *  cdn.steampowered.com
+     *  cdn.akamai.steamstatic.com
+     *  cdn.cloudflare.steamstatic.com
+     *  steamcdn-a.akamaihd.net
+     *
+     * @var string Host name of Steam's CDN
+     */
+    private const STEAM_CDN_HOST_NAME = 'cdn.cloudflare.steamstatic.com';
 
     /**
      * Translates a mode to its template file.
@@ -360,7 +373,7 @@ class Profile extends PublicModule
                                 'name' => htmlspecialchars($curAchievement->getElementsByTagName('name')->item(0)->nodeValue),
                                 'description' => htmlspecialchars($curAchievement->getElementsByTagName('description')->item(0)->nodeValue)];
                     $done = count($achievementsClosed);
-                    $achievements = ['name' => $dom->getElementsByTagName('gameName')->item(0)->nodeValue,
+                    $achievements = ['name' => htmlspecialchars($dom->getElementsByTagName('gameName')->item(0)->nodeValue, ENT_QUOTES),
                         'logo' => $dom->getElementsByTagName('gameLogo')->item(0)->nodeValue,
                         'icon' => $dom->getElementsByTagName('gameIcon')->item(0)->nodeValue,
                         'numTotal' => $achievements->length,
@@ -387,7 +400,11 @@ class Profile extends PublicModule
                 if(!empty($achievements) && $achievements['playerstats']['success'])
                     $gameSchema = $this->parseJson($this->getFromSteamWebApi('ISteamUserStats', 'GetSchemaForGame', 2, ['appid' => $game, 'l' => Language::getInstance()->getString('steam_language')]));
                 if(!empty($gameSchema))
+                {
+                    //Overwrite missing or really odd game name provided by schema
+                    $gameSchema['game']['gameName'] = $achievements['playerstats']['gameName'];
                     $ownedGames = $this->parseJson($this->getFromSteamWebApi('IPlayerService', 'GetOwnedGames', 1, ['input_json' => json_encode((object) ['steamid' => $playerId, 'include_appinfo' => true, 'include_played_free_games' => true, 'appids_filter' => [$game]])]));
+                }
                 if(empty($ownedGames) || $ownedGames['response']['game_count'] != 1)
                     $this->errors[] = Language::getInstance()->getString('loading_achievements_failed');
                 else
@@ -419,9 +436,9 @@ class Profile extends PublicModule
                                 'description' => isset($curAchievement['description']) ? htmlspecialchars($curAchievement['description']) : ''];
                     }
                     $done = count($achievementsClosed);
-                    $achievements = ['name' => $gameSchema['game']['gameName'],
-                        'logo' => 'https://cdn.cloudflare.steamstatic.com/steam/apps/' . $game . '/capsule_184x69.jpg',
-                        'icon' => 'https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/apps/' . $game . '/' . $ownedGames['response']['games'][0]['img_icon_url'] . '.jpg',
+                    $achievements = ['name' => htmlspecialchars($gameSchema['game']['gameName'], ENT_QUOTES),
+                        'logo' => 'https://' . Profile::STEAM_CDN_HOST_NAME . '/steam/apps/' . $game . '/capsule_184x69.jpg',
+                        'icon' => 'https://' . Profile::STEAM_CDN_HOST_NAME . '/steamcommunity/public/images/apps/' . $game . '/' . $ownedGames['response']['games'][0]['img_icon_url'] . '.jpg',
                         'numTotal' => count($achievements),
                         'numClosed' => $done,
                         'numOpen' => count($achievementsOpen),
@@ -544,7 +561,7 @@ class Profile extends PublicModule
                 continue;
             $this->steamGames[] = [$curSteamGame->getElementsByTagName('appID')->item(0)->nodeValue, //Game ID
                 $curSteamGame->getElementsByTagName('logo')->item(0)->nodeValue, //Game logo
-                Functions::str_replace("'", '&#039;', $curSteamGame->getElementsByTagName('name')->item(0)->nodeValue)]; //Full game name
+                htmlspecialchars($curSteamGame->getElementsByTagName('name')->item(0)->nodeValue, ENT_QUOTES)]; //Full game name
         }
         return true;
     }
@@ -580,8 +597,8 @@ class Profile extends PublicModule
             if(!($curSteamGame['has_community_visible_stats'] ?? false))
                 continue;
             $this->steamGames[] = [$curSteamGame['appid'], //Game ID
-                'https://cdn.cloudflare.steamstatic.com/steam/apps/' . $curSteamGame['appid'] . '/capsule_184x69.jpg', //Game logo
-                Functions::str_replace("'", '&#039;', $curSteamGame['name'])]; //Full game name
+                'https://' . Profile::STEAM_CDN_HOST_NAME . '/steam/apps/' . $curSteamGame['appid'] . '/capsule_184x69.jpg', //Game logo
+                htmlspecialchars($curSteamGame['name'], ENT_QUOTES)]; //Full game name
         }
         return true;
     }
