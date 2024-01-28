@@ -751,7 +751,7 @@ abstract class CoreFunctions
      */
     public static function getValueFromGlobals(string $key, bool $stripNewLine=true)
     {
-        return Functions::str_replace($stripNewLine ? ["\t", "\n", "\r"] : "\t", '', isset($_GET[$key]) ? $_GET[$key] : (isset($_POST[$key]) ? $_POST[$key] : ''));
+        return Functions::str_replace($stripNewLine ? ["\t", "\n", "\r"] : "\t", '', $_GET[$key] ?? $_POST[$key] ?? '');
     }
 
     /**

@@ -107,7 +107,8 @@ class Config
         0,                                      #profile_mbli
         1,                                      #activate_calendar
         //New TBB 1.10.0 config values
-        1];                                     #activate_plug_ins
+        1,                                      #activate_plug_ins
+        ''];                                    #web_api_key
 
     /**
      * Name of config file to work with.
@@ -212,7 +213,8 @@ class Config
         'profile_mbli',
         'activate_calendar',
         //New TBB 1.10.0 config values
-        'activate_plug_ins'];
+        'activate_plug_ins',
+        'web_api_key'];
 
     /**
      * Loaded configuration values are stored here.

@@ -53,6 +53,13 @@ class Profile extends PublicModule
     private ?bool $isCURL = null;
 
     /**
+     * Secret key for Steam web API access.
+     *
+     * @var string Exclusive Steam web API key
+     */
+    private string $webApiKey;
+
+    /**
      * Loads user data and sets mode.
      *
      * @param string $mode Profile mode
@@ -69,6 +76,7 @@ class Profile extends PublicModule
             $this->isFGC = ini_get('allow_url_fopen') == '1';
             if(!$this->isFGC)
                 $this->isCURL = extension_loaded('curl');
+            $this->webApiKey = Config::getInstance()->getCfgVal('web_api_key');
         }
     }
 
@@ -313,9 +321,10 @@ class Profile extends PublicModule
 
 //ViewAchievements
             case 'viewAchievements':
+            $game = intval(Functions::getValueFromGlobals('game'));
             NavBar::getInstance()->addElement([
                 [sprintf(Language::getInstance()->getString('view_profile_from_x'), $this->userData[0]), INDEXFILE . '?faction=profile&amp;profile_id=' . $this->userData[1] . SID_AMPER],
-                [Language::getInstance()->getString('steam_achievements'), INDEXFILE . '?faction=profile&amp;profile_id=' . $this->userData[1] . '&amp;mode=viewAchievements&amp;game=' . ($game = Functions::getValueFromGlobals('game')) . SID_AMPER]]);
+                [Language::getInstance()->getString('steam_achievements'), INDEXFILE . '?faction=profile&amp;profile_id=' . $this->userData[1] . '&amp;mode=viewAchievements&amp;game=' . $game . SID_AMPER]]);
             if(Config::getInstance()->getCfgVal('achievements') != 1)
                 Template::getInstance()->printMessage('function_deactivated');
             elseif(empty($this->userData[18]))
@@ -323,46 +332,108 @@ class Profile extends PublicModule
             elseif(!in_array($game, $this->userData[19]))
                 Template::getInstance()->printMessage('steam_game_not_found');
             //Use cached achievements from last half hour
-            elseif(file_exists($cacheFile = 'cache/' . $this->userData[1] . '-Achievements-' . Functions::str_replace(':', '', $game) . '.cache.php') && (filemtime($cacheFile) + 1800 > time()))
+            elseif(file_exists($cacheFile = 'cache/' . $this->userData[1] . '-Achievements-' . $game . '.cache.php') && (filemtime($cacheFile) + 1800 > time()))
             {
                 include($cacheFile);
                 break;
             }
             elseif(!class_exists('DOMDocument', false) || (!$this->isFGC && !$this->isCURL))
                 Template::getInstance()->printMessage('function_not_supported');
-            $dom = new DOMDocument;
-            if(!@$dom->loadXML(Functions::loadURL('https://steamcommunity.com/' . (ctype_digit($this->userData[18]) ? 'profiles/' : 'id/') . $this->userData[18] . '/stats/' . $game . '/?tab=achievements&l=' . Language::getInstance()->getString('steam_language') . '&xml=all', $this->isFGC, $this->isCURL)))
-                $this->errors[] = Language::getInstance()->getString('loading_achievements_failed');
-            elseif($dom->getElementsByTagName('error')->length == 0)
+            if(empty($this->webApiKey))
             {
-                $achievementsClosed = $achievementsOpen = [];
-                //Get achievements, sorted by open/close state
-                foreach(($achievements = $dom->getElementsByTagName('achievement')) as $curAchievement)
-                    if($curAchievement->attributes->getNamedItem('closed')->nodeValue == '1')
-                        $achievementsClosed[] = ['icon' => $curAchievement->getElementsByTagName('iconClosed')->item(0)->nodeValue,
-                            'name' => htmlspecialchars($curAchievement->getElementsByTagName('name')->item(0)->nodeValue),
-                            'description' => htmlspecialchars($curAchievement->getElementsByTagName('description')->item(0)->nodeValue),
-                            'unlocked' => $curAchievement->getElementsByTagName('unlockTimestamp')->length == 1 ? Functions::utf8Encode(strftime(Language::getInstance()->getString('DATEFORMAT'), $curAchievement->getElementsByTagName('unlockTimestamp')->item(0)->nodeValue)) : ''];
-                    else
-                        $achievementsOpen[] = ['icon' => $curAchievement->getElementsByTagName('iconOpen')->item(0)->nodeValue,
-                            'name' => htmlspecialchars($curAchievement->getElementsByTagName('name')->item(0)->nodeValue),
-                            'description' => htmlspecialchars($curAchievement->getElementsByTagName('description')->item(0)->nodeValue)];
-                Template::getInstance()->assign($achievements = ['name' => $dom->getElementsByTagName('gameName')->item(0)->nodeValue,
-                    'logo' => $dom->getElementsByTagName('gameLogo')->item(0)->nodeValue,
-                    'icon' => $dom->getElementsByTagName('gameIcon')->item(0)->nodeValue,
-                    'numTotal' => $achievements->length,
-                    'numClosed' => ($done = count($achievementsClosed)),
-                    'numOpen' => count($achievementsOpen),
-                    //Calculate progess
-                    'percentClosed' => $achievements->length != '0' ? ($done / $achievements->length)*100 : 0,
-                    'achievementsClosed' => $achievementsClosed,
-                    'achievementsOpen' => $achievementsOpen]);
-                //Cache entire template assign code
-                Functions::file_put_contents($cacheFile, '<?php Template::getInstance()->assign(unserialize(\'' . Functions::str_replace("'", "\'", serialize($achievements)) . '\')); ?>', LOCK_EX, false, false);
+                $dom = new DOMDocument;
+                if(!@$dom->loadXML(Functions::loadURL('https://steamcommunity.com/' . (ctype_digit($this->userData[18]) ? 'profiles/' : 'id/') . $this->userData[18] . '/stats/' . $game . '/?tab=achievements&l=' . Language::getInstance()->getString('steam_language') . '&xml=all', $this->isFGC, $this->isCURL)))
+                    $this->errors[] = Language::getInstance()->getString('loading_achievements_failed');
+                elseif($dom->getElementsByTagName('error')->length == 0)
+                {
+                    $achievementsClosed = $achievementsOpen = [];
+                    $achievements = $dom->getElementsByTagName('achievement');
+                    //Get achievements, sorted by open/close state
+                    foreach($achievements as $curAchievement)
+                        if($curAchievement->attributes->getNamedItem('closed')->nodeValue == '1')
+                            $achievementsClosed[] = ['icon' => $curAchievement->getElementsByTagName('iconClosed')->item(0)->nodeValue,
+                                'name' => htmlspecialchars($curAchievement->getElementsByTagName('name')->item(0)->nodeValue),
+                                'description' => htmlspecialchars($curAchievement->getElementsByTagName('description')->item(0)->nodeValue),
+                                'unlocked' => $curAchievement->getElementsByTagName('unlockTimestamp')->length == 1 ? Functions::utf8Encode(strftime(Language::getInstance()->getString('DATEFORMAT'), $curAchievement->getElementsByTagName('unlockTimestamp')->item(0)->nodeValue)) : ''];
+                        else
+                            $achievementsOpen[] = ['icon' => $curAchievement->getElementsByTagName('iconOpen')->item(0)->nodeValue,
+                                'name' => htmlspecialchars($curAchievement->getElementsByTagName('name')->item(0)->nodeValue),
+                                'description' => htmlspecialchars($curAchievement->getElementsByTagName('description')->item(0)->nodeValue)];
+                    $done = count($achievementsClosed);
+                    $achievements = ['name' => $dom->getElementsByTagName('gameName')->item(0)->nodeValue,
+                        'logo' => $dom->getElementsByTagName('gameLogo')->item(0)->nodeValue,
+                        'icon' => $dom->getElementsByTagName('gameIcon')->item(0)->nodeValue,
+                        'numTotal' => $achievements->length,
+                        'numClosed' => $done,
+                        'numOpen' => count($achievementsOpen),
+                        //Calculate progess
+                        'percentClosed' => $achievements->length != '0' ? ($done / $achievements->length)*100 : 0,
+                        'achievementsClosed' => $achievementsClosed,
+                        'achievementsOpen' => $achievementsOpen];
+                    Template::getInstance()->assign($achievements);
+                    //Cache entire template assign code
+                    Functions::file_put_contents($cacheFile, '<?php Template::getInstance()->assign(unserialize(\'' . Functions::str_replace("'", "\'", serialize($achievements)) . '\')); ?>', LOCK_EX, false, false);
+                }
+                else
+                    foreach($dom->getElementsByTagName('error') as $curError)
+                        $this->errors[] = $curError->nodeValue;
             }
             else
-                foreach($dom->getElementsByTagName('error') as $curError)
-                    $this->errors[] = $curError->nodeValue;
+            {
+                $playerId = $this->getSteamPlayerId();
+                $achievements = $gameSchema = $ownedGames = [];
+                if(!empty($playerId))
+                    $achievements = $this->parseJson($this->getFromSteamWebApi('ISteamUserStats', 'GetPlayerAchievements', 1, ['steamid' => $playerId, 'appid' => $game, 'l' => Language::getInstance()->getString('steam_language')]));
+                if(!empty($achievements) && $achievements['playerstats']['success'])
+                    $gameSchema = $this->parseJson($this->getFromSteamWebApi('ISteamUserStats', 'GetSchemaForGame', 2, ['appid' => $game, 'l' => Language::getInstance()->getString('steam_language')]));
+                if(!empty($gameSchema))
+                    $ownedGames = $this->parseJson($this->getFromSteamWebApi('IPlayerService', 'GetOwnedGames', 1, ['input_json' => json_encode((object) ['steamid' => $playerId, 'include_appinfo' => true, 'include_played_free_games' => true, 'appids_filter' => [$game]])]));
+                if(empty($ownedGames) || $ownedGames['response']['game_count'] != 1)
+                    $this->errors[] = Language::getInstance()->getString('loading_achievements_failed');
+                else
+                {
+                    $achievementsClosed = $achievementsOpen = [];
+                    $achievements = $achievements['playerstats']['achievements'];
+                    //Get achievements, sorted by open/close state
+                    foreach($achievements as $curAchievement)
+                    {
+                        //Look up corresponing achievement in the game schema
+                        foreach($gameSchema['game']['availableGameStats']['achievements'] as $key => $curAchievementSchema)
+                            if($curAchievementSchema['name'] === $curAchievement['apiname'])
+                            {
+                                $curAchievement += $curAchievementSchema;
+                                unset($gameSchema['game']['availableGameStats']['achievements'][$key]);
+                                break;
+                            }
+                        if($curAchievement['achieved'] == 1)
+                            $achievementsClosed[] = ['icon' => $curAchievement['icon'],
+                                'name' => htmlspecialchars($curAchievement['displayName']),
+                                //Description tag is not always available (most likely hidden achievement)
+                                'description' => isset($curAchievement['description']) ? htmlspecialchars($curAchievement['description']) : '',
+                                //Existing unlock timestamp marked by no zero
+                                'unlocked' => $curAchievement['unlocktime'] > 0 ? Functions::utf8Encode(strftime(Language::getInstance()->getString('DATEFORMAT'), $curAchievement['unlocktime'])) : ''];
+                        else
+                            $achievementsOpen[] = ['icon' => $curAchievement['icongray'],
+                                'name' => htmlspecialchars($curAchievement['displayName']),
+                                //Description tag is not always available (most likely hidden achievement)
+                                'description' => isset($curAchievement['description']) ? htmlspecialchars($curAchievement['description']) : ''];
+                    }
+                    $done = count($achievementsClosed);
+                    $achievements = ['name' => $gameSchema['game']['gameName'],
+                        'logo' => 'https://cdn.cloudflare.steamstatic.com/steam/apps/' . $game . '/capsule_184x69.jpg',
+                        'icon' => 'https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/apps/' . $game . '/' . $ownedGames['response']['games'][0]['img_icon_url'] . '.jpg',
+                        'numTotal' => count($achievements),
+                        'numClosed' => $done,
+                        'numOpen' => count($achievementsOpen),
+                        //Calculate progess
+                        'percentClosed' => count($achievements) != 0 ? ($done / count($achievements))*100 : 0,
+                        'achievementsClosed' => $achievementsClosed,
+                        'achievementsOpen' => $achievementsOpen];
+                    Template::getInstance()->assign($achievements);
+                    //Cache entire template assign code
+                    Functions::file_put_contents($cacheFile, '<?php Template::getInstance()->assign(unserialize(\'' . Functions::str_replace("'", "\'", serialize($achievements)) . '\')); ?>', LOCK_EX, false, false);
+                }
+            }
             break;
 
 //ViewProfile
@@ -434,34 +505,129 @@ class Profile extends PublicModule
      */
     private function refreshSteamGames(string $cacheFile): bool
     {
+        $refreshed = empty($this->webApiKey)
+            ? $this->refreshSteamGamesByXmlData($cacheFile)
+            : $this->refreshSteamGamesByWebApi($cacheFile);
+        if($refreshed)
+        {
+            //Sort by display game name
+            usort($this->steamGames, fn($game1, $game2) => strcmp($game1[2], $game2[2]));
+            //Cache game data
+            Functions::file_put_contents($cacheFile, '<?php $this->userData[18] = unserialize(\'' . serialize($this->userData[18]) . '\'); $this->steamGames = unserialize(\'' . serialize($this->steamGames) . '\'); ?>', LOCK_EX, false, false);
+        }
+        return $refreshed;
+    }
+
+    /**
+     * Refreshed user's Steam profile and games by using (deprecated) community XML data.
+     *
+     * @param string $cacheFile Name of file to chache Steam games into
+     * @return bool Refresh was successful
+     * @link https://partner.steamgames.com/documentation/community_data
+     */
+    private function refreshSteamGamesByXmlData(string $cacheFile): bool
+    {
         $source = Functions::loadURL('https://steamcommunity.com/' . (ctype_digit($this->userData[18]) ? 'profiles/' : 'id/') . $this->userData[18] . '/games/?tab=all&l=' . Language::getInstance()->getString('steam_language') . '&xml=1', $this->isFGC, $this->isCURL);
         if(empty($source))
             return false;
         $dom = new DOMDocument;
         if(!@$dom->loadXML($source))
             return false;
-        else
+        $this->userData[18] = ['profileID' => $this->userData[18],
+            'profileName' => $dom->getElementsByTagName('steamID')->item(0)->nodeValue];
+        $this->steamGames = [];
+        //Extract all Steam games from user
+        foreach($dom->getElementsByTagName('game') as $curSteamGame)
         {
-            $this->userData[18] = ['profileID' => $this->userData[18],
-                'profileName' => $dom->getElementsByTagName('steamID')->item(0)->nodeValue];
-            $this->steamGames = [];
-            //Extract all Steam games from user
-            foreach($dom->getElementsByTagName('game') as $curSteamGame)
-            {
-                $curStatLink = $curSteamGame->getElementsByTagName('statsLink');
-                //Only consider games with stats
-                if($curStatLink->length == 0)
-                    continue;
-                $this->steamGames[] = [basename($curStatLink->item(0)->nodeValue), //Internal game name
-                    $curSteamGame->getElementsByTagName('logo')->item(0)->nodeValue, //Game logo
-                    Functions::str_replace("'", '&#039;', $curSteamGame->getElementsByTagName('name')->item(0)->nodeValue)]; //Full game name
-            }
-            //Sort by display game name
-            usort($this->steamGames, fn($game1, $game2) => strcmp($game1[2], $game2[2]));
-            //Cache game data
-            Functions::file_put_contents($cacheFile, '<?php $this->userData[18] = unserialize(\'' . serialize($this->userData[18]) . '\'); $this->steamGames = unserialize(\'' . serialize($this->steamGames) . '\'); ?>', LOCK_EX, false, false);
+            //Only consider games with stats
+            if($curSteamGame->getElementsByTagName('statsLink')->length == 0)
+                continue;
+            $this->steamGames[] = [$curSteamGame->getElementsByTagName('appID')->item(0)->nodeValue, //Game ID
+                $curSteamGame->getElementsByTagName('logo')->item(0)->nodeValue, //Game logo
+                Functions::str_replace("'", '&#039;', $curSteamGame->getElementsByTagName('name')->item(0)->nodeValue)]; //Full game name
         }
         return true;
+    }
+
+    /**
+     * Refreshed user's Steam profile and games by using web API.
+     *
+     * @param string $cacheFile Name of file to chache Steam games into
+     * @return bool Refresh was successful
+     * @link https://partner.steamgames.com/doc/webapi_overview
+     * @link https://developer.valvesoftware.com/wiki/Steam_Web_API
+     */
+    private function refreshSteamGamesByWebApi(string $cacheFile): bool
+    {
+        $playerId = $this->getSteamPlayerId();
+        if(empty($playerId))
+            return false;
+        //Fetch display name first
+        $source = $this->parseJson($this->getFromSteamWebApi('ISteamUser', 'GetPlayerSummaries', 2, ['steamids' => $playerId]));
+        if(empty($source) || empty($source['response']['players']))
+            return false;
+        $this->userData[18] = ['profileID' => $playerId,
+            'profileName' => $source['response']['players'][0]['personaname']];
+        //Fetch games afterwards
+        $source = $this->parseJson($this->getFromSteamWebApi('IPlayerService', 'GetOwnedGames', 1, ['steamid' => $playerId, 'include_appinfo' => true, 'include_played_free_games' => true]));
+        if(empty($source))
+            return false;
+        $this->steamGames = [];
+        //Extract all Steam games from user
+        foreach($source['response']['games'] as $curSteamGame)
+        {
+            //Only consider games with stats
+            if(!($curSteamGame['has_community_visible_stats'] ?? false))
+                continue;
+            $this->steamGames[] = [$curSteamGame['appid'], //Game ID
+                'https://cdn.cloudflare.steamstatic.com/steam/apps/' . $curSteamGame['appid'] . '/capsule_184x69.jpg', //Game logo
+                Functions::str_replace("'", '&#039;', $curSteamGame['name'])]; //Full game name
+        }
+        return true;
+    }
+
+    /**
+     * Returns Steam player ID of this profile.
+     *
+     * @return string 64-bit Steam ID or null
+     */
+    private function getSteamPlayerId(): ?string
+    {
+        //Having it already entered as such, just return it...
+        if(ctype_digit($this->userData[18]))
+            return $this->userData[18];
+        //...otherwise resolve it against the web API
+        $jsonArray = $this->parseJson($this->getFromSteamWebApi('ISteamUser', 'ResolveVanityURL', 1, ['vanityurl' => $this->userData[18]]));
+        return !empty($jsonArray) && $jsonArray['response']['success'] == 1 ? $jsonArray['response']['steamid'] : null;
+    }
+
+    /**
+     * Loads given JSON string by parsing and handling any errors.
+     *
+     * @param string $json JSON to parse
+     * @return array Decoded JSON array or null
+     */
+    private function parseJson($json): ?array
+    {
+        if($json === false)
+            return null;
+        $jsonArray = json_decode($json, true, 512, JSON_BIGINT_AS_STRING);
+        return json_last_error() == JSON_ERROR_NONE ? $jsonArray : null;
+    }
+
+    /**
+     * Performs a GET operation on the Steam web API with the specified parameters.
+     *
+     * @param string $interface Name of interface to query
+     * @param string $method Name of method to use
+     * @param int $version Version number of method
+     * @param array $params Optional parameters to append
+     * @param string $format Optional different data format to use
+     * @return string|bool Response from web API or false
+     */
+    private function getFromSteamWebApi(string $interface, string $method, int $version=1, array $params=[], string $format='json')
+    {
+        return @Functions::loadURL('https://api.steampowered.com/' . $interface . '/' . $method . '/v000' . $version . '/?key=' . $this->webApiKey . '&format=' . $format . '&' . http_build_query($params, '', '&'), $this->isFGC, $this->isCURL);
     }
 
     /**
