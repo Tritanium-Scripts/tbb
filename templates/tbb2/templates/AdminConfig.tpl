@@ -155,7 +155,7 @@
  </tr>
  <tr>
   <td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('steam_web_api_key')}</span><br /><span class="fontSmall">{Language::getInstance()->getString('steam_web_api_key_hint')}</span></td>
-  <td class="cellAlt"><input class="formText" type="text" name="settings[88]" value="{$configValues['web_api_key']}" style="width:250px;" /></td>
+  <td class="cellAlt"><input class="formText" type="text" name="settings[87]" value="{$configValues['web_api_key']}" style="width:250px;" /></td>
  </tr>
  <tr>
   <td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('show_pm_reminder_each')}</span></td>

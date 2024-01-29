@@ -70,7 +70,7 @@ class Profile extends PublicModule
      *
      * @var string Exclusive Steam web API key
      */
-    private string $webApiKey;
+    private ?string $webApiKey;
 
     /**
      * Loads user data and sets mode.

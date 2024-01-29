@@ -155,7 +155,7 @@
  </tr>
  <tr>
   <td class="td1" style="font-weight:bold;"><span class="norm">{Language::getInstance()->getString('steam_web_api_key')}</span></td>
-  <td class="td1" style="vertical-align:top;"><input type="text" name="settings[88]" value="{$configValues['web_api_key']}" style="width:250px;" /></td>
+  <td class="td1" style="vertical-align:top;"><input type="text" name="settings[87]" value="{$configValues['web_api_key']}" style="width:250px;" /></td>
  </tr>
  <tr><td class="td1" colspan="2"><span class="small">{Language::getInstance()->getString('steam_web_api_key_hint')}</span></td></tr>
  <tr>

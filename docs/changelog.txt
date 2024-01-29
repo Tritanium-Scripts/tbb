@@ -1,6 +1,6 @@
 **********************************************************
 Tritanium Bulletin Board 1.5+ - Changelog (German version)
-Last changed: 2024-01-28 (Version 1.10.0)
+Last changed: 2024-01-29 (Version 1.10.0)
 **********************************************************
 
 2024: Version 1.10.0
@@ -25,7 +25,7 @@ Last changed: 2024-01-28 (Version 1.10.0)
     - Hochladen von Dateien gegen Directory Traversal abgesichert
     - Cache-Problem von leeren Admin- & Moderatoren-Smileys behoben
     - WIO-Liste nur für Mitglieder anzeigbar
-    - Laden von Steam-Errungenschaften wahlweise per Steam Web API
+    - Laden von Steam-Errungenschaften wahlweise per Steam Web API (benötigt Zugangsschlüssel)
 
 10.12.2023: Version 1.8.1 (offiziell)
     - Mögliche Enkodierungsprobleme der Monatsnamen im Kalender behoben
