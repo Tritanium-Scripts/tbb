@@ -198,7 +198,8 @@ class Core
         if(Config::getInstance()->getCfgVal('uc') == 1 && !Auth::getInstance()->isAdmin() && $this->action != 'Login')
             Template::getInstance()->printMessage('maintenance_mode_on'); //Lang strings from Main are already loaded via setlocale()
         //Check IP address
-        if(($endtime = Functions::checkIPAccess()) !== true)
+        $endtime = Functions::checkIPAccess();
+        if($endtime !== true)
             Template::getInstance()->printMessage(($endtime == -1 ? 'banned_forever_everywhere' : 'banned_for_x_minutes_everywhere'), ceil(($endtime-time())/60));
         //Check force login
         if(Config::getInstance()->getCfgVal('must_be_logged_in') == 1 && !Auth::getInstance()->isLoggedIn() && !in_array($this->action, ['Register', 'Login', 'Help']))

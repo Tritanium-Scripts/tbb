@@ -3,7 +3,7 @@
  * Manages elements of the navigation bar.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2023 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2024 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -27,6 +27,7 @@ class NavBar
      */
     public function addElement($name, string $link='', string $extra=''): void
     {
+        PlugIns::getInstance()->callHook(PlugIns::HOOK_NAVBAR_ADD_ELEMENT, $name, $link, $extra);
         if(is_array($name))
             foreach($name as $curElement)
                 $this->elements[] = [$curElement[0], !empty($curElement[1]) ? $curElement[1] : '', !empty($curElement[2]) ? $curElement[2] : ''];

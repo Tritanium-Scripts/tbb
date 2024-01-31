@@ -43,7 +43,7 @@
  * </ol>
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2023 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2024 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -87,7 +87,10 @@ class Auth
         $this->userData = Functions::file('members/' . (isset($_SESSION['userID'], $_SESSION['userHash']) && Functions::file_exists('members/' . $_SESSION['userID'] . '.xbb') ? $_SESSION['userID'] : '0') . '.xbb');
         //Check session-based login
         if(isset($_SESSION['userHash']) && $_SESSION['userHash'] == current(Functions::explodeByTab($this->userData[2])))
+        {
             $this->loggedIn = true;
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_AUTH_USER_LOGGED_IN);
+        }
         //Check cookie-based login
         elseif(isset($_COOKIE['cookie_xbbuser']))
         {
@@ -102,6 +105,7 @@ class Auth
                 $_SESSION['userID'] = $cUser[0];
                 $_SESSION['userHash'] = $cUser[1];
                 $this->userData = $cUserData;
+                PlugIns::getInstance()->callHook(PlugIns::HOOK_AUTH_USER_LOGGED_IN);
             }
         }
         //Set connection state and special ID for WIO

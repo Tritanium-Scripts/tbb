@@ -33,6 +33,13 @@ interface PlugIn
     public function getDescription(): string;
 
     /**
+     * Returns version number of this plug-in.
+     *
+     * @return string Semantic version of plug-in
+     */
+    public function getVersion(): string;
+
+    /**
      * Called on the specified hook. Hooks can be official ones from the system or custom calls e.g. from other plug-ins.
      *
      * @param string $hook Hook name

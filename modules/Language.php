@@ -117,6 +117,7 @@ class Language
      */
     public function parseFile(?string $file): bool
     {
+        PlugIns::getInstance()->callHook(PlugIns::HOOK_LANGUAGE_PARSE_FILE, $file);
         //Already loaded?
         if(isset($this->langStrings[$this->langCode][$file]))
             return true;

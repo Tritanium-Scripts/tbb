@@ -7,7 +7,7 @@ Last changed: 2024-01-29 (Version 1.10.0)
     - Fehler beim Hinzufügen von leeren speziellen Benutzer- und Gruppenrechten behoben
     - Boterkennung verbessert
     - Umstellung auf Composer und dessen Autoloader
-    - Smarty auf Version 4.3.4 aktualisiert
+    - Smarty auf Version 4.3.5 aktualisiert
     - Umstellung und Nutzung der Features und Syntax von PHP 7.4 (= Mindestversion)
     - Mögliche Enkodierungsprobleme bei "Zuletzt hier am" in der Profilansicht behoben
     - Formatierung des Quellcodes mit Tabs durch Leerzeichen ersetzt

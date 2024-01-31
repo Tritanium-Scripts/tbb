@@ -795,6 +795,8 @@ Supermoderator
        Möglichst eindeutiger Name des Plug-ins, wobei die Eindeutigkeit letztendlich von dem Klassennamen stammt. Es können auch Namensräume genutzt werden.</li>
    <li><b><code>getDescription(): string</code></b><br />
        Beschreibung der Funktionalität des Plug-ins. Dies kann ein längerer Text sein mit weitergehenden Informationen, Hilfen, FAQ usw.</li>
+   <li><b><code>getVersion(): string</code></b><br />
+       Versionsnummer des Plug-Ins, wobei die Angabe der <a href="https://semver.org/">Semantic Versioning</a> Spezifikation entsprechen sollte.</li>
    <li><b><code>onHook(string $hook, bool $official): ?callable</code></b><br />
        Der eigentliche Code des Plug-ins wird als <a href="https://www.php.net/closure">anonyme Funktion</a> bereit gestellt. Falls das Plug-in nicht an dem angegebenen Hook interessiert ist, wird <code>null</code> zurückgegeben. Der zweite Parameter gibt an, ob es ein offizieller Hook vom TBB ist. Plug-ins können eigene und damit fremde Hooks mitbringen und diese ebenso aufrufen und so z.B. untereinander aufbauen oder miteinander interagieren.</li>
   </ul>
@@ -825,6 +827,11 @@ class BBCodeMP3 implements PlugIn
     public function getDescription(): string
     {
         return '[mp3]-BBCode zur Einbettung von Audio im MP3-Format';
+    }
+
+    public function getVersion(): string
+    {
+        return '1.0.0';
     }
 
     public function onHook(string $hook, bool $official): ?callable

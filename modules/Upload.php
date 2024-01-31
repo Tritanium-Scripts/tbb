@@ -108,6 +108,7 @@ class Upload extends PublicModule
         switch($this->mode)
         {
             case 'upload':
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_UPLOAD_UPLOAD);
             switch($_FILES['uploadedFile']['error'])
             {
                 //File upload OK
@@ -137,6 +138,7 @@ class Upload extends PublicModule
                     {
                         $this->isUploaded = true;
                         $this->bbCode = sprintf($this->isValidPicExt($_FILES['uploadedFile']['name']) ? '[img]%s[/img]' : '[url=%s]' . basename($_FILES['uploadedFile']['name']) . '[/url]', $uploadName);
+                        PlugIns::getInstance()->callHook(PlugIns::HOOK_UPLOAD_UPLOADED);
                     }
                 }
                 break;

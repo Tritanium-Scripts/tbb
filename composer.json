@@ -29,9 +29,11 @@
         "source": "https://github.com/Tritanium-Scripts/tbb"
     },
     "require": {
-        "oomphinc/composer-installers-extender": "2.*",
         "php": ">=7.4",
         "smarty/smarty": "4.3.*"
+    },
+    "require-dev": {
+        "oomphinc/composer-installers-extender": "2.*"
     },
     "suggest": {
         "ext-curl": "Proper fetching of Steam achievements",
@@ -43,8 +45,6 @@
         "classmap": ["modules/"],
         "exclude-from-classmap": ["modules/Template/**", "modules/PlugIns/**"]
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "config": {
         "allow-plugins": {
             "composer/*": true,
@@ -53,8 +53,8 @@
     },
     "extra": {
         "installer-paths": {
-            "languages/{$name}/": ["type:tbb1-lng"],
-            "templates/{$name}/": ["type:tbb1-tpl"]
+            "languages/{$name}/": ["type:tritanium-scripts-tbb1lng"],
+            "templates/{$name}/": ["type:tritanium-scripts-tbb1tpl"]
         }
     }
 }
