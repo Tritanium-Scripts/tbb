@@ -207,8 +207,9 @@ class Core
         //Autoload translation of module
         Language::getInstance()->parseFile($this->action);
         //Execute module with mode or forum action as mode replacement
+        $mode = Functions::getValueFromGlobals('mode');
         PlugIns::getInstance()->callHook(PlugIns::HOOK_CORE_MODULE_CALL);
-        $this->getModule($this->action, ($mode = Functions::getValueFromGlobals('mode')) == '' ? $fAction : $mode)->publicCall();
+        $this->getModule($this->action, $mode == '' ? $fAction : $mode)->publicCall();
     }
 
     /**
@@ -222,6 +223,7 @@ class Core
     {
         if(!class_exists($module) || !is_subclass_of($module, 'PublicModule'))
         {
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_CORE_MISSING_MODULE, $module, $mode);
             $missing;
             if(is_null($module))
             {

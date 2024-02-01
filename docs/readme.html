@@ -209,7 +209,6 @@
    <li><b>./uploads/</b> (+ Inhalt)</li>
    <li><b>./vars/</b> (+ Inhalt)</li>
    <li><b>./vendor/</b> (+ Inhalt)</li>
-   <li><b>composer.json</b></li>
    <li><b>index.php</b></li>
   </ul>
 
@@ -263,7 +262,6 @@
          <span style="font-size:x-small;">Achten Sie darauf, dass keine alten bzw. inzwischen entfernte Dateien in den Unterordnern von <b>./modules/Template/</b> zurück bleiben.</span></li>
      <li><b>./templates/</b> (+ Inhalt)</li>
      <li><b>./vendor/</b> (+ Inhalt)</li>
-     <li><b>composer.json</b></li>
      <li><b>index.php</b></li>
     </ul>
    </li>
@@ -295,7 +293,6 @@
          <span style="font-size:x-small;">Achten Sie darauf, dass keine alten bzw. inzwischen entfernte Dateien in den Unterordnern von <b>./modules/Template/</b> zurück bleiben.</span></li>
      <li><b>./templates/</b> (+ Inhalt)</li>
      <li><b>./vendor/</b> (+ Inhalt)</li>
-     <li><b>composer.json</b></li>
      <li><b>index.php</b></li>
     </ul>
    </li>
@@ -329,7 +326,6 @@
          <span style="font-size:x-small;">Achten Sie darauf, dass keine alten bzw. inzwischen entfernte Dateien in den Unterordnern von <b>./modules/Template/</b> zurück bleiben.</span></li>
      <li><b>./templates/</b> (+ Inhalt)</li>
      <li><b>./vendor/</b> (+ Inhalt)</li>
-     <li><b>composer.json</b></li>
      <li><b>index.php</b></li>
     </ul>
    </li>
@@ -365,7 +361,6 @@
          <span style="font-size:x-small;">Achten Sie darauf, dass keine alten bzw. inzwischen entfernte Dateien in den Unterordnern von <b>./modules/Template/</b> zurück bleiben.</span></li>
      <li><b>./templates/</b> (+ Inhalt)</li>
      <li><b>./vendor/</b> (+ Inhalt)</li>
-     <li><b>composer.json</b></li>
      <li><b>index.php</b></li>
     </ul>
    </li>
@@ -425,7 +420,6 @@
      <li><b>./templates/</b> (+ Inhalt)</li>
      <li><b>./uploads/</b> (+ Inhalt)</li>
      <li><b>./vendor/</b> (+ Inhalt)</li>
-     <li><b>composer.json</b></li>
      <li><b>index.php</b></li>
     </ul>
    </li>
@@ -652,6 +646,7 @@ Supermoderator
 
   <h3 id="clickjacking">4.8 <code>clickjacking</code></h3>
   <p class="fontnorm">Ist diese Option auf 1 gesetzt, wird ein spezieller HTTP-Header gesendet und dem Browser mitgeteilt, dass das Forum nicht in Frames auf anderen Webseiten angezeigt werden darf. Derzeit unterstützen Internet Explorer 8, Chrome 4.1, Safari 4, Firefox ab 3.6.9 und Opera 10.50 oder höher dieses Feature. Mehr Informationen zum Thema Clickjacking finden Sie z.B. in der <a href="http://de.wikipedia.org/wiki/Clickjacking" target="_blank">Wikipedia</a>.</p>
+  <p class="fontnorm">Ab TBB 1.10 wird ein zusätzlicher HTTP-Header gemäß Content Security Policy Level 2 gesendet. Dies wird von sämtlichen modernen Browsern unterstützt.</p>
 
   <h3 id="upload">4.9 <code>upload_allowed_ext</code> / <code>upload_max_filesize</code></h3>
   <p class="fontnorm">Ab Version 1.5.0 bietet das TBB die Möglichkeit, Dateien als Anhänge zu Beiträgen hochzuladen an. Sind Dateiuploads aktiviert (<code>enable_uploads</code> ist 1), können Sie mit der Option <code>upload_allowed_ext</code> genau definieren, welche Dateitypen dabei akzeptiert werden. Geben Sie die Dateiendungen mit Kommata getrennt an, z.B. <b>bmp,jpg,jpeg,gif,png,webp,zip,rar,mp3,pdf</b> um Bilder, Archive, Audiodateien und PDFs zu erlauben. Die Dateien werden in dem <b>./uploads/</b>-Ordner gespeichert und automatisch im Beitrag mit BBCode verlinkt. Bilddateien werden dabei als solche direkt eingebunden. Sie sollten diese Einstellung auf jeden Fall setzen um zu verhindern, dass z.B. böswillige PHP-Skripte hochgeladen werden. Zusätzlich können Sie noch eine maximale Dateigröße in Bytes für hochgeladene Dateien angeben. Die Voreinstellung für <code>upload_max_filesize</code> beträgt 2 MiB. Geben Sie kein Limit an, gelten die Beschränkungen aus der php.ini bzw. der PHP-Umgebung.</p>
@@ -692,7 +687,7 @@ Supermoderator
    <li><b>styles</b>-Ordner<br />
        Alls CSS-Dateien müssen in dieses Verzeichnis gespeichert werden. Mehrere Styles werden dabei dem Administrator zur Auswahl angeboten, d.h. Sie sollten alle zusammenhängenden Stil-Klassen in eine Datei hinterlegen. Es kann immer nur eine CSS-Datei verwendet werden.</li>
    <li><b>templates</b>-Ordner<br />
-       Alle Template-Dateien (normalerweise 96 Stück) müssen in diesem Ordner sein und die exakten Namen besitzen, wie es das Standardtemplate vorgibt. Sie können selbstverständlich weitere Template-Dateien zur Inkludierung o.ä. anlegen, wenn notwendig. In den tpl-Dateien finden Sie weitere Kommentare zu den gelieferten Daten.</li>
+       Alle Template-Dateien (normalerweise 98 Stück) müssen in diesem Ordner sein und die exakten Namen besitzen, wie es das Standardtemplate vorgibt. Sie können selbstverständlich weitere Template-Dateien zur Inkludierung o.ä. anlegen, wenn notwendig. In den tpl-Dateien finden Sie weitere Kommentare zu den gelieferten Daten.</li>
   </ul>
 
   <h3 id="tplexample">6.2 Beispiel-Struktur</h3>

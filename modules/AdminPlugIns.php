@@ -47,7 +47,8 @@ class AdminPlugIns extends PublicModule
                 $plugIns[$curPlugInFile] = ['author' => $curPlugIn->getAuthorName(),
                     'website' => $curPlugIn->getAuthorUrl(),
                     'name' => $curPlugIn->getName(),
-                    'description' => $curPlugIn->getDescription()];
+                    'description' => $curPlugIn->getDescription(),
+                    'version' => $curPlugIn->getVersion()];
             Template::getInstance()->assign('plugIns', $plugIns);
             break;
         }

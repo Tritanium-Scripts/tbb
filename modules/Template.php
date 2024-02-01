@@ -171,7 +171,10 @@ class Template
     {
         //Clickjacking protection
         if(Config::getInstance()->getCfgVal('clickjacking') == 1)
+        {
             header('X-FRAME-OPTIONS: SAMEORIGIN');
+            header('Content-Security-Policy: frame-ancestors \'self\'');
+        }
         //Announce amount of *now* unread pms to template, just before printing out any of them
         $this->display('PageHeader', ['unreadPMs' => PrivateMessage::getInstance()->getUnreadPMs(),
             //Not using $smarty.now because of GMT and DST stuff

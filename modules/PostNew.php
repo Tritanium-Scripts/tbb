@@ -30,7 +30,9 @@ class PostNew extends PublicModule
      *
      * @var array Mode and template counterparts
      */
-    private static array $modeTable = ['newtopic' => 'PostNewTopic', 'newpoll' => 'PostNewPoll', 'step2' => 'PostNewPoll'];
+    private static array $modeTable = ['newtopic' => 'PostNewTopic',
+        'newpoll' => 'PostNewPoll',
+        'step2' => 'PostNewPoll'];
 
     /**
      * Data of new post.

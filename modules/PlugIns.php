@@ -14,6 +14,7 @@ class PlugIns
     public const HOOK_CORE_INIT = 'HOOK_CORE_INIT';
     public const HOOK_CORE_RUN = 'HOOK_CORE_RUN';
     public const HOOK_CORE_MODULE_CALL = 'HOOK_CORE_MODULE_CALL';
+    public const HOOK_CORE_MISSING_MODULE = 'HOOK_CORE_MISSING_MODULE';
 
     public const HOOK_LANGUAGE_PARSE_FILE = 'HOOK_LANGUAGE_PARSE_FILE';
 
