@@ -98,7 +98,7 @@ function refreshGames()
     </tr>
     <tr>
      <td style="padding:3px; width:20%;"><span class="fontNorm">{Language::getInstance()->getString('birthday_colon')}</span></td>
-     <td style="padding:3px; width:80%;">{{html_select_date prefix='' time=$userData[22] end_year=1900 reverse_years=true field_array='birthday' field_order=Language::getInstance()->getString('DATE_FIELD_ORDER') field_separator=Language::getInstance()->getString('DATE_SEPARATOR') all_extra='class="formSelect"' all_empty=''}|utf8_encode}</td>
+     <td style="padding:3px; width:80%;">{{html_select_date prefix='' time=$userData[22] end_year=$maxYearOfBirth reverse_years=true field_array='birthday' field_order=Language::getInstance()->getString('DATE_FIELD_ORDER') field_separator=Language::getInstance()->getString('DATE_SEPARATOR') all_extra='class="formSelect"' all_empty=''}|utf8_encode}</td>
     </tr>
     <tr>
      <td style="padding:3px; width:20%;"><span class="fontNorm">{Language::getInstance()->getString('icq_number_colon')}</span></td>

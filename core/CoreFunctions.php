@@ -479,6 +479,17 @@ abstract class CoreFunctions
     }
 
     /**
+     * Returns the oldest possible year of birth, i.e. 120 years ago from now.
+     *
+     * @return int Maximum possible year
+     */
+    public static function getMaxYearOfBirth(): int
+    {
+        self::$cache['maxYearOfBirth'] ??= date('Y', strtotime('-120 years'));
+        return self::$cache['maxYearOfBirth'];
+    }
+
+    /**
      * Compiles back links for forum messages. A link to the forum index will always be generated.
      *
      * @param int $forumID Generates back link to topics of this forum, if provided
@@ -694,7 +705,7 @@ abstract class CoreFunctions
         if(!is_array($date))
             return null;
         $date = array_map('intval', $date);
-        if($date['Day'] < 1 || $date['Day'] > 31 || $date['Month'] < 1 || $date['Month'] > 12 || $date['Year'] < 1900 || $date['Year'] > date('Y'))
+        if($date['Day'] < 1 || $date['Day'] > 31 || $date['Month'] < 1 || $date['Month'] > 12 || $date['Year'] < 0 || $date['Year'] > PHP_INT_MAX)
             return null;
         //Check if day is actually in month or roll it back otherwise (e.g. Feb 31 to Feb 28)
         return gmmktime($date['Hour'] ?? 0, $date['Minute'] ?? 0, $date['Second'] ?? 0, $date['Month'], min($date['Day'], date('t', strtotime($date['Year'] . '-' . $date['Month']))), $date['Year']);
@@ -845,8 +856,8 @@ abstract class CoreFunctions
      */
     public static function isValidBirthday(int $timestamp): bool
     {
-        //Assume a birthday no longer than 120 years ago and no future date
-        return date('Y', $timestamp) >= date('Y', strtotime('-120 years')) && $timestamp < time();
+        //Limit a birthday no longer than 120 years ago and no future date
+        return date('Y', $timestamp) >= self::getMaxYearOfBirth() && $timestamp < time();
     }
 
     /**
@@ -882,10 +893,8 @@ abstract class CoreFunctions
      */
     public static function loadURL(string $url, ?bool $useFGC=null, ?bool $useCURL=null)
     {
-        if(is_null($useFGC))
-            $useFGC = ini_get('allow_url_fopen') == '1';
-        if(is_null($useCURL))
-            $useCURL = $useFGC ? false : extension_loaded('curl');
+        $useFGC ??= ini_get('allow_url_fopen') == '1';
+        $useCURL ??= $useFGC ? false : extension_loaded('curl');
         if($useFGC)
             return @file_get_contents($url);
         elseif($useCURL)

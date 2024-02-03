@@ -242,6 +242,7 @@ class Register extends PublicModule
             break;
         }
         Template::getInstance()->printPage(Functions::handleMode($this->mode, self::$modeTable, __CLASS__), ['newUser' => $newUser,
+            'maxYearOfBirth' => Functions::getMaxYearOfBirth(),
             'errors' => $this->errors,
             'rulesLink' => INDEXFILE . '?faction=regeln' . SID_AMPER,
             'privacyPolicyLink' => $this->privacyPolicyLink]);

@@ -108,7 +108,9 @@ class Config
         1,                                      #activate_calendar
         //New TBB 1.10.0 config values
         1,                                      #activate_plug_ins
-        ''];                                    #web_api_key
+        '',                                     #web_api_key
+        1,                                      #memberships_in_cal
+        1];                                     #birthdays_in_cal
 
     /**
      * Name of config file to work with.
@@ -214,7 +216,9 @@ class Config
         'activate_calendar',
         //New TBB 1.10.0 config values
         'activate_plug_ins',
-        'web_api_key'];
+        'web_api_key',
+        'memberships_in_cal',
+        'birthdays_in_cal'];
 
     /**
      * Loaded configuration values are stored here.

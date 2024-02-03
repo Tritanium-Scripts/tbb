@@ -110,7 +110,8 @@ class Profile extends PublicModule
             if(Config::getInstance()->getCfgVal('achievements') != 1)
                 $this->errors[] = Language::getInstance()->getString('text_function_deactivated', 'Messages');
             //Use cached game information from last half hour
-            elseif(file_exists($cacheFile = 'cache/' . $this->userData[1] . '-SteamGames.cache.php') && (filemtime($cacheFile) + 1800 > time()))
+            $cacheFile = 'cache/' . $this->userData[1] . '-SteamGames.cache.php';
+            if(file_exists($cacheFile) && (filemtime($cacheFile) + 1800 > time()))
                 include($cacheFile);
             //Load Steam games for user, if any (and class to handle XML data is available)
             elseif(!class_exists('DOMDocument', false) || (!$this->isFGC && !$this->isCURL))
@@ -124,7 +125,7 @@ class Profile extends PublicModule
             echo('{"errors":[' . (!empty($this->errors) ? '"' . implode('","', $this->errors) . '"' : '],"values":['));
             $jsonGames = [];
             foreach($this->steamGames as $curSteamGame)
-                $jsonGames[] = '{"gameID":"' . $curSteamGame[0] . '","gameLogo":"' . $curSteamGame[1] . '","gameName":"' . $curSteamGame[2] . '","gameSelected":' . (in_array($curSteamGame[0], $this->userData[19]) ? 'true' : 'false') . '}';
+                $jsonGames[] = '{"gameID":"' . $curSteamGame[0] . '","gameLogo":"' . $curSteamGame[1] . '","gameName":"' . $curSteamGame[2] . '","gameSelected":' . ($this->isSteamGameSelected($curSteamGame) ? 'true' : 'false') . '}';
             exit(implode(',', $jsonGames) . ']}');
             break;
 
@@ -268,7 +269,7 @@ class Profile extends PublicModule
                 }
                 //Add selected state
                 foreach($this->steamGames as &$curSteamGame)
-                    $curSteamGame[] = in_array($curSteamGame[0], $this->userData[19]);
+                    $curSteamGame[] = $this->isSteamGameSelected($curSteamGame);
                 $this->userData[19] = &$this->steamGames;
             }
             else
@@ -276,6 +277,7 @@ class Profile extends PublicModule
             //Provide selectable templates and styles, if allowed
             if(Config::getInstance()->getCfgVal('select_tpls') == 1 || Config::getInstance()->getCfgVal('select_styles') == 1)
                 Template::getInstance()->assign('templates', Template::getInstance()->getAvailableTpls());
+            Template::getInstance()->assign('maxYearOfBirth', Functions::getMaxYearOfBirth());
             break;
 
 //SendMail
@@ -344,7 +346,7 @@ class Profile extends PublicModule
 
 //ViewAchievements
             case 'viewAchievements':
-            $game = intval(Functions::getValueFromGlobals('game'));
+            $game = Functions::getValueFromGlobals('game');
             NavBar::getInstance()->addElement([
                 [sprintf(Language::getInstance()->getString('view_profile_from_x'), $this->userData[0]), INDEXFILE . '?faction=profile&amp;profile_id=' . $this->userData[1] . SID_AMPER],
                 [Language::getInstance()->getString('steam_achievements'), INDEXFILE . '?faction=profile&amp;profile_id=' . $this->userData[1] . '&amp;mode=viewAchievements&amp;game=' . $game . SID_AMPER]]);
@@ -355,7 +357,8 @@ class Profile extends PublicModule
             elseif(!in_array($game, $this->userData[19]))
                 Template::getInstance()->printMessage('steam_game_not_found');
             //Use cached achievements from last half hour
-            elseif(file_exists($cacheFile = 'cache/' . $this->userData[1] . '-Achievements-' . $game . '.cache.php') && (filemtime($cacheFile) + 1800 > time()))
+            $cacheFile = 'cache/' . $this->userData[1] . '-Achievements-' . Functions::str_replace(':', '', $game) . '.cache.php';
+            if(file_exists($cacheFile) && (filemtime($cacheFile) + 1800 > time()))
             {
                 include($cacheFile);
                 break;
@@ -507,7 +510,8 @@ class Profile extends PublicModule
             if(Config::getInstance()->getCfgVal('achievements') == 1 && !empty($this->userData[18]) && !empty($this->userData[19]) && class_exists('DOMDocument', false) && ($this->isFGC || $this->isCURL))
             {
                 //Use cached game information
-                if(file_exists($cacheFile = 'cache/' . $this->userData[1] . '-SteamGames.cache.php'))
+                $cacheFile = 'cache/' . $this->userData[1] . '-SteamGames.cache.php';
+                if(file_exists($cacheFile))
                     include($cacheFile);
                 else
                     $this->refreshSteamGames($cacheFile);
@@ -566,10 +570,11 @@ class Profile extends PublicModule
         //Extract all Steam games from user
         foreach($dom->getElementsByTagName('game') as $curSteamGame)
         {
+            $curStatLink = $curSteamGame->getElementsByTagName('statsLink');
             //Only consider games with stats
-            if($curSteamGame->getElementsByTagName('statsLink')->length == 0)
+            if($curStatLink->length == 0)
                 continue;
-            $this->steamGames[] = [$curSteamGame->getElementsByTagName('appID')->item(0)->nodeValue, //Game ID
+            $this->steamGames[] = [basename($curStatLink->item(0)->nodeValue), //Game ID or internal game name
                 $curSteamGame->getElementsByTagName('logo')->item(0)->nodeValue, //Game logo
                 htmlspecialchars($curSteamGame->getElementsByTagName('name')->item(0)->nodeValue, ENT_QUOTES)]; //Full game name
         }

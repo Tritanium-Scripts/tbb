@@ -103,7 +103,7 @@ class Core
     function __construct()
     {
         error_reporting(ERR_REPORTING);
-        set_exception_handler(function($e)
+        set_exception_handler(function(Throwable $e)
         {
             Logger::getInstance()->log(get_class($e) . ': ' . $e->getMessage(), Logger::LOG_FILESYSTEM);
             echo($e);

@@ -83,65 +83,71 @@ class Calendar extends PublicModule
             }
             unset($plannedEvents);
         }
-        //Filter and add member events (join or anniversary date in the selected month) as well as birthdays
-        foreach(Functions::glob(DATAPATH . 'members/[!0t]*.xbb') as $curMember)
-        {
-            $curMember = Functions::file($curMember, null, null, false);
-            $curRegYear = intval(Functions::substr($curMember[6], 0, 4));
-            $curRegMonth = intval(Functions::substr($curMember[6], 4, 2));
-            if($curRegYear <= $this->year && $curRegMonth == $this->month)
+        $showMemberships = Config::getInstance()->getCfgVal('memberships_in_cal');
+        $showBirthdays = Config::getInstance()->getCfgVal('birthdays_in_cal');
+        //Filter and add member events (join or anniversary date or birthday in the selected month)
+        if($showMemberships || $showBirthdays)
+            foreach(Functions::glob(DATAPATH . 'members/[!0t]*.xbb') as $curMember)
             {
-                $curEvent = [];
-                $curEvent['type'] = 'member';
-                //Move reg date to selected year
-                $curEvent['startDate'] = gmmktime(0, 0, 0, $curRegMonth, intval(Functions::substr($curMember[6] . '01', 6, 2)), $this->year);
-                $curEvent['endDate'] = $curEvent['startDate'] + 86399;
-                $curEvent['name'] = $curMember[0];
-                $reggedYears = $this->year - intval(Functions::substr($curMember[6], 0, 4));
-                switch($reggedYears)
+                $curMember = Functions::file($curMember, null, null, false);
+                if($showMemberships)
                 {
-                    case 0:
-                    $curEvent['icon'] = 'registration';
-                    $curEvent['description'] = Language::getInstance()->getString('registration');
-                    break;
+                    $curRegYear = intval(Functions::substr($curMember[6], 0, 4));
+                    $curRegMonth = intval(Functions::substr($curMember[6], 4, 2));
+                    if($curRegYear <= $this->year && $curRegMonth == $this->month)
+                    {
+                        $curEvent = [];
+                        $curEvent['type'] = 'member';
+                        //Move reg date to selected year
+                        $curEvent['startDate'] = gmmktime(0, 0, 0, $curRegMonth, intval(Functions::substr($curMember[6] . '01', 6, 2)), $this->year);
+                        $curEvent['endDate'] = $curEvent['startDate'] + 86399;
+                        $curEvent['name'] = $curMember[0];
+                        $reggedYears = $this->year - intval(Functions::substr($curMember[6], 0, 4));
+                        switch($reggedYears)
+                        {
+                            case 0:
+                            $curEvent['icon'] = 'registration';
+                            $curEvent['description'] = Language::getInstance()->getString('registration');
+                            break;
 
-                    case 1:
-                    $curEvent['icon'] = 'anniversary';
-                    $curEvent['description'] = Language::getInstance()->getString('anniversary_one_year');
-                    break;
+                            case 1:
+                            $curEvent['icon'] = 'anniversary';
+                            $curEvent['description'] = Language::getInstance()->getString('anniversary_one_year');
+                            break;
 
-                    default:
-                    $curEvent['icon'] = 'anniversary';
-                    $curEvent['description'] = sprintf(Language::getInstance()->getString('anniversary_x_years'), $reggedYears);
-                    break;
+                            default:
+                            $curEvent['icon'] = 'anniversary';
+                            $curEvent['description'] = sprintf(Language::getInstance()->getString('anniversary_x_years'), $reggedYears);
+                            break;
+                        }
+                        $curEvent['member'] = Functions::getProfileLink($curMember[1]);
+                        $events[] = $curEvent;
+                    }
                 }
-                $curEvent['member'] = Functions::getProfileLink($curMember[1]);
-                $events[] = $curEvent;
-            }
-            if(!empty($curMember[22]) && $this->year >= date('Y', $curMember[22]) && date('m', $curMember[22]) == $this->month)
-            {
-                $curEvent = [];
-                $curEvent['type'] = 'member';
-                //Move birthday to selected year
-                $curEvent['startDate'] = strtotime($this->year . date('-m-d H:i:s', $curMember[22]));
-                $curEvent['endDate'] = $curEvent['startDate'] + 86399;
-                $curEvent['name'] = $curMember[0];
-                $curEvent['icon'] = 'birthday';
-                $years = $this->year - date('Y', $curMember[22]);
-                switch($years)
+                if($showBirthdays && !empty($curMember[22]) && $this->year >= date('Y', $curMember[22]) && date('m', $curMember[22]) == $this->month)
                 {
-                    case 1:
-                    $curEvent['description'] = Language::getInstance()->getString('birthday_one_year');
-                    break;
+                    $curEvent = [];
+                    $curEvent['type'] = 'member';
+                    //Move birthday to selected year
+                    $curEvent['startDate'] = strtotime($this->year . date('-m-d H:i:s', $curMember[22]));
+                    $curEvent['endDate'] = $curEvent['startDate'] + 86399;
+                    $curEvent['name'] = $curMember[0];
+                    $curEvent['icon'] = 'birthday';
+                    $years = $this->year - date('Y', $curMember[22]);
+                    switch($years)
+                    {
+                        case 1:
+                        $curEvent['description'] = Language::getInstance()->getString('birthday_one_year');
+                        break;
 
-                    default:
-                    $curEvent['description'] = sprintf(Language::getInstance()->getString('birthday_x_years'), $years);
-                    break;
+                        default:
+                        $curEvent['description'] = sprintf(Language::getInstance()->getString('birthday_x_years'), $years);
+                        break;
+                    }
+                    $curEvent['member'] = Functions::getProfileLink($curMember[1]);
+                    $events[] = $curEvent;
                 }
-                $curEvent['member'] = Functions::getProfileLink($curMember[1]);
-                $events[] = $curEvent;
             }
-        }
         //Build current month view with events attached to their affected days
         $lastWeek = null;
         for($curDay=1; $curDay<=gmdate('t', $date); $curDay++)
