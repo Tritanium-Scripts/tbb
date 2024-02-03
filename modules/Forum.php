@@ -47,7 +47,7 @@ class Forum extends PublicModule
      *
      * @var array Named keys sorted by layout of XBB files
      */
-    private static array $userKeys = ['userNick', 'userID', 'userPassHash', 'userEMail', 'userState', 'userPosts', 'userRegDate', 'userSig', 'userForumAcc', 'userHP', 'userAvatar', 'userUpdateState', 'userName', 'userICQ', 'userMailOpts', 'userGroup', 'userTimestamp', 'userSpecialState', 'userSteamName', 'userSteamGames'];
+    private static array $userKeys = ['userNick', 'userID', 'userPassHash', 'userEMail', 'userState', 'userPosts', 'userRegDate', 'userSig', 'userForumAcc', 'userHP', 'userAvatar', 'userUpdateState', 'userName', 'userICQ', 'userMailOpts', 'userGroup', 'userTimestamp', 'userSpecialState', 'userSteamName', 'userSteamGames', 'userBirthday'];
 
     /**
      * Amount of named keys for user data.

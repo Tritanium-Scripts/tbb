@@ -204,9 +204,10 @@ class Profile extends PublicModule
                     $this->userData[20] = Functions::getValueFromGlobals('ownTemplate');
                     $this->userData[21] = Functions::getValueFromGlobals('ownStyle');
                     $this->userData[22] = Functions::getTimestampFromGlobals('birthday');
-                    if($this->userData[22] <= 0 || $this->userData[22] > time())
-                        $this->userData[22] = null;
-                    if(($newPass = Functions::getValueFromGlobals('new_pw1')) != Functions::getValueFromGlobals('new_pw2'))
+                    if(!empty($this->userData[22]) && !Functions::isValidBirthday($this->userData[22]))
+                        $this->errors[] = Language::getInstance()->getString('please_enter_a_valid_birthday');
+                    $newPass = Functions::getValueFromGlobals('new_pw1');
+                    if($newPass != Functions::getValueFromGlobals('new_pw2'))
                         $this->errors[] = Language::getInstance()->getString('new_passwords_do_not_match');
                     //Write updates?
                     if(empty($this->errors))

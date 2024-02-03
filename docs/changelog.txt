@@ -29,6 +29,7 @@ Last changed: 2024-02-03 (Version 1.10.0)
     - Clickjacking-Schutz auch via Content Security Policy Level 2
     - Download von vCards in Version 4.0
     - Geburtstag als neues Profilfeld
+    - Anzeige von Geburtstagen in der Kalenderansicht
 
 10.12.2023: Version 1.8.1 (offiziell)
     - Mögliche Enkodierungsprobleme der Monatsnamen im Kalender behoben

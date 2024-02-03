@@ -122,8 +122,8 @@ class Register extends PublicModule
                 $this->errors[] = Language::getInstance()->getString('please_enter_a_valid_mail');
             elseif(Functions::unifyUserMail($newUser['mail']))
                 $this->errors[] = Language::getInstance()->getString('the_mail_address_already_exists');
-            if($newUser['birthday'] <= 0 || $newUser['birthday'] > time())
-                $newUser['birthday'] = null;
+            if(!empty($newUser['birthday']) && !Functions::isValidBirthday($newUser['birthday']))
+                $this->errors[] = Language::getInstance()->getString('please_enter_a_valid_birthday');
             if(!empty($newUser['icq']) && !is_numeric($newUser['icq']))
                 $this->errors[] = Language::getInstance()->getString('please_enter_a_valid_icq_number');
             if(Functions::getValueFromGlobals('regeln') != 'yes')

@@ -686,16 +686,16 @@ abstract class CoreFunctions
      * Provides timestamp of date set by form (convert from array).
      *
      * @param string $dateName Name of submitted date variable
-     * @return int Timestamp of submitted date
+     * @return int Timestamp of submitted date or null
      */
-    public static function getTimestampFromGlobals(string $dateName): int
+    public static function getTimestampFromGlobals(string $dateName): ?int
     {
         $date = Functions::getValueFromGlobals($dateName);
         if(!is_array($date))
-            return 0;
+            return null;
         $date = array_map('intval', $date);
         if($date['Day'] < 1 || $date['Day'] > 31 || $date['Month'] < 1 || $date['Month'] > 12 || $date['Year'] < 1900 || $date['Year'] > date('Y'))
-            return 0;
+            return null;
         //Check if day is actually in month or roll it back otherwise (e.g. Feb 31 to Feb 28)
         return gmmktime($date['Hour'] ?? 0, $date['Minute'] ?? 0, $date['Second'] ?? 0, $date['Month'], min($date['Day'], date('t', strtotime($date['Year'] . '-' . $date['Month']))), $date['Year']);
     }
@@ -835,6 +835,18 @@ abstract class CoreFunctions
     public static function isGuestID(string $id): bool
     {
         return strncmp($id, '0', 1) == 0;
+    }
+
+    /**
+     * Verifies a day of birth.
+     *
+     * @param int $timestamp Birthday as timestamp
+     * @return bool Valid Birthday
+     */
+    public static function isValidBirthday(int $timestamp): bool
+    {
+        //Assume a birthday no longer than 120 years ago and no future date
+        return date('Y', $timestamp) >= date('Y', strtotime('-120 years')) && $timestamp < time();
     }
 
     /**

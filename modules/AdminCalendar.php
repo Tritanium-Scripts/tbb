@@ -83,8 +83,8 @@ class AdminCalendar extends PublicModule
         //Get data for new or edited event
         $this->eventIcon = intval(Functions::getValueFromGlobals('tsmilie')) ?: 1;
         $this->eventName = htmlspecialchars(Functions::getValueFromGlobals('eventName'));
-        $this->eventStartDate = Functions::getTimestampFromGlobals('eventStartDate');
-        $this->eventEndDate = Functions::getTimestampFromGlobals('eventEndDate');
+        $this->eventStartDate = Functions::getTimestampFromGlobals('eventStartDate') ?? 0;
+        $this->eventEndDate = Functions::getTimestampFromGlobals('eventEndDate') ?? 0;
         $this->eventDescription = htmlspecialchars(Functions::getValueFromGlobals('eventDescription', false));
     }
 

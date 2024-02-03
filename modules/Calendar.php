@@ -118,16 +118,26 @@ class Calendar extends PublicModule
                 $curEvent['member'] = Functions::getProfileLink($curMember[1]);
                 $events[] = $curEvent;
             }
-            if(!empty($curMember[22]))
+            if(!empty($curMember[22]) && $this->year >= date('Y', $curMember[22]) && date('m', $curMember[22]) == $this->month)
             {
                 $curEvent = [];
                 $curEvent['type'] = 'member';
                 //Move birthday to selected year
-                $curEvent['startDate'] = strtotime($this->year . strftime('-%m-%d %H:%M:%S', $curMember[22]));
+                $curEvent['startDate'] = strtotime($this->year . date('-m-d H:i:s', $curMember[22]));
                 $curEvent['endDate'] = $curEvent['startDate'] + 86399;
                 $curEvent['name'] = $curMember[0];
                 $curEvent['icon'] = 'birthday';
-                $curEvent['description'] = Language::getInstance()->getString('birthday');
+                $years = $this->year - date('Y', $curMember[22]);
+                switch($years)
+                {
+                    case 1:
+                    $curEvent['description'] = Language::getInstance()->getString('birthday_one_year');
+                    break;
+
+                    default:
+                    $curEvent['description'] = sprintf(Language::getInstance()->getString('birthday_x_years'), $years);
+                    break;
+                }
                 $curEvent['member'] = Functions::getProfileLink($curMember[1]);
                 $events[] = $curEvent;
             }
