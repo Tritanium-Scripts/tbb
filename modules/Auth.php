@@ -40,6 +40,7 @@
  *  <li>[steamGames]</li>
  *  <li>[ownTemplate]</li>
  *  <li>[ownStyle]</li>
+ *  <li>[birthday]</li>
  * </ol>
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>

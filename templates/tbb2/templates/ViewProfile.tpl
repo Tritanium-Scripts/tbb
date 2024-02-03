@@ -1,4 +1,4 @@
-{* 0:nick - 1:id - 2:rankImage(s) - 3:mail - 4:rank - 5:posts - 6:regDate - 7:signature - 8:joinedXWeeksAgo - 9:hp - 10:avatar - 11:postsPerDay - 12:realName - 13:icq - 14:formMail - 15:group[ - 16:timestamp - 17:specialState - 18:steamProfileIDs - 19:steamGames] *}
+{* 0:nick - 1:id - 2:rankImage(s) - 3:mail - 4:rank - 5:posts - 6:regDate - 7:signature - 8:joinedXWeeksAgo - 9:hp - 10:avatar - 11:postsPerDay - 12:realName - 13:icq - 14:formMail - 15:group[ - 16:timestamp - 17:specialState - 18:steamProfileIDs - 19:steamGames[ - 22:birthday]] *}
 <!-- ViewProfile -->
 <table class="tableStd" cellpadding="{Config::getInstance()->getCfgVal('tpadding')}" cellspacing="{Config::getInstance()->getCfgVal('tspacing')}" style="width:100%;">
  <tr>
@@ -50,6 +50,10 @@
  <tr>
   <td class="cellStd" style="width:30%;"><span class="fontNorm">{Language::getInstance()->getString('real_name_colon')}</span></td>
   <td class="cellAlt" style="width:70%;"><span class="fontNorm">{if empty($userData[12])}<span style="font-style:italic;">{Language::getInstance()->getString('not_given')}</span>{else}{$userData[12]}{/if}</span></td>
+ </tr>
+ <tr>
+  <td class="cellStd" style="width:30%;"><span class="fontNorm">{Language::getInstance()->getString('birthday_colon')}</span></td>
+  <td class="cellAlt" style="width:70%;"><span class="fontNorm">{if empty($userData[22])}<span style="font-style:italic;">{Language::getInstance()->getString('not_given')}</span>{else}{$userData[22]|date_format:Language::getInstance()->getString('DATEFORMAT')|utf8_encode}{/if}</span></td>
  </tr>{if !empty($userData[15])}
  <tr>
   <td class="cellStd" style="width:30%;"><span class="fontNorm">{Language::getInstance()->getString('group_colon')}</span></td>

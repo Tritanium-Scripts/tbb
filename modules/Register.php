@@ -47,7 +47,7 @@ class Register extends PublicModule
      *
      * @var array Named keys
      */
-    private static array $newUserKeys = ['nick', 'mail', 'homepage', 'realName', 'icq', 'signature'];
+    private static array $newUserKeys = ['nick', 'mail', 'homepage', 'realName', 'birthday', 'icq', 'signature'];
 
     /**
      * Sets privacy policy link, member counter and mode.
@@ -90,6 +90,7 @@ class Register extends PublicModule
                 trim(Functions::getValueFromGlobals('newuser_email')),
                 trim(Functions::getValueFromGlobals('newuser_hp')),
                 htmlspecialchars(trim(Functions::getValueFromGlobals('newuser_realname'))),
+                Functions::getTimestampFromGlobals('birthday'),
                 trim(Functions::getValueFromGlobals('newuser_icq')),
                 htmlspecialchars(trim(Functions::nl2br(Functions::getValueFromGlobals('newuser_signatur', false))))]);
             //A lot of checking...
@@ -121,6 +122,8 @@ class Register extends PublicModule
                 $this->errors[] = Language::getInstance()->getString('please_enter_a_valid_mail');
             elseif(Functions::unifyUserMail($newUser['mail']))
                 $this->errors[] = Language::getInstance()->getString('the_mail_address_already_exists');
+            if($newUser['birthday'] <= 0 || $newUser['birthday'] > time())
+                $newUser['birthday'] = null;
             if(!empty($newUser['icq']) && !is_numeric($newUser['icq']))
                 $this->errors[] = Language::getInstance()->getString('please_enter_a_valid_icq_number');
             if(Functions::getValueFromGlobals('regeln') != 'yes')
@@ -155,7 +158,9 @@ class Register extends PublicModule
                     '',
                     '',
                     '',
-                    ''];
+                    '',
+                    //New TBB 1.10 values
+                    $newUser['birthday']];
                 //Register as new member only, if no mail validation is required
                 if(Config::getInstance()->getCfgVal('confirm_reg_mail') != 1)
                 {
@@ -233,7 +238,7 @@ class Register extends PublicModule
 //Register
             case 'register':
             default:
-            $newUser = array_combine(self::$newUserKeys, ['', '', '', '', '', '']);
+            $newUser = array_combine(self::$newUserKeys, ['', '', '', '', null, '', '']);
             break;
         }
         Template::getInstance()->printPage(Functions::handleMode($this->mode, self::$modeTable, __CLASS__), ['newUser' => $newUser,

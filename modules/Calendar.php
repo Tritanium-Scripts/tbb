@@ -83,7 +83,7 @@ class Calendar extends PublicModule
             }
             unset($plannedEvents);
         }
-        //Filter and add member events (join or anniversary date in the selected month)
+        //Filter and add member events (join or anniversary date in the selected month) as well as birthdays
         foreach(Functions::glob(DATAPATH . 'members/[!0t]*.xbb') as $curMember)
         {
             $curMember = Functions::file($curMember, null, null, false);
@@ -115,6 +115,19 @@ class Calendar extends PublicModule
                     $curEvent['description'] = sprintf(Language::getInstance()->getString('anniversary_x_years'), $reggedYears);
                     break;
                 }
+                $curEvent['member'] = Functions::getProfileLink($curMember[1]);
+                $events[] = $curEvent;
+            }
+            if(!empty($curMember[22]))
+            {
+                $curEvent = [];
+                $curEvent['type'] = 'member';
+                //Move birthday to selected year
+                $curEvent['startDate'] = strtotime($this->year . strftime('-%m-%d %H:%M:%S', $curMember[22]));
+                $curEvent['endDate'] = $curEvent['startDate'] + 86399;
+                $curEvent['name'] = $curMember[0];
+                $curEvent['icon'] = 'birthday';
+                $curEvent['description'] = Language::getInstance()->getString('birthday');
                 $curEvent['member'] = Functions::getProfileLink($curMember[1]);
                 $events[] = $curEvent;
             }

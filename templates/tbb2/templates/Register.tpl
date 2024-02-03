@@ -32,6 +32,10 @@
      <td style="padding:3px; width:70%;"><input class="formText" type="text" name="newuser_realname" value="{$newUser.realName}" style="width:150px;" /></td>
     </tr>
     <tr>
+     <td style="font-weight:bold; padding:3px; width:30%;"><span class="fontNorm">{Language::getInstance()->getString('birthday_colon')}</span></td>
+     <td style="padding:3px; width:70%;">{{html_select_date prefix='' time=$newUser.birthday end_year=1900 reverse_years=true field_array='birthday' field_order=Language::getInstance()->getString('DATE_FIELD_ORDER') field_separator=Language::getInstance()->getString('DATE_SEPARATOR') all_extra='class="formSelect"' all_empty=''}|utf8_encode}</td>
+    </tr>
+    <tr>
      <td style="font-weight:bold; padding:3px; width:30%;"><span class="fontNorm">{Language::getInstance()->getString('icq_number_colon')}</span></td>
      <td style="padding:3px; width:70%;"><input class="formText" type="text" name="newuser_icq" value="{$newUser.icq}" style="width:150px;" /> <span class="fontSmall">{Language::getInstance()->getString('number_only_no_dashes')}</span></td>
     </tr>

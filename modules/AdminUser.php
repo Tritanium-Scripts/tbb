@@ -124,7 +124,9 @@ class AdminUser extends PublicModule
                         '',
                         '',
                         '',
-                        ''];
+                        '',
+                        //New TBB 1.10 values
+                        null];
                     //Writing time
                     Functions::file_put_contents('members/' . $newUserID . '.xbb', implode("\n", $newUserFile));
                     Functions::file_put_contents('members/' . $newUserID . '.pm', '');

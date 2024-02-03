@@ -1,11 +1,11 @@
-{* 0:nick - 1:id - 2:rankImage(s) - 3:mail - 4:rank - 5:posts - 6:regDate - 7:signature - 9:hp - 10:avatar - 12:realName - 13:icq - 14:mailOptions[ - 17:specialState - 18:steamProfile - 19:steamGames] *}
+{* 0:nick - 1:id - 2:rankImage(s) - 3:mail - 4:rank - 5:posts - 6:regDate - 7:signature - 9:hp - 10:avatar - 12:realName - 13:icq - 14:mailOptions[ - 17:specialState - 18:steamProfile - 19:steamGames[ - 22:birthday]] *}
 <!-- EditProfile -->
 <script type="text/javascript">
 /* <![CDATA[ */
 /**
  * Refreshes selectable Steam games via Ajax.
  *
- * @author Christoph Jahn <chris@tritanium-scripts.com>
+ * @author Chrissyx <chris@tritanium-scripts.com>
  */
 function refreshGames()
 {
@@ -92,6 +92,10 @@ function refreshGames()
  <tr>
   <td class="td1" style="font-weight:bold; width:20%;"><span class="norm">{Language::getInstance()->getString('real_name_colon')}</span></td>
   <td class="td1" style="width:80%;"><input type="text" name="new_realname" value="{$userData[12]}" style="width:250px;" /></td>
+ </tr>
+ <tr>
+  <td class="td1" style="font-weight:bold; width:20%;"><span class="norm">{Language::getInstance()->getString('birthday_colon')}</span></td>
+  <td class="td1" style="width:80%;">{{html_select_date prefix='' time=$userData[22] end_year=1900 reverse_years=true field_array='birthday' field_order=Language::getInstance()->getString('DATE_FIELD_ORDER') field_separator=Language::getInstance()->getString('DATE_SEPARATOR') all_empty=''}|utf8_encode}</td>
  </tr>
  <tr>
   <td class="td1" style="font-weight:bold; width:20%;"><span class="norm">{Language::getInstance()->getString('icq_number_colon')}</span></td>

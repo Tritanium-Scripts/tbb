@@ -203,6 +203,9 @@ class Profile extends PublicModule
                         $this->errors[] = Language::getInstance()->getString('please_enter_a_valid_steam_profile_name');
                     $this->userData[20] = Functions::getValueFromGlobals('ownTemplate');
                     $this->userData[21] = Functions::getValueFromGlobals('ownStyle');
+                    $this->userData[22] = Functions::getTimestampFromGlobals('birthday');
+                    if($this->userData[22] <= 0 || $this->userData[22] > time())
+                        $this->userData[22] = null;
                     if(($newPass = Functions::getValueFromGlobals('new_pw1')) != Functions::getValueFromGlobals('new_pw2'))
                         $this->errors[] = Language::getInstance()->getString('new_passwords_do_not_match');
                     //Write updates?
@@ -325,10 +328,16 @@ class Profile extends PublicModule
             case 'vCard':
             Logger::getInstance()->log('%s downloaded vCard from user ' . $this->userData[0] . ' (ID: ' . $this->userData[1] . ')', Logger::LOG_USER_TRAFFIC);
             WhoIsOnline::getInstance()->setLocation('vCard,' . $this->userData[1]);
-            $vCard = "BEGIN:VCARD\nVERSION:3.0\nN:;;;;\nFN:" . $this->userData[12] . "\nNICKNAME:" . $this->userData[0] . "\n" . ($this->userData[14][1] == '1' ? 'EMAIL;TYPE=INTERNET:' . $this->userData[3] . "\n" : '') . 'URL:' . $this->userData[9] . "\nCLASS:" . (Config::getInstance()->getCfgVal('must_be_logged_in') == 1 ? 'PRIVATE' : 'PUBLIC') . "\nX-GENERATOR:Tritanium Bulletin Board " . VERSION_PUBLIC . "\n" . (!empty($this->userData[13]) ? 'X-ICQ:' . $this->userData[13] . "\n" : '') . 'END:VCARD';
+            $vCard = "BEGIN:VCARD\r\nVERSION:4.0\r\nKIND:individual\r\nFN:" . $this->userData[12] . "\r\nBDAY:" . (!empty($this->userData[22])
+                ? date('Y-m-d', $this->userData[22])
+                : '') . "\r\nNICKNAME:" . $this->userData[0] . "\r\n" . ($this->userData[14][1] == '1'
+                    ? 'EMAIL;TYPE=home:' . $this->userData[3] . "\r\n"
+                    : '') . 'URL:' . $this->userData[9] . "\r\nX-GENERATOR:Tritanium Bulletin Board " . VERSION_PUBLIC . "\r\n" . (!empty($this->userData[13])
+                        ? 'X-ICQ:' . $this->userData[13] . "\r\n"
+                        : '') . 'REV:' . date(DATE_ISO8601, filemtime(DATAPATH . 'members/' . $this->userData[1] . '.xbb')) . "\r\n" . 'END:VCARD';
             header('Content-Disposition: attachment; filename=' . htmlspecialchars_decode($this->userData[0]) . '.vcf');
             header('Content-Length: ' . Functions::strlen($vCard));
-            header('Content-Type: text/x-vCard; charset=' . Language::getInstance()->getString('vcard_encoding') . '; name=' . htmlspecialchars_decode($this->userData[0]) . '.vcf');
+            header('Content-Type: text/vcard; charset=UTF-8; name=' . htmlspecialchars_decode($this->userData[0]) . '.vcf');
             exit($vCard);
             break;
 

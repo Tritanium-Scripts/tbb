@@ -83,25 +83,9 @@ class AdminCalendar extends PublicModule
         //Get data for new or edited event
         $this->eventIcon = intval(Functions::getValueFromGlobals('tsmilie')) ?: 1;
         $this->eventName = htmlspecialchars(Functions::getValueFromGlobals('eventName'));
-        $this->eventStartDate = $this->getTimestamp('eventStartDate');
-        $this->eventEndDate = $this->getTimestamp('eventEndDate');
+        $this->eventStartDate = Functions::getTimestampFromGlobals('eventStartDate');
+        $this->eventEndDate = Functions::getTimestampFromGlobals('eventEndDate');
         $this->eventDescription = htmlspecialchars(Functions::getValueFromGlobals('eventDescription', false));
-    }
-
-    /**
-     * Provides timestamp of date set by form (convert from array).
-     *
-     * @param string $dateName Name of submitted date variable
-     * @return int Timestamp of submitted date
-     */
-    private function getTimestamp(string $dateName): int
-    {
-        $date = Functions::getValueFromGlobals($dateName);
-        if(!is_array($date))
-            return 0;
-        $date = array_map('intval', $date);
-        //Check if day is actually in month or roll it back otherwise (e.g. Feb 31 to Feb 28)
-        return mktime($date['Hour'], $date['Minute'], $date['Second'], $date['Month'], min($date['Day'], date('t', strtotime($date['Year'] . '-' . $date['Month']))), $date['Year']);
     }
 
     /**

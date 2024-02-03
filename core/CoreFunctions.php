@@ -139,8 +139,7 @@ abstract class CoreFunctions
     {
         if(Config::getInstance()->getCfgVal('censored') != 1)
             return $string;
-        if(!isset(self::$cache['censoredWords']))
-            self::$cache['censoredWords'] = array_map(['self', 'explodeByTab'], self::file('vars/cwords.var'));
+        self::$cache['censoredWords'] ??= array_map(['self', 'explodeByTab'], self::file('vars/cwords.var'));
         foreach(self::$cache['censoredWords'] as $curWord)
             $string = Functions::str_ireplace($curWord[1], $curWord[2], $string);
         return $string;
@@ -452,7 +451,8 @@ abstract class CoreFunctions
      */
     public static function getIPAddress(): string
     {
-        return ($saveIPAddress = Config::getInstance()->getCfgVal('save_ip_address')) > 0 ? ($saveIPAddress == 2 && Auth::getInstance()->isLoggedIn() ? '' : $_SERVER['REMOTE_ADDR']) : '';
+        $saveIPAddress = Config::getInstance()->getCfgVal('save_ip_address');
+        return $saveIPAddress > 0 ? ($saveIPAddress == 2 && Auth::getInstance()->isLoggedIn() ? '' : $_SERVER['REMOTE_ADDR']) : '';
     }
 
     /**
@@ -490,7 +490,13 @@ abstract class CoreFunctions
      */
     public static function getMsgBackLinks(?int $forumID=null, ?int $topicID=null, string $msgIndex='back_to_topic', ?int $postID=null, $postOnPage='last'): string
     {
-        return '<br />' . (isset($forumID) ? (isset($topicID) ? sprintf(Language::getInstance()->getString($msgIndex, 'Messages'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $forumID . '&amp;thread=' . $topicID . (isset($postID) ? '&amp;z=' . $postOnPage . SID_AMPER . '#post' . $postID : SID_AMPER)) . '<br />'  : '') . sprintf(Language::getInstance()->getString('back_to_topic_index', 'Messages'), INDEXFILE . '?mode=viewforum&amp;forum_id=' . $forumID . SID_AMPER) . '<br />' : '') . sprintf(Language::getInstance()->getString('back_to_forum_index', 'Messages'), INDEXFILE . SID_QMARK);
+        return '<br />' . (isset($forumID)
+            ? (isset($topicID)
+                ? sprintf(Language::getInstance()->getString($msgIndex, 'Messages'), INDEXFILE . '?mode=viewthread&amp;forum_id=' . $forumID . '&amp;thread=' . $topicID . (isset($postID)
+                    ? '&amp;z=' . $postOnPage . SID_AMPER . '#post' . $postID
+                    : SID_AMPER)) . '<br />'
+                : '') . sprintf(Language::getInstance()->getString('back_to_topic_index', 'Messages'), INDEXFILE . '?mode=viewforum&amp;forum_id=' . $forumID . SID_AMPER) . '<br />'
+            : '') . sprintf(Language::getInstance()->getString('back_to_forum_index', 'Messages'), INDEXFILE . SID_QMARK);
     }
 
     /**
@@ -615,8 +621,7 @@ abstract class CoreFunctions
      */
     public static function getRanks(): array
     {
-        if(!isset(self::$cache['ranks']))
-            self::$cache['ranks'] = array_map(['self', 'explodeByTab'], self::file('vars/rank.var'));
+        self::$cache['ranks'] ??= array_map(['self', 'explodeByTab'], self::file('vars/rank.var'));
         return self::$cache['ranks'];
     }
 
@@ -678,6 +683,24 @@ abstract class CoreFunctions
     }
 
     /**
+     * Provides timestamp of date set by form (convert from array).
+     *
+     * @param string $dateName Name of submitted date variable
+     * @return int Timestamp of submitted date
+     */
+    public static function getTimestampFromGlobals(string $dateName): int
+    {
+        $date = Functions::getValueFromGlobals($dateName);
+        if(!is_array($date))
+            return 0;
+        $date = array_map('intval', $date);
+        if($date['Day'] < 1 || $date['Day'] > 31 || $date['Month'] < 1 || $date['Month'] > 12 || $date['Year'] < 1900 || $date['Year'] > date('Y'))
+            return 0;
+        //Check if day is actually in month or roll it back otherwise (e.g. Feb 31 to Feb 28)
+        return gmmktime($date['Hour'] ?? 0, $date['Minute'] ?? 0, $date['Second'] ?? 0, $date['Month'], min($date['Day'], date('t', strtotime($date['Year'] . '-' . $date['Month']))), $date['Year']);
+    }
+
+    /**
      * Returns the name of a topic.
      *
      * @param int|string $forumID ID of forum
@@ -686,7 +709,8 @@ abstract class CoreFunctions
      */
     public static function getTopicName($forumID, $topicID): string
     {
-        return ($topic = self::file('foren/' . $forumID . '-' . $topicID . '.xbb')) == false ? Language::getInstance()->getString('deleted_moved') : @next(self::explodeByTab($topic[0]));
+        $topic = self::file('foren/' . $forumID . '-' . $topicID . '.xbb');
+        return $topic == false ? Language::getInstance()->getString('deleted_moved') : @next(self::explodeByTab($topic[0]));
     }
 
     /**
@@ -710,8 +734,7 @@ abstract class CoreFunctions
      */
     public static function getTSmilies(): array
     {
-        if(!isset(self::$cache['tSmileyURLs']))
-            self::$cache['tSmileyURLs'] = array_map(['self', 'explodeByTab'], self::file('vars/tsmilies.var'));
+        self::$cache['tSmileyURLs'] ??= array_map(['self', 'explodeByTab'], self::file('vars/tsmilies.var'));
         return self::$cache['tSmileyURLs'];
     }
 
@@ -727,17 +750,14 @@ abstract class CoreFunctions
             return false;
         $user[14] = self::explodeByComma($user[14]); //Mail options
         //Downward compatibility: Create fields that doesn't exist in TBB 1.2.3
-        if(!isset($user[16]))
-            $user[16] = '';
-        if(!isset($user[17]))
-            $user[17] = '';
-        if(!isset($user[18]))
-            $user[18] = '';
+        $user[16] ??= '';
+        $user[17] ??= '';
+        $user[18] ??= '';
         $user[19] = isset($user[19]) && !empty($user[19]) ? self::explodeByTab($user[19]) : [];
-        if(!isset($user[20]))
-            $user[20] = '';
-        if(!isset($user[21]))
-            $user[21] = '';
+        $user[20] ??= '';
+        $user[21] ??= '';
+        //Downward compatibility: Create fields that doesn't exist in TBB <1.10.0
+        $user[22] ??= null;
         return $user;
     }
 
@@ -782,7 +802,8 @@ abstract class CoreFunctions
         {
             //Escaping of '%' to protect logger
             Logger::getInstance()->log('Unknown mode "' . Functions::str_replace('%', '%%', $mode) . '" in ' . $module . '; using default', Logger::LOG_FILESYSTEM);
-            isset($_SESSION['unknownModes']) ? $_SESSION['unknownModes']++ : $_SESSION['unknownModes'] = 0;
+            $_SESSION['unknownModes'] ??= 0;
+            $_SESSION['unknownModes']++;
             if($_SESSION['unknownModes'] > mt_rand(5, 10))
             {
                 list(,,,$lastIPID) = @end(self::getBannedIPs());
@@ -1005,7 +1026,8 @@ abstract class CoreFunctions
      */
     public static function unlink(string $filename, bool $datapath=true)
     {
-        return ($fileSize = filesize(($datapath ? DATAPATH : '') . $filename)) !== false && unlink(($datapath ? DATAPATH : '') . $filename) ? $fileSize : false;
+        $fileSize = filesize(($datapath ? DATAPATH : '') . $filename);
+        return $fileSize !== false && unlink(($datapath ? DATAPATH : '') . $filename) ? $fileSize : false;
     }
 
     /**
@@ -1059,9 +1081,11 @@ abstract class CoreFunctions
      */
     public static function updateLastPosts(int $forumID, int $topicID, $userID, string $date, int $tSmileyID, int $postID): void
     {
-        if(($max = Config::getInstance()->getCfgVal('show_lposts')) < 1)
+        $max = Config::getInstance()->getCfgVal('show_lposts');
+        if($max < 1)
             return;
-        if(($lastPosts = self::file_get_contents('vars/lposts.var')) == '')
+        $lastPosts = self::file_get_contents('vars/lposts.var');
+        if($lastPosts == '')
             self::file_put_contents('vars/lposts.var', implode(',', [$forumID, $topicID, $userID, $date, $tSmileyID, $postID]));
         else
         {
@@ -1085,7 +1109,8 @@ abstract class CoreFunctions
      */
     public static function updateTodaysPosts(int $forumID, int $topicID, $userID, string $date, int $tSmileyID, int $postID): void
     {
-        self::file_put_contents('vars/todayposts.var', (($todaysPosts = self::file_get_contents('vars/todayposts.var')) == '' || current(self::explodeByTab($todaysPosts)) != gmdate('Yd') ? gmdate('Yd') . "\t" : $todaysPosts . '|') . implode(',', [$forumID, $topicID, $userID, $date, $tSmileyID, $postID]));
+        $todaysPosts = self::file_get_contents('vars/todayposts.var');
+        self::file_put_contents('vars/todayposts.var', ($todaysPosts == '' || current(self::explodeByTab($todaysPosts)) != gmdate('Yd') ? gmdate('Yd') . "\t" : $todaysPosts . '|') . implode(',', [$forumID, $topicID, $userID, $date, $tSmileyID, $postID]));
     }
 
     /**
