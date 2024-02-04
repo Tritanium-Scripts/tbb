@@ -193,14 +193,22 @@
   <td class="td1" style="vertical-align:top;">{html_options name='settings[82]' values=array(1, 2, 0) output=array(Language::getInstance()->getString('always'), Language::getInstance()->getString('zero_posts_only'), Language::getInstance()->getString('never')) selected=$configValues['delete_profiles']}</td>
  </tr>
  <tr>
+  <td class="td1" style="font-weight:bold;"><span class="norm">{Language::getInstance()->getString('enable_plug_ins')}</span></td>
+  <td class="td1" style="vertical-align:top;"><input type="radio" id="y86" name="settings[86]" value="1"{if $configValues['activate_plug_ins'] == 1} checked="checked"{/if} /><label for="y86" class="norm">{Language::getInstance()->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="n86" name="settings[86]" value="0"{if $configValues['activate_plug_ins'] != 1} checked="checked"{/if} /><label for="n86" class="norm">{Language::getInstance()->getString('negative')}</label></td>
+ </tr>
+ <tr><td class="kat" colspan="2"><span class="kat">{Language::getInstance()->getString('calendar_settings')}</span></td></tr>
+ <tr>
   <td class="td1" style="font-weight:bold;"><span class="norm">{Language::getInstance()->getString('enable_calendar')}</span></td>
   <td class="td1" style="vertical-align:top;"><input type="radio" id="y85" name="settings[85]" value="1"{if $configValues['activate_calendar'] == 1} checked="checked"{/if} /><label for="y85" class="norm">{Language::getInstance()->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="n85" name="settings[85]" value="0"{if $configValues['activate_calendar'] != 1} checked="checked"{/if} /><label for="n85" class="norm">{Language::getInstance()->getString('negative')}</label></td>
  </tr>
  <tr>
-  <td class="td1" style="font-weight:bold;"><span class="norm">{Language::getInstance()->getString('enable_plug_ins')}</span></td>
-  <td class="td1" style="vertical-align:top;"><input type="radio" id="y86" name="settings[86]" value="1"{if $configValues['activate_plug_ins'] == 1} checked="checked"{/if} /><label for="y86" class="norm">{Language::getInstance()->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="n86" name="settings[86]" value="0"{if $configValues['activate_plug_ins'] != 1} checked="checked"{/if} /><label for="n86" class="norm">{Language::getInstance()->getString('negative')}</label></td>
+  <td class="td1" style="font-weight:bold;"><span class="norm">{Language::getInstance()->getString('show_membership_dates')}</span></td>
+  <td class="td1" style="vertical-align:top;"><input type="radio" id="y88" name="settings[88]" value="1"{if $configValues['memberships_in_cal'] == 1} checked="checked"{/if} /><label for="y88" class="norm">{Language::getInstance()->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="n88" name="settings[88]" value="0"{if $configValues['memberships_in_cal'] != 1} checked="checked"{/if} /><label for="n88" class="norm">{Language::getInstance()->getString('negative')}</label></td>
  </tr>
-
+ <tr>
+  <td class="td1" style="font-weight:bold;"><span class="norm">{Language::getInstance()->getString('show_birthdays')}</span></td>
+  <td class="td1" style="vertical-align:top;"><input type="radio" id="y89" name="settings[89]" value="1"{if $configValues['birthdays_in_cal'] == 1} checked="checked"{/if} /><label for="y89" class="norm">{Language::getInstance()->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="n89" name="settings[89]" value="0"{if $configValues['birthdays_in_cal'] != 1} checked="checked"{/if} /><label for="n89" class="norm">{Language::getInstance()->getString('negative')}</label></td>
+ </tr>
  <tr><td class="kat" colspan="2"><span class="kat">{Language::getInstance()->getString('disk_space_settings')}</span></td></tr>
  <tr>
   <td class="td1" style="font-weight:bold;"><span class="norm">{Language::getInstance()->getString('warning_limit')}</span></td>

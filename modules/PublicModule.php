@@ -4,7 +4,7 @@
  * These public accessible modules have a corresponding language file.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2023 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2024 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -17,7 +17,7 @@ abstract class PublicModule
     {
         try
         {
-            Language::getInstance()->parseFile(basename(debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 1)[0]['file'], '.php'));
+            Language::getInstance()->parseFile(get_class(debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 1)[0]['object']));
         }
         catch(InvalidArgumentException $e)
         {

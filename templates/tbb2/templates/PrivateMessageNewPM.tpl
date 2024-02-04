@@ -16,6 +16,10 @@
   <td class="cellAlt"><input class="formText" type="text" name="betreff" value="{$newPM[1]}" style="width:300px;" /></td>
  </tr>
  <tr>
+  <td class="cellStd" style="vertical-align:top;"><span class="fontNorm">{Language::getInstance()->getString('bbcode_colon')}</span></td>
+  <td class="cellAlt">{include file='BBCodes.tpl' targetBoxID='pm'}</td>
+ </tr>
+ <tr>
   <td class="cellStd" style="vertical-align:top;"><span class="fontNorm">{Language::getInstance()->getString('message_colon')}</span><br /><br />{include file='Smilies.tpl' targetBoxID='pm'}</td>
   <td class="cellAlt"><textarea class="formTextArea" id="pm" name="pm" rows="14" cols="80">{$newPM[2]}</textarea></td>
  </tr>

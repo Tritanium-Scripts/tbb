@@ -12,6 +12,10 @@
   <td class="td1" style="width:80%;"><input type="text" name="betreff" value="{$newPM[1]}" /></td>
  </tr>
  <tr>
+  <td class="td1" style="font-weight:bold; vertical-align:top; width:20%;"><span class="norm">{Language::getInstance()->getString('bbcode_colon')}</span></td>
+  <td class="td1" style="width:80%;">{include file='BBCodes.tpl' targetBoxID='pm'}</td>
+ </tr>
+ <tr>
   <td class="td1" style="font-weight:bold; vertical-align:top; width:20%;"><span class="norm">{Language::getInstance()->getString('message_colon')}</span><br /><br />{include file='Smilies.tpl' targetBoxID='pm'}</td>
   <td class="td1" style="width:80%;"><textarea id="pm" name="pm" rows="10" cols="50">{$newPM[2]}</textarea></td>
  </tr>{if Config::getInstance()->getCfgVal('tspacing') < 1}

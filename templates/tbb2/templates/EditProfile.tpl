@@ -105,8 +105,8 @@ function refreshGames()
      <td style="padding:3px; width:80%;"><input class="formText" type="text" name="new_icq" value="{$userData[13]}" style="width:250px;" /> <span class="fontSmall">{Language::getInstance()->getString('number_only_no_dashes')}</span></td>
     </tr>
     <tr>
-     <td style="padding:3px; width:20%; vertical-align:top;"><span class="fontNorm">{Language::getInstance()->getString('signature_colon')}</span><br /><span class="fontSmall">{Language::getInstance()->getString('bbcode_and_smilies_are_enabled')}</span></td>
-     <td style="padding:3px; width:80%;"><textarea class="formTextArea" cols="60" rows="8" name="new_signatur">{$userData[7]}</textarea></td>
+     <td style="padding:3px; width:20%; vertical-align:top;"><span class="fontNorm">{Language::getInstance()->getString('signature_colon')}</span><br /><span class="fontSmall">{Language::getInstance()->getString('bbcode_and_smilies_are_enabled')}</span><br /><br />{include file='Smilies.tpl' targetBoxID='new_signatur'}</td>
+     <td style="padding:3px; width:80%;"><textarea class="formTextArea" cols="60" rows="8" id="new_signatur" name="new_signatur">{$userData[7]}</textarea></td>
     </tr>
    </table>
   </td>

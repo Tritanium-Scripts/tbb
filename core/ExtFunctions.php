@@ -3,7 +3,7 @@
  * Various static functions and wrappers, optimized for external calls and standalone actions.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2023 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2024 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -47,7 +47,7 @@ class ExtFunctions
      */
     public static function file(string $filename, int $flags=0): array
     {
-        return array_map(['self', 'utf8Encode'], array_map(fn($entry) => trim($entry, " \n\r\0\x0B"), file(EXT_PATH_TO_DATA . $filename, $flags)));
+        return array_map(['ExtFunctions', 'utf8Encode'], array_map(fn($entry) => trim($entry, " \n\r\0\x0B"), file(EXT_PATH_TO_DATA . $filename, $flags)));
     }
 
     /**
@@ -127,7 +127,8 @@ class ExtFunctions
      */
     public static function getTopicName(int $forumID, int $topicID): string
     {
-        return ($topic = self::file('foren/' . $forumID . '-' . $topicID . '.xbb')) == false ? self::utf8Decode(ExtLastPosts::$deleted_moved) : @next(self::explodeByTab($topic[0]));
+        $topic = self::file('foren/' . $forumID . '-' . $topicID . '.xbb');
+        return $topic == false ? self::utf8Decode(ExtLastPosts::$deleted_moved) : @next(self::explodeByTab($topic[0]));
     }
 
     /**
@@ -151,8 +152,7 @@ class ExtFunctions
      */
     public static function getTSmilies(): array
     {
-        if(!isset(self::$cache['tSmileyURLs']))
-            self::$cache['tSmileyURLs'] = array_map(['self', 'explodeByTab'], self::file('vars/tsmilies.var'));
+        self::$cache['tSmileyURLs'] ??= array_map(['ExtFunctions', 'explodeByTab'], self::file('vars/tsmilies.var'));
         return self::$cache['tSmileyURLs'];
     }
 

@@ -16,7 +16,7 @@
   <td class="td2"><span class="norm">{$curPlugIn.version}</span></td>
  </tr>
 {foreachelse}
- <tr><td class="td1" colspan="" style="text-align:center;"><span class="norm" style="font-weight:bold;">{Language::getInstance()->getString('no_plug_ins_available')}</span></td></tr>
+ <tr><td class="td1" colspan="5" style="text-align:center;"><span class="norm" style="font-weight:bold;">{Language::getInstance()->getString('no_plug_ins_available')}</span></td></tr>
 {/foreach}
 </table>
 <p style="text-align:center;"><input type="submit" value="{Language::getInstance()->getString('delete_plug_in')}" /></p>

@@ -102,8 +102,8 @@ function refreshGames()
   <td class="td1" style="width:80%;"><input type="text" name="new_icq" value="{$userData[13]}" style="width:250px;" /> <span class="small">{Language::getInstance()->getString('number_only_no_dashes')}</span></td>
  </tr>
  <tr>
-  <td class="td1" style="width:20%; vertical-align:top;"><span class="norm" style="font-weight:bold;">{Language::getInstance()->getString('signature_colon')}</span><br /><span class="small">{Language::getInstance()->getString('bbcode_and_smilies_are_enabled')}</span></td>
-  <td class="td1" style="width:80%;"><textarea cols="55" rows="8" name="new_signatur">{$userData[7]}</textarea></td>
+  <td class="td1" style="width:20%; vertical-align:top;"><span class="norm" style="font-weight:bold;">{Language::getInstance()->getString('signature_colon')}</span><br /><span class="small">{Language::getInstance()->getString('bbcode_and_smilies_are_enabled')}</span><br /><br />{include file='Smilies.tpl' targetBoxID='new_signatur'}</td>
+  <td class="td1" style="width:80%;"><textarea cols="55" rows="8" id="new_signatur" name="new_signatur">{$userData[7]}</textarea></td>
  </tr>{if Config::getInstance()->getCfgVal('achievements') == 1}
  <tr><td class="kat" colspan="2"><span class="kat">{Language::getInstance()->getString('steam_achievements')}</span></td></tr>
  <tr><td class="td1" colspan="2"><span class="small">{Language::getInstance()->getString('steam_achievements_info')}</span></td></tr>

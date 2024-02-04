@@ -139,7 +139,7 @@ abstract class CoreFunctions
     {
         if(Config::getInstance()->getCfgVal('censored') != 1)
             return $string;
-        self::$cache['censoredWords'] ??= array_map(['self', 'explodeByTab'], self::file('vars/cwords.var'));
+        self::$cache['censoredWords'] ??= array_map(['CoreFunctions', 'explodeByTab'], self::file('vars/cwords.var'));
         foreach(self::$cache['censoredWords'] as $curWord)
             $string = Functions::str_ireplace($curWord[1], $curWord[2], $string);
         return $string;
@@ -256,11 +256,11 @@ abstract class CoreFunctions
             if(isset(self::$fileCache[$filename][0]))
                 return array_map(['Functions', 'utf8Encode'], array_map($trimCallback, self::$fileCache[$filename][0]));
             self::$fileCounter++;
-            return file_exists(DATAPATH . $filename) ? array_map(['Functions', 'utf8Encode'], array_map($trimCallback, self::$fileCache[$filename][0] = file(DATAPATH . $filename, $flags))) : false;
+            return file_exists(DATAPATH . $filename) ? array_map(['Functions', 'utf8Encode'], array_map($trimCallback, self::$fileCache[$filename][0] = file(DATAPATH . $filename, $flags ?? 0))) : false;
         }
         self::$fileCounter++;
         $filePath = ($datapath ? DATAPATH : '') . $filename;
-        return file_exists($filePath) ? array_map(['Functions', 'utf8Encode'], array_map($trimCallback, file($filePath, $flags))) : false;
+        return file_exists($filePath) ? array_map(['Functions', 'utf8Encode'], array_map($trimCallback, file($filePath, $flags ?? 0))) : false;
     }
 
     /**
@@ -338,7 +338,7 @@ abstract class CoreFunctions
     {
         if(!isset(self::$cache['bannedIPs']))
         {
-            self::$cache['bannedIPs'] = array_map(['self', 'explodeByTab'], self::file('vars/ip.var'));
+            self::$cache['bannedIPs'] = array_map(['CoreFunctions', 'explodeByTab'], self::file('vars/ip.var'));
             if(!isset(self::$cache['bannedIPs'][0][1]))
                 self::$cache['bannedIPs'] = [];
         }
@@ -405,7 +405,7 @@ abstract class CoreFunctions
     {
         if(!isset(self::$cache['groups']))
         {
-            self::$cache['groups'] = array_map(['self', 'explodeByTab'], self::file('vars/groups.var'));
+            self::$cache['groups'] = array_map(['CoreFunctions', 'explodeByTab'], self::file('vars/groups.var'));
             foreach(self::$cache['groups'] as &$curGroup)
                 $curGroup[3] = self::explodeByComma($curGroup[3]);
             unset($curGroup); //Delete remaining reference to avoid conflicts
@@ -632,7 +632,7 @@ abstract class CoreFunctions
      */
     public static function getRanks(): array
     {
-        self::$cache['ranks'] ??= array_map(['self', 'explodeByTab'], self::file('vars/rank.var'));
+        self::$cache['ranks'] ??= array_map(['CoreFunctions', 'explodeByTab'], self::file('vars/rank.var'));
         return self::$cache['ranks'];
     }
 
@@ -745,7 +745,7 @@ abstract class CoreFunctions
      */
     public static function getTSmilies(): array
     {
-        self::$cache['tSmileyURLs'] ??= array_map(['self', 'explodeByTab'], self::file('vars/tsmilies.var'));
+        self::$cache['tSmileyURLs'] ??= array_map(['CoreFunctions', 'explodeByTab'], self::file('vars/tsmilies.var'));
         return self::$cache['tSmileyURLs'];
     }
 
@@ -998,7 +998,7 @@ abstract class CoreFunctions
      */
     public static function stripSlashesDeep($value)
     {
-        return is_array($value) ? array_map(['self', 'stripSlashesDeep'], $value) : stripslashes($value);
+        return is_array($value) ? array_map(['CoreFunctions', 'stripSlashesDeep'], $value) : stripslashes($value);
     }
 
     /**
