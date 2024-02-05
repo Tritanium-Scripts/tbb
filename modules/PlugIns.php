@@ -1,6 +1,6 @@
 <?php
 /**
- * Plug-in controller for caching, loading and calling all found plug-ins hooking into executing of the board.
+ * Plug-in controller for caching, loading and calling all found plug-ins hooking into execution of the board.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
  * @copyright Copyright (c) 2024 Tritanium Scripts
@@ -16,21 +16,73 @@ class PlugIns
     public const HOOK_CORE_MODULE_CALL = 'HOOK_CORE_MODULE_CALL';
     public const HOOK_CORE_MISSING_MODULE = 'HOOK_CORE_MISSING_MODULE';
 
-    public const HOOK_LANGUAGE_PARSE_FILE = 'HOOK_LANGUAGE_PARSE_FILE';
+    public const HOOK_ADMIN_CALENDAR_INIT = 'HOOK_ADMIN_CALENDAR_INIT';
+
+    public const HOOK_ADMIN_CENSOR_INIT = 'HOOK_ADMIN_CENSOR_INIT';
+
+    public const HOOK_ADMIN_CONFIG_INIT = 'HOOK_ADMIN_CONFIG_INIT';
+
+    public const HOOK_ADMIN_FORUM_INIT = 'HOOK_ADMIN_FORUM_INIT';
+
+    public const HOOK_ADMIN_GROUP_INIT = 'HOOK_ADMIN_GROUP_INIT';
+
+    public const HOOK_ADMIN_IP_INIT = 'HOOK_ADMIN_IP_INIT';
+
+    public const HOOK_ADMIN_LOGFILE_INIT = 'HOOK_ADMIN_LOGFILE_INIT';
+
+    public const HOOK_ADMIN_NEWS_INIT = 'HOOK_ADMIN_NEWS_INIT';
+
+    public const HOOK_ADMIN_NEWSLETTER_INIT = 'HOOK_ADMIN_NEWSLETTER_INIT';
+
+    public const HOOK_ADMIN_PLUG_INS_INIT = 'HOOK_ADMIN_PLUG_INS_INIT';
+
+    public const HOOK_ADMIN_RANK_INIT = 'HOOK_ADMIN_RANK_INIT';
+
+    public const HOOK_ADMIN_SMILEY_INIT = 'HOOK_ADMIN_SMILEY_INIT';
+
+    public const HOOK_ADMIN_USER_INIT = 'HOOK_ADMIN_USER_INIT';
 
     public const HOOK_AUTH_USER_LOGGED_IN = 'HOOK_AUTH_USER_LOGGED_IN';
-
-    public const HOOK_NAVBAR_ADD_ELEMENT = 'HOOK_NAVBAR_ADD_ELEMENT';
 
     public const HOOK_BBCODE_PARSE_HTML = 'HOOK_BBCODE_PARSE_HTML';
     public const HOOK_BBCODE_PARSE_SMILIES = 'HOOK_BBCODE_PARSE_SMILIES';
     public const HOOK_BBCODE_PARSE_BBCODE = 'HOOK_BBCODE_PARSE_BBCODE';
+
+    public const HOOK_CALENDAR_INIT = 'HOOK_CALENDAR_INIT';
+
+    public const HOOK_FORUM_INIT = 'HOOK_FORUM_INIT';
+
+    public const HOOK_HELP_INIT = 'HOOK_HELP_INIT';
+
+    public const HOOK_LANGUAGE_PARSE_FILE = 'HOOK_LANGUAGE_PARSE_FILE';
+
+    public const HOOK_LOGIN_INIT = 'HOOK_LOGIN_INIT';
+
+    public const HOOK_MEMBER_LIST_INIT = 'HOOK_MEMBER_LIST_INIT';
+
+    public const HOOK_NAVBAR_ADD_ELEMENT = 'HOOK_NAVBAR_ADD_ELEMENT';
+
+    public const HOOK_NEWSLETTER_INIT = 'HOOK_NEWSLETTER_INIT';
+
+    public const HOOK_POSTING_INIT = 'HOOK_POSTING_INIT';
+
+    public const HOOK_POST_NEW_INIT = 'HOOK_POST_NEW_INIT';
+
+    public const HOOK_PRIVATE_MESSAGE_INIT = 'HOOK_PRIVATE_MESSAGE_INIT';
+
+    public const HOOK_PROFILE_INIT = 'HOOK_PROFILE_INIT';
+
+    public const HOOK_REGISTER_INIT = 'HOOK_REGISTER_INIT';
+
+    public const HOOK_SEARCH_INIT = 'HOOK_SEARCH_INIT';
 
     public const HOOK_TEMPLATE_INIT = 'HOOK_TEMPLATE_INIT';
     public const HOOK_TEMPLATE_PAGE = 'HOOK_TEMPLATE_PAGE';
 
     public const HOOK_UPLOAD_UPLOAD = 'HOOK_UPLOAD_UPLOAD';
     public const HOOK_UPLOAD_UPLOADED = 'HOOK_UPLOAD_UPLOADED';
+
+    public const HOOK_WHO_IS_ONLINE_INIT = 'HOOK_WHO_IS_ONLINE_INIT';
 
     public const HOOK_TPL_PAGE_HEADER_HTML_HEAD = 'HOOK_TPL_PAGE_HEADER_HTML_HEAD';
     public const HOOK_TPL_PAGE_HEADER_TOOLBAR_LOGGED_IN = 'HOOK_TPL_PAGE_HEADER_TOOLBAR_LOGGED_IN';

@@ -81,6 +81,7 @@ class Search extends PublicModule
         $this->searchScope = intval(Functions::getValueFromGlobals('soption1'));
         if(($this->timeout = ini_get('max_execution_time')) > 10)
             $this->timeout -= 10;
+        PlugIns::getInstance()->callHook(PlugIns::HOOK_SEARCH_INIT);
     }
 
     /**

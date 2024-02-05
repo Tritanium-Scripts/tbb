@@ -20,6 +20,7 @@ class AdminPlugIns extends PublicModule
     {
         parent::__construct();
         $this->mode = $mode;
+        PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_PLUG_INS_INIT);
     }
 
     /**

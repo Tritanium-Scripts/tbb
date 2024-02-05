@@ -62,6 +62,7 @@ class AdminRank extends PublicModule
         $this->rankName = htmlspecialchars(Functions::getValueFromGlobals('bez'));
         $this->requiredPosts = Functions::getValueFromGlobals('minposts');
         $this->stars = Functions::getValueFromGlobals('pic');
+        PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_RANK_INIT);
     }
 
     /**

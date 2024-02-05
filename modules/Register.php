@@ -63,6 +63,7 @@ class Register extends PublicModule
             $this->privacyPolicyLink = INDEXFILE . $this->privacyPolicyLink . SID_AMPER;
         $this->memberCounter = Functions::getLockObject('vars/member_counter.var');
         $this->mode = $mode;
+        PlugIns::getInstance()->callHook(PlugIns::HOOK_REGISTER_INIT);
     }
 
     /**

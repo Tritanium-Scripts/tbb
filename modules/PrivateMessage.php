@@ -88,6 +88,7 @@ class PrivateMessage extends PublicModule
             $this->urlSuffix = '&amp;box=out';
             $this->boxType = '.ach';
         }
+        PlugIns::getInstance()->callHook(PlugIns::HOOK_PRIVATE_MESSAGE_INIT);
     }
 
     /**

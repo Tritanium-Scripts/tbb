@@ -37,6 +37,7 @@ class Help extends PublicModule
     {
         parent::__construct();
         $this->page = $page;
+        PlugIns::getInstance()->callHook(PlugIns::HOOK_HELP_INIT);
     }
 
     /**

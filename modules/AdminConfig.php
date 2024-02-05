@@ -40,6 +40,7 @@ class AdminConfig extends PublicModule
         $this->mode = $mode;
         if(($this->timeout = ini_get('max_execution_time')) > 10)
             $this->timeout -= 10;
+        PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_CONFIG_INIT);
     }
 
     /**

@@ -46,6 +46,7 @@ class Newsletter extends PublicModule
         $this->newsletter = @Functions::file('vars/newsletter.var') ?: [];
         if(!empty($this->newsletter))
             $this->newsletter = array_map(['Functions', 'explodeByTab'], $this->newsletter);
+        PlugIns::getInstance()->callHook(PlugIns::HOOK_NEWSLETTER_INIT);
     }
 
     /**

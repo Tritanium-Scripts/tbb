@@ -41,6 +41,7 @@ class AdminNews extends PublicModule
         $this->news = trim(Functions::getValueFromGlobals('news', false));
         $this->newsDuration = intval(Functions::getValueFromGlobals('expiredate')) ?: -1;
         $this->newsType = intval(Functions::getValueFromGlobals('typ')) ?: 1;
+        PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_NEWS_INIT);
     }
 
     /**

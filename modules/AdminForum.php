@@ -61,6 +61,7 @@ class AdminForum extends PublicModule
         foreach(array_map(['Functions', 'explodeByTab'], Functions::file('vars/kg.var')) as $curCat)
             $this->catTable[$curCat[0]] = $curCat[1];
         $this->forums = array_map(['Functions', 'explodeByTab'], Functions::file('vars/foren.var'));
+        PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_FORUM_INIT);
     }
 
     /**

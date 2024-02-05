@@ -46,6 +46,7 @@ class Login extends PublicModule
         $this->loginName = Functions::latin9ToEntities(htmlspecialchars(trim(Functions::getValueFromGlobals('login_name'))));
         $this->loginPass = Functions::getValueFromGlobals('login_pw');
         $this->mode = $fAction;
+        PlugIns::getInstance()->callHook(PlugIns::HOOK_LOGIN_INIT);
     }
 
     /**

@@ -37,6 +37,7 @@ class AdminLogfile extends PublicModule
         parent::__construct();
         $this->mode = $mode;
         $this->log = 'logs/' . Functions::getValueFromGlobals('log') . '.log';
+        PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_LOGFILE_INIT);
     }
 
     /**

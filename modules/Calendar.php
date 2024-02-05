@@ -50,6 +50,7 @@ class Calendar extends PublicModule
             $this->year++;
             $this->month = 1;
         }
+        PlugIns::getInstance()->callHook(PlugIns::HOOK_CALENDAR_INIT);
     }
 
     /**

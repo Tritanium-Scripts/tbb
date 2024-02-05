@@ -91,6 +91,7 @@ class Profile extends PublicModule
                 $this->isCURL = extension_loaded('curl');
             $this->webApiKey = Config::getInstance()->getCfgVal('web_api_key');
         }
+        PlugIns::getInstance()->callHook(PlugIns::HOOK_PROFILE_INIT);
     }
 
     /**

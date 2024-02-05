@@ -31,6 +31,7 @@ class AdminUser extends PublicModule
         parent::__construct();
         $this->mode = $mode;
         Language::getInstance()->parseFile('MemberList');
+        PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_USER_INIT);
     }
 
     /**

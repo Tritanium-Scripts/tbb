@@ -83,6 +83,7 @@ class PostNew extends PublicModule
         //Topic smiley fix
         if(empty($this->newPost['tSmiley']))
             $this->newPost['tSmiley'] = 1;
+        PlugIns::getInstance()->callHook(PlugIns::HOOK_POST_NEW_INIT);
     }
 
     /**

@@ -88,6 +88,7 @@ class AdminSmiley extends PublicModule
                 $this->smileyType = BBCode::SMILEY_ADMIN;
                 break;
             }
+        PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_SMILEY_INIT);
     }
 
     /**

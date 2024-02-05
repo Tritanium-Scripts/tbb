@@ -56,6 +56,7 @@ class MemberList extends PublicModule
         $this->orderType = Functions::getValueFromGlobals('orderType') == '1';
         $this->page = intval(Functions::getValueFromGlobals('z')) ?: 1;
         $this->sortMethod = Functions::getValueFromGlobals('sortmethod') ?: 'id';
+        PlugIns::getInstance()->callHook(PlugIns::HOOK_MEMBER_LIST_INIT);
     }
 
     /**

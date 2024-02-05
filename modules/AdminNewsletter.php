@@ -1,6 +1,6 @@
 <?php
 /**
- * Sends newsletter via PM or e-mail.
+ * Sends newsletter via PM or email.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
  * @copyright Copyright (c) 2010-2023 Tritanium Scripts
@@ -35,8 +35,10 @@ class AdminNewsletter extends PublicModule
     {
         parent::__construct();
         $this->mode = $mode;
-        if(($this->timeout = ini_get('max_execution_time')) > 10)
+        $this->timeout = ini_get('max_execution_time');
+        if($this->timeout > 10)
             $this->timeout -= 10;
+        PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_NEWSLETTER_INIT);
     }
 
     /**

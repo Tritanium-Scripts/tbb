@@ -48,6 +48,7 @@ class AdminGroup extends PublicModule
         $this->groups = array_map(['Functions', 'explodeByTab'], Functions::file('vars/groups.var'));
         foreach($this->groups as &$curGroup)
             $curGroup[3] = Functions::explodeByComma($curGroup[3]);
+        PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_GROUP_INIT);
     }
 
     /**

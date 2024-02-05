@@ -86,6 +86,7 @@ class AdminCalendar extends PublicModule
         $this->eventStartDate = Functions::getTimestampFromGlobals('eventStartDate') ?? 0;
         $this->eventEndDate = Functions::getTimestampFromGlobals('eventEndDate') ?? 0;
         $this->eventDescription = htmlspecialchars(Functions::getValueFromGlobals('eventDescription', false));
+        PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_CALENDAR_INIT);
     }
 
     /**

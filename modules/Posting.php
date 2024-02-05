@@ -126,6 +126,7 @@ class Posting extends PublicModule
         //Topic smiley fix
         if(empty($this->newReply['tSmileyID']))
             $this->newReply['tSmileyID'] = 1;
+        PlugIns::getInstance()->callHook(PlugIns::HOOK_POSTING_INIT);
     }
 
     /**

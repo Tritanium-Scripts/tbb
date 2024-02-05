@@ -79,6 +79,7 @@ class WhoIsOnline extends PublicModule
         if($update)
             Functions::file_put_contents('vars/today.var', implode("\n", $this->wwoFile));
         Functions::releaseLock('today');
+        PlugIns::getInstance()->callHook(PlugIns::HOOK_WHO_IS_ONLINE_INIT);
     }
 
     /**
@@ -114,12 +115,14 @@ class WhoIsOnline extends PublicModule
             $curWIOEntry = Functions::explodeByTab($curWIOEntry);
             $curWIOEntry[2] = Functions::explodeByComma($curWIOEntry[2]); //Get IDs of position, if any
             //Admins may also see ghosts
-            if(!($curWIOEntryIsGhost = $curWIOEntry[4] == '1') || Auth::getInstance()->isAdmin())
+            $curWIOEntryIsGhost = $curWIOEntry[4] == '1';
+            if(!$curWIOEntryIsGhost || Auth::getInstance()->isAdmin())
             {
                 $curUser = is_numeric($curWIOEntry[1])
                     ? Functions::getProfileLink($curWIOEntry[1])
                     : Language::getInstance()->getString($this->isBot($curWIOEntry[5]) ? 'bot' : 'guest') . Functions::substr($curWIOEntry[1], 5, 5);
-                $curTime = ($curTime = $time-$curWIOEntry[0]) < 60
+                $curTime = $time-$curWIOEntry[0];
+                $curTime = $curTime < 60
                     ? sprintf(Language::getInstance()->getString('x_seconds_ago'), $curTime)
                     : ($curTime < 120
                         ? Language::getInstance()->getString('one_minute_ago')

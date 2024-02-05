@@ -45,6 +45,7 @@ class AdminCensor extends PublicModule
         $this->mode = $mode;
         $this->censorshipID = intval(Functions::getValueFromGlobals('id'));
         $this->censorships = array_map(['Functions', 'explodeByTab'], Functions::file('vars/cwords.var'));
+        PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_CENSOR_INIT);
     }
 
     /**

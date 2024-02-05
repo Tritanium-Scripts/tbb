@@ -44,6 +44,7 @@ class AdminIP extends PublicModule
         $this->mode = $mode;
         $this->ipBlockID = intval(Functions::getValueFromGlobals('id'));
         $this->ipBlocks = Functions::getBannedIPs();
+        PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_IP_INIT);
     }
 
     /**
