@@ -49,7 +49,8 @@ class AdminPlugIns extends PublicModule
                     'website' => $curPlugIn->getAuthorUrl(),
                     'name' => $curPlugIn->getName(),
                     'description' => $curPlugIn->getDescription(),
-                    'version' => $curPlugIn->getVersion()];
+                    'version' => $curPlugIn->getVersion(),
+                    'minVersion' => $curPlugIn->getMinVersion()];
             Template::getInstance()->assign('plugIns', $plugIns);
             break;
         }

@@ -40,6 +40,13 @@ interface PlugIn
     public function getVersion(): string;
 
     /**
+     * Returns minimum version of TBB this plug-in is written for. Assumes 1.10.0.0 if none is returned.
+     *
+     * @return string Required version number of TBB or null
+     */
+    public function getMinVersion(): ?string;
+
+    /**
      * Called on the specified hook. Hooks can be official ones from the system or custom calls e.g. from other plug-ins.
      *
      * @param string $hook Hook name

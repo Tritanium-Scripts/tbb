@@ -133,8 +133,20 @@ class PlugIns
                     continue;
                 }
                 //Use full class path for creating instance
-                $this->plugIns[basename($curPlugIn)] = new $curPlugInClass();
-                $plugInsCache .= 'include(\'' . $curPlugIn . '\'); $this->plugIns[\'' . basename($curPlugIn) . '\'] = new ' . $curPlugInClass . "();\n";
+                $curPlugInName = basename($curPlugIn);
+                $this->plugIns[$curPlugInName] = new $curPlugInClass();
+                //Check for fulfilled TBB version
+                $curMinVersion = $this->plugIns[$curPlugInName]->getMinVersion() ?? '1.10.0.0';
+                while(substr_count($curMinVersion, '.') < 3)
+                    $curMinVersion .= '.0';
+                if(version_compare(VERSION_PRIVATE, $curMinVersion, '<'))
+                {
+                    Logger::getInstance()->log('Plug-in "' . $curPlugIn . '" requires newer TBB version ' . $curMinVersion . ', skipping!', Logger::LOG_FILESYSTEM);
+                    unset($this->plugIns[$curPlugInName]);
+                    continue;
+                }
+                //All checks passed and loaded - add to cache
+                $plugInsCache .= 'include(\'' . $curPlugIn . '\'); $this->plugIns[\'' . $curPlugInName . '\'] = new ' . $curPlugInClass . "();\n";
             }
             //Set official hook names
             $curReflectionClass = new ReflectionClass($this);
