@@ -178,7 +178,7 @@ class Template
         //Announce amount of *now* unread pms to template, just before printing out any of them
         $this->display('PageHeader', ['unreadPMs' => PrivateMessage::getInstance()->getUnreadPMs(),
             //Not using $smarty.now because of GMT and DST stuff
-            'currentTime' => gmstrftime(Language::getInstance()->getString('TIMEFORMAT'), Functions::getTimestamp(gmdate('YmdHis')))]);
+            'currentTime' => Functions::gmstrftime(Language::getInstance()->getString('TIMEFORMAT'), Functions::getTimestamp(gmdate('YmdHis')))]);
     }
 
     /**

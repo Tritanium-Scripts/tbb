@@ -38,6 +38,7 @@
     "suggest": {
         "ext-curl": "Proper fetching of Steam achievements",
         "ext-dom": "Loading of fetched Steam achievements",
+        "ext-intl": "International formatting of dates",
         "ext-json": "Needed for PHP <8.0",
         "ext-mbstring": "Multibyte string extension for proper Unicode usage"
     },

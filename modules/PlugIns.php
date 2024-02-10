@@ -171,7 +171,9 @@ class PlugIns
         foreach($this->plugIns as $curPlugIn)
             try
             {
-                $curPlugIn->onHook($hook, in_array($hook, $this->officialHooks))?->call($caller, $args);
+                $curCallback = $curPlugIn->onHook($hook, in_array($hook, $this->officialHooks)); #TODO nullsafe operator since PHP 8.0: ?->call($caller, $args);
+                if(!is_null($curCallback))
+                    $curCallback->call($caller, $args);
             }
             catch(Throwable $e)
             {

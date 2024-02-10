@@ -320,7 +320,7 @@ abstract class CoreFunctions
         $timestamp = self::getTimestamp($date);
         $formattedDate = sprintf(
             time()-$timestamp < Config::getInstance()->getCfgVal('emph_date_hours')*3600 ? '<b>%s</b>' : '%s',
-            gmstrftime(isset($format)
+            self::gmstrftime(isset($format)
                 ? $format
                 : Language::getInstance()->getString(Config::getInstance()->getCfgVal('date_as_text') == 1 && self::getProperYz(time()-86400) <= ($yz = self::getProperYz($timestamp))
                     ? (self::getProperYz(time()) == $yz ? 'TODAY_DATEFORMAT' : 'YESTERDAY_DATEFORMAT')
@@ -783,6 +783,20 @@ abstract class CoreFunctions
     public static function getValueFromGlobals(string $key, bool $stripNewLine=true)
     {
         return Functions::str_replace($stripNewLine ? ["\t", "\n", "\r"] : "\t", '', $_GET[$key] ?? $_POST[$key] ?? '');
+    }
+
+    /**
+     * Replacement for PHP's deprecated {@link gmstrftime()}.
+     *
+     * @param string $format Format pattern
+     * @param int $timestamp Timestamp to format
+     */
+    public static function gmstrftime(string $format, ?int $timestamp=null)
+    {
+        if(function_exists('gmstrftime'))
+            return @gmstrftime($format, $timestamp);
+        self::$cache['intl'][$format] ??= new IntlDateFormatter(Language::getInstance()->getLangCode(), IntlDateFormatter::FULL, IntlDateFormatter::FULL, date_default_timezone_get(), IntlDateFormatter::GREGORIAN, $format);
+        return self::$cache['intl'][$format]->format($timestamp);
     }
 
     /**
