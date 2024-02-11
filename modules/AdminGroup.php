@@ -3,7 +3,7 @@
  * Manages user groups.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2023 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2024 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -66,6 +66,7 @@ class AdminGroup extends PublicModule
             $newName = htmlspecialchars(trim(Functions::getValueFromGlobals('title')));
             $newAvatar = Functions::getValueFromGlobals('pic');
             $newUserIDs = array_unique(array_filter(array_map('trim', Functions::explodeByComma(Functions::getValueFromGlobals('group_members'))), 'is_numeric'));
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_GROUP_NEW_GROUP, $newName, $newAvatar, $newUserIDs);
             if(Functions::getValueFromGlobals('create') == 'yes')
             {
                 if(empty($newName))
@@ -106,6 +107,7 @@ class AdminGroup extends PublicModule
             $editName = htmlspecialchars(trim(Functions::getValueFromGlobals('title')));
             $editAvatar = Functions::getValueFromGlobals('pic');
             $editUserIDs = array_unique(array_filter(array_map('trim', Functions::explodeByComma(Functions::getValueFromGlobals('group_members'))), 'is_numeric'));
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_GROUP_EDIT_GROUP, $key, $editName, $editAvatar, $editUserIDs);
             if(Functions::getValueFromGlobals('update') == 'yes')
             {
                 if(empty($editName))
@@ -165,6 +167,7 @@ class AdminGroup extends PublicModule
             NavBar::getInstance()->addElement(Language::getInstance()->getString('delete_group'), INDEXFILE . '?faction=ad_groups&amp;mode=kill&amp;group_id=' . $this->groupID . SID_AMPER);
             if(($key = array_search($this->groupID, array_map('current', $this->groups))) === false)
                 Template::getInstance()->printMessage('group_not_found');
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_GROUP_DELETE_GROUP, $key);
             if(Functions::getValueFromGlobals('kill') == 'yes')
             {
                 //Delete group from members
@@ -212,6 +215,7 @@ class AdminGroup extends PublicModule
             //Get names from IDs
             foreach($this->groups as &$curGroup)
                 $curGroup[3] = !empty($curGroup[3][0]) ? array_map(['Functions', 'getProfileLink'], $curGroup[3], array_fill(0, count($curGroup[3]), true)) : [];
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_GROUP_SHOW_GROUPS);
             break;
         }
         Template::getInstance()->printPage(self::$modeTable[$this->mode], ['groups' => $this->groups,

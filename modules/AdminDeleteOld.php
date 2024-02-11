@@ -3,7 +3,7 @@
  * Convenient way to delete topics by a certain date.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2023 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2024 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -20,6 +20,7 @@ class AdminDeleteOld extends PublicModule
      */
     private function deleteTopics(int $forumID, int $topicAge): array
     {
+        PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_DELETE_OLD_DELETE_TOPICS, $forumID, $topicAge);
         //Needed counter (really needed, not just for "yay stats!!111oneoneeleven")^^
         $topicCounter = $postCounter = $filesizeCounter = 0;
         //Get topic IDs of forum
@@ -59,6 +60,7 @@ class AdminDeleteOld extends PublicModule
         NavBar::getInstance()->addElement(Language::getInstance()->getString('delete_old_topics'), INDEXFILE . '?faction=ad_killposts' . SID_AMPER);
         $deleteFromForumID = Functions::getValueFromGlobals('target_forum');
         $topicAge = intval(Functions::getValueFromGlobals('topic_age')) ?: 90;
+        PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_DELETE_OLD);
         if(Functions::getValueFromGlobals('mode') == 'kill')
         {
             if(empty($deleteFromForumID))

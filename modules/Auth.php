@@ -275,6 +275,7 @@ class Auth
     {
         $this->wioID = isset($_SESSION['userID']) ? ($this->userData[1] = $_SESSION['userID']) : $_SESSION['session_upbwio'];
         $this->loggedIn = is_numeric($this->wioID);
+        PlugIns::getInstance()->callHook(PlugIns::HOOK_AUTH_LOGIN_CHANGED);
     }
 }
 ?>

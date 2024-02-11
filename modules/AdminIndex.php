@@ -3,7 +3,7 @@
  * Performs version check and displays the admin control panel.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2023 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2024 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -36,6 +36,7 @@ class AdminIndex extends PublicModule
                 }
             }
         }
+        PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_INDEX);
         Template::getInstance()->printPage('AdminIndex', [
             'styleURL' => urlencode(Config::getInstance()->getCfgVal('address_to_forum') . '/' . Template::getInstance()->getTplDir() . Auth::getInstance()->getUserStyle()),
             'isNewVersion' => $_SESSION['isNewVersion'] ?? false,

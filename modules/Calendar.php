@@ -177,6 +177,7 @@ class Calendar extends PublicModule
         $curDay = 1;
         while(count($calendar[$lastWeek]) < 7)
             $calendar[$lastWeek][$curDay++] = false;
+        PlugIns::getInstance()->callHook(PlugIns::HOOK_CALENDAR_SHOW_EVENTS, $date, $calendar);
         Template::getInstance()->printPage('Calendar', ['year' => $this->year,
             'month' => $this->month,
             'date' => $date,

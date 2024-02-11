@@ -3,7 +3,7 @@
  * Manages user ranking.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2023 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2024 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -78,6 +78,7 @@ class AdminRank extends PublicModule
             case 'edit':
             $rankID = intval(Functions::getValueFromGlobals('id'));
             NavBar::getInstance()->addElement(Language::getInstance()->getString('edit_rank'), INDEXFILE . '?faction=ad_rank&amp;mode=edit&amp;id=' . $rankID . SID_AMPER);
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_RANK_EDIT_RANK, $rankID);
             if(Functions::getValueFromGlobals('save') == 'yes')
             {
                 if(empty($this->rankName))
@@ -124,6 +125,7 @@ class AdminRank extends PublicModule
 //AdminRankNewRank
             case 'new':
             NavBar::getInstance()->addElement(Language::getInstance()->getString('add_new_rank'), INDEXFILE . '?faction=ad_rank&amp;mode=new' . SID_AMPER);
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_RANK_NEW_RANK);
             if(Functions::getValueFromGlobals('save') == 'yes')
             {
                 if(empty($this->rankName))
@@ -156,6 +158,7 @@ class AdminRank extends PublicModule
             foreach($this->ranks as $curKey => $curRank)
                 if($curRank[0] == $rankID)
                 {
+                    PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_RANK_DELETE_RANK, $rankID);
                     unset($this->ranks[$curKey]);
                     //At least one rank is required
                     if(empty($this->ranks))
@@ -171,6 +174,7 @@ class AdminRank extends PublicModule
 
 //AdminRankIndex
             default:
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_RANK_SHOW_RANKS);
             Template::getInstance()->assign('ranks', $this->ranks);
             break;
         }

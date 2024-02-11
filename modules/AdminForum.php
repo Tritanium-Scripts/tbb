@@ -3,7 +3,7 @@
  * Manages categories and forums incl. special rights.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2023 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2024 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -83,6 +83,7 @@ class AdminForum extends PublicModule
                     'descr' => $curForum[2],
                     'catID' => $curForum[5],
                     'mods' => Functions::getProfileLink($curForum[11])];
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_FORUM_FORUMS);
             Template::getInstance()->assign('forums', $forums);
             break;
 
@@ -99,6 +100,7 @@ class AdminForum extends PublicModule
             $newIsNotify = Functions::getValueFromGlobals('sm_mods');
             $newRights = (array) Functions::getValueFromGlobals('new_rights') + array_fill(0, 10, ''); //Fill up missing keys/values from unchecked boxes with this neat array union trick :)
             $newModIDs = array_filter(array_map('trim', Functions::explodeByComma(Functions::getValueFromGlobals('mods'))), 'is_numeric');
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_FORUM_NEW_FORUM, $newName, $newDescr, $newCatID, $newIsBBCode, $newIsXHTML, $newIsNotify, $newRights, $newModIDs);
             if(Functions::getValueFromGlobals('create') == 'yes')
             {
                 if($newName == '')
@@ -179,6 +181,7 @@ class AdminForum extends PublicModule
                 //Delete forum?
                 if(Functions::getValueFromGlobals('kill') != '')
                 {
+                    PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_FORUM_DELETE_FORUM, $key);
                     //Confirmed?
                     if(Functions::getValueFromGlobals('confirm') == 'yes')
                     {
@@ -286,6 +289,7 @@ class AdminForum extends PublicModule
                     $editForum[7][2] = Functions::getValueFromGlobals('sm_mods');
                     $editForum[10] = (array) Functions::getValueFromGlobals('new_rights') + array_fill(0, 10, ''); //Fill up missing keys/values from unchecked boxes with this neat array union trick :)
                     ksort($editForum[10]);
+                    PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_FORUM_EDIT_FORUM, $editForum);
                     if(empty($editForum[1]))
                         $this->errors[] = Language::getInstance()->getString('please_enter_a_forum_name');
                     else
@@ -357,6 +361,7 @@ class AdminForum extends PublicModule
             //Get forum to edit
             if(($key = array_search($forumID, array_map('current', $this->forums))) === false)
                 Template::getInstance()->printMessage('forum_not_found');
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_FORUM_MOVE_FORUM_UP, $key);
             //Already on top?
             if($key != 0)
             {
@@ -381,6 +386,7 @@ class AdminForum extends PublicModule
             //Get forum to edit
             if(($key = array_search($forumID, array_map('current', $this->forums))) === false)
                 Template::getInstance()->printMessage('forum_not_found');
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_FORUM_MOVE_FORUM_DOWN, $key);
             //Already at bottom?
             if($key != count($this->forums)-1)
             {
@@ -407,6 +413,7 @@ class AdminForum extends PublicModule
             $specialRights = @Functions::file('foren/' . $forumID . '-rights.xbb') ?: [];
             #0:rightID - 1:rightType - 2:user/groupID - 3:isAccessForum - 4:isPostTopics - 5:isPostReplies - 6:isPostPolls - 7:isEditOwnPosts - 8:isEditOwnPolls
             $specialRights = array_map(['Functions', 'explodeByTab'], $specialRights);
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_FORUM_SPECIAL_RIGHTS, $forumID, $specialRights);
             if(Functions::getValueFromGlobals('change') == 'yes' && ($newRights = Functions::getValueFromGlobals('new_rights')) != '')
             {
                 foreach($specialRights as &$curSpecialRight)
@@ -449,6 +456,7 @@ class AdminForum extends PublicModule
             //Check for valid forum ID
             if(($key = array_search($forumID, array_map('current', $this->forums))) === false)
                 Template::getInstance()->printMessage('forum_not_found');
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_FORUM_NEW_USER_RIGHT, $forumID, $key);
             if(Functions::getValueFromGlobals('change') == 'yes')
             {
                 //Get special rights or create new
@@ -497,6 +505,7 @@ class AdminForum extends PublicModule
             //Make sure there are groups with no special rights for current forum
             if(count($specialGroupIDs) == count($groups))
                 Template::getInstance()->printMessage('all_groups_assigned');
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_FORUM_NEW_GROUP_RIGHT, $forumID, $key, $specialRights, $specialGroupIDs);
             if(Functions::getValueFromGlobals('add') == 'yes')
             {
                 $newGroupID = intval(Functions::getValueFromGlobals('new_group_id'));
@@ -545,6 +554,7 @@ class AdminForum extends PublicModule
             for($i=0; $i<$size; $i++)
                 if($specialRights[$i][0] == $specialRightID)
                 {
+                    PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_FORUM_DELETE_RIGHT, $forumID, $specialRights, $specialRightID);
                     if($specialRights[$i][1] == '1')
                         //Delete special user right
                         unset($specialRights[$i]);
@@ -588,6 +598,7 @@ class AdminForum extends PublicModule
             //Check for valid forum ID
             if(!in_array($forumID, array_map('current', $this->forums)))
                 Template::getInstance()->printMessage('forum_not_found');
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_FORUM_TOPIC_PREFIXES, $forumID);
             //Get topic prefixes or create new
             $topicPrefixes = @Functions::file('foren/' . $forumID . '-prefixes.xbb') ?: [];
             #0:prefixID - 1:prefix - 2:color
@@ -609,6 +620,7 @@ class AdminForum extends PublicModule
                 Template::getInstance()->printMessage('forum_not_found');
             $newPrefix = Functions::getValueFromGlobals('prefix');
             $newColor = Functions::getValueFromGlobals('color');
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_FORUM_NEW_TOPIC_PREFIX, $forumID, $newPrefix, $newColor);
             if(Functions::getValueFromGlobals('change') == 'yes')
             {
                 if(empty($newPrefix))
@@ -646,6 +658,7 @@ class AdminForum extends PublicModule
                 Template::getInstance()->printMessage('topic_prefix_not_found');
             $editPrefix = Functions::getValueFromGlobals('prefix');
             $editColor = Functions::getValueFromGlobals('color');
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_FORUM_EDIT_TOPIC_PREFIX, $forumID, $topicPrefixId, $editPrefix, $editColor);
             if(Functions::getValueFromGlobals('change') == 'yes')
             {
                 if(empty($editPrefix))
@@ -679,6 +692,7 @@ class AdminForum extends PublicModule
             $topicPrefixes = @Functions::file('foren/' . $forumID . '-prefixes.xbb') or Template::getInstance()->printMessage('forum_not_found');
             $topicPrefixes = array_map(['Functions', 'explodeByTab'], $topicPrefixes);
             $topicPrefixId = intval(Functions::getValueFromGlobals('prefixId'));
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_FORUM_DELETE_TOPIC_PREFIX, $forumID, $topicPrefixes, $topicPrefixId);
             $size = count($topicPrefixes);
             for($i=0; $i<$size; $i++)
                 if($topicPrefixes[$i][0] == $topicPrefixId)
@@ -700,6 +714,7 @@ class AdminForum extends PublicModule
             case 'viewkg':
             NavBar::getInstance()->addElement(Language::getInstance()->getString('manage_categories'), INDEXFILE . '?faction=ad_forum&amp;mode=viewkg' . SID_AMPER);
             unset($this->catTable[-1]); //Don't list this one
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_FORUM_CATEGORIES);
             break;
 
 //AdminForumNewCat
@@ -708,6 +723,7 @@ class AdminForum extends PublicModule
                 [Language::getInstance()->getString('manage_categories'), INDEXFILE . '?faction=ad_forum&amp;mode=viewkg' . SID_AMPER],
                 [Language::getInstance()->getString('add_new_category'), INDEXFILE . '?faction=ad_forum&amp;mode=newkg' . SID_AMPER]]);
             $newName = htmlspecialchars(trim(Functions::getValueFromGlobals('name')));
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_FORUM_NEW_CATEGORY, $newName);
             if(Functions::getValueFromGlobals('newkg') == 'yes')
             {
                 if(empty($newName))
@@ -730,6 +746,7 @@ class AdminForum extends PublicModule
             case 'movekgup':
             if(($key = array_search($catID = intval(Functions::getValueFromGlobals('id')), array_map('current', $cats = array_map(['Functions', 'explodeByTab'], Functions::file('vars/kg.var'))))) === false)
                 Template::getInstance()->printMessage('category_not_found');
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_FORUM_MOVE_CATEGORY_UP, $key);
             //Already on top?
             if($key != 0)
             {
@@ -745,6 +762,7 @@ class AdminForum extends PublicModule
             case 'movekgdown':
             if(($key = array_search($catID = intval(Functions::getValueFromGlobals('id')), array_map('current', $cats = array_map(['Functions', 'explodeByTab'], Functions::file('vars/kg.var'))))) === false)
                 Template::getInstance()->printMessage('category_not_found');
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_FORUM_MOVE_CATEGORY_DOWN, $key);
             //Already at bottom?
             if($key != count($cats)-1)
             {
@@ -766,6 +784,7 @@ class AdminForum extends PublicModule
             if(!isset($catID))
                 Template::getInstance()->printMessage('category_not_found');
             $editName = htmlspecialchars(trim(Functions::getValueFromGlobals('name')));
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_FORUM_EDIT_CATEGORY, $catID, $editName);
             if(Functions::getValueFromGlobals('chgkg') == 'yes')
             {
                 if(empty($editName))
@@ -794,6 +813,7 @@ class AdminForum extends PublicModule
             $catID = intval(Functions::getValueFromGlobals('id'));
             if(!isset($catID))
                 Template::getInstance()->printMessage('category_not_found');
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_FORUM_DELETE_CATEGORY, $catID);
             unset($this->catTable[-1], $this->catTable[$catID]);
             //Prepare cat table for writing
             foreach($this->catTable as $curCatID => $curCatName)

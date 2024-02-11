@@ -3,7 +3,7 @@
  * Manages members.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2023 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2024 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -62,6 +62,7 @@ class AdminUser extends PublicModule
             NavBar::getInstance()->addElement(Language::getInstance()->getString('add_new_member'), INDEXFILE . '?faction=ad_user&amp;mode=new' . SID_AMPER);
             $newUser = Functions::getValueFromGlobals('new');
             $groups = array_map(['Functions', 'explodeByTab'], Functions::file('vars/groups.var'));
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_USER_NEW_USER, $newUser, $groups);
             if(Functions::getValueFromGlobals('create') == 'yes')
             {
                 $newUser['nick'] = htmlspecialchars(trim($newUser['nick']));
@@ -156,6 +157,7 @@ class AdminUser extends PublicModule
             $editUserID = intval(Functions::getValueFromGlobals('id'));
             NavBar::getInstance()->addElement(Language::getInstance()->getString('edit_user'), INDEXFILE . '?faction=ad_user&amp;mode=edit&amp;id=' . $editUserID . SID_AMPER);
             $editUser = Functions::getUserData($editUserID) or Template::getInstance()->printMessage('user_does_not_exist');
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_USER_EDIT_USER, $editUser);
             if(Functions::getValueFromGlobals('edit') == 'yes')
             {
                 //Delete user?
@@ -169,7 +171,8 @@ class AdminUser extends PublicModule
                             if($curGroup[0] == $editUser[15])
                             {
                                 $curGroup[3] = Functions::explodeByComma($curGroup[3]);
-                                if(($key = array_search($editUser[1], $curGroup[3])) !== false)
+                                $key = array_search($editUser[1], $curGroup[3]);
+                                if($key !== false)
                                 {
                                     unset($curGroup[3][$key]);
                                     $curGroup[3] = implode(',', $curGroup[3]);
@@ -273,6 +276,7 @@ class AdminUser extends PublicModule
                         usort($results, [$this, 'cmpByPercent']);
                 }
             }
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_USER_SHOW_USER, $results, $searchMethod, $searchFor);
             Template::getInstance()->assign(['results' => $results,
                 'searchMethod' => $searchMethod,
                 'searchFor' => $searchFor]);

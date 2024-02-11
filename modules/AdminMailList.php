@@ -3,7 +3,7 @@
  * Displays email list.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2023 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2024 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -27,6 +27,7 @@ class AdminMailList extends PublicModule
                 $mailAddys[] = $curMailAddy;
         }
         Logger::getInstance()->log('%s retrieved email list', Logger::LOG_ACP_ACTION);
+        PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_MAIL_LIST, $mailAddys);
         Template::getInstance()->printPage('AdminMailList', 'mailAddys', $mailAddys);
     }
 }

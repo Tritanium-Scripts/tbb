@@ -103,6 +103,7 @@ class AdminCalendar extends PublicModule
 //AdminCalendarNewEvent
             case 'new':
             NavBar::getInstance()->addElement(Language::getInstance()->getString('add_new_event'), INDEXFILE . '?faction=adminCalendar&amp;mode=new' . SID_AMPER);
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_CALENDAR_NEW_EVENT);
             if(Functions::getValueFromGlobals('create') == 'yes')
             {
                 if(empty($this->eventName))
@@ -141,6 +142,7 @@ class AdminCalendar extends PublicModule
             NavBar::getInstance()->addElement(Language::getInstance()->getString('edit_event'), INDEXFILE . '?faction=adminCalendar&amp;mode=edit&amp;id=' . $this->eventId . SID_AMPER);
             if(($key = array_search($this->eventId, array_map('current', $this->events))) === false)
                 Template::getInstance()->printMessage('event_not_found');
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_CALENDAR_EDIT_EVENT, $key);
             if(Functions::getValueFromGlobals('update') == 'yes')
             {
                 if(empty($this->eventName))
@@ -179,6 +181,7 @@ class AdminCalendar extends PublicModule
             NavBar::getInstance()->addElement(Language::getInstance()->getString('delete_event'), INDEXFILE . '?faction=adminCalendar&amp;mode=delete&amp;id=' . $this->eventId . SID_AMPER);
             if(($key = array_search($this->eventId, array_map('current', $this->events))) === false)
                 Template::getInstance()->printMessage('event_not_found');
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_CALENDAR_DELETE_EVENT, $key);
             //Delete it
             unset($this->events[$key]);
             Functions::file_put_contents('vars/events.var', empty($this->events) ? '' : implode("\n", array_map(['Functions', 'implodeByTab'], $this->events)) . "\n");
@@ -191,6 +194,7 @@ class AdminCalendar extends PublicModule
 //AdminCalendar
             default:
             array_walk($this->events, fn(&$event, $key) => $event[2] = Functions::getTSmileyURL($event[2]));
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_CALENDAR_SHOW_EVENTS);
             Template::getInstance()->assign('events', $this->events);
             break;
         }

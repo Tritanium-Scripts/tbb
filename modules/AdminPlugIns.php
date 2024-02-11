@@ -36,6 +36,7 @@ class AdminPlugIns extends PublicModule
         {
             case 'delete':
             $plugInFile = basename(Functions::getValueFromGlobals('plugIn'));
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_PLUG_INS_DELETE_PLUG_IN, $plugInFile);
             if(PlugIns::getInstance()->deletePlugIn($plugInFile))
                 Logger::getInstance()->log('%s deleted plug-in ' . $plugInFile, Logger::LOG_ACP_ACTION);
             else
@@ -51,6 +52,7 @@ class AdminPlugIns extends PublicModule
                     'description' => $curPlugIn->getDescription(),
                     'version' => $curPlugIn->getVersion(),
                     'minVersion' => $curPlugIn->getMinVersion()];
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_PLUG_INS_SHOW_PLUG_IN, $plugIns);
             Template::getInstance()->assign('plugIns', $plugIns);
             break;
         }

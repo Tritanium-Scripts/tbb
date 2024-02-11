@@ -3,7 +3,7 @@
  * Manages the forum news.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2023 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2024 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -51,6 +51,7 @@ class AdminNews extends PublicModule
     {
         Functions::accessAdminPanel();
         NavBar::getInstance()->addElement(Language::getInstance()->getString('edit_forum_news'), INDEXFILE . '?faction=ad_news' . SID_AMPER);
+        PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_NEWS);
         if(Functions::getValueFromGlobals('save') == 'yes')
         {
             if(!empty($this->news))

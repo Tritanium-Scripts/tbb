@@ -3,7 +3,7 @@
  * Sends newsletter via PM or email.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2023 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2024 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -155,6 +155,7 @@ class AdminNewsletter extends PublicModule
             if(Functions::getValueFromGlobals('isArchived') == 'true')
                 Functions::file_put_contents('vars/newsletter.var', gmdate('YmdHis') . "\t" . Auth::getInstance()->getUserID() . "\t" . htmlspecialchars($_SESSION['newsletter']['subject']) . "\t" . Functions::nl2br(htmlspecialchars($_SESSION['newsletter']['message'])) . "\t" . $recipient . "\n", FILE_APPEND);
             //Point of no return
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_NEWSLETTER_SEND);
             $this->checkTime(false);
             break;
 

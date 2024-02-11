@@ -3,7 +3,7 @@
  * Manages the board configuration and maintenance operations.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2023 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2024 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -70,6 +70,7 @@ class AdminConfig extends PublicModule
 //AdminConfigRebuildConfirm
             case 'rebuildTopicIndex':
             NavBar::getInstance()->addElement(Language::getInstance()->getString('rebuild_topic_index'), INDEXFILE . '?faction=ad_settings&amp;mode=rebuildTopicIndex' . SID_AMPER);
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_CONFIG_REBUILD_TOPIC_INDEX);
             if(isset($_SESSION['rebuildTopicIndex']))
             {
                 foreach($_SESSION['rebuildTopicIndex'] as $curForumID => &$curTopics)
@@ -117,6 +118,7 @@ class AdminConfig extends PublicModule
 //AdminConfigCountersConfirm
             case 'recalculateCounters':
             NavBar::getInstance()->addElement(Language::getInstance()->getString('recalculate_counters'), INDEXFILE . '?faction=ad_settings&amp;mode=recalculateCounters' . SID_AMPER);
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_CONFIG_RECALCULATE_COUNTERS);
             if(isset($_SESSION['recalculateCounters']))
             {
                 while(!empty($_SESSION['recalculateCounters']['forums']))
@@ -171,6 +173,7 @@ class AdminConfig extends PublicModule
 
             case 'clearCache':
             NavBar::getInstance()->addElement(Language::getInstance()->getString('clear_cache'), INDEXFILE . '?faction=ad_settings&amp;mode=clearCache' . SID_AMPER);
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_CONFIG_CLEAR_CACHE);
             $deleted = Template::getInstance()->clearCache();
             foreach(Functions::glob('cache/*.[!svn]*') as $curFile)
                 if(unlink($curFile))
@@ -182,6 +185,7 @@ class AdminConfig extends PublicModule
 //AdminConfigResetConfirm
             case 'readsetfile':
             NavBar::getInstance()->addElement(Language::getInstance()->getString('reset_settings'), INDEXFILE . '?faction=ad_settings&amp;mode=readsetfile' . SID_AMPER);
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_CONFIG_RESET_SETTINGS);
             if(Functions::getValueFromGlobals('confirm') == '1')
             {
                 if(Functions::file_exists('vars/settings.var'))
@@ -195,6 +199,7 @@ class AdminConfig extends PublicModule
             case 'editsettings':
             default:
             NavBar::getInstance()->addElement(Language::getInstance()->getString('edit_settings'), INDEXFILE . '?faction=ad_settings&amp;mode=editsettings' . SID_AMPER);
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_CONFIG_EDIT_SETTINGS);
             if(Functions::getValueFromGlobals('save') == '1')
             {
                 $newSettings = Functions::getValueFromGlobals('settings');

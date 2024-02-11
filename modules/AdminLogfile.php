@@ -3,7 +3,7 @@
  * Manages various logfile tasks.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2023 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2024 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -54,6 +54,7 @@ class AdminLogfile extends PublicModule
             NavBar::getInstance()->addElement(Language::getInstance()->getString('view_logfile'), INDEXFILE . '?faction=adminLogfile&amp;mode=view&amp;log=' . basename($this->log, '.log') . SID_AMPER);
             if(!Functions::file_exists($this->log))
                 Template::getInstance()->printMessage('logfile_not_found');
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_LOGFILE_VIEW_LOG);
             Template::getInstance()->assign(['logfile' => array_map('htmlspecialchars', Functions::file($this->log)),
                 'date' => Functions::gmstrftime(Language::getInstance()->getString('DAYLOGFORMAT'), gmmktime(0, 0, 0, Functions::substr($logfile = basename($this->log, '.log'), 2, 2), Functions::substr($logfile, 0, 2), Functions::substr($logfile, 4)))]);
             Logger::getInstance()->log('%s viewed logfile ' . $this->log, Logger::LOG_ACP_ACTION);
@@ -62,6 +63,7 @@ class AdminLogfile extends PublicModule
             case 'download':
             if(!Functions::file_exists($this->log))
                 Template::getInstance()->printMessage('logfile_not_found');
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_LOGFILE_DOWNLOAD_LOG);
             header('Content-Description: File Transfer');
             header('Content-Type: application/octet-stream');
             header('Content-Disposition: attachment; filename=' . basename($this->log));
@@ -82,6 +84,7 @@ class AdminLogfile extends PublicModule
                 Template::getInstance()->printMessage('logfile_not_found');
             else
                 $toDelete = [basename($this->log, '.log')];
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_LOGFILE_DELETE_LOG, $toDelete);
             foreach($toDelete as $curLogfile)
                 if($curLogfile != gmdate('dmY'))
                 {
@@ -129,6 +132,7 @@ class AdminLogfile extends PublicModule
             //Sort by date DESC as default
             if(!$orderType)
                 $logfiles = array_reverse($logfiles);
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_LOGFILE_SHOW_LOGS, $logfiles, $orderTypeDate, $orderTypeSize, $orderTypeEntries);
             Template::getInstance()->assign(['logfiles' => $logfiles,
                 'orderTypeDate' => $orderTypeDate,
                 'orderTypeSize' => $orderTypeSize,

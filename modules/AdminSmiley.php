@@ -3,7 +3,7 @@
  * Manages normal and admin smilies plus topic icons (= topic smilies).
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2023 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2024 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -111,6 +111,7 @@ class AdminSmiley extends PublicModule
             {
                 case BBCode::SMILEY_SMILEY:
                 NavBar::getInstance()->addElement(Language::getInstance()->getString('add_new_smiley'), INDEXFILE . '?faction=ad_smilies&amp;mode=new' . SID_AMPER);
+                PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_SMILEY_ADD_SMILEY, $newAddress, $newSynonym);
                 if(Functions::getValueFromGlobals('save') == 'yes')
                 {
                     if(empty($newAddress))
@@ -132,6 +133,7 @@ class AdminSmiley extends PublicModule
 
                 case BBCode::SMILEY_TOPIC:
                 NavBar::getInstance()->addElement(Language::getInstance()->getString('add_new_post_icon'), INDEXFILE . '?faction=ad_smilies&amp;mode=newt' . SID_AMPER);
+                PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_SMILEY_ADD_TOPIC_SMILEY, $newAddress, $newSynonym);
                 if(Functions::getValueFromGlobals('save') == 'yes')
                 {
                     if(empty($newAddress))
@@ -149,6 +151,7 @@ class AdminSmiley extends PublicModule
 
                 case BBCode::SMILEY_ADMIN:
                 NavBar::getInstance()->addElement(Language::getInstance()->getString('add_new_asmiley'), INDEXFILE . '?faction=ad_smilies&amp;mode=newa' . SID_AMPER);
+                PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_SMILEY_ADD_ADMIN_SMILEY, $newAddress, $newSynonym);
                 if(Functions::getValueFromGlobals('save') == 'yes')
                 {
                     if(empty($newAddress))
@@ -187,6 +190,7 @@ class AdminSmiley extends PublicModule
                 NavBar::getInstance()->addElement(Language::getInstance()->getString('edit_smiley'), INDEXFILE . '?faction=ad_smilies&amp;mode=edit&amp;id=' . $this->smileyID . SID_AMPER);
                 if(($key = array_search($this->smileyID, array_map('current', $this->smilies))) === false)
                     Template::getInstance()->printMessage('smiley_not_found');
+                PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_SMILEY_EDIT_SMILEY, $key, $editAddress, $editSynonym);
                 if(Functions::getValueFromGlobals('save') == 'yes')
                 {
                     if(empty($editAddress))
@@ -216,6 +220,7 @@ class AdminSmiley extends PublicModule
                 NavBar::getInstance()->addElement(Language::getInstance()->getString('edit_post_icon'), INDEXFILE . '?faction=ad_smilies&amp;mode=editt&amp;id=' . $this->smileyID . SID_AMPER);
                 if(($key = array_search($this->smileyID, array_map('current', $this->tSmilies))) === false)
                     Template::getInstance()->printMessage('smiley_not_found');
+                PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_SMILEY_EDIT_TOPIC_SMILEY, $key, $editAddress, $editSynonym);
                 if(Functions::getValueFromGlobals('save') == 'yes')
                 {
                     if(empty($editAddress))
@@ -237,6 +242,7 @@ class AdminSmiley extends PublicModule
                 NavBar::getInstance()->addElement(Language::getInstance()->getString('edit_asmiley'), INDEXFILE . '?faction=ad_smilies&amp;mode=edita&amp;id=' . $this->smileyID . SID_AMPER);
                 if(($key = array_search($this->smileyID, array_map('current', $this->aSmilies))) === false)
                     Template::getInstance()->printMessage('smiley_not_found');
+                PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_SMILEY_EDIT_ADMIN_SMILEY, $key, $editAddress, $editSynonym);
                 if(Functions::getValueFromGlobals('save') == 'yes')
                 {
                     if(empty($editAddress))
@@ -277,6 +283,7 @@ class AdminSmiley extends PublicModule
                 NavBar::getInstance()->addElement(Language::getInstance()->getString('delete_smiley'), INDEXFILE . '?faction=ad_smilies&amp;mode=kill&amp;id=' . $this->smileyID . SID_AMPER);
                 if(($key = array_search($this->smileyID, array_map('current', $this->smilies))) === false)
                     Template::getInstance()->printMessage('smiley_not_found');
+                PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_SMILEY_DELETE_SMILEY, $key);
                 unset($this->smilies[$key]);
                 Functions::file_put_contents('vars/smilies.var', empty($this->smilies) ? '' : implode("\n", array_map(['Functions', 'implodeByTab'], $this->smilies)) . "\n");
                 if(file_exists('cache/BBCode.cache.php'))
@@ -290,6 +297,7 @@ class AdminSmiley extends PublicModule
                 NavBar::getInstance()->addElement(Language::getInstance()->getString('delete_post_icon'), INDEXFILE . '?faction=ad_smilies&amp;mode=killt&amp;id=' . $this->smileyID . SID_AMPER);
                 if(($key = array_search($this->smileyID, array_map('current', $this->tSmilies))) === false)
                     Template::getInstance()->printMessage('smiley_not_found');
+                PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_SMILEY_DELETE_TOPIC_SMILEY, $key);
                 unset($this->tSmilies[$key]);
                 Functions::file_put_contents('vars/tsmilies.var', empty($this->tSmilies) ? '' : implode("\n", array_map(['Functions', 'implodeByTab'], $this->tSmilies)) . "\n");
                 Logger::getInstance()->log('%s deleted post icon (ID: ' . $this->smileyID . ')', Logger::LOG_ACP_ACTION);
@@ -301,6 +309,7 @@ class AdminSmiley extends PublicModule
                 NavBar::getInstance()->addElement(Language::getInstance()->getString('delete_asmiley'), INDEXFILE . '?faction=ad_smilies&amp;mode=killa&amp;id=' . $this->smileyID . SID_AMPER);
                 if(($key = array_search($this->smileyID, array_map('current', $this->aSmilies))) === false)
                     Template::getInstance()->printMessage('smiley_not_found');
+                PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_SMILEY_DELETE_ADMIN_SMILEY, $key);
                 unset($this->aSmilies[$key]);
                 Functions::file_put_contents('vars/adminsmilies.var', empty($this->aSmilies) ? '' : implode("\n", array_map(['Functions', 'implodeByTab'], $this->aSmilies)) . "\n");
                 if(file_exists('cache/BBCode.cache.php'))
@@ -322,6 +331,7 @@ class AdminSmiley extends PublicModule
                     Template::getInstance()->printMessage('smiley_not_found');
                 if($key != 0)
                 {
+                    PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_SMILEY_MOVE_SMILEY_UP, $key);
                     list($this->smilies[$key], $this->smilies[$key-1]) = [$this->smilies[$key-1], $this->smilies[$key]];
                     Functions::file_put_contents('vars/smilies.var', implode("\n", array_map(['Functions', 'implodeByTab'], $this->smilies)) . "\n");
                     if(file_exists('cache/BBCode.cache.php'))
@@ -334,6 +344,7 @@ class AdminSmiley extends PublicModule
                     Template::getInstance()->printMessage('smiley_not_found');
                 if($key != 0)
                 {
+                    PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_SMILEY_MOVE_TOPIC_SMILEY_UP, $key);
                     list($this->tSmilies[$key], $this->tSmilies[$key-1]) = [$this->tSmilies[$key-1], $this->tSmilies[$key]];
                     Functions::file_put_contents('vars/tsmilies.var', implode("\n", array_map(['Functions', 'implodeByTab'], $this->tSmilies)) . "\n");
                 }
@@ -344,6 +355,7 @@ class AdminSmiley extends PublicModule
                     Template::getInstance()->printMessage('smiley_not_found');
                 if($key != 0)
                 {
+                    PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_SMILEY_MOVE_ADMIN_SMILEY_UP, $key);
                     list($this->aSmilies[$key], $this->aSmilies[$key-1]) = [$this->aSmilies[$key-1], $this->aSmilies[$key]];
                     Functions::file_put_contents('vars/adminsmilies.var', implode("\n", array_map(['Functions', 'implodeByTab'], $this->aSmilies)) . "\n");
                     if(file_exists('cache/BBCode.cache.php'))
@@ -365,6 +377,7 @@ class AdminSmiley extends PublicModule
                     Template::getInstance()->printMessage('smiley_not_found');
                 if($key != count($this->smilies)-1)
                 {
+                    PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_SMILEY_MOVE_SMILEY_DOWN, $key);
                     list($this->smilies[$key], $this->smilies[$key+1]) = [$this->smilies[$key+1], $this->smilies[$key]];
                     Functions::file_put_contents('vars/smilies.var', implode("\n", array_map(['Functions', 'implodeByTab'], $this->smilies)) . "\n");
                     if(file_exists('cache/BBCode.cache.php'))
@@ -377,6 +390,7 @@ class AdminSmiley extends PublicModule
                     Template::getInstance()->printMessage('smiley_not_found');
                 if($key != count($this->tSmilies)-1)
                 {
+                    PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_SMILEY_MOVE_TOPIC_SMILEY_DOWN, $key);
                     list($this->tSmilies[$key], $this->tSmilies[$key+1]) = [$this->tSmilies[$key+1], $this->tSmilies[$key]];
                     Functions::file_put_contents('vars/tsmilies.var', implode("\n", array_map(['Functions', 'implodeByTab'], $this->tSmilies)) . "\n");
                 }
@@ -387,6 +401,7 @@ class AdminSmiley extends PublicModule
                     Template::getInstance()->printMessage('smiley_not_found');
                 if($key != count($this->aSmilies)-1)
                 {
+                    PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_SMILEY_MOVE_ADMIN_SMILEY_DOWN, $key);
                     list($this->aSmilies[$key], $this->aSmilies[$key+1]) = [$this->aSmilies[$key+1], $this->aSmilies[$key]];
                     Functions::file_put_contents('vars/adminsmilies.var', implode("\n", array_map(['Functions', 'implodeByTab'], $this->aSmilies)) . "\n");
                     if(file_exists('cache/BBCode.cache.php'))
@@ -400,6 +415,7 @@ class AdminSmiley extends PublicModule
 
 //AdminSmiley
             default:
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_SMILEY_SHOW_SMILIES);
             Template::getInstance()->assign(['smilies' => $this->smilies,
                 'tSmilies' => $this->tSmilies,
                 'aSmilies' => $this->aSmilies]);

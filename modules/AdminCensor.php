@@ -3,7 +3,7 @@
  * Manages censorships.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2023 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2024 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -62,6 +62,7 @@ class AdminCensor extends PublicModule
             NavBar::getInstance()->addElement(Language::getInstance()->getString('add_new_censorship'), INDEXFILE . '?faction=ad_censor&amp;mode=new' . SID_AMPER);
             $newWord = htmlspecialchars(trim(Functions::getValueFromGlobals('word')));
             $newReplacement = htmlspecialchars(trim(Functions::getValueFromGlobals('replacement'))) ?: '******';
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_CENSOR_NEW_CENSORSHIP, $newWord, $newReplacement);
             if(Functions::getValueFromGlobals('create') == '1')
             {
                 if(empty($newWord))
@@ -89,6 +90,7 @@ class AdminCensor extends PublicModule
                 Template::getInstance()->printMessage('censorship_not_found');
             $editWord = htmlspecialchars(trim(Functions::getValueFromGlobals('word')));
             $editReplacement = htmlspecialchars(trim(Functions::getValueFromGlobals('replacement'))) ?: '******';
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_CENSOR_EDIT_CENSORSHIP, $editWord, $editReplacement);
             if(Functions::getValueFromGlobals('update') == '1')
             {
                 if(empty($editWord))
@@ -120,6 +122,7 @@ class AdminCensor extends PublicModule
             NavBar::getInstance()->addElement(Language::getInstance()->getString('delete_censorship'), INDEXFILE . '?faction=ad_censor&amp;mode=kill&amp;id=' . $this->censorshipID . SID_AMPER);
             if(($key = array_search($this->censorshipID, array_map('current', $this->censorships))) === false)
                 Template::getInstance()->printMessage('censorship_not_found');
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_CENSOR_DELETE_CENSORSHIP, $key);
             //Delete it
             unset($this->censorships[$key]);
             Functions::file_put_contents('vars/cwords.var', empty($this->censorships) ? '' : implode("\n", array_map(['Functions', 'implodeByTab'], $this->censorships)) . "\n");
@@ -131,6 +134,7 @@ class AdminCensor extends PublicModule
 
 //AdminCensor
             default:
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_CENSOR_SHOW_CENSORSHIPS);
             Template::getInstance()->assign('censorships', $this->censorships);
             break;
         }
