@@ -381,7 +381,7 @@ class Profile extends PublicModule
                             $achievementsClosed[] = ['icon' => $curAchievement->getElementsByTagName('iconClosed')->item(0)->nodeValue,
                                 'name' => htmlspecialchars($curAchievement->getElementsByTagName('name')->item(0)->nodeValue),
                                 'description' => htmlspecialchars($curAchievement->getElementsByTagName('description')->item(0)->nodeValue),
-                                'unlocked' => $curAchievement->getElementsByTagName('unlockTimestamp')->length == 1 ? Functions::utf8Encode(strftime(Language::getInstance()->getString('DATEFORMAT'), $curAchievement->getElementsByTagName('unlockTimestamp')->item(0)->nodeValue)) : ''];
+                                'unlocked' => $curAchievement->getElementsByTagName('unlockTimestamp')->length == 1 ? Functions::utf8Encode(Functions::gmstrftime(Language::getInstance()->getString('DATEFORMAT'), $curAchievement->getElementsByTagName('unlockTimestamp')->item(0)->nodeValue)) : ''];
                         else
                             $achievementsOpen[] = ['icon' => $curAchievement->getElementsByTagName('iconOpen')->item(0)->nodeValue,
                                 'name' => htmlspecialchars($curAchievement->getElementsByTagName('name')->item(0)->nodeValue),
@@ -442,7 +442,7 @@ class Profile extends PublicModule
                                 //Description tag is not always available (most likely hidden achievement)
                                 'description' => isset($curAchievement['description']) ? htmlspecialchars($curAchievement['description']) : '',
                                 //Existing unlock timestamp marked by no zero
-                                'unlocked' => $curAchievement['unlocktime'] > 0 ? Functions::utf8Encode(strftime(Language::getInstance()->getString('DATEFORMAT'), $curAchievement['unlocktime'])) : ''];
+                                'unlocked' => $curAchievement['unlocktime'] > 0 ? Functions::utf8Encode(Functions::gmstrftime(Language::getInstance()->getString('DATEFORMAT'), $curAchievement['unlocktime'])) : ''];
                         else
                             $achievementsOpen[] = ['icon' => $curAchievement['icongray'],
                                 'name' => htmlspecialchars($curAchievement['displayName']),

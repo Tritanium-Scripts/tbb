@@ -35,7 +35,7 @@ class ExtLastPosts
 	private static string $x_by_x_on_x = '%s von %s am %s'; //Do not change the number of %s
 	public static string $deleted = 'Gelöscht';
 	public static string $deleted_moved = 'Gelöscht / Verschoben';
-	private static string $DATE_FORMAT = '%d. %B %Y %H:%M'; //Values explained @ http://www.php.net/date
+	private static string $DATE_FORMAT = 'dd. MMMM yyyy HH:mm'; //Values explained @ https://unicode-org.github.io/icu/userguide/format_parse/datetime/#date-field-symbol-table
 
 
 /* Do not change anything beyond this line */

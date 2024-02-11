@@ -77,7 +77,7 @@ class ExtFunctions
     {
         $timestamp = self::getTimestamp($date);
         //Encode as UTF-8, because month names lacks proper encoding
-        return self::utf8Encode(gmstrftime($format, $timestamp));
+        return self::utf8Encode(self::gmstrftime($format, $timestamp));
     }
 
     /**
@@ -154,6 +154,18 @@ class ExtFunctions
     {
         self::$cache['tSmileyURLs'] ??= array_map(['ExtFunctions', 'explodeByTab'], self::file('vars/tsmilies.var'));
         return self::$cache['tSmileyURLs'];
+    }
+
+    /**
+     * Replacement for PHP's deprecated {@link gmstrftime()}.
+     *
+     * @param string $format Format pattern
+     * @param int $timestamp Timestamp to format
+     */
+    public static function gmstrftime(string $format, ?int $timestamp=null)
+    {
+        self::$cache['intl'][$format] ??= new IntlDateFormatter(basename(setlocale(LC_CTYPE, '0')), IntlDateFormatter::FULL, IntlDateFormatter::FULL, date_default_timezone_get(), IntlDateFormatter::GREGORIAN, $format);
+        return self::$cache['intl'][$format]->format($timestamp);
     }
 
     /**

@@ -55,7 +55,7 @@ class AdminLogfile extends PublicModule
             if(!Functions::file_exists($this->log))
                 Template::getInstance()->printMessage('logfile_not_found');
             Template::getInstance()->assign(['logfile' => array_map('htmlspecialchars', Functions::file($this->log)),
-                'date' => strftime(Language::getInstance()->getString('DAYLOGFORMAT'), gmmktime(0, 0, 0, Functions::substr($logfile = basename($this->log, '.log'), 2, 2), Functions::substr($logfile, 0, 2), Functions::substr($logfile, 4)))]);
+                'date' => Functions::gmstrftime(Language::getInstance()->getString('DAYLOGFORMAT'), gmmktime(0, 0, 0, Functions::substr($logfile = basename($this->log, '.log'), 2, 2), Functions::substr($logfile, 0, 2), Functions::substr($logfile, 4)))]);
             Logger::getInstance()->log('%s viewed logfile ' . $this->log, Logger::LOG_ACP_ACTION);
             break;
 
@@ -98,11 +98,11 @@ class AdminLogfile extends PublicModule
                 $logfiles[] = ['name' => $curFilename,
                     'isDeletable' => $curFilename != gmdate('dmY'),
                     'timestamp' => $curTimestamp,
-                    'weekday' => Functions::utf8Encode(strftime('%A', $curTimestamp)),
-                    'date' => strftime(Language::getInstance()->getString('DAYLOGFORMAT'), $curTimestamp),
+                    'weekday' => Functions::utf8Encode(Functions::gmstrftime('%A', $curTimestamp)),
+                    'date' => Functions::gmstrftime(Language::getInstance()->getString('DAYLOGFORMAT'), $curTimestamp),
                     'size' => filesize($curLogfile)/1024,
                     'entries' => count(Functions::file($curLogfile, null, null, false)),
-                    'lastChange' => Functions::utf8Encode(strftime(Language::getInstance()->getString('DATEFORMAT'), filemtime($curLogfile)))];
+                    'lastChange' => Functions::utf8Encode(Functions::gmstrftime(Language::getInstance()->getString('DATEFORMAT'), filemtime($curLogfile)))];
             }
             //Apply order type, one of them will be changed depending on current sort method
             $orderTypeDate = $orderTypeSize = $orderTypeEntries = false;

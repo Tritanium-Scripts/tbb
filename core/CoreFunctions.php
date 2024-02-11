@@ -795,6 +795,14 @@ abstract class CoreFunctions
     {
         if(function_exists('gmstrftime'))
             return @gmstrftime($format, $timestamp);
+        //TODO this solution is not perfect, but should work okay enough on PHP 9.
+        //Ultimately convert all formats to ICU pattern instead of doing this on-the-fly, but it is no possible as long as Smarty's |date_format still relies on strftime()!
+        $format = Functions::str_replace('\'', '&apos;', $format);
+        $format = trim('\'' . Functions::str_replace(
+            ['%%', '%A', '%H', '%M', '%d', '%B', '%Y', '%m', '%I', '%p'],
+            ['%', '\'cccc\'', '\'HH\'', '\'mm\'', '\'dd\'', '\'MMMM\'', '\'yyyy\'', '\'MM\'', '\'hh\'', '\'aa\''],
+            $format) . '\'', '\'\'');
+        $format = Functions::str_replace('&apos;', '\'\'', $format);
         self::$cache['intl'][$format] ??= new IntlDateFormatter(Language::getInstance()->getLangCode(), IntlDateFormatter::FULL, IntlDateFormatter::FULL, date_default_timezone_get(), IntlDateFormatter::GREGORIAN, $format);
         return self::$cache['intl'][$format]->format($timestamp);
     }
