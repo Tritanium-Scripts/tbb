@@ -110,6 +110,7 @@ class Profile extends PublicModule
             case 'refreshSteamGames':
             if(Config::getInstance()->getCfgVal('achievements') != 1)
                 $this->errors[] = Language::getInstance()->getString('text_function_deactivated', 'Messages');
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_PROFILE_REFRESH_STEAM_GAMES);
             //Use cached game information from last half hour
             $cacheFile = 'cache/' . $this->userData[1] . '-SteamGames.cache.php';
             if(file_exists($cacheFile) && (filemtime($cacheFile) + 1800 > time()))
@@ -153,6 +154,7 @@ class Profile extends PublicModule
                         Template::getInstance()->printMessage('function_deactivated');
                         break;
                     }
+                    PlugIns::getInstance()->callHook(PlugIns::HOOK_PROFILE_DELETE_PROFILE);
                     //Confirmed?
                     if(Functions::getValueFromGlobals('confirm') == '1')
                     {
@@ -184,6 +186,7 @@ class Profile extends PublicModule
                 //Normal edit
                 else
                 {
+                    PlugIns::getInstance()->callHook(PlugIns::HOOK_PROFILE_EDIT_PROFILE);
                     //Check and update settings
                     if(($this->userData[3] = Functions::getValueFromGlobals('new_mail')) == '')
                         $this->errors[] = Language::getInstance()->getString('please_enter_your_mail');
@@ -279,6 +282,7 @@ class Profile extends PublicModule
             if(Config::getInstance()->getCfgVal('select_tpls') == 1 || Config::getInstance()->getCfgVal('select_styles') == 1)
                 Template::getInstance()->assign('templates', Template::getInstance()->getAvailableTpls());
             Template::getInstance()->assign('maxYearOfBirth', Functions::getMaxYearOfBirth());
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_PROFILE_MY_PROFILE);
             break;
 
 //SendMail
@@ -297,6 +301,7 @@ class Profile extends PublicModule
             $senderName = Functions::getValueFromGlobals('sender_name');
             $subject = Functions::getValueFromGlobals('subject');
             $message = Functions::getValueFromGlobals('message', false);
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_PROFILE_SEND_MAIL, $senderMail, $senderName, $subject, $message);
             if(Functions::getValueFromGlobals('send') == 'yes')
             {
                 //Check input
@@ -339,6 +344,7 @@ class Profile extends PublicModule
                     : '') . 'URL:' . $this->userData[9] . "\r\nX-GENERATOR:Tritanium Bulletin Board " . VERSION_PUBLIC . "\r\n" . (!empty($this->userData[13])
                         ? 'X-ICQ:' . $this->userData[13] . "\r\n"
                         : '') . 'REV:' . date(DATE_ISO8601, filemtime(DATAPATH . 'members/' . $this->userData[1] . '.xbb')) . "\r\n" . 'END:VCARD';
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_PROFILE_DOWNLOAD_VCARD, $vCard);
             header('Content-Disposition: attachment; filename=' . htmlspecialchars_decode($this->userData[0]) . '.vcf');
             header('Content-Length: ' . Functions::strlen($vCard));
             header('Content-Type: text/vcard; charset=UTF-8; name=' . htmlspecialchars_decode($this->userData[0]) . '.vcf');
@@ -397,6 +403,7 @@ class Profile extends PublicModule
                         'percentClosed' => $achievements->length != '0' ? ($done / $achievements->length)*100 : 0,
                         'achievementsClosed' => $achievementsClosed,
                         'achievementsOpen' => $achievementsOpen];
+                    PlugIns::getInstance()->callHook(PlugIns::HOOK_PROFILE_VIEW_ACHIEVEMENTS, $game, $achievements);
                     Template::getInstance()->assign($achievements);
                     //Cache entire template assign code
                     Functions::file_put_contents($cacheFile, '<?php Template::getInstance()->assign(unserialize(\'' . Functions::str_replace("'", "\'", serialize($achievements)) . '\')); ?>', LOCK_EX, false, false);
@@ -460,6 +467,7 @@ class Profile extends PublicModule
                         'percentClosed' => count($achievements) != 0 ? ($done / count($achievements))*100 : 0,
                         'achievementsClosed' => $achievementsClosed,
                         'achievementsOpen' => $achievementsOpen];
+                    PlugIns::getInstance()->callHook(PlugIns::HOOK_PROFILE_VIEW_ACHIEVEMENTS, $game, $achievements);
                     Template::getInstance()->assign($achievements);
                     //Cache entire template assign code
                     Functions::file_put_contents($cacheFile, '<?php Template::getInstance()->assign(unserialize(\'' . Functions::str_replace("'", "\'", serialize($achievements)) . '\')); ?>', LOCK_EX, false, false);
@@ -521,6 +529,7 @@ class Profile extends PublicModule
             }
             else
                 $this->userData[18] = $this->userData[19] = '';
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_PROFILE_VIEW_PROFILE);
             break;
         }
         //Append profile ID for WIO location

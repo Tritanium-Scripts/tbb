@@ -3,7 +3,7 @@
  * Searches for user defined terms in posts and titles with additional options and displays results.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2023 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2024 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -155,6 +155,7 @@ class Search extends PublicModule
                         }
                     }
                 }
+                PlugIns::getInstance()->callHook(PlugIns::HOOK_SEARCH_SHOW_RESULTS, $results, $idTable, $topicCounter);
                 Template::getInstance()->printPage('SearchResults', ['results' => $results,
                     'idTable' => $idTable,
                     'forumCounter' => count($_SESSION[$this->searchID]['sHits']),
@@ -166,6 +167,7 @@ class Search extends PublicModule
             $switch = intval($_SESSION[$this->searchID]['sScp'] . $_SESSION[$this->searchID]['sOpt']);
             $andCounter = 0;
             $andSize = count($_SESSION[$this->searchID]['sFor']);
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_SEARCH_SEARCHING, $switch, $andCounter, $andSize);
             //Search forums
             while(!empty($_SESSION[$this->searchID]['sIn']))
             {
@@ -270,6 +272,7 @@ class Search extends PublicModule
                     $forums[] = ['forumID' => $curForum[0],
                         'forumName' => $curForum[1],
                         'catID' => $curForum[5]];
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_SEARCH_NEW_SEARCH, $forums);
             if(Functions::getValueFromGlobals('search') == 'yes')
             {
                 if(empty($this->searchFor))

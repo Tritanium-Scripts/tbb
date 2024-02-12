@@ -15,7 +15,7 @@
  * </ol>
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2023 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2024 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -106,7 +106,8 @@ class PrivateMessage extends PublicModule
 //PrivateMessageViewPM
             case 'view':
             $found = false;
-            $pms = ($pms = @Functions::file('members/' . $this->pmBoxID . $this->boxType)) == false ? [] : array_reverse($pms);
+            $pms = @Functions::file('members/' . $this->pmBoxID . $this->boxType);
+            $pms = $pms == false ? [] : array_reverse($pms);
             foreach($pms as &$curPM)
             {
                 $curPM = Functions::explodeByTab($curPM);
@@ -128,6 +129,7 @@ class PrivateMessage extends PublicModule
                     $curPM[2] = BBCode::getInstance()->parse($curPM[2], false, $curPM[5] == '1', $curPM[6] == '1');
                     $curPM[3] = Functions::getProfileLink($curPM[3], true);
                     $curPM[4] = Functions::formatDate($curPM[4]);
+                    PlugIns::getInstance()->callHook(PlugIns::HOOK_PRIVATE_MESSAGE_VIEW_PM, $curPM);
                     Template::getInstance()->assign('pm', $curPM);
                     $found = true;
                     break;
@@ -180,6 +182,7 @@ class PrivateMessage extends PublicModule
             $errors = [];
             if(!isset($recipientID))
                 $recipientID = Functions::getValueFromGlobals('target_id');
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_PRIVATE_MESSAGE_NEW_PM, $newPM);
             //Send PM?
             if(Functions::getValueFromGlobals('send') == 'yes')
             {
@@ -273,7 +276,11 @@ class PrivateMessage extends PublicModule
 //PrivateMessageIndex (via redir)
             case 'deletemany':
             if(!isset($toDelete))
-                $toDelete = array_keys(($toDelete = Functions::getValueFromGlobals('deletepm')) != '' ? $toDelete : []);
+            {
+                $toDelete = Functions::getValueFromGlobals('deletepm');
+                $toDelete = array_keys($toDelete != '' ? $toDelete : []);
+            }
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_PRIVATE_MESSAGE_DELETE_PMS, $toDelete);
             if(!empty($toDelete))
             {
                 $size = count($pms = $this->getPMs($this->boxType));
@@ -291,13 +298,15 @@ class PrivateMessage extends PublicModule
             case 'pm':
             case 'overview':
             default:
-            $pms = ($pms = @Functions::file('members/' . $this->pmBoxID . $this->boxType)) == false ? [] : array_reverse($pms);
+            $pms = @Functions::file('members/' . $this->pmBoxID . $this->boxType);
+            $pms = $pms == false ? [] : array_reverse($pms);
             foreach($pms as &$curPM)
             {
                 $curPM = Functions::explodeByTab($curPM);
                 $curPM[3] = Functions::getProfileLink($curPM[3], true);
                 $curPM[4] = Functions::formatDate($curPM[4]);
             }
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_PRIVATE_MESSAGE_VIEW_PMS, $pms);
             Template::getInstance()->assign('pms', $pms);
             break;
         }
@@ -315,7 +324,8 @@ class PrivateMessage extends PublicModule
      */
     private function getPMs(string $boxType): array
     {
-        return ($pms = @Functions::file('members/' . $this->pmBoxID . $boxType)) == false ? [] : array_map(['Functions', 'explodeByTab'], $pms);
+        $pms = @Functions::file('members/' . $this->pmBoxID . $boxType);
+        return $pms == false ? [] : array_map(['Functions', 'explodeByTab'], $pms);
     }
 
     /**

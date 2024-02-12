@@ -3,7 +3,7 @@
  * Manages registrations of new user.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2023 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2024 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -94,6 +94,7 @@ class Register extends PublicModule
                 Functions::getTimestampFromGlobals('birthday'),
                 trim(Functions::getValueFromGlobals('newuser_icq')),
                 htmlspecialchars(trim(Functions::nl2br(Functions::getValueFromGlobals('newuser_signatur', false))))]);
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_REGISTER_NEW_MEMBER, $newUser);
             //A lot of checking...
             if(empty($newUser['nick']))
                 $this->errors[] = Language::getInstance()->getString('please_enter_an_user_name');
@@ -194,7 +195,9 @@ class Register extends PublicModule
 //RegisterVerification
             case 'verifyAccount':
             NavBar::getInstance()->addElement(Language::getInstance()->getString('activate_account'), INDEXFILE . '?faction=register&amp;mode=verifyAccount' . SID_AMPER);
-            if(($code = Functions::getValueFromGlobals('code')) != '')
+            $code = Functions::getValueFromGlobals('code');
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_REGISTER_VERIFICATION, $code);
+            if($code != '')
             {
                 foreach(Functions::glob(DATAPATH . 'members/temp*.xbb') as $curPreMember)
                     if($code == md5(basename($curPreMember, '.xbb')))
@@ -240,6 +243,7 @@ class Register extends PublicModule
             case 'register':
             default:
             $newUser = array_combine(self::$newUserKeys, ['', '', '', '', null, '', '']);
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_REGISTER_REGISTRATION, $newUser);
             break;
         }
         Template::getInstance()->printPage(Functions::handleMode($this->mode, self::$modeTable, __CLASS__), ['newUser' => $newUser,

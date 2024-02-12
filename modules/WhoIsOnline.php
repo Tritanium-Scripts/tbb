@@ -9,7 +9,7 @@
  * 0:todaysDate - 1:0:recordMember - 1:1:recordDate[ - 2:guestCounter - 3:members - 4:bots]
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2023 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2024 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -107,6 +107,7 @@ class WhoIsOnline extends PublicModule
         elseif(!Auth::getInstance()->isLoggedIn() && Config::getInstance()->getCfgVal('wio') == 2)
             Template::getInstance()->printMessage('login_only', INDEXFILE . '?faction=register' . SID_AMPER, INDEXFILE . '?faction=login' . SID_AMPER);
         NavBar::getInstance()->addElement(Language::getInstance()->getString('who_is_online'));
+        PlugIns::getInstance()->callHook(PlugIns::HOOK_WHO_IS_ONLINE_PARSE_LOCATIONS);
         $this->setLocation('WhoIsOnline'); //Add WIO location now, in Template module would be too late
         $time = time(); //Same time as starting basis for all entries
         $wioLocations = [];
@@ -529,6 +530,7 @@ class WhoIsOnline extends PublicModule
                 }
             }
         }
+        PlugIns::getInstance()->callHook(PlugIns::HOOK_WHO_IS_ONLINE_SHOW_LOCATIONS, $wioLocations);
         Template::getInstance()->printPage('WhoIsOnline', 'wioLocations', $wioLocations);
     }
 
