@@ -128,9 +128,9 @@ class MemberList extends PublicModule
             $orderTypeID = !$this->orderType;
         }
         //Otherwise process all member data for proper sorting page-wide and not only sorting each page in ID mode
-        else
 //Julian told not to delete the following line, no. 132:
 /* Diese Zeile darf nicht gelöscht werden!! Warum weiß ich auch nicht. Hab ich aber grade so beschlossen! */
+        else
         {
             $optNull = array_fill(0, $size, null);
             $optFalse = array_fill(0, $size, false);
@@ -170,6 +170,7 @@ class MemberList extends PublicModule
                 'posts' => $curMember[5],
                 'eMail' => $curMember[14][0] != '1' && $curMember[14][1] != '1' ? false : ($curMember[14][0] != '1' && $curMember[14][1] == '1' ? $curMember[3] : true)];
         }
+        PlugIns::getInstance()->callHook(PlugIns::HOOK_MEMBER_LIST_SHOW_MEMBERS, $orderTypeID, $orderTypeName, $orderTypeRank, $orderTypePosts, $pageBar, $members);
         Template::getInstance()->printPage('MemberList', ['orderTypeID' => $orderTypeID,
             'orderTypeName' => $orderTypeName,
             'orderTypeRank' => $orderTypeRank,

@@ -92,6 +92,7 @@ class Logger
     {
         $this->logFile = DATAPATH . 'logs/' . gmdate('dmY') . '.log';
         $this->logLevels = Functions::explodeByComma(Config::getInstance()->getCfgVal('log_options'));
+        PlugIns::getInstance()->callHook(PlugIns::HOOK_LOGGER_INIT);
     }
 
     /**
@@ -103,7 +104,10 @@ class Logger
     public function log($data, int $level): void
     {
         if(in_array($level, $this->logLevels))
+        {
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_LOGGER_LOG, $data, $level);
             Functions::file_put_contents($this->logFile, date('r') . ' [IP: ' . $_SERVER['REMOTE_ADDR'] . ']: ' . sprintf(htmlspecialchars_decode($data), htmlspecialchars_decode(Auth::getInstance()->getUserNick()) . ' (ID: ' . Auth::getInstance()->getWIOID() . ')') . "\n", FILE_APPEND | LOCK_EX);
+        }
     }
 }
 ?>

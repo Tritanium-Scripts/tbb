@@ -14,7 +14,7 @@ if(isset($_GET['dtfl']))
  * The credits. *g*
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2023 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2024 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -34,6 +34,7 @@ class Credits extends PublicModule
         array_shift($credits); //Remove title
         $_SESSION['dtfl'] = true; //*g*
         WhoIsOnline::getInstance()->setLocation('Credits');
+        PlugIns::getInstance()->callHook(PlugIns::HOOK_CREDITS_SHOW_CREDITS, $credits);
         Template::getInstance()->display('Credits', 'credits', $credits);
     }
 }

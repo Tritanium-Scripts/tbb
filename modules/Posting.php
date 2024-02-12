@@ -153,6 +153,7 @@ class Posting extends PublicModule
             NavBar::getInstance()->addElement(Language::getInstance()->getString('subscribe'), INDEXFILE . '?faction=topic&amp;mode=subscribe&amp;forum_id=' . $this->forum[0] . '&amp;topic_id=' . $this->topicID . SID_AMPER);
             if(!Functions::checkUserAccess($this->forum[0], 0))
                 Template::getInstance()->printMessage(Auth::getInstance()->isLoggedIn() ? 'permission_denied' : 'login_only', INDEXFILE . '?faction=register' . SID_AMPER, INDEXFILE . '?faction=login' . SID_AMPER);
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_POSTING_SUBSCRIBE_TOPIC);
             if($this->topic[4] == '0' && Auth::getInstance()->getUserID() == $this->topic[2])
                 $this->topic[4] = '1';
             elseif(!in_array(Auth::getInstance()->getUserID(), $subscribedUserIDs = Functions::explodeByComma($this->topic[8])) && Auth::getInstance()->getUserID() != $this->topic[2])
@@ -172,6 +173,7 @@ class Posting extends PublicModule
             NavBar::getInstance()->addElement(Language::getInstance()->getString('unsubscribe'), INDEXFILE . '?faction=topic&amp;mode=unsubscribe&amp;forum_id=' . $this->forum[0] . '&amp;topic_id=' . $this->topicID . SID_AMPER);
             if(!Functions::checkUserAccess($this->forum[0], 0))
                 Template::getInstance()->printMessage(Auth::getInstance()->isLoggedIn() ? 'permission_denied' : 'login_only', INDEXFILE . '?faction=register' . SID_AMPER, INDEXFILE . '?faction=login' . SID_AMPER);
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_POSTING_UNSUBSCRIBE_TOPIC);
             if($this->topic[4] == '1' && Auth::getInstance()->getUserID() == $this->topic[2])
                 $this->topic[4] = '0';
             elseif(in_array(Auth::getInstance()->getUserID(), $subscribedUserIDs = Functions::explodeByComma($this->topic[8])) && Auth::getInstance()->getUserID() != $this->topic[2])
@@ -196,6 +198,7 @@ class Posting extends PublicModule
                 Template::getInstance()->printMessage(Auth::getInstance()->isLoggedIn() ? 'permission_denied' : 'login_only', INDEXFILE . '?faction=register' . SID_AMPER, INDEXFILE . '?faction=login' . SID_AMPER);
             elseif($this->topic[0] != '1' && $this->topic[0] != 'open' && !Auth::getInstance()->isAdmin() && !($isMod = Functions::checkModOfForum($this->forum)))
                 Template::getInstance()->printMessage('topic_is_closed');
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_POSTING_NEW_REPLY);
             //Auto URL check
             if($this->newReply['isAddURLs'] && $this->newReply['isBBCode'])
                 $this->newReply['post'] = Functions::addURL($this->newReply['post']);
@@ -297,6 +300,7 @@ class Posting extends PublicModule
             {
 //EditPostConfirmDelete
                 NavBar::getInstance()->addElement(Language::getInstance()->getString('delete_post'), INDEXFILE . '?faction=edit&amp;mode=kill&amp;forum_id=' . $this->forum[0] . '&amp;topic_id=' . $this->topicID . '&amp;post_id=' . $this->postID . SID_AMPER);
+                PlugIns::getInstance()->callHook(PlugIns::HOOK_POSTING_DELETE_POST);
                 //Confirmed?
                 if(Functions::getValueFromGlobals('kill') == 'yes')
                 {
@@ -354,6 +358,7 @@ class Posting extends PublicModule
             else
             {
                 NavBar::getInstance()->addElement(Language::getInstance()->getString('edit_post'), INDEXFILE . '?faction=edit&amp;forum_id=' . $this->forum[0] . '&amp;topic_id=' . $this->topicID . '&amp;post_id=' . $this->postID . SID_AMPER);
+                PlugIns::getInstance()->callHook(PlugIns::HOOK_POSTING_EDIT_POST);
                 //Update post
                 if(Functions::getValueFromGlobals('update') == 'true')
                 {
@@ -423,6 +428,7 @@ class Posting extends PublicModule
 //EditTopicDelete
                 case 'killTopic':
                 NavBar::getInstance()->addElement(Language::getInstance()->getString('delete_topic'), INDEXFILE . '?faction=topic&amp;mode=kill&amp;forum_id=' . $this->forum[0] . '&amp;topic_id=' . $this->topicID . SID_AMPER);
+                PlugIns::getInstance()->callHook(PlugIns::HOOK_POSTING_DELETE_TOPIC);
                 //Confirmed?
                 if(Functions::getValueFromGlobals('kill') == 'yes')
                 {
@@ -463,6 +469,7 @@ class Posting extends PublicModule
                 NavBar::getInstance()->addElement(Language::getInstance()->getString('close_topic'), INDEXFILE . '?faction=topic&amp;mode=close&amp;forum_id=' . $this->forum[0] . '&amp;topic_id=' . $this->topicID . SID_AMPER);
                 if(Functions::getValueFromGlobals('close') == 'yes')
                 {
+                    PlugIns::getInstance()->callHook(PlugIns::HOOK_POSTING_CLOSE_TOPIC);
                     $this->topic[0] = 2;
                     Functions::file_put_contents('foren/' . $this->forum[0] . '-' . $this->topicID . '.xbb', Functions::implodeByTab($this->topic) . "\n" . implode("\n", array_map(['Functions', 'implodeByTab'], $this->topicFile)));
                     Logger::getInstance()->log('%s closed topic (' . $this->forum[0] . ',' . $this->topicID . ')', Logger::LOG_EDIT_POSTING);
@@ -476,6 +483,7 @@ class Posting extends PublicModule
                 NavBar::getInstance()->addElement(Language::getInstance()->getString('open_topic'), INDEXFILE . '?faction=topic&amp;mode=open&amp;forum_id=' . $this->forum[0] . '&amp;topic_id=' . $this->topicID . SID_AMPER);
                 if(Functions::getValueFromGlobals('open') == 'yes')
                 {
+                    PlugIns::getInstance()->callHook(PlugIns::HOOK_POSTING_OPEN_TOPIC);
                     $this->topic[0] = 1;
                     Functions::file_put_contents('foren/' . $this->forum[0] . '-' . $this->topicID . '.xbb', Functions::implodeByTab($this->topic) . "\n" . implode("\n", array_map(['Functions', 'implodeByTab'], $this->topicFile)));
                     Logger::getInstance()->log('%s opened topic (' . $this->forum[0] . ',' . $this->topicID . ')', Logger::LOG_EDIT_POSTING);
@@ -493,6 +501,7 @@ class Posting extends PublicModule
                     $targetForumID = intval(Functions::getValueFromGlobals('target_forum'));
                     $isLinked = Functions::getValueFromGlobals('isLinked') == 'true';
                     $isNewest = Functions::getValueFromGlobals('isNewest') == 'true';
+                    PlugIns::getInstance()->callHook(PlugIns::HOOK_POSTING_MOVE_TOPIC, $targetForumID, $isLinked, $isNewest);
                     if($targetForumID == 0)
                         $this->errors[] = Language::getInstance()->getString('please_select_a_forum');
                     elseif(!Functions::file_exists('foren/' . $targetForumID . '-threads.xbb'))
@@ -585,6 +594,7 @@ class Posting extends PublicModule
                 $stickyFile = @Functions::file('foren/' . $this->forum[0] . '-sticker.xbb', FILE_SKIP_EMPTY_LINES) ?: [];
                 if(!in_array($this->topicID, $stickyFile))
                 {
+                    PlugIns::getInstance()->callHook(PlugIns::HOOK_POSTING_PIN_TOPIC);
                     $stickyFile[] = $this->topicID;
                     Functions::file_put_contents('foren/' . $this->forum[0] . '-sticker.xbb', implode("\n", $stickyFile));
                     Logger::getInstance()->log('%s pinned topic (' . $this->forum[0] . ',' . $this->topicID . ')', Logger::LOG_EDIT_POSTING);
@@ -600,6 +610,7 @@ class Posting extends PublicModule
                 $stickyFile = @Functions::file('foren/' . $this->forum[0] . '-sticker.xbb', FILE_SKIP_EMPTY_LINES) ?: [];
                 if(($key = array_search($this->topicID, $stickyFile)) !== false)
                 {
+                    PlugIns::getInstance()->callHook(PlugIns::HOOK_POSTING_UNPIN_TOPIC);
                     unset($stickyFile[$key]);
                     Functions::file_put_contents('foren/' . $this->forum[0] . '-sticker.xbb', implode("\n", $stickyFile));
                     Logger::getInstance()->log('%s unpinned topic (' . $this->forum[0] . ',' . $this->topicID . ')', Logger::LOG_EDIT_POSTING);
@@ -637,6 +648,7 @@ class Posting extends PublicModule
                     //Open poll
                     if(Functions::getValueFromGlobals('open') != '' && $poll[0] > '2')
                     {
+                        PlugIns::getInstance()->callHook(PlugIns::HOOK_POSTING_OPEN_POLL);
                         if($poll[0] == '3')
                             $poll[0] = 1;
                         elseif($poll[0] == '4')
@@ -649,6 +661,7 @@ class Posting extends PublicModule
                     //Close poll
                     elseif(Functions::getValueFromGlobals('close') != '' && $poll[0] < '3')
                     {
+                        PlugIns::getInstance()->callHook(PlugIns::HOOK_POSTING_CLOSE_POLL);
                         if($poll[0] == '1')
                             $poll[0] = 3;
                         elseif($poll[0] == '2')
@@ -662,6 +675,7 @@ class Posting extends PublicModule
                     else
                     {
                         $choices = Functions::getValueFromGlobals('poll_choice');
+                        PlugIns::getInstance()->callHook(PlugIns::HOOK_POSTING_EDIT_POLL, $choices);
                         foreach($pollFile as &$curPollOption)
                         {
                             //Update each found option if it's not empty
@@ -697,6 +711,7 @@ class Posting extends PublicModule
                     Template::getInstance()->printMessage('already_voted');
                 elseif(empty($voteID))
                     Template::getInstance()->printMessage('choose_choice');
+                PlugIns::getInstance()->callHook(PlugIns::HOOK_POSTING_VOTE_POLL, $voteID);
                 //Do voting
                 foreach($pollFile as &$curPollOption)
                     if($curPollOption[0] == $voteID)
@@ -737,6 +752,7 @@ class Posting extends PublicModule
                 {
                     $blockPeriod = intval(Functions::getValueFromGlobals('spdauer'));
                     $entireBoard = Functions::getValueFromGlobals('foren') == 'ja';
+                    PlugIns::getInstance()->callHook(PlugIns::HOOK_POSTING_BLOCK_IP, $post, $blockPeriod, $entireBoard);
                     if(($blockPeriod != 60 && $blockPeriod != 120 && $blockPeriod != 300 && $blockPeriod != 1440 && $blockPeriod != -1) || ($entireBoard && !Auth::getInstance()->isAdmin()))
                         $this->errors[] = Language::getInstance()->getString('only_admins_text');
                     else
@@ -747,7 +763,9 @@ class Posting extends PublicModule
                     }
                 }
             }
-            //Assign IP to template in any case
+            else
+                PlugIns::getInstance()->callHook(PlugIns::HOOK_POSTING_VIEW_IP, $post);
+            //Assign IP address to template in any case
             Template::getInstance()->assign('ipAddress', $post[4]);
         }
         Template::getInstance()->printPage(Functions::handleMode($this->mode, self::$modeTable, __CLASS__, 'reply'), ['forumID' => $this->forum[0],

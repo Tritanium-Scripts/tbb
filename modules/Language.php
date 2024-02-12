@@ -3,7 +3,7 @@
  * Detects, parses and caches language strings.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2023 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2024 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -48,6 +48,7 @@ class Language
                 Functions::file_put_contents('cache/Languages.cache.php', '<?php $this->availableLangs = [\'' . implode('\', \'', $this->availableLangs) . '\']; ?>', LOCK_EX, false, false);
         }
         $this->setPrefLang();
+        PlugIns::getInstance()->callHook(PlugIns::HOOK_LANGUAGE_INIT);
     }
 
     /**

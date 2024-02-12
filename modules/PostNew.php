@@ -120,6 +120,7 @@ class PostNew extends PublicModule
                 if($curChoice == '')
                     unset($this->newPost['choices'][$key]);
             }
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_POST_NEW_POLL);
             //Preview...
             if($this->preview)
                 $this->newPost['preview'] = ['title' => &$this->newPost['title'],
@@ -188,6 +189,7 @@ class PostNew extends PublicModule
             NavBar::getInstance()->addElement(Language::getInstance()->getString('post_new_topic'), INDEXFILE . '?faction=newtopic&amp;forum_id=' . $this->forum[0] . SID_AMPER);
             if(!Functions::checkUserAccess($this->forum, 1, 7))
                 Template::getInstance()->printMessage(Auth::getInstance()->isLoggedIn() ? 'forum_no_access' : 'login_only', INDEXFILE . '?faction=register' . SID_AMPER, INDEXFILE . '?faction=login' . SID_AMPER);
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_POST_NEW_TOPIC);
             //Preview...
             if($this->preview)
                 $this->newPost['preview'] = ['title' => &$this->newPost['title'],
@@ -272,6 +274,7 @@ class PostNew extends PublicModule
             $this->newPost['isBBCode'] ? '1' : '0',
             $this->newPost['isXHTML'] ? '1' : '0',
             '', '', "\n"];
+        PlugIns::getInstance()->callHook(PlugIns::HOOK_POST_NEW_WRITE_TOPIC, $newTopic, $newLastTopicID);
         //Getting serious: Time to write
         Functions::file_put_contents('foren/' . $this->forum[0] . '-threads.xbb', $newLastTopicID . "\n", FILE_APPEND);
         Functions::file_put_contents('foren/' . $this->forum[0] . '-' . $newLastTopicID . '.xbb', Functions::implodeByTab($newTopic));

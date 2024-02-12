@@ -89,7 +89,8 @@ class Forum extends PublicModule
         if($this->forumID != -1 && ($endtime = Functions::checkIPAccess($this->forumID)) !== true)
             Template::getInstance()->printMessage(($endtime == -1 ? 'banned_forever_one_forum' : 'banned_for_x_minutes_one_forum'), ceil(($endtime-time())/60));
         //Process news
-        if(count($news = Functions::file('vars/news.var')) != 0)
+        $news = Functions::file('vars/news.var');
+        if(count($news) != 0)
         {
             $newsConfig = Functions::explodeByTab(array_shift($news));
             foreach($news as &$curNews)
@@ -121,7 +122,8 @@ class Forum extends PublicModule
                 //Move stickies to top with some 1337 h4x array magic :)
                 $topicFile = array_merge(array_reverse(array_intersect($stickyFile, $topicFile)), array_values(array_diff($topicFile, $stickyFile)));
             //Build page navigation bar
-            $pages = ceil(($size = count($topicFile)) / Config::getInstance()->getCfgVal('topics_per_page'));
+            $size = count($topicFile);
+            $pages = ceil($size / Config::getInstance()->getCfgVal('topics_per_page'));
             $pageBar = $topics = [];
             for($i=1; $i<=$pages; $i++)
                 $pageBar[] = $i != $this->page ? '<a href="' . INDEXFILE . '?mode=viewforum&amp;forum_id=' . $this->forumID . '&amp;z=' . $i . SID_AMPER . '">' . $i . '</a>' : $i;
@@ -134,7 +136,8 @@ class Forum extends PublicModule
             {
                 $curTopic = Functions::file('foren/' . $this->forumID . '-' . $topicFile[$i] . '.xbb');
                 $curLastPost = Functions::explodeByTab(@end($curTopic));
-                $curEnd = ceil(($curSize = count($curTopic)-1) / Config::getInstance()->getCfgVal('posts_per_page'));
+                $curSize = count($curTopic)-1;
+                $curEnd = ceil($curSize / Config::getInstance()->getCfgVal('posts_per_page'));
                 #0:open/close[/moved] - 1:title - 2:userID - 3:tSmileyID - 4:notifyNewReplies[/movedForumID] - 5:timestamp[/movedTopicID] - 6:views[/prefixID] - 7:pollID[ - 8:subscribedUserIDs - 9:prefixID]
                 $curTopic = Functions::explodeByTab($curTopic[0]);
                 //Detect new posts
@@ -191,6 +194,7 @@ class Forum extends PublicModule
                     'lastPost' => sprintf(Language::getInstance()->getString('last_post_x_from_x'), Functions::formatDate($curLastPost[2]), Functions::getProfileLink($curLastPost[1], true)),
                     'topicPrefix' => $topicPrefixes[$curTopic[9]] ?? []]);
             }
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_FORUM_SHOW_FORUM, $pageBar, $topics);
             Template::getInstance()->assign(['pageBar' => $pageBar,
                 'topics' => $topics, //Prepared topics
                 'forumID' => $this->forumID]);
@@ -224,7 +228,8 @@ class Forum extends PublicModule
             Functions::releaseLock('tview-' . $this->forumID);
             $topic[1] = Functions::censor($topic[1]);
             //Build page navigation bar
-            $pages = ceil(($size = count($topicFile)) / Config::getInstance()->getCfgVal('posts_per_page'));
+            $size = count($topicFile);
+            $pages = ceil($size / Config::getInstance()->getCfgVal('posts_per_page'));
             if($this->page == 'last')
                 $this->page = $pages;
             $pageBar = $posts = $parsedSignatures = [];
@@ -330,13 +335,15 @@ class Forum extends PublicModule
                     'post' => Functions::censor($curPost[3]),
                     'lastEditBy' => isset($curPost[10]) && is_numeric($curPost[10]) ? Functions::getProfileLink($curPost[10], true) : ''];
             }
+            $canModify = Auth::getInstance()->isAdmin() || $isMod;
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_FORUM_SHOW_TOPIC, $pageBar, $isPoll, $canModify, $posts);
             Template::getInstance()->assign(['page' => $this->page,
                 'pageBar' => $pageBar,
                 'topicTitle' => $topic[1],
                 'isPoll' => $isPoll,
                 'forumID' => $this->forumID,
                 'topicID' => $this->topicID,
-                'canModify' => ($canModify = Auth::getInstance()->isAdmin() || $isMod),
+                'canModify' => $canModify,
                 'isOpen' => $topic[0] == '1' || $topic[0] == 'open',
                 'isSticky' => $canModify && ($stickyFile = @Functions::file('foren/' . $this->forumID . '-sticker.xbb', FILE_SKIP_EMPTY_LINES)) != false && in_array($this->topicID, $stickyFile),
                 'isSubscribed' => Auth::getInstance()->isLoggedIn() && ($topic[4] == '1' && Auth::getInstance()->getUserID() == $topic[2] || in_array(Auth::getInstance()->getUserID(), Functions::explodeByComma($topic[8]))),
@@ -348,7 +355,8 @@ class Forum extends PublicModule
             setcookie('upbwhere', INDEXFILE . '?faction=todaysPosts');
             NavBar::getInstance()->addElement(Language::getInstance()->getString('todays_posts'), INDEXFILE . '?faction=todaysPosts');
             $todaysPosts = [];
-            if(($todaysPostsFile = Functions::file_get_contents('vars/todayposts.var')) != '' && current($todaysPostsFile = Functions::explodeByTab($todaysPostsFile)) == gmdate('Yd'))
+            $todaysPostsFile = Functions::file_get_contents('vars/todayposts.var');
+            if($todaysPostsFile != '' && current($todaysPostsFile = Functions::explodeByTab($todaysPostsFile)) == gmdate('Yd'))
                 foreach(array_map(['Functions', 'explodeByComma'], explode('|', $todaysPostsFile[1])) as $curTodaysPost)
                     if(Functions::checkUserAccess($curForumData = Functions::getForumData($curTodaysPost[0]), 0))
                         #0:forumID - 1:topicID - 2:userID - 3:date - 4:tSmileyID[ - 5:postID]
@@ -358,13 +366,16 @@ class Forum extends PublicModule
                             'author' => Functions::getProfileLink($curTodaysPost[2], true),
                             'date' => Functions::formatDate($curTodaysPost[3]),
                             'tSmiley' => Functions::getTSmileyURL($curTodaysPost[4])];
-            Template::getInstance()->assign('todaysPosts', array_reverse($todaysPosts));
+            $todaysPosts = array_reverse($todaysPosts);
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_FORUM_TODAYS_POSTS, $todaysPosts);
+            Template::getInstance()->assign('todaysPosts', $todaysPosts);
             break;
 
             case 'rssFeed':
             if(Config::getInstance()->getCfgVal('show_lposts') < 1)
                 Template::getInstance()->printMessage('function_deactivated');
-            if(($newestPosts = Functions::file_get_contents('vars/lposts.var')) != '')
+            $newestPosts = Functions::file_get_contents('vars/lposts.var');
+            if($newestPosts != '')
             {
                 WhoIsOnline::getInstance()->setLocation('RSSFeed');
                 $newestPosts = Functions::explodeByTab($newestPosts);
@@ -388,6 +399,7 @@ class Forum extends PublicModule
                 do
                     $firstUser = Functions::getUserData($i++);
                 while($firstUser == false && $i <= $size);
+                PlugIns::getInstance()->callHook(PlugIns::HOOK_FORUM_RSS_FEED, $newestPosts, $firstUser);
                 //RSS header
                 header('Content-Type: application/rss+xml');
                 echo('<?xml version="1.0" encoding="' . Language::getInstance()->getString('html_encoding') . '" ?>
@@ -407,7 +419,8 @@ class Forum extends PublicModule
                 foreach($newestPosts as $curNewestPost)
                 {
                     //Get post data
-                    if(($curTopic = @Functions::file('foren/' . $curNewestPost[0] . '-' . $curNewestPost[1] . '.xbb')) !== false)
+                    $curTopic = @Functions::file('foren/' . $curNewestPost[0] . '-' . $curNewestPost[1] . '.xbb');
+                    if($curTopic !== false)
                     {
                         $curNewestPostDeleted = true;
                         foreach(array_slice($curTopic, 1) as $curKey => $curPost)
@@ -464,6 +477,7 @@ class Forum extends PublicModule
             case 'markAll':
             //Prepare cookie data to set for each forum
             $cookieData = [time(), time()+60*60*24*365, Config::getInstance()->getCfgVal('path_to_forum')];
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_FORUM_MARK_ALL, $cookieData);
             foreach(array_map(fn($curForum) => current(Functions::explodeByTab($curForum)), Functions::file('vars/foren.var')) as $curForumID)
                 setcookie('forum_' . $curForumID, $cookieData[0], $cookieData[1], $cookieData[2]);
             //Simple, wasn't it?
@@ -554,6 +568,7 @@ class Forum extends PublicModule
                         Functions::formatDate($curNewestPost[3]));
                 }
             }
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_FORUM_SHOW_FORUMS, $cats, $forums, $topicCounter, $postCounter, $newestPosts);
             Template::getInstance()->assign(['cats' => $cats,
                 'forums' => $forums,
                 'topicCounter' => $topicCounter,

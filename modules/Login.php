@@ -3,7 +3,7 @@
  * Manages the login, request of new password and logout.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2023 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2024 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -70,6 +70,7 @@ class Login extends PublicModule
         {
             //Check login data
             case 'verify':
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_LOGIN_VERIFY);
             if(empty($this->loginName))
                 $this->errors[] = Language::getInstance()->getString('please_enter_your_user_name');
             if(empty($this->loginPass))
@@ -159,6 +160,7 @@ class Login extends PublicModule
             if(Config::getInstance()->getCfgVal('activate_mail') != 1)
                 Template::getInstance()->printMessage('function_deactivated');
             $this->loginName = Functions::getValueFromGlobals('nick');
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_LOGIN_REQUEST_NEW_PASSWORD);
             if(Functions::getValueFromGlobals('send') == '1')
             {
                 if(empty($this->loginName))
@@ -193,6 +195,7 @@ class Login extends PublicModule
             case 'logout':
             if(Auth::getInstance()->isLoggedIn())
             {
+                PlugIns::getInstance()->callHook(PlugIns::HOOK_LOGIN_LOGOUT);
                 Logger::getInstance()->log('%s logged out', Logger::LOG_LOGIN_LOGOUT);
                 //Delete user ID from WIO to work with previous guest ID form now on
                 WhoIsOnline::getInstance()->delete($_SESSION['userID']);

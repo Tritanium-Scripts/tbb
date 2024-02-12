@@ -3,7 +3,7 @@
  * Manages archived newsletters.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2023 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2024 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -65,10 +65,13 @@ class Newsletter extends PublicModule
             if(($key = array_search($this->newsletterID, array_map('current', $this->newsletter))) === false)
                 Template::getInstance()->printMessage('newsletter_not_found');
             if(!isset($this->newsletter[$key][4]) || empty($this->newsletter[$key][4]) || $this->newsletter[$key][4] == '1' || Auth::getInstance()->isAdmin() || ($this->newsletter[$key][4] == '2' && Auth::getInstance()->isMod()))
+            {
+                PlugIns::getInstance()->callHook(PlugIns::HOOK_NEWSLETTER_SHOW_LETTER, $key);
                 Template::getInstance()->assign(['date' => Functions::formatDate($this->newsletter[$key][0]),
                     'author' => Functions::getProfileLink($this->newsletter[$key][1], true),
                     'subject' => $this->newsletter[$key][2],
                     'message' => $this->newsletter[$key][3]]);
+            }
             else
                 Template::getInstance()->printMessage('permission_denied');
             break;
@@ -78,6 +81,7 @@ class Newsletter extends PublicModule
             if(!Auth::getInstance()->isAdmin())
                 Template::getInstance()->printMessage('permission_denied');
             $toDelete = Functions::getValueFromGlobals('deleteletter') ?: [];
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_NEWSLETTER_DELETE_LETTERS, $toDelete);
             foreach($this->newsletter as $curKey => $curNewsletter)
                 if(in_array($curNewsletter[0], $toDelete))
                     unset($this->newsletter[$curKey]);
@@ -98,6 +102,7 @@ class Newsletter extends PublicModule
                         'date' => Functions::formatDate($curNewsletter[0]),
                         'author' => Functions::getProfileLink($curNewsletter[1], true),
                         'subject' => $curNewsletter[2]];
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_NEWSLETTER_SHOW_LETTERS, $newsletter);
             Template::getInstance()->assign('newsletter', $newsletter);
             break;
         }

@@ -3,7 +3,7 @@
  * Serves help pages.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2023 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2024 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -77,6 +77,7 @@ class Help extends PublicModule
                             $faqAnswers[] = $curString;
                         break;
                     }
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_HELP_SHOW_FAQ, $faqQuestions, $faqAnswers);
             //Assign FAQ entries
             Template::getInstance()->assign(['faqQuestions' => $faqQuestions,
                 'faqAnswers' => $faqAnswers]);
@@ -84,6 +85,7 @@ class Help extends PublicModule
 
             case 'regeln':
             NavBar::getInstance()->addElement(Language::getInstance()->getString('board_rules'), INDEXFILE . '?faction=regeln' . SID_AMPER);
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_HELP_SHOW_BOARD_RULES);
             break;
 
             case 'gdpr':
@@ -131,6 +133,7 @@ class Help extends PublicModule
                 $curParagraphPos = Functions::strpos($gdprText, '{PARAGRAPH}');
                 $gdprText = Functions::substr($gdprText, 0, $curParagraphPos) . $i . Functions::substr($gdprText, $curParagraphPos + 11);
             }
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_HELP_SHOW_GDPR, $gdprText);
             Template::getInstance()->assign('gdprText', $gdprText);
             break;
         }
