@@ -165,7 +165,7 @@ class AdminCalendar extends PublicModule
             }
             else
             {
-                list(, , $this->eventIcon, $this->eventStartDate, $this->eventEndDate, $this->eventName, $this->eventDescription) = $this->events[$key];
+                list(,, $this->eventIcon, $this->eventStartDate, $this->eventEndDate, $this->eventName, $this->eventDescription) = $this->events[$key];
                 $this->eventDescription = Functions::br2nl($this->eventDescription);
             }
             Template::getInstance()->assign(['eventId' => $this->eventId,

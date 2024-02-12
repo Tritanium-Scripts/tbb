@@ -95,7 +95,8 @@ class Core
         'adminLogfile' => 'AdminLogfile',
         'adminTemplate' => 'AdminTemplate',
         'adminCalendar' => 'AdminCalendar',
-        'adminPlugIns' => 'AdminPlugIns'];
+        'adminPlugIns' => 'AdminPlugIns',
+        'adminMailBlock' => 'AdminMailBlock'];
 
     /**
      * Some initial PHP stuff and preparations.

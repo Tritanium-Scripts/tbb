@@ -12,7 +12,7 @@ class AdminIP extends PublicModule
     use Singleton, Mode, Errors;
 
     /**
-     * ID of current IP block.
+     * ID of current IP address block.
      *
      * @var int IP block ID
      */
@@ -62,7 +62,7 @@ class AdminIP extends PublicModule
             $newIPAddress = Functions::getValueFromGlobals('ip');
             $newBlockPeriod = intval(Functions::getValueFromGlobals('sperrtime')) ?: '';
             $newBlockForumID = intval(Functions::getValueFromGlobals('sperrziel'));
-            PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_IP_NEW_BLOCK);
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_IP_NEW_BLOCK, $newIPAddress, $newBlockPeriod, $newBlockForumID);
             if(Functions::getValueFromGlobals('create') == 'yes')
             {
                 if(empty($newIPAddress))
@@ -101,7 +101,7 @@ class AdminIP extends PublicModule
             foreach($this->ipBlocks as $curKey => $curIPBlock)
                 if($curIPBlock[3] == $this->ipBlockID)
                 {
-                    PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_IP_DELETE_BLOCK);
+                    PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_IP_DELETE_BLOCK, $curKey);
                     unset($this->ipBlocks[$curKey]);
                     Functions::file_put_contents('vars/ip.var', empty($this->ipBlocks) ? '' : implode("\n", array_map(['Functions', 'implodeByTab'], $this->ipBlocks)) . "\n");
                     Logger::getInstance()->log('%s deleted ip block (ID: ' . $this->ipBlockID . ')', Logger::LOG_ACP_ACTION);
