@@ -50,8 +50,8 @@
    &nbsp;&nbsp;&nbsp;&nbsp;<a href="{$smarty.const.INDEXFILE}?faction=adminCalendar&amp;mode=new{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('add_new_event')}</a></span>
   </td>
   <td class="td1" style="vertical-align:top; width:50%;"><span class="norm" style="font-weight:bold;"><a href="{$smarty.const.INDEXFILE}?faction=adminMailBlock{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('mail_blocks')}</a></span><br />
-   <span class="small">&nbsp;&nbsp;&nbsp;&nbsp;<a class="small" href="{$smarty.const.INDEXFILE}?faction=adminMailBlock{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('manage_mail_addresses')}</a><br />
-   &nbsp;&nbsp;&nbsp;&nbsp;<a class="small" href="{$smarty.const.INDEXFILE}?faction=adminMailBlock&amp;mode=new{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('add_new_mail_address')}</a></span>
+   <span class="small">&nbsp;&nbsp;&nbsp;&nbsp;<a class="small" href="{$smarty.const.INDEXFILE}?faction=adminMailBlock{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('manage_email_addresses')}</a><br />
+   &nbsp;&nbsp;&nbsp;&nbsp;<a class="small" href="{$smarty.const.INDEXFILE}?faction=adminMailBlock&amp;mode=new{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('add_new_email_address')}</a></span>
   </td>
  </tr>
  <tr>

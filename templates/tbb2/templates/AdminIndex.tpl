@@ -62,8 +62,8 @@
      </td>
      <td style="padding:10px; vertical-align:top;">
       <span class="fontBig"><a href="{$smarty.const.INDEXFILE}?faction=adminMailBlock{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('mail_blocks')}</a></span><br />
-      <span class="fontSmall">- <a href="{$smarty.const.INDEXFILE}?faction=adminMailBlock{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('manage_mail_addresses')}</a></span><br />
-      <span class="fontSmall">- <a href="{$smarty.const.INDEXFILE}?faction=adminMailBlock&amp;mode=new{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('add_new_mail_address')}</a></span>
+      <span class="fontSmall">- <a href="{$smarty.const.INDEXFILE}?faction=adminMailBlock{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('manage_email_addresses')}</a></span><br />
+      <span class="fontSmall">- <a href="{$smarty.const.INDEXFILE}?faction=adminMailBlock&amp;mode=new{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('add_new_email_address')}</a></span>
      </td>
     </tr>
     <tr>

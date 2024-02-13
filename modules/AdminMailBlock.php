@@ -59,19 +59,25 @@ class AdminMailBlock extends PublicModule
 //AdminMailBlockNewAddress
             case 'new':
             NavBar::getInstance()->addElement(Language::getInstance()->getString('manage_mail_blocks'), INDEXFILE . '?faction=adminMailBlock&amp;mode=new' . SID_AMPER);
-            $newMailAddress = Functions::getValueFromGlobals('mailAddress');
-            PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_MAIL_BLOCK_NEW_BLOCK, $newMailAddress);
+            $newMailAddressLocalPart = Functions::getValueFromGlobals('mailAddressLocalPart');
+            $newMailAddressSld = Functions::getValueFromGlobals('mailAddressSld');
+            $newMailAddressTld = Functions::getValueFromGlobals('mailAddressTld');
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_MAIL_BLOCK_NEW_BLOCK, $newMailAddressLocalPart, $newMailAddressSld, $newMailAddressTld);
             if(Functions::getValueFromGlobals('create') == 'yes')
             {
-                if(empty($newMailAddress))
-                    $this->errors[] = Language::getInstance()->getString('please_enter_a_mail_address');
+                if(empty($newMailAddressLocalPart) && empty($newMailAddressSld) && empty($newMailAddressTld))
+                    $this->errors[] = Language::getInstance()->getString('please_enter_a_mail_part');
+                else if(Functions::strpos($newMailAddressLocalPart, '@') !== false || Functions::strpos($newMailAddressSld, '@') !== false || Functions::strpos($newMailAddressTld, '@') !== false)
+                    $this->errors[] = Language::getInstance()->getString('please_enter_a_valid_mail');
                 if(empty($this->errors))
                 {
                     //Get new ID
                     $this->mailBlockId = !empty($this->mailBlocks) ? current(end($this->mailBlocks))+1 : 1;
                 }
             }
-            Template::getInstance()->assign(['newMailAddress' => $newMailAddress]);
+            Template::getInstance()->assign(['newMailAddressLocalPart' => $newMailAddressLocalPart,
+                'newMailAddressSld' => $newMailAddressSld,
+                'newMailAddressTld' => $newMailAddressTld]);
             break;
 
             case 'kill':
