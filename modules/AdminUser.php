@@ -79,6 +79,8 @@ class AdminUser extends PublicModule
                     $this->errors[] = Language::getInstance()->getString('please_enter_a_valid_mail');
                 elseif(Functions::unifyUserMail($newUser['email']))
                     $this->errors[] = Language::getInstance()->getString('the_mail_address_already_exists');
+                elseif(Functions::isBannedMail($newUser['email']))
+                    $this->errors[] = Language::getInstance()->getString('the_mail_address_is_banned');
                 //Check + hash password
                 if(empty($newUser['pw1']))
                     $this->errors[] = Language::getInstance()->getString('please_enter_a_password');

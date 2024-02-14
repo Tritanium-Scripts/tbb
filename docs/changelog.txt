@@ -1,6 +1,6 @@
 **********************************************************
 Tritanium Bulletin Board 1.5+ - Changelog (German version)
-Last changed: 2024-02-12 (Version 1.10.0)
+Last changed: 2024-02-14 (Version 1.10.0)
 **********************************************************
 
 2024: Version 1.10.0
@@ -32,6 +32,8 @@ Last changed: 2024-02-12 (Version 1.10.0)
     - Anzeige von Geburtstagen in der Kalenderansicht
     - Mehr Kalendereinstellungen im ACP
     - Auswahl von BBCode und Smileys beim Schreiben von PNs
+    - Sperren von einzelnen E-Mail-Adressen oder ganze Bereiche davon
+    - Verwalten von E-Mail-Sperren im ACP
 
 10.12.2023: Version 1.8.1 (offiziell)
     - Mögliche Enkodierungsprobleme der Monatsnamen im Kalender behoben

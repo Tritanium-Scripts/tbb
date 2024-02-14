@@ -860,6 +860,36 @@ abstract class CoreFunctions
     }
 
     /**
+     * Checks email address for currently being blocked.
+     *
+     * @param string $mailAddress The email address to check
+     * @return bool Banned email address
+     */
+    public static function isBannedMail(string $mailAddress): bool
+    {
+        if(!isset(self::$cache['bannedMails']))
+        {
+            self::$cache['bannedMails'] = [];
+            foreach(array_map(['CoreFunctions', 'explodeByTab'], self::file('vars/mailblocks.var')) as $curMailBlock)
+            {
+                if($curMailBlock[4] != '-1' && $curMailBlock[4] < time())
+                    //Ban expired, skip it
+                    continue;
+                //Assemble email address for proper comparing
+                $curBannedMail = '.' . $curMailBlock[3];
+                self::$cache['bannedMails'][] = empty($curMailBlock[1]) && empty($curMailBlock[2])
+                    ? $curBannedMail
+                    : $curMailBlock[1] . '@' . $curMailBlock[2] . $curBannedMail;
+            }
+        }
+        foreach(self::$cache['bannedMails'] as $curBannedMail)
+            //TODO str_ends_with() on PHP 8.0
+            if(Functions::substr($mailAddress, -Functions::strlen($curBannedMail)) == $curBannedMail)
+                return true;
+        return false;
+    }
+
+    /**
      * Tests an user ID for being a guest ID.
      *
      * @param int|string $id User ID to test

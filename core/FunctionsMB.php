@@ -14,7 +14,7 @@ class Functions extends CoreFunctions
      */
     public static function mail(string $to, string $subject, string $message): bool
     {
-        if(Config::getInstance()->getCfgVal('activate_mail') == 1)
+        if(Config::getInstance()->getCfgVal('activate_mail') == 1 && !self::isBannedMail($to))
         {
             //Strip and trim chars from forum name violating mail header syntax (RFC 2822)
             $forumName = trim(self::str_replace([',', ';', '@', '<', '>'], '', Config::getInstance()->getCfgVal('forum_name')));

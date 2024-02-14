@@ -43,7 +43,7 @@ class AdminMailBlock extends PublicModule
         parent::__construct();
         $this->mode = $mode;
         $this->mailBlockId = intval(Functions::getValueFromGlobals('id'));
-        $this->mailBlocks = [];
+        $this->mailBlocks = array_map(['Functions', 'explodeByTab'], Functions::file('vars/mailblocks.var') ?: []);
         PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_MAIL_BLOCK_INIT);
     }
 
@@ -62,22 +62,32 @@ class AdminMailBlock extends PublicModule
             $newMailAddressLocalPart = Functions::getValueFromGlobals('mailAddressLocalPart');
             $newMailAddressSld = Functions::getValueFromGlobals('mailAddressSld');
             $newMailAddressTld = Functions::getValueFromGlobals('mailAddressTld');
-            PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_MAIL_BLOCK_NEW_BLOCK, $newMailAddressLocalPart, $newMailAddressSld, $newMailAddressTld);
+            $newBlockPeriod = intval(Functions::getValueFromGlobals('blockPeriod')) ?: '';
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_MAIL_BLOCK_NEW_BLOCK, $newMailAddressLocalPart, $newMailAddressSld, $newMailAddressTld, $newBlockPeriod);
             if(Functions::getValueFromGlobals('create') == 'yes')
             {
                 if(empty($newMailAddressLocalPart) && empty($newMailAddressSld) && empty($newMailAddressTld))
                     $this->errors[] = Language::getInstance()->getString('please_enter_a_mail_part');
-                else if(Functions::strpos($newMailAddressLocalPart, '@') !== false || Functions::strpos($newMailAddressSld, '@') !== false || Functions::strpos($newMailAddressTld, '@') !== false)
+                else if(empty($newMailAddressTld) || !Functions::isValidMail(($newMailAddressLocalPart ?: 'a') . '@' . ($newMailAddressSld ?: 'a') . '.' . $newMailAddressTld))
                     $this->errors[] = Language::getInstance()->getString('please_enter_a_valid_mail');
+                if(empty($newBlockPeriod))
+                    $newBlockPeriod = -1;
                 if(empty($this->errors))
                 {
                     //Get new ID
                     $this->mailBlockId = !empty($this->mailBlocks) ? current(end($this->mailBlocks))+1 : 1;
+                    //Add to banned emails
+                    Functions::file_put_contents('vars/mailblocks.var', $this->mailBlockId . "\t" . $newMailAddressLocalPart . "\t" . $newMailAddressSld . "\t" . $newMailAddressTld . "\t" . $newBlockPeriod . "\t\n", FILE_APPEND);
+                    //Done
+                    Logger::getInstance()->log('%s added new mail block (ID: ' . $this->mailBlockId . ')', Logger::LOG_ACP_ACTION);
+                    header('Location: ' . INDEXFILE . '?faction=adminMailBlock' . SID_AMPER_RAW);
+                    Template::getInstance()->printMessage('mail_block_added');
                 }
             }
             Template::getInstance()->assign(['newMailAddressLocalPart' => $newMailAddressLocalPart,
                 'newMailAddressSld' => $newMailAddressSld,
-                'newMailAddressTld' => $newMailAddressTld]);
+                'newMailAddressTld' => $newMailAddressTld,
+                'newBlockPeriod' => $newBlockPeriod]);
             break;
 
             case 'kill':
@@ -86,10 +96,30 @@ class AdminMailBlock extends PublicModule
             PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_MAIL_BLOCK_DELETE_BLOCK, $key);
             //Delete it
             unset($this->mailBlocks[$key]);
+            if(empty($this->mailBlocks))
+                Functions::unlink('vars/mailblocks.var');
+            else
+                Functions::file_put_contents('vars/mailblocks.var', implode("\n", array_map(['Functions', 'implodeByTab'], $this->mailBlocks)) . "\n");
+            //Done
+            Logger::getInstance()->log('%s deleted mail block (ID: ' . $this->mailBlockId . ')', Logger::LOG_ACP_ACTION);
+            header('Location: ' . INDEXFILE . '?faction=adminMailBlock' . SID_AMPER_RAW);
+            Template::getInstance()->printMessage('mail_block_deleted');
             break;
 
 //AdminMailBlock
             default:
+            foreach($this->mailBlocks as &$curMailBlock)
+            {
+                if(empty($curMailBlock[1]))
+                    $curMailBlock[1] = '*';
+                if(empty($curMailBlock[2]))
+                    $curMailBlock[2] = '*';
+                $curMailBlock[4] = $curMailBlock[4] == '-1'
+                    ? Language::getInstance()->getString('forever_blocked')
+                    : ($curMailBlock[4] > time()
+                        ? sprintf(Language::getInstance()->getString('x_minutes'), round(($curMailBlock[4]-time())/60))
+                        : Language::getInstance()->getString('expired'));
+            }
             PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_MAIL_BLOCK_SHOW_BLOCKS);
             Template::getInstance()->assign('mailBlocks', $this->mailBlocks);
             break;
