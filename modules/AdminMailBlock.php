@@ -58,7 +58,7 @@ class AdminMailBlock extends PublicModule
         {
 //AdminMailBlockNewAddress
             case 'new':
-            NavBar::getInstance()->addElement(Language::getInstance()->getString('manage_mail_blocks'), INDEXFILE . '?faction=adminMailBlock&amp;mode=new' . SID_AMPER);
+            NavBar::getInstance()->addElement(Language::getInstance()->getString('add_new_mail_block'), INDEXFILE . '?faction=adminMailBlock&amp;mode=new' . SID_AMPER);
             $newMailAddressLocalPart = Functions::getValueFromGlobals('mailAddressLocalPart');
             $newMailAddressSld = Functions::getValueFromGlobals('mailAddressSld');
             $newMailAddressTld = Functions::getValueFromGlobals('mailAddressTld');
@@ -77,7 +77,7 @@ class AdminMailBlock extends PublicModule
                     //Get new ID
                     $this->mailBlockId = !empty($this->mailBlocks) ? current(end($this->mailBlocks))+1 : 1;
                     //Add to banned emails
-                    Functions::file_put_contents('vars/mailblocks.var', $this->mailBlockId . "\t" . $newMailAddressLocalPart . "\t" . $newMailAddressSld . "\t" . $newMailAddressTld . "\t" . $newBlockPeriod . "\t\n", FILE_APPEND);
+                    Functions::file_put_contents('vars/mailblocks.var', $this->mailBlockId . "\t" . $newMailAddressLocalPart . "\t" . $newMailAddressSld . "\t" . $newMailAddressTld . "\t" . ($newBlockPeriod != -1 ? time()+$newBlockPeriod*60 : $newBlockPeriod) . "\t\n", FILE_APPEND);
                     //Done
                     Logger::getInstance()->log('%s added new mail block (ID: ' . $this->mailBlockId . ')', Logger::LOG_ACP_ACTION);
                     header('Location: ' . INDEXFILE . '?faction=adminMailBlock' . SID_AMPER_RAW);

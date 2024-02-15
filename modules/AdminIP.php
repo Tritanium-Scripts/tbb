@@ -58,7 +58,7 @@ class AdminIP extends PublicModule
         {
 //AdminIPNewBlock
             case 'new':
-            NavBar::getInstance()->addElement(Language::getInstance()->getString('manage_ip_blocks'), INDEXFILE . '?faction=ad_ip&amp;mode=new' . SID_AMPER);
+            NavBar::getInstance()->addElement(Language::getInstance()->getString('add_new_ip_block'), INDEXFILE . '?faction=ad_ip&amp;mode=new' . SID_AMPER);
             $newIPAddress = Functions::getValueFromGlobals('ip');
             $newBlockPeriod = intval(Functions::getValueFromGlobals('sperrtime')) ?: '';
             $newBlockForumID = intval(Functions::getValueFromGlobals('sperrziel'));
