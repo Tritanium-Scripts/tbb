@@ -256,7 +256,8 @@
     Ersetzen Sie sämtliche Dateien bzw. Ordner mit den neuen Versionen im TBB-Verzeichnis wie folgt:<br />
     <span style="font-size:x-small;">(Falls Sie bestehende Dateien geändert haben, sichern Sie diese zu erst und führen Sie nach der Aktualisierung die Modifikationen ggf. erneut durch.)</span>
     <ul>
-     <li><b>./core/</b> (+ Inhalt, Ausnahme: <b>DataPath.php</b>)</li>
+     <li><b>./core/</b> (+ Inhalt, Ausnahme: <b>DataPath.php</b>)<br />
+         <span style="font-size:x-small;">Achten Sie darauf, dass keine alten bzw. inzwischen entfernte Dateien in dem Ordner zurück bleiben.</span></li>
      <li><b>./languages/</b> (+ Inhalt)</li>
      <li><b>./modules/</b> (+ Inhalt, Ausnahme: <b>Config.php.new</b>)<br />
          <span style="font-size:x-small;">Achten Sie darauf, dass keine alten bzw. inzwischen entfernte Dateien in den Unterordnern von <b>./modules/Template/</b> zurück bleiben.</span></li>
@@ -290,7 +291,8 @@
     Ersetzen Sie sämtliche Dateien bzw. Ordner mit den neuen Versionen im TBB-Verzeichnis wie folgt:<br />
     <span style="font-size:x-small;">(Falls Sie bestehende Dateien geändert haben, sichern Sie diese zu erst und führen Sie nach der Aktualisierung die Modifikationen ggf. erneut durch.)</span>
     <ul>
-     <li><b>./core/</b> (+ Inhalt, Ausnahme: <b>DataPath.php</b>)</li>
+     <li><b>./core/</b> (+ Inhalt, Ausnahme: <b>DataPath.php</b>)<br />
+         <span style="font-size:x-small;">Achten Sie darauf, dass keine alten bzw. inzwischen entfernte Dateien in dem Ordner zurück bleiben.</span></li>
      <li><b>./languages/</b> (+ Inhalt)</li>
      <li><b>./modules/</b> (+ Inhalt, Ausnahme: <b>Config.php.new</b>)<br />
          <span style="font-size:x-small;">Achten Sie darauf, dass keine alten bzw. inzwischen entfernte Dateien in den Unterordnern von <b>./modules/Template/</b> zurück bleiben.</span></li>
@@ -326,7 +328,8 @@
     Ersetzen Sie sämtliche Dateien bzw. Ordner mit den neuen Versionen im TBB-Verzeichnis wie folgt:<br />
     <span style="font-size:x-small;">(Falls Sie bestehende Dateien geändert haben, sichern Sie diese zu erst und führen Sie nach der Aktualisierung die Modifikationen ggf. erneut durch.)</span>
     <ul>
-     <li><b>./core/</b> (+ Inhalt, Ausnahme: <b>DataPath.php</b>)</li>
+     <li><b>./core/</b> (+ Inhalt, Ausnahme: <b>DataPath.php</b>)<br />
+         <span style="font-size:x-small;">Achten Sie darauf, dass keine alten bzw. inzwischen entfernte Dateien in dem Ordner zurück bleiben.</span></li>
      <li><b>./languages/</b> (+ Inhalt)</li>
      <li><b>./modules/</b> (+ Inhalt)<br />
          <span style="font-size:x-small;">Achten Sie darauf, dass keine alten bzw. inzwischen entfernte Dateien in den Unterordnern von <b>./modules/Template/</b> zurück bleiben.</span></li>
@@ -364,7 +367,8 @@
     Ersetzen Sie sämtliche Dateien bzw. Ordner mit den neuen Versionen im TBB-Verzeichnis wie folgt:<br />
     <span style="font-size:x-small;">(Falls Sie bestehende Dateien geändert haben, sichern Sie diese zu erst und führen Sie nach der Aktualisierung die Modifikationen ggf. erneut durch.)</span>
     <ul>
-     <li><b>./core/</b> (+ Inhalt, Ausnahme: <b>DataPath.php</b>)</li>
+     <li><b>./core/</b> (+ Inhalt, Ausnahme: <b>DataPath.php</b>)<br />
+         <span style="font-size:x-small;">Achten Sie darauf, dass keine alten bzw. inzwischen entfernte Dateien in dem Ordner zurück bleiben.</span></li>
      <li><b>./languages/</b> (+ Inhalt)</li>
      <li><b>./modules/</b> (+ Inhalt)<br />
          <span style="font-size:x-small;">Achten Sie darauf, dass keine alten bzw. inzwischen entfernte Dateien in den Unterordnern von <b>./modules/Template/</b> zurück bleiben.</span></li>
@@ -810,7 +814,7 @@ Supermoderator
    <li><b><code>getVersion(): string</code></b><br />
        Versionsnummer des Plug-Ins, wobei die Angabe der <a href="https://semver.org/">Semantic Versioning</a> Spezifikation entsprechen sollte.</li>
    <li><b><code>getMinVersion(): ?string</code></b><br />
-       Optionale Mindestversion des TBBs, welche zur Ausführung benötigt wird. Ist keine angegeben, wird automatisch 1.10 als minimale Versionsnummer angenommen.</li>
+       Optionale Mindestversion des TBBs, welche zur Ausführung benötigt wird. Ist keine angegeben, wird automatisch 1.10.0 als minimale Versionsnummer angenommen.</li>
    <li><b><code>onHook(string $hook, bool $official): ?callable</code></b><br />
        Der eigentliche Code des Plug-ins wird als <a href="https://www.php.net/closure">anonyme Funktion</a> bereit gestellt. Falls das Plug-in nicht an dem angegebenen Hook interessiert ist, wird <code>null</code> zurückgegeben. Der zweite Parameter gibt an, ob es ein offizieller Hook vom TBB ist. Plug-ins können eigene und damit fremde Hooks mitbringen und diese ebenso aufrufen und so z.B. untereinander aufbauen oder miteinander interagieren.</li>
   </ul>

@@ -8,6 +8,10 @@
   <td class="td1" style="width:80%;"><input type="text" name="title" value="{$newName}" /></td>
  </tr>
  <tr>
+  <td class="td1" style="width:20%;"><span class="norm" style="font-weight:bold;">{Language::getInstance()->getString('color_colon')}</span><br /><span class="small">{Language::getInstance()->getString('color_description')}</span></td>
+  <td class="td1" style="width:80%;"><input type="text" name="color" value="{$newColor}" onchange="this.style.color = this.value;" /></td>
+ </tr>
+ <tr>
   <td class="td1" style="width:20%;"><span class="norm" style="font-weight:bold;">{Language::getInstance()->getString('avatar_colon')}</span><br /><span class="small">{Language::getInstance()->getString('avatar_description')}</span></td>
   <td class="td1" style="vertical-align:top; width:80%;"><input type="text" name="pic" value="{$newAvatar}" /> <span class="small">{Language::getInstance()->getString('url_or_path')}</span></td>
  </tr>

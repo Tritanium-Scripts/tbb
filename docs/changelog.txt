@@ -1,6 +1,6 @@
 **********************************************************
 Tritanium Bulletin Board 1.5+ - Changelog (German version)
-Last changed: 2024-02-15 (Version 1.10.0)
+Last changed: 2024-02-17 (Version 1.10.0)
 **********************************************************
 
 2024: Version 1.10.0
@@ -34,6 +34,7 @@ Last changed: 2024-02-15 (Version 1.10.0)
     - Auswahl von BBCode und Smileys beim Schreiben von PNs
     - Sperren von einzelnen E-Mail-Adressen oder ganze Bereiche davon
     - Verwalten von E-Mail-Sperren im ACP
+    - Gruppen können auch eine Farbe für die Namen ihrer Mitlieder vorgeben
 
 10.12.2023: Version 1.8.1 (offiziell)
     - Mögliche Enkodierungsprobleme der Monatsnamen im Kalender behoben

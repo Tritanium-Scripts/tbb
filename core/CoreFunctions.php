@@ -536,7 +536,6 @@ abstract class CoreFunctions
                     $curUser = self::file('members/' . $curUserID . '.xbb');
                     $curColor = '';
                     if($colorRank)
-                    {
                         switch($curUser[4])
                         {
                             case '1':
@@ -559,9 +558,11 @@ abstract class CoreFunctions
                             $curColor = Config::getInstance()->getCfgVal('wio_color_smod');
                             break;
                         }
-                        if(!empty($curColor))
-                            $curColor = sprintf(' style="color:%s;"', $curColor);
-                    }
+                    //Use the group's color if color by rank is not requested
+                    elseif(!empty($curUser[15]))
+                        [,,,,$curColor] = self::getGroupData($curUser[15]);
+                    if(!empty($curColor))
+                        $curColor = sprintf(' style="color:%s;"', $curColor);
                     $userLinks[] = '<a' . $aAttributes . ' href="' . INDEXFILE . '?faction=profile&amp;profile_id=' . $curUserID . SID_AMPER . '"' . $curColor . '>' . $curUser[0] . '</a>';
                 }
         return count($userLinks) < 2 ? current($userLinks) : $userLinks;
