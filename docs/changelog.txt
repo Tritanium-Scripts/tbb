@@ -35,6 +35,7 @@ Last changed: 2024-02-17 (Version 1.10.0)
     - Sperren von einzelnen E-Mail-Adressen oder ganze Bereiche davon
     - Verwalten von E-Mail-Sperren im ACP
     - Gruppen können auch eine Farbe für die Namen ihrer Mitlieder vorgeben
+    - Farbige Hervorhebung von Mitgliedern in WIO-Box auch außerhalb nutzbar
 
 10.12.2023: Version 1.8.1 (offiziell)
     - Mögliche Enkodierungsprobleme der Monatsnamen im Kalender behoben

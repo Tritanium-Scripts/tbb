@@ -298,6 +298,10 @@
   <td class="td1" style="font-weight:bold;"><span class="norm">{Language::getInstance()->getString('number_of_stars_for_moderators')}</span></td>
   <td class="td1" style="vertical-align:top;"><input type="text" name="settings[31]" value="{$configValues['stars_mod']}" style="width:250px;" /></td>
  </tr>
+ <tr>
+  <td class="td1" style="font-weight:bold;"><span class="norm">{Language::getInstance()->getString('use_color_from_wio_globally')}</span></td>
+  <td class="td1" style="vertical-align:top;"><input type="radio" id="y90" name="settings[90]" value="1"{if $configValues['global_wio_color'] == 1} checked="checked"{/if} /><label for="y90" class="norm">{Language::getInstance()->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="n90" name="settings[90]" value="0"{if $configValues['global_wio_color'] != 1} checked="checked"{/if} /><label for="n90" class="norm">{Language::getInstance()->getString('negative')}</label></td>
+ </tr>
  <tr><td class="kat" colspan="2"><span class="kat">{Language::getInstance()->getString('technical_settings')}</span></td></tr>
  <tr><td class="td1" colspan="2"><span class="small">{Language::getInstance()->getString('normally_no_need_to_change_this')}</span></td></tr>
  <tr>

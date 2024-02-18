@@ -80,8 +80,11 @@ class Language
     private function getPrefLangs(): array
     {
         $prefLangs = [];
-        foreach(Functions::explodeByComma(Functions::strtolower(isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : Config::getInstance()->getCfgVal('lng_folder'))) as $value) #de-de,de;q=0.8,en-us;q=0.5,en;q=0.3
-            $prefLangs[(count($value = explode(';', $value)) == 1 || !preg_match('/q=([\d.]+)/i', $value[1], $quality) ? '1.0' : $quality[1]) . mt_rand(0, 9999)] = $value[0];
+        foreach(Functions::explodeByComma(Functions::strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? Config::getInstance()->getCfgVal('lng_folder'))) as $value) #de-de,de;q=0.8,en-us;q=0.5,en;q=0.3
+        {
+            $value = explode(';', $value);
+            $prefLangs[(count($value) == 1 || !preg_match('/q=([\d.]+)/i', $value[1], $quality) ? '1.0' : $quality[1]) . random_int(0, 9999)] = $value[0];
+        }
         krsort($prefLangs);
         return array_map(fn($code) => Functions::strpos($code, '-') === false ? $code : Functions::substr($code, 0, 3) . Functions::strtoupper(Functions::substr($code, 3)), array_values($prefLangs));
     }

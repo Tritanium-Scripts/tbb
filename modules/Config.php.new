@@ -110,7 +110,8 @@ class Config
         1,                                      #activate_plug_ins
         '',                                     #web_api_key
         1,                                      #memberships_in_cal
-        1];                                     #birthdays_in_cal
+        1,                                      #birthdays_in_cal
+        0];                                     #global_wio_color
 
     /**
      * Name of config file to work with.
@@ -218,7 +219,8 @@ class Config
         'activate_plug_ins',
         'web_api_key',
         'memberships_in_cal',
-        'birthdays_in_cal'];
+        'birthdays_in_cal',
+        'global_wio_color'];
 
     /**
      * Loaded configuration values are stored here.

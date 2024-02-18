@@ -111,7 +111,7 @@ class Auth
         }
         //Set connection state and special ID for WIO
         if(!isset($_SESSION['session_upbwio']))
-            $_SESSION['session_upbwio'] = 'guest' . mt_rand(10000, 99999);
+            $_SESSION['session_upbwio'] = 'guest' . random_int(10000, 99999);
         else
             $this->connected = true;
         $this->wioID = $this->loggedIn ? $this->getUserID() : $_SESSION['session_upbwio'];

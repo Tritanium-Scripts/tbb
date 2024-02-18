@@ -523,6 +523,8 @@ abstract class CoreFunctions
     {
         $userLinks = [];
         if(!empty($userID))
+        {
+            $globalWioColor = Config::getInstance()->getCfgVal('global_wio_color');
             foreach(self::explodeByComma($userID) as $curUserID)
                 //Guest check
                 if(self::isGuestID($userID))
@@ -535,7 +537,9 @@ abstract class CoreFunctions
                 {
                     $curUser = self::file('members/' . $curUserID . '.xbb');
                     $curColor = '';
-                    if($colorRank)
+                    $applyFromGroup = false;
+                    if($colorRank || $globalWioColor)
+                    {
                         switch($curUser[4])
                         {
                             case '1':
@@ -558,13 +562,18 @@ abstract class CoreFunctions
                             $curColor = Config::getInstance()->getCfgVal('wio_color_smod');
                             break;
                         }
-                    //Use the group's color if color by rank is not requested
-                    elseif(!empty($curUser[15]))
+                        $applyFromGroup = empty($curColor);
+                    }
+                    else
+                        $applyFromGroup = true;
+                    //Use the group's color if color by rank is not requested or resulted in none
+                    if($applyFromGroup && !empty($curUser[15]))
                         [,,,,$curColor] = self::getGroupData($curUser[15]);
                     if(!empty($curColor))
                         $curColor = sprintf(' style="color:%s;"', $curColor);
                     $userLinks[] = '<a' . $aAttributes . ' href="' . INDEXFILE . '?faction=profile&amp;profile_id=' . $curUserID . SID_AMPER . '"' . $curColor . '>' . $curUser[0] . '</a>';
                 }
+        }
         return count($userLinks) < 2 ? current($userLinks) : $userLinks;
     }
 
@@ -587,7 +596,7 @@ abstract class CoreFunctions
     public static function getRandomPass(): string
     {
         for($i=0,$newPass=''; $i<10; $i++)
-            $newPass .= chr(mt_rand(33, 126));
+            $newPass .= chr(random_int(33, 126));
         return $newPass;
     }
 
@@ -838,7 +847,7 @@ abstract class CoreFunctions
             Logger::getInstance()->log('Unknown mode "' . Functions::str_replace('%', '%%', $mode) . '" in ' . $module . '; using default', Logger::LOG_FILESYSTEM);
             $_SESSION['unknownModes'] ??= 0;
             $_SESSION['unknownModes']++;
-            if($_SESSION['unknownModes'] > mt_rand(5, 10))
+            if($_SESSION['unknownModes'] > random_int(5, 10))
             {
                 list(,,,$lastIPID) = @end(self::getBannedIPs());
                 self::file_put_contents('vars/ip.var', $_SERVER['REMOTE_ADDR'] . "\t-1\t-1\t" . ($lastIPID+1) . "\t\n", FILE_APPEND);
