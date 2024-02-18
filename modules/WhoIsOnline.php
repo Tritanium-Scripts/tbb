@@ -524,6 +524,14 @@ class WhoIsOnline extends PublicModule
                     $wioLocations[] = [$curUser, Language::getInstance()->getString('edits_a_topic_prefix'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]];
                     break;
 
+                    case 'AdminMailBlock':
+                    $wioLocations[] = [$curUser, Language::getInstance()->getString('manages_mail_blocks'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]];
+                    break;
+
+                    case 'AdminMailBlockNewAddress':
+                    $wioLocations[] = [$curUser, Language::getInstance()->getString('creates_new_mail_block'), $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]];
+                    break;
+
                     default:
                     $wioLocations[] = [$curUser, '<b>WARNING: Unknown WIO location!</b>', $curWIOEntryIsGhost, $curTime, $curWIOEntry[5]];
                     break;
