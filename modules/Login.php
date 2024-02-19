@@ -174,7 +174,8 @@ class Login extends PublicModule
                         $curMember = Functions::file($curMember);
                         if($this->loginName == Functions::strtolower($curMember[0]))
                         {
-                            $curMember[2] = current(Functions::explodeByTab($curMember[2])) . "\t" . Functions::getHash($newPass = Functions::getRandomPass());
+                            $newPass = Functions::getRandomPass();
+                            $curMember[2] = current(Functions::explodeByTab($curMember[2])) . "\t" . Functions::getHash($newPass);
                             Functions::file_put_contents('members/' . $curMember[1] . '.xbb', implode("\n", $curMember));
                             if(!Functions::sendMessage($curMember[3], 'new_password_requested', $_SERVER['REMOTE_ADDR'], Functions::getValueFromGlobals('nick'), $newPass, Config::getInstance()->getCfgVal('address_to_forum') . '/' . INDEXFILE . '?faction=login'))
                                 Template::getInstance()->printMessage('sending_mail_failed');

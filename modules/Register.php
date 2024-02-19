@@ -107,7 +107,8 @@ class Register extends PublicModule
             if(!$this->createRegPass)
             {
                 //In case of not creating a pass for new user, check the given one, too
-                if(($newPass = Functions::getValueFromGlobals('newuser_pw1')) == '')
+                $newPass = Functions::getValueFromGlobals('newuser_pw1');
+                if($newPass == '')
                     $this->errors[] = Language::getInstance()->getString('please_enter_a_password');
                 elseif($newPass != Functions::getValueFromGlobals('newuser_pw2'))
                     $this->errors[] = Language::getInstance()->getString('passwords_do_not_match');
@@ -208,7 +209,10 @@ class Register extends PublicModule
                         $newMemberFile = Functions::file($curPreMember, null, null, false);
                         //Generate password, if needed
                         if($this->createRegPass)
-                            $newMemberFile[2] = Functions::getHash($newPass = Functions::getRandomPass());
+                        {
+                            $newPass = Functions::getRandomPass();
+                            $newMemberFile[2] = Functions::getHash($newPass);
+                        }
                         //Update last seen
                         $newMemberFile[16] = time();
                         //Detect new ID

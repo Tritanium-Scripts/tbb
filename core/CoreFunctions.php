@@ -417,14 +417,14 @@ abstract class CoreFunctions
     }
 
     /**
-     * Returns SHA-2 (SHA-512) hash value for stated string.
+     * Returns SHA-3 (SHA-512) hash value for stated string.
      *
-     * @param string $string String to hash with SHA-2
+     * @param string $string String to hash with SHA-3
      * @return string Hash value of string
      */
     public static function getHash(string $string): string
     {
-        return hash('sha512', $string);
+        return hash('sha3-512', $string);
     }
 
     /**
@@ -880,7 +880,7 @@ abstract class CoreFunctions
         if(!isset(self::$cache['bannedMails']))
         {
             self::$cache['bannedMails'] = [];
-            foreach(array_map(['CoreFunctions', 'explodeByTab'], self::file('vars/mailblocks.var')) as $curMailBlock)
+            foreach(array_map(['CoreFunctions', 'explodeByTab'], self::file('vars/mailblocks.var') ?: []) as $curMailBlock)
             {
                 if($curMailBlock[4] != '-1' && $curMailBlock[4] < time())
                     //Ban expired, skip it
