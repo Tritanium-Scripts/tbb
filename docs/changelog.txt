@@ -40,6 +40,7 @@ Last changed: 2024-02-24 (Version 1.10.0)
     - Hashes von Passwörtern basieren nun auf SHA3-512
     - Forenverwaltung um optionale Bilder ergänzt
     - Anzeige von Foren mit Grafik in der Forumübersicht
+    - Verwendung von disk_free_space() lässt sich nicht mehr aktivieren wenn Befehl deaktiviert
 
 10.12.2023: Version 1.8.1 (offiziell)
     - Mögliche Enkodierungsprobleme der Monatsnamen im Kalender behoben

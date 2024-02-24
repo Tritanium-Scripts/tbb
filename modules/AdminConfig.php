@@ -207,6 +207,8 @@ class AdminConfig extends PublicModule
                 $newSettings[7] = Config::getInstance()->getCfgVal('uc_message');
                 $newSettings[9] = !isset($newSettings[9]) ? '' : implode(',', $newSettings[9]);
                 $newSettings[38] = Config::getInstance()->getCfgVal('css_file');
+                if($newSettings[49] == '1' && !function_exists('disk_free_space'))
+                    $newSettings[49] = '0';
                 $newSettings[56] = Config::getInstance()->getCfgVal('default_tpl');
                 $newSettings[70] = Config::getInstance()->getCfgVal('select_tpls');
                 $newSettings[71] = Config::getInstance()->getCfgVal('select_styles');

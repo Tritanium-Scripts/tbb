@@ -137,23 +137,31 @@ class Core
         if(Config::getInstance()->getCfgVal('use_file_caching') != 1)
             Functions::setFileCaching(false);
         //Check available disk space
-        if(Config::getInstance()->getCfgVal('use_diskfreespace') == 1 && (($fds = round((($fds = disk_free_space('.')) === false ? PHP_INT_MAX : $fds)/1024)) <= Config::getInstance()->getCfgVal('warn_admin_fds')*1024))
+        if(Config::getInstance()->getCfgVal('use_diskfreespace') == 1)
         {
-            $fdsVar = intval(Functions::file_get_contents('vars/fds.var')); //false = 0, if file does not exist or if file is empty
-            if($fdsVar == 0) //Is this first time warning?
+            $fds = disk_free_space('.');
+            if($fds === false)
+                $fds = PHP_INT_MAX;
+            //Compare as kilobytes
+            $fds = round($fds/1024);
+            if($fds <= Config::getInstance()->getCfgVal('warn_admin_fds')*1024)
             {
-                Functions::mail(Config::getInstance()->getCfgVal('admin_email'), 'fds_warning', Config::getInstance()->getCfgVal('address_to_forum') . '/' . INDEXFILE . '?faction=login');
-                Logger::getInstance()->log('Disk space warning! Admin notified', Logger::LOG_FILESYSTEM);
-                Functions::file_put_contents('vars/fds.var', ++$fdsVar);
-            }
-            if($fds <= Config::getInstance()->getCfgVal('close_forum_fds')*1024)
-            {
-                Config::getInstance()->setCfgVal('uc', 1); //Emergency closure
-                if($fdsVar != 2)
+                $fdsVar = intval(Functions::file_get_contents('vars/fds.var')); //false = 0, if file does not exist or if file is empty
+                if($fdsVar == 0) //Is this first time warning?
                 {
-                    Functions::sendMessage(Config::getInstance()->getCfgVal('admin_email'), 'fds_alert', Config::getInstance()->getCfgVal('address_to_forum') . '/' . INDEXFILE . '?faction=login');
-                    Logger::getInstance()->log('Disk space alert! Admin notified; Board closed', Logger::LOG_FILESYSTEM);
-                    Functions::file_put_contents('vars/fds.var', 2);
+                    Functions::mail(Config::getInstance()->getCfgVal('admin_email'), 'fds_warning', Config::getInstance()->getCfgVal('address_to_forum') . '/' . INDEXFILE . '?faction=login');
+                    Logger::getInstance()->log('Disk space warning! Admin notified', Logger::LOG_FILESYSTEM);
+                    Functions::file_put_contents('vars/fds.var', ++$fdsVar);
+                }
+                if($fds <= Config::getInstance()->getCfgVal('close_forum_fds')*1024)
+                {
+                    Config::getInstance()->setCfgVal('uc', 1); //Emergency closure
+                    if($fdsVar != 2)
+                    {
+                        Functions::sendMessage(Config::getInstance()->getCfgVal('admin_email'), 'fds_alert', Config::getInstance()->getCfgVal('address_to_forum') . '/' . INDEXFILE . '?faction=login');
+                        Logger::getInstance()->log('Disk space alert! Admin notified; Board closed', Logger::LOG_FILESYSTEM);
+                        Functions::file_put_contents('vars/fds.var', 2);
+                    }
                 }
             }
         }
@@ -222,7 +230,7 @@ class Core
      */
     private function getModule(?string $module, ?string $mode=null): PublicModule
     {
-        if(!class_exists($module) || !is_subclass_of($module, 'PublicModule'))
+        if(is_null($module) || !class_exists($module) || !is_subclass_of($module, 'PublicModule'))
         {
             PlugIns::getInstance()->callHook(PlugIns::HOOK_CORE_MISSING_MODULE, $module, $mode);
             $missing;
@@ -235,8 +243,8 @@ class Core
             }
             else
             {
-                if($module != 'Config') //In case of "Config.php.new" to prevent redeclaring Logger
-                    Logger::getInstance()->log('Call to missing module "' . $module . '"', Logger::LOG_FILESYSTEM);
+                //Not really possible anymore having Composer as class loader...
+                Logger::getInstance()->log('Call to missing module "' . $module . '"', Logger::LOG_FILESYSTEM);
                 if(function_exists('http_response_code'))
                     http_response_code(500);
                 $missing = $module;
