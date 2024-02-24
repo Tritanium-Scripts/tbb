@@ -82,7 +82,8 @@ class AdminForum extends PublicModule
                     'name' => $curForum[1],
                     'descr' => $curForum[2],
                     'catID' => $curForum[5],
-                    'mods' => Functions::getProfileLink($curForum[11])];
+                    'mods' => Functions::getProfileLink($curForum[11]),
+                    'image' => $curForum[12]];
             PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_FORUM_FORUMS);
             Template::getInstance()->assign('forums', $forums);
             break;
@@ -100,7 +101,8 @@ class AdminForum extends PublicModule
             $newIsNotify = Functions::getValueFromGlobals('sm_mods');
             $newRights = (array) Functions::getValueFromGlobals('new_rights') + array_fill(0, 10, ''); //Fill up missing keys/values from unchecked boxes with this neat array union trick :)
             $newModIDs = array_filter(array_map('trim', Functions::explodeByComma(Functions::getValueFromGlobals('mods'))), 'is_numeric');
-            PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_FORUM_NEW_FORUM, $newName, $newDescr, $newCatID, $newIsBBCode, $newIsXHTML, $newIsNotify, $newRights, $newModIDs);
+            $newImage = htmlspecialchars(Functions::getValueFromGlobals('image'));
+            PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_FORUM_NEW_FORUM, $newName, $newDescr, $newCatID, $newIsBBCode, $newIsXHTML, $newIsNotify, $newRights, $newModIDs, $newImage);
             if(Functions::getValueFromGlobals('create') == 'yes')
             {
                 if($newName == '')
@@ -121,7 +123,8 @@ class AdminForum extends PublicModule
                         }
                     }
                     //Get and update newest forum ID
-                    Functions::file_put_contents('vars/forens.var', $newForumID = Functions::file_get_contents('vars/forens.var')+1);
+                    $newForumID = Functions::file_get_contents('vars/forens.var')+1;
+                    Functions::file_put_contents('vars/forens.var', $newForumID);
                     //Build forum data
                     $newForum = [$newForumID,
                         $newName,
@@ -135,7 +138,8 @@ class AdminForum extends PublicModule
                         '', //Last post
                         implode(',', $newRights),
                         implode(',', $newModIDs),
-                        '', '', '', "\n"];
+                        $newImage,
+                        '', '', "\n"];
                     //Write all the data
                     Functions::file_put_contents('foren/' . $newForumID . '-ltopic.xbb', '0');
                     Functions::file_put_contents('foren/' . $newForumID . '-threads.xbb', '');
@@ -160,7 +164,8 @@ class AdminForum extends PublicModule
                 'newIsXHTML' => $newIsXHTML == '1',
                 'newIsNotify' => $newIsNotify == '1',
                 'newRights' => $newRights,
-                'newModIDs' => $newModIDs]);
+                'newModIDs' => $newModIDs,
+                'newImage' => $newImage]);
             break;
 
 //AdminForumEditForum
@@ -289,6 +294,7 @@ class AdminForum extends PublicModule
                     $editForum[7][2] = Functions::getValueFromGlobals('sm_mods');
                     $editForum[10] = (array) Functions::getValueFromGlobals('new_rights') + array_fill(0, 10, ''); //Fill up missing keys/values from unchecked boxes with this neat array union trick :)
                     ksort($editForum[10]);
+                    $editForum[12] = htmlspecialchars(Functions::getValueFromGlobals('image'));
                     PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_FORUM_EDIT_FORUM, $editForum);
                     if(empty($editForum[1]))
                         $this->errors[] = Language::getInstance()->getString('please_enter_a_forum_name');
@@ -353,7 +359,8 @@ class AdminForum extends PublicModule
                 'editCatID' => $editForum[5],
                 'editOptions' => $editForum[7],
                 'editRights' => $editForum[10],
-                'editModIDs' => $editForum[11]]);
+                'editModIDs' => $editForum[11],
+                'editImage' => $editForum[12]]);
             break;
 
             case 'moveforumup':

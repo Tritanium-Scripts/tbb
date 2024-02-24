@@ -15,8 +15,8 @@
 {foreach $forums as $curForum}
 {if $curForum.catID == $curCat[0]}
  <tr>
-  <td class="td1"><img src="{Template::getInstance()->getTplDir()}images/{if !$curForum.isNewPost}no_{/if}new_post.gif" alt="" /></td>
-  <td class="td2"><span class="forumlink"><a class="forumlink" href="{$smarty.const.INDEXFILE}?mode=viewforum&amp;forum_id={$curForum.forumID}{$smarty.const.SID_AMPER}">{$curForum.forumTitle}</a></span><br /><span class="small">{$curForum.forumDescr}</span></td>
+  <td class="td1" style="text-align:center;"><img src="{Template::getInstance()->getTplDir()}images/{if !$curForum.isNewPost}no_{/if}new_post.gif" alt="" /></td>
+  <td class="td2">{if !empty($curForum.forumImage)}<a href="{$smarty.const.INDEXFILE}?mode=viewforum&amp;forum_id={$curForum.forumID}{$smarty.const.SID_AMPER}"><img src="{$curForum.forumImage}" alt="" style="float:left; margin-right:4px;" /></a>{/if}<span class="forumlink"><a class="forumlink" href="{$smarty.const.INDEXFILE}?mode=viewforum&amp;forum_id={$curForum.forumID}{$smarty.const.SID_AMPER}">{$curForum.forumTitle}</a></span><br /><span class="small">{$curForum.forumDescr}</span></td>
   <td class="td1" style="text-align:center;"><span class="norm">{$curForum.forumTopics}</span></td>
   <td class="td2" style="text-align:center;"><span class="norm">{$curForum.forumPosts}</span></td>
   <td class="td1 small" style="text-align:center;">{$curForum.lastPost}</td>

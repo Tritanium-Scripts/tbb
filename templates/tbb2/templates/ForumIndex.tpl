@@ -18,7 +18,7 @@
 {if $curForum.catID == $curCat[0]}
  <tr onmouseover="setRowCellsClass(this, 'cellHighlight');" onmouseout="restoreRowCellsClass(this);">
   <td class="cellAlt" style="text-align:center;"><img src="{Template::getInstance()->getTplDir()}images/{if !$curForum.isNewPost}no_{/if}new_post.gif" alt="" /></td>
-  <td class="cellStd"><span class="forumLink"><a class="forumLink" href="{$smarty.const.INDEXFILE}?mode=viewforum&amp;forum_id={$curForum.forumID}{$smarty.const.SID_AMPER}">{$curForum.forumTitle}</a></span><br /><span class="fontSmall">{$curForum.forumDescr}</span></td>
+  <td class="cellStd">{if !empty($curForum.forumImage)}<a href="{$smarty.const.INDEXFILE}?mode=viewforum&amp;forum_id={$curForum.forumID}{$smarty.const.SID_AMPER}"><img class="imageIcon" src="{$curForum.forumImage}" alt="" /></a>{/if}<span class="forumLink"><a class="forumLink" href="{$smarty.const.INDEXFILE}?mode=viewforum&amp;forum_id={$curForum.forumID}{$smarty.const.SID_AMPER}">{$curForum.forumTitle}</a></span><br /><span class="fontSmall">{$curForum.forumDescr}</span></td>
   <td class="cellAlt" style="text-align:center;"><span class="fontSmall">{$curForum.forumTopics}</span></td>
   <td class="cellAlt" style="text-align:center;"><span class="fontSmall">{$curForum.forumPosts}</span></td>
   <td class="cellStd" style="text-align:center;"><div class="fontSmall">{$curForum.lastPost}</div></td>
