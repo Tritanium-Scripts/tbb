@@ -9,7 +9,7 @@
  */
 define('SCRIPTSTART', microtime(true));
 define('INDEXFILE', 'index.php');
-define('ERR_REPORTING', E_ERROR | E_WARNING | E_PARSE); //Report only warnings or higher
+define('ERR_REPORTING', E_ERROR | E_PARSE); //Report only errors in case of Composer warnings
 define('COPYRIGHT_YEAR', 2024); //Displayed in page footer
 /*
  * Two version numbers of this script are used

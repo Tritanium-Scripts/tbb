@@ -91,7 +91,7 @@ class Config
         1,                                      #select_styles
         1,                                      #enable_uploads
         '',                                     #upload_allowed_ext
-        2097152,                                #upload_max_filesize
+        5242880,                                #upload_max_filesize
         //New TBB 1.6.0 config values
         ERR_REPORTING,                          #error_level
         3,                                      #spam_delay

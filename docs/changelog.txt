@@ -1,11 +1,10 @@
 **********************************************************
 Tritanium Bulletin Board 1.5+ - Changelog (German version)
-Last changed: 2024-02-24 (Version 1.10.0)
+Last changed: 2024-02-25 (Version 1.10.0)
 **********************************************************
 
 2024: Version 1.10.0
     - Fehler beim Hinzufügen von leeren speziellen Benutzer- und Gruppenrechten behoben
-    - Boterkennung verbessert
     - Umstellung auf Composer und dessen Autoloader
     - Smarty auf Version 4.3.5 aktualisiert
     - Umstellung und Nutzung der Features und Syntax von PHP 7.4 (= Mindestversion)
@@ -17,7 +16,6 @@ Last changed: 2024-02-24 (Version 1.10.0)
     - Verwalten von Plug-ins im ACP
     - Planen und Verwalten von Ereignissen für die Kalenderansicht im ACP
     - Anzeige von geplanten Ereignissen in der Kalenderansicht mit Pop-up für mehr Details
-    - Dokumentation aktualisiert
     - Verwalten von Themenpräfixen in den jeweiligen Foreneinstellungen im ACP
     - Themen und Umfragen mit (farbigen) Präfixen
     - Editieren von Beiträgen mit Präfixauswahl des Themas/Umfrage für (S-)Mods und Admins
@@ -41,6 +39,9 @@ Last changed: 2024-02-24 (Version 1.10.0)
     - Forenverwaltung um optionale Bilder ergänzt
     - Anzeige von Foren mit Grafik in der Forumübersicht
     - Verwendung von disk_free_space() lässt sich nicht mehr aktivieren wenn Befehl deaktiviert
+    - Boterkennung verbessert
+    - Standard für maximale Dateigröße zum Hochladen auf 5 MiB erhöht
+    - Dokumentation aktualisiert und FAQ ergänzt
 
 10.12.2023: Version 1.8.1 (offiziell)
     - Mögliche Enkodierungsprobleme der Monatsnamen im Kalender behoben

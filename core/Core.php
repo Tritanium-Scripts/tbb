@@ -35,7 +35,7 @@ class Core
      * action and subAction are both known in the template environment.
      * faction and mode are unknown to the template environment.
      *
-     * Each module (incl. Main) has a language file with the same name.
+     * Each module (incl. Core/Main) has a language file with the same name.
      * But each module can rely on multiple template files.
      *
      * m = amount of factions
@@ -106,6 +106,13 @@ class Core
         error_reporting(ERR_REPORTING);
         set_exception_handler(function(Throwable $e)
         {
+            $missing = [];
+            if(preg_match('/Class "(.*?)" not found/i', $e->getMessage(), $missing) > 0)
+            {
+                if(function_exists('http_response_code'))
+                    http_response_code(500);
+                exit('<b>ERROR:</b> Module ' . $missing[1] . ' does not exist!');
+            }
             Logger::getInstance()->log(get_class($e) . ': ' . $e->getMessage(), Logger::LOG_FILESYSTEM);
             echo($e);
         });
