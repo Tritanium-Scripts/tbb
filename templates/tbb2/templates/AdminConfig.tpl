@@ -16,6 +16,7 @@
   <td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('maintenance_mode_message')}</span><br /><span class="fontSmall">{Language::getInstance()->getString('xhtml_code_is_enabled')}</span></td>
   <td class="cellAlt"><textarea class="formTextArea" name="settings[7]" cols="50" rows="10" readonly="readonly" onclick="alert('{Language::getInstance()->getLangCode()|string_format:Language::getInstance()->getString('maintenance_mode_message_hint')}');">{$configValues['uc_message']|escape}</textarea></td>
  </tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_CONFIG_EDIT_SETTINGS_FORM_MAINTENANCE}
  <tr><td class="cellCat" colspan="2"><span class="fontCat">{Language::getInstance()->getString('general_settings')}</span></td></tr>
  <tr>
   <td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('address_to_forum')}</span></td>
@@ -193,6 +194,7 @@
   <td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('enable_plug_ins')}</span></td>
   <td class="cellAlt"><input type="radio" id="y86" name="settings[86]" value="1"{if $configValues['activate_plug_ins'] == 1} checked="checked"{/if} /><label for="y86" class="fontNorm">{Language::getInstance()->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="n86" name="settings[86]" value="0"{if $configValues['activate_plug_ins'] != 1} checked="checked"{/if} /><label for="n86" class="fontNorm">{Language::getInstance()->getString('negative')}</label></td>
  </tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_CONFIG_EDIT_SETTINGS_FORM_GENERAL}
  <tr><td class="cellCat" colspan="2"><span class="fontCat">{Language::getInstance()->getString('calendar_settings')}</span></td></tr>
  <tr>
   <td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('enable_calendar')}</span></td>
@@ -206,6 +208,7 @@
   <td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('show_birthdays')}</span></td>
   <td class="cellAlt"><input type="radio" id="y89" name="settings[89]" value="1"{if $configValues['birthdays_in_cal'] == 1} checked="checked"{/if} /><label for="y89" class="fontNorm">{Language::getInstance()->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="n89" name="settings[89]" value="0"{if $configValues['birthdays_in_cal'] != 1} checked="checked"{/if} /><label for="n89" class="fontNorm">{Language::getInstance()->getString('negative')}</label></td>
  </tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_CONFIG_EDIT_SETTINGS_FORM_CALENDAR}
  <tr><td class="cellCat" colspan="2"><span class="fontCat">{Language::getInstance()->getString('disk_space_settings')}</span></td></tr>
  <tr>
   <td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('warning_limit')}</span></td>
@@ -215,6 +218,7 @@
   <td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('closing_limit')}</span></td>
   <td class="cellAlt"><input class="formText" type="text" name="settings[11]" value="{$configValues['close_forum_fds']}" style="width:250px;" />&nbsp;<span class="fontSmall">{Language::getInstance()->getString('closing_limit_description')}</span></td>
  </tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_CONFIG_EDIT_SETTINGS_FORM_DISK_SPACE}
  <tr><td class="cellCat" colspan="2"><span class="fontCat">{Language::getInstance()->getString('registration_settings')}</span></td></tr>
  <tr>
   <td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('enable_registration')}</span></td>
@@ -232,6 +236,7 @@
   <td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('send_activation_code')}</span><br /><span class="fontSmall">{Language::getInstance()->getString('send_activation_code_hint')}</span></td>
   <td class="cellAlt"><input type="radio" id="y68" name="settings[68]" value="1"{if $configValues['confirm_reg_mail'] == 1} checked="checked"{/if} /><label for="y68" class="fontNorm">{Language::getInstance()->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="n68" name="settings[68]" value="0"{if $configValues['confirm_reg_mail'] != 1} checked="checked"{/if} /><label for="n68" class="fontNorm">{Language::getInstance()->getString('negative')}</label>&nbsp;<span class="fontSmall">{Language::getInstance()->getString('mail_functions_must_be_enabled')}</span></td>
  </tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_CONFIG_EDIT_SETTINGS_FORM_REGISTRATION}
  <tr><td class="cellCat" colspan="2"><span class="fontCat">{Language::getInstance()->getString('who_is_was_online_settings')}</span></td></tr>
  <tr>
   <td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('enable_who_is_was_online')}</span></td>
@@ -261,6 +266,7 @@
   <td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('color_for_banned')}</span></td>
   <td class="cellAlt"><input class="formText" type="text" name="settings[61]" value="{$configValues['wio_color_banned']}" style="color:{$configValues['wio_color_banned']}; width:250px;" onchange="this.style.color = this.value;" /></td>
  </tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_CONFIG_EDIT_SETTINGS_FORM_WIWO}
  <tr><td class="cellCat" colspan="2"><span class="fontCat">{Language::getInstance()->getString('status_settings')}</span></td></tr>
  <tr>
   <td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('status_for_administrators')}</span></td>
@@ -298,6 +304,7 @@
   <td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('use_color_from_wio_globally')}</span></td>
   <td class="cellAlt"><input type="radio" id="y90" name="settings[90]" value="1"{if $configValues['global_wio_color'] == 1} checked="checked"{/if} /><label for="y90" class="fontNorm">{Language::getInstance()->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="n90" name="settings[90]" value="0"{if $configValues['global_wio_color'] != 1} checked="checked"{/if} /><label for="n90" class="fontNorm">{Language::getInstance()->getString('negative')}</label></td>
  </tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_CONFIG_EDIT_SETTINGS_FORM_STATUS}
  <tr><td class="cellCat" colspan="2"><span class="fontCat">{Language::getInstance()->getString('technical_settings')}</span></td></tr>
  <tr><td class="divInfoBox" colspan="2"><span class="fontNorm"><img src="{Template::getInstance()->getTplDir()}images/icons/info.png" alt="" class="imageIcon" /> {Language::getInstance()->getString('normally_no_need_to_change_this')}</span></td></tr>
  <tr>
@@ -332,6 +339,7 @@
   <td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('php_error_reporting_level')}</span></td>
   <td class="cellAlt"><select class="formSelect" name="settings[75]">{html_options options=$errorLevels selected=$configValues['error_level']}</select></td>
  </tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_CONFIG_EDIT_SETTINGS_FORM_TECHNICAL}
  <tr><td class="cellCat" colspan="2"><span class="fontCat">{Language::getInstance()->getString('mail_settings')}</span></td></tr>
  <tr>
   <td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('enable_mail_functions')}</span></td>
@@ -353,6 +361,7 @@
   <td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('members_can_be_notified_about_new_replies')}</span></td>
   <td class="cellAlt"><input type="radio" id="y55" name="settings[55]" value="1"{if $configValues['notify_new_replies'] == 1} checked="checked"{/if} /><label for="y55" class="fontNorm">{Language::getInstance()->getString('positive')}</label>&nbsp;&nbsp;&nbsp;<input type="radio" id="n55" name="settings[55]" value="0"{if $configValues['notify_new_replies'] != 1} checked="checked"{/if} /><label for="n55" class="fontNorm">{Language::getInstance()->getString('negative')}</label></td>
  </tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_CONFIG_EDIT_SETTINGS_FORM_MAIL}
  <tr><td class="cellCat" colspan="2"><span class="fontCat">{Language::getInstance()->getString('file_upload_settings')}</span></td></tr>
  <tr>
   <td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('enable_file_uploads')}</span></td>
@@ -366,6 +375,7 @@
   <td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('maximal_filesize')}</span></td>
   <td class="cellAlt"><input class="formText" type="text" name="settings[74]" value="{$configValues['upload_max_filesize']}" style="width:250px;" />&nbsp;<span class="fontSmall">{Language::getInstance()->getString('maximal_filesize_hint')}</span></td>
  </tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_CONFIG_EDIT_SETTINGS_FORM_FILE_UPLOAD}
  <tr><td class="cellCat" colspan="2"><span class="fontCat">{Language::getInstance()->getString('logging_settings')}</span></td></tr>
  <tr>
   <td class="cellAlt" colspan="2">
@@ -383,8 +393,9 @@
    <input type="checkbox" id="log12" name="settings[9][11]" value="{Logger::LOG_NEW_PASSWORD}"{if Logger::LOG_NEW_PASSWORD|in_array:$configValues['log_options']} checked="checked"{/if} /> <label for="log12" class="fontNorm">{Language::getInstance()->getString('log_new_passwords_sent')}</label><br />
   </td>
  </tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_CONFIG_EDIT_SETTINGS_FORM_LOGGING}
 </table>
-<p class="cellButtons"><input class="formBButton" type="submit" value="{Language::getInstance()->getString('save_settings')}" />&nbsp;&nbsp;&nbsp;<input class="formButton" type="reset" /></p>
+<p class="cellButtons"><input class="formBButton" type="submit" value="{Language::getInstance()->getString('save_settings')}" />&nbsp;&nbsp;&nbsp;<input class="formButton" type="reset" />{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_CONFIG_EDIT_SETTINGS_BUTTONS}</p>
 <input type="hidden" name="save" value="1" />
 </form>
 {include file='AdminMenuTail.tpl'}

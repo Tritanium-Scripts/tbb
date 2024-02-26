@@ -7,6 +7,7 @@
   <col width="80%" />
  </colgroup>
  <tr><th class="thnorm" colspan="2"><span class="thnorm">{Language::getInstance()->getString('edit_event')}</span></th></tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_CALENDAR_EDIT_EVENT_FORM_START}
  <tr>
   <td class="td1" style="font-weight:bold;"><span class="norm">{Language::getInstance()->getString('post_icon_colon')}</span></td>
   <td class="td1" style="vertical-align:top;">{include file='TopicSmilies.tpl' checked=$editEventIcon}</td>
@@ -27,8 +28,9 @@
   <td class="td1" style="vertical-align:top;"><span class="norm" style="font-weight:bold;">{Language::getInstance()->getString('description')}</span><br /><br />{include file='Smilies.tpl' targetBoxID='eventDescription'}</td>
   <td class="td1"><textarea id="eventDescription" name="eventDescription" rows="8" cols="60">{$editEventDescription}</textarea></td>
  </tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_CALENDAR_EDIT_EVENT_FORM_END}
 </table>
-<p style="text-align:center;"><input type="submit" value="{Language::getInstance()->getString('edit_event')}" /></p>
+<p style="text-align:center;"><input type="submit" value="{Language::getInstance()->getString('edit_event')}" />{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_CALENDAR_EDIT_EVENT_BUTTONS}</p>
 <input type="hidden" name="update" value="yes" />
 <input type="hidden" name="id" value="{$eventId}" />
 </form>

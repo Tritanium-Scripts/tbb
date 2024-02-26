@@ -1,6 +1,6 @@
 **********************************************************
 Tritanium Bulletin Board 1.5+ - Changelog (German version)
-Last changed: 2024-02-25 (Version 1.10.0)
+Last changed: 2024-02-26 (Version 1.10.0)
 **********************************************************
 
 2024: Version 1.10.0
@@ -9,8 +9,8 @@ Last changed: 2024-02-25 (Version 1.10.0)
     - Smarty auf Version 4.3.5 aktualisiert
     - Umstellung und Nutzung der Features und Syntax von PHP 7.4 (= Mindestversion)
     - Mögliche Enkodierungsprobleme bei "Zuletzt hier am" in der Profilansicht behoben
-    - Formatierung des Quellcodes mit Tabs durch Leerzeichen ersetzt
-    - Unterstützung für Plug-ins
+    - Formatierung des Quellcodes mit Leerzeichen statt Tabs
+    - Unterstützung für Plug-ins mit vielen Stellen zum Einhaken
     - Neue Konfigurationswerte!
     - Globale Konstanten als Klassenkonstanten
     - Verwalten von Plug-ins im ACP
