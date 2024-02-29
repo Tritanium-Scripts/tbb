@@ -1,3 +1,4 @@
+<!-- MemberList -->
 {$isAdmin=Auth::getInstance()->isAdmin()}
 <table class="tableStd" cellpadding="{Config::getInstance()->getCfgVal('tpadding')}" cellspacing="{Config::getInstance()->getCfgVal('tspacing')}" style="width:100%;">
  <tr>

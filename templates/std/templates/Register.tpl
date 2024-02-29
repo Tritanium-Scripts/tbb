@@ -4,6 +4,7 @@
 <table class="tbl" cellpadding="{Config::getInstance()->getCfgVal('tpadding')}" cellspacing="{Config::getInstance()->getCfgVal('tspacing')}" style="width:{Config::getInstance()->getCfgVal('twidth')}; margin:auto;">
  <tr><th class="thnorm" colspan="2"><span class="thnorm">{Language::getInstance()->getString('register')}</span></th></tr>
  <tr><td class="td1" colspan="2"><span class="small">{Language::getInstance()->getString('all_denoted_fields_are_mandatory')}</span></td></tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_REGISTER_FORM_START}
  <tr>
   <td class="td1" style="font-weight:bold; width:30%;"><span class="norm">{Language::getInstance()->getString('nick_colon_denoted')}</span></td>
   <td class="td1" style="width:70%;"><input maxlength="15" type="text" name="newuser_name" value="{$newUser.nick}" style="width:150px;" /> <span class="small">{Language::getInstance()->getString('maximal_15_chars')}</span></td>
@@ -40,9 +41,10 @@
   <td class="td1" style="width:30%; vertical-align:top;"><span class="norm" style="font-weight:bold;">{Language::getInstance()->getString('signature_colon')}</span><br /><span class="small">{Language::getInstance()->getString('signature_info')}</span></td>
   <td class="td1" style="width:70%;"><textarea cols="40" rows="7" name="newuser_signatur">{$newUser.signature}</textarea></td>
  </tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_REGISTER_FORM_END}
  <tr><td class="td1" colspan="2"><input type="checkbox" id="regeln" name="regeln" value="yes" style="vertical-align:middle;" /> <label for="regeln" class="norm">{$rulesLink|string_format:Language::getInstance()->getString('i_accept_board_rules_denoted')}</label></td></tr>{if !empty($privacyPolicyLink)}
  <tr><td class="td1" colspan="2"><input type="checkbox" id="privacyPolicy" name="privacyPolicy" value="yes" style="vertical-align:middle;" /> <label for="privacyPolicy" class="norm">{$privacyPolicyLink|string_format:Language::getInstance()->getString('i_accept_privacy_policy_denoted')}</label></td></tr>{/if}
 </table>
-<p style="text-align:center;"><input type="submit" value="{Language::getInstance()->getString('register')}" /></p>
+<p style="text-align:center;"><input type="submit" value="{Language::getInstance()->getString('register')}" />{plugin_hook hook=PlugIns::HOOK_TPL_REGISTER_BUTTONS}</p>
 <input type="hidden" name="mode" value="createuser" />
 </form>
