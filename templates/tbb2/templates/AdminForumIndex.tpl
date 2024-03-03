@@ -38,6 +38,6 @@
  <tr><th class="cellTitle"><span class="fontTitle">{Language::getInstance()->getString('options')}</span></th></tr>
  <tr><td class="cellStd"><span class="fontNorm"><a href="{$smarty.const.INDEXFILE}?faction=ad_forum&amp;mode=newkg{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('add_new_category')}</a></span></td></tr>
  <tr><td class="cellStd"><span class="fontNorm"><a href="{$smarty.const.INDEXFILE}?faction=ad_forum&amp;mode=newforum{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('add_new_forum')}</a></span></td></tr>
-{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_FORUM_FORUMS_TABLE_OPTIONS}
+{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_FORUM_FORUMS_OPTIONS}
 </table>
 {include file='AdminMenuTail.tpl'}

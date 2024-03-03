@@ -4,6 +4,7 @@
 <table class="tbl" cellpadding="{Config::getInstance()->getCfgVal('tpadding')}" cellspacing="{Config::getInstance()->getCfgVal('tspacing')}" style="width:{Config::getInstance()->getCfgVal('twidth')}; margin:auto;">
  <tr><th colspan="2" class="thnorm"><span class="thnorm">{Language::getInstance()->getString('add_new_forum')}</span></th></tr>
  <tr><td colspan="2" class="kat"><span class="kat">{Language::getInstance()->getString('general_information')}</span></td></tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_FORUM_NEW_FORUM_FORM_START}
  <tr>
   <td class="td1"><span class="norm" style="font-weight:bold;">{Language::getInstance()->getString('name_colon')}</span></td>
   <td class="td1"><input type="text" name="titel" value="{$newName}" /></td>
@@ -39,6 +40,7 @@
  <tr><td colspan="2" class="td1"><input type="checkbox" id="isBBCode" name="upbcode" value="1"{if $newIsBBCode} checked="checked"{/if} /> <label for="isBBCode" class="norm">{Language::getInstance()->getString('enable_bbcode')}</label></td></tr>
  <tr><td colspan="2" class="td1"><input type="checkbox" id="isXHTML" name="htmlcode" value="1"{if $newIsXHTML} checked="checked"{/if} /> <label for="isXHTML" class="norm">{Language::getInstance()->getString('enable_xhtml')}</label></td></tr>
  <tr><td colspan="2" class="td1"><input type="checkbox" id="isNotify" name="sm_mods" value="1"{if $newIsNotify} checked="checked"{/if} /> <label for="isNotify" class="norm">{Language::getInstance()->getString('notify_moderators_about_new_topics')}</label></td></tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_FORUM_NEW_FORUM_FORM_END}
 </table>
-<p style="text-align:center;"><input type="submit" value="{Language::getInstance()->getString('add_new_forum')}" /></p>
+<p style="text-align:center;"><input type="submit" value="{Language::getInstance()->getString('add_new_forum')}" />{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_FORUM_NEW_FORUM_BUTTONS}</p>
 </form>

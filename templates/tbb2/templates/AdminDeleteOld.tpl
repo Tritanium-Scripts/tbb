@@ -27,7 +27,7 @@
 {plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_DELETE_OLD_FORM_END}
  <tr><td class="cellInfoBox" colspan="2" style="font-weight:bold;"><span class="fontNorm"><img src="{Template::getInstance()->getTplDir()}images/icons/info.png" alt="" class="imageIcon" /> {Language::getInstance()->getString('delete_warning')}</span></td></tr>
 </table>
-<p class="cellButtons"><input class="formBButton" type="submit" value="{Language::getInstance()->getString('delete_old_topics')}" />{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_DELETE_OLD_FORM_BUTTONS}</p>
+<p class="cellButtons"><input class="formBButton" type="submit" value="{Language::getInstance()->getString('delete_old_topics')}" />{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_DELETE_OLD_BUTTONS}</p>
 <input type="hidden" name="mode" value="kill" />
 </form>
 {include file='AdminMenuTail.tpl'}

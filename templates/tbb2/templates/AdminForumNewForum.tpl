@@ -5,6 +5,7 @@
 <table class="tableStd" cellpadding="{Config::getInstance()->getCfgVal('tpadding')}" cellspacing="{Config::getInstance()->getCfgVal('tspacing')}" style="width:100%;">
  <tr><th colspan="2" class="cellTitle"><span class="fontTitle">{Language::getInstance()->getString('add_new_forum')}</span></th></tr>
  <tr><td colspan="2" class="cellCat"><span class="fontCat">{Language::getInstance()->getString('general_information')}</span></td></tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_FORUM_NEW_FORUM_FORM_START}
  <tr>
   <td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('name_colon')}</span></td>
   <td class="cellAlt"><input class="formText" type="text" name="titel" value="{$newName}" /></td>
@@ -48,7 +49,8 @@
    <input type="checkbox" id="isNotify" name="sm_mods" value="1"{if $newIsNotify} checked="checked"{/if} /> <label for="isNotify">{Language::getInstance()->getString('notify_moderators_about_new_topics')}</label></span>
   </td>
  </tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_FORUM_NEW_FORUM_FORM_END}
 </table>
-<p class="cellButtons"><input class="formBButton" type="submit" value="{Language::getInstance()->getString('add_new_forum')}" />&nbsp;&nbsp;&nbsp;<input class="formButton" type="reset" /></p>
+<p class="cellButtons"><input class="formBButton" type="submit" value="{Language::getInstance()->getString('add_new_forum')}" />&nbsp;&nbsp;&nbsp;<input class="formButton" type="reset" />{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_FORUM_NEW_FORUM_BUTTONS}</p>
 </form>
 {include file='AdminMenuTail.tpl'}

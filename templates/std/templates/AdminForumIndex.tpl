@@ -24,4 +24,4 @@
  <tr><td class="td1" colspan="7" style="text-align:center;"><span class="norm" style="font-weight:bold;">{Language::getInstance()->getString('no_forums_available')}</span></td></tr>
 {/foreach}
 </table>
-<p class="norm"><a class="norm" href="{$smarty.const.INDEXFILE}?faction=ad_forum&amp;mode=newforum{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('add_new_forum')}</a>{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_FORUM_FORUMS_TABLE_OPTIONS}</p>
+<p class="norm"><a class="norm" href="{$smarty.const.INDEXFILE}?faction=ad_forum&amp;mode=newforum{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('add_new_forum')}</a>{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_FORUM_FORUMS_OPTIONS}</p>

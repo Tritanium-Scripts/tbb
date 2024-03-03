@@ -9,6 +9,7 @@
   <th class="thsmall"><span class="thsmall">{Language::getInstance()->getString('post_polls')}</span></th>
   <th class="thsmall"><span class="thsmall">{Language::getInstance()->getString('edit_own_posts')}</span></th>
   <th class="thsmall"><span class="thsmall">{Language::getInstance()->getString('edit_own_polls')}</span></th>
+{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_FORUM_SPECIAL_RIGHTS_TABLE_HEAD}
   <th class="thsmall"></th>
  </tr>
  <tr><td class="kat" colspan="8"><span class="kat">{Language::getInstance()->getString('special_user_rights')}</span></td></tr>
@@ -24,6 +25,7 @@
   <td class="td1" style="text-align:center;"><span class="small"><input type="checkbox" value="1" name="new_rights[{$curRight[0]}][3]"{if $curRight[6]} checked="checked"{/if} /></span></td>
   <td class="td1" style="text-align:center;"><span class="small"><input type="checkbox" value="1" name="new_rights[{$curRight[0]}][4]"{if $curRight[7]} checked="checked"{/if} /></span></td>
   <td class="td1" style="text-align:center;"><span class="small"><input type="checkbox" value="1" name="new_rights[{$curRight[0]}][5]"{if $curRight[8]} checked="checked"{/if} /></span></td>
+{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_FORUM_USER_RIGHTS_TABLE_BODY}
   <td class="td1" style="text-align:center;"><span class="small"><a class="small" href="{$smarty.const.INDEXFILE}?faction=ad_forum&amp;mode=kill_right&amp;forum_id={$forumID}&amp;right_id={$curRight[0]}{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('delete')}</a></span></td>
  </tr>
 {foreachelse}
@@ -41,13 +43,14 @@
   <td class="td1" style="text-align:center;"><span class="small"><input type="checkbox" value="1" name="new_rights[{$curRight[0]}][3]"{if $curRight[6]} checked="checked"{/if} /></span></td>
   <td class="td1" style="text-align:center;"><span class="small"><input type="checkbox" value="1" name="new_rights[{$curRight[0]}][4]"{if $curRight[7]} checked="checked"{/if} /></span></td>
   <td class="td1" style="text-align:center;"><span class="small"><input type="checkbox" value="1" name="new_rights[{$curRight[0]}][5]"{if $curRight[8]} checked="checked"{/if} /></span></td>
+{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_FORUM_GROUP_RIGHTS_TABLE_BODY}
   <td class="td1" style="text-align:center;"><span class="small"><a class="small" href="{$smarty.const.INDEXFILE}?faction=ad_forum&amp;mode=kill_right&amp;forum_id={$forumID}&amp;right_id={$curRight[0]}{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('delete')}</a></span></td>
  </tr>
 {foreachelse}
  <tr><td class="td1" colspan="8" style="text-align:center;"><span class="norm" style="font-weight:bold;">{Language::getInstance()->getString('no_special_group_rights')}</span></td></tr>
 {/foreach}
 </table>
-<p class="norm"><a href="{$smarty.const.INDEXFILE}?faction=ad_forum&amp;mode=new_user_right&amp;forum_id={$forumID}{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('add_new_special_user_right')}</a> | <a href="{$smarty.const.INDEXFILE}?faction=ad_forum&amp;mode=new_group_right&amp;forum_id={$forumID}{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('add_new_special_group_right')}</a></p>
-<p style="text-align:center;"><input type="submit" value="{Language::getInstance()->getString('edit_special_rights')}" /></p>
+<p class="norm"><a href="{$smarty.const.INDEXFILE}?faction=ad_forum&amp;mode=new_user_right&amp;forum_id={$forumID}{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('add_new_special_user_right')}</a> | <a href="{$smarty.const.INDEXFILE}?faction=ad_forum&amp;mode=new_group_right&amp;forum_id={$forumID}{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('add_new_special_group_right')}</a>{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_FORUM_SPECIAL_RIGHTS_OPTIONS}</p>
+<p style="text-align:center;"><input type="submit" value="{Language::getInstance()->getString('edit_special_rights')}" />{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_FORUM_SPECIAL_RIGHTS_BUTTONS}</p>
 <input type="hidden" name="change" value="yes" />
 </form>

@@ -3,6 +3,7 @@
 <form method="post" action="{$smarty.const.INDEXFILE}?faction=ad_forum&amp;mode=new_group_right&amp;forum_id={$forumID}{$smarty.const.SID_AMPER}">
 <table class="tableStd" cellpadding="{Config::getInstance()->getCfgVal('tpadding')}" cellspacing="{Config::getInstance()->getCfgVal('tspacing')}" style="width:100%;">
  <tr><th colspan="2" class="cellTitle"><span class="fontTitle">{Language::getInstance()->getString('add_new_special_group_right')}</span></th></tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_FORUM_NEW_GROUP_RIGHT_FORM_START}
  <tr>
   <td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('group_colon')}</span></td>
   <td class="cellAlt"><select class="formSelect" size="1" name="new_group_id">{foreach $groups as $curGroup}<option value="{$curGroup[0]}">{$curGroup[1]}</option>{/foreach}</select></td>
@@ -18,8 +19,9 @@
    <input type="checkbox" value="1" id="newRight5" name="new_right[5]"{if $forumRights[5]} checked="checked"{/if} /> <label for="newRight5">{Language::getInstance()->getString('is_allowed_to_edit_own_polls')}</label></span>
   </td>
  </tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_FORUM_NEW_GROUP_RIGHT_FORM_END}
 </table>
-<p class="cellButtons"><input class="formBButton" type="submit" value="{Language::getInstance()->getString('add_new_special_group_right')}" />&nbsp;&nbsp;&nbsp;<input class="formButton" type="reset" /></p>
+<p class="cellButtons"><input class="formBButton" type="submit" value="{Language::getInstance()->getString('add_new_special_group_right')}" />&nbsp;&nbsp;&nbsp;<input class="formButton" type="reset" />{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_FORUM_NEW_GROUP_RIGHT_BUTTONS}</p>
 <input type="hidden" name="add" value="yes" />
 </form>
 {include file='AdminMenuTail.tpl'}
