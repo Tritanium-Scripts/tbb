@@ -4,6 +4,6 @@
  <tr><th class="thnorm">{Language::getInstance()->getString('rebuild_topic_index')}</th></tr>
  <tr><td class="td1" style="text-align:center;"><p class="norm">{Language::getInstance()->getString('really_rebuild_topic_index')}</p></td></tr>
 </table>
-<p style="text-align:center;"><input type="submit" value="{Language::getInstance()->getString('rebuild_topic_index')}" /></p>
+<p style="text-align:center;"><input type="submit" value="{Language::getInstance()->getString('rebuild_topic_index')}" />{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_CONFIG_REBUILD_TOPIC_INDEX_BUTTONS}</p>
 <input type="hidden" name="confirmed" value="true" />
 </form>

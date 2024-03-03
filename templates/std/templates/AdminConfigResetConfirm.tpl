@@ -4,6 +4,6 @@
  <tr><th class="thnorm"><span class="thnorm">{Language::getInstance()->getString('reset_settings')}</span></th></tr>
  <tr><td class="td1" style="text-align:center;"><p><span class="norm">{Language::getInstance()->getString('really_reset_settings')}</span></p></td></tr>
 </table>
-<p style="text-align:center;"><input type="submit" value="{Language::getInstance()->getString('reset_settings')}" /></p>
+<p style="text-align:center;"><input type="submit" value="{Language::getInstance()->getString('reset_settings')}" />{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_CONFIG_RESET_SETTINGS_BUTTONS}</p>
 <input type="hidden" name="confirm" value="1" />
 </form>

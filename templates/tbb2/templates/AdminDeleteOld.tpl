@@ -8,6 +8,7 @@
   <col width="85%" />
  </colgroup>
  <tr><th class="cellTitle" colspan="2"><span class="fontTitle">{Language::getInstance()->getString('delete_old_topics')}</span></th></tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_DELETE_OLD_FORM_START}
  <tr>
   <td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('forum_colon')}</span></td>
   <td class="cellAlt">
@@ -23,9 +24,10 @@
   <td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('delete_topics_older_than_colon')}</span></td>
   <td class="cellAlt"><span class="fontNorm"><select class="formSelect" name="topic_age"><option value="15"{if $topicAge == 15} selected="selected"{/if}>{15|string_format:Language::getInstance()->getString('x_days')}</option><option value="30"{if $topicAge == 30} selected="selected"{/if}>{Language::getInstance()->getString('one_month')}</option><option value="60"{if $topicAge == 60} selected="selected"{/if}>{2|string_format:Language::getInstance()->getString('x_months')}</option><option value="90"{if $topicAge == 90} selected="selected"{/if}>{3|string_format:Language::getInstance()->getString('x_months')}</option><option value="180"{if $topicAge == 180} selected="selected"{/if}>{6|string_format:Language::getInstance()->getString('x_months')}</option></select></span></td>
  </tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_DELETE_OLD_FORM_END}
  <tr><td class="cellInfoBox" colspan="2" style="font-weight:bold;"><span class="fontNorm"><img src="{Template::getInstance()->getTplDir()}images/icons/info.png" alt="" class="imageIcon" /> {Language::getInstance()->getString('delete_warning')}</span></td></tr>
 </table>
-<p class="cellButtons"><input class="formBButton" type="submit" value="{Language::getInstance()->getString('delete_old_topics')}" /></p>
+<p class="cellButtons"><input class="formBButton" type="submit" value="{Language::getInstance()->getString('delete_old_topics')}" />{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_DELETE_OLD_FORM_BUTTONS}</p>
 <input type="hidden" name="mode" value="kill" />
 </form>
 {include file='AdminMenuTail.tpl'}

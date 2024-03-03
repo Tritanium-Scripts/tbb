@@ -4,6 +4,6 @@
  <tr><th class="thnorm">{Language::getInstance()->getString('recalculate_counters')}</th></tr>
  <tr><td class="td1" style="text-align:center;"><p class="norm">{Language::getInstance()->getString('really_recalculate_counters')}</p></td></tr>
 </table>
-<p style="text-align:center;"><input type="submit" value="{Language::getInstance()->getString('recalculate_counters')}" /></p>
+<p style="text-align:center;"><input type="submit" value="{Language::getInstance()->getString('recalculate_counters')}" />{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_CONFIG_RECALCULATE_COUNTERS_BUTTONS}</p>
 <input type="hidden" name="confirmed" value="true" />
 </form>
