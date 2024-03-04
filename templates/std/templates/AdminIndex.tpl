@@ -85,6 +85,7 @@
   <td class="td1" style="vertical-align:top; width:50%;"><span class="norm" style="font-weight:bold;"><a href="{$smarty.const.INDEXFILE}?faction=adminPlugIns{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('plug_ins')}</a></span><br /><span class="small">{Language::getInstance()->getString('plug_ins_text')}</span></td>
   <td class="td1" style="vertical-align:top; width:50%;" />
  </tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_INDEX_ADMINISTRATION}
 </table>
 <br />
 <table class="tbl" cellpadding="{Config::getInstance()->getCfgVal('tpadding')}" cellspacing="{Config::getInstance()->getCfgVal('tspacing')}" style="width:{Config::getInstance()->getCfgVal('twidth')}; margin:auto;">
@@ -99,4 +100,5 @@
  <tr><td class="td1"><span class="norm" style="font-weight:bold;">{Language::getInstance()->getString('target_version_template_colon')}</span></td><td class="td1"><span class="norm">{$smarty.config.targetVersion|trim_version}</span></td></tr>
  <tr><td class="td1"><span class="norm" style="font-weight:bold;">{Language::getInstance()->getString('server_colon')}</span></td><td class="td1"><span class="norm">{$smarty.server.SERVER_SOFTWARE}</span></td></tr>
  <tr><td class="td1"><span class="norm" style="font-weight:bold;">{Language::getInstance()->getString('php_version_colon')}</span></td><td class="td1"><span class="norm">{$smarty.const.PHP_VERSION}</span></td></tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_INDEX_SYSTEM_INFO}
 </table>

@@ -120,6 +120,7 @@
      </td>
      <td style="padding:10px; vertical-align:top;" />
     </tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_INDEX_ADMINISTRATION}
    </table>
   </td>
  </tr>
@@ -137,5 +138,6 @@
  <tr><td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('target_version_template_colon')}</span></td><td class="cellAlt"><span class="fontNorm">{$smarty.config.targetVersion|trim_version}</span></td></tr>
  <tr><td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('server_colon')}</span></td><td class="cellAlt"><span class="fontNorm">{$smarty.server.SERVER_SOFTWARE}</span></td></tr>
  <tr><td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('php_version_colon')}</span></td><td class="cellAlt"><span class="fontNorm">{$smarty.const.PHP_VERSION}</span></td></tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_INDEX_SYSTEM_INFO}
 </table>
 {include file='AdminMenuTail.tpl'}
