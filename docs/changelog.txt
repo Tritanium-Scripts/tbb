@@ -1,12 +1,12 @@
 **********************************************************
 Tritanium Bulletin Board 1.5+ - Changelog (German version)
-Last changed: 2024-03-03 (Version 1.10.0)
+Last changed: 2024-03-06 (Version 1.10.0)
 **********************************************************
 
 2024: Version 1.10.0
     - Fehler beim Hinzufügen von leeren speziellen Benutzer- und Gruppenrechten behoben
     - Umstellung auf Composer und dessen Autoloader
-    - Smarty auf Version 4.3.5 aktualisiert
+    - Smarty auf Version 4.4.1 aktualisiert
     - Umstellung und Nutzung der Features und Syntax von PHP 7.4 (= Mindestversion)
     - Mögliche Enkodierungsprobleme bei "Zuletzt hier am" in der Profilansicht behoben
     - Formatierung des Quellcodes mit Leerzeichen statt Tabs

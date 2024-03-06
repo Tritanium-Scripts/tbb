@@ -30,7 +30,7 @@
     },
     "require": {
         "php": ">=7.4",
-        "smarty/smarty": "4.3.*"
+        "smarty/smarty": "4.4.*"
     },
     "require-dev": {
         "oomphinc/composer-installers-extender": "2.*"
