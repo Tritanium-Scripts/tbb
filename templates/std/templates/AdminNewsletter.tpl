@@ -2,6 +2,7 @@
 <form method="post" action="{$smarty.const.INDEXFILE}?faction=ad_newsletter{$smarty.const.SID_AMPER}">
 <table class="tbl" cellpadding="{Config::getInstance()->getCfgVal('tpadding')}" cellspacing="{Config::getInstance()->getCfgVal('tspacing')}" style="width:{Config::getInstance()->getCfgVal('twidth')}; margin:auto;">
  <tr><th class="thnorm" colspan="2"><span class="thnorm">{Language::getInstance()->getString('send_newsletter')}</span></th></tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_NEWSLETTER_FORM_START}
  <tr>
   <td class="td1" style="font-weight:bold; width:10%;"><span class="norm">{Language::getInstance()->getString('recipient_colon')}</span></td>
   <td class="td1" style="width:90%;">{html_options name='target' values=array(1, 2, 3) output=array(Language::getInstance()->getString('all_members'), Language::getInstance()->getString('only_moderators'), Language::getInstance()->getString('only_administrators'))}</td>
@@ -22,7 +23,8 @@
   <td class="td1" style="width:10%;"></td>
   <td class="td1" style="width:90%;"><input type="checkbox" id="isArchived" name="isArchived" value="true" checked="checked" /> <label for="isArchived" class="norm" style="font-weight:bold;">{Language::getInstance()->getString('save_in_archive')}</label></td>
  </tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_NEWSLETTER_FORM_END}
 </table>
-<p style="text-align:center;"><input type="submit" value="{Language::getInstance()->getString('next')}" /></p>
+<p style="text-align:center;"><input type="submit" value="{Language::getInstance()->getString('next')}" />{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_NEWSLETTER_BUTTONS}</p>
 <input type="hidden" name="mode" value="accept" />
 </form>

@@ -7,6 +7,7 @@
   <col width="80%" />
  </colgroup>
  <tr><th class="cellTitle" colspan="2"><span class="fontTitle">{Language::getInstance()->getString('edit_forum_news')}</span></th></tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_NEWS_FORM_START}
  <tr><td class="cellCat" colspan="2"><span class="fontCat">{Language::getInstance()->getString('options')}</span></td></tr>
  <tr>
   <td class="cellStd" rowspan="2" style="vertical-align:top;"><span class="fontNorm">{Language::getInstance()->getString('news_type_colon')}</span></td>
@@ -39,7 +40,8 @@
   <td class="cellStd" style="vertical-align:top;"><span class="fontNorm">{Language::getInstance()->getString('news_colon')}</span><br /><br />{include file='Smilies.tpl' targetBoxID='news'}</td>
   <td class="cellAlt"><textarea class="formTextArea" cols="80" rows="11" id="news" name="news">{$newsText}</textarea><br /><span class="fontSmall">{Language::getInstance()->getString('write_news_hint')}</span></td>
  </tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_NEWS_FORM_END}
 </table>
-<p class="cellButtons"><input class="formBButton" type="submit" value="{Language::getInstance()->getString('edit_forum_news')}" /></p>
+<p class="cellButtons"><input class="formBButton" type="submit" value="{Language::getInstance()->getString('edit_forum_news')}" />{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_NEWS_BUTTONS}</p>
 </form>
 {include file='AdminMenuTail.tpl'}

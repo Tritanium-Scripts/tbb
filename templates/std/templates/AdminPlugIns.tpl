@@ -7,6 +7,7 @@
   <td class="kat"><span class="kat">{Language::getInstance()->getString('author')}</span></td>
   <td class="kat"><span class="kat">{Language::getInstance()->getString('description')}</span></td>
   <td class="kat"><span class="kat">{Language::getInstance()->getString('version')}</span></td>
+{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_PLUG_INS_TABLE_HEAD}
  </tr>{foreach $plugIns as $curPlugInId => $curPlugIn}
  <tr>
   <td class="td1" style="width:1%;"><input type="radio" id="{$curPlugInId}" name="plugIn" value="{$curPlugInId}" /></td>
@@ -14,10 +15,11 @@
   <td class="td2"><span class="norm"><a href="{$curPlugIn.website}" target="_blank">{$curPlugIn.author}</a></span></td>
   <td class="td1"><span class="small">{$curPlugIn.description}</span></td>
   <td class="td2"><span class="norm">{$curPlugIn.version}</span></td>
+{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_PLUG_INS_TABLE_BODY}
  </tr>
 {foreachelse}
  <tr><td class="td1" colspan="5" style="text-align:center;"><span class="norm" style="font-weight:bold;">{Language::getInstance()->getString('no_plug_ins_available')}</span></td></tr>
 {/foreach}
 </table>
-<p style="text-align:center;"><input type="submit" value="{Language::getInstance()->getString('delete_plug_in')}" /></p>
+<p style="text-align:center;"><input type="submit" value="{Language::getInstance()->getString('delete_plug_in')}" />{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_PLUG_INS_BUTTONS}</p>
 </form>

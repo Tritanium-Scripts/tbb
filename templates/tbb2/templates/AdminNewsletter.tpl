@@ -7,6 +7,7 @@
   <col width="90%" />
  </colgroup>
  <tr><th class="cellTitle" colspan="2"><span class="fontTitle">{Language::getInstance()->getString('send_newsletter')}</span></th></tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_NEWSLETTER_FORM_START}
  <tr>
   <td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('recipient_colon')}</span></td>
   <td class="cellAlt"><select class="formSelect" name="target">{html_options values=array(1, 2, 3) output=array(Language::getInstance()->getString('all_members'), Language::getInstance()->getString('only_moderators'), Language::getInstance()->getString('only_administrators'))}</select></td>
@@ -27,8 +28,9 @@
   <td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('options_colon')}</span></td>
   <td class="cellAlt"><input type="checkbox" id="isArchived" name="isArchived" value="true" checked="checked" /> <label for="isArchived" class="fontNorm" style="font-weight:bold;">{Language::getInstance()->getString('save_in_archive')}</label></td>
  </tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_NEWSLETTER_FORM_END}
 </table>
-<p class="cellButtons"><input class="formBButton" type="submit" value="{Language::getInstance()->getString('next')}" /></p>
+<p class="cellButtons"><input class="formBButton" type="submit" value="{Language::getInstance()->getString('next')}" />{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_NEWSLETTER_BUTTONS}</p>
 <input type="hidden" name="mode" value="accept" />
 </form>
 {include file='AdminMenuTail.tpl'}

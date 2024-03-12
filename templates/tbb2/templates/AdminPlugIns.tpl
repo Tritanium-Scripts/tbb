@@ -8,6 +8,7 @@
   <td class="cellCat"><span class="fontCat">{Language::getInstance()->getString('author')}</span></td>
   <td class="cellCat"><span class="fontCat">{Language::getInstance()->getString('description')}</span></td>
   <td class="cellCat"><span class="fontCat">{Language::getInstance()->getString('version')}</span></td>
+{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_PLUG_INS_TABLE_HEAD}
  </tr>{foreach $plugIns as $curPlugInId => $curPlugIn}
  <tr>
   <td class="cellStd" style="width:1%;"><input type="radio" id="{$curPlugInId}" name="plugIn" value="{$curPlugInId}" /></td>
@@ -15,11 +16,12 @@
   <td class="cellAlt"><span class="fontNorm"><a href="{$curPlugIn.website}" target="_blank">{$curPlugIn.author}</a></span></td>
   <td class="cellStd"><span class="fontSmall">{$curPlugIn.description}</span></td>
   <td class="cellAlt"><span class="fontNorm">{$curPlugIn.version}</span></td>
+{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_PLUG_INS_TABLE_BODY}
  </tr>
 {foreachelse}
  <tr><td colspan="5" class="cellStd" style="text-align:center;"><span class="fontNorm" style="font-weight:bold;">{Language::getInstance()->getString('no_plug_ins_available')}</span></td></tr>
 {/foreach}
 </table>
-<p class="cellButtons"><input class="formBButton" type="submit" value="{Language::getInstance()->getString('delete_plug_in')}" /></p>
+<p class="cellButtons"><input class="formBButton" type="submit" value="{Language::getInstance()->getString('delete_plug_in')}" />{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_PLUG_INS_BUTTONS}</p>
 </form>
 {include file='AdminMenuTail.tpl'}
