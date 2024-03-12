@@ -5,6 +5,7 @@
 <form method="post" action="{$smarty.const.INDEXFILE}?faction=ad_user&amp;mode=edit&amp;edit=yes{$smarty.const.SID_AMPER}">
 <table class="tableStd" cellpadding="{Config::getInstance()->getCfgVal('tpadding')}" cellspacing="{Config::getInstance()->getCfgVal('tspacing')}" style="width:100%;">
  <tr><th class="cellTitle" colspan="2"><span class="fontTitle">{Language::getInstance()->getString('edit_user')}</span></th></tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_USER_EDIT_USER_FORM_START}
  <tr>
   <td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('user_id_colon')}</span></td>
   <td class="cellAlt"><span class="fontNorm">{$editUser[1]}</span></td>
@@ -37,8 +38,9 @@
   <td class="cellStd" style="vertical-align:top;"><span class="fontNorm">{Language::getInstance()->getString('signature_colon')}</span></td>
   <td class="cellAlt"><textarea class="formTextArea" cols="60" rows="6" name="signatur">{$editUser[7]}</textarea></td>
  </tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_USER_EDIT_USER_FORM_END}
 </table>
-<p class="cellButtons"><input class="formBButton" type="submit" value="{Language::getInstance()->getString('edit_user')}" />&nbsp;&nbsp;&nbsp;<input class="formButton" type="submit" name="kill" value="{Language::getInstance()->getString('delete_user')}" onclick="return confirm('{Language::getInstance()->getString('really_delete_this_user')}')" />&nbsp;&nbsp;&nbsp;<input class="formButton" type="reset" /></p>
+<p class="cellButtons"><input class="formBButton" type="submit" value="{Language::getInstance()->getString('edit_user')}" />&nbsp;&nbsp;&nbsp;<input class="formButton" type="submit" name="kill" value="{Language::getInstance()->getString('delete_user')}" onclick="return confirm('{Language::getInstance()->getString('really_delete_this_user')}')" />&nbsp;&nbsp;&nbsp;<input class="formButton" type="reset" />{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_USER_EDIT_USER_BUTTONS}</p>
 <input type="hidden" name="id" value="{$editUser[1]}" />
 </form>
 {include file='AdminMenuTail.tpl'}

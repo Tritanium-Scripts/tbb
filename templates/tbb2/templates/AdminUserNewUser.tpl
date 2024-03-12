@@ -8,6 +8,7 @@
   <col width="80%" />
  </colgroup>
  <tr><th class="cellTitle" colspan="2"><span class="fontTitle">{Language::getInstance()->getString('add_new_member')}</span></th></tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_USER_NEW_USER_FORM_START}
  <tr>
   <td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('user_name_colon')}</span></td>
   <td class="cellAlt"><input class="formText" type="text" name="new[nick]" value="{$newUser['nick']}" style="width:150px;" /></td>
@@ -32,7 +33,8 @@
   <td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('options')}</span></td>
   <td class="cellAlt"><input type="checkbox" id="sendRegMail" name="new[send_reg]" value="1"{if $newUser['send_reg']} checked="checked"{/if} /> <label for="sendRegMail" class="fontNorm">{Language::getInstance()->getString('notify_new_member_per_mail')}</label></td>
  </tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_USER_NEW_USER_FORM_END}
 </table>
-<p class="cellButtons"><input class="formBButton" type="submit" value="{Language::getInstance()->getString('add_new_member')}" />&nbsp;&nbsp;&nbsp;<input class="formButton" type="reset" /></p>
+<p class="cellButtons"><input class="formBButton" type="submit" value="{Language::getInstance()->getString('add_new_member')}" />&nbsp;&nbsp;&nbsp;<input class="formButton" type="reset" />{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_USER_NEW_USER_BUTTONS}</p>
 </form>
 {include file='AdminMenuTail.tpl'}

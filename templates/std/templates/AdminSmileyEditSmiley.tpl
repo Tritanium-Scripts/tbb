@@ -3,6 +3,7 @@
 <form method="post" action="{$smarty.const.INDEXFILE}?faction=ad_smilies&amp;mode=edit{if $smileyType == BBCode::SMILEY_TOPIC}t{elseif $smileyType == BBCode::SMILEY_ADMIN}a{/if}&amp;id={$smileyID}{$smarty.const.SID_AMPER}">
 <table class="tbl" cellpadding="{Config::getInstance()->getCfgVal('tpadding')}" cellspacing="{Config::getInstance()->getCfgVal('tspacing')}" style="width:{Config::getInstance()->getCfgVal('twidth')}; margin:auto;">
  <tr><th class="thnorm" colspan="2"><span class="thnorm">{Language::getInstance()->getString('edit_smiley')}</span></th></tr>
+{if $smileyType == BBCode::SMILEY_TOPIC}{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_SMILEY_EDIT_TOPIC_SMILEY_FORM_START}{elseif $smileyType == BBCode::SMILEY_ADMIN}{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_SMILEY_EDIT_ADMIN_SMILEY_FORM_START}{else}{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_SMILEY_EDIT_SMILEY_FORM_START}{/if}
  <tr>
   <td class="td1" style="width:20%;"><span class="norm" style="font-weight:bold;">{Language::getInstance()->getString('smiley_colon')}</span></td>
   <td class="td1" style="width:80%;"><img src="{$editAddress}" alt="{$editSynonym}" /></td>
@@ -15,7 +16,8 @@
   <td class="td1" style="width:20%;"><span class="norm" style="font-weight:bold;">{Language::getInstance()->getString('synonym_colon')}</span></td>
   <td class="td1" style="width:80%;"><input type="text" name="synonym" value="{$editSynonym}" /></td>
  </tr>{/if}
+{if $smileyType == BBCode::SMILEY_TOPIC}{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_SMILEY_EDIT_TOPIC_SMILEY_FORM_END}{elseif $smileyType == BBCode::SMILEY_ADMIN}{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_SMILEY_EDIT_ADMIN_SMILEY_FORM_END}{else}{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_SMILEY_EDIT_SMILEY_FORM_END}{/if}
 </table>
-<p style="text-align:center;"><input type="submit" value="{Language::getInstance()->getString('edit_smiley')}" /></p>
+<p style="text-align:center;"><input type="submit" value="{Language::getInstance()->getString('edit_smiley')}" />{if $smileyType == BBCode::SMILEY_TOPIC}{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_SMILEY_EDIT_TOPIC_SMILEY_BUTTONS}{elseif $smileyType == BBCode::SMILEY_ADMIN}{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_SMILEY_EDIT_ADMIN_SMILEY_BUTTONS}{else}{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_SMILEY_EDIT_SMILEY_BUTTONS}{/if}</p>
 <input type="hidden" name="save" value="yes" />
 </form>

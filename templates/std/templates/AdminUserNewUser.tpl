@@ -4,6 +4,7 @@
 <table class="tbl" cellpadding="{Config::getInstance()->getCfgVal('tpadding')}" cellspacing="{Config::getInstance()->getCfgVal('tspacing')}" style="width:{Config::getInstance()->getCfgVal('twidth')}; margin:auto;">
  <tr><th class="thnorm" colspan="2"><span class="thnorm">{Language::getInstance()->getString('add_new_member')}</span></th></tr>
  <tr><td colspan="2" class="kat"><span class="kat">{Language::getInstance()->getString('user_data')}</span></td></tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_USER_NEW_USER_FORM_START}
  <tr>
   <td class="td1" style="width:30%;"><span class="norm" style="font-weight:bold;">{Language::getInstance()->getString('user_name_colon')}</span></td>
   <td class="td1" style="width:70%;"><input type="text" name="new[nick]" value="{$newUser['nick']}" style="width:150px;" /></td>
@@ -26,6 +27,7 @@
  </tr>
  <tr><td colspan="2" class="kat"><span class="kat">{Language::getInstance()->getString('options')}</span></td></tr>
  <tr><td colspan="2" class="td1"><input type="checkbox" id="sendRegMail" name="new[send_reg]" value="1"{if $newUser['send_reg']} checked="checked"{/if} /> <label for="sendRegMail" class="norm">{Language::getInstance()->getString('notify_new_member_per_mail')}</label></td></tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_USER_NEW_USER_FORM_END}
 </table>
-<p style="text-align:center;"><input type="submit" value="{Language::getInstance()->getString('add_new_member')}" /></p>
+<p style="text-align:center;"><input type="submit" value="{Language::getInstance()->getString('add_new_member')}" />{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_USER_NEW_USER_BUTTONS}</p>
 </form>

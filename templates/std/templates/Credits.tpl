@@ -82,7 +82,6 @@
   <meta http-equiv="Content-Language" content="{Language::getInstance()->getLangCode()}" />
   <meta http-equiv="Content-Script-Type" content="text/javascript" />
   <meta http-equiv="Content-Style-Type" content="text/css" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="author" content="Tritanium Scripts" />
   <meta name="copyright" content="&copy; 2010&ndash;{$smarty.const.COPYRIGHT_YEAR} Tritanium Scripts" />
   <meta name="generator" content="Notepad 4.10.1998" />
