@@ -6,6 +6,7 @@
   <th class="thsmall"><span class="thsmall">{Language::getInstance()->getString('replies')}</span></th>
   <th class="thsmall"><span class="thsmall">{Language::getInstance()->getString('views')}</span></th>
   <th class="thsmall"><span class="thsmall">{Language::getInstance()->getString('last_post')}</span></th>
+{plugin_hook hook=PlugIns::HOOK_TPL_FORUM_VIEW_FORUM_TABLE_HEAD}
  </tr>
 {foreach $topics as $curTopic}
  <tr>
@@ -16,6 +17,7 @@
   <td class="td1" style="text-align:center;"><span class="norm">{$curTopic.postCounter}</span></td>
   <td class="td2" style="text-align:center;"><span class="norm">{$curTopic.views}</span></td>
   <td class="td1" style="text-align:center;"><span class="small">{$curTopic.lastPost}</span></td>
+{plugin_hook hook=PlugIns::HOOK_TPL_FORUM_VIEW_FORUM_TABLE_BODY}
  </tr>
 {foreachelse}
  <tr><td class="td1" colspan="7" style="font-weight:bold; text-align:center;"><span class="norm">{Language::getInstance()->getString('no_topics_available')}</span></td></tr>
@@ -26,7 +28,7 @@
 <!-- Toolbar -->
 <table class="navbar" cellpadding="0" cellspacing="0" style="width:{Config::getInstance()->getCfgVal('twidth')}; margin:auto;">
  <tr>
-   <td class="navbar" style="width:50%;"><span class="navbar">&nbsp;<a href="{$smarty.const.INDEXFILE}?faction=newtopic&amp;forum_id={$forumID}{$smarty.const.SID_AMPER}"><img src="{Template::getInstance()->getTplDir()}images/newtopic.gif" alt="" style="vertical-align:middle;" /></a>&nbsp;<a href="{$smarty.const.INDEXFILE}?faction=newpoll&amp;forum_id={$forumID}{$smarty.const.SID_AMPER}"><img src="{Template::getInstance()->getTplDir()}images/newpoll.gif" alt="" style="vertical-align:middle;" /></a></span></td>
+   <td class="navbar" style="width:50%;"><span class="navbar">&nbsp;<a href="{$smarty.const.INDEXFILE}?faction=newtopic&amp;forum_id={$forumID}{$smarty.const.SID_AMPER}"><img src="{Template::getInstance()->getTplDir()}images/newtopic.gif" alt="" style="vertical-align:middle;" /></a>&nbsp;<a href="{$smarty.const.INDEXFILE}?faction=newpoll&amp;forum_id={$forumID}{$smarty.const.SID_AMPER}"><img src="{Template::getInstance()->getTplDir()}images/newpoll.gif" alt="" style="vertical-align:middle;" /></a>{plugin_hook hook=PlugIns::HOOK_TPL_FORUM_VIEW_FORUM_OPTIONS}</span></td>
    <td class="navbar" style="width:49%; text-align:right;"><span class="navbar">{$pageBar}</span></td>
  </tr>
 </table>

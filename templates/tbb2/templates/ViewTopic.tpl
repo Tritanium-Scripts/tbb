@@ -5,6 +5,7 @@
  <tr><th class="cellTitle"><span class="fontTitle">{Language::getInstance()->getString('poll_colon')} {$pollTitle}</span> <span class="fontTitleSmall">{$totalVotes|string_format:Language::getInstance()->getString('x_votes_total')}</span></th></tr>
  <tr>
   <td class="cellStd">
+{plugin_hook hook=PlugIns::HOOK_TPL_FORUM_VIEW_TOPIC_POLL_FORM_START}
    <table border="0" cellpadding="2" cellspacing="0">
     {foreach $pollOptions as $curOption}<tr>
      <td style="padding:3px;">{if !$hasVoted}<input type="radio" name="vote_id" value="{$curOption.optionID}" /> {/if}<span class="fontNorm">{$curOption.pollOption}</span></td>
@@ -12,13 +13,14 @@
      <td style="padding:3px;"><span class="fontSmall">{$curOption.voteText}</span></td>
     </tr>{/foreach}
    </table>
+{plugin_hook hook=PlugIns::HOOK_TPL_FORUM_VIEW_TOPIC_POLL_FORM_END}
   </td>
  </tr>
  <tr>{if $isPollClosed}
   <td class="cellMessageBox"><span class="fontNorm">{Language::getInstance()->getString('the_poll_is_closed')}</span></td>{elseif $hasVoted}
   <td class="cellMessageBox"><span class="fontNorm">{Language::getInstance()->getString('you_already_voted')}</span></td>{elseif $needsLogin}
   <td class="cellMessageBox"><span class="fontNorm">{Language::getInstance()->getString('need_login_to_vote')}</span></td>{else}
-  <td class="cellButtons"><input class="formBButton" type="submit" value="{Language::getInstance()->getString('vote')}" /></td>{/if}
+  <td class="cellButtons"><input class="formBButton" type="submit" value="{Language::getInstance()->getString('vote')}" />{plugin_hook hook=PlugIns::HOOK_TPL_FORUM_VIEW_TOPIC_POLL_BUTTONS}</td>{/if}
  </tr>
 </table>
 </form><br />{/if}
@@ -28,6 +30,7 @@
  <tr>
   <th class="cellTitle" style="text-align:left; width:15%;"><span class="fontTitle">{Language::getInstance()->getString('author')}</span></th>
   <th class="cellTitle" style="text-align:left; width:85%;"><span class="fontTitle">{Language::getInstance()->getString('topic_colon')} {$topicTitle}{if Auth::getInstance()->isLoggedIn()} (<a href="{$smarty.const.INDEXFILE}?faction=topic&amp;mode={if $isSubscribed}unsubscribe&amp;forum_id={$forumID}&amp;topic_id={$topicID}{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('unsubscribe')}{else}subscribe&amp;forum_id={$forumID}&amp;topic_id={$topicID}{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('subscribe')}{/if}</a>){/if}</span></th>
+{plugin_hook hook=PlugIns::HOOK_TPL_FORUM_VIEW_TOPIC_POSTS_TABLE_HEAD}
  </tr>
 {foreach $posts as $curPost}
  <tr id="post{$curPost.postID}">
@@ -66,6 +69,7 @@
   </td>
  </tr>
  <tr><td class="cellStd" style="width:85%;"><span class="fontSmall">{* reuse sendPM value here *}{if $curPost.sendPM}{$curPost.userPosts|string_format:Language::getInstance()->getString('x_posts')} | {/if}{if $curPost.sendPM}{$curPost.userRegDate|string_format:Language::getInstance()->getString('member_since_x')} | {/if}{$curPost.postIPText}</span></td></tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_FORUM_VIEW_TOPIC_POSTS_TABLE_BODY}
 {/foreach}
 </table>
 
@@ -88,6 +92,7 @@
 <form action="{$smarty.const.INDEXFILE}?faction=reply&amp;mode=save{$smarty.const.SID_AMPER}" method="post">
 <table class="tableStd" cellpadding="{Config::getInstance()->getCfgVal('tpadding')}" cellspacing="{Config::getInstance()->getCfgVal('tspacing')}" style="width:100%;">
  <tr><th class="cellTitle" colspan="2"><span class="fontTitle">{Language::getInstance()->getString('quick_reply')}</span></th></tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_FORUM_VIEW_TOPIC_QUICK_REPLY_FORM_START}
  <tr>
   <td class="cellStd">
    <table>
@@ -98,7 +103,8 @@
    </table>
   </td>
  </tr>
- <tr><td class="cellButtons" colspan="2"><input class="formBButton" type="submit" value="{Language::getInstance()->getString('quick_reply')}" /></td></tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_FORUM_VIEW_TOPIC_QUICK_REPLY_FORM_END}
+ <tr><td class="cellButtons" colspan="2"><input class="formBButton" type="submit" value="{Language::getInstance()->getString('quick_reply')}" />{plugin_hook hook=PlugIns::HOOK_TPL_FORUM_VIEW_TOPIC_QUICK_REPLY_BUTTONS}</td></tr>
 </table>
 <input type="hidden" name="topic_id" value="{$topicID}" />
 <input type="hidden" name="forum_id" value="{$forumID}" />

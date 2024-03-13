@@ -6,6 +6,7 @@
  <tr>
   <td class="td1">
    <span class="norm" style="font-weight:bold;">{$pollTitle}</span> <span class="small">{$totalVotes|string_format:Language::getInstance()->getString('x_votes_total')}</span><br />
+{plugin_hook hook=PlugIns::HOOK_TPL_FORUM_VIEW_TOPIC_POLL_FORM_START}
    <table cellpadding="0" cellspacing="4">
     {foreach $pollOptions as $curOption}<tr>
      <td style="text-align:right;"><span class="norm">{$curOption@iteration}. </span>{if !$hasVoted}<input type="radio" name="vote_id" value="{$curOption.optionID}" />{/if}</td>
@@ -14,12 +15,13 @@
      <td><span class="small">{$curOption.voteText}</span></td>
     </tr>{/foreach}
    </table>
+{plugin_hook hook=PlugIns::HOOK_TPL_FORUM_VIEW_TOPIC_POLL_FORM_END}
    <span class="norm">
    {if $isPollClosed}<span class="small">{Language::getInstance()->getString('the_poll_is_closed')}</span>
    {elseif $hasVoted}<span class="small">{Language::getInstance()->getString('you_already_voted')}</span>
    {elseif $needsLogin}<span class="small">{Language::getInstance()->getString('need_login_to_vote')}</span>
    {else}<input type="submit" value="{Language::getInstance()->getString('vote')}" />{/if}
-   {if $canEdit}&nbsp;&nbsp;&nbsp;<input type="submit" name="edit" value="{Language::getInstance()->getString('edit')}" />{/if}
+   {if $canEdit}&nbsp;&nbsp;&nbsp;<input type="submit" name="edit" value="{Language::getInstance()->getString('edit')}" />{/if}{plugin_hook hook=PlugIns::HOOK_TPL_FORUM_VIEW_TOPIC_POLL_BUTTONS}
    </span>
   </td>
  </tr>
@@ -31,6 +33,7 @@
  <tr>
   <th class="thsmall" style="text-align:left; width:15%;"><span class="thsmall">{Language::getInstance()->getString('author')}</span></th>
   <th class="thsmall" style="text-align:left; width:85%;"><span class="thsmall">{Language::getInstance()->getString('topic_colon')} {$topicTitle}{if Auth::getInstance()->isLoggedIn()} (<a style="color:#FFFF00;" href="{$smarty.const.INDEXFILE}?faction=topic&amp;mode={if $isSubscribed}unsubscribe&amp;forum_id={$forumID}&amp;topic_id={$topicID}{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('unsubscribe')}{else}subscribe&amp;forum_id={$forumID}&amp;topic_id={$topicID}{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('subscribe')}{/if}</a>){/if}</span></th>
+{plugin_hook hook=PlugIns::HOOK_TPL_FORUM_VIEW_TOPIC_POSTS_TABLE_HEAD}
  </tr>
 {foreach $posts as $curPost}
  <tr id="post{$curPost.postID}">
@@ -62,6 +65,7 @@
   </td>
  </tr>
  <tr><td class="{cycle values="td1,td2"}" style="vertical-align:bottom; width:85%;">{if Config::getInstance()->getCfgVal('tspacing') < 1}<hr />{/if}<span style="font-family:Verdana; font-size:xx-small;">{* reuse sendPM value here *}{if $curPost.sendPM}{$curPost.userPosts|string_format:Language::getInstance()->getString('x_posts')} | {/if}{if $curPost.sendPM}{$curPost.userRegDate|string_format:Language::getInstance()->getString('member_since_x')} | {/if}{$curPost.postIPText}</span></td></tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_FORUM_VIEW_TOPIC_POSTS_TABLE_BODY}
 {/foreach}
 </table>
 
@@ -75,11 +79,13 @@
 <form action="{$smarty.const.INDEXFILE}?faction=reply&amp;mode=save{$smarty.const.SID_AMPER}" method="post">
 <table class="tbl" cellpadding="{Config::getInstance()->getCfgVal('tpadding')}" cellspacing="{Config::getInstance()->getCfgVal('tspacing')}" style="width:{Config::getInstance()->getCfgVal('twidth')}; margin:auto;">
  <tr><th class="thnorm" colspan="2"><span class="thnorm">{Language::getInstance()->getString('quick_reply')}</span></th></tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_FORUM_VIEW_TOPIC_QUICK_REPLY_FORM_START}
  <tr>
   <td class="{cycle values="td1,td2" advance=false}" style="width:10%;"><textarea id="post" name="post" rows="10" cols="60"></textarea></td>
   <td class="{cycle values="td1,td2" advance=false}" style="vertical-align:top;"><br />{include file='Smilies.tpl' targetBoxID='post' isMod=$canModify}</td>
  </tr>
- <tr><td class="{cycle values="td1,td2" advance=false}" colspan="2"><input type="submit" value="{Language::getInstance()->getString('quick_reply')}" /></td></tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_FORUM_VIEW_TOPIC_QUICK_REPLY_FORM_END}
+ <tr><td class="{cycle values="td1,td2" advance=false}" colspan="2"><input type="submit" value="{Language::getInstance()->getString('quick_reply')}" />{plugin_hook hook=PlugIns::HOOK_TPL_FORUM_VIEW_TOPIC_QUICK_REPLY_BUTTONS}</td></tr>
 </table>
 <input type="hidden" name="topic_id" value="{$topicID}" />
 <input type="hidden" name="forum_id" value="{$forumID}" />
