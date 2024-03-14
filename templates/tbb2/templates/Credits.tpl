@@ -86,6 +86,7 @@
   <meta name="copyright" content="&copy; 2010&ndash;{$smarty.const.COPYRIGHT_YEAR} Tritanium Scripts" />
   <meta name="generator" content="Notepad 4.10.1998" />
   <meta name="robots" content="all" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="{Template::getInstance()->getTplDir()}images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
   <script src="{Template::getInstance()->getTplDir()}scripts/scripts.js" type="text/javascript"></script>
   <style type="text/css">

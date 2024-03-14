@@ -4,6 +4,6 @@
  <tr><th class="thnorm"><span class="thnorm">{Language::getInstance()->getString('open_topic')}</span></th></tr>
  <tr><td class="td1" style="text-align:center;"><p><span class="norm">{$title|string_format:Language::getInstance()->getString('really_open_topic_x')}</span></p></td></tr>
 </table>
-<p style="text-align:center;"><input type="submit" value="{Language::getInstance()->getString('open_topic')}" /></p>
+<p style="text-align:center;"><input type="submit" value="{Language::getInstance()->getString('open_topic')}" />{plugin_hook hook=PlugIns::HOOK_TPL_POSTING_OPEN_TOPIC_BUTTONS}</p>
 <input type="hidden" name="open" value="yes" />
 </form>

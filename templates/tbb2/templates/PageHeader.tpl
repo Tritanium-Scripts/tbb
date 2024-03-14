@@ -13,6 +13,7 @@
   <meta name="keywords" content="TBB,Tritanium,Tritanium Scripts,TBB {$smarty.const.VERSION_PUBLIC},Tritanium Bulletin Board,{Config::getInstance()->getCfgVal('site_name')},{','|implode:NavBar::getInstance()->getNavBar(false)}" />
   <meta name="revisit-after" content="7 days" />
   <meta name="robots" content="all" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="{Template::getInstance()->getTplDir()}images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
   <link href="{Template::getInstance()->getTplDir()}{Auth::getInstance()->getUserStyle()}" media="all" rel="stylesheet" />
   <link href="{$smarty.const.INDEXFILE}?faction=rssFeed" rel="alternate" title="{Config::getInstance()->getCfgVal('forum_name')|string_format:Language::getInstance()->getString('x_rss_feed')}" type="application/rss+xml" />

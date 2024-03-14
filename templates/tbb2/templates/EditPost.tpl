@@ -6,6 +6,7 @@
   <col width="80%" />
  </colgroup>
  <tr><th class="cellTitle" colspan="2"><span class="fontTitle">{Language::getInstance()->getString('edit_post')}</span></th></tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_POSTING_EDIT_POST_FORM_START}
  <tr>
   <td class="cellStd" style="vertical-align:top;"><span class="fontNorm">{Language::getInstance()->getString('post_icon_colon')}</span></td>
   <td class="cellAlt" style="vertical-align:top;">{include file='TopicSmilies.tpl' checked=$editPost.tSmileyID}</td>
@@ -22,6 +23,7 @@
   <td class="cellStd" style="vertical-align:top;"><span class="fontNorm">{Language::getInstance()->getString('post_colon')}</span><br /><br />{include file='Smilies.tpl' targetBoxID='post'}</td>
   <td class="cellAlt"><textarea class="formTextArea" id="post" name="post" rows="15" cols="80">{$editPost.post}</textarea></td>
  </tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_POSTING_EDIT_POST_FORM_END}
  <tr>
   <td class="cellStd" style="vertical-align:top;"><span class="fontNorm">{Language::getInstance()->getString('options_colon')}</span></td>
   <td class="cellAlt">
@@ -34,6 +36,6 @@
   </td>
  </tr>
 </table>
-<p class="cellButtons"><input class="formBButton" type="submit" value="{Language::getInstance()->getString('edit_post')}" />&nbsp;&nbsp;&nbsp;<input class="formButton" type="reset" /></p>
+<p class="cellButtons"><input class="formBButton" type="submit" value="{Language::getInstance()->getString('edit_post')}" />&nbsp;&nbsp;&nbsp;<input class="formButton" type="reset" />{plugin_hook hook=PlugIns::HOOK_TPL_POSTING_EDIT_POST_BUTTONS}</p>
 <input type="hidden" name="update" value="true" />
 </form>

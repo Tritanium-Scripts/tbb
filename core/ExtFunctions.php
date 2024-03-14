@@ -17,6 +17,20 @@ class ExtFunctions
     private static array $cache = [];
 
     /**
+     * Indicates the used locale is based on UTF-8 and stuff like month names don't need {@link utf8_encode()}.
+     *
+     * @var bool UTF-8 based locale in use
+     */
+    private static bool $utf8Locale;
+
+    /**
+     * Hidden constructor to prevent instances of this class.
+     */
+    private function __construct()
+    {
+    }
+
+    /**
      * Explodes a string by comma.
      *
      * @param string $string String to explode
@@ -75,9 +89,10 @@ class ExtFunctions
      */
     public static function formatDate(string $date, string $format): string
     {
-        $timestamp = self::getTimestamp($date);
+        $formattedDate = self::gmstrftime($format, self::getTimestamp($date));
         //Encode as UTF-8, because month names lacks proper encoding
-        return self::utf8Encode(self::gmstrftime($format, $timestamp));
+        self::$utf8Locale ??= stripos(setlocale(LC_ALL, '0'), '.utf8') !== false;
+        return self::$utf8Locale ? $formattedDate : self::utf8Encode($formattedDate);
     }
 
     /**
@@ -161,6 +176,7 @@ class ExtFunctions
      *
      * @param string $format Format pattern
      * @param int $timestamp Timestamp to format
+     * @return string|bool Formatted string or false
      */
     public static function gmstrftime(string $format, ?int $timestamp=null)
     {

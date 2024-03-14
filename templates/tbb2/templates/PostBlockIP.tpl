@@ -7,6 +7,7 @@
   <col width="80%" />
  </colgroup>
  <tr><th class="cellTitle" colspan="2"><span class="fontTitle">{Language::getInstance()->getString('block_ip_address')}</span></th></tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_POSTING_BLOCK_IP_FORM_START}
  <tr>
   <td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('ip_address_colon')}</span></td>
   <td class="cellAlt"><span class="fontNorm">{$ipAddress}</span></td>
@@ -16,8 +17,9 @@
   <td class="cellAlt"><select class="formSelect" name="spdauer" size="1"><option value="60">{Language::getInstance()->getString('one_hour')}</option><option value="120">{2|string_format:Language::getInstance()->getString('x_hours')}</option><option value="300">{5|string_format:Language::getInstance()->getString('x_hours')}</option><option value="1440">{Language::getInstance()->getString('one_day')}</option><option value="-1">{Language::getInstance()->getString('forever')}</option></select></td>
  </tr>{if Auth::getInstance()->isAdmin()}
  <tr><td class="cellAlt" colspan="2"><input type="checkbox" id="foren" name="foren" value="ja" style="vertical-align:middle;" /> <label for="foren" class="fontNorm">{Language::getInstance()->getString('block_ip_for_entire_board')}</label></td></tr>{/if}
+{plugin_hook hook=PlugIns::HOOK_TPL_POSTING_BLOCK_IP_FORM_END}
 </table>
-<p class="cellButtons"><input class="formBButton" type="submit" value="{Language::getInstance()->getString('block_ip_address')}" /></p>
+<p class="cellButtons"><input class="formBButton" type="submit" value="{Language::getInstance()->getString('block_ip_address')}" />{plugin_hook hook=PlugIns::HOOK_TPL_POSTING_BLOCK_IP_BUTTONS}</p>
 <input type="hidden" name="mode" value="sperren" />
 <input type="hidden" name="forum_id" value="{$forumID}" />
 <input type="hidden" name="topic_id" value="{$topicID}" />

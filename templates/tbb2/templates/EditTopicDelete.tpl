@@ -4,6 +4,6 @@
  <tr><th class="cellTitle"><span class="fontTitle">{Language::getInstance()->getString('delete_topic')}</span></th></tr>
  <tr><td class="cellStd" style="text-align:center;"><p class="fontNorm">{$title|string_format:Language::getInstance()->getString('really_delete_topic_x')}</p></td></tr>
 </table>
-<p class="cellButtons"><input class="formBButton" type="submit" value="{Language::getInstance()->getString('delete_topic')}" /></p>
+<p class="cellButtons"><input class="formBButton" type="submit" value="{Language::getInstance()->getString('delete_topic')}" />{plugin_hook hook=PlugIns::HOOK_TPL_POSTING_DELETE_TOPIC_BUTTONS}</p>
 <input type="hidden" name="kill" value="yes" />
 </form>

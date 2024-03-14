@@ -2,6 +2,7 @@
 <form method="post" action="{$smarty.const.INDEXFILE}?faction=edit&amp;topic_id={$topicID}&amp;post_id={$postID}&amp;forum_id={$forumID}{$smarty.const.SID_AMPER}" name="beitrag">
 <table class="tbl" cellpadding="{Config::getInstance()->getCfgVal('tpadding')}" cellspacing="{Config::getInstance()->getCfgVal('tspacing')}" style="width:{Config::getInstance()->getCfgVal('twidth')}; margin:auto;">
  <tr><th class="thnorm" colspan="2"><span class="thnorm">{Language::getInstance()->getString('edit_post')}</span></th></tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_POSTING_EDIT_POST_FORM_START}
  <tr>
   <td class="td1" style="font-weight:bold; width:20%;"><span class="norm">{Language::getInstance()->getString('post_icon_colon')}</span></td>
   <td class="td1" style="vertical-align:top; width:80%;">{include file='TopicSmilies.tpl' checked=$editPost.tSmileyID}</td>
@@ -19,6 +20,7 @@
   <td class="td1" style="width:80%;"><textarea id="post" name="post" rows="10" cols="60">{$editPost.post}</textarea></td>
  </tr>{if Config::getInstance()->getCfgVal('tspacing') < 1}
  <tr><td class="td1" colspan="2"><hr /></td></tr>{/if}
+{plugin_hook hook=PlugIns::HOOK_TPL_POSTING_EDIT_POST_FORM_END}
  <tr>
   <td class="td1" style="font-weight:bold; vertical-align:top; width:20%;"><span class="norm">{Language::getInstance()->getString('options_colon')}</span></td>
   <td class="td1" style="width:80%;">
@@ -31,6 +33,6 @@
   </td>
  </tr>
 </table>
-<p style="text-align:center;"><input type="submit" value="{Language::getInstance()->getString('edit_post')}" /></p>
+<p style="text-align:center;"><input type="submit" value="{Language::getInstance()->getString('edit_post')}" />{plugin_hook hook=PlugIns::HOOK_TPL_POSTING_EDIT_POST_BUTTONS}</p>
 <input type="hidden" name="update" value="true" />
 </form>

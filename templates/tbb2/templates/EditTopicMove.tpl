@@ -3,6 +3,7 @@
 <form method="post" action="{$smarty.const.INDEXFILE}?faction=topic{$smarty.const.SID_AMPER}">
 <table class="tableStd" cellpadding="{Config::getInstance()->getCfgVal('tpadding')}" cellspacing="{Config::getInstance()->getCfgVal('tspacing')}" style="width:100%;">
  <tr><th class="cellTitle"><span class="fontTitle">{Language::getInstance()->getString('move_topic')}</span></th></tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_POSTING_MOVE_TOPIC_FORM_START}
  <tr>
   <td class="cellStd">
    <span class="fontNorm">{$title|string_format:Language::getInstance()->getString('where_move_topic_x')}</span><br />
@@ -20,8 +21,9 @@
    <input type="checkbox" id="isNewest" name="isNewest" value="true"{if $isNewest} checked="checked"{/if} /> <label for="isNewest" class="fontNorm">{Language::getInstance()->getString('mark_as_newest_topic')}</label>
   </td>
  </tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_POSTING_MOVE_TOPIC_FORM_END}
 </table>
-<p class="cellButtons"><input class="formBButton" type="submit" value="{Language::getInstance()->getString('move_topic')}" />&nbsp;&nbsp;&nbsp;<input class="formButton" type="reset" /></p>
+<p class="cellButtons"><input class="formBButton" type="submit" value="{Language::getInstance()->getString('move_topic')}" />&nbsp;&nbsp;&nbsp;<input class="formButton" type="reset" />{plugin_hook hook=PlugIns::HOOK_TPL_POSTING_MOVE_TOPIC_BUTTONS}</p>
 <input type="hidden" name="forum_id" value="{$forumID}" />
 <input type="hidden" name="move" value="yes" />
 <input type="hidden" name="topic_id" value="{$topicID}" />
