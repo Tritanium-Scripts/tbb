@@ -13,8 +13,8 @@
  <tr>
   <td class="td1" style="width:15%;"><span class="norm" style="font-weight:bold;">{Language::getInstance()->getString('subject_colon')}</span></td>
   <td class="td1" style="width:85%;"><span class="norm">{$subject}</span></td>
- </tr>{if Config::getInstance()->getCfgVal('tspacing') < 1}
+ </tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_NEWSLETTER_READ_LETTER_FORM_END}{if Config::getInstance()->getCfgVal('tspacing') < 1}
  <tr><td colspan="2" class="td1"><hr /></td></tr>{/if}
  <tr><td colspan="2" class="td1"><span class="norm">{$message}</span></td></tr>
-{plugin_hook hook=PlugIns::HOOK_TPL_NEWSLETTER_READ_LETTER_FORM_END}
 </table>

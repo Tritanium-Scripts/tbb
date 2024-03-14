@@ -9,50 +9,50 @@
  */
 function refreshGames()
 {
-	//Create Ajax instance
-	var ajax = window.XMLHttpRequest ? new XMLHttpRequest() : (window.ActiveXObject ? new ActiveXObject('Microsoft.XMLHTTP') : null);
-	if(ajax == null)
-	{
-		alert('{Language::getInstance()->getString('your_browser_does_not_support_ajax')}');
-		return;
-	}
-	//Open synchronous connection
-	ajax.open('POST', '{$smarty.const.INDEXFILE}', false);
-	ajax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-	//Send request
-	ajax.send('faction=profile&mode=refreshSteamGames&profile_id={$userData[1]}{$smarty.const.SID_AMPER_RAW}');
-	//Wait for response
-	var ajaxResponse = eval('(' + ajax.responseText + ')'); //Evaluate JSON string
-	//Process refreshed data...
-	if(ajaxResponse.errors.length == 0)
-	{
-		//Clear old data first
-		var steamGames = document.getElementById('steamGames');
-		while(steamGames.hasChildNodes())
-			steamGames.removeChild(steamGames.firstChild);
-		//Append new data
-		for(var i=0; i<ajaxResponse.values.length; i++)
-		{
-			var curInput = document.createElement('input');
-			curInput.type = 'checkbox';
-			curInput.name = 'steamGames[]';
-			curInput.value = ajaxResponse.values[i].gameID;
-			curInput.id = 'game' + curInput.value;
-			curInput.checked = ajaxResponse.values[i].gameSelected;
-			steamGames.appendChild(curInput);
-			steamGames.appendChild(document.createTextNode(' '));
-			var curLabel = document.createElement('label');
-			curLabel.htmlFor = curInput.id;
-			curLabel.className = 'fontNorm';
-			curLabel.appendChild(document.createTextNode(ajaxResponse.values[i].gameName))
-			steamGames.appendChild(curLabel);
-			steamGames.appendChild(document.createElement('br'));
-		}
-	}
-	//...or display errors instead
-	else
-		for(var i=0; i<ajaxResponse.errors.length; i++)
-			alert(ajaxResponse.errors[i]);
+    //Create Ajax instance
+    var ajax = window.XMLHttpRequest ? new XMLHttpRequest() : (window.ActiveXObject ? new ActiveXObject('Microsoft.XMLHTTP') : null);
+    if(ajax == null)
+    {
+        alert('{Language::getInstance()->getString('your_browser_does_not_support_ajax')}');
+        return;
+    }
+    //Open synchronous connection
+    ajax.open('POST', '{$smarty.const.INDEXFILE}', false);
+    ajax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    //Send request
+    ajax.send('faction=profile&mode=refreshSteamGames&profile_id={$userData[1]}{$smarty.const.SID_AMPER_RAW}');
+    //Wait for response
+    var ajaxResponse = eval('(' + ajax.responseText + ')'); //Evaluate JSON string
+    //Process refreshed data...
+    if(ajaxResponse.errors.length == 0)
+    {
+        //Clear old data first
+        var steamGames = document.getElementById('steamGames');
+        while(steamGames.hasChildNodes())
+            steamGames.removeChild(steamGames.firstChild);
+        //Append new data
+        for(var i=0; i<ajaxResponse.values.length; i++)
+        {
+            var curInput = document.createElement('input');
+            curInput.type = 'checkbox';
+            curInput.name = 'steamGames[]';
+            curInput.value = ajaxResponse.values[i].gameID;
+            curInput.id = 'game' + curInput.value;
+            curInput.checked = ajaxResponse.values[i].gameSelected;
+            steamGames.appendChild(curInput);
+            steamGames.appendChild(document.createTextNode(' '));
+            var curLabel = document.createElement('label');
+            curLabel.htmlFor = curInput.id;
+            curLabel.className = 'fontNorm';
+            curLabel.appendChild(document.createTextNode(ajaxResponse.values[i].gameName))
+            steamGames.appendChild(curLabel);
+            steamGames.appendChild(document.createElement('br'));
+        }
+    }
+    //...or display errors instead
+    else
+        for(var i=0; i<ajaxResponse.errors.length; i++)
+            alert(ajaxResponse.errors[i]);
 }
 /* ]]> */
 </script>
@@ -61,6 +61,7 @@ function refreshGames()
 <table class="tableStd" cellpadding="{Config::getInstance()->getCfgVal('tpadding')}" cellspacing="{Config::getInstance()->getCfgVal('tspacing')}" style="width:100%;">
  <tr><th class="cellTitle"><span class="fontTitle">{Language::getInstance()->getString('my_profile')}</span></th></tr>
  <tr><td class="cellCat"><span class="fontCat">{Language::getInstance()->getString('change_user_data')}</span></td></tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_PROFILE_EDIT_PROFILE_FORM_START}
  <tr>
   <td class="cellStd">
    <table border="0" cellpadding="2" cellspacing="0" style="width:100%;">
@@ -110,7 +111,8 @@ function refreshGames()
     </tr>
    </table>
   </td>
- </tr>{if Config::getInstance()->getCfgVal('achievements') == 1}
+ </tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_PROFILE_EDIT_PROFILE_FORM_END}{if Config::getInstance()->getCfgVal('achievements') == 1}
  <tr><td class="cellCat"><span class="fontCat">{Language::getInstance()->getString('steam_achievements')}</span></td></tr>
  <tr>
   <td class="cellStd">
@@ -166,6 +168,6 @@ function refreshGames()
   </td>
  </tr>
 </table>
-<p class="cellButtons"><input class="formBButton" type="submit" value="{Language::getInstance()->getString('change_profile')}" />{if Config::getInstance()->getCfgVal('delete_profiles') == 1 || Config::getInstance()->getCfgVal('delete_profiles') == 2 && $userData[5] < 1}&nbsp;&nbsp;<input class="formButton" type="submit" name="delete" value="{Language::getInstance()->getString('delete_account')}" />{/if}</p>
+<p class="cellButtons"><input class="formBButton" type="submit" value="{Language::getInstance()->getString('change_profile')}" />{if Config::getInstance()->getCfgVal('delete_profiles') == 1 || Config::getInstance()->getCfgVal('delete_profiles') == 2 && $userData[5] < 1}&nbsp;&nbsp;<input class="formButton" type="submit" name="delete" value="{Language::getInstance()->getString('delete_account')}" />{/if}{plugin_hook hook=PlugIns::HOOK_TPL_PROFILE_EDIT_PROFILE_BUTTONS}</p>
 <input type="hidden" name="change" value="1" />
 </form>

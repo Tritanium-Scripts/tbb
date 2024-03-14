@@ -42,7 +42,7 @@ Last changed: 2024-03-14 (Version 1.10.0)
     - Boterkennung verbessert
     - Standard für maximale Dateigröße zum Hochladen auf 5 MiB erhöht
     - Dokumentation aktualisiert und FAQ ergänzt
-    - Über [img]-BBCode eingebundene Bilder werden mehr breiter angezeigt als das Forum selber ist
+    - Über [img]-BBCode eingebundene Bilder werden nicht mehr breiter angezeigt als das Forum selber ist
     - Mögliche Enkodierungsprobleme der Monatsnamen bei externer Anzeige behoben
 
 10.12.2023: Version 1.8.1 (offiziell)

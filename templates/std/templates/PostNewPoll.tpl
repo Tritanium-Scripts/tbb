@@ -12,36 +12,36 @@ rowsCounter = {count($newPost.choices)};
  */
 function addPollOption()
 {
-	lastRowID++
+    lastRowID++
 
-	//Create new table row
-	var newTR = document.getElementById('idPollOptionsTable').insertRow(rowsCounter);
-	newTR.id = 'idOption' + lastRowID;
+    //Create new table row
+    var newTR = document.getElementById('idPollOptionsTable').insertRow(rowsCounter);
+    newTR.id = 'idOption' + lastRowID;
 
-	//Create new input field and append to row
-	var newTD = document.createElement('td');
-	newTD.style.padding = '3px';
-	var newInput = document.createElement('input');
-	newInput.type = 'text';
-	newInput.className = 'norm';
-	newInput.size = '40';
-	newInput.name = 'poll_choice[]';
-	newTD.appendChild(newInput);
-	newTR.appendChild(newTD);
+    //Create new input field and append to row
+    var newTD = document.createElement('td');
+    newTD.style.padding = '3px';
+    var newInput = document.createElement('input');
+    newInput.type = 'text';
+    newInput.className = 'norm';
+    newInput.size = '40';
+    newInput.name = 'poll_choice[]';
+    newTD.appendChild(newInput);
+    newTR.appendChild(newTD);
 
-	//Create new delete link and append to row
-	var newTD = document.createElement('td');
-	//newTD.align = 'left';
-	var newSpan = document.createElement('span');
-	newSpan.className = 'small';
-	var newA = document.createElement('a');
-	newA.href = 'javascript:deletePollOption(\'idOption' + lastRowID + '\');';
-	newA.appendChild(document.createTextNode('{Language::getInstance()->getString('delete')}'));
-	newSpan.appendChild(newA);
-	newTD.appendChild(newSpan);
-	newTR.appendChild(newTD);
+    //Create new delete link and append to row
+    var newTD = document.createElement('td');
+    //newTD.align = 'left';
+    var newSpan = document.createElement('span');
+    newSpan.className = 'small';
+    var newA = document.createElement('a');
+    newA.href = 'javascript:deletePollOption(\'idOption' + lastRowID + '\');';
+    newA.appendChild(document.createTextNode('{Language::getInstance()->getString('delete')}'));
+    newSpan.appendChild(newA);
+    newTD.appendChild(newSpan);
+    newTR.appendChild(newTD);
 
-	rowsCounter++;
+    rowsCounter++;
 };
 
 /**
@@ -51,8 +51,8 @@ function addPollOption()
  */
 function deletePollOption(rowID)
 {
-	document.getElementById('idPollOptionsTable').deleteRow(document.getElementById(rowID).rowIndex);
-	rowsCounter--;
+    document.getElementById('idPollOptionsTable').deleteRow(document.getElementById(rowID).rowIndex);
+    rowsCounter--;
 };
 /* ]]> */
 </script>
@@ -66,7 +66,8 @@ function deletePollOption(rowID)
 {else}{include file='Errors.tpl'}{/if}
 <form method="post" action="{$smarty.const.INDEXFILE}?faction=newpoll&amp;forum_id={$forum.forumID}&amp;mode=step2{$smarty.const.SID_AMPER}" name="beitrag">
 <table class="tbl" cellpadding="{Config::getInstance()->getCfgVal('tpadding')}" cellspacing="{Config::getInstance()->getCfgVal('tspacing')}" style="width:{Config::getInstance()->getCfgVal('twidth')}; margin:auto;">
- <tr><th class="thnorm" colspan="2"><span class="thnorm">{Language::getInstance()->getString('post_new_poll')}</span></th></tr>{if !Auth::getInstance()->isLoggedIn()}
+ <tr><th class="thnorm" colspan="2"><span class="thnorm">{Language::getInstance()->getString('post_new_poll')}</span></th></tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_POST_NEW_POLL_FORM_START}{if !Auth::getInstance()->isLoggedIn()}
  <tr>
   <td class="td1" style="font-weight:bold; width:20%;"><span class="norm">{Language::getInstance()->getString('your_name_colon')}</span></td>
   <td class="td1" style="width:80%;"><input type="text" name="nli_name" value="{$newPost.nick}" /></td>
@@ -100,7 +101,8 @@ function deletePollOption(rowID)
  <tr>
   <td class="td1" style="font-weight:bold; vertical-align:top;"><span class="norm">{Language::getInstance()->getString('post_colon')}</span><br /><br />{include file='Smilies.tpl' targetBoxID='post'}</td>
   <td class="td1" style="width:80%;"><textarea id="post" name="post" rows="10" cols="60">{$newPost.post}</textarea></td>
- </tr>{if Config::getInstance()->getCfgVal('tspacing') < 1}
+ </tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_POST_NEW_POLL_FORM_END}{if Config::getInstance()->getCfgVal('tspacing') < 1}
  <tr><td class="td1" colspan="2"><hr /></td></tr>{/if}
  <tr>
   <td class="td1" style="font-weight:bold; vertical-align:top; width:20%;"><span class="norm">{Language::getInstance()->getString('options_colon')}</span></td>
@@ -116,8 +118,8 @@ function deletePollOption(rowID)
 </table>
 <script type="text/javascript">
 if(rowsCounter == 0)
-	addPollOption();
+    addPollOption();
 </script>
-<p style="text-align:center;"><input type="submit" value="{Language::getInstance()->getString('post_new_poll')}" />&nbsp;&nbsp;&nbsp;<input type="submit" name="preview" value="{Language::getInstance()->getString('preview')}" style="font-weight:bold;" /></p>
+<p style="text-align:center;"><input type="submit" value="{Language::getInstance()->getString('post_new_poll')}" />&nbsp;&nbsp;&nbsp;<input type="submit" name="preview" value="{Language::getInstance()->getString('preview')}" style="font-weight:bold;" />{plugin_hook hook=PlugIns::HOOK_TPL_POST_NEW_POLL_BUTTONS}</p>
 <input type="hidden" name="save" value="yes" />
 </form>

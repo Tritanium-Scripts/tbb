@@ -4,7 +4,7 @@
  <tr><th class="thnorm"><span class="thnorm">{Language::getInstance()->getString('delete_pm')}</span></th></tr>
  <tr><td class="td1" style="text-align:center;"><p><span class="norm">{$pmTitle|string_format:Language::getInstance()->getString('really_delete_pm_x')}</span></p></td></tr>
 </table>
-<p style="text-align:center;"><input type="submit" value="{Language::getInstance()->getString('delete_pm')}" /></p>
+<p style="text-align:center;"><input type="submit" value="{Language::getInstance()->getString('delete_pm')}" />{plugin_hook hook=PlugIns::HOOK_TPL_PRIVATE_MESSAGE_DELETE_PM_BUTTONS}</p>
 <input type="hidden" name="pmbox_id" value="{$pmBoxID}" />
 <input type="hidden" name="pm_id" value="{$pmID}" />
 </form>

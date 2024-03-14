@@ -7,6 +7,7 @@
   <col width="85%" />
  </colgroup>
  <tr><th class="cellTitle" colspan="2"><span class="fontTitle">{Language::getInstance()->getString('send_mail')}</span></th></tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_PROFILE_SEND_MAIL_FORM_START}
  <tr>
   <td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('recipient_colon')}</span></td>
   <td class="cellStd"><span class="fontNorm">{$userData.recipientName}</span></td>
@@ -27,7 +28,8 @@
   <td class="cellStd" style="vertical-align:top;"><span class="fontNorm">{Language::getInstance()->getString('message_colon')}</span></td>
   <td class="cellStd"><textarea class="formTextArea" name="message" cols="100" rows="15">{$message}</textarea></td>
  </tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_PROFILE_SEND_MAIL_FORM_END}
 </table>
-<p class="cellButtons"><input class="formBButton" type="submit" value="{Language::getInstance()->getString('send_mail')}" />&nbsp;&nbsp;&nbsp;<input class="formButton" type="reset" /></p>
+<p class="cellButtons"><input class="formBButton" type="submit" value="{Language::getInstance()->getString('send_mail')}" />&nbsp;&nbsp;&nbsp;<input class="formButton" type="reset" />{plugin_hook hook=PlugIns::HOOK_TPL_PROFILE_SEND_MAIL_BUTTONS}</p>
 <input type="hidden" name="send" value="yes" />
 </form>

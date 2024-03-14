@@ -12,36 +12,36 @@ rowsCounter = {count($newPost.choices)};
  */
 function addPollOption()
 {
-	lastRowID++
+    lastRowID++
 
-	//Create new table row
-	var newTR = document.getElementById('idPollOptionsTable').insertRow(rowsCounter);
-	newTR.id = 'idOption' + lastRowID;
+    //Create new table row
+    var newTR = document.getElementById('idPollOptionsTable').insertRow(rowsCounter);
+    newTR.id = 'idOption' + lastRowID;
 
-	//Create new input field and append to row
-	var newTD = document.createElement('td');
-	newTD.style.padding = '3px';
-	var newInput = document.createElement('input');
-	newInput.type = 'text';
-	newInput.className = 'formText';
-	newInput.size = '30';
-	newInput.name = 'poll_choice[]';
-	newTD.appendChild(newInput);
-	newTR.appendChild(newTD);
+    //Create new input field and append to row
+    var newTD = document.createElement('td');
+    newTD.style.padding = '3px';
+    var newInput = document.createElement('input');
+    newInput.type = 'text';
+    newInput.className = 'formText';
+    newInput.size = '30';
+    newInput.name = 'poll_choice[]';
+    newTD.appendChild(newInput);
+    newTR.appendChild(newTD);
 
-	//Create new delete link and append to row
-	var newTD = document.createElement('td');
-	//newTD.align = 'left';
-	var newSpan = document.createElement('span');
-	newSpan.className = 'fontSmall';
-	var newA = document.createElement('a');
-	newA.href = 'javascript:deletePollOption(\'idOption' + lastRowID + '\');';
-	newA.appendChild(document.createTextNode('{Language::getInstance()->getString('delete')}'));
-	newSpan.appendChild(newA);
-	newTD.appendChild(newSpan);
-	newTR.appendChild(newTD);
+    //Create new delete link and append to row
+    var newTD = document.createElement('td');
+    //newTD.align = 'left';
+    var newSpan = document.createElement('span');
+    newSpan.className = 'fontSmall';
+    var newA = document.createElement('a');
+    newA.href = 'javascript:deletePollOption(\'idOption' + lastRowID + '\');';
+    newA.appendChild(document.createTextNode('{Language::getInstance()->getString('delete')}'));
+    newSpan.appendChild(newA);
+    newTD.appendChild(newSpan);
+    newTR.appendChild(newTD);
 
-	rowsCounter++;
+    rowsCounter++;
 };
 
 /**
@@ -51,8 +51,8 @@ function addPollOption()
  */
 function deletePollOption(rowID)
 {
-	document.getElementById('idPollOptionsTable').deleteRow(document.getElementById(rowID).rowIndex);
-	rowsCounter--;
+    document.getElementById('idPollOptionsTable').deleteRow(document.getElementById(rowID).rowIndex);
+    rowsCounter--;
 };
 /* ]]> */
 </script>
@@ -71,7 +71,8 @@ function deletePollOption(rowID)
   <col width="80%" />
  </colgroup>
  <tr><th class="cellTitle" colspan="2"><span class="fontTitle">{Language::getInstance()->getString('post_new_poll')}</span></th></tr>
- <tr><td class="cellCat" colspan="2"><span class="fontCat">{Language::getInstance()->getString('post')}</span></td></tr>{if !Auth::getInstance()->isLoggedIn()}
+ <tr><td class="cellCat" colspan="2"><span class="fontCat">{Language::getInstance()->getString('post')}</span></td></tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_POST_NEW_POLL_FORM_START}{if !Auth::getInstance()->isLoggedIn()}
  <tr>
   <td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('your_name_colon')}</span></td>
   <td class="cellAlt"><input class="formText" type="text" name="nli_name" value="{$newPost.nick}" /></td>
@@ -92,6 +93,7 @@ function deletePollOption(rowID)
   <td class="cellStd" style="vertical-align:top;"><span class="fontNorm">{Language::getInstance()->getString('post_colon')}</span><br /><br />{include file='Smilies.tpl' targetBoxID='post'}</td>
   <td class="cellAlt"><textarea class="formTextArea" id="post" name="post" rows="15" cols="80">{$newPost.post}</textarea></td>
  </tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_POST_NEW_POLL_FORM_END}
  <tr>
   <td class="cellStd" style="vertical-align:top;"><span class="fontNorm">{Language::getInstance()->getString('options_colon')}</span></td>
   <td class="cellAlt">
@@ -120,8 +122,8 @@ function deletePollOption(rowID)
 </table>
 <script type="text/javascript">
 if(rowsCounter == 0)
-	addPollOption();
+    addPollOption();
 </script>
-<p class="cellButtons"><input class="formButton" type="submit" value="{Language::getInstance()->getString('post_new_poll')}" />&nbsp;&nbsp;&nbsp;<input class="formBButton" type="submit" name="preview" value="{Language::getInstance()->getString('preview')}" />&nbsp;&nbsp;&nbsp;<input class="formButton" type="reset" /></p>
+<p class="cellButtons"><input class="formButton" type="submit" value="{Language::getInstance()->getString('post_new_poll')}" />&nbsp;&nbsp;&nbsp;<input class="formBButton" type="submit" name="preview" value="{Language::getInstance()->getString('preview')}" />&nbsp;&nbsp;&nbsp;<input class="formButton" type="reset" />{plugin_hook hook=PlugIns::HOOK_TPL_POST_NEW_POLL_BUTTONS}</p>
 <input type="hidden" name="save" value="yes" />
 </form>

@@ -4,7 +4,7 @@
  <tr><th class="thnorm"><span class="thnorm">{Language::getInstance()->getString('confirmation')}</span></th></tr>
  <tr><td class="td1" style="text-align:center;"><p><span class="norm">{sprintf(Language::getInstance()->getString('really_send_pm_x_to_user_x'), $newPM[1], $recipient[1], $recipient[0])}</span></p></td></tr>
 </table>
-<p style="text-align:center;"><input type="submit" value="{Language::getInstance()->getString('send_pm')}" /></p>
+<p style="text-align:center;"><input type="submit" value="{Language::getInstance()->getString('send_pm')}" />{plugin_hook hook=PlugIns::HOOK_TPL_PRIVATE_MESSAGE_NEW_PM_CONFIRM_BUTTONS}</p>
 <input type="hidden" name="target_id" value="{$recipient[1]}" />
 <input type="hidden" name="betreff" value="{$newPM[1]}" />
 <input type="hidden" name="pm" value="{$newPM[2]}" />

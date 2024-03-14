@@ -12,7 +12,8 @@
   <col width="20%" />
   <col width="80%" />
  </colgroup>
- <tr><th class="cellTitle" colspan="2"><span class="fontTitle">{Language::getInstance()->getString('post_new_topic')}</span></th></tr>{if !Auth::getInstance()->isLoggedIn()}
+ <tr><th class="cellTitle" colspan="2"><span class="fontTitle">{Language::getInstance()->getString('post_new_topic')}</span></th></tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_POST_NEW_TOPIC_FORM_START}{if !Auth::getInstance()->isLoggedIn()}
  <tr>
   <td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('your_name_colon')}</span></td>
   <td class="cellAlt"><input class="formText" type="text" name="nli_name" value="{$newPost.nick}" /></td>
@@ -33,6 +34,7 @@
   <td class="cellStd" style="vertical-align:top;"><span class="fontNorm">{Language::getInstance()->getString('post_colon')}</span><br /><br />{include file='Smilies.tpl' targetBoxID='post'}</td>
   <td class="cellAlt"><textarea class="formTextArea" id="post" name="post" rows="15" cols="80">{$newPost.post}</textarea></td>
  </tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_POST_NEW_TOPIC_FORM_END}
  <tr>
   <td class="cellStd" style="vertical-align:top;"><span class="fontNorm">{Language::getInstance()->getString('options_colon')}</span></td>
   <td class="cellAlt">
@@ -45,7 +47,7 @@
   </td>
  </tr>
 </table>
-<p class="cellButtons"><input class="formButton" type="submit" value="{Language::getInstance()->getString('post_new_topic')}" />&nbsp;&nbsp;&nbsp;<input class="formBButton" type="submit" name="preview" value="{Language::getInstance()->getString('preview')}" />&nbsp;&nbsp;&nbsp;<input class="formButton" type="reset" /></p>
+<p class="cellButtons"><input class="formButton" type="submit" value="{Language::getInstance()->getString('post_new_topic')}" />&nbsp;&nbsp;&nbsp;<input class="formBButton" type="submit" name="preview" value="{Language::getInstance()->getString('preview')}" />&nbsp;&nbsp;&nbsp;<input class="formButton" type="reset" />{plugin_hook hook=PlugIns::HOOK_TPL_POST_NEW_TOPIC_BUTTONS}</p>
 <input type="hidden" name="save" value="yes" />
 <input type="hidden" name="forum_id" value="{$forum.forumID}" />
 </form>

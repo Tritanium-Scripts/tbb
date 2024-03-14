@@ -25,9 +25,9 @@
  <tr>
   <td class="td1" style="font-weight:bold; vertical-align:top;"><span class="norm">{Language::getInstance()->getString('post_colon')}</span><br /><br />{include file='Smilies.tpl' targetBoxID='post'}</td>
   <td class="td1" style="width:80%;"><textarea id="post" name="post" rows="10" cols="60">{$newReply.post}</textarea></td>
- </tr>{if Config::getInstance()->getCfgVal('tspacing') < 1}
+ </tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_POSTING_NEW_REPLY_FORM_END}{if Config::getInstance()->getCfgVal('tspacing') < 1}
  <tr><td class="td1" colspan="2"><hr /></td></tr>{/if}
-{plugin_hook hook=PlugIns::HOOK_TPL_POSTING_NEW_REPLY_FORM_END}
  <tr>
   <td class="td1" style="font-weight:bold; vertical-align:top; width:20%;"><span class="norm">{Language::getInstance()->getString('options_colon')}</span></td>
   <td class="td1" style="width:80%;">

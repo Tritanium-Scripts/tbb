@@ -3,6 +3,7 @@
 <form name="pmform" method="post" action="{$smarty.const.INDEXFILE}?faction=pm&amp;mode=send&amp;send=yes{$smarty.const.SID_AMPER}">
 <table class="tbl" cellpadding="{Config::getInstance()->getCfgVal('tpadding')}" cellspacing="{Config::getInstance()->getCfgVal('tspacing')}" style="width:{Config::getInstance()->getCfgVal('twidth')}; margin:auto;">
  <tr><th class="thnorm" colspan="2"><span class="thnorm">{Language::getInstance()->getString('new_pm')}</span></th></tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_PRIVATE_MESSAGE_NEW_PM_FORM_START}
  <tr>
   <td class="td1" style="font-weight:bold; width:20%;"><span class="norm">{Language::getInstance()->getString('recipient_id_colon')}</span></td>
   <td class="td1" style="width:80%;"><input type="text" name="target_id" value="{$recipient}" /></td>
@@ -18,7 +19,8 @@
  <tr>
   <td class="td1" style="font-weight:bold; vertical-align:top; width:20%;"><span class="norm">{Language::getInstance()->getString('message_colon')}</span><br /><br />{include file='Smilies.tpl' targetBoxID='pm'}</td>
   <td class="td1" style="width:80%;"><textarea id="pm" name="pm" rows="10" cols="50">{$newPM[2]}</textarea></td>
- </tr>{if Config::getInstance()->getCfgVal('tspacing') < 1}
+ </tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_PRIVATE_MESSAGE_NEW_PM_FORM_END}{if Config::getInstance()->getCfgVal('tspacing') < 1}
  <tr><td class="td1" colspan="2"><hr /></td></tr>{/if}
  <tr>
   <td class="td1" style="font-weight:bold; vertical-align:top; width:20%;"><span class="norm">{Language::getInstance()->getString('options_colon')}</span></td>
@@ -29,6 +31,6 @@
   </td>
  </tr>
 </table>
-<p style="text-align:center;"><input type="submit" value="{Language::getInstance()->getString('send_pm')}" /></p>
+<p style="text-align:center;"><input type="submit" value="{Language::getInstance()->getString('send_pm')}" />{plugin_hook hook=PlugIns::HOOK_TPL_PRIVATE_MESSAGE_NEW_PM_BUTTONS}</p>
 <input type="hidden" name="pmbox_id" value="{$pmBoxID}" />
 </form>

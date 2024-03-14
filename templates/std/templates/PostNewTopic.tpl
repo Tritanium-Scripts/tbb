@@ -8,7 +8,8 @@
 {else}{include file='Errors.tpl'}{/if}
 <form method="post" action="{$smarty.const.INDEXFILE}?faction=newtopic{$smarty.const.SID_AMPER}" name="beitrag">
 <table class="tbl" cellpadding="{Config::getInstance()->getCfgVal('tpadding')}" cellspacing="{Config::getInstance()->getCfgVal('tspacing')}" style="width:{Config::getInstance()->getCfgVal('twidth')}; margin:auto;">
- <tr><th class="thnorm" colspan="2"><span class="thnorm">{Language::getInstance()->getString('post_new_topic')}</span></th></tr>{if !Auth::getInstance()->isLoggedIn()}
+ <tr><th class="thnorm" colspan="2"><span class="thnorm">{Language::getInstance()->getString('post_new_topic')}</span></th></tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_POST_NEW_TOPIC_FORM_START}{if !Auth::getInstance()->isLoggedIn()}
  <tr>
   <td class="td1" style="font-weight:bold; width:20%;"><span class="norm">{Language::getInstance()->getString('your_name_colon')}</span></td>
   <td class="td1" style="width:80%;"><input type="text" name="nli_name" value="{$newPost.nick}" /></td>
@@ -28,7 +29,8 @@
  <tr>
   <td class="td1" style="font-weight:bold; vertical-align:top;"><span class="norm">{Language::getInstance()->getString('post_colon')}</span><br /><br />{include file='Smilies.tpl' targetBoxID='post'}</td>
   <td class="td1" style="width:80%;"><textarea id="post" name="post" rows="10" cols="60">{$newPost.post}</textarea></td>
- </tr>{if Config::getInstance()->getCfgVal('tspacing') < 1}
+ </tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_POST_NEW_TOPIC_FORM_END}{if Config::getInstance()->getCfgVal('tspacing') < 1}
  <tr><td class="td1" colspan="2"><hr /></td></tr>{/if}
  <tr>
   <td class="td1" style="font-weight:bold; vertical-align:top; width:20%;"><span class="norm">{Language::getInstance()->getString('options_colon')}</span></td>
@@ -42,7 +44,7 @@
   </td>
  </tr>
 </table>
-<p style="text-align:center;"><input type="submit" value="{Language::getInstance()->getString('post_new_topic')}" />&nbsp;&nbsp;&nbsp;<input type="submit" name="preview" value="{Language::getInstance()->getString('preview')}" style="font-weight:bold;" /></p>
+<p style="text-align:center;"><input type="submit" value="{Language::getInstance()->getString('post_new_topic')}" />&nbsp;&nbsp;&nbsp;<input type="submit" name="preview" value="{Language::getInstance()->getString('preview')}" style="font-weight:bold;" />{plugin_hook hook=PlugIns::HOOK_TPL_POST_NEW_TOPIC_BUTTONS}</p>
 <input type="hidden" name="save" value="yes" />
 <input type="hidden" name="forum_id" value="{$forum.forumID}" />
 </form>

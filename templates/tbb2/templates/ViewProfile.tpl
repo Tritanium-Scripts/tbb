@@ -4,10 +4,11 @@
  <tr>
   <th class="cellTitle" colspan="2"><span class="fontTitle">{Language::getInstance()->getString('view_profile')}</span></th>
   <th class="cellTitle" colspan="2" style="text-align:right;"><span class="fontTitle"><a href="{$smarty.const.INDEXFILE}?faction=profile&amp;profile_id={$userData[1]}&amp;mode=vCard{$smarty.const.SID_AMPER}" style="color:yellow;"><img src="{Template::getInstance()->getTplDir()}images/icons/vcard.png" alt="" style="vertical-align:top;" /> {Language::getInstance()->getString('download_as_vcard')}</a></span></th>
- </tr>{if !empty($userData[10])}
+ </tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_PROFILE_VIEW_PROFILE_FORM_START}{if !empty($userData[10])}
  <tr>
   <td class="cellStd" rowspan="7" style="text-align:center;">
-   <div id="avatar" style="background-color:#000000; background-image:url({$userData[10]}); background-position:center; background-repeat:no-repeat; cursor:pointer; display:none; height:100%; left:0; opacity:0.9; position:fixed; top:0; width:100%; z-index:1;" onclick="this.style.display='none';"></div>
+   <div id="avatar" style="background-color:rgba(0, 0, 0, 0.9); background-image:url({$userData[10]}); background-position:center; background-repeat:no-repeat; cursor:pointer; display:none; height:100%; left:0; position:fixed; top:0; width:100%; z-index:1;" onclick="this.style.display='none';"></div>
    <img src="{$userData[10]}" alt="" style="cursor:pointer; height:{$userData.avatarHeight}px; width:{$userData.avatarWidth}px;" onclick="document.getElementById('avatar').style.display='';" />
   </td>
  </tr>{/if}
@@ -66,13 +67,14 @@
  <tr>
   <td class="cellStd" style="width:30%;"><span class="fontNorm">{Language::getInstance()->getString('icq_number_colon')}</span></td>
   <td class="cellAlt" style="width:70%;"><span class="fontNorm">{if empty($userData[13])}<span style="font-style:italic;">{Language::getInstance()->getString('not_given')}</span>{else}<a href="https://icq.com/people/{$userData[13]}" target="_blank"><img src="http://status.icq.com/online.gif?icq={$userData[13]}&amp;img=5" alt="" style="vertical-align:top;" /> {$userData[13]|wordwrap:3:"-":true}</a>{/if}</span></td>
- </tr>
-</table>{if Config::getInstance()->getCfgVal('achievements') == 1 && !empty($userData[19])}
+ </tr>{if Config::getInstance()->getCfgVal('achievements') == 1 && !empty($userData[19])}
+</table>
 <br />
 <table class="tableStd" cellpadding="{Config::getInstance()->getCfgVal('tpadding')}" cellspacing="{Config::getInstance()->getCfgVal('tspacing')}" id="achievements" style="width:100%;">
  <tr><th class="cellTitle"><span class="fontTitle">{Language::getInstance()->getString('steam_achievements')}</span><span class="fontTitleSmall" style="float:right;">{$userData[18].profileName|string_format:Language::getInstance()->getString('from_x')}</span></th></tr>
- <tr><td class="cellAlt">{foreach $userData[19] as $curGame}<a href="{$smarty.const.INDEXFILE}?faction=profile&amp;profile_id={$userData[1]}&amp;mode=viewAchievements&amp;game={$curGame[0]}{$smarty.const.SID_AMPER}"><img src="{$curGame[1]}" alt="{$curGame[2]}" title="{$curGame[2]}" /></a> {/foreach}</td></tr>
-</table>{/if}
+ <tr><td class="cellAlt">{foreach $userData[19] as $curGame}<a href="{$smarty.const.INDEXFILE}?faction=profile&amp;profile_id={$userData[1]}&amp;mode=viewAchievements&amp;game={$curGame[0]}{$smarty.const.SID_AMPER}"><img src="{$curGame[1]}" alt="{$curGame[2]}" title="{$curGame[2]}" /></a> {/foreach}</td></tr>{/if}
+{plugin_hook hook=PlugIns::HOOK_TPL_PROFILE_VIEW_PROFILE_FORM_END}
+</table>
 <br />
 <table class="tableStd" cellpadding="{Config::getInstance()->getCfgVal('tpadding')}" cellspacing="{Config::getInstance()->getCfgVal('tspacing')}" style="width:100%;">
  <tr><th class="cellTitle"><span class="fontTitle">{Language::getInstance()->getString('options')}</span></th></tr>
