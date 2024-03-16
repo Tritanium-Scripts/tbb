@@ -14,6 +14,6 @@
  </tr>{/if}
 {if $smileyType == BBCode::SMILEY_TOPIC}{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_SMILEY_ADD_TOPIC_SMILEY_FORM_END}{elseif $smileyType == BBCode::SMILEY_ADMIN}{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_SMILEY_ADD_ADMIN_SMILEY_FORM_END}{else}{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_SMILEY_ADD_SMILEY_FORM_END}{/if}
 </table>
-<p style="text-align:center;"><input type="submit" value="{Language::getInstance()->getString('add_new_smiley')}" />{if $smileyType == BBCode::SMILEY_TOPIC}{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_SMILEY_ADD_TOPIC_SMILEY_BUTTONS}{elseif $smileyType == BBCode::SMILEY_ADMIN}{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_SMILEY_ADD_ADMIN_SMILEY_BUTTONS}{elseif $smileyType == BBCode::SMILEY_ADMIN}{else}{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_SMILEY_ADD_SMILEY_BUTTONS}{elseif $smileyType == BBCode::SMILEY_ADMIN}{/if}</p>
+<p style="text-align:center;"><input type="submit" value="{Language::getInstance()->getString('add_new_smiley')}" />{if $smileyType == BBCode::SMILEY_TOPIC}{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_SMILEY_ADD_TOPIC_SMILEY_BUTTONS}{elseif $smileyType == BBCode::SMILEY_ADMIN}{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_SMILEY_ADD_ADMIN_SMILEY_BUTTONS}{else}{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_SMILEY_ADD_SMILEY_BUTTONS}{/if}</p>
 <input type="hidden" name="save" value="yes" />
 </form>

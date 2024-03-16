@@ -3,6 +3,7 @@
 <form method="post" action="{$smarty.const.INDEXFILE}?faction=search{$smarty.const.SID_AMPER}">
 <table class="tbl" cellpadding="{Config::getInstance()->getCfgVal('tpadding')}" cellspacing="{Config::getInstance()->getCfgVal('tspacing')}" style="width:{Config::getInstance()->getCfgVal('twidth')}; margin:auto;">
  <tr><th class="thnorm" colspan="2"><span class="thnorm">{Language::getInstance()->getString('search')}</span></th></tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_SEARCH_FORM_START}
  <tr>
   <td class="td1" style="font-weight:bold; width:20%;"><span class="norm">{Language::getInstance()->getString('search_for_colon')}</span></td>
   <td class="td1" style="width:80%;"><input type="text" name="searchfor" value="{$searchFor}" style="width:350px;" /><br /><span class="small">{Language::getInstance()->getString('separate_words_with_spaces')}</span></td>
@@ -38,7 +39,8 @@
    {html_options name='soption1' values=array(1, 2, 3) output=array(Language::getInstance()->getString('titles_and_posts'), Language::getInstance()->getString('posts_only'), Language::getInstance()->getString('titles_only')) selected=$searchScope}
   </td>
  </tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_SEARCH_FORM_END}
 </table>
-<p style="text-align:center;"><input type="submit" value="{Language::getInstance()->getString('search')}" /><br /><br /><span class="small">{Language::getInstance()->getString('search_hint')}</span></p>
+<p style="text-align:center;"><input type="submit" value="{Language::getInstance()->getString('search')}" />{plugin_hook hook=PlugIns::HOOK_TPL_SEARCH_BUTTONS}<br /><br /><span class="small">{Language::getInstance()->getString('search_hint')}</span></p>
 <input type="hidden" name="search" value="yes" />
 </form>

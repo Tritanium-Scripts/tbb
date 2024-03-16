@@ -4,11 +4,13 @@
 <table class="tableStd" cellpadding="{Config::getInstance()->getCfgVal('tpadding')}" cellspacing="{Config::getInstance()->getCfgVal('tspacing')}" style="width:100%;">
  <tr><th class="cellTitle" colspan="2"><span class="fontTitle">{Language::getInstance()->getString('activate_account')}</span></th></tr>
  <tr><td class="cellInfoBox" colspan="2"><span class="fontNorm"><img src="{Template::getInstance()->getTplDir()}images/icons/info.png" alt="" class="imageIcon" /> {Language::getInstance()->getString('activate_account_info')}</span></td></tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_REGISTER_VERIFICATION_FORM_START}
  <tr>
   <td class="cellStd" style="width:20%;"><span class="fontNorm">{Language::getInstance()->getString('activation_code_colon')}</span></td>
   <td class="cellAlt" style="width:80%;"><input class="formText" type="text" name="code" value="{$newUser.code}" style="width:250px;" /></td>
  </tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_REGISTER_VERIFICATION_FORM_END}
 </table>
-<p class="cellButtons"><input class="formBButton" type="submit" value="{Language::getInstance()->getString('activate_account')}" />&nbsp;&nbsp;&nbsp;<input class="formButton" type="reset" /></p>
+<p class="cellButtons"><input class="formBButton" type="submit" value="{Language::getInstance()->getString('activate_account')}" />&nbsp;&nbsp;&nbsp;<input class="formButton" type="reset" />{plugin_hook hook=PlugIns::HOOK_TPL_REGISTER_VERIFICATION_BUTTONS}</p>
 <input type="hidden" name="verify" value="true" />
 </form>

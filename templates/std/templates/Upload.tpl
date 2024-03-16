@@ -13,6 +13,7 @@
   <meta name="keywords" content="TBB,Tritanium,Tritanium Scripts,TBB {$smarty.const.VERSION_PUBLIC},Tritanium Bulletin Board,{Config::getInstance()->getCfgVal('site_name')},{','|implode:NavBar::getInstance()->getNavBar(false)}" />
   <meta name="revisit-after" content="7 days" />
   <meta name="robots" content="all" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="{Template::getInstance()->getTplDir()}images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
   <link href="{Template::getInstance()->getTplDir()}{Auth::getInstance()->getUserStyle()}" media="all" rel="stylesheet" />
   <title>{$smarty.config.navBarDelim|implode:NavBar::getInstance()->getNavBar(false)}</title>
@@ -25,11 +26,13 @@
 <form action="{$smarty.const.INDEXFILE}?faction=uploadFile&amp;targetBoxID={$targetBoxID}{$smarty.const.SID_AMPER}" method="post" enctype="multipart/form-data">
 <table class="tbl" cellpadding="{Config::getInstance()->getCfgVal('tpadding')}" cellspacing="{Config::getInstance()->getCfgVal('tspacing')}" style="width:{Config::getInstance()->getCfgVal('twidth')}; margin:auto;">
  <tr><th class="thnorm" colspan="2"><span class="thnorm">{Language::getInstance()->getString('upload_file')}</span></th></tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_UPLOAD_FORM_START}
  <tr><td class="td1"><span class="norm" style="font-weight:bold;">{Language::getInstance()->getString('allowed_extensions_colon')}</span></td><td class="td1"><span class="norm">{if $allowedExtensions == false}<span style="font-style:italic;">{Language::getInstance()->getString('no_limitation')}</span>{else}{', '|implode:$allowedExtensions}{/if}</span></td></tr>
  <tr><td class="td1"><span class="norm" style="font-weight:bold;">{Language::getInstance()->getString('maximal_filesize_colon')}</span></td><td class="td1"><span class="norm">{if empty($maxFilesize)}<span style="font-style:italic;">{Language::getInstance()->getString('no_limitation')}</span>{else}{$maxFilesize|string_format:Language::getInstance()->getString('x_kib')}{/if}</span></td></tr>
  <tr><td class="td1" colspan="2" style="text-align:center;"><input type="file" name="uploadedFile" /></td></tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_UPLOAD_FORM_END}
 </table>
-<p style="text-align:center;"><input type="submit" value="{Language::getInstance()->getString('upload_file')}" onclick="this.style.display='none'; (spinImg = document.getElementById('spinner')).src='{Template::getInstance()->getTplDir()}images/spinner.gif'; spinImg.style.display='';" /><img src="" alt="" id="spinner" style="display:none; vertical-align:middle;" /></p>
+<p style="text-align:center;"><input type="submit" value="{Language::getInstance()->getString('upload_file')}" onclick="this.style.display='none'; (spinImg = document.getElementById('spinner')).src='{Template::getInstance()->getTplDir()}images/spinner.gif'; spinImg.style.display='';" /><img src="" alt="" id="spinner" style="display:none; vertical-align:middle;" />{plugin_hook hook=PlugIns::HOOK_TPL_UPLOAD_BUTTONS}</p>
 <input type="hidden" name="mode" value="upload" />
 </form>
 

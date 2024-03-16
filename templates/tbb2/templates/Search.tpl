@@ -7,6 +7,7 @@
   <col width="70%" />
  </colgroup>
  <tr><th class="cellTitle" colspan="2"><span class="fontTitle">{Language::getInstance()->getString('search')}</span></th></tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_SEARCH_FORM_START}
  <tr>
   <td class="cellStd" style="font-weight:bold;"><span class="fontNorm">{Language::getInstance()->getString('search_for_colon')}</span></td>
   <td class="cellAlt"><input class="formText" type="text" name="searchfor" value="{$searchFor}" style="width:350px;" /><br /><span class="fontSmall">{Language::getInstance()->getString('separate_words_with_spaces')}</span></td>
@@ -58,8 +59,9 @@
    </table>
   </td>
  </tr>
+{plugin_hook hook=PlugIns::HOOK_TPL_SEARCH_FORM_END}
 </table>
-<p class="cellButtons"><input class="formBButton" type="submit" value="{Language::getInstance()->getString('search')}" />&nbsp;&nbsp;&nbsp;<input class="formButton" type="reset" /></p>
+<p class="cellButtons"><input class="formBButton" type="submit" value="{Language::getInstance()->getString('search')}" />&nbsp;&nbsp;&nbsp;<input class="formButton" type="reset" />{plugin_hook hook=PlugIns::HOOK_TPL_SEARCH_BUTTONS}</p>
 <p class="fontSmall" style="text-align:center;">{Language::getInstance()->getString('search_hint')}</p>
 <input type="hidden" name="search" value="yes" />
 </form>

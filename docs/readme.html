@@ -805,7 +805,7 @@ Supermoderator
 
   <h2 id="plugins">8 Eigene Plug-ins</h2>
   <p class="fontnorm">Ab Version 1.10 wurde eine API zur Unterstützung von Plug-ins hinzugefügt. Auf diesem Wege könnten Hacks wesentlich einfacher und unabhängiger von Versionssprüngen realisiert werden.</p>
-  <p class="fontnorm">Ein Plug-in hakt sich in den Programmfluss an diversen Stellen (sogenannte Hooks) ein und hat so die Möglichkeit entweder eigene Dinge zu tun oder vorhandene Daten in den jeweiligen Modulen zu modifizieren. Die Ausführung eines Plug-ins ist dabei immer an die aufrufende Klasse gebunden, d.h. es können dort auch private Variablen über <code>$this</code> adressiert werden.</p>
+  <p class="fontnorm">Ein Plug-in hakt sich in den Programmfluss an diversen Stellen (sogenannte Hooks) ein und hat so die Möglichkeit entweder eigene Dinge zu tun oder vorhandene Daten in den jeweiligen Modulen zu modifizieren. Die Ausführung eines Plug-ins ist dabei immer an die aufrufende Klasse gebunden, d.h. es können dort auch private Variablen über <code>$this</code> adressiert werden. Über 450 offizielle Hooks stehen dabei zur Verfügung.</p>
 
   <h3 id="plugininterface">8.1 Beschreibung des Interfaces</h3>
   <p class="fontnorm">Jedes Plug-in muss das Interface <code>PlugIn</code> aus <b>./core/Interfaces.php</b> implementieren. Die Schnittstelle ist dabei definiert wie folgt:</p>
