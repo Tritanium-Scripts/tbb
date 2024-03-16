@@ -1,9 +1,9 @@
 **********************************************************
 Tritanium Bulletin Board 1.5+ - Changelog (German version)
-Last changed: 2024-03-15 (Version 1.10.0)
+Last changed: 2024-03-16 (Version 1.10.0)
 **********************************************************
 
-2024: Version 1.10.0
+03.2024: Version 1.10.0
     - Fehler beim Hinzufügen von leeren speziellen Benutzer- und Gruppenrechten behoben
     - Umstellung auf Composer und dessen Autoloader
     - Smarty auf Version 4.4.1 aktualisiert
@@ -45,6 +45,7 @@ Last changed: 2024-03-15 (Version 1.10.0)
     - Über [img]-BBCode eingebundene Bilder werden nicht mehr breiter angezeigt als das Forum selber ist
     - Mögliche Enkodierungsprobleme der Monatsnamen bei externer Anzeige behoben
     - Glüh- und Schattenschrift nicht mehr IE-only
+    - Alle Schriftfarben auch bei Glüh- und Schattenschrift zur Auswahl
 
 10.12.2023: Version 1.8.1 (offiziell)
     - Mögliche Enkodierungsprobleme der Monatsnamen im Kalender behoben
