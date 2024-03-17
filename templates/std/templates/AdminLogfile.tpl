@@ -13,11 +13,11 @@
 {foreach $logfiles as $curLogfile}
  <tr>
   <td class="td1"><span class="norm"><input type="checkbox" name="deletelog[{$curLogfile.name}]" value="true"{if !$curLogfile.isDeletable} disabled="disabled"{/if} /></span></td>
-  <td class="td2" style="text-align:right;"><span class="norm">{$curLogfile.weekday}</span></td>
+  <td class="td2" style="text-align:right;"><span class="norm">{$curLogfile.weekday|utf8_encode}</span></td>
   <td class="td2"><span class="norm">{$curLogfile.date}</span></td>
   <td class="td1" style="text-align:right;"><span class="norm">{$curLogfile.size|string_format:Language::getInstance()->getString('x_kib')}</span></td>
   <td class="td2" style="text-align:right;"><span class="norm">{$curLogfile.entries}</span></td>
-  <td class="td1" style="text-align:center;"><span class="small">{$curLogfile.lastChange}</span></td>
+  <td class="td1" style="text-align:center;"><span class="small">{$curLogfile.lastChange|utf8_encode}</span></td>
 {plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_LOGFILE_LOGS_TABLE_BODY}
   <td class="td2" style="text-align:center;"><span class="small"><a href="{$smarty.const.INDEXFILE}?faction=adminLogfile&amp;mode=view&amp;log={$curLogfile.name}{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('view')}</a> | {if $curLogfile.isDeletable}<a href="{$smarty.const.INDEXFILE}?faction=adminLogfile&amp;mode=delete&amp;log={$curLogfile.name}{$smarty.const.SID_AMPER}" onclick="return confirm('{Language::getInstance()->getString('really_delete_this_logfile')}');">{Language::getInstance()->getString('delete')}</a> | {/if}<a href="{$smarty.const.INDEXFILE}?faction=adminLogfile&amp;mode=download&amp;log={$curLogfile.name}{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('download')}</a></span></td>
  </tr>

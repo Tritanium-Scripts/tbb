@@ -22,14 +22,14 @@
     <col width="50%" />
    </colgroup>
     <tr>
-     <td style="padding-right:3px; text-align:right;"><span class="fontNorm">{$curLogfile.weekday}</span></td>
+     <td style="padding-right:3px; text-align:right;"><span class="fontNorm">{$curLogfile.weekday|utf8_encode}</span></td>
      <td style="padding-left:3px;"><span class="fontNorm">{$curLogfile.date}</span></td>
     </tr>
    </table>
   </td>
   <td class="cellAlt" style="text-align:right;"><span class="fontNorm">{$curLogfile.size|string_format:Language::getInstance()->getString('x_kib')}</span></td>
   <td class="cellStd" style="text-align:right;"><span class="fontNorm">{$curLogfile.entries}</span></td>
-  <td class="cellAlt" style="text-align:center;"><span class="fontSmall">{$curLogfile.lastChange}</span></td>
+  <td class="cellAlt" style="text-align:center;"><span class="fontSmall">{$curLogfile.lastChange|utf8_encode}</span></td>
 {plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_LOGFILE_LOGS_TABLE_BODY}
   <td class="cellStd" style="text-align:center;"><span class="fontSmall"><a href="{$smarty.const.INDEXFILE}?faction=adminLogfile&amp;mode=view&amp;log={$curLogfile.name}{$smarty.const.SID_AMPER}"><img src="{Template::getInstance()->getTplDir()}images/icons/report.png" alt="{Language::getInstance()->getString('view')}" style="vertical-align:middle;" /> {Language::getInstance()->getString('view')}</a> | {if $curLogfile.isDeletable}<a href="{$smarty.const.INDEXFILE}?faction=adminLogfile&amp;mode=delete&amp;log={$curLogfile.name}{$smarty.const.SID_AMPER}" onclick="return confirm('{Language::getInstance()->getString('really_delete_this_logfile')}');"><img src="{Template::getInstance()->getTplDir()}images/icons/report_delete.png" alt="{Language::getInstance()->getString('delete')}" style="vertical-align:middle;" /> {Language::getInstance()->getString('delete')}</a> | {/if}<a href="{$smarty.const.INDEXFILE}?faction=adminLogfile&amp;mode=download&amp;log={$curLogfile.name}{$smarty.const.SID_AMPER}"><img src="{Template::getInstance()->getTplDir()}images/icons/report_disk.png" alt="{Language::getInstance()->getString('download')}" style="vertical-align:middle;" /> {Language::getInstance()->getString('download')}</a></span></td>
  </tr>

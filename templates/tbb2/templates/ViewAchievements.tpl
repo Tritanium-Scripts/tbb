@@ -18,7 +18,7 @@
      <td rowspan="2" style="width:66px;"><img src="{$curClosedAchievement.icon}" alt="{$curClosedAchievement.name}" title="{$curClosedAchievement.name}" style="width:64px; height:64px;" /></td>
      <th><span class="fontNorm">{$curClosedAchievement.name}</span></th>
     </tr>
-    <tr><td><span class="fontNorm">{$curClosedAchievement.description}</span>{if !empty($curClosedAchievement.unlocked)} <span class="fontSmall" style="float:right;"><span style="font-weight:bold;">{Language::getInstance()->getString('unlocked_colon')}</span> {$curClosedAchievement.unlocked}</span>{/if}</td></tr>
+    <tr><td><span class="fontNorm">{$curClosedAchievement.description}</span>{if !empty($curClosedAchievement.unlocked)} <span class="fontSmall" style="float:right;"><span style="font-weight:bold;">{Language::getInstance()->getString('unlocked_colon')}</span> {$curClosedAchievement.unlocked|utf8_encode}</span>{/if}</td></tr>
 {plugin_hook hook=PlugIns::HOOK_TPL_PROFILE_VIEW_ACHIEVEMENTS_CLOSED_TABLE_BODY}
 {foreachelse}
     <tr><td colspan="2" style="font-weight:bold; text-align:center;"><span class="fontNorm">{Language::getInstance()->getString('no_achievements_to_display')}</span></td></tr>
