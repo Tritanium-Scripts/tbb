@@ -664,7 +664,7 @@ class WhoIsOnline extends PublicModule
      * @param string $userAgent User agent to check
      * @return bool User agent being used by a search bot
      */
-    private function isBot(string $userAgent): bool
+    private function isBot(?string $userAgent): bool
     {
         return Functions::stripos($userAgent, 'bot') !== false
             || Functions::stripos($userAgent, 'spider') !== false

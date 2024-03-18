@@ -11,9 +11,9 @@
  * @param string $string String to encode as UTF-8, if needed
  * @return string UTF-8 encoded string
  */
-function smarty_modifier_utf8_encode(string $string): string
+function smarty_modifier_utf8_encode(?string $string): ?string
 {
-    if(!Core::getInstance()->isUtf8Locale())
+    if(!is_null($string) && !Core::getInstance()->isUtf8Locale())
         $string = Functions::utf8Encode($string);
     return $string;
 }
