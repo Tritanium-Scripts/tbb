@@ -41,7 +41,25 @@ class Template
             ->addPluginsDir('modules/Template/plugins/')
             //TODO replace registerPlugins with wildcard extension having Smarty 5
             ->registerPlugin('modifier', 'in_array', 'in_array')
+            ->registerPlugin('modifier', 'version_compare', 'version_compare')
+            ->registerPlugin('modifier', 'microtime', 'microtime')
+            ->registerPlugin('modifier', 'sprintf', 'sprintf')
             ->setCompileId($this->tplDir);
+        //Register modules for usage in templates
+        foreach(Functions::glob('{core,modules}/*.php', GLOB_BRACE) as $curModule)
+        {
+            $curModule = basename($curModule, '.php');
+            if(class_exists($curModule))
+                $this->smarty->registerClass($curModule, $curModule);
+        }
+        //TODO Add extensions having Smarty 5
+        /*foreach(Functions::glob('modules/Template/extensions/*.php') as $curExtension)
+        {
+            include($curExtension);
+            $curExtension = basename($curExtension, '.php');
+            if(class_exists($curExtension))
+                $this->smarty->addExtension(new $curExtension());
+        }*/
         //Load config(s)
         foreach(Functions::glob($this->tplDir . 'config/*.conf') as $curConfig)
             $this->smarty->configLoad($curConfig);
