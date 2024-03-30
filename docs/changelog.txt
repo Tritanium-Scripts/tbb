@@ -6,6 +6,7 @@ Last changed: 2024-03-29 (Version 1.10.1)
 2024: Version 1.10.1
     - Typenfehler korrigiert
     - Smarty auf Version 4.5.1 aktualisiert
+    - Boterkennung verbessert
 
 17.03.2024: Version 1.10.0 (offiziell)
     - Fehler beim Hinzufügen von leeren speziellen Benutzer- und Gruppenrechten behoben

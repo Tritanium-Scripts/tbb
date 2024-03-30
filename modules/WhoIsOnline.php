@@ -680,7 +680,8 @@ class WhoIsOnline extends PublicModule
             || Functions::stripos($userAgent, 'buck') !== false
             || Functions::stripos($userAgent, 'http://') !== false
             || Functions::stripos($userAgent, 'https://') !== false
-            || Functions::stripos($userAgent, 'http-client') !== false;
+            || Functions::stripos($userAgent, 'http-client') !== false
+            || Functions::stripos($userAgent, 'headless') !== false;
     }
 }
 ?>
