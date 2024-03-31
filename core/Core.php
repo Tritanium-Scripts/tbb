@@ -104,7 +104,7 @@ class Core
     function __construct()
     {
         error_reporting(ERR_REPORTING);
-        set_exception_handler(function(Throwable $e)
+        set_exception_handler(function(Throwable $e): void
         {
             $missing = [];
             if(preg_match('/Class "(.*?)" not found/i', $e->getMessage(), $missing) > 0)

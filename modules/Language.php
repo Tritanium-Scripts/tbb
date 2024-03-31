@@ -150,7 +150,8 @@ class Language
      */
     private function setPrefLang(): void
     {
-        foreach(($prefLangs = $this->getPrefLangs()) as $curPrefLang)
+        $prefLangs = $this->getPrefLangs();
+        foreach($prefLangs as $curPrefLang)
             if(in_array($curPrefLang, $this->availableLangs))
             {
                 $this->langCode = $curPrefLang;

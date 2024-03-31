@@ -604,7 +604,7 @@ class PlugIns
      * Calls registered plug-ins on given hook.
      *
      * @param string $hook Official or custom hook name
-     * @param mixed $args Any arguments relevant to the hooked in execution
+     * @param mixed $args,... Any arguments relevant to the hooked in execution
      * @return Hook was dispatched among all registered plug-ins
      */
     public function callHook(string $hook, &...$args): bool

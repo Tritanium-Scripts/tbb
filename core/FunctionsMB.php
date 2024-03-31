@@ -37,7 +37,7 @@ class Functions extends CoreFunctions
      * @param mixed $args,... Optional arguments to be replaced in message text
      * @return bool Message was accepted for sending
      */
-    public static function sendMessage(string $to, string $msgIndex, mixed ...$args): bool
+    public static function sendMessage(string $to, string $msgIndex, ...$args): bool
     {
         return self::mail($to, Language::getInstance()->getString('subject_' . $msgIndex, 'Mails'), vsprintf(Language::getInstance()->getString('message_' . $msgIndex), $args));
     }
