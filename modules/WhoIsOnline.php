@@ -667,6 +667,7 @@ class WhoIsOnline extends PublicModule
     private function isBot(?string $userAgent): bool
     {
         return Functions::stripos($userAgent, 'bot') !== false
+            || Functions::stripos($userAgent, 'google') !== false
             || Functions::stripos($userAgent, 'spider') !== false
             || Functions::stripos($userAgent, 'crawl') !== false
             || Functions::stripos($userAgent, 'slurp') !== false
