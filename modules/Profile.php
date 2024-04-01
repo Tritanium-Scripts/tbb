@@ -375,7 +375,7 @@ class Profile extends PublicModule
             if(empty($this->webApiKey))
             {
                 $dom = new DOMDocument;
-                if(!@$dom->loadXML(Functions::loadURL('https://steamcommunity.com/' . (ctype_digit($this->userData[18]) ? 'profiles/' : 'id/') . $this->userData[18] . '/stats/' . $game . '/?tab=achievements&l=' . Language::getInstance()->getString('steam_language') . '&xml=all', $this->isFGC, $this->isCURL)))
+                if(!@$this->loadXml($dom, Functions::loadURL('https://steamcommunity.com/' . (ctype_digit($this->userData[18]) ? 'profiles/' : 'id/') . $this->userData[18] . '/stats/' . $game . '/?tab=achievements&l=' . Language::getInstance()->getString('steam_language') . '&xml=all', $this->isFGC, $this->isCURL)))
                     $this->errors[] = Language::getInstance()->getString('loading_achievements_failed');
                 elseif($dom->getElementsByTagName('error')->length == 0)
                 {
@@ -572,7 +572,7 @@ class Profile extends PublicModule
         if(empty($source))
             return false;
         $dom = new DOMDocument;
-        if(!@$dom->loadXML($source))
+        if(!$this->loadXml($dom, $source))
             return false;
         $this->userData[18] = ['profileID' => $this->userData[18],
             'profileName' => $dom->getElementsByTagName('steamID')->item(0)->nodeValue];
@@ -589,6 +589,26 @@ class Profile extends PublicModule
                 htmlspecialchars($curSteamGame->getElementsByTagName('name')->item(0)->nodeValue, ENT_QUOTES)]; //Full game name
         }
         return true;
+    }
+
+    /**
+     * Loads given XML into provided handler.
+     *
+     * @param DOMDocument $domDocument Handle to use
+     * @param mixed $xml XML to be parsed and loaded
+     * @return bool Successful loading
+     */
+    private function loadXml(DOMDocument &$domDocument, string $xml): bool
+    {
+        try
+        {
+            return @$domDocument->loadXML($xml);
+        }
+        catch(Error $e)
+        {
+            //TODO ValueError since PHP 8.0
+            return false;
+        }
     }
 
     /**

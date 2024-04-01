@@ -1,12 +1,14 @@
 **********************************************************
 Tritanium Bulletin Board 1.5+ - Changelog (German version)
-Last changed: 2024-03-31 (Version 1.10.1)
+Last changed: 2024-04-01 (Version 1.10.1)
 **********************************************************
 
 2024: Version 1.10.1
     - Typenfehler korrigiert
     - Smarty auf Version 4.5.1 aktualisiert
     - Boterkennung verbessert
+    - Wertefehler korrigiert
+    - Dokumentation aktualisiert
 
 17.03.2024: Version 1.10.0 (offiziell)
     - Fehler beim Hinzufügen von leeren speziellen Benutzer- und Gruppenrechten behoben

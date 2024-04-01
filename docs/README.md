@@ -1,6 +1,6 @@
 # Tritanium Bulletin Board 1
 
-![version](https://img.shields.io/badge/version-1.10.0-blue)
+![version](https://img.shields.io/badge/version-1.10.1-blue)
 
 ## About
 TBB 1 is a file-based bulletin board with modern technology and architecture. It features completely valid XHTML, todays forum standards, a simply modifiable design thanks to templates and being highly customizable due to plug-in support. PHP 7.4 and Smarty 4.4 as template engine is used; there is no database like MySQL required. Thus it is still practically everywhere deployable provided that PHP is available.
