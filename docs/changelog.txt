@@ -1,6 +1,6 @@
 **********************************************************
 Tritanium Bulletin Board 1.5+ - Changelog (German version)
-Last changed: 2024-04-07 (Version 1.10.1)
+Last changed: 2024-04-21 (Version 1.10.1)
 **********************************************************
 
 2024: Version 1.10.1
@@ -9,6 +9,7 @@ Last changed: 2024-04-07 (Version 1.10.1)
     - Boterkennung verbessert
     - Wertefehler korrigiert
     - Dokumentation aktualisiert
+    - Passwörter mit alten Hash werden beim Login automatisch auf neuen Hash migriert
 
 17.03.2024: Version 1.10.0 (offiziell)
     - Fehler beim Hinzufügen von leeren speziellen Benutzer- und Gruppenrechten behoben

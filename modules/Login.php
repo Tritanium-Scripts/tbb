@@ -78,6 +78,7 @@ class Login extends PublicModule
             if(empty($this->errors))
             {
                 //Prerequisite are met, prepare data
+                $oldLoginPass = hash('sha512', $this->loginPass); //Support old hashes from TBB 1.5 to 1.8 and migrate them automatically
                 $this->loginName = Functions::strtolower($this->loginName);
                 $this->loginPass = Functions::getHash($this->loginPass);
                 $found = false;
@@ -88,7 +89,7 @@ class Login extends PublicModule
                     if($this->loginName == Functions::strtolower($curMember[0]))
                     {
                         $found = true;
-                        //Deleted user
+                        //Deleted user?
                         if($curMember[4] == '5')
                         {
                             $this->errors[] = Language::getInstance()->getString('user_not_found');
@@ -99,8 +100,9 @@ class Login extends PublicModule
                         //Don't allow login for non-admins in case of active maintenance mode
                         elseif(Config::getInstance()->getCfgVal('uc') == 1 && $curMember[4] != '1')
                             Template::getInstance()->printMessage('maintenance_mode_on');
-                        //Wrong password
-                        elseif(!in_array($this->loginPass, ($curPasses = (Functions::explodeByTab($curMember[2] . "\t"))))) //Attach additional tab to make sure [1] is set in any case
+                        //Wrong password?
+                        elseif(!in_array($this->loginPass, ($curPasses = (Functions::explodeByTab($curMember[2] . "\t")))) //Attach additional tab to make sure [1] is set in any case
+                            && !in_array($oldLoginPass, $curPasses))
                         {
                             $this->errors[] = Language::getInstance()->getString('wrong_password');
                             $this->loginName = $curMember[0]; //Undo strtolower for template
@@ -112,10 +114,10 @@ class Login extends PublicModule
                         {
                             //Update last seen value
                             $curMember[16] = time();
-                            //Remove custom tpls and styles, if it was prohibited in the meantime
+                            //Remove custom TPLs and styles, if it was prohibited in the meantime
                             if(Config::getInstance()->getCfgVal('select_tpls') != 1 && isset($curMember[20]) && !empty($curMember[20]))
                                 $curMember[20] = '';
-                            //Also check if style was not found for current tpl
+                            //Also check if style was not found for current TPL
                             if(isset($curMember[21]) && !empty($curMember[21]) && (!file_exists(Template::getInstance()->getTplDir() . 'styles/' . $curMember[21]) || Config::getInstance()->getCfgVal('select_styles') != 1))
                                 $curMember[21] = '';
                             //Set a new requested password as new default one
@@ -123,6 +125,12 @@ class Login extends PublicModule
                             {
                                 $curMember[2] = $curPasses[1];
                                 Logger::getInstance()->log('Requested password set as new one for "' . $curMember[0] . '" (ID: ' . $curMember[1] . ')', Logger::LOG_NEW_PASSWORD);
+                            }
+                            //Migrate an old hash to new default one
+                            elseif($oldLoginPass == $curPasses[0])
+                            {
+                                $curMember[2] = $this->loginPass;
+                                Logger::getInstance()->log('Migrated password hash for "' . $curMember[0] . '" (ID: ' . $curMember[1] . ')', Logger::LOG_NEW_PASSWORD);
                             }
                             Functions::file_put_contents('members/' . $curMember[1] . '.xbb', implode("\n", $curMember));
                             //Login session-based
