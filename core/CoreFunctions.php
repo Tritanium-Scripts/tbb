@@ -968,6 +968,10 @@ abstract class CoreFunctions
             curl_setopt($cURL, CURLOPT_TIMEOUT, ini_get('default_socket_timeout'));
             curl_setopt($cURL, CURLOPT_ENCODING, ''); //Support for gzip
             curl_setopt($cURL, CURLOPT_USERAGENT, 'TBB/' . VERSION_PUBLIC); //RFC 2616
+            curl_setopt($cURL, CURLOPT_HTTPHEADER, ['Accept: application/json,application/xml,application/xhtml+xml,text/html']);
+            //Fix any SSL certificate issues
+            if(defined('CURLSSLOPT_NATIVE_CA') && version_compare(curl_version()['version'], '7.71') >= 0)
+                curl_setopt($cURL, CURLOPT_SSL_OPTIONS, CURLSSLOPT_NATIVE_CA);
             $content = curl_exec($cURL);
             if($checkRedir)
             {
