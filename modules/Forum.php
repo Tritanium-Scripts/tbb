@@ -74,7 +74,7 @@ class Forum extends PublicModule
         $this->mode = $mode;
         $this->forumID = intval(Functions::getValueFromGlobals('forum_id')) ?: -1;
         $this->topicID = intval(Functions::getValueFromGlobals('thread')) ?: -1;
-        $this->page = isset($_GET['z']) ? ($_GET['z'] != 'last' ? intval($_GET['z']) : 'last') : 1;
+        $this->page = isset($_GET['z']) ? ($_GET['z'] != 'last' ? max(1, intval($_GET['z'])) : 'last') : 1;
         $this->userKeysSize = count(self::$userKeys);
         $this->shortenPageBar = intval(Config::getInstance()->getCfgVal('shorten_page_bars'));
         PlugIns::getInstance()->callHook(PlugIns::HOOK_FORUM_INIT);

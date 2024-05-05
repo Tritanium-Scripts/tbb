@@ -80,9 +80,9 @@ class Posting extends PublicModule
     /**
      * Posts of target topic to post in / edit.
      *
-     * @var array Topic posts
+     * @var array|bool Topic posts or false
      */
-    private array $topicFile;
+    private $topicFile;
 
     /**
      * ID of topic to reply to / edit.
@@ -100,10 +100,12 @@ class Posting extends PublicModule
     {
         parent::__construct();
         $this->mode = $mode;
-        $this->forum = Functions::getForumData($forumID = intval(Functions::getValueFromGlobals('forum_id')));
+        $forumID = intval(Functions::getValueFromGlobals('forum_id'));
+        $this->forum = Functions::getForumData($forumID);
         $this->topicID = intval(Functions::getValueFromGlobals('thread_id')) ?: intval(Functions::getValueFromGlobals('topic_id'));
         $this->postID = intval(Functions::getValueFromGlobals('post_id')) ?: intval(Functions::getValueFromGlobals('quote'));
-        if(($this->topicFile = @Functions::file('foren/' . $forumID . '-' . $this->topicID . '.xbb')) != false) //Not $this->forum[0] in case of "false[0]"
+        $this->topicFile = @Functions::file('foren/' . $forumID . '-' . $this->topicID . '.xbb'); //Not $this->forum[0] in case of "false[0]"
+        if($this->topicFile != false)
         {
             #0:postID - 1:posterID - 2:proprietaryDate - 3:post - 4:ip - 5:isSignature - 6:tSmileyID - 7:isSmiliesOn - 8:isBBCode - 9:isHTML[ - 10:lastEditByID]
             $this->topicFile = array_map(['Functions', 'explodeByTab'], $this->topicFile);
