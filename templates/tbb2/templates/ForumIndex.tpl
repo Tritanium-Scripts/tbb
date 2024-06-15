@@ -23,7 +23,7 @@
   <td class="cellAlt" style="text-align:center;"><span class="fontSmall">{$curForum.forumTopics}</span></td>
   <td class="cellAlt" style="text-align:center;"><span class="fontSmall">{$curForum.forumPosts}</span></td>
   <td class="cellStd" style="text-align:center;"><div class="fontSmall">{$curForum.lastPost}</div></td>
-  <td class="cellAlt" style="text-align:center;"><span class="fontSmall">{if is_array($curForum.mods)}{', '|implode:$curForum.mods}{else}{$curForum.mods}{/if}</span></td>
+  <td class="cellAlt" style="text-align:center;"><span class="fontSmall">{if is_array($curForum.mods)}{$curForum.mods|join:', '}{else}{$curForum.mods}{/if}</span></td>
 {plugin_hook hook=PlugIns::HOOK_TPL_FORUM_FORUMS_TABLE_BODY}
  </tr>
 {/if}
@@ -39,7 +39,7 @@
 <!-- NewestPosts -->
 <table class="tableStd" cellpadding="{Config::getInstance()->getCfgVal('tpadding')}" cellspacing="{Config::getInstance()->getCfgVal('tspacing')}" style="width:100%;">
  <tr><th class="cellTitle"><span class="fontTitle">{Language::getInstance()->getString('newest_posts')}</span><a href="{$smarty.const.INDEXFILE}?faction=rssFeed" style="float:right;"><img src="{Template::getInstance()->getTplDir()}images/feed.png" alt="" /></a></th></tr>
- <tr><td class="cellStd"><span class="fontSmall">{if !empty($newestPosts)}{'<br />'|implode:$newestPosts}{else}{Language::getInstance()->getString('no_newest_posts')}{/if}{plugin_hook hook=PlugIns::HOOK_TPL_FORUM_NEWEST_POSTS}</span></td></tr>
+ <tr><td class="cellStd"><span class="fontSmall">{if !empty($newestPosts)}{$newestPosts|join:'<br />'}{else}{Language::getInstance()->getString('no_newest_posts')}{/if}{plugin_hook hook=PlugIns::HOOK_TPL_FORUM_NEWEST_POSTS}</span></td></tr>
 </table>{/if}
 
 {if Config::getInstance()->getCfgVal('show_board_stats') == 1}<br />
@@ -57,7 +57,7 @@
 <table class="tableStd" cellpadding="{Config::getInstance()->getCfgVal('tpadding')}" cellspacing="{Config::getInstance()->getCfgVal('tspacing')}" style="width:100%;">
  <tr><th class="cellTitle"><span class="fontTitle">{Language::getInstance()->getString('who_is_online')}</span></th></tr>
  <tr><td class="cellStd"><span class="fontSmall">{Config::getInstance()->getCfgVal('wio_timeout')|string_format:Language::getInstance()->getString('in_last_x_min_were_active_colon')}<br />
-  {if empty($wioUser[2])}{Language::getInstance()->getString('no_members')}{else}{Language::getInstance()->getString('members_colon')} {', '|implode:$wioUser[2]}{/if}<br />
+  {if empty($wioUser[2])}{Language::getInstance()->getString('no_members')}{else}{Language::getInstance()->getString('members_colon')} {$wioUser[2]|join:', '}{/if}<br />
   {if $wioUser[1] == 0}{Language::getInstance()->getString('no_ghosts')}{elseif $wioUser[1] == 1}{Language::getInstance()->getString('one_ghost')}{else}{$wioUser[1]|string_format:Language::getInstance()->getString('x_ghosts')}{/if}<br />
   {if $wioUser[0] == 0}{Language::getInstance()->getString('no_guests')}{elseif $wioUser[0] == 1}{Language::getInstance()->getString('one_guest')}{else}{$wioUser[0]|string_format:Language::getInstance()->getString('x_guests')}{/if}<br />
   {if $wioUser[3] == 0}{Language::getInstance()->getString('no_bots')}{elseif $wioUser[3] == 1}{Language::getInstance()->getString('one_bot')}{else}{$wioUser[3]|string_format:Language::getInstance()->getString('x_bots')}{/if}<br />{plugin_hook hook=PlugIns::HOOK_TPL_FORUM_WIO_BOX}<br />

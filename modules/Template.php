@@ -1,4 +1,6 @@
 <?php
+use Smarty\Smarty;
+
 /**
  * Inits Smarty, manages configuration, assigns values to template files and prints pages.
  *
@@ -32,18 +34,12 @@ class Template
     {
         $this->smarty = new Smarty();
         //Settings
-        $this->smarty->setErrorUnassigned(error_reporting() == E_ALL);
+        $this->smarty->error_unassigned = (error_reporting() == E_ALL);
         $this->smarty->setCacheDir('cache/')
             ->setCompileDir('cache/');
         $this->tplDir = 'templates/' . (Config::getInstance()->getCfgVal('select_tpls') == 1 ? Auth::getInstance()->getUserTpl() : Config::getInstance()->getCfgVal('default_tpl')) . '/';
         $this->smarty->setTemplateDir($this->tplDir . 'templates/')
             ->setConfigDir($this->tplDir . 'config/')
-            ->addPluginsDir('modules/Template/plugins/')
-            //TODO replace registerPlugins with wildcard extension having Smarty 5
-            ->registerPlugin('modifier', 'in_array', 'in_array')
-            ->registerPlugin('modifier', 'version_compare', 'version_compare')
-            ->registerPlugin('modifier', 'microtime', 'microtime')
-            ->registerPlugin('modifier', 'sprintf', 'sprintf')
             ->setCompileId($this->tplDir);
         //Register modules for usage in templates
         foreach(Functions::glob('{core,modules}/*.php', GLOB_BRACE) as $curModule)
@@ -52,20 +48,19 @@ class Template
             if(class_exists($curModule))
                 $this->smarty->registerClass($curModule, $curModule);
         }
-        //TODO Add extensions having Smarty 5
-        /*foreach(Functions::glob('modules/Template/extensions/*.php') as $curExtension)
+        //Add extensions
+        foreach(Functions::glob('modules/Template/extensions/*Extension.php') as $curExtension)
         {
-            include($curExtension);
             $curExtension = basename($curExtension, '.php');
             if(class_exists($curExtension))
                 $this->smarty->addExtension(new $curExtension());
-        }*/
+        }
         //Load config(s)
         foreach(Functions::glob($this->tplDir . 'config/*.conf') as $curConfig)
             $this->smarty->configLoad($curConfig);
         $this->smarty->setDebugging($this->smarty->getConfigVars('debug'));
         //Assign defaults
-        $this->smarty->assignByRef('smartyTime', $this->smarty->start_time);
+        $this->smarty->assign('smartyTime', $this->smarty->start_time);
         //Initialization done
         PlugIns::getInstance()->callHook(PlugIns::HOOK_TEMPLATE_INIT);
     }
@@ -244,8 +239,7 @@ class Template
      */
     public function printTail(): void
     {
-        $privacyPolicyLink = $this->smarty->getTemplateVars('privacyPolicyLink');
-        if(!isset($privacyPolicyLink))
+        if(!$this->smarty->hasVariable('privacyPolicyLink'))
         {
             $privacyPolicyLink = Config::getInstance()->getCfgVal('privacy_policy_link');
             if($privacyPolicyLink == '?faction=gdpr')

@@ -10,7 +10,7 @@
   <meta name="copyright" content="&copy; 2010&ndash;{$smarty.const.COPYRIGHT_YEAR} Tritanium Scripts" />
   <meta name="description" content="{sprintf(Language::getInstance()->getString('html_description'), Config::getInstance()->getCfgVal('site_name'), $smarty.const.VERSION_PUBLIC)}" />
   <meta name="generator" content="Notepad 4.10.1998" />
-  <meta name="keywords" content="TBB,Tritanium,Tritanium Scripts,TBB {$smarty.const.VERSION_PUBLIC},Tritanium Bulletin Board,{Config::getInstance()->getCfgVal('site_name')},{','|implode:NavBar::getInstance()->getNavBar(false)}" />
+  <meta name="keywords" content="TBB,Tritanium,Tritanium Scripts,TBB {$smarty.const.VERSION_PUBLIC},Tritanium Bulletin Board,{Config::getInstance()->getCfgVal('site_name')},{NavBar::getInstance()->getNavBar(false)|join:','}" />
   <meta name="revisit-after" content="7 days" />
   <meta name="robots" content="all" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -59,7 +59,7 @@ function negateBoxes(id)
 };
 /* ]]> */
   </script>
-  <title>{$smarty.config.navBarDelim|implode:NavBar::getInstance()->getNavBar(false)}</title>
+  <title>{NavBar::getInstance()->getNavBar(false)|join:$smarty.config.navBarDelim}</title>
 {plugin_hook hook=PlugIns::HOOK_TPL_PAGE_HEADER_HTML_HEAD}
  </head>
  <body style="padding-top:1em;"{if PrivateMessage::getInstance()->isRemind() && $unreadPMs > 0} onload="if(confirm('{if $unreadPMs == 1}{Language::getInstance()->getString('you_have_one_new_pm')}{elseif $unreadPMs > 1}{$unreadPMs|string_format:Language::getInstance()->getString('you_have_x_new_pms')}{/if}')) document.location='{$smarty.const.INDEXFILE}?faction=pm';"{/if}>

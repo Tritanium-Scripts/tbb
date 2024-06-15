@@ -10,13 +10,13 @@
   <meta name="copyright" content="&copy; 2010&ndash;{$smarty.const.COPYRIGHT_YEAR} Tritanium Scripts" />
   <meta name="description" content="{sprintf(Language::getInstance()->getString('html_description'), Config::getInstance()->getCfgVal('site_name'), $smarty.const.VERSION_PUBLIC)}" />
   <meta name="generator" content="Notepad 4.10.1998" />
-  <meta name="keywords" content="TBB,Tritanium,Tritanium Scripts,TBB {$smarty.const.VERSION_PUBLIC},Tritanium Bulletin Board,{Config::getInstance()->getCfgVal('site_name')},{','|implode:NavBar::getInstance()->getNavBar(false)}" />
+  <meta name="keywords" content="TBB,Tritanium,Tritanium Scripts,TBB {$smarty.const.VERSION_PUBLIC},Tritanium Bulletin Board,{Config::getInstance()->getCfgVal('site_name')},{NavBar::getInstance()->getNavBar(false)|join:','}" />
   <meta name="revisit-after" content="7 days" />
   <meta name="robots" content="all" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="{Template::getInstance()->getTplDir()}images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
   <link href="{Template::getInstance()->getTplDir()}{Auth::getInstance()->getUserStyle()}" media="all" rel="stylesheet" />
-  <title>{$smarty.config.navBarDelim|implode:NavBar::getInstance()->getNavBar(false)}</title>
+  <title>{NavBar::getInstance()->getNavBar(false)|join:$smarty.config.navBarDelim}</title>
  </head>
  <body style="padding-top:1em;"{if $isUploaded} onload="opener.document.getElementById('{$targetBoxID}').value += '{$bbCode}';">
   <!-- Upload -->
@@ -27,7 +27,7 @@
 <table class="tbl" cellpadding="{Config::getInstance()->getCfgVal('tpadding')}" cellspacing="{Config::getInstance()->getCfgVal('tspacing')}" style="width:{Config::getInstance()->getCfgVal('twidth')}; margin:auto;">
  <tr><th class="thnorm" colspan="2"><span class="thnorm">{Language::getInstance()->getString('upload_file')}</span></th></tr>
 {plugin_hook hook=PlugIns::HOOK_TPL_UPLOAD_FORM_START}
- <tr><td class="td1"><span class="norm" style="font-weight:bold;">{Language::getInstance()->getString('allowed_extensions_colon')}</span></td><td class="td1"><span class="norm">{if $allowedExtensions == false}<span style="font-style:italic;">{Language::getInstance()->getString('no_limitation')}</span>{else}{', '|implode:$allowedExtensions}{/if}</span></td></tr>
+ <tr><td class="td1"><span class="norm" style="font-weight:bold;">{Language::getInstance()->getString('allowed_extensions_colon')}</span></td><td class="td1"><span class="norm">{if $allowedExtensions == false}<span style="font-style:italic;">{Language::getInstance()->getString('no_limitation')}</span>{else}{$allowedExtensions|join:', '}{/if}</span></td></tr>
  <tr><td class="td1"><span class="norm" style="font-weight:bold;">{Language::getInstance()->getString('maximal_filesize_colon')}</span></td><td class="td1"><span class="norm">{if empty($maxFilesize)}<span style="font-style:italic;">{Language::getInstance()->getString('no_limitation')}</span>{else}{$maxFilesize|string_format:Language::getInstance()->getString('x_kib')}{/if}</span></td></tr>
  <tr><td class="td1" colspan="2" style="text-align:center;"><input type="file" name="uploadedFile" /></td></tr>
 {plugin_hook hook=PlugIns::HOOK_TPL_UPLOAD_FORM_END}

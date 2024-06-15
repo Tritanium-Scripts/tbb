@@ -30,7 +30,7 @@
     },
     "require": {
         "php": ">=7.4",
-        "smarty/smarty": "4.5.*"
+        "smarty/smarty": "5.3.*"
     },
     "require-dev": {
         "oomphinc/composer-installers-extender": "2.*"
@@ -44,7 +44,7 @@
     },
     "autoload": {
         "classmap": ["modules/"],
-        "exclude-from-classmap": ["modules/Template/**", "modules/PlugIns/**"]
+        "exclude-from-classmap": ["modules/PlugIns/**"]
     },
     "config": {
         "allow-plugins": {

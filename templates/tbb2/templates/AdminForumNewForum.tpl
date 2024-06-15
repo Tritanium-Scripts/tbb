@@ -20,7 +20,7 @@
  </tr>
  <tr>
   <td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('moderators_colon')}</span></td>
-  <td class="cellAlt"><input class="formText" type="text" size="10" name="mods" value="{','|implode:$newModIDs}" /> <span class="fontSmall">{Language::getInstance()->getString('separate_mod_ids_with_comma')}</span></td>
+  <td class="cellAlt"><input class="formText" type="text" size="10" name="mods" value="{$newModIDs|join:','}" /> <span class="fontSmall">{Language::getInstance()->getString('separate_mod_ids_with_comma')}</span></td>
  </tr>
  <tr>
   <td class="cellStd"><span class="fontNorm">{Language::getInstance()->getString('category_colon')}</span></td>

@@ -14,7 +14,7 @@
   <td class="td1" style="text-align:center; vertical-align:top; width:1em;">{if !empty($curForum.image)}<img src="{$curForum.image}" alt="" style="height:1em; width:1em;" />{/if}</td>
   <td class="td1" style="vertical-align:top;"><span class="small">{$curForum.name}</span></td>
   <td class="td2" style="vertical-align:top;"><span class="small">{$curForum.descr}</span></td>
-  <td class="td1" style="vertical-align:top;"><span class="small">{if is_array($curForum.mods)}{', '|implode:$curForum.mods}{else}{$curForum.mods}{/if}</span></td>
+  <td class="td1" style="vertical-align:top;"><span class="small">{if is_array($curForum.mods)}{$curForum.mods|join:', '}{else}{$curForum.mods}{/if}</span></td>
   <td class="td2" style="vertical-align:top;"><span class="small">{if isset($catTable[$curForum.catID])}{$catTable[$curForum.catID]}{else}{$catTable[-1]}{/if}</span></td>
 {plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_FORUM_FORUMS_TABLE_BODY}
   <td class="td1" style="text-align:center;"><span class="norm"><a href="{$smarty.const.INDEXFILE}?faction=ad_forum&amp;mode=moveforum{if $curForum@first}down&amp;id={$curForum.id}{$smarty.const.SID_AMPER}">&d{elseif $curForum@last}up&amp;id={$curForum.id}{$smarty.const.SID_AMPER}">&u{else}down&amp;id={$curForum.id}{$smarty.const.SID_AMPER}">&darr;</a> | <a href="{$smarty.const.INDEXFILE}?faction=ad_forum&amp;mode=moveforumup&amp;id={$curForum.id}{$smarty.const.SID_AMPER}">&u{/if}arr;</a></span></td>
