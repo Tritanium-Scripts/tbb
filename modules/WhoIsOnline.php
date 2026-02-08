@@ -9,7 +9,7 @@
  * 0:todaysDate - 1:0:recordMember - 1:1:recordDate[ - 2:guestCounter - 3:members - 4:bots]
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2024 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2026 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -670,6 +670,7 @@ class WhoIsOnline extends PublicModule
             || Functions::stripos($userAgent, 'google') !== false
             || Functions::stripos($userAgent, 'spider') !== false
             || Functions::stripos($userAgent, 'crawl') !== false
+            || Functions::stripos($userAgent, 'scanner') !== false
             || Functions::stripos($userAgent, 'slurp') !== false
             || Functions::stripos($userAgent, 'qwant') !== false
             || Functions::stripos($userAgent, 'bubing') !== false
@@ -683,7 +684,11 @@ class WhoIsOnline extends PublicModule
             || Functions::stripos($userAgent, 'https://') !== false
             || Functions::stripos($userAgent, 'http-client') !== false
             || Functions::stripos($userAgent, 'headless') !== false
-            || Functions::stripos($userAgent, 'aiohttp') !== false;
+            || Functions::stripos($userAgent, 'aiohttp') !== false
+            || Functions::stripos($userAgent, 'httpx') !== false
+            || Functions::stripos($userAgent, 'curl') !== false
+            || Functions::stripos($userAgent, 'wget') !== false
+            || Functions::stripos($userAgent, 'python-requests') !== false;
     }
 }
 ?>
