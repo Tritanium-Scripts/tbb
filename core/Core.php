@@ -188,12 +188,13 @@ class Core
         if(session_id() == '0')
             session_regenerate_id();
         //Provide session IDs
-        if(Config::getInstance()->getCfgVal('append_sid_url') == 1 || SID != '')
+        if(Config::getInstance()->getCfgVal('append_sid_url') == 1 || isset($_COOKIE['sid']) && $_COOKIE['sid'] == '')
         {
+            $sid = htmlspecialchars('sid=' . session_id());
             //URL-based
-            define('SID_QMARK', '?' . htmlspecialchars(SID));
-            define('SID_AMPER', '&amp;' . htmlspecialchars(SID));
-            define('SID_AMPER_RAW', '&' . htmlspecialchars(SID));
+            define('SID_QMARK', '?' . $sid);
+            define('SID_AMPER', '&amp;' . $sid);
+            define('SID_AMPER_RAW', '&' . $sid);
         }
         else
         {

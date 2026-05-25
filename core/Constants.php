@@ -10,7 +10,7 @@
 define('SCRIPTSTART', microtime(true));
 define('INDEXFILE', 'index.php');
 define('ERR_REPORTING', E_ERROR | E_PARSE); //Report only errors in case of Composer warnings
-define('COPYRIGHT_YEAR', 2024); //Displayed in page footer
+define('COPYRIGHT_YEAR', 2026); //Displayed in page footer
 /*
  * Two version numbers of this script are used
  * to prevent selective bug using in case of

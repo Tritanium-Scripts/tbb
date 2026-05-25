@@ -198,7 +198,7 @@ class ExtFunctions
     /**
      * Wraps PHP's {@link substr()} to Multibyte's {@link mb_substr()}, if UTF-8 is enabled.
      */
-    public static function substr(string $string, int $start, int $length=null): string
+    public static function substr(string $string, int $start, ?int $length=null): string
     {
         return EXT_IS_UTF8 && function_exists('mb_substr')
             ? (isset($length) ? mb_substr($string, $start, $length) : mb_substr($string, $start))

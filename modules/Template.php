@@ -211,7 +211,8 @@ class Template
         $this->display('Message', ['action' => 'Message',
             'msgTitle' => Language::getInstance()->getString('title_' . $msgIndex),
             'msgText' => vsprintf(Language::getInstance()->getString('text_' . $msgIndex), $args)]);
-        exit($this->printTail());
+        $this->printTail();
+        exit();
     }
 
     /**
@@ -231,7 +232,8 @@ class Template
         PlugIns::getInstance()->callHook(PlugIns::HOOK_TEMPLATE_PAGE);
         $this->printHeader();
         $this->display($tplName);
-        exit($this->printTail());
+        $this->printTail();
+        exit();
     }
 
     /**

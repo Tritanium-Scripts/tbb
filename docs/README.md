@@ -22,7 +22,6 @@ Refer to [changelog.txt](changelog.txt) for the latest release notes.
 This work is licensed under CC BY-NC-SA 3.0. To view a copy of this license, visit https://creativecommons.org/licenses/by-nc-sa/3.0/
 
 ## Credits
-© 2010-2024 Tritanium Scripts  
+© 2010-2026 Tritanium Scripts  
 http://www.tritanium-scripts.com/  
-https://www.chrissyx.com/  
-[![Twitter Follow](https://img.shields.io/twitter/follow/CXHomepage?style=social)](https://twitter.com/intent/follow?screen_name=CXHomepage)
+https://www.chrissyx.com/
