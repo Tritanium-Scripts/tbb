@@ -3,7 +3,7 @@
  * Manages the login, request of new password and logout.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2024 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2026 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -43,7 +43,7 @@ class Login extends PublicModule
     function __construct(string $fAction)
     {
         parent::__construct();
-        $this->loginName = Functions::latin9ToEntities(htmlspecialchars(trim(Functions::getValueFromGlobals('login_name'))));
+        $this->loginName = Functions::latin9ToEntities(htmlspecialchars(Functions::trim(Functions::getValueFromGlobals('login_name'))));
         $this->loginPass = Functions::getValueFromGlobals('login_pw');
         $this->mode = $fAction;
         PlugIns::getInstance()->callHook(PlugIns::HOOK_LOGIN_INIT);

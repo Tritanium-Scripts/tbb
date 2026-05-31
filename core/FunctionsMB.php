@@ -3,7 +3,7 @@
  * Wraps PHP's normal string functions to its Multibyte counterparts and defining the final feature set of Functions class with mbstring extension support enabled.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2024 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2026 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -17,7 +17,7 @@ class Functions extends CoreFunctions
         if(Config::getInstance()->getCfgVal('activate_mail') == 1 && !self::isBannedMail($to))
         {
             //Strip and trim chars from forum name violating mail header syntax (RFC 2822)
-            $forumName = trim(self::str_replace([',', ';', '@', '<', '>'], '', Config::getInstance()->getCfgVal('forum_name')));
+            $forumName = self::trim(self::str_replace([',', ';', '@', '<', '>'], '', Config::getInstance()->getCfgVal('forum_name')));
             $isAccepted = @mb_send_mail($to, $subject, $message,
                 'From: ' . $forumName . ' <' . Config::getInstance()->getCfgVal('forum_email') . '>' . "\r\n" .
                 'Reply-To: ' . $forumName . ' <' . Config::getInstance()->getCfgVal('forum_email') . '>' . "\r\n" .
@@ -126,6 +126,17 @@ class Functions extends CoreFunctions
     public static function substr_count($haystack, $needle, $encoding=null)
     {
         return isset($encoding) ? mb_substr_count($haystack, $needle, $encoding) : mb_substr_count($haystack, $needle);
+    }
+
+    /**
+     * Wraps PHP's {@link trim()} to Multibyte's {@link mb_trim()} having PHP 8.4 or higher.
+     */
+    public static function trim($string, $characters=null)
+    {
+        self::$cache['mb_trim'] ??= function_exists('mb_trim');
+        return self::$cache['mb_trim']
+            ? (isset($characters) ? mb_trim($string, $characters) : mb_trim($string))
+            : (isset($characters) ? trim($string, $characters) : trim($string));
     }
 
     /**

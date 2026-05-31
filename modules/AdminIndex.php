@@ -3,7 +3,7 @@
  * Performs version check and displays the admin control panel.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2024 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2026 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -26,13 +26,13 @@ class AdminIndex extends PublicModule
                 $latestRelease = json_decode($latestRelease, true);
                 if(json_last_error() == JSON_ERROR_NONE && $latestRelease != null && isset($latestRelease['tag_name']))
                 {
-                    $latestReleaseVersion = trim($latestRelease['tag_name']);
+                    $latestReleaseVersion = Functions::trim($latestRelease['tag_name']);
                     //Ensure four parted version number for proper comparing
                     while(substr_count($latestReleaseVersion, '.') < 3)
                         $latestReleaseVersion .= '.0';
                     $_SESSION['isNewVersion'] = version_compare(VERSION_PRIVATE, $latestReleaseVersion) == -1;
                     //Also save release notes in case of new version
-                    $_SESSION['versionNews'] = $_SESSION['isNewVersion'] && isset($latestRelease['body']) ? Functions::nl2br(trim($latestRelease['body'])) : '';
+                    $_SESSION['versionNews'] = $_SESSION['isNewVersion'] && isset($latestRelease['body']) ? Functions::nl2br(Functions::trim($latestRelease['body'])) : '';
                 }
             }
         }

@@ -3,7 +3,7 @@
  * Various static functions and wrappers.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2024 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2026 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -250,7 +250,7 @@ abstract class CoreFunctions
      */
     public static function file(string $filename, ?int $flags=0, ?string $trimCharList=null, bool $datapath=true)
     {
-        $trimCallback = fn($entry): string => trim($entry, empty($trimCharList) ? " \n\r\0\x0B" : $trimCharList);
+        $trimCallback = fn($entry): string => Functions::trim($entry, empty($trimCharList) ? " \n\r\0\x0B" : $trimCharList);
         if($datapath && self::$isCaching)
         {
             if(isset(self::$fileCache[$filename][0]))
@@ -808,7 +808,7 @@ abstract class CoreFunctions
         //TODO this solution is not perfect, but should work okay enough on PHP 9.
         //Ultimately convert all formats to ICU pattern instead of doing this on-the-fly, but it is no possible as long as Smarty's |date_format still relies on strftime()!
         $format = Functions::str_replace('\'', '&apos;', $format);
-        $format = trim('\'' . Functions::str_replace(
+        $format = Functions::trim('\'' . Functions::str_replace(
             ['%%', '%A', '%H', '%M', '%d', '%B', '%Y', '%m', '%I', '%p'],
             ['%', '\'cccc\'', '\'HH\'', '\'mm\'', '\'dd\'', '\'MMMM\'', '\'yyyy\'', '\'MM\'', '\'hh\'', '\'aa\''],
             $format) . '\'', '\'\'');
@@ -1207,7 +1207,12 @@ abstract class CoreFunctions
      */
     public static function updateUserPostCounter(int $userID): void
     {
-        $user = self::file('members/' . $userID . '.xbb') or exit(Logger::getInstance()->log('Cannot access user ' . $userID . ' for updating posts!', Logger::LOG_FILESYSTEM));
+        $user = self::file('members/' . $userID . '.xbb');
+        if($user === false)
+        {
+            Logger::getInstance()->log('Cannot access user ' . $userID . ' for updating posts!', Logger::LOG_FILESYSTEM);
+            exit();
+        }
         $user[5]++;
         self::file_put_contents('members/' . $userID . '.xbb', implode("\n", $user));
     }

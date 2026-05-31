@@ -3,7 +3,7 @@
  * Manages user groups.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2024 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2026 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -63,7 +63,7 @@ class AdminGroup extends PublicModule
 //AdminGroupNewGroup
             case 'new':
             NavBar::getInstance()->addElement(Language::getInstance()->getString('add_new_group'), INDEXFILE . '?faction=ad_groups&amp;mode=new' . SID_AMPER);
-            $newName = htmlspecialchars(trim(Functions::getValueFromGlobals('title')));
+            $newName = htmlspecialchars(Functions::trim(Functions::getValueFromGlobals('title')));
             $newColor = Functions::getValueFromGlobals('color');
             $newAvatar = Functions::getValueFromGlobals('pic');
             $newUserIDs = array_unique(array_filter(array_map('trim', Functions::explodeByComma(Functions::getValueFromGlobals('group_members'))), 'is_numeric'));
@@ -106,7 +106,7 @@ class AdminGroup extends PublicModule
             NavBar::getInstance()->addElement(Language::getInstance()->getString('edit_group'), INDEXFILE . '?faction=ad_groups&amp;mode=edit&amp;group_id=' . $this->groupID . SID_AMPER);
             if(($key = array_search($this->groupID, array_map('current', $this->groups))) === false)
                 Template::getInstance()->printMessage('group_not_found');
-            $editName = htmlspecialchars(trim(Functions::getValueFromGlobals('title')));
+            $editName = htmlspecialchars(Functions::trim(Functions::getValueFromGlobals('title')));
             $editColor = Functions::getValueFromGlobals('color');
             $editAvatar = Functions::getValueFromGlobals('pic');
             $editUserIDs = array_unique(array_filter(array_map('trim', Functions::explodeByComma(Functions::getValueFromGlobals('group_members'))), 'is_numeric'));

@@ -3,7 +3,7 @@
  * Manages an user profile incl. sending mails, vCard download and Steam achievements.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2024 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2026 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -192,15 +192,15 @@ class Profile extends PublicModule
                         $this->errors[] = Language::getInstance()->getString('please_enter_your_mail');
                     elseif(!Functions::isValidMail($this->userData[3]))
                         $this->errors[] = Language::getInstance()->getString('please_enter_a_valid_mail');
-                    $this->userData[7] = Functions::nl2br(htmlspecialchars(trim(Functions::getValueFromGlobals('new_signatur', false))));
+                    $this->userData[7] = Functions::nl2br(htmlspecialchars(Functions::trim(Functions::getValueFromGlobals('new_signatur', false))));
                     $this->userData[9] = Functions::getValueFromGlobals('new_hp');
                     $this->userData[10] = Functions::getValueFromGlobals('new_pic');
-                    $this->userData[12] = htmlspecialchars(trim(Functions::getValueFromGlobals('new_realname')));
+                    $this->userData[12] = htmlspecialchars(Functions::trim(Functions::getValueFromGlobals('new_realname')));
                     if(($this->userData[13] = Functions::getValueFromGlobals('new_icq')) != '' && !ctype_digit($this->userData[13]))
                         $this->errors[] = Language::getInstance()->getString('please_enter_a_valid_icq_number');
                     $this->userData[14][0] = Functions::getValueFromGlobals('new_mail1') == '1' ? '1' : '0';
                     $this->userData[14][1] = Functions::getValueFromGlobals('new_mail2') == '1' ? '1' : '0';
-                    $this->userData[18] = trim(Functions::getValueFromGlobals('steamProfile'));
+                    $this->userData[18] = Functions::trim(Functions::getValueFromGlobals('steamProfile'));
                     $this->userData[19] = Functions::getValueFromGlobals('steamGames');
                     if(empty($this->userData[19]) || empty($this->userData[18]))
                         $this->userData[19] = [];

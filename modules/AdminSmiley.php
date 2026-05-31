@@ -3,7 +3,7 @@
  * Manages normal and admin smilies plus topic icons (= topic smilies).
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2024 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2026 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -106,7 +106,7 @@ class AdminSmiley extends PublicModule
             case 'newt':
             case 'newa':
             $newAddress = htmlspecialchars(Functions::getValueFromGlobals('smadress'));
-            $newSynonym = htmlspecialchars(trim(Functions::getValueFromGlobals('synonym')));
+            $newSynonym = htmlspecialchars(Functions::trim(Functions::getValueFromGlobals('synonym')));
             switch($this->smileyType)
             {
                 case BBCode::SMILEY_SMILEY:
@@ -183,7 +183,7 @@ class AdminSmiley extends PublicModule
             case 'editt':
             case 'edita':
             $editAddress = htmlspecialchars(Functions::getValueFromGlobals('picadress'));
-            $editSynonym = htmlspecialchars(trim(Functions::getValueFromGlobals('synonym')));
+            $editSynonym = htmlspecialchars(Functions::trim(Functions::getValueFromGlobals('synonym')));
             switch($this->smileyType)
             {
                 case BBCode::SMILEY_SMILEY:

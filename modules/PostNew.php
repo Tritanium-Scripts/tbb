@@ -3,7 +3,7 @@
  * Manages post process of new topic or new poll.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2024 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2026 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -69,9 +69,9 @@ class PostNew extends PublicModule
         $this->preview = Functions::getValueFromGlobals('preview') != '';
         $this->spamDelay = intval(Config::getInstance()->getCfgVal('spam_delay'));
         //Get contents for new post
-        $this->newPost = ['nick' => htmlspecialchars(trim(Functions::getValueFromGlobals('nli_name'))),
-            'title' => htmlspecialchars(trim(Functions::getValueFromGlobals('title'))),
-            'post' => htmlspecialchars(trim(Functions::getValueFromGlobals('post', false))),
+        $this->newPost = ['nick' => htmlspecialchars(Functions::trim(Functions::getValueFromGlobals('nli_name'))),
+            'title' => htmlspecialchars(Functions::trim(Functions::getValueFromGlobals('title'))),
+            'post' => htmlspecialchars(Functions::trim(Functions::getValueFromGlobals('post', false))),
             'tSmiley' => intval(Functions::getValueFromGlobals('tsmilie')),
             'isSmilies' => Functions::getValueFromGlobals('smilies') == '1',
             'isSignature' => Functions::getValueFromGlobals('show_signatur') == '1',
@@ -116,7 +116,7 @@ class PostNew extends PublicModule
             $this->newPost['choices'] = (array) Functions::getValueFromGlobals('poll_choice');
             foreach($this->newPost['choices'] as $key => &$curChoice)
             {
-                $curChoice = htmlspecialchars(trim($curChoice));
+                $curChoice = htmlspecialchars(Functions::trim($curChoice));
                 if($curChoice == '')
                     unset($this->newPost['choices'][$key]);
             }

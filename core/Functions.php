@@ -3,7 +3,7 @@
  * Wraps PHP's normal string functions to itself and defining the final feature set of Functions class with mbstring extension support disabled.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2024 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2026 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -17,7 +17,7 @@ class Functions extends CoreFunctions
         if(Config::getInstance()->getCfgVal('activate_mail') == 1 && !self::isBannedMail($to))
         {
             //Strip and trim chars from forum name violating mail header syntax (RFC 2822)
-            $forumName = trim(self::str_replace([',', ';', '@', '<', '>'], '', Config::getInstance()->getCfgVal('forum_name')));
+            $forumName = self::trim(self::str_replace([',', ';', '@', '<', '>'], '', Config::getInstance()->getCfgVal('forum_name')));
             $isAccepted = @mail($to, $subject, $message,
                 'From: ' . $forumName . ' <' . Config::getInstance()->getCfgVal('forum_email') . '>' . "\r\n" .
                 'Reply-To: ' . $forumName . ' <' . Config::getInstance()->getCfgVal('forum_email') . '>' . "\r\n" .
@@ -126,6 +126,14 @@ class Functions extends CoreFunctions
     public static function substr_count($haystack, $needle, $encoding=null)
     {
         return isset($encoding) ? substr_count($haystack, $needle, $encoding) : substr_count($haystack, $needle);
+    }
+
+    /**
+     * PHP's {@link trim()}.
+     */
+    public static function trim($string, $characters=null)
+    {
+        return isset($characters) ? trim($string, $characters) : trim($string);
     }
 
     /**

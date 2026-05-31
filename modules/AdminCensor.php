@@ -3,7 +3,7 @@
  * Manages censorships.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2024 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2026 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -60,8 +60,8 @@ class AdminCensor extends PublicModule
 //AdminCensorNewWord
             case 'new':
             NavBar::getInstance()->addElement(Language::getInstance()->getString('add_new_censorship'), INDEXFILE . '?faction=ad_censor&amp;mode=new' . SID_AMPER);
-            $newWord = htmlspecialchars(trim(Functions::getValueFromGlobals('word')));
-            $newReplacement = htmlspecialchars(trim(Functions::getValueFromGlobals('replacement'))) ?: '******';
+            $newWord = htmlspecialchars(Functions::trim(Functions::getValueFromGlobals('word')));
+            $newReplacement = htmlspecialchars(Functions::trim(Functions::getValueFromGlobals('replacement'))) ?: '******';
             PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_CENSOR_NEW_CENSORSHIP, $newWord, $newReplacement);
             if(Functions::getValueFromGlobals('create') == '1')
             {
@@ -88,8 +88,8 @@ class AdminCensor extends PublicModule
             NavBar::getInstance()->addElement(Language::getInstance()->getString('edit_censorship'), INDEXFILE . '?faction=ad_censor&amp;mode=edit&amp;id=' . $this->censorshipID . SID_AMPER);
             if(($key = array_search($this->censorshipID, array_map('current', $this->censorships))) === false)
                 Template::getInstance()->printMessage('censorship_not_found');
-            $editWord = htmlspecialchars(trim(Functions::getValueFromGlobals('word')));
-            $editReplacement = htmlspecialchars(trim(Functions::getValueFromGlobals('replacement'))) ?: '******';
+            $editWord = htmlspecialchars(Functions::trim(Functions::getValueFromGlobals('word')));
+            $editReplacement = htmlspecialchars(Functions::trim(Functions::getValueFromGlobals('replacement'))) ?: '******';
             PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_CENSOR_EDIT_CENSORSHIP, $editWord, $editReplacement);
             if(Functions::getValueFromGlobals('update') == '1')
             {

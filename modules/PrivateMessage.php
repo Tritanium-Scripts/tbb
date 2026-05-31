@@ -15,7 +15,7 @@
  * </ol>
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2024 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2026 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -170,8 +170,8 @@ class PrivateMessage extends PublicModule
             NavBar::getInstance()->addElement(Language::getInstance()->getString('new_pm'), INDEXFILE . '?faction=pm&amp;pmbox_id=' . $this->pmBoxID . '&amp;mode=send' . SID_AMPER);
             if(!isset($newPM))
                 $newPM = [-1,
-                    htmlspecialchars(trim(Functions::getValueFromGlobals('betreff'))),
-                    htmlspecialchars(trim(Functions::getValueFromGlobals('pm', false))),
+                    htmlspecialchars(Functions::trim(Functions::getValueFromGlobals('betreff'))),
+                    htmlspecialchars(Functions::trim(Functions::getValueFromGlobals('pm', false))),
                     $this->pmBoxID,
                     '',
                     Functions::getValueFromGlobals('smilies') == '1',

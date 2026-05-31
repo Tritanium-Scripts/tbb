@@ -3,7 +3,7 @@
  * Manages new replies, poster IPs and post/poll management.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2024 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2026 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -115,9 +115,9 @@ class Posting extends PublicModule
         }
         $this->preview = Functions::getValueFromGlobals('preview') != '';
         //Get contents for new reply
-        $this->newReply = ['nick' => htmlspecialchars(trim(Functions::getValueFromGlobals('nli_name'))),
-            'title' => htmlspecialchars(trim(Functions::getValueFromGlobals('title'))),
-            'post' => htmlspecialchars(trim(Functions::getValueFromGlobals('post', false))),
+        $this->newReply = ['nick' => htmlspecialchars(Functions::trim(Functions::getValueFromGlobals('nli_name'))),
+            'title' => htmlspecialchars(Functions::trim(Functions::getValueFromGlobals('title'))),
+            'post' => htmlspecialchars(Functions::trim(Functions::getValueFromGlobals('post', false))),
             'tSmileyID' => intval(Functions::getValueFromGlobals('tsmilie')),
             'isSmilies' => Functions::getValueFromGlobals('smilies') == '1',
             'isSignature' => Functions::getValueFromGlobals('show_signatur') == '1',
@@ -681,8 +681,8 @@ class Posting extends PublicModule
                         foreach($pollFile as &$curPollOption)
                         {
                             //Update each found option if it's not empty
-                            if(isset($choices[$curPollOption[0]]) && trim($choices[$curPollOption[0]]) != '')
-                                $curPollOption[1] = htmlspecialchars(trim($choices[$curPollOption[0]]));
+                            if(isset($choices[$curPollOption[0]]) && Functions::trim($choices[$curPollOption[0]]) != '')
+                                $curPollOption[1] = htmlspecialchars(Functions::trim($choices[$curPollOption[0]]));
                             //Implode back for writing in any case
                             $curPollOption = Functions::implodeByTab($curPollOption);
                         }

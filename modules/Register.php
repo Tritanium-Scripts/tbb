@@ -3,7 +3,7 @@
  * Manages registrations of new user.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2024 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2026 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -87,13 +87,13 @@ class Register extends PublicModule
         {
 //Register
             case 'createuser':
-            $newUser = array_combine(self::$newUserKeys, [trim(Functions::getValueFromGlobals('newuser_name')),
-                trim(Functions::getValueFromGlobals('newuser_email')),
-                trim(Functions::getValueFromGlobals('newuser_hp')),
-                htmlspecialchars(trim(Functions::getValueFromGlobals('newuser_realname'))),
+            $newUser = array_combine(self::$newUserKeys, [Functions::trim(Functions::getValueFromGlobals('newuser_name')),
+                Functions::trim(Functions::getValueFromGlobals('newuser_email')),
+                Functions::trim(Functions::getValueFromGlobals('newuser_hp')),
+                htmlspecialchars(Functions::trim(Functions::getValueFromGlobals('newuser_realname'))),
                 Functions::getTimestampFromGlobals('birthday'),
-                trim(Functions::getValueFromGlobals('newuser_icq')),
-                htmlspecialchars(trim(Functions::nl2br(Functions::getValueFromGlobals('newuser_signatur', false))))]);
+                Functions::trim(Functions::getValueFromGlobals('newuser_icq')),
+                htmlspecialchars(Functions::trim(Functions::nl2br(Functions::getValueFromGlobals('newuser_signatur', false))))]);
             PlugIns::getInstance()->callHook(PlugIns::HOOK_REGISTER_NEW_MEMBER, $newUser);
             //A lot of checking...
             if(empty($newUser['nick']))

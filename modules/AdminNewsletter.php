@@ -3,7 +3,7 @@
  * Sends newsletter via PM or email.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2024 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2026 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -164,8 +164,8 @@ class AdminNewsletter extends PublicModule
             NavBar::getInstance()->addElement(Language::getInstance()->getString('confirmation'), INDEXFILE . '?faction=ad_newsletter&amp;mode=accept' . SID_AMPER);
             Template::getInstance()->assign(['recipient' => intval(Functions::getValueFromGlobals('target')),
                 'dispatch' => intval(Functions::getValueFromGlobals('sendmethod')),
-                'subject' => htmlspecialchars(trim(Functions::getValueFromGlobals('betreff'))),
-                'message' => htmlspecialchars(trim(Functions::getValueFromGlobals('newsletter', false))),
+                'subject' => htmlspecialchars(Functions::trim(Functions::getValueFromGlobals('betreff'))),
+                'message' => htmlspecialchars(Functions::trim(Functions::getValueFromGlobals('newsletter', false))),
                 'isArchived' => Functions::getValueFromGlobals('isArchived') == 'true']);
             break;
         }

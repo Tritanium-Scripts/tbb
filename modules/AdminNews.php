@@ -3,7 +3,7 @@
  * Manages the forum news.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2024 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2026 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -38,7 +38,7 @@ class AdminNews extends PublicModule
     function __construct()
     {
         parent::__construct();
-        $this->news = trim(Functions::getValueFromGlobals('news', false));
+        $this->news = Functions::trim(Functions::getValueFromGlobals('news', false));
         $this->newsDuration = intval(Functions::getValueFromGlobals('expiredate')) ?: -1;
         $this->newsType = intval(Functions::getValueFromGlobals('typ')) ?: 1;
         PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_NEWS_INIT);

@@ -3,7 +3,7 @@
  * Manages members.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2024 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2026 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -65,7 +65,7 @@ class AdminUser extends PublicModule
             PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_USER_NEW_USER, $newUser, $groups);
             if(Functions::getValueFromGlobals('create') == 'yes')
             {
-                $newUser['nick'] = htmlspecialchars(trim($newUser['nick']));
+                $newUser['nick'] = htmlspecialchars(Functions::trim($newUser['nick']));
                 $sendRegMail = $newUser['send_reg'] = isset($newUser['send_reg']);
                 //Check nick name
                 if(empty($newUser['nick']))
@@ -205,13 +205,13 @@ class AdminUser extends PublicModule
                     Template::getInstance()->printMessage('member_deleted');
                 }
                 //Normal edit
-                $editUserName = htmlspecialchars(trim(Functions::getValueFromGlobals('name')));
+                $editUserName = htmlspecialchars(Functions::trim(Functions::getValueFromGlobals('name')));
                 $editUser[3] = Functions::getValueFromGlobals('email');
                 $editUser[4] = intval(Functions::getValueFromGlobals('status'));
-                $editUser[7] = Functions::nl2br(htmlspecialchars(trim(Functions::getValueFromGlobals('signatur', false))));
+                $editUser[7] = Functions::nl2br(htmlspecialchars(Functions::trim(Functions::getValueFromGlobals('signatur', false))));
                 $editUser[9] = Functions::getValueFromGlobals('hp');
                 $editUser[10] = Functions::getValueFromGlobals('pic');
-                $editUser[17] = htmlspecialchars(trim(Functions::getValueFromGlobals('specialState')));
+                $editUser[17] = htmlspecialchars(Functions::trim(Functions::getValueFromGlobals('specialState')));
                 if(empty($editUserName))
                     $this->errors[] = Language::getInstance()->getString('please_enter_an_user_name');
                 elseif($editUser[0] != $editUserName && Functions::unifyUserName($editUserName))
@@ -241,7 +241,7 @@ class AdminUser extends PublicModule
             default:
             NavBar::getInstance()->addElement(Language::getInstance()->getString('member_search'), INDEXFILE . '?faction=ad_user&amp;mode=search' . SID_AMPER);
             $searchMethod = Functions::getValueFromGlobals('searchmethod') ?: 'nick';
-            $searchFor = Functions::strtolower(htmlspecialchars(trim(Functions::getValueFromGlobals('searched'))));
+            $searchFor = Functions::strtolower(htmlspecialchars(Functions::trim(Functions::getValueFromGlobals('searched'))));
             $results = [];
             if(Functions::getValueFromGlobals('search') == 'yes')
             {

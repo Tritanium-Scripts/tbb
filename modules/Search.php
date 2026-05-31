@@ -3,7 +3,7 @@
  * Searches for user defined terms in posts and titles with additional options and displays results.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2024 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2026 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -74,7 +74,7 @@ class Search extends PublicModule
     {
         parent::__construct();
         $this->searchAge = intval(Functions::getValueFromGlobals('age'));
-        $this->searchFor = htmlspecialchars(trim(Functions::getValueFromGlobals('searchfor')));
+        $this->searchFor = htmlspecialchars(Functions::trim(Functions::getValueFromGlobals('searchfor')));
         $this->searchID = Functions::getValueFromGlobals('searchID');
         $this->searchIn = Functions::getValueFromGlobals('auswahl');
         $this->searchOption = Functions::getValueFromGlobals('searchOption');

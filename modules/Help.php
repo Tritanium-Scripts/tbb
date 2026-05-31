@@ -3,7 +3,7 @@
  * Serves help pages.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2024 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2026 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -125,7 +125,7 @@ class Help extends PublicModule
                 }
             $gdprText = implode("\n", $gdprParagraphs);
             $gdprText = Functions::str_replace('{BOARDNAME}', Config::getInstance()->getCfgVal('forum_name'), $gdprText);
-            $gdprText = Functions::str_replace('{EMAIL}', trim(Template::getInstance()->fetch('string:{mailto address="' . Config::getInstance()->getCfgVal('site_contact') . '" encode="javascript"}'), '.tpl'), $gdprText);
+            $gdprText = Functions::str_replace('{EMAIL}', Functions::trim(Template::getInstance()->fetch('string:{mailto address="' . Config::getInstance()->getCfgVal('site_contact') . '" encode="javascript"}'), '.tpl'), $gdprText);
             $gdprText = Functions::str_replace('{WEBSITE}', Config::getInstance()->getCfgVal('address_to_forum'), $gdprText);
             $numOfParagraphs = Functions::substr_count($gdprText, '{PARAGRAPH}');
             for($i=1; $i<=$numOfParagraphs; $i++)

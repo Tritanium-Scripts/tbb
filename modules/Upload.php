@@ -3,7 +3,7 @@
  * Manages file uploads.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2024 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2026 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -166,12 +166,13 @@ class Upload extends PublicModule
             }
             break;
         }
-        exit(Template::getInstance()->display(Functions::handleMode($this->mode, self::$modeTable, __CLASS__, 'uploadFile'), ['errors' => $this->errors,
+        Template::getInstance()->display(Functions::handleMode($this->mode, self::$modeTable, __CLASS__, 'uploadFile'), ['errors' => $this->errors,
             'allowedExtensions' => $this->allowedExtensions,
             'maxFilesize' => $this->maxFilesize/1024,
             'isUploaded' => $this->isUploaded,
             'bbCode' => $this->bbCode,
-            'targetBoxID' => $this->targetBoxID]));
+            'targetBoxID' => $this->targetBoxID]);
+        exit();
     }
 
     /**

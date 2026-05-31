@@ -3,7 +3,7 @@
  * Manages categories and forums incl. special rights.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2024 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2026 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -93,8 +93,8 @@ class AdminForum extends PublicModule
             NavBar::getInstance()->addElement([
                 [Language::getInstance()->getString('manage_forums'), INDEXFILE . '?faction=ad_forum&amp;mode=forumview' . SID_AMPER],
                 [Language::getInstance()->getString('add_new_forum'), INDEXFILE . '?faction=ad_forum&amp;mode=newforum' . SID_AMPER]]);
-            $newName = htmlspecialchars(trim(Functions::getValueFromGlobals('titel')));
-            $newDescr = htmlspecialchars(trim(Functions::getValueFromGlobals('description')));
+            $newName = htmlspecialchars(Functions::trim(Functions::getValueFromGlobals('titel')));
+            $newDescr = htmlspecialchars(Functions::trim(Functions::getValueFromGlobals('description')));
             $newCatID = intval(Functions::getValueFromGlobals('kg'));
             $newIsBBCode = Functions::getValueFromGlobals('upbcode');
             $newIsXHTML = Functions::getValueFromGlobals('htmlcode');
@@ -286,8 +286,8 @@ class AdminForum extends PublicModule
                 //Normal edit
                 else
                 {
-                    $editForum[1] = htmlspecialchars(trim(Functions::getValueFromGlobals('titel')));
-                    $editForum[2] = htmlspecialchars(trim(Functions::getValueFromGlobals('description')));
+                    $editForum[1] = htmlspecialchars(Functions::trim(Functions::getValueFromGlobals('titel')));
+                    $editForum[2] = htmlspecialchars(Functions::trim(Functions::getValueFromGlobals('description')));
                     $editForum[5] = intval(Functions::getValueFromGlobals('kg'));
                     $editForum[7][0] = Functions::getValueFromGlobals('upbcode');
                     $editForum[7][1] = Functions::getValueFromGlobals('htmlcode');
@@ -729,7 +729,7 @@ class AdminForum extends PublicModule
             NavBar::getInstance()->addElement([
                 [Language::getInstance()->getString('manage_categories'), INDEXFILE . '?faction=ad_forum&amp;mode=viewkg' . SID_AMPER],
                 [Language::getInstance()->getString('add_new_category'), INDEXFILE . '?faction=ad_forum&amp;mode=newkg' . SID_AMPER]]);
-            $newName = htmlspecialchars(trim(Functions::getValueFromGlobals('name')));
+            $newName = htmlspecialchars(Functions::trim(Functions::getValueFromGlobals('name')));
             PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_FORUM_NEW_CATEGORY, $newName);
             if(Functions::getValueFromGlobals('newkg') == 'yes')
             {
@@ -790,7 +790,7 @@ class AdminForum extends PublicModule
                 [Language::getInstance()->getString('edit_category'), INDEXFILE . '?faction=ad_forum&amp;mode=chgkg' . SID_AMPER]]);
             if(!isset($catID))
                 Template::getInstance()->printMessage('category_not_found');
-            $editName = htmlspecialchars(trim(Functions::getValueFromGlobals('name')));
+            $editName = htmlspecialchars(Functions::trim(Functions::getValueFromGlobals('name')));
             PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_FORUM_EDIT_CATEGORY, $catID, $editName);
             if(Functions::getValueFromGlobals('chgkg') == 'yes')
             {
