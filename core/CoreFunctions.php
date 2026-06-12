@@ -250,7 +250,7 @@ abstract class CoreFunctions
      */
     public static function file(string $filename, ?int $flags=0, ?string $trimCharList=null, bool $datapath=true)
     {
-        $trimCallback = fn($entry): string => Functions::trim($entry, empty($trimCharList) ? " \n\r\0\x0B" : $trimCharList);
+        $trimCallback = fn($entry): string => Functions::trim($entry, empty($trimCharList) ? " \n\r\0\x0B\x0C" : $trimCharList, 'ISO-8859-1');
         if($datapath && self::$isCaching)
         {
             if(isset(self::$fileCache[$filename][0]))
@@ -803,7 +803,8 @@ abstract class CoreFunctions
      */
     public static function gmstrftime(string $format, ?int $timestamp=null)
     {
-        if(function_exists('gmstrftime'))
+        self::$cache['gmstrftime'] ??= function_exists('gmstrftime');
+        if(self::$cache['gmstrftime'])
             return @gmstrftime($format, $timestamp);
         //TODO this solution is not perfect, but should work okay enough on PHP 9.
         //Ultimately convert all formats to ICU pattern instead of doing this on-the-fly, but it is no possible as long as Smarty's |date_format still relies on strftime()!

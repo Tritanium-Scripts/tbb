@@ -131,7 +131,7 @@ class Functions extends CoreFunctions
     /**
      * PHP's {@link trim()}.
      */
-    public static function trim($string, $characters=null)
+    public static function trim($string, $characters=null, $encoding=null)
     {
         return isset($characters) ? trim($string, $characters) : trim($string);
     }

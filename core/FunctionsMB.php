@@ -131,11 +131,11 @@ class Functions extends CoreFunctions
     /**
      * Wraps PHP's {@link trim()} to Multibyte's {@link mb_trim()} having PHP 8.4 or higher.
      */
-    public static function trim($string, $characters=null)
+    public static function trim($string, $characters=null, $encoding='UTF-8')
     {
         self::$cache['mb_trim'] ??= function_exists('mb_trim');
         return self::$cache['mb_trim']
-            ? (isset($characters) ? mb_trim($string, $characters) : mb_trim($string))
+            ? (isset($characters) ? mb_trim($string, $characters, $encoding) : mb_trim($string, null, $encoding))
             : (isset($characters) ? trim($string, $characters) : trim($string));
     }
 
