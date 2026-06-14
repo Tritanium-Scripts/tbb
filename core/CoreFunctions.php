@@ -250,7 +250,8 @@ abstract class CoreFunctions
      */
     public static function file(string $filename, ?int $flags=0, ?string $trimCharList=null, bool $datapath=true)
     {
-        $trimCallback = fn($entry): string => Functions::trim($entry, empty($trimCharList) ? " \n\r\0\x0B\x0C" : $trimCharList, 'ISO-8859-1');
+        //"\v" and "\f" notation possible since PHP 5.2.5
+        $trimCallback = fn($entry): string => Functions::trim($entry, empty($trimCharList) ? " \n\r\0\v\f" : $trimCharList, 'ISO-8859-1');
         if($datapath && self::$isCaching)
         {
             if(isset(self::$fileCache[$filename][0]))
