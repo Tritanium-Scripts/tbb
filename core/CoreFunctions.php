@@ -982,7 +982,6 @@ abstract class CoreFunctions
                 if($cURLInfo['http_code'] == 302 && isset($cURLInfo['redirect_url']))
                     $content = self::loadURL($cURLInfo['redirect_url'], false, true);
             }
-            curl_close($cURL);
             return $content;
         }
         else

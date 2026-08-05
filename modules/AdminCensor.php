@@ -84,7 +84,7 @@ class AdminCensor extends PublicModule
             break;
 
 //AdminCensorEditWord
-            case 'edit';
+            case 'edit':
             NavBar::getInstance()->addElement(Language::getInstance()->getString('edit_censorship'), INDEXFILE . '?faction=ad_censor&amp;mode=edit&amp;id=' . $this->censorshipID . SID_AMPER);
             if(($key = array_search($this->censorshipID, array_map('current', $this->censorships))) === false)
                 Template::getInstance()->printMessage('censorship_not_found');
@@ -118,7 +118,7 @@ class AdminCensor extends PublicModule
                 'editReplacement' => $editReplacement]);
             break;
 
-            case 'kill';
+            case 'kill':
             NavBar::getInstance()->addElement(Language::getInstance()->getString('delete_censorship'), INDEXFILE . '?faction=ad_censor&amp;mode=kill&amp;id=' . $this->censorshipID . SID_AMPER);
             if(($key = array_search($this->censorshipID, array_map('current', $this->censorships))) === false)
                 Template::getInstance()->printMessage('censorship_not_found');
