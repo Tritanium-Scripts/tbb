@@ -175,7 +175,10 @@ class Search extends PublicModule
                 $curForumID = key($_SESSION[$this->searchID]['sIn']);
                 //Get topics
                 if(!isset($_SESSION[$this->searchID]['sIn'][$curForumID][0]))
-                    $_SESSION[$this->searchID]['sIn'][$curForumID] = array_reverse(Functions::file('foren/' . $curForumID . '-threads.xbb'));
+                {
+                    $curTopicIndex = Functions::file('foren/' . $curForumID . '-threads.xbb');
+                    $_SESSION[$this->searchID]['sIn'][$curForumID] = is_array($curTopicIndex) ? array_reverse($curTopicIndex) : [];
+                }
                 //Search topics / posts
                 while(!empty($_SESSION[$this->searchID]['sIn'][$curForumID]))
                 {

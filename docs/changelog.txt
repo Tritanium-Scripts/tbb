@@ -1,6 +1,6 @@
 **********************************************************
 Tritanium Bulletin Board 1.5+ - Changelog (German version)
-Last changed: 2026-08-05 (Version 1.11.0)
+Last changed: 2026-10-21 (Version 1.11.0)
 **********************************************************
 
 2026: Version 1.11.0
@@ -8,6 +8,7 @@ Last changed: 2026-08-05 (Version 1.11.0)
     - Boterkennung verbessert
     - PHP 8.4 Anpassungen
     - PHP 8.5 Anpassungen
+    - Typenfehler korrigiert
 
 30.05.2024: Version 1.10.1 (offiziell)
     - Typenfehler korrigiert
