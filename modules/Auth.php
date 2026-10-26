@@ -87,7 +87,7 @@ class Auth
     {
         $this->userData = Functions::file('members/' . (isset($_SESSION['userID'], $_SESSION['userHash']) && Functions::file_exists('members/' . $_SESSION['userID'] . '.xbb') ? $_SESSION['userID'] : '0') . '.xbb');
         //Check session-based login
-        if(isset($_SESSION['userHash']) && $_SESSION['userHash'] == current(Functions::explodeByTab($this->userData[2])))
+        if(isset($_SESSION['userHash']) && hash_equals(current(Functions::explodeByTab($this->userData[2])), $_SESSION['userHash']))
         {
             $this->loggedIn = true;
             PlugIns::getInstance()->callHook(PlugIns::HOOK_AUTH_USER_LOGGED_IN);
@@ -96,7 +96,7 @@ class Auth
         elseif(isset($_COOKIE['cookie_xbbuser']))
         {
             $cUser = Functions::explodeByTab($_COOKIE['cookie_xbbuser']);
-            if(!empty($cUser[1]) && ($cUserData = @Functions::file('members/' . $cUser[0] . '.xbb')) != false && $cUser[1] == current(Functions::explodeByTab($cUserData[2])))
+            if(!empty($cUser[1]) && ($cUserData = @Functions::file('members/' . intval($cUser[0]) . '.xbb')) != false && !Functions::isGuestID($cUserData[1]) && hash_equals(current(Functions::explodeByTab($cUserData[2])), $cUser[1]))
             {
                 //Also update last seen value
                 $cUserData[16] = time();

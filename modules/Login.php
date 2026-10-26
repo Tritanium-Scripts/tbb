@@ -121,13 +121,13 @@ class Login extends PublicModule
                             if(isset($curMember[21]) && !empty($curMember[21]) && (!file_exists(Template::getInstance()->getTplDir() . 'styles/' . $curMember[21]) || Config::getInstance()->getCfgVal('select_styles') != 1))
                                 $curMember[21] = '';
                             //Set a new requested password as new default one
-                            if($this->loginPass == $curPasses[1])
+                            if(hash_equals($curPasses[1], $this->loginPass))
                             {
                                 $curMember[2] = $curPasses[1];
                                 Logger::getInstance()->log('Requested password set as new one for "' . $curMember[0] . '" (ID: ' . $curMember[1] . ')', Logger::LOG_NEW_PASSWORD);
                             }
                             //Migrate an old hash to new default one
-                            elseif($oldLoginPass == $curPasses[0])
+                            elseif(hash_equals($curPasses[0], $oldLoginPass))
                             {
                                 $curMember[2] = $this->loginPass;
                                 Logger::getInstance()->log('Migrated password hash for "' . $curMember[0] . '" (ID: ' . $curMember[1] . ')', Logger::LOG_NEW_PASSWORD);

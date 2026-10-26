@@ -768,7 +768,7 @@ abstract class CoreFunctions
      */
     public static function getUserData($userID)
     {
-        if(self::isGuestID($userID) || !($user = @self::file('members/' . $userID . '.xbb')) || $user[4] == '5')
+        if(self::isGuestID($userID) || !($user = @self::file('members/' . intval($userID) . '.xbb')) || $user[4] == '5')
             return false;
         $user[14] = self::explodeByComma($user[14]); //Mail options
         //Downward compatibility: Create fields that doesn't exist in TBB 1.2.3

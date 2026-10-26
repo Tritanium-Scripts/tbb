@@ -284,6 +284,8 @@ class Search extends PublicModule
                     $this->errors[] = Language::getInstance()->getString('search_term_is_too_short');
                 if(empty($this->searchIn))
                     $this->errors[] = Language::getInstance()->getString('please_select_a_forum');
+                elseif($this->searchIn != 'all' && !Functions::checkUserAccess(intval($this->searchIn), 0))
+                    $this->errors[] = Language::getInstance()->getString('text_permission_denied', 'Messages');
                 if(empty($this->errors))
                 {
                     //Detect search id and look for previous search, which is already done

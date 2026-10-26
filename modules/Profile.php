@@ -110,6 +110,10 @@ class Profile extends PublicModule
             case 'refreshSteamGames':
             if(Config::getInstance()->getCfgVal('achievements') != 1)
                 $this->errors[] = Language::getInstance()->getString('text_function_deactivated', 'Messages');
+            elseif(!Auth::getInstance()->isLoggedIn())
+                $this->errors[] = Language::getInstance()->getString('text_profile_need_login');
+            elseif(Auth::getInstance()->getUserID() != $this->userData[1] && !Auth::getInstance()->isAdmin())
+                $this->errors[] = Language::getInstance()->getString('text_profile_no_access');
             PlugIns::getInstance()->callHook(PlugIns::HOOK_PROFILE_REFRESH_STEAM_GAMES);
             //Use cached game information from last half hour
             $cacheFile = 'cache/' . $this->userData[1] . '-SteamGames.cache.php';
