@@ -121,8 +121,8 @@ class Posting extends PublicModule
             'tSmileyID' => intval(Functions::getValueFromGlobals('tsmilie')),
             'isSmilies' => Functions::getValueFromGlobals('smilies') == '1',
             'isSignature' => Functions::getValueFromGlobals('show_signatur') == '1',
-            'isBBCode' => Functions::getValueFromGlobals('use_upbcode') == '1',
-            'isXHTML' => Functions::getValueFromGlobals('use_htmlcode') == '1',
+            'isBBCode' => Functions::getValueFromGlobals('use_upbcode') == '1' && is_array($this->forum) && $this->forum[7][0] == '1',
+            'isXHTML' => Functions::getValueFromGlobals('use_htmlcode') == '1' && is_array($this->forum) && $this->forum[7][1] == '1',
             'isAddURLs' => Functions::getValueFromGlobals('isAddURLs') == 'true',
             'prefixId' => intval(Functions::getValueFromGlobals('prefixId'))];
         //Topic smiley fix
@@ -222,7 +222,7 @@ class Posting extends PublicModule
                 if(empty($this->errors))
                 {
                     //Set proper nick name
-                    $this->newReply['nick'] = Auth::getInstance()->isLoggedIn() ? Auth::getInstance()->getUserID() : (empty($this->newReply['nick']) ? Language::getInstance()->getString('guest') : '0' . $this->newReply['nick']);
+                    $this->newReply['nick'] = Auth::getInstance()->isLoggedIn() ? Auth::getInstance()->getUserID() : '0' . (empty($this->newReply['nick']) ? Language::getInstance()->getString('guest') : $this->newReply['nick']);
                     //Build new post
                     $newPost = [current(end($this->topicFile))+1,
                         $this->newReply['nick'],

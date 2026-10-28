@@ -108,8 +108,8 @@ class ExtFunctions
         if(!empty($userID))
             foreach(self::explodeByComma($userID) as $curUserID)
                 //Guest check
-                if(self::isGuestID($userID))
-                    $userLinks[] = self::substr($userID, 1);
+                if(self::isGuestID($curUserID))
+                    $userLinks[] = self::substr($curUserID, 1);
                 //(Optional) deleted check
                 elseif($isValid && !self::file_exists('members/' . $curUserID . '.xbb'))
                     $userLinks[] = ExtLastPosts::$deleted;

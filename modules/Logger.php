@@ -90,7 +90,7 @@ class Logger
      */
     function __construct()
     {
-        $this->logFile = DATAPATH . 'logs/' . gmdate('dmY') . '.log';
+        $this->logFile = 'logs/' . gmdate('dmY') . '.log';
         $this->logLevels = Functions::explodeByComma(Config::getInstance()->getCfgVal('log_options'));
         PlugIns::getInstance()->callHook(PlugIns::HOOK_LOGGER_INIT);
     }

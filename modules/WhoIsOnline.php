@@ -50,7 +50,7 @@ class WhoIsOnline extends PublicModule
             return;
         //Check WWO file
         Functions::getFileLock('today');
-        $this->wwoFile = file_exists('vars/today.var') ? explode("\n", Functions::file_get_contents('vars/today.var')) : ['', "0\t" . date('dmYHis')];
+        $this->wwoFile = Functions::file_exists('vars/today.var') ? explode("\n", Functions::file_get_contents('vars/today.var')) : ['', "0\t" . date('dmYHis')];
         $update = false;
         if($this->wwoFile[0] != date('dmY'))
         {

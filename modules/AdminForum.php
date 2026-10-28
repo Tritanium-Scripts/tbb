@@ -788,7 +788,7 @@ class AdminForum extends PublicModule
             NavBar::getInstance()->addElement([
                 [Language::getInstance()->getString('manage_categories'), INDEXFILE . '?faction=ad_forum&amp;mode=viewkg' . SID_AMPER],
                 [Language::getInstance()->getString('edit_category'), INDEXFILE . '?faction=ad_forum&amp;mode=chgkg' . SID_AMPER]]);
-            if(!isset($catID))
+            if(!isset($this->catTable[$catID]))
                 Template::getInstance()->printMessage('category_not_found');
             $editName = htmlspecialchars(Functions::trim(Functions::getValueFromGlobals('name')));
             PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_FORUM_EDIT_CATEGORY, $catID, $editName);
@@ -818,7 +818,7 @@ class AdminForum extends PublicModule
 
             case 'killkg':
             $catID = intval(Functions::getValueFromGlobals('id'));
-            if(!isset($catID))
+            if(!isset($this->catTable[$catID]))
                 Template::getInstance()->printMessage('category_not_found');
             PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_FORUM_DELETE_CATEGORY, $catID);
             unset($this->catTable[-1], $this->catTable[$catID]);

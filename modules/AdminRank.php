@@ -79,6 +79,7 @@ class AdminRank extends PublicModule
             $rankID = intval(Functions::getValueFromGlobals('id'));
             NavBar::getInstance()->addElement(Language::getInstance()->getString('edit_rank'), INDEXFILE . '?faction=ad_rank&amp;mode=edit&amp;id=' . $rankID . SID_AMPER);
             PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_RANK_EDIT_RANK, $rankID);
+            $found = false;
             if(Functions::getValueFromGlobals('save') == 'yes')
             {
                 if(empty($this->rankName))
@@ -91,6 +92,7 @@ class AdminRank extends PublicModule
                     foreach($this->ranks as &$curRank)
                         if($curRank[0] == $rankID)
                         {
+                            $found = true;
                             //Edit rank
                             $curRank = [$curRank[0], $this->rankName, $this->requiredPosts, PHP_INT_MAX, $this->stars, ''];
                             //Refresh sort order and save
@@ -101,7 +103,6 @@ class AdminRank extends PublicModule
                             Template::getInstance()->printMessage('rank_edited');
                             break;
                         }
-                $found = false;
             }
             else
                 //Look up rank to edit
@@ -112,7 +113,7 @@ class AdminRank extends PublicModule
                         $found = true;
                         break;
                     }
-            if(!isset($found))
+            if(!$found)
                 //This will also catch an invalid rank ID in save mode
                 Template::getInstance()->printMessage('rank_not_found');
             Template::getInstance()->assign(['rankID' => $rankID,

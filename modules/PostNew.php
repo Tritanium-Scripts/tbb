@@ -75,8 +75,8 @@ class PostNew extends PublicModule
             'tSmiley' => intval(Functions::getValueFromGlobals('tsmilie')),
             'isSmilies' => Functions::getValueFromGlobals('smilies') == '1',
             'isSignature' => Functions::getValueFromGlobals('show_signatur') == '1',
-            'isBBCode' => Functions::getValueFromGlobals('use_upbcode') == '1',
-            'isXHTML' => Functions::getValueFromGlobals('use_htmlcode') == '1',
+            'isBBCode' => Functions::getValueFromGlobals('use_upbcode') == '1' && is_array($this->forum) && $this->forum[7][0] == '1',
+            'isXHTML' => Functions::getValueFromGlobals('use_htmlcode') == '1' && is_array($this->forum) && $this->forum[7][1] == '1',
             'isNotify' => Functions::getValueFromGlobals('sendmail2') == '1',
             'isAddURLs' => Functions::getValueFromGlobals('isAddURLs') == 'true',
             'prefixId' => intval(Functions::getValueFromGlobals('prefixId'))];

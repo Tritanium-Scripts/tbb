@@ -528,8 +528,8 @@ abstract class CoreFunctions
             $globalWioColor = Config::getInstance()->getCfgVal('global_wio_color');
             foreach(self::explodeByComma($userID) as $curUserID)
                 //Guest check
-                if(self::isGuestID($userID))
-                    $userLinks[] = Functions::substr($userID, 1);
+                if(self::isGuestID($curUserID))
+                    $userLinks[] = Functions::substr($curUserID, 1);
                 //(Optional) deleted check
                 elseif($isValid && !self::file_exists('members/' . $curUserID . '.xbb'))
                     $userLinks[] = Language::getInstance()->getString('deleted');
