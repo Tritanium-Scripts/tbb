@@ -90,7 +90,7 @@ class Config
         1,                                      #select_tpls
         1,                                      #select_styles
         1,                                      #enable_uploads
-        '',                                     #upload_allowed_ext
+        'bmp,jpg,jpeg,gif,png,webp,zip,rar,mp3,pdf',#upload_allowed_ext
         5242880,                                #upload_max_filesize
         //New TBB 1.6.0 config values
         ERR_REPORTING,                          #error_level

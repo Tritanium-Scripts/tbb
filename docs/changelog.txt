@@ -1,6 +1,6 @@
 **********************************************************
 Tritanium Bulletin Board 1.5+ - Changelog (German version)
-Last changed: 2026-10-28 (Version 1.11.0)
+Last changed: 2026-10-29 (Version 1.11.0)
 **********************************************************
 
 2026: Version 1.11.0
@@ -10,6 +10,17 @@ Last changed: 2026-10-28 (Version 1.11.0)
     - PHP 8.5 Anpassungen
     - Typenfehler korrigiert
     - Zusätzliche Sicherheitsmaßnahmen
+    - Steam-Spiele können per Ajax nicht mehr ohne Autorisierung neu geladen werden
+    - Suchen in Forum ohne Berechtigung unter keinen Umständen mehr möglich
+    - Hinweis auf unbekannte Kategorie wurde beim Editieren und Löschen im ACP nicht angezeigt
+    - Hinweis auf unbekannten Rang wurde beim Editieren im ACP nicht angezeigt
+    - Verlinken von mehreren Profilen als Gäste, wenn der erste Benutzer ein Gast ist, korrigiert
+    - Standard für erlaubte Dateiendungen zum Hochladen auf Bilder, Archive, Audiodateien und PDFs gesetzt
+    - Zeichenersetzung bei mehrdimensionalen Werten korrigiert
+    - Speicherort von Logdateien bei geänderten Datenpfad (DataPath.php) korrigiert
+    - Nutzung von (X)HTML / BBCode unter keinen Umständen möglich, wenn im Forum deaktivert
+    - Fehler beim Speichern des Autors von Beiträgen als Gast ohne Namenspflicht behoben
+    - Fehler beim Laden der WWO-Box bei geänderten Datenpfad (DataPath.php) behoben
 
 30.05.2024: Version 1.10.1 (offiziell)
     - Typenfehler korrigiert
