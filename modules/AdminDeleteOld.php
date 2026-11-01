@@ -3,7 +3,7 @@
  * Convenient way to delete topics by a certain date.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2024 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2026 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -25,28 +25,31 @@ class AdminDeleteOld extends PublicModule
         $topicCounter = $postCounter = $filesizeCounter = 0;
         //Get topic IDs of forum
         $topicIndex = Functions::file('foren/' . $forumID . '-threads.xbb');
-        //Get sticky topics (better not delete those)
-        $stickyIndex = @Functions::file('foren/' . $forumID . '-sticker.xbb') ?: [];
-        foreach($topicIndex as $curKey => $curTopicID)
+        if(is_array($topicIndex))
         {
-            //Load current topic
-            $curTopic = Functions::file('foren/' . $forumID . '-' . $curTopicID . '.xbb');
-            //Get meta data
-            $curTopicData = Functions::explodeByTab(array_shift($curTopic));
-            //Ignore moved topics and sticky ones, otherwise check age
-            if($curTopicData[0] != 'm' && !in_array($curTopicID, $stickyIndex) && round((time()-$curTopicData[5])/60/60/24) > $topicAge)
+            //Get sticky topics (better not delete those)
+            $stickyIndex = @Functions::file('foren/' . $forumID . '-sticker.xbb') ?: [];
+            foreach($topicIndex as $curKey => $curTopicID)
             {
-                //Delete, update counters
-                $filesizeCounter += Functions::unlink('foren/' . $forumID . '-' . $curTopicID . '.xbb');
-                unset($topicIndex[$curKey]);
-                $topicCounter++;
-                $postCounter += count($curTopic);
+                //Load current topic
+                $curTopic = Functions::file('foren/' . $forumID . '-' . $curTopicID . '.xbb');
+                //Get meta data
+                $curTopicData = Functions::explodeByTab(array_shift($curTopic));
+                //Ignore moved topics and sticky ones, otherwise check age
+                if($curTopicData[0] != 'm' && !in_array($curTopicID, $stickyIndex) && round((time()-$curTopicData[5])/60/60/24) > $topicAge)
+                {
+                    //Delete, update counters
+                    $filesizeCounter += Functions::unlink('foren/' . $forumID . '-' . $curTopicID . '.xbb');
+                    unset($topicIndex[$curKey]);
+                    $topicCounter++;
+                    $postCounter += count($curTopic);
+                }
             }
+            //Update topic index
+            Functions::file_put_contents('foren/' . $forumID . '-threads.xbb', empty($topicIndex) ? '' : implode("\n", $topicIndex) . "\n");
+            //Update serious forum stats with collected data
+            Functions::updateForumData($forumID, -$topicCounter, -$postCounter);
         }
-        //Update topic index
-        Functions::file_put_contents('foren/' . $forumID . '-threads.xbb', empty($topicIndex) ? '' : implode("\n", $topicIndex) . "\n");
-        //Update serious forum stats with collected data
-        Functions::updateForumData($forumID, -$topicCounter, -$postCounter);
         //Return the funky stats
         return [$topicCounter, $postCounter, $filesizeCounter];
     }
@@ -79,7 +82,7 @@ class AdminDeleteOld extends PublicModule
                     }
                 else
                     //Just this single forum
-                    $stats = $this->deleteTopics($deleteFromForumID, $topicAge);
+                    $stats = $this->deleteTopics(intval($deleteFromForumID), $topicAge);
                 Logger::getInstance()->log('%s deleted ' . $stats[0] . ' old topics (target: ' . $deleteFromForumID . ')', Logger::LOG_ACP_ACTION);
                 Template::getInstance()->printMessage('old_topics_deleted', $stats[0], $stats[1], $stats[2]/1024);
             }

@@ -3,7 +3,7 @@
  * Provides saver writing to files with lock management.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2023 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2026 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -68,6 +68,8 @@ class LockObject
     {
         rewind($this->fp); //Revert action from fgets()
         fwrite($this->fp, $string);
+        //Truncate any leftovers from old file content
+        ftruncate($this->fp, ftell($this->fp));
         if($destruct)
             $this->__destruct();
     }

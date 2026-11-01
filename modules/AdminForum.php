@@ -114,11 +114,13 @@ class AdminForum extends PublicModule
                     //Check user states of given mod IDs and fix them, if needed
                     foreach(array_map(['Functions', 'getUserData'], $newModIDs) as $curKey => $curUser)
                     {
-                        if($curUser == false)
+                        if($curUser === false)
                             unset($newModIDs[$curKey]);
                         elseif($curUser[4] != 1 && !in_array($curUser[1], $this->getModIDs()))
                         {
                             $curUser[4] = 2;
+                            $curUser[14] = implode(',', $curUser[14]);
+                            $curUser[19] = Functions::implodeByTab($curUser[19]);
                             Functions::file_put_contents('members/' . $curUser[1] . '.xbb', implode("\n", $curUser));
                         }
                     }
@@ -264,7 +266,7 @@ class AdminForum extends PublicModule
                             if(!in_array($curModID, $this->getModIDs()) && !empty($curModID))
                             {
                                 $curUser = Functions::getUserData($curModID);
-                                if($curUser[4] == 1)
+                                if($curUser === false || $curUser[4] == 1)
                                     continue;
                                 $curUser[4] = 3;
                                 $curUser[14] = implode(',', $curUser[14]);
@@ -316,7 +318,7 @@ class AdminForum extends PublicModule
                                 if(!in_array($curModID, $allModIDs))
                                 {
                                     $curUser = Functions::getUserData($curModID);
-                                    if($curUser[4] == 1)
+                                    if($curUser === false || $curUser[4] == 1)
                                         continue;
                                     $curUser[4] = 3;
                                     $curUser[14] = implode(',', $curUser[14]);
@@ -330,7 +332,7 @@ class AdminForum extends PublicModule
                                 if(!in_array($curModID, $allModIDs) && !empty($curModID))
                                 {
                                     $curUser = Functions::getUserData($curModID);
-                                    if($curUser == false)
+                                    if($curUser === false)
                                         unset($editModIDs[array_search($curModID, $editModIDs)]);
                                     elseif($curUser[4] != 1)
                                     {

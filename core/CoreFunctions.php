@@ -932,7 +932,7 @@ abstract class CoreFunctions
      */
     public static function isValidMail(string $mailAddress): bool
     {
-        return (bool) preg_match('/[\.0-9a-z_-]+@[\.0-9a-z-]+\.[a-z]+/si', $mailAddress);
+        return (bool) preg_match('/^[\.0-9a-z_-]+@[\.0-9a-z-]+\.[a-z]+$/si', $mailAddress);
     }
 
     /**

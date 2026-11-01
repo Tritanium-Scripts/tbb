@@ -1,6 +1,6 @@
 **********************************************************
 Tritanium Bulletin Board 1.5+ - Changelog (German version)
-Last changed: 2026-10-29 (Version 1.11.0)
+Last changed: 2026-11-01 (Version 1.11.0)
 **********************************************************
 
 2026: Version 1.11.0
@@ -21,6 +21,10 @@ Last changed: 2026-10-29 (Version 1.11.0)
     - Nutzung von (X)HTML / BBCode unter keinen Umständen möglich, wenn im Forum deaktivert
     - Fehler beim Speichern des Autors von Beiträgen als Gast ohne Namenspflicht behoben
     - Fehler beim Laden der WWO-Box bei geänderten Datenpfad (DataPath.php) behoben
+    - Dokumentation aktualisiert
+    - Datenstrukturfehler bei Anlegen neuer Foren mit neuem Moderator behoben
+    - Validierung von E-Mail-Adressen verbessert
+    - Locking-Technik beim Dekrementieren von Zählern korrigiert
 
 30.05.2024: Version 1.10.1 (offiziell)
     - Typenfehler korrigiert
