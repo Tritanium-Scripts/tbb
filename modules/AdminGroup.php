@@ -230,7 +230,7 @@ class AdminGroup extends PublicModule
             PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_GROUP_SHOW_GROUPS);
             break;
         }
-        Template::getInstance()->printPage(self::$modeTable[$this->mode], ['groups' => $this->groups,
+        Template::getInstance()->printPage(Functions::handleMode($this->mode, self::$modeTable, __CLASS__, 'ad_groups'), ['groups' => $this->groups,
             'errors' => $this->errors]);
     }
 }

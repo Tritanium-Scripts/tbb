@@ -1076,10 +1076,11 @@ abstract class CoreFunctions
      */
     public static function unifyUserMail(string $userMail, int $ignoreID=-1): bool
     {
+        $userMail = Functions::strtolower($userMail);
         foreach(self::glob(DATAPATH . 'members/[!0]*.xbb') as $curMember)
         {
             $curMember = self::file($curMember);
-            if($curMember[3] == $userMail && $curMember[1] != $ignoreID)
+            if(Functions::strtolower($curMember[3]) == $userMail && $curMember[1] != $ignoreID)
                 return true;
         }
         return false;
@@ -1088,7 +1089,7 @@ abstract class CoreFunctions
     /**
      * Unifies an user name.
      *
-     * @param string $userName Name to check
+     * @param string $userName Escaped (!) name to check
      * @param int $ignoreID Optional user ID to ignore during check
      * @return bool User name already exists
      */

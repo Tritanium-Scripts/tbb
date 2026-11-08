@@ -128,7 +128,7 @@ class AdminIP extends PublicModule
             Template::getInstance()->assign('ipBlocks', $this->ipBlocks);
             break;
         }
-        Template::getInstance()->printPage(self::$modeTable[$this->mode], ['errors' => $this->errors]);
+        Template::getInstance()->printPage(Functions::handleMode($this->mode, self::$modeTable, __CLASS__, 'ad_ip'), ['errors' => $this->errors]);
     }
 }
 ?>

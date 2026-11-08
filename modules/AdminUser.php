@@ -284,7 +284,7 @@ class AdminUser extends PublicModule
                 'searchFor' => $searchFor]);
             break;
         }
-        Template::getInstance()->printPage(self::$modeTable[$this->mode], ['errors' => $this->errors]);
+        Template::getInstance()->printPage(Functions::handleMode($this->mode, self::$modeTable, __CLASS__, 'ad_user'), ['errors' => $this->errors]);
     }
 }
 ?>

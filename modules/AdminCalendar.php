@@ -198,7 +198,7 @@ class AdminCalendar extends PublicModule
             Template::getInstance()->assign('events', $this->events);
             break;
         }
-        Template::getInstance()->printPage(self::$modeTable[$this->mode]);
+        Template::getInstance()->printPage(Functions::handleMode($this->mode, self::$modeTable, __CLASS__, 'adminCalendar'));
     }
 }
 ?>

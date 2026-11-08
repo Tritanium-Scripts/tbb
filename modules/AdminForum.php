@@ -834,7 +834,7 @@ class AdminForum extends PublicModule
             Template::getInstance()->printMessage('category_deleted');
             break;
         }
-        Template::getInstance()->printPage(self::$modeTable[$this->mode], ['catTable' => $this->catTable,
+        Template::getInstance()->printPage(Functions::handleMode($this->mode, self::$modeTable, __CLASS__, 'ad_forum'), ['catTable' => $this->catTable,
             'errors' => $this->errors]);
     }
 

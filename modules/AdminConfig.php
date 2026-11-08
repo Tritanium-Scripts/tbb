@@ -203,20 +203,24 @@ class AdminConfig extends PublicModule
             if(Functions::getValueFromGlobals('save') == '1')
             {
                 $newSettings = Functions::getValueFromGlobals('settings');
-                list($newSettings[2], $newSettings[5], $newSettings[26], $newSettings[27], $newSettings[28], $newSettings[29], $newSettings[65]) = array_map('htmlspecialchars', [$newSettings[2], $newSettings[5], $newSettings[26], $newSettings[27], $newSettings[28], $newSettings[29], $newSettings[65]]);
-                $newSettings[7] = Config::getInstance()->getCfgVal('uc_message');
-                $newSettings[9] = !isset($newSettings[9]) ? '' : implode(',', $newSettings[9]);
-                $newSettings[38] = Config::getInstance()->getCfgVal('css_file');
-                if($newSettings[49] == '1' && !function_exists('disk_free_space'))
-                    $newSettings[49] = '0';
-                $newSettings[56] = Config::getInstance()->getCfgVal('default_tpl');
-                $newSettings[70] = Config::getInstance()->getCfgVal('select_tpls');
-                $newSettings[71] = Config::getInstance()->getCfgVal('select_styles');
-                $newSettings[73] = Functions::strtolower($newSettings[73]); //Lower file extensions
-                ksort($newSettings);
-                Functions::file_put_contents('vars/settings.var', implode("\n", $newSettings));
-                Logger::getInstance()->log('%s edited board settings', Logger::LOG_ACP_ACTION);
-                Template::getInstance()->printMessage('new_settings_saved');
+                //Check number of settings minus the three template ones NOT configured here
+                if(is_array($newSettings) && count($newSettings) == count(Config::getInstance()->getCfgSet())-3)
+                {
+                    list($newSettings[2], $newSettings[5], $newSettings[26], $newSettings[27], $newSettings[28], $newSettings[29], $newSettings[65]) = array_map('htmlspecialchars', [$newSettings[2], $newSettings[5], $newSettings[26], $newSettings[27], $newSettings[28], $newSettings[29], $newSettings[65]]);
+                    $newSettings[7] = Config::getInstance()->getCfgVal('uc_message');
+                    $newSettings[9] = !isset($newSettings[9]) ? '' : implode(',', $newSettings[9]);
+                    $newSettings[38] = Config::getInstance()->getCfgVal('css_file');
+                    if($newSettings[49] == '1' && !function_exists('disk_free_space'))
+                        $newSettings[49] = '0';
+                    $newSettings[56] = Config::getInstance()->getCfgVal('default_tpl');
+                    $newSettings[70] = Config::getInstance()->getCfgVal('select_tpls');
+                    $newSettings[71] = Config::getInstance()->getCfgVal('select_styles');
+                    $newSettings[73] = Functions::strtolower($newSettings[73]); //Lower file extensions
+                    ksort($newSettings);
+                    Functions::file_put_contents('vars/settings.var', implode("\n", $newSettings));
+                    Logger::getInstance()->log('%s edited board settings', Logger::LOG_ACP_ACTION);
+                    Template::getInstance()->printMessage('new_settings_saved');
+                }
             }
             //Get time zones
             $timeZones = [];
@@ -239,7 +243,7 @@ class AdminConfig extends PublicModule
                     E_ALL => Language::getInstance()->getString('all')]]);
             break;
         }
-        Template::getInstance()->printPage(self::$modeTable[$this->mode]);
+        Template::getInstance()->printPage(Functions::handleMode($this->mode, self::$modeTable, __CLASS__, 'ad_settings'));
     }
 }
 ?>

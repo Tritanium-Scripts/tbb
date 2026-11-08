@@ -100,10 +100,9 @@ class Register extends PublicModule
                 $this->errors[] = Language::getInstance()->getString('please_enter_an_user_name');
             elseif(Functions::strlen($newUser['nick']) > 15)
                 $this->errors[] = Language::getInstance()->getString('the_user_name_is_too_long');
-            elseif(Functions::unifyUserName($newUser['nick']))
+            $newUser['nick'] = htmlspecialchars($newUser['nick']);
+            if(Functions::unifyUserName($newUser['nick']))
                 $this->errors[] = Language::getInstance()->getString('the_user_name_already_exists');
-            else
-                $newUser['nick'] = htmlspecialchars($newUser['nick']);
             if(!$this->createRegPass)
             {
                 //In case of not creating a pass for new user, check the given one, too
@@ -113,7 +112,7 @@ class Register extends PublicModule
                 elseif($newPass != Functions::getValueFromGlobals('newuser_pw2'))
                     $this->errors[] = Language::getInstance()->getString('passwords_do_not_match');
                 else
-                    //If ok, hash it - the original pw is not longer needed to know
+                    //If ok, hash it - the original pw is no longer needed to know
                     $newPass = Functions::getHash($newPass);
             }
             else

@@ -169,7 +169,7 @@ class AdminNewsletter extends PublicModule
                 'isArchived' => Functions::getValueFromGlobals('isArchived') == 'true']);
             break;
         }
-        Template::getInstance()->printPage(self::$modeTable[$this->mode]);
+        Template::getInstance()->printPage(Functions::handleMode($this->mode, self::$modeTable, __CLASS__, 'ad_newsletter'));
     }
 }
 ?>

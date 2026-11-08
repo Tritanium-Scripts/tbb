@@ -179,7 +179,7 @@ class AdminRank extends PublicModule
             Template::getInstance()->assign('ranks', $this->ranks);
             break;
         }
-        Template::getInstance()->printPage(self::$modeTable[$this->mode]);
+        Template::getInstance()->printPage(Functions::handleMode($this->mode, self::$modeTable, __CLASS__, 'ad_rank'));
     }
 
     /**

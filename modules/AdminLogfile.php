@@ -139,7 +139,7 @@ class AdminLogfile extends PublicModule
                 'orderTypeEntries' => $orderTypeEntries]);
             break;
         }
-        Template::getInstance()->printPage(self::$modeTable[$this->mode]);
+        Template::getInstance()->printPage(Functions::handleMode($this->mode, self::$modeTable, __CLASS__, 'adminLogfile'));
     }
 }
 ?>

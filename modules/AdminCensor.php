@@ -70,7 +70,7 @@ class AdminCensor extends PublicModule
                 else
                 {
                     //Get new ID
-                    $this->censorshipID = current(end($this->censorships))+1;
+                    $this->censorshipID = empty($this->censorships) ? 1 : current(end($this->censorships))+1;
                     //Add to censorships
                     Functions::file_put_contents('vars/cwords.var', $this->censorshipID . "\t" . $newWord . "\t" . $newReplacement . "\t\n", FILE_APPEND);
                     //Done
@@ -138,7 +138,7 @@ class AdminCensor extends PublicModule
             Template::getInstance()->assign('censorships', $this->censorships);
             break;
         }
-        Template::getInstance()->printPage(self::$modeTable[$this->mode], ['errors' => $this->errors]);
+        Template::getInstance()->printPage(Functions::handleMode($this->mode, self::$modeTable, __CLASS__, 'ad_censor'), ['errors' => $this->errors]);
     }
 }
 ?>

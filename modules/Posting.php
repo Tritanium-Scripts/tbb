@@ -111,7 +111,7 @@ class Posting extends PublicModule
             $this->topicFile = array_map(['Functions', 'explodeByTab'], $this->topicFile);
             #0:open/close[/moved] - 1:title - 2:userID - 3:tSmileyID - 4:notifyNewReplies[/movedForumID] - 5:timestamp[/movedTopicID] - 6:views[/prefixID] - 7:pollID[ - 8:subscribedUserIDs - 9:prefixID]
             $this->topic = array_shift($this->topicFile);
-            $this->page = max(ceil(array_search($this->postID, array_map('current', $this->topicFile)) / Config::getInstance()->getCfgVal('posts_per_page')), 1);
+            $this->page = max(ceil(intval(array_search($this->postID, array_map('current', $this->topicFile))) / Config::getInstance()->getCfgVal('posts_per_page')), 1);
         }
         $this->preview = Functions::getValueFromGlobals('preview') != '';
         //Get contents for new reply

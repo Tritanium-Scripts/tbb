@@ -124,7 +124,7 @@ class AdminMailBlock extends PublicModule
             Template::getInstance()->assign('mailBlocks', $this->mailBlocks);
             break;
         }
-        Template::getInstance()->printPage(self::$modeTable[$this->mode], ['errors' => $this->errors]);
+        Template::getInstance()->printPage(Functions::handleMode($this->mode, self::$modeTable, __CLASS__, 'adminMailBlock'), ['errors' => $this->errors]);
     }
 }
 ?>
