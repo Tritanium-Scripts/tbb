@@ -214,7 +214,11 @@ class Profile extends PublicModule
                     if(Functions::strpos($this->userData[18], ' ') !== false)
                         $this->errors[] = Language::getInstance()->getString('please_enter_a_valid_steam_profile_name');
                     $this->userData[20] = Functions::getValueFromGlobals('ownTemplate');
+                    if(!empty($this->userData[20]) && !in_array($this->userData[20], array_map('basename', Functions::glob('templates/*'))))
+                        $this->userData[20] = '';
                     $this->userData[21] = Functions::getValueFromGlobals('ownStyle');
+                    if(!empty($this->userData[21]) && !in_array($this->userData[21], array_map('basename', Functions::glob('templates/' . ($this->userData[20] == '' ? Config::getInstance()->getCfgVal('default_tpl') : $this->userData[20]) . '/styles/*.css'))))
+                        $this->userData[21] = '';
                     $this->userData[22] = Functions::getTimestampFromGlobals('birthday');
                     if(!empty($this->userData[22]) && !Functions::isValidBirthday($this->userData[22]))
                         $this->errors[] = Language::getInstance()->getString('please_enter_a_valid_birthday');
