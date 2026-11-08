@@ -572,7 +572,7 @@ abstract class CoreFunctions
                         [,,,,$curColor] = self::getGroupData($curUser[15]);
                     if(!empty($curColor))
                         $curColor = sprintf(' style="color:%s;"', $curColor);
-                    $userLinks[] = '<a' . $aAttributes . ' href="' . INDEXFILE . '?faction=profile&amp;profile_id=' . $curUserID . SID_AMPER . '"' . $curColor . '>' . $curUser[0] . '</a>';
+                    $userLinks[] = '<a' . $aAttributes . ' href="' . INDEXFILE . '?faction=profile&amp;profile_id=' . $curUserID . SID_AMPER . '"' . $curColor . '>' . (is_array($curUser) ? $curUser[0] : Language::getInstance()->getString('deleted')) . '</a>';
                 }
         }
         return count($userLinks) < 2 ? current($userLinks) : $userLinks;
@@ -845,7 +845,6 @@ abstract class CoreFunctions
     {
         if(!array_key_exists($mode, $modeTable))
         {
-            //Escaping of '%' to protect logger
             Logger::getInstance()->log('Unknown mode "' . Functions::str_replace('%', '%%', $mode) . '" in ' . $module . '; using default', Logger::LOG_FILESYSTEM);
             $_SESSION['unknownModes'] ??= 0;
             $_SESSION['unknownModes']++;

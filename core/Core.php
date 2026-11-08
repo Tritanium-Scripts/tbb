@@ -244,7 +244,6 @@ class Core
             $missing;
             if(is_null($module))
             {
-                //Escaping of '%' to protect logger
                 Logger::getInstance()->log('Call to unknown module "' . Functions::str_replace('%', '%%', $mode) . '"', Logger::LOG_FILESYSTEM);
                 if(function_exists('http_response_code'))
                     http_response_code(400);

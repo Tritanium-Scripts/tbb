@@ -175,7 +175,7 @@ class Register extends PublicModule
                     $this->memberCounter->setFileContent($this->memberCounter->getFileContent()+1);
                     //Send reg mail (and random pass, if needed)
                     Functions::sendMessage($newMemberFile[3], 'new_registration', $newMemberFile[0], Config::getInstance()->getCfgVal('forum_name'), $newMemberFile[1], $newMemberFile[3], $this->createRegPass ? $newPass : Language::getInstance()->getString('already_set_by_yourself'), Config::getInstance()->getCfgVal('address_to_forum') . '/' . INDEXFILE);
-                    Logger::getInstance()->log('New registration: ' . $newMemberFile[0] . ' (ID: ' . $newMemberFile[1] . ')', Logger::LOG_REGISTRATION);
+                    Logger::getInstance()->log('New registration: ' . Functions::str_replace('%', '%%', $newMemberFile[0]) . ' (ID: ' . $newMemberFile[1] . ')', Logger::LOG_REGISTRATION);
                     //Notify admin
                     if(Config::getInstance()->getCfgVal('mail_admin_new_registration') == 1)
                         Functions::sendMessage(Config::getInstance()->getCfgVal('admin_email'), 'admin_new_registration', Config::getInstance()->getCfgVal('forum_name'), $newMemberFile[0], $newMemberFile[1], $newMemberFile[3]);
@@ -189,7 +189,7 @@ class Register extends PublicModule
                 {
                     Functions::file_put_contents('members/temp' . $newMemberFile[16] . '.xbb', implode("\n", $newMemberFile));
                     Functions::sendMessage($newMemberFile[3], 'validate_new_registration', $newMemberFile[0], Config::getInstance()->getCfgVal('forum_name'), Config::getInstance()->getCfgVal('address_to_forum') . '/' . INDEXFILE . '?faction=register&mode=verifyAccount&code=' . md5('temp' . $newMemberFile[16]), Config::getInstance()->getCfgVal('address_to_forum') . '/' . INDEXFILE . '?faction=register&mode=verifyAccount', md5('temp' . $newMemberFile[16]));
-                    Logger::getInstance()->log('New registration waiting for mail validation: ' . $newMemberFile[0] . ' (preliminary ID: temp' . $newMemberFile[16] . ')', Logger::LOG_REGISTRATION);
+                    Logger::getInstance()->log('New registration waiting for mail validation: ' . Functions::str_replace('%', '%%', $newMemberFile[0]) . ' (preliminary ID: temp' . $newMemberFile[16] . ')', Logger::LOG_REGISTRATION);
                     Template::getInstance()->printMessage('registration_successful_mail', $newMemberFile[0]);
                 }
             }
@@ -229,7 +229,7 @@ class Register extends PublicModule
                         Functions::unlink($curPreMember);
                         //Send default reg mail (and random pass, if needed)
                         Functions::sendMessage($newMemberFile[3], 'new_registration', $newMemberFile[0], Config::getInstance()->getCfgVal('forum_name'), $newMemberFile[1], $newMemberFile[3], $this->createRegPass ? $newPass : Language::getInstance()->getString('already_set_by_yourself'), Config::getInstance()->getCfgVal('address_to_forum') . '/' . INDEXFILE);
-                        Logger::getInstance()->log('New registration verified: ' . $newMemberFile[0] . ' (ID: ' . $newMemberFile[1] . ')', Logger::LOG_REGISTRATION);
+                        Logger::getInstance()->log('New registration verified: ' . Functions::str_replace('%', '%%', $newMemberFile[0]) . ' (ID: ' . $newMemberFile[1] . ')', Logger::LOG_REGISTRATION);
                         //Notify admin
                         if(Config::getInstance()->getCfgVal('mail_admin_new_registration') == 1)
                             Functions::sendMessage(Config::getInstance()->getCfgVal('admin_email'), 'admin_new_registration', Config::getInstance()->getCfgVal('forum_name'), $newMemberFile[0], $newMemberFile[1], $newMemberFile[3]);

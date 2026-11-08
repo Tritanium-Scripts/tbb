@@ -3,7 +3,7 @@
  * Logging module with different log levels.
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2024 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2026 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -96,9 +96,9 @@ class Logger
     }
 
     /**
-     * Writes an entry based on log level settings to log file. %s will be replaced with user nick and WIO ID.
+     * Writes an entry based on log level settings to log file. %s will be replaced with user nick and WIO ID, i.e. no other format specifiers are allowed!
      *
-     * @param mixed $data Data of entry to write
+     * @param mixed $data Data of entry to write with escaping of additional '%'!!!
      * @param int $level Log level of this entry (1-12)
      */
     public function log($data, int $level): void

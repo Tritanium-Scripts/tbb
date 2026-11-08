@@ -666,7 +666,8 @@ class WhoIsOnline extends PublicModule
      */
     private function isBot(?string $userAgent): bool
     {
-        return Functions::stripos($userAgent, 'bot') !== false
+        return !empty($userAgent)
+            && (Functions::stripos($userAgent, 'bot') !== false
             || Functions::stripos($userAgent, 'google') !== false
             || Functions::stripos($userAgent, 'spider') !== false
             || Functions::stripos($userAgent, 'crawl') !== false
@@ -688,7 +689,7 @@ class WhoIsOnline extends PublicModule
             || Functions::stripos($userAgent, 'httpx') !== false
             || Functions::stripos($userAgent, 'curl') !== false
             || Functions::stripos($userAgent, 'wget') !== false
-            || Functions::stripos($userAgent, 'python-requests') !== false;
+            || Functions::stripos($userAgent, 'python-requests') !== false);
     }
 }
 ?>

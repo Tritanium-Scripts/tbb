@@ -1,6 +1,6 @@
 **********************************************************
 Tritanium Bulletin Board 1.5+ - Changelog (German version)
-Last changed: 2026-11-01 (Version 1.11.0)
+Last changed: 2026-11-08 (Version 1.11.0)
 **********************************************************
 
 2026: Version 1.11.0
@@ -8,7 +8,7 @@ Last changed: 2026-11-01 (Version 1.11.0)
     - Boterkennung verbessert
     - PHP 8.4 Anpassungen
     - PHP 8.5 Anpassungen
-    - Typenfehler korrigiert
+    - Viele Typenfehler korrigiert
     - Zusätzliche Sicherheitsmaßnahmen
     - Steam-Spiele können per Ajax nicht mehr ohne Autorisierung neu geladen werden
     - Suchen in Forum ohne Berechtigung unter keinen Umständen mehr möglich
@@ -25,6 +25,7 @@ Last changed: 2026-11-01 (Version 1.11.0)
     - Datenstrukturfehler bei Anlegen neuer Foren mit neuem Moderator behoben
     - Validierung von E-Mail-Adressen verbessert
     - Locking-Technik beim Dekrementieren von Zählern korrigiert
+    - Diverse Fehler bei Handhabung von gelöschten Moderatoren behoben
 
 30.05.2024: Version 1.10.1 (offiziell)
     - Typenfehler korrigiert

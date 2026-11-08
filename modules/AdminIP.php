@@ -79,7 +79,7 @@ class AdminIP extends PublicModule
                     if(!empty($this->ipBlocks))
                         list(,,,$this->ipBlockID) = end($this->ipBlocks);
                     Functions::file_put_contents('vars/ip.var', $newIPAddress . "\t" . ($newBlockPeriod != -1 ? time()+$newBlockPeriod*60 : $newBlockPeriod) . "\t" . $newBlockForumID . "\t" . ++$this->ipBlockID . "\t\n", FILE_APPEND);
-                    Logger::getInstance()->log('%s added new ip block (' . $newIPAddress . ', ' . $newBlockForumID . ', ' . $newBlockPeriod . ')', Logger::LOG_ACP_ACTION);
+                    Logger::getInstance()->log('%s added new ip block (' . Functions::str_replace('%', '%%', $newIPAddress) . ', ' . $newBlockForumID . ', ' . $newBlockPeriod . ')', Logger::LOG_ACP_ACTION);
                     header('Location: ' . INDEXFILE . '?faction=ad_ip' . SID_AMPER_RAW);
                     Template::getInstance()->printMessage('ip_block_added');
                 }
