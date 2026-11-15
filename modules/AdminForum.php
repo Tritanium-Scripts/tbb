@@ -105,6 +105,8 @@ class AdminForum extends PublicModule
             PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_FORUM_NEW_FORUM, $newName, $newDescr, $newCatID, $newIsBBCode, $newIsXHTML, $newIsNotify, $newRights, $newModIDs, $newImage);
             if(Functions::getValueFromGlobals('create') == 'yes')
             {
+                if(!Functions::checkCSRFTokens())
+                    Template::getInstance()->printMessage('permission_denied');
                 if($newName == '')
                     $this->errors[] = Language::getInstance()->getString('please_enter_a_forum_name');
                 //Allow no description
@@ -185,6 +187,8 @@ class AdminForum extends PublicModule
             $editForum[11] = Functions::explodeByComma($editForum[11]);
             if(Functions::getValueFromGlobals('change') == 'yes')
             {
+                if(!Functions::checkCSRFTokens())
+                    Template::getInstance()->printMessage('permission_denied');
                 //Delete forum?
                 if(Functions::getValueFromGlobals('kill') != '')
                 {
@@ -371,6 +375,8 @@ class AdminForum extends PublicModule
             if(($key = array_search($forumID, array_map('current', $this->forums))) === false)
                 Template::getInstance()->printMessage('forum_not_found');
             PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_FORUM_MOVE_FORUM_UP, $key);
+            if(!Functions::checkCSRFTokens())
+                Template::getInstance()->printMessage('permission_denied');
             //Already on top?
             if($key != 0)
             {
@@ -396,6 +402,8 @@ class AdminForum extends PublicModule
             if(($key = array_search($forumID, array_map('current', $this->forums))) === false)
                 Template::getInstance()->printMessage('forum_not_found');
             PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_FORUM_MOVE_FORUM_DOWN, $key);
+            if(!Functions::checkCSRFTokens())
+                Template::getInstance()->printMessage('permission_denied');
             //Already at bottom?
             if($key != count($this->forums)-1)
             {
@@ -425,6 +433,8 @@ class AdminForum extends PublicModule
             PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_FORUM_SPECIAL_RIGHTS, $forumID, $specialRights);
             if(Functions::getValueFromGlobals('change') == 'yes' && ($newRights = Functions::getValueFromGlobals('new_rights')) != '')
             {
+                if(!Functions::checkCSRFTokens())
+                    Template::getInstance()->printMessage('permission_denied');
                 foreach($specialRights as &$curSpecialRight)
                 {
                     //Only consider changes to special rights if the first option to access a forum is set
@@ -468,6 +478,8 @@ class AdminForum extends PublicModule
             PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_FORUM_NEW_USER_RIGHT, $forumID, $key);
             if(Functions::getValueFromGlobals('change') == 'yes')
             {
+                if(!Functions::checkCSRFTokens())
+                    Template::getInstance()->printMessage('permission_denied');
                 //Get special rights or create new
                 $specialRights = @Functions::file('foren/' . $forumID . '-rights.xbb') ?: [];
                 $specialUserIDs = array_map(fn($right) => $right[1] == 1 ? $right[2] : 0, $specialRights = array_map(['Functions', 'explodeByTab'], $specialRights));
@@ -517,6 +529,8 @@ class AdminForum extends PublicModule
             PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_FORUM_NEW_GROUP_RIGHT, $forumID, $key, $specialRights, $specialGroupIDs);
             if(Functions::getValueFromGlobals('add') == 'yes')
             {
+                if(!Functions::checkCSRFTokens())
+                    Template::getInstance()->printMessage('permission_denied');
                 $newGroupID = intval(Functions::getValueFromGlobals('new_group_id'));
                 if(in_array($newGroupID, $specialGroupIDs))
                     $this->errors[] = Language::getInstance()->getString('group_already_has_special_rights');
@@ -564,6 +578,8 @@ class AdminForum extends PublicModule
                 if($specialRights[$i][0] == $specialRightID)
                 {
                     PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_FORUM_DELETE_RIGHT, $forumID, $specialRights, $specialRightID);
+                    if(!Functions::checkCSRFTokens())
+                        Template::getInstance()->printMessage('permission_denied');
                     if($specialRights[$i][1] == '1')
                         //Delete special user right
                         unset($specialRights[$i]);
@@ -632,6 +648,8 @@ class AdminForum extends PublicModule
             PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_FORUM_NEW_TOPIC_PREFIX, $forumID, $newPrefix, $newColor);
             if(Functions::getValueFromGlobals('change') == 'yes')
             {
+                if(!Functions::checkCSRFTokens())
+                    Template::getInstance()->printMessage('permission_denied');
                 if(empty($newPrefix))
                     $this->errors[] = Language::getInstance()->getString('please_enter_a_prefix');
                 if(empty($this->errors))
@@ -670,6 +688,8 @@ class AdminForum extends PublicModule
             PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_FORUM_EDIT_TOPIC_PREFIX, $forumID, $topicPrefixId, $editPrefix, $editColor);
             if(Functions::getValueFromGlobals('change') == 'yes')
             {
+                if(!Functions::checkCSRFTokens())
+                    Template::getInstance()->printMessage('permission_denied');
                 if(empty($editPrefix))
                     $this->errors[] = Language::getInstance()->getString('please_enter_a_prefix');
                 if(empty($this->errors))
@@ -702,6 +722,8 @@ class AdminForum extends PublicModule
             $topicPrefixes = array_map(['Functions', 'explodeByTab'], $topicPrefixes);
             $topicPrefixId = intval(Functions::getValueFromGlobals('prefixId'));
             PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_FORUM_DELETE_TOPIC_PREFIX, $forumID, $topicPrefixes, $topicPrefixId);
+            if(!Functions::checkCSRFTokens())
+                Template::getInstance()->printMessage('permission_denied');
             $size = count($topicPrefixes);
             for($i=0; $i<$size; $i++)
                 if($topicPrefixes[$i][0] == $topicPrefixId)
@@ -735,6 +757,8 @@ class AdminForum extends PublicModule
             PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_FORUM_NEW_CATEGORY, $newName);
             if(Functions::getValueFromGlobals('newkg') == 'yes')
             {
+                if(!Functions::checkCSRFTokens())
+                    Template::getInstance()->printMessage('permission_denied');
                 if(empty($newName))
                     $this->errors[] = Language::getInstance()->getString('please_enter_a_category_name');
                 else
@@ -756,6 +780,8 @@ class AdminForum extends PublicModule
             if(($key = array_search($catID = intval(Functions::getValueFromGlobals('id')), array_map('current', $cats = array_map(['Functions', 'explodeByTab'], Functions::file('vars/kg.var'))))) === false)
                 Template::getInstance()->printMessage('category_not_found');
             PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_FORUM_MOVE_CATEGORY_UP, $key);
+            if(!Functions::checkCSRFTokens())
+                Template::getInstance()->printMessage('permission_denied');
             //Already on top?
             if($key != 0)
             {
@@ -772,6 +798,8 @@ class AdminForum extends PublicModule
             if(($key = array_search($catID = intval(Functions::getValueFromGlobals('id')), array_map('current', $cats = array_map(['Functions', 'explodeByTab'], Functions::file('vars/kg.var'))))) === false)
                 Template::getInstance()->printMessage('category_not_found');
             PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_FORUM_MOVE_CATEGORY_DOWN, $key);
+            if(!Functions::checkCSRFTokens())
+                Template::getInstance()->printMessage('permission_denied');
             //Already at bottom?
             if($key != count($cats)-1)
             {
@@ -796,6 +824,8 @@ class AdminForum extends PublicModule
             PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_FORUM_EDIT_CATEGORY, $catID, $editName);
             if(Functions::getValueFromGlobals('chgkg') == 'yes')
             {
+                if(!Functions::checkCSRFTokens())
+                    Template::getInstance()->printMessage('permission_denied');
                 if(empty($editName))
                     $this->errors[] = Language::getInstance()->getString('please_enter_a_category_name');
                 else
@@ -823,6 +853,8 @@ class AdminForum extends PublicModule
             if(!isset($this->catTable[$catID]))
                 Template::getInstance()->printMessage('category_not_found');
             PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_FORUM_DELETE_CATEGORY, $catID);
+            if(!Functions::checkCSRFTokens())
+                Template::getInstance()->printMessage('permission_denied');
             unset($this->catTable[-1], $this->catTable[$catID]);
             //Prepare cat table for writing
             foreach($this->catTable as $curCatID => $curCatName)
@@ -835,6 +867,7 @@ class AdminForum extends PublicModule
             break;
         }
         Template::getInstance()->printPage(Functions::handleMode($this->mode, self::$modeTable, __CLASS__, 'ad_forum'), ['catTable' => $this->catTable,
+            'csrfToken' => Auth::getInstance()->getCSRFToken(),
             'errors' => $this->errors]);
     }
 

@@ -27,7 +27,7 @@
   <td class="cellStd" style="text-align:center;"><span class="fontSmall"><input type="checkbox" value="1" name="new_rights[{$curRight[0]}][4]"{if $curRight[7]} checked="checked"{/if} /></span></td>
   <td class="cellStd" style="text-align:center;"><span class="fontSmall"><input type="checkbox" value="1" name="new_rights[{$curRight[0]}][5]"{if $curRight[8]} checked="checked"{/if} /></span></td>
 {plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_FORUM_USER_RIGHTS_TABLE_BODY}
-  <td class="cellStd" style="text-align:center;"><span class="fontSmall"><a href="{$smarty.const.INDEXFILE}?faction=ad_forum&amp;mode=kill_right&amp;forum_id={$forumID}&amp;right_id={$curRight[0]}{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('delete')}</a></span></td>
+  <td class="cellStd" style="text-align:center;"><span class="fontSmall"><a href="{$smarty.const.INDEXFILE}?faction=ad_forum&amp;mode=kill_right&amp;forum_id={$forumID}&amp;right_id={$curRight[0]}&amp;csrfToken={$csrfToken}{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('delete')}</a></span></td>
  </tr>
 {foreachelse}
  <tr><td class="cellStd" colspan="8" style="text-align:center;"><span class="fontNorm" style="font-weight:bold;">{Language::getInstance()->getString('no_special_user_rights')}</span></td></tr>
@@ -45,7 +45,7 @@
   <td class="cellStd" style="text-align:center;"><span class="fontSmall"><input type="checkbox" value="1" name="new_rights[{$curRight[0]}][4]"{if $curRight[7]} checked="checked"{/if} /></span></td>
   <td class="cellStd" style="text-align:center;"><span class="fontSmall"><input type="checkbox" value="1" name="new_rights[{$curRight[0]}][5]"{if $curRight[8]} checked="checked"{/if} /></span></td>
 {plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_FORUM_GROUP_RIGHTS_TABLE_BODY}
-  <td class="cellStd" style="text-align:center;"><span class="fontSmall"><a href="{$smarty.const.INDEXFILE}?faction=ad_forum&amp;mode=kill_right&amp;forum_id={$forumID}&amp;right_id={$curRight[0]}{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('delete')}</a></span></td>
+  <td class="cellStd" style="text-align:center;"><span class="fontSmall"><a href="{$smarty.const.INDEXFILE}?faction=ad_forum&amp;mode=kill_right&amp;forum_id={$forumID}&amp;right_id={$curRight[0]}&amp;csrfToken={$csrfToken}{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('delete')}</a></span></td>
  </tr>
 {foreachelse}
  <tr><td class="cellStd" colspan="8" style="text-align:center;"><span class="fontNorm" style="font-weight:bold;">{Language::getInstance()->getString('no_special_group_rights')}</span></td></tr>
@@ -53,6 +53,7 @@
 </table>
 <p class="cellButtons"><input class="formBButton" type="submit" value="{Language::getInstance()->getString('edit_special_rights')}" />&nbsp;&nbsp;&nbsp;<input class="formButton" type="reset" />{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_FORUM_SPECIAL_RIGHTS_BUTTONS}</p>
 <input type="hidden" name="change" value="yes" />
+<input type="hidden" name="csrfToken" value="{$csrfToken}" />
 </form>
 <table class="tableStd" cellpadding="{Config::getInstance()->getCfgVal('tpadding')}" cellspacing="{Config::getInstance()->getCfgVal('tspacing')}" style="width:100%;">
  <tr><th class="cellTitle"><span class="fontTitle">{Language::getInstance()->getString('options')}</span></th></tr>

@@ -106,6 +106,8 @@ class AdminConfig extends PublicModule
             }
             if(Functions::getValueFromGlobals('confirmed') == 'true')
             {
+                if(!Functions::checkCSRFTokens())
+                    Template::getInstance()->printMessage('permission_denied');
                 //Prepare rebuild stuff
                 $forums = array_map(fn($forum) => current(Functions::explodeByTab($forum)), Functions::file('vars/foren.var', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES));
                 $_SESSION['rebuildTopicIndex'] = array_combine($forums, array_fill(0, count($forums), []));
@@ -164,6 +166,8 @@ class AdminConfig extends PublicModule
             }
             if(Functions::getValueFromGlobals('confirmed') == 'true')
             {
+                if(!Functions::checkCSRFTokens())
+                    Template::getInstance()->printMessage('permission_denied');
                 //Prepare recalculation stuff
                 $forums = array_map(fn($forum) => current(Functions::explodeByTab($forum)), Functions::file('vars/foren.var', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES));
                 $_SESSION['recalculateCounters'] = ['forums' => array_combine($forums, array_fill(0, count($forums), [])), 'total' => []];
@@ -188,6 +192,8 @@ class AdminConfig extends PublicModule
             PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_CONFIG_RESET_SETTINGS);
             if(Functions::getValueFromGlobals('confirm') == '1')
             {
+                if(!Functions::checkCSRFTokens())
+                    Template::getInstance()->printMessage('permission_denied');
                 if(Functions::file_exists('vars/settings.var'))
                     Functions::unlink('vars/settings.var');
                 Logger::getInstance()->log('%s reset board settings', Logger::LOG_ACP_ACTION);
@@ -202,6 +208,8 @@ class AdminConfig extends PublicModule
             PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_CONFIG_EDIT_SETTINGS);
             if(Functions::getValueFromGlobals('save') == '1')
             {
+                if(!Functions::checkCSRFTokens())
+                    Template::getInstance()->printMessage('permission_denied');
                 $newSettings = Functions::getValueFromGlobals('settings');
                 //Check number of settings minus the three template ones NOT configured here
                 if(is_array($newSettings) && count($newSettings) == count(Config::getInstance()->getCfgSet())-3)
@@ -243,7 +251,7 @@ class AdminConfig extends PublicModule
                     E_ALL => Language::getInstance()->getString('all')]]);
             break;
         }
-        Template::getInstance()->printPage(Functions::handleMode($this->mode, self::$modeTable, __CLASS__, 'ad_settings'));
+        Template::getInstance()->printPage(Functions::handleMode($this->mode, self::$modeTable, __CLASS__, 'ad_settings'), ['csrfToken' => Auth::getInstance()->getCSRFToken()]);
     }
 }
 ?>

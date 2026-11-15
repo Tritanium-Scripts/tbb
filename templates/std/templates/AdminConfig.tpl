@@ -401,4 +401,5 @@
 </table>
 <p style="text-align:center;"><input type="submit" value="{Language::getInstance()->getString('save_settings')}" />{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_CONFIG_EDIT_SETTINGS_BUTTONS}</p>
 <input type="hidden" name="save" value="1" />
+<input type="hidden" name="csrfToken" value="{$csrfToken}" />
 </form>

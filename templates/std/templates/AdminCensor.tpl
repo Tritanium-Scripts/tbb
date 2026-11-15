@@ -11,7 +11,7 @@
   <td class="td1"><span class="norm">{$curCensorship[1]}</span></td>
   <td class="td2"><span class="norm">{$curCensorship[2]}</span></td>
 {plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_CENSOR_CENSORSHIPS_TABLE_BODY}
-  <td class="td1" style="text-align:center;"><span class="norm"><a class="norm" href="{$smarty.const.INDEXFILE}?faction=ad_censor&amp;mode=kill&amp;id={$curCensorship[0]}{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('delete')}</a>&nbsp;|&nbsp;<a class="norm" href="{$smarty.const.INDEXFILE}?faction=ad_censor&amp;mode=edit&amp;id={$curCensorship[0]}{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('edit')}</a></span></td>
+  <td class="td1" style="text-align:center;"><span class="norm"><a class="norm" href="{$smarty.const.INDEXFILE}?faction=ad_censor&amp;mode=kill&amp;id={$curCensorship[0]}&amp;csrfToken={$csrfToken}{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('delete')}</a>&nbsp;|&nbsp;<a class="norm" href="{$smarty.const.INDEXFILE}?faction=ad_censor&amp;mode=edit&amp;id={$curCensorship[0]}{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('edit')}</a></span></td>
  </tr>
 {foreachelse}
  <tr><td class="td1" colspan="3" style="text-align:center;"><span class="norm" style="font-weight:bold;">{Language::getInstance()->getString('no_censorships')}</span></td></tr>

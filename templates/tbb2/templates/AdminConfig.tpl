@@ -397,5 +397,6 @@
 </table>
 <p class="cellButtons"><input class="formBButton" type="submit" value="{Language::getInstance()->getString('save_settings')}" />&nbsp;&nbsp;&nbsp;<input class="formButton" type="reset" />{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_CONFIG_EDIT_SETTINGS_BUTTONS}</p>
 <input type="hidden" name="save" value="1" />
+<input type="hidden" name="csrfToken" value="{$csrfToken}" />
 </form>
 {include file='AdminMenuTail.tpl'}

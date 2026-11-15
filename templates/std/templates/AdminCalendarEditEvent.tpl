@@ -33,4 +33,5 @@
 <p style="text-align:center;"><input type="submit" value="{Language::getInstance()->getString('edit_event')}" />{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_CALENDAR_EDIT_EVENT_BUTTONS}</p>
 <input type="hidden" name="update" value="yes" />
 <input type="hidden" name="id" value="{$eventId}" />
+<input type="hidden" name="csrfToken" value="{$csrfToken}" />
 </form>

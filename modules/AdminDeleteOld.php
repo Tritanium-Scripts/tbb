@@ -66,6 +66,8 @@ class AdminDeleteOld extends PublicModule
         PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_DELETE_OLD);
         if(Functions::getValueFromGlobals('mode') == 'kill')
         {
+            if(!Functions::checkCSRFTokens())
+                Template::getInstance()->printMessage('permission_denied');
             if(empty($deleteFromForumID))
                 $this->errors[] = Language::getInstance()->getString('please_choose_a_forum');
             else
@@ -97,7 +99,8 @@ class AdminDeleteOld extends PublicModule
             'topicAge' => $topicAge,
             'deleteFromForumID' => $deleteFromForumID,
             'cats' => array_map(['Functions', 'explodeByTab'], Functions::file('vars/kg.var')),
-            'forums' => $forums]);
+            'forums' => $forums,
+            'csrfToken' => Auth::getInstance()->getCSRFToken()]);
     }
 }
 ?>

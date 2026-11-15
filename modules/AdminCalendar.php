@@ -106,6 +106,8 @@ class AdminCalendar extends PublicModule
             PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_CALENDAR_NEW_EVENT);
             if(Functions::getValueFromGlobals('create') == 'yes')
             {
+                if(!Functions::checkCSRFTokens())
+                    Template::getInstance()->printMessage('permission_denied');
                 if(empty($this->eventName))
                     $this->errors[] = Language::getInstance()->getString('please_enter_an_event_name');
                 if($this->eventStartDate <= 0 || $this->eventEndDate <= 0)
@@ -134,6 +136,7 @@ class AdminCalendar extends PublicModule
                 'newEventStartDate' => $this->eventStartDate,
                 'newEventEndDate' => $this->eventEndDate,
                 'newEventDescription' => $this->eventDescription,
+                'csrfToken' => Auth::getInstance()->getCSRFToken(),
                 'errors' => $this->errors]);
             break;
 
@@ -145,6 +148,8 @@ class AdminCalendar extends PublicModule
             PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_CALENDAR_EDIT_EVENT, $key);
             if(Functions::getValueFromGlobals('update') == 'yes')
             {
+                if(!Functions::checkCSRFTokens())
+                    Template::getInstance()->printMessage('permission_denied');
                 if(empty($this->eventName))
                     $this->errors[] = Language::getInstance()->getString('please_enter_an_event_name');
                 if($this->eventStartDate <= 0 || $this->eventEndDate <= 0)
@@ -174,6 +179,7 @@ class AdminCalendar extends PublicModule
                 'editEventStartDate' => $this->eventStartDate,
                 'editEventEndDate' => $this->eventEndDate,
                 'editEventDescription' => $this->eventDescription,
+                'csrfToken' => Auth::getInstance()->getCSRFToken(),
                 'errors' => $this->errors]);
             break;
 
@@ -182,6 +188,8 @@ class AdminCalendar extends PublicModule
             if(($key = array_search($this->eventId, array_map('current', $this->events))) === false)
                 Template::getInstance()->printMessage('event_not_found');
             PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_CALENDAR_DELETE_EVENT, $key);
+            if(!Functions::checkCSRFTokens())
+                Template::getInstance()->printMessage('permission_denied');
             //Delete it
             unset($this->events[$key]);
             Functions::file_put_contents('vars/events.var', empty($this->events) ? '' : implode("\n", array_map(['Functions', 'implodeByTab'], $this->events)) . "\n");
@@ -195,7 +203,8 @@ class AdminCalendar extends PublicModule
             default:
             array_walk($this->events, fn(&$event, $key) => $event[2] = Functions::getTSmileyURL($event[2]));
             PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_CALENDAR_SHOW_EVENTS);
-            Template::getInstance()->assign('events', $this->events);
+            Template::getInstance()->assign(['events' => $this->events,
+                'csrfToken' => Auth::getInstance()->getCSRFToken()]);
             break;
         }
         Template::getInstance()->printPage(Functions::handleMode($this->mode, self::$modeTable, __CLASS__, 'adminCalendar'));

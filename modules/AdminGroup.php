@@ -70,6 +70,8 @@ class AdminGroup extends PublicModule
             PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_GROUP_NEW_GROUP, $newName, $newColor, $newAvatar, $newUserIDs);
             if(Functions::getValueFromGlobals('create') == 'yes')
             {
+                if(!Functions::checkCSRFTokens())
+                    Template::getInstance()->printMessage('permission_denied');
                 if(empty($newName))
                     $this->errors[] = Language::getInstance()->getString('please_enter_a_group_name');
                 else
@@ -98,7 +100,8 @@ class AdminGroup extends PublicModule
             Template::getInstance()->assign(['newName' => $newName,
                 'newColor' => $newColor,
                 'newAvatar' => $newAvatar,
-                'newUserIDs' => implode(',', $newUserIDs)]);
+                'newUserIDs' => implode(',', $newUserIDs),
+                'csrfToken' => Auth::getInstance()->getCSRFToken()]);
             break;
 
 //AdminGroupEditGroup
@@ -113,6 +116,8 @@ class AdminGroup extends PublicModule
             PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_GROUP_EDIT_GROUP, $key, $editName, $editColor, $editAvatar, $editUserIDs);
             if(Functions::getValueFromGlobals('update') == 'yes')
             {
+                if(!Functions::checkCSRFTokens())
+                    Template::getInstance()->printMessage('permission_denied');
                 if(empty($editName))
                     $this->errors[] = Language::getInstance()->getString('please_enter_a_group_name');
                 else
@@ -171,7 +176,8 @@ class AdminGroup extends PublicModule
                 'editName' => $editName,
                 'editColor' => $editColor,
                 'editAvatar' => $editAvatar,
-                'editUserIDs' => implode(',', $editUserIDs)]);
+                'editUserIDs' => implode(',', $editUserIDs),
+                'csrfToken' => Auth::getInstance()->getCSRFToken()]);
             break;
 
 //AdminGroupDeleteGroup
@@ -182,6 +188,8 @@ class AdminGroup extends PublicModule
             PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_GROUP_DELETE_GROUP, $key);
             if(Functions::getValueFromGlobals('kill') == 'yes')
             {
+                if(!Functions::checkCSRFTokens())
+                    Template::getInstance()->printMessage('permission_denied');
                 //Delete group from members
                 foreach($this->groups[$key][3] as $curUserID)
                     if(($curUser = Functions::getUserData($curUserID)) != false)
@@ -219,7 +227,8 @@ class AdminGroup extends PublicModule
                 Template::getInstance()->printMessage('group_deleted');
             }
             Template::getInstance()->assign(['groupID' => $this->groupID,
-                'groupName' => $this->groups[$key][1]]);
+                'groupName' => $this->groups[$key][1],
+                'csrfToken' => Auth::getInstance()->getCSRFToken()]);
             break;
 
 //AdminGroup

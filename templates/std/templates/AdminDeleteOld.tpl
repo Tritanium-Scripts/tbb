@@ -25,4 +25,5 @@
 </table>
 <p style="text-align:center;"><input type="submit" value="{Language::getInstance()->getString('delete_old_topics')}" />{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_DELETE_OLD_BUTTONS}</p>
 <input type="hidden" name="mode" value="kill" />
+<input type="hidden" name="csrfToken" value="{$csrfToken}" />
 </form>

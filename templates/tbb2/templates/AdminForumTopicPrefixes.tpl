@@ -14,7 +14,7 @@
   <td class="cellStd"><span class="fontNorm">{$curPrefix[1]}</span></td>
   <td class="cellAlt"><span class="fontNorm" style="color:{$curPrefix[2]};">{$curPrefix[2]}</span></td>
 {plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_FORUM_TOPIC_PREFIXES_TABLE_BODY}
-  <td class="cellStd" style="text-align:center;"><span class="fontSmall"><a href="{$smarty.const.INDEXFILE}?faction=ad_forum&amp;mode=deleteTopicPrefix&amp;forum_id={$forumID}&amp;prefixId={$curPrefix[0]}{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('delete')}</a> | <a href="{$smarty.const.INDEXFILE}?faction=ad_forum&amp;mode=editTopicPrefix&amp;forum_id={$forumID}&amp;prefixId={$curPrefix[0]}{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('edit')}</a></span></td>
+  <td class="cellStd" style="text-align:center;"><span class="fontSmall"><a href="{$smarty.const.INDEXFILE}?faction=ad_forum&amp;mode=deleteTopicPrefix&amp;forum_id={$forumID}&amp;prefixId={$curPrefix[0]}&amp;csrfToken={$csrfToken}{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('delete')}</a> | <a href="{$smarty.const.INDEXFILE}?faction=ad_forum&amp;mode=editTopicPrefix&amp;forum_id={$forumID}&amp;prefixId={$curPrefix[0]}{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('edit')}</a></span></td>
  </tr>
 {foreachelse}
  <tr><td class="cellStd" colspan="3" style="text-align:center;"><span class="fontNorm" style="font-weight:bold;">{Language::getInstance()->getString('no_topic_prefixes')}</span></td></tr>

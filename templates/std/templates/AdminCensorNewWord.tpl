@@ -16,4 +16,5 @@
 </table>
 <p style="text-align:center;"><input type="submit" value="{Language::getInstance()->getString('add_new_censorship')}" />{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_CENSOR_NEW_CENSORSHIP_BUTTONS}</p>
 <input type="hidden" name="create" value="1" />
+<input type="hidden" name="csrfToken" value="{$csrfToken}" />
 </form>

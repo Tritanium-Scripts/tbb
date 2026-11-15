@@ -22,4 +22,5 @@
 </table>
 <p style="text-align:center;"><input type="submit" value="{Language::getInstance()->getString('add_new_special_user_right')}" />{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_FORUM_NEW_USER_RIGHT_BUTTONS}</p>
 <input type="hidden" name="change" value="yes" />
+<input type="hidden" name="csrfToken" value="{$csrfToken}" />
 </form>

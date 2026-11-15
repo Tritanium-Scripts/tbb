@@ -47,4 +47,5 @@
 {plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_FORUM_EDIT_FORUM_FORM_END}
 </table>
 <p style="text-align:center;"><input type="submit" value="{Language::getInstance()->getString('edit_forum')}" />&nbsp;&nbsp;&nbsp;<input type="submit" name="kill" value="{Language::getInstance()->getString('delete_forum')}" />{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_FORUM_EDIT_FORUM_BUTTONS}</p>
+<input type="hidden" name="csrfToken" value="{$csrfToken}" />
 </form>

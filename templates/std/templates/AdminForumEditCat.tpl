@@ -12,4 +12,5 @@
 </table>
 <p style="text-align:center;"><input type="submit" value="{Language::getInstance()->getString('edit_category')}" />{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_FORUM_EDIT_CATEGORY_BUTTONS}</p>
 <input type="hidden" name="id" value="{$catID}" />
+<input type="hidden" name="csrfToken" value="{$csrfToken}" />
 </form>

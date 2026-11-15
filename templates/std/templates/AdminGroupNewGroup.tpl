@@ -24,4 +24,5 @@
 </table>
 <p style="text-align:center;"><input type="submit" value="{Language::getInstance()->getString('add_new_group')}" />{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_GROUP_NEW_GROUP_BUTTONS}</p>
 <input type="hidden" name="create" value="yes" />
+<input type="hidden" name="csrfToken" value="{$csrfToken}" />
 </form>

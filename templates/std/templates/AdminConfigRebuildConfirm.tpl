@@ -6,4 +6,5 @@
 </table>
 <p style="text-align:center;"><input type="submit" value="{Language::getInstance()->getString('rebuild_topic_index')}" />{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_CONFIG_REBUILD_TOPIC_INDEX_BUTTONS}</p>
 <input type="hidden" name="confirmed" value="true" />
+<input type="hidden" name="csrfToken" value="{$csrfToken}" />
 </form>

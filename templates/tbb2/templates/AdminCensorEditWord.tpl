@@ -18,5 +18,6 @@
 <p class="cellButtons"><input class="formBButton" type="submit" value="{Language::getInstance()->getString('edit_censorship')}" />&nbsp;&nbsp;&nbsp;<input class="formButton" type="reset" />{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_CENSOR_EDIT_CENSORSHIP_BUTTONS}</p>
 <input type="hidden" name="update" value="1" />
 <input type="hidden" name="id" value="{$censorshipID}" />
+<input type="hidden" name="csrfToken" value="{$csrfToken}" />
 </form>
 {include file='AdminMenuTail.tpl'}

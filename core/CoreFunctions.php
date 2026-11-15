@@ -146,6 +146,16 @@ abstract class CoreFunctions
     }
 
     /**
+     * Checks for matching CSRF tokens.
+     *
+     * @return bool Equal CSRF tokens
+     */
+    public static function checkCSRFTokens(): bool
+    {
+        return hash_equals(Auth::getInstance()->getCSRFToken(), self::getValueFromGlobals('csrfToken'));
+    }
+
+    /**
      * Checks current or stated IP address for access permission.
      *
      * @param int $forumID Only check for a specific forum, entire board otherwise
@@ -808,7 +818,7 @@ abstract class CoreFunctions
         if(self::$cache['gmstrftime'])
             return @gmstrftime($format, $timestamp);
         //TODO this solution is not perfect, but should work okay enough on PHP 9.
-        //Ultimately convert all formats to ICU pattern instead of doing this on-the-fly, but it is no possible as long as Smarty's |date_format still relies on strftime()!
+        //Ultimately convert all formats to ICU pattern instead of doing this on-the-fly, but it is not possible as long as Smarty's |date_format still relies on strftime()!
         $format = Functions::str_replace('\'', '&apos;', $format);
         $format = Functions::trim('\'' . Functions::str_replace(
             ['%%', '%A', '%H', '%M', '%d', '%B', '%Y', '%m', '%I', '%p'],

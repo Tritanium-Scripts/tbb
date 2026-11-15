@@ -6,4 +6,5 @@
 </table>
 <p style="text-align:center;"><input type="submit" value="{Language::getInstance()->getString('delete_group')}" />{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_GROUP_DELETE_GROUP_BUTTONS}</p>
 <input type="hidden" name="kill" value="yes" />
+<input type="hidden" name="csrfToken" value="{$csrfToken}" />
 </form>

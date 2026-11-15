@@ -65,6 +65,8 @@ class AdminCensor extends PublicModule
             PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_CENSOR_NEW_CENSORSHIP, $newWord, $newReplacement);
             if(Functions::getValueFromGlobals('create') == '1')
             {
+                if(!Functions::checkCSRFTokens())
+                    Template::getInstance()->printMessage('permission_denied');
                 if(empty($newWord))
                     $this->errors[] = Language::getInstance()->getString('please_enter_a_word');
                 else
@@ -80,7 +82,8 @@ class AdminCensor extends PublicModule
                 }
             }
             Template::getInstance()->assign(['newWord' => $newWord,
-                'newReplacement' => $newReplacement]);
+                'newReplacement' => $newReplacement,
+                'csrfToken' => Auth::getInstance()->getCSRFToken()]);
             break;
 
 //AdminCensorEditWord
@@ -93,6 +96,8 @@ class AdminCensor extends PublicModule
             PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_CENSOR_EDIT_CENSORSHIP, $editWord, $editReplacement);
             if(Functions::getValueFromGlobals('update') == '1')
             {
+                if(!Functions::checkCSRFTokens())
+                    Template::getInstance()->printMessage('permission_denied');
                 if(empty($editWord))
                     $this->errors[] = Language::getInstance()->getString('please_enter_a_word');
                 else
@@ -115,7 +120,8 @@ class AdminCensor extends PublicModule
             }
             Template::getInstance()->assign(['censorshipID' => $this->censorshipID,
                 'editWord' => $editWord,
-                'editReplacement' => $editReplacement]);
+                'editReplacement' => $editReplacement,
+                'csrfToken' => Auth::getInstance()->getCSRFToken()]);
             break;
 
             case 'kill':
@@ -123,6 +129,8 @@ class AdminCensor extends PublicModule
             if(($key = array_search($this->censorshipID, array_map('current', $this->censorships))) === false)
                 Template::getInstance()->printMessage('censorship_not_found');
             PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_CENSOR_DELETE_CENSORSHIP, $key);
+            if(!Functions::checkCSRFTokens())
+                Template::getInstance()->printMessage('permission_denied');
             //Delete it
             unset($this->censorships[$key]);
             Functions::file_put_contents('vars/cwords.var', empty($this->censorships) ? '' : implode("\n", array_map(['Functions', 'implodeByTab'], $this->censorships)) . "\n");
@@ -135,7 +143,8 @@ class AdminCensor extends PublicModule
 //AdminCensor
             default:
             PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_CENSOR_SHOW_CENSORSHIPS);
-            Template::getInstance()->assign('censorships', $this->censorships);
+            Template::getInstance()->assign(['censorships' => $this->censorships,
+                'csrfToken' => Auth::getInstance()->getCSRFToken()]);
             break;
         }
         Template::getInstance()->printPage(Functions::handleMode($this->mode, self::$modeTable, __CLASS__, 'ad_censor'), ['errors' => $this->errors]);

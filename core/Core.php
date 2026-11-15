@@ -178,7 +178,7 @@ class Core
             if(ini_get('zlib.output_compression') != '1' && ini_get('output_handler') != 'ob_gzhandler')
                 ob_start('ob_gzhandler');
             else
-                Config::getInstance()->setCfgVal('use_gzip_compression', 0); //Set actual state for tec stats
+                Config::getInstance()->setCfgVal('use_gzip_compression', 0); //Set actual state for tech stats
         }
         if(Config::getInstance()->getCfgVal('use_gzip_compression') == 0 && Config::getInstance()->getCfgVal('activate_ob') == 1)
             ob_start();
@@ -205,7 +205,10 @@ class Core
         }
         //Log connected state of user
         if(!Auth::getInstance()->isConnected())
+        {
+            Auth::getInstance()->generateCSRFToken();
             Logger::getInstance()->log((Auth::getInstance()->isLoggedIn() ? '%s' : 'User') . ' connected', Logger::LOG_USER_CONNECT);
+        }
         //Set root of NavBar
         NavBar::getInstance()->addElement(Config::getInstance()->getCfgVal('forum_name'), INDEXFILE . SID_QMARK);
         //Detect action

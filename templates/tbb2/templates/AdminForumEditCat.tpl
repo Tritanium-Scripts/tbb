@@ -13,5 +13,6 @@
 </table>
 <p class="cellButtons"><input class="formBButton" type="submit" value="{Language::getInstance()->getString('edit_category')}" />&nbsp;&nbsp;&nbsp;<input class="formButton" type="reset" />{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_FORUM_EDIT_CATEGORY_BUTTONS}</p>
 <input type="hidden" name="id" value="{$catID}" />
+<input type="hidden" name="csrfToken" value="{$csrfToken}" />
 </form>
 {include file='AdminMenuTail.tpl'}

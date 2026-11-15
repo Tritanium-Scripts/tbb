@@ -44,7 +44,7 @@
  * </ol>
  *
  * @author Christoph Jahn <chris@tritanium-scripts.com>
- * @copyright Copyright (c) 2010-2024 Tritanium Scripts
+ * @copyright Copyright (c) 2010-2026 Tritanium Scripts
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons 3.0 by-nc-sa
  * @package TBB1
  */
@@ -115,6 +115,24 @@ class Auth
         else
             $this->connected = true;
         $this->wioID = $this->loggedIn ? $this->getUserID() : $_SESSION['session_upbwio'];
+    }
+
+    /**
+     * Generates and sets new token to prevent cross-site request forgery (CSRF) attacks.
+     */
+    public function generateCSRFToken(): void
+    {
+        $_SESSION['csrfToken'] = bin2hex(random_bytes(16));
+    }
+
+    /**
+     * Returns generated CSRF token.
+     *
+     * @return string Current CSRF token
+     */
+    public function getCSRFToken(): string
+    {
+        return $_SESSION['csrfToken'] ?? '';
     }
 
     /**
@@ -275,6 +293,7 @@ class Auth
     {
         $this->wioID = isset($_SESSION['userID']) ? ($this->userData[1] = $_SESSION['userID']) : $_SESSION['session_upbwio'];
         $this->loggedIn = is_numeric($this->wioID);
+        self::generateCSRFToken();
         PlugIns::getInstance()->callHook(PlugIns::HOOK_AUTH_LOGIN_CHANGED);
     }
 }

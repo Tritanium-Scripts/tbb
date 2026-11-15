@@ -6,4 +6,5 @@
 </table>
 <p class="cellButtons"><input class="formBButton" type="submit" value="{Language::getInstance()->getString('reset_settings')}" />{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_CONFIG_RESET_SETTINGS_BUTTONS}</p>
 <input type="hidden" name="confirm" value="1" />
+<input type="hidden" name="csrfToken" value="{$csrfToken}" />
 </form>
