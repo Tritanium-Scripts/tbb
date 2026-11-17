@@ -85,6 +85,8 @@ class AdminLogfile extends PublicModule
             else
                 $toDelete = [basename($this->log, '.log')];
             PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_LOGFILE_DELETE_LOG, $toDelete);
+            if(!Functions::checkCSRFTokens())
+                Template::getInstance()->printMessage('permission_denied');
             foreach($toDelete as $curLogfile)
                 if($curLogfile != gmdate('dmY'))
                 {
@@ -136,7 +138,8 @@ class AdminLogfile extends PublicModule
             Template::getInstance()->assign(['logfiles' => $logfiles,
                 'orderTypeDate' => $orderTypeDate,
                 'orderTypeSize' => $orderTypeSize,
-                'orderTypeEntries' => $orderTypeEntries]);
+                'orderTypeEntries' => $orderTypeEntries,
+                'csrfToken' => Auth::getInstance()->getCSRFToken()]);
             break;
         }
         Template::getInstance()->printPage(Functions::handleMode($this->mode, self::$modeTable, __CLASS__, 'adminLogfile'));

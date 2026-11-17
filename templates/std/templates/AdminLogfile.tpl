@@ -19,11 +19,12 @@
   <td class="td2" style="text-align:right;"><span class="norm">{$curLogfile.entries}</span></td>
   <td class="td1" style="text-align:center;"><span class="small">{$curLogfile.lastChange|utf8_encode}</span></td>
 {plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_LOGFILE_LOGS_TABLE_BODY}
-  <td class="td2" style="text-align:center;"><span class="small"><a href="{$smarty.const.INDEXFILE}?faction=adminLogfile&amp;mode=view&amp;log={$curLogfile.name}{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('view')}</a> | {if $curLogfile.isDeletable}<a href="{$smarty.const.INDEXFILE}?faction=adminLogfile&amp;mode=delete&amp;log={$curLogfile.name}{$smarty.const.SID_AMPER}" onclick="return confirm('{Language::getInstance()->getString('really_delete_this_logfile')}');">{Language::getInstance()->getString('delete')}</a> | {/if}<a href="{$smarty.const.INDEXFILE}?faction=adminLogfile&amp;mode=download&amp;log={$curLogfile.name}{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('download')}</a></span></td>
+  <td class="td2" style="text-align:center;"><span class="small"><a href="{$smarty.const.INDEXFILE}?faction=adminLogfile&amp;mode=view&amp;log={$curLogfile.name}{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('view')}</a> | {if $curLogfile.isDeletable}<a href="{$smarty.const.INDEXFILE}?faction=adminLogfile&amp;mode=delete&amp;log={$curLogfile.name}&amp;csrfToken={$csrfToken}{$smarty.const.SID_AMPER}" onclick="return confirm('{Language::getInstance()->getString('really_delete_this_logfile')}');">{Language::getInstance()->getString('delete')}</a> | {/if}<a href="{$smarty.const.INDEXFILE}?faction=adminLogfile&amp;mode=download&amp;log={$curLogfile.name}{$smarty.const.SID_AMPER}">{Language::getInstance()->getString('download')}</a></span></td>
  </tr>
 {foreachelse}
  <tr><td class="td1" colspan="7" style="text-align:center;"><span class="norm" style="font-weight:bold;">{Language::getInstance()->getString('no_logfiles_found')}</span></td></tr>
 {/foreach}
 </table>
 {if count($logfiles) > 0}<p style="text-align:center;"><input type="submit" name="multiDelete" value="{Language::getInstance()->getString('delete_selected_logfiles')}" />{plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_LOGFILE_LOGS_OPTIONS}</p>{/if}
+<input type="hidden" name="csrfToken" value="{$csrfToken}" />
 </form>

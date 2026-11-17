@@ -15,7 +15,7 @@
   <td class="cellAlt"><span class="fontNorm">{$curIPBlock[1]}</span></td>
   <td class="cellStd"><span class="fontNorm">{$curIPBlock[2]}</span></td>
 {plugin_hook hook=PlugIns::HOOK_TPL_ADMIN_IP_BLOCKS_TABLE_BODY}
-  <td class="cellAlt" style="text-align:center;"><span class="fontSmall"><a href="{$smarty.const.INDEXFILE}?faction=ad_ip&amp;mode=kill&amp;id={$curIPBlock[3]}{$smarty.const.SID_AMPER}"><img src="{Template::getInstance()->getTplDir()}images/icons/computer_delete.png" alt="{Language::getInstance()->getString('delete')}" style="vertical-align:middle;" /> {Language::getInstance()->getString('delete')}</a></span></td>
+  <td class="cellAlt" style="text-align:center;"><span class="fontSmall"><a href="{$smarty.const.INDEXFILE}?faction=ad_ip&amp;mode=kill&amp;id={$curIPBlock[3]}&amp;csrfToken={$csrfToken}{$smarty.const.SID_AMPER}"><img src="{Template::getInstance()->getTplDir()}images/icons/computer_delete.png" alt="{Language::getInstance()->getString('delete')}" style="vertical-align:middle;" /> {Language::getInstance()->getString('delete')}</a></span></td>
  </tr>
 {foreachelse}
  <tr><td class="cellStd" colspan="4" style="text-align:center;"><span class="fontNorm" style="font-weight:bold;">{Language::getInstance()->getString('no_ip_blocks_available')}</span></td></tr>

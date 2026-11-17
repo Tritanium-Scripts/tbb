@@ -65,6 +65,8 @@ class AdminIP extends PublicModule
             PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_IP_NEW_BLOCK, $newIPAddress, $newBlockPeriod, $newBlockForumID);
             if(Functions::getValueFromGlobals('create') == 'yes')
             {
+                if(!Functions::checkCSRFTokens())
+                    Template::getInstance()->printMessage('permission_denied');
                 if(empty($newIPAddress))
                     $this->errors[] = Language::getInstance()->getString('please_enter_an_ip_address');
                 if(empty($newBlockPeriod))
@@ -102,6 +104,8 @@ class AdminIP extends PublicModule
                 if($curIPBlock[3] == $this->ipBlockID)
                 {
                     PlugIns::getInstance()->callHook(PlugIns::HOOK_ADMIN_IP_DELETE_BLOCK, $curKey);
+                    if(!Functions::checkCSRFTokens())
+                        Template::getInstance()->printMessage('permission_denied');
                     unset($this->ipBlocks[$curKey]);
                     Functions::file_put_contents('vars/ip.var', empty($this->ipBlocks) ? '' : implode("\n", array_map(['Functions', 'implodeByTab'], $this->ipBlocks)) . "\n");
                     Logger::getInstance()->log('%s deleted ip block (ID: ' . $this->ipBlockID . ')', Logger::LOG_ACP_ACTION);
@@ -128,7 +132,8 @@ class AdminIP extends PublicModule
             Template::getInstance()->assign('ipBlocks', $this->ipBlocks);
             break;
         }
-        Template::getInstance()->printPage(Functions::handleMode($this->mode, self::$modeTable, __CLASS__, 'ad_ip'), ['errors' => $this->errors]);
+        Template::getInstance()->printPage(Functions::handleMode($this->mode, self::$modeTable, __CLASS__, 'ad_ip'), ['errors' => $this->errors,
+            'csrfToken' => Auth::getInstance()->getCSRFToken()]);
     }
 }
 ?>

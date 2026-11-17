@@ -152,7 +152,8 @@ abstract class CoreFunctions
      */
     public static function checkCSRFTokens(): bool
     {
-        return hash_equals(Auth::getInstance()->getCSRFToken(), self::getValueFromGlobals('csrfToken'));
+        $csrfToken = self::getValueFromGlobals('csrfToken');
+        return is_string($csrfToken) && hash_equals(Auth::getInstance()->getCSRFToken(), $csrfToken);
     }
 
     /**
@@ -844,6 +845,7 @@ abstract class CoreFunctions
     /**
      * Handles and returns template filename requested from given mode translation table and logs unknown modes.
      * By having encountered a certain number of unknown modes, the IP address will be banned.
+     * Does not apply to administrators.
      *
      * @param string $mode Requested template file for this mode
      * @param array $modeTable Mode and template counterparts
@@ -858,7 +860,7 @@ abstract class CoreFunctions
             Logger::getInstance()->log('Unknown mode "' . Functions::str_replace('%', '%%', $mode) . '" in ' . $module . '; using default', Logger::LOG_FILESYSTEM);
             $_SESSION['unknownModes'] ??= 0;
             $_SESSION['unknownModes']++;
-            if($_SESSION['unknownModes'] > random_int(5, 10))
+            if(!Auth::getInstance()->isAdmin() && $_SESSION['unknownModes'] > random_int(5, 10))
             {
                 list(,,,$lastIPID) = @end(self::getBannedIPs());
                 self::file_put_contents('vars/ip.var', $_SERVER['REMOTE_ADDR'] . "\t-1\t-1\t" . ($lastIPID+1) . "\t\n", FILE_APPEND);

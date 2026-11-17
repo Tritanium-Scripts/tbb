@@ -29,6 +29,7 @@ Last changed: 2026-11-15 (Version 1.11.0)
     - Unbekannte Modi von ACP-Modulen werden abgefangen und geloggt
     - Prüfung bei Registrierung auf bereits vorhandene Benutzernamen mit HTML-Entitäten korrigiert
     - Schreibzugriffe gegen CSRF-Attacken abgesichert
+    - Admins werden nicht mehr automatisch gesperrt nach Aufrufen von unbekannten Modi
 
 30.05.2024: Version 1.10.1 (offiziell)
     - Typenfehler korrigiert
