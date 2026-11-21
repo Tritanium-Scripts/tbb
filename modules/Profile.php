@@ -199,6 +199,10 @@ class Profile extends PublicModule
                         $this->errors[] = Language::getInstance()->getString('please_enter_your_mail');
                     elseif(!Functions::isValidMail($this->userData[3]))
                         $this->errors[] = Language::getInstance()->getString('please_enter_a_valid_mail');
+                    elseif(Functions::unifyUserMail($this->userData[3], $this->userData[1]))
+                        $this->errors[] = Language::getInstance()->getString('the_mail_address_already_exists', 'Register');
+                    elseif(Functions::isBannedMail($this->userData[3]))
+                        $this->errors[] = Language::getInstance()->getString('the_mail_address_is_banned', 'Register');
                     $this->userData[7] = Functions::nl2br(htmlspecialchars(Functions::trim(Functions::getValueFromGlobals('new_signatur', false))));
                     $this->userData[9] = Functions::getValueFromGlobals('new_hp');
                     $this->userData[10] = Functions::getValueFromGlobals('new_pic');
@@ -346,7 +350,7 @@ class Profile extends PublicModule
 
 //vCard
             case 'vCard':
-            Logger::getInstance()->log('%s downloaded vCard from user ' . $this->userData[0] . ' (ID: ' . $this->userData[1] . ')', Logger::LOG_USER_TRAFFIC);
+            Logger::getInstance()->log('%s downloaded vCard from user ' . Functions::str_replace('%', '%%', $this->userData[0]) . ' (ID: ' . $this->userData[1] . ')', Logger::LOG_USER_TRAFFIC);
             WhoIsOnline::getInstance()->setLocation('vCard,' . $this->userData[1]);
             $vCard = "BEGIN:VCARD\r\nVERSION:4.0\r\nKIND:individual\r\nFN:" . $this->userData[12] . "\r\nBDAY:" . (!empty($this->userData[22])
                 ? date('Y-m-d', $this->userData[22])
